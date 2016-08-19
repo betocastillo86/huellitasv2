@@ -11,6 +11,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<SystemSetting> entity)
         {
+            entity.ToTable("SystemSetting");
+
             entity.HasIndex(e => e.Name)
                    .HasName("IX_SystemSetting")
                    .IsUnique();

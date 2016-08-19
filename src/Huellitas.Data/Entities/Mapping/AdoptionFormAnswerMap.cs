@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<AdoptionFormAnswer> entity)
         {
+            entity.ToTable("AdoptionFormAnswer");
+
             entity.Property(e => e.AdditionalInfo).HasMaxLength(2000);
 
             entity.Property(e => e.CreationDate).HasColumnType("datetime");

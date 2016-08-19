@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<Content> entity)
         {
+            entity.ToTable("Content");
+
             entity.Property(e => e.Body).IsRequired();
 
             entity.Property(e => e.CommentsCount).HasDefaultValueSql("0");

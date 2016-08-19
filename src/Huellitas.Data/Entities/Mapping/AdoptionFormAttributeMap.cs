@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<AdoptionFormAttribute> entity)
         {
+            entity.ToTable("AdoptionFormAttribute");
+
             entity.Property(e => e.Value)
                     .IsRequired()
                     .HasMaxLength(1000);

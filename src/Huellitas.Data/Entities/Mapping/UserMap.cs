@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<User> entity)
         {
+            entity.ToTable("User");
+
             entity.HasIndex(e => e.Email)
                     .HasName("IX_User")
                     .IsUnique();
@@ -33,7 +35,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.PhoneNumber).HasColumnType("varchar(15)");
 
             entity.HasOne(d => d.Role)
-                .WithMany(p => p.User)
+                .WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_User_Role");

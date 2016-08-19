@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class RolePemission
+    public partial class RolePemission : BaseEntity
     {
-        public int Id { get; set; }
         public int RoleId { get; set; }
         public int PermissionId { get; set; }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class User
+    public partial class User : BaseEntity
     {
         public User()
         {
@@ -11,7 +11,6 @@ namespace Huellitas.Data.Entities
             Content = new HashSet<Content>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

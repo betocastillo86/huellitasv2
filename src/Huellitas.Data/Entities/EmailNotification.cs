@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class EmailNotification
+    public partial class EmailNotification : BaseEntity
     {
-        public int Id { get; set; }
         public string To { get; set; }
         public string ToName { get; set; }
         public string Cc { get; set; }

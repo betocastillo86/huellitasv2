@@ -12,6 +12,9 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<AdoptionForm> entity)
         {
+
+            entity.ToTable("AdoptionForm");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.Property(e => e.Address)

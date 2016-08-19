@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Huellitas.Data.Core;
 using Microsoft.EntityFrameworkCore;
+using Huellitas.Data.Entities;
 
 namespace Huellitas.Data
 {

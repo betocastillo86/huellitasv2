@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<RelatedContent> entity)
         {
+            entity.ToTable("RelatedContent");
+
             entity.HasOne(d => d.Content)
                     .WithMany(p => p.RelatedContentContent)
                     .HasForeignKey(d => d.ContentId)

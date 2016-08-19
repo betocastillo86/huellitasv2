@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class Content
+    public partial class Content : BaseEntity
     {
         public Content()
         {
@@ -15,7 +16,6 @@ namespace Huellitas.Data.Entities
             RelatedContentRelatedContentNavigation = new HashSet<RelatedContent>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Body { get; set; }
         public short TypeId { get; set; }
@@ -41,5 +41,32 @@ namespace Huellitas.Data.Entities
         public virtual File File { get; set; }
         public virtual Location Location { get; set; }
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public virtual ContentType Type
+        {
+            get
+            {
+                return (ContentType)this.TypeId;
+            }
+
+            set {
+                TypeId = Convert.ToInt16(value);
+            }
+        }
+
+        [NotMapped]
+        public virtual StatusType StatusType
+        {
+            get
+            {
+                return (StatusType)this.Status;
+            }
+
+            set
+            {
+                Status = Convert.ToInt16(value);
+            }
+        }
     }
 }

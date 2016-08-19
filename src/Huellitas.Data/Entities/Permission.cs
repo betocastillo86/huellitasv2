@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class Permission
+    public partial class Permission : BaseEntity
     {
         public Permission()
         {
             RolePemission = new HashSet<RolePemission>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
