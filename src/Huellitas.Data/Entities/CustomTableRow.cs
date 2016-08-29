@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class CustomTableRow
+    public partial class CustomTableRow : BaseEntity
     {
         public CustomTableRow()
         {
@@ -11,7 +11,6 @@ namespace Huellitas.Data.Entities
             AdoptionFormAttribute = new HashSet<AdoptionFormAttribute>();
         }
 
-        public int Id { get; set; }
         public int CustomTableId { get; set; }
         public string Value { get; set; }
         public string AdditionalInfo { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class Location
+    public partial class Location : BaseEntity
     {
         public Location()
         {
@@ -11,7 +11,6 @@ namespace Huellitas.Data.Entities
             Content = new HashSet<Content>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public int ParentLocationId { get; set; }
         public bool Deleted { get; set; }

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Huellitas.Web.Infraestructure.Start;
+using Huellitas.Data.Core;
+using Huellitas.Business.Services.Contents;
 
 namespace Huellitas.Web
 {
@@ -24,6 +26,12 @@ namespace Huellitas.Web
             //services.AddConfigurations();
 
             services.AddMvc();
+
+            //Registra los Repositorios genericos
+            //services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            services.AddScoped<IContentService, ContentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

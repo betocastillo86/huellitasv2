@@ -4013,6 +4013,20 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
+      "Huellitas.Business/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Huellitas.Data": "1.0.0",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "netstandard1.6/Huellitas.Business.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/Huellitas.Business.dll": {}
+        }
+      },
       "Huellitas.Data/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
@@ -4023,7 +4037,8 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
           "Microsoft.Extensions.Configuration.Json": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "NETStandard.Library": "1.6.0"
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel.Primitives": "4.1.0"
         },
         "compile": {
           "netstandard1.6/Huellitas.Data.dll": {}
@@ -10342,6 +10357,11 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "Huellitas.Business/1.0.0": {
+      "type": "project",
+      "path": "../Huellitas.Business/project.json",
+      "msbuildProject": "../Huellitas.Business/Huellitas.Business.xproj"
+    },
     "Huellitas.Data/1.0.0": {
       "type": "project",
       "path": "../Huellitas.Data/project.json",
@@ -10350,6 +10370,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Huellitas.Business",
       "Huellitas.Data",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",

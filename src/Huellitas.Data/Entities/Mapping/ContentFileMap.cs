@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<ContentFile> entity)
         {
+            entity.ToTable("ContentFile");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.Property(e => e.DisplayOrder).HasDefaultValueSql("0");

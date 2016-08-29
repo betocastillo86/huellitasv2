@@ -1,4 +1,5 @@
 ﻿using Huellitas.Data.Core;
+using Huellitas.Data.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -17,6 +18,7 @@ namespace Huellitas.Web.Infraestructure.Start
                 using (var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext)))
                 {
                     context.Database.EnsureCreated();
+                    context.EnsureSeeding();
                 }
             }
         }

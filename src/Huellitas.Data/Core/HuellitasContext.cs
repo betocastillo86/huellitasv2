@@ -42,24 +42,24 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<User>().Map();
         }
 
-        public virtual DbSet<AdoptionForm> AdoptionForm { get; set; }
-        public virtual DbSet<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
-        public virtual DbSet<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
-        public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Content> Content { get; set; }
-        public virtual DbSet<ContentAttribute> ContentAttribute { get; set; }
-        public virtual DbSet<ContentCategory> ContentCategory { get; set; }
-        public virtual DbSet<ContentFile> ContentFile { get; set; }
-        public virtual DbSet<CustomTable> CustomTable { get; set; }
-        public virtual DbSet<CustomTableRow> CustomTableRow { get; set; }
-        public virtual DbSet<EmailNotification> EmailNotification { get; set; }
-        public virtual DbSet<File> File { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<Permission> Permission { get; set; }
-        public virtual DbSet<RelatedContent> RelatedContent { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RolePemission> RolePemission { get; set; }
-        public virtual DbSet<SystemSetting> SystemSetting { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<AdoptionForm> AdoptionForms { get; set; }
+        public virtual DbSet<AdoptionFormAnswer> AdoptionFormAnswers { get; set; }
+        public virtual DbSet<AdoptionFormAttribute> AdoptionFormAttributes { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Content> Contents { get; set; }
+        public virtual DbSet<ContentAttribute> ContentAttributes { get; set; }
+        public virtual DbSet<ContentCategory> ContentCategories { get; set; }
+        public virtual DbSet<ContentFile> ContentFiles { get; set; }
+        public virtual DbSet<CustomTable> CustomTables { get; set; }
+        public virtual DbSet<CustomTableRow> CustomTableRows { get; set; }
+        public virtual DbSet<EmailNotification> EmailNotifications { get; set; }
+        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<RelatedContent> RelatedContents { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<RolePemission> RolePemissions { get; set; }
+        public virtual DbSet<SystemSetting> SystemSettings { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

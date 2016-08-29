@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class AdoptionForm
+    public partial class AdoptionForm : BaseEntity
     {
         public AdoptionForm()
         {
@@ -11,7 +11,6 @@ namespace Huellitas.Data.Entities
             AdoptionFormAttribute = new HashSet<AdoptionFormAttribute>();
         }
 
-        public int Id { get; set; }
         public int ContentId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

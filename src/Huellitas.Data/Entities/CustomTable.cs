@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class CustomTable
+    public partial class CustomTable : BaseEntity
     {
         public CustomTable()
         {
             CustomTableRow = new HashSet<CustomTableRow>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

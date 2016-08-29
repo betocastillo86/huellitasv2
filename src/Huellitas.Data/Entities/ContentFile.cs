@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class ContentFile
+    public partial class ContentFile : BaseEntity
     {
-        public int Id { get; set; }
         public int ContentId { get; set; }
         public int FileId { get; set; }
         public int DisplayOrder { get; set; }

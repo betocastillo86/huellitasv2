@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class RelatedContent
+    public partial class RelatedContent : BaseEntity
     {
-        public int Id { get; set; }
         public int ContentId { get; set; }
         public int RelatedContentId { get; set; }
         public short RelationType { get; set; }

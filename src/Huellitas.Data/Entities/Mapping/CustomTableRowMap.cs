@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<CustomTableRow> entity)
         {
+            entity.ToTable("CustomTableRow");
+
             entity.Property(e => e.AdditionalInfo).HasMaxLength(100);
 
             entity.Property(e => e.Value)

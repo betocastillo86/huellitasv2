@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<RolePemission> entity)
         {
+            entity.ToTable("RolePemission");
+
             entity.HasOne(d => d.Permission)
                    .WithMany(p => p.RolePemission)
                    .HasForeignKey(d => d.PermissionId)
@@ -19,7 +21,7 @@ namespace Huellitas.Data.Entities.Mapping
                    .HasConstraintName("FK_RolePemission_Permission");
 
             entity.HasOne(d => d.Role)
-                .WithMany(p => p.RolePemission)
+                .WithMany(p => p.RolePemissions)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_RolePemission_Role");

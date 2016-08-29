@@ -12,6 +12,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<ContentAttribute> entity)
         {
+            entity.ToTable("ContentAttribute");
+
             entity.Property(e => e.Attribute)
                     .IsRequired()
                     .HasColumnType("varchar(50)");

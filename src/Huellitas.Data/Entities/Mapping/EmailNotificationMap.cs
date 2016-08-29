@@ -11,6 +11,8 @@ namespace Huellitas.Data.Entities.Mapping
     {
         public static void Map(this EntityTypeBuilder<EmailNotification> entity)
         {
+            entity.ToTable("EmailNotification");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.Property(e => e.Body).IsRequired();

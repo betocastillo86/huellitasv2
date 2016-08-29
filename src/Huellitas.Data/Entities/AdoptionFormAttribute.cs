@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class AdoptionFormAttribute
+    public partial class AdoptionFormAttribute : BaseEntity
     {
-        public int Id { get; set; }
         public int AdoptionFormId { get; set; }
         public int AttributeId { get; set; }
         public string Value { get; set; }

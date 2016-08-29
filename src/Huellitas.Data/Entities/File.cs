@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Huellitas.Data.Entities
 {
-    public partial class File
+    public partial class File : BaseEntity
     {
         public File()
         {
@@ -11,7 +11,6 @@ namespace Huellitas.Data.Entities
             ContentFile = new HashSet<ContentFile>();
         }
 
-        public int Id { get; set; }
         public string FileName { get; set; }
         public string Name { get; set; }
         public string MimeType { get; set; }
