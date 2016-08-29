@@ -1,0 +1,28 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Huellitas.Web
+<html>
+<head>
+    <environment names="Development">
+        <script src="/js/site.min.js"></script>
+        <script src="/js/templates.min.js"></script>
+        <jsresources></jsresources>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="/js/site.min.js"></script>
+    </environment>
+</head>
+<body>
+    <div id="wrap">
+        <div id="header-region"></div>
+        <div id="main-region"></div>
+        <div id="push"></div>
+    </div>
+    <div id="footer-region"></div>
+    index
+    <script>
+        $(document).ready(function () {
+            Huellitas.start();
+        });
+    </script>
+</body>
+</html>
