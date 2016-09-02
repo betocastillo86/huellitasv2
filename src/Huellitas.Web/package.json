@@ -12,6 +12,7 @@
     "handlebars": "4.0.5",
     "gulp-handlebars": "4.0.0",
     "gulp-wrap": "0.13.0",
-    "gulp-declare": "0.3.0"
+    "gulp-declare": "0.3.0",
+    "gulp-concat-css": "2.3.0"
   }
 }

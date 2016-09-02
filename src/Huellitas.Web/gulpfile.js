@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='dev' />
+﻿/// <binding BeforeBuild='dev, css, templatesHandlebars' />
 /// <binding BeforeBuild='externallibs' />
 /*
 This file in the main entry point for defining Gulp tasks and using Gulp plugins.
@@ -16,6 +16,7 @@ var bower = require('gulp-bower'),
     watch = require('gulp-watch'),
     declare = require('gulp-declare'),
     handlebars = require('gulp-handlebars'),
+    cssConcat = require('gulp-concat-css'),
     concat = require('gulp-concat');
 
 
@@ -43,8 +44,15 @@ paths.libs = [
     paths.webroot + 'lib/handlebars/handlebars.js',
     paths.webroot + 'lib/marionette.handlebars/dist/marionette.handlebars.js',
 ];
+
+paths.css = [
+    paths.webroot + 'lib/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
+    paths.webroot + 'lib/gentelella/vendors/font-awesome/css/font-awesome.min.css',
+    paths.webroot + 'lib/gentelella/build/css/custom.min.css'
+];
 paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatJsTemplatesDest = paths.webroot + "js/templates.min.js";
+paths.concatCssDest = paths.webroot + "css/styles.css";
 
 var finalPaths = [];
 finalPaths = finalPaths.concat(paths.libs);
@@ -69,6 +77,18 @@ gulp.task('scripts', function () {
     return gulp.src(finalPaths, { base: '.' })
     .pipe(concat(paths.concatJsDest))
     //.pipe(uglify())
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('css', function () {
+    console.log('Inicia tarea de css con ');
+
+    for (var i = 0; i < paths.css.length; i++) {
+        console.log(paths.css[i]);
+    }
+
+    return gulp.src(paths.css, { base: '.' })
+    .pipe(cssConcat(paths.concatCssDest))
     .pipe(gulp.dest('.'));
 });
 

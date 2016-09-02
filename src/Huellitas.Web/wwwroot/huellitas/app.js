@@ -4,13 +4,16 @@ this.Huellitas = (function (Backbone, Marionette) {
     App.addRegions({
         headerRegion: '#header-region',
         mainRegion: '#main-region',
-        footerRegion: '#footer-region',
+        leftRegion: '#left-region',
     });
 
     App.rootRoute = '/';
 
     App.addInitializer(function(){
         App.module('HeaderApp').start();
+        App.module('LeftApp').start();
+        //App.module('Main').start();
+        //App.module('MainApp').start();
         //App.module('FooterApp').start();
     });
 
@@ -18,7 +21,7 @@ this.Huellitas = (function (Backbone, Marionette) {
         console.log('Antes de empezar 12');
     });
 
-    App.on('initialize:after', function () {
+    App.on('start', function () {
         console.log('Despues de inicializar 2');
         this.startHistory();
         if(!this.getCurrentRoute())

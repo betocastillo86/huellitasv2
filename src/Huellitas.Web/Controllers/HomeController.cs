@@ -13,16 +13,10 @@ namespace Huellitas.Web.Controllers
     public class HomeController : Controller
     {
 
-        #region props
-        private readonly IContentService _contentService;
-        private readonly IRepository<Content> _contentRepository;
-        #endregion
         #region ctor
-        public HomeController(IContentService contentService,
-            IRepository<Content> contentRepository)
+        public HomeController()
         {
-            _contentService = contentService;
-            _contentRepository = contentRepository;
+            
         }
         #endregion
 

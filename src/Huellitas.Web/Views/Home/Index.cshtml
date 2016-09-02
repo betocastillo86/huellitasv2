@@ -1,24 +1,49 @@
-
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Huellitas.Web
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>Titulo</title>
+
     <environment names="Development">
         <script src="/js/site.min.js"></script>
         <script src="/js/templates.min.js"></script>
         <jsresources></jsresources>
+        <link href="~/css/styles.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
         <script src="/js/site.min.js"></script>
+        <link href="~/css/styles.css" rel="stylesheet">
     </environment>
 </head>
-<body>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div id="left-region" class="left_col scroll-view">
+
+                </div>
+            </div>
+            <div id="header-region" class="top_nav">
+
+            </div>
+            <div id="main-region" class="right_col" role="main">
+            </div>
+        </div>
+    </div>
+
     <div id="wrap">
-        <div id="header-region"></div>
         <div id="main-region"></div>
         <div id="push"></div>
     </div>
-    <div id="footer-region"></div>
+
     index
     <script>
         $(document).ready(function () {

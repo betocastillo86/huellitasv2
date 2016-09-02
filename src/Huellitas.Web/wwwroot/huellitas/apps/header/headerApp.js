@@ -2,12 +2,12 @@ Huellitas.module('HeaderApp', function (HeaderApp, App, Backbone, Marionette, $,
     this.startWithParent = false
 
     var API = {
-        list: function () {
-            return HeaderApp.List.Controller.list();
+        show: function () {
+            return HeaderApp.Show.Controller.show();
         }
     }
 
     HeaderApp.on('start', function () {
-        API.list();
+        API.show();
     });
 });
