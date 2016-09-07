@@ -7,15 +7,13 @@ namespace Huellitas.Web.Extensions
 {
     public static class StringExtensions
     {
-        public static int[] ToIntList(this string value, bool returnDefaultNull = true)
+        public static string[] ToStringList(this string value, bool returnDefaultNull = true)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
                 try
                 {
-                    return value.Split(new char[] { ',' })
-                        .Select(v => Convert.ToInt32(v))
-                        .ToArray();
+                    return value.Split(new char[] { ',' });
                 }
                 catch (FormatException e)
                 {
@@ -23,7 +21,7 @@ namespace Huellitas.Web.Extensions
                 }
             }
 
-            return returnDefaultNull ? null : new int[0];
+            return returnDefaultNull ? null : new string[0];
         }
     }
 }

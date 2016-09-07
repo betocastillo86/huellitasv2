@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Huellitas.Data.Core
 {
     public partial interface IRepository<T> where T : BaseEntity
-    {
+    {        
         /// <summary>
         /// Get entity by identifier
         /// </summary>

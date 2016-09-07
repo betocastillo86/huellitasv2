@@ -11,6 +11,9 @@ namespace Huellitas.Business.Extensions.Services
     {
         public static void Add(this IList<FilterAttribute> list, ContentAttributeType attribute, object value, FilterAttributeType type = FilterAttributeType.Equals, object valueTo = null)
         {
+            if (value == null)
+                return;
+
             list.Add(new FilterAttribute() {
                   Attribute = attribute,
                   FilterType = type,

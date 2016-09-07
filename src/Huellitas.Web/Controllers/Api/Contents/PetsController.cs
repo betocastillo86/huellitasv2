@@ -8,6 +8,7 @@ using Huellitas.Business.Services.Contents;
 using Huellitas.Data.Entities;
 using Huellitas.Business.Extensions.Services;
 using Huellitas.Web.Extensions;
+using Huellitas.Web.Models.Extensions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,12 +35,13 @@ namespace Huellitas.Web.Controllers.Api.Contents
             var filter = new List<FilterAttribute>();
             filter.AddRangeAttribute(ContentAttributeType.Age, model.age);
             filter.Add(ContentAttributeType.Genre, model.genre);
-            filter.Add(ContentAttributeType.Size, model.size.ToIntList(), FilterAttributeType.Multiple);
-            filter.Add(ContentAttributeType.Shelter, model.shelter.ToIntList(), FilterAttributeType.Multiple);
-            filter.Add(ContentAttributeType.Subtype, model.type.ToIntList(), FilterAttributeType.Multiple);
+            filter.Add(ContentAttributeType.Size, model.size.ToStringList(), FilterAttributeType.Multiple);
+            filter.Add(ContentAttributeType.Shelter, model.shelter.ToStringList(), FilterAttributeType.Multiple);
+            filter.Add(ContentAttributeType.Subtype, model.type.ToStringList(), FilterAttributeType.Multiple);
 
+            
 
-            var contentList = _contentService.Search(model.keyword, Data.Entities.ContentType.Pet, filter, model.pageSize, model.page);
+            var contentList = _contentService.Search(model.keyword, Data.Entities.ContentType.Pet, filter, model.pageSize, model.page).ToModels();
 
 
             return Ok(contentList);

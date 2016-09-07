@@ -23,6 +23,14 @@ namespace Huellitas.Data.Infraestructure
             this.AddRange(query.Skip(page * pageSize).Take(pageSize).ToList());
         }
 
+        /// <summary>
+        /// Crea una lista vacia
+        /// </summary>
+        public PagedList()
+        {
+            
+        }
+
         #region 
         public bool HasNextPage
         {

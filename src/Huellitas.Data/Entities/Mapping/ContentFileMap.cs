@@ -14,7 +14,7 @@ namespace Huellitas.Data.Entities.Mapping
         {
             entity.ToTable("ContentFile");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id);
 
             entity.Property(e => e.DisplayOrder).HasDefaultValueSql("0");
 

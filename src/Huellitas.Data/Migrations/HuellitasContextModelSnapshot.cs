@@ -18,7 +18,8 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionForm", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -236,7 +237,8 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentFile", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ContentId");
 
@@ -257,8 +259,7 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTable", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(250)");
@@ -297,7 +298,8 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.EmailNotification", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body")
                         .IsRequired();
@@ -391,16 +393,15 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.RelatedContent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("RelatedContentId");
 
                     b.Property<int>("ContentId");
 
-                    b.Property<int>("RelatedContentId");
+                    b.Property<int>("Id");
 
                     b.Property<short>("RelationType");
 
-                    b.HasKey("Id");
+                    b.HasKey("RelatedContentId");
 
                     b.HasIndex("ContentId");
 
@@ -567,7 +568,7 @@ namespace Huellitas.Data.Migrations
             modelBuilder.Entity("Huellitas.Data.Entities.ContentAttribute", b =>
                 {
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
-                        .WithMany("ContentAttribute")
+                        .WithMany("ContentAttributes")
                         .HasForeignKey("ContentId")
                         .HasConstraintName("FK_ContentAttribute_Content");
                 });
@@ -627,7 +628,7 @@ namespace Huellitas.Data.Migrations
                         .HasConstraintName("FK_RolePemission_Permission");
 
                     b.HasOne("Huellitas.Data.Entities.Role", "Role")
-                        .WithMany("RolePemission")
+                        .WithMany("RolePemissions")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_RolePemission_Role");
                 });
@@ -635,7 +636,7 @@ namespace Huellitas.Data.Migrations
             modelBuilder.Entity("Huellitas.Data.Entities.User", b =>
                 {
                     b.HasOne("Huellitas.Data.Entities.Role", "Role")
-                        .WithMany("User")
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_User_Role");
                 });

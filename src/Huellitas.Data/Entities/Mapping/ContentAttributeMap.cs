@@ -23,7 +23,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasColumnType("varchar(500)");
 
             entity.HasOne(d => d.Content)
-                .WithMany(p => p.ContentAttribute)
+                .WithMany(p => p.ContentAttributes)
                 .HasForeignKey(d => d.ContentId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_ContentAttribute_Content");

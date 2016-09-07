@@ -13,7 +13,7 @@ namespace Huellitas.Data.Entities.Mapping
         {
             entity.ToTable("EmailNotification");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id);
 
             entity.Property(e => e.Body).IsRequired();
 

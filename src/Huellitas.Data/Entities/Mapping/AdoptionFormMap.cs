@@ -15,7 +15,7 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.ToTable("AdoptionForm");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id);
 
             entity.Property(e => e.Address)
                 .IsRequired()

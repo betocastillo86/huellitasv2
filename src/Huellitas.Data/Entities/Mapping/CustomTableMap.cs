@@ -13,6 +13,9 @@ namespace Huellitas.Data.Entities.Mapping
         {
             entity.ToTable("CustomTable");
 
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedNever();
+
             entity.Property(e => e.Description).HasColumnType("varchar(250)");
 
             entity.Property(e => e.Name)

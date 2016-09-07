@@ -27,8 +27,7 @@ namespace Huellitas.Data.Migrations
                 name: "CustomTable",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     Description = table.Column<string>(type: "varchar(250)", nullable: true)
                 },
@@ -250,7 +249,8 @@ namespace Huellitas.Data.Migrations
                 name: "AdoptionForm",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContentId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
                     Email = table.Column<string>(type: "varchar(100)", nullable: false),
@@ -338,7 +338,8 @@ namespace Huellitas.Data.Migrations
                 name: "ContentFile",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContentId = table.Column<int>(nullable: false),
                     DisplayOrder = table.Column<int>(nullable: false, defaultValueSql: "0"),
                     FileId = table.Column<int>(nullable: false)

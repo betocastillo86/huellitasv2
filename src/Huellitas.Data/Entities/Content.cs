@@ -9,7 +9,7 @@ namespace Huellitas.Data.Entities
         public Content()
         {
             AdoptionForm = new HashSet<AdoptionForm>();
-            ContentAttribute = new HashSet<ContentAttribute>();
+            ContentAttributes = new HashSet<ContentAttribute>();
             ContentCategory = new HashSet<ContentCategory>();
             ContentFile = new HashSet<ContentFile>();
             RelatedContentContent = new HashSet<RelatedContent>();
@@ -33,7 +33,7 @@ namespace Huellitas.Data.Entities
         public bool Featured { get; set; }
 
         public virtual ICollection<AdoptionForm> AdoptionForm { get; set; }
-        public virtual ICollection<ContentAttribute> ContentAttribute { get; set; }
+        public virtual ICollection<ContentAttribute> ContentAttributes { get; set; }
         public virtual ICollection<ContentCategory> ContentCategory { get; set; }
         public virtual ICollection<ContentFile> ContentFile { get; set; }
         public virtual ICollection<RelatedContent> RelatedContentContent { get; set; }
