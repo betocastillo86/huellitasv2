@@ -1,6 +1,6 @@
 
 this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _) {
-    Views.CollectionView = Marionette.CollectionView.extend({
-        itemViewEventPrefix: 'childView'
+    App.Views.CollectionView = Marionette.CollectionView.extend({
+        //itemViewEventPrefix: 'childView'
     });
 });

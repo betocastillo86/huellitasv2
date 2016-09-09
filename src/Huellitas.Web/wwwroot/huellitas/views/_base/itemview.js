@@ -1,5 +1,5 @@
 Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _) {
-    Views.ItemView = Marionette.ItemView.extend({
-            
+    App.Views.ItemView = Marionette.ItemView.extend({
+          
     });
 });

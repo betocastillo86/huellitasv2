@@ -3,6 +3,7 @@ this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _)
     var _remove = Marionette.View.prototype.remove;
     _.extend(Marionette.View.prototype, {
         remove: function () {
+            console.log('removing',this);
             var args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
             return _remove.apply(this, args);
         },
@@ -19,6 +20,10 @@ this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _)
             }
         }
     });
+
+    //App.Views.View = Marionette.View.extend({
+    //
+    //});
     //App.Views.View = Marionette.View.extend({
     //    remove: function () {
     //        var args = 1 <= arguments.length ? slice.call(arguments, 0) : [];

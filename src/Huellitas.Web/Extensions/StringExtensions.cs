@@ -15,9 +15,9 @@ namespace Huellitas.Web.Extensions
                 {
                     return value.Split(new char[] { ',' });
                 }
-                catch (FormatException e)
+                catch (FormatException)
                 {
-                    ///TODO:Guardar la excepción
+                    throw;
                 }
             }
 

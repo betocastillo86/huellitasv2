@@ -62,5 +62,4 @@ namespace Huellitas.Data.Core
         public virtual DbSet<SystemSetting> SystemSettings { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
-    
 }

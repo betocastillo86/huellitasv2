@@ -7,7 +7,7 @@
             if (path)
                 return path(data);
             else
-                throw 'No existe el template' + data;
+                throw 'No existe el template ' + template;
         },
         getTemplate: function (template, data) {
             return HTempl[template];
