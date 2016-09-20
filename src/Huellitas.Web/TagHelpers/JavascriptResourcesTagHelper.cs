@@ -36,6 +36,8 @@ namespace Huellitas.Web.TagHelpers
                 .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
             SearchJsInPath(rootPath + "\\huellitas\\apps", true).ToList()
                 .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+            SearchJsInPath(rootPath + "\\huellitas\\components", true).ToList()
+                .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
             output.Content.SetHtmlContent(strHtml.ToString());
             base.Process(context, output);
@@ -45,9 +47,9 @@ namespace Huellitas.Web.TagHelpers
         {
             var foundFiles = new List<string>();
 
-            foreach (var directory in System.IO.Directory.GetDirectories(path))
+            foreach (var directory in System.IO.Directory.GetDirectories(path).OrderBy(c => c))
             {
-                foreach (var file in System.IO.Directory.GetFiles(directory).Where(f=> f.EndsWith(".js")))
+                foreach (var file in System.IO.Directory.GetFiles(directory).Where(f=> f.EndsWith(".js")).OrderBy(c => c))
                 {
                     foundFiles.Add(file);
                 }

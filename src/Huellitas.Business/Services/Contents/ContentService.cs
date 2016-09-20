@@ -134,5 +134,10 @@ namespace Huellitas.Business.Services.Contents
 
             return new PagedList<Content>(query, page, pageSize);
         }
+
+        public Content GetById(int id)
+        {
+            return _contentRepository.GetById(id);
+        }
     }
 }

@@ -39,31 +39,36 @@ namespace Huellitas.Web.Controllers.Api.Contents
             filter.Add(ContentAttributeType.Shelter, model.shelter.ToStringList(), FilterAttributeType.Multiple);
             filter.Add(ContentAttributeType.Subtype, model.type.ToStringList(), FilterAttributeType.Multiple);
 
-            
+
 
             var contentList = _contentService.Search(model.keyword, Data.Entities.ContentType.Pet, filter, model.pageSize, model.page).ToModels();
 
-
+            //System.Threading.Thread.Sleep(3000);
             return Ok(contentList);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            //System.Threading.Thread.Sleep(3000);
+            var model = _contentService.GetById(id);
+            return Ok(model);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]string value)
         {
+            System.Threading.Thread.Sleep(3000);
+            return Ok(new { Id = 3 });
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]string value)
         {
+            return Ok(new { result = true });
         }
 
         // DELETE api/values/5

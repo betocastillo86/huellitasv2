@@ -1,6 +1,11 @@
 ﻿Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _) {
     Entities.Pet = App.Entities.Model.extend({
-        urlRoot: '/api/pets'
+        urlRoot: '/api/pets',
+        validation: {
+            'name': {
+                required: true
+            }
+        }
     });
 
     Entities.PetCollection = App.Entities.Collection.extend({
@@ -8,7 +13,7 @@
         url: '/api/pets'
     });
 
-    API = {
+    var API = {
         getAll: function () {
             var pets = new Entities.PetCollection();
             pets.fetch({ reset: true });
@@ -18,9 +23,13 @@
             var pet = new Entities.Pet({ id: id });
             pet.fetch();
             return pet;
+        },
+        getNew: function () {
+            return new Entities.Pet();
         }
     }
 
-    App.reqres.setHandler('pets:entities', API.getAll);
-    App.reqres.setHandler('pets:entity', API.get);
+    App.reqres.setHandler('pet:entities', API.getAll);
+    App.reqres.setHandler('pet:entity', API.get);
+    App.reqres.setHandler('pet:new:entity', API.getNew);
 });

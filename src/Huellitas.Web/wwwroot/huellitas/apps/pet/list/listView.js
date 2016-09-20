@@ -10,7 +10,13 @@
     });
 
     List.Title = App.Views.ItemView.extend({
-        template: 'pet/list/_title'
+        template: 'pet/list/_title',
+        events: {
+            'click #btn-create-pet' : 'createPet'
+        },
+        createPet: function () {
+            App.vent.trigger('pet:new:clicked');
+        }
     });
 
     List.Filter = App.Views.ItemView.extend({
@@ -25,7 +31,7 @@
             'click' : 'select'
         },
         select: function () {
-            this.trigger('pets:item:clicked', this.model);
+            this.trigger('pet:item:clicked', this.model);
         }
     });
 

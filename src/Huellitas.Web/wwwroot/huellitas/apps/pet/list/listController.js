@@ -2,17 +2,21 @@
     List.Controller = {
         list: function () {
 
-            var pets = App.request('pets:entities');
+            var pets = App.request('pet:entities');
 
-            this.layout = this.getLayoutView();
+            var that = this;
+            App.execute('when:fetched', [pets], function () {
+                
+                that.layout = that.getLayoutView();
 
-            this.layout.on('show', function(){
-                this.titleRegion();
-                this.filterRegion();
-                this.listRegion(pets);
-            }, this);
+                that.layout.on('show', function () {
+                    that.titleRegion();
+                    that.filterRegion();
+                    that.listRegion(pets);
+                }, that);
 
-            return App.mainRegion.show(this.layout);
+                App.mainRegion.show(that.layout);
+            });
         },
         titleRegion: function () {
             var titleView = this.getTitleView();
@@ -25,8 +29,8 @@
         listRegion: function (models) {
             var listView = new this.getListView(models);
 
-            listView.on('childview:pets:item:clicked', function (child, model) {
-                App.vent.trigger('pets:item:clicked', model);
+            listView.on('childview:pet:item:clicked', function (child, model) {
+                App.vent.trigger('pet:item:clicked', model);
             });
 
             return this.layout.listRegion.show(listView);
