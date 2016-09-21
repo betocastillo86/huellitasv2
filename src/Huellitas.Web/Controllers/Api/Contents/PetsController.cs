@@ -9,13 +9,15 @@ using Huellitas.Data.Entities;
 using Huellitas.Business.Extensions.Services;
 using Huellitas.Web.Extensions;
 using Huellitas.Web.Models.Extensions;
+using Huellitas.Web.Infraestructure.WebApi;
+using Huellitas.Business.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Huellitas.Web.Controllers.Api.Contents
 {
     [Route("api/[controller]")]
-    public class PetsController : Controller
+    public class PetsController : BaseApiController
     {
         #region props
         private readonly IContentService _contentService;
@@ -30,21 +32,31 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
         // GET: api/values
         [HttpGet]
-        public IActionResult Get(PetsFilterModel model)
+        public IActionResult Get(PetsFilterModel filter)
         {
-            var filter = new List<FilterAttribute>();
-            filter.AddRangeAttribute(ContentAttributeType.Age, model.age);
-            filter.Add(ContentAttributeType.Genre, model.genre);
-            filter.Add(ContentAttributeType.Size, model.size.ToStringList(), FilterAttributeType.Multiple);
-            filter.Add(ContentAttributeType.Shelter, model.shelter.ToStringList(), FilterAttributeType.Multiple);
-            filter.Add(ContentAttributeType.Subtype, model.type.ToStringList(), FilterAttributeType.Multiple);
+            if (filter.IsValid())
+            {
+                var filterData = new List<FilterAttribute>();
+                filterData.AddRangeAttribute(ContentAttributeType.Age, filter.age);
+                filterData.Add(ContentAttributeType.Genre, filter.genre);
+                filterData.Add(ContentAttributeType.Size, filter.size.ToStringList(), FilterAttributeType.Multiple);
+                filterData.Add(ContentAttributeType.Shelter, filter.shelter.ToStringList(), FilterAttributeType.Multiple);
+                filterData.Add(ContentAttributeType.Subtype, filter.type.ToStringList(), FilterAttributeType.Multiple);
 
-            
+                var contentList = _contentService.Search(filter.keyword,
+                    Data.Entities.ContentType.Pet,
+                    filterData,
+                    filter.pageSize,
+                    filter.page);
 
-            var contentList = _contentService.Search(model.keyword, Data.Entities.ContentType.Pet, filter, model.pageSize, model.page).ToModels();
+                var models = contentList.ToModels(Url.Content);
 
-
-            return Ok(contentList);
+                return Ok(models, contentList.HasNextPage, contentList.TotalCount);
+            }
+            else
+            {
+                return BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+            }
         }
 
         // GET api/values/5
@@ -56,8 +68,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post(PetsFilterModel model)
         {
+            if (model.IsValid())
+            {
+
+            }
         }
 
         // PUT api/values/5

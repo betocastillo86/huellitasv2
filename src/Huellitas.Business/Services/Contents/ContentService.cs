@@ -37,6 +37,7 @@ namespace Huellitas.Business.Services.Contents
         {
 
             var query = _contentRepository.TableNoTracking
+                .Include(c => c.ContentAttributes)
                 .Where(c => !c.Deleted);
 
             if (!string.IsNullOrEmpty(keyword))

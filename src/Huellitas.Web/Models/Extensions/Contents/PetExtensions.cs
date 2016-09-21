@@ -11,16 +11,41 @@ namespace Huellitas.Web.Models.Extensions
     {
         public static PetModel ToModel(this Content entity, Func<string, string> contentUrlFunction = null)
         {
-            var model = new PetModel() {
+            var model = new PetModel()
+            {
                 Id = entity.Id,
                 Name = entity.Name,
                 Body = entity.Body,
                 CommentsCount = entity.CommentsCount,
                 DisplayOrder = entity.DisplayOrder,
-                Status = entity.Status,
-                TypeId = entity.TypeId,
+                Status = entity.StatusType,
+                TypeId = entity.Type,
                 Views = entity.Views
             };
+
+            foreach (var attribute in entity.ContentAttributes)
+            {
+                switch (attribute.AttributeType)
+                {
+                    case ContentAttributeType.Subtype:
+                        model.Subtype = new ContentAttributeModel<int>() { Text = "s", Value = Convert.ToInt32(attribute.Value) };
+                        break;
+                    case ContentAttributeType.Genre:
+                        model.Genre = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        break;
+                    case ContentAttributeType.Age:
+                        model.Moths = Convert.ToInt32(attribute.Value);
+                        break;
+                    case ContentAttributeType.Size:
+                        model.Size = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        break;
+                    case ContentAttributeType.Shelter:
+                        //model.Shelter = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             //if (contentUrlFunction != null && entity.File != null)
             //{
@@ -35,7 +60,7 @@ namespace Huellitas.Web.Models.Extensions
             var models = new List<PetModel>();
             foreach (var entity in entities)
             {
-                models.Add(entity.ToModel(contentUrlFunction:contentUrlFunction));
+                models.Add(entity.ToModel(contentUrlFunction: contentUrlFunction));
             }
             return models;
         }
