@@ -57,29 +57,33 @@ namespace Huellitas.Web.Controllers.Api.Contents
             {
                 return BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
             }
+
+
+
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            //System.Threading.Thread.Sleep(3000);
+            var model = _contentService.GetById(id);
+            return Ok(model);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post(PetsFilterModel model)
+        public IActionResult Post([FromBody]string value)
         {
-            if (model.IsValid())
-            {
-
-            }
+            System.Threading.Thread.Sleep(3000);
+            return Ok(new { Id = 3 });
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]string value)
         {
+            return Ok(new { result = true });
         }
 
         // DELETE api/values/5

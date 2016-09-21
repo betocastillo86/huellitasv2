@@ -40,6 +40,8 @@ paths.libs = [
     paths.webroot + 'lib/jquery/dist/jquery.js',
     paths.webroot + 'lib/underscore/underscore.js',
     paths.webroot + 'lib/backbone/backbone.js',
+    paths.webroot + 'lib/backbone.stickit/backbone.stickit.js',
+    paths.webroot + 'lib/backbone-validation/dist/backbone-validation.js',
     paths.webroot + 'lib/marionette/lib/backbone.marionette.js',
     paths.webroot + 'lib/handlebars/handlebars.js',
     paths.webroot + 'lib/marionette.handlebars/dist/marionette.handlebars.js',
@@ -48,7 +50,8 @@ paths.libs = [
 paths.css = [
     paths.webroot + 'lib/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
     paths.webroot + 'lib/gentelella/vendors/font-awesome/css/font-awesome.min.css',
-    paths.webroot + 'lib/gentelella/build/css/custom.min.css'
+    paths.webroot + 'lib/gentelella/build/css/custom.min.css',
+    paths.webroot + 'css/huellitas.css'
 ];
 paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatJsTemplatesDest = paths.webroot + "js/templates.min.js";
@@ -101,7 +104,7 @@ gulp.task('dev', function () {
 
 gulp.task('templatesHandlebars', function () {
     console.log('Ejecutando tarea templatesHandlebars');
-    var path = paths.webroot + 'huellitas/apps/**/*.html';
+    var path = [paths.webroot + 'huellitas/apps/**/*.html', paths.webroot + 'huellitas/components/**/*.html'];
     console.log(path);
     return gulp.src(path)
         .pipe(handlebars({handlebars:require('handlebars')}))
@@ -111,7 +114,7 @@ gulp.task('templatesHandlebars', function () {
             noRedeclare: true,
             //processName: declare.processNameByPath
             processName: function (path) {
-                path = path.split('wwwroot\\huellitas\\apps\\')[1];
+                path = path.split(/(wwwroot\\huellitas\\apps\\|wwwroot\\huellitas\\components\\)/)[2];
                 var finalPath = path.replace('templates\\','').replace(/\\/g, '/').replace('.js', '');
                 return finalPath;
             }

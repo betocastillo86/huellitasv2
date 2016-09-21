@@ -14,5 +14,7 @@ namespace Huellitas.Business.Services.Contents
             IList<FilterAttribute> attributesFilter = null, 
             int pageSize = int.MaxValue, 
             int page = 0);
+
+        Content GetById(int id);
     }
 }
