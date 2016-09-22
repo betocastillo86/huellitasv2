@@ -1,18 +1,17 @@
 ﻿Huellitas.module('PetApp.List', function (List, App, Backbone, Marionette, $, _) {
-
     List.Layout = App.Views.Layout.extend({
         template: 'pet/list/listLayout',
         regions: {
             titleRegion: '#title-region',
             filterRegion: '#filter-region',
-            listRegion : '#list-region'
+            listRegion: '#list-region'
         }
     });
 
     List.Title = App.Views.ItemView.extend({
         template: 'pet/list/_title',
         events: {
-            'click #btn-create-pet' : 'createPet'
+            'click #btn-create-pet': 'createPet'
         },
         createPet: function () {
             App.vent.trigger('pet:new:clicked');
@@ -20,7 +19,7 @@
     });
 
     List.Filter = App.Views.ItemView.extend({
-        template:'pet/list/_filter'
+        template: 'pet/list/_filter'
     });
 
     List.PetItem = App.Views.ItemView.extend({
@@ -28,10 +27,11 @@
         tagName: 'tr',
         className: 'pointer',
         events: {
-            'click' : 'select'
+            'click': 'select'
         },
-        select: function () {
-            this.trigger('pet:item:clicked', this.model);
+        triggers: {
+            'click'             : 'pet:item:clicked',
+            'click .btn-delete' : 'pet:item:delete:clicked'
         }
     });
 
@@ -40,12 +40,10 @@
         tagName: 'tr'
     });
 
-    
     List.List = App.Views.CompositeView.extend({
         template: 'pet/list/_list',
         childView: List.PetItem,
         childViewContainer: 'tbody',
-        emptyView : List.Empty
+        emptyView: List.Empty
     });
-
 });

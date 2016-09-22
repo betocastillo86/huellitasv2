@@ -5,7 +5,7 @@
 
         _.defaults(obj, {
             className: '',
-            backgroundColor: (this.css('backgroundColor') != 'transparent' ? this.css('backgroundColor') : 'white'),
+            backgroundColor: (this.css('backgroundColor') == 'transparent' ? this.css('backgroundColor') : 'white'),
             zIndex: (this.css('zIndex') == 'auto' || this.css('zIndex') == '0' ? 1000 : parseInt(this.css('zIndex')))
         });
 
@@ -14,7 +14,7 @@
         var $height = this.outerHeight(false);
 
         if (init) {
-            $('<div>')
+            return $('<div>')
                 .appendTo('body')
                     .addClass(obj.className)
                     .attr('data-wrapper', true)
@@ -28,11 +28,9 @@
                         backgroundColor: obj.backgroundColor
                     });
 
-            this.addClass(obj.className);
         }
         else {
-            $('[data-wrapper]').remove();
-            this.removeClass(obj.className);
+            return $('[data-wrapper]').remove();
         }
     };
 })($);

@@ -25,7 +25,7 @@ namespace Huellitas.Web.Models.Api.Contents
 
         public bool AutoReply { get; set; }
 
-        public IList<PetModel> _relatedPets;
+        private IList<PetModel> _relatedPets;
         public IList<PetModel> RelatedPets
         {
             get{ return _relatedPets ?? (_relatedPets = new List<PetModel>()); }

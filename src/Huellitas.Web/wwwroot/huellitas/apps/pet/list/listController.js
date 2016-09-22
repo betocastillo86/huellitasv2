@@ -1,12 +1,10 @@
 ﻿Huellitas.module('PetApp.List', function (List, App, Backbone, Marionette, $, _) {
     List.Controller = {
         list: function () {
-
             var pets = App.request('pet:entities');
 
             var that = this;
             App.execute('when:fetched', [pets], function () {
-                
                 that.layout = that.getLayoutView();
 
                 that.layout.on('show', function () {
@@ -29,8 +27,17 @@
         listRegion: function (models) {
             var listView = new this.getListView(models);
 
-            listView.on('childview:pet:item:clicked', function (child, model) {
-                App.vent.trigger('pet:item:clicked', model);
+            listView.on('childview:pet:item:clicked', function (child, args) {
+                App.vent.trigger('pet:item:clicked', args.model);
+            });
+
+            listView.on('childview:pet:item:delete:clicked', function (child, args) {
+                var model = args.model;
+                if (confirm('¿Está seguro de eliminar el registro?'))
+                {
+                    model.destroy();
+                    //App.vent.trigger('pet:item:delete:clicked', model);
+                }
             });
 
             return this.layout.listRegion.show(listView);

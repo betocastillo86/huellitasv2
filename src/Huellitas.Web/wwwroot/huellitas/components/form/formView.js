@@ -14,7 +14,7 @@
         },
         triggers: {
             'submit': 'form:submit',
-            'click button[type="cancel"]': 'form:cancel'
+            'click button[data-form-button="cancel"]': 'form:cancel'
         },
         attributes: function () {
             return { 'data-type': this.getFormDataType() };

@@ -8,7 +8,7 @@
             });
 
             model.consoleAll();
-            
+
             this.layout = this.getLayoutView(model);
             this.layout.on('show', function () {
                 that.formRegion(model);
@@ -30,7 +30,6 @@
             App.execute('when:fetched', [model], function () {
                 App.mainRegion.show(that.layout);
             });
-            
         },
         formRegion: function (model) {
             var editView = this.getEditView(model);

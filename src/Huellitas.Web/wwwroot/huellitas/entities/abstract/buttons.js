@@ -1,10 +1,12 @@
 ﻿Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _) {
     Entities.Button = App.Entities.Model.extend({
-
+        defaults: {
+            buttonType: 'button'
+        }
     });
 
     Entities.ButtonsCollection = App.Entities.Collection.extend({
-        model : Entities.Button
+        model: Entities.Button
     });
 
     var API = {
@@ -14,8 +16,8 @@
             var array = [];
             if (buttons.cancel !== false)
                 array.push({ type: 'cancel', className: 'btn btn-default', text: buttons.cancel });
-            if(buttons.primary !== false)
-                array.push({ type: 'primary', className: 'btn btn-success', text: buttons.primary });
+            if (buttons.primary !== false)
+                array.push({ type: 'primary', className: 'btn btn-success', text: buttons.primary, buttonType: 'submit' });
 
             if (buttons.placement == 'right')
                 array.reverse();
@@ -26,10 +28,10 @@
         },
         getDefaultButtons: function (buttons, model) {
             return _.defaults(buttons, {
-               primary: model.isNew() ? 'Crear' : 'Actualizar',
-               cancel: 'Cancelar',
-               placement: 'left'
-           });
+                primary: model.isNew() ? 'Crear' : 'Actualizar',
+                cancel: 'Cancelar',
+                placement: 'left'
+            });
         }
     }
 

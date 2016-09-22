@@ -6,7 +6,7 @@
         <div class="form-group">
             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3 {{#ifCond buttons.placement '==' 'right'}}pull-right{{/ifCond}}">
                 {{#each buttons}}
-                <button type="{{type}}" class="{{className}}">{{text}}</button>
+                <button type="{{buttonType}}" data-form-button="{{type}}"  class="{{className}}" >{{text}}</button>
                 {{/each}}
             </div>
         </div>

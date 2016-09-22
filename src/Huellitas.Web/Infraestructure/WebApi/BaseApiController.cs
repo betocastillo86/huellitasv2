@@ -1,5 +1,6 @@
 ﻿using Huellitas.Business.Exceptions;
 using Huellitas.Business.Helpers;
+using Huellitas.Web.Infraestructure.Filters.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

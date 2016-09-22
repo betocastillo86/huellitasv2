@@ -1,4 +1,5 @@
-﻿using Huellitas.Business.Services.Contents;
+﻿using Huellitas.Business.Exceptions;
+using Huellitas.Business.Services.Contents;
 using Huellitas.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -29,19 +30,20 @@ namespace Huellitas.Business.Extensions.Services
                 return;
 
             var valueParts = value.ToString().Split(new char[] { '-' });
-            string valueTo = null;
             //Si no viene en rango no lo agrega
             if (valueParts.Length == 2)
             {
-                value = valueParts[0];
-                valueTo = valueParts[1];
+                int intValueFrom = 0;
+                int intValueTo = 0;
+                if (int.TryParse(valueParts[0], out intValueFrom) && int.TryParse(valueParts[1], out intValueTo))
+                    list.Add(attribute, intValueFrom, FilterAttributeType.Range, intValueTo);
+                else
+                    throw new HuellitasException(HuellitasExceptionCode.BadArgument, "Los valores indicados en el rango no son numericos");
             }
             else
             {
-                return;
+                throw new HuellitasException(HuellitasExceptionCode.BadArgument, "No se tiene un formato valido para los rangos deben ser: NumeroMenor-NumeroMayor");
             }
-
-            list.Add(attribute, value, FilterAttributeType.Range, valueTo);
         }
     }
 }

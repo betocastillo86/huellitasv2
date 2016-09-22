@@ -11,6 +11,7 @@ using Huellitas.Web.Extensions;
 using Huellitas.Web.Models.Extensions;
 using Huellitas.Web.Infraestructure.WebApi;
 using Huellitas.Business.Exceptions;
+using Huellitas.Business.Services.Common;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,20 +35,16 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get(PetsFilterModel filter)
         {
-            if (filter.IsValid())
-            {
-                var filterData = new List<FilterAttribute>();
-                filterData.AddRangeAttribute(ContentAttributeType.Age, filter.age);
-                filterData.Add(ContentAttributeType.Genre, filter.genre);
-                filterData.Add(ContentAttributeType.Size, filter.size.ToStringList(), FilterAttributeType.Multiple);
-                filterData.Add(ContentAttributeType.Shelter, filter.shelter.ToStringList(), FilterAttributeType.Multiple);
-                filterData.Add(ContentAttributeType.Subtype, filter.type.ToStringList(), FilterAttributeType.Multiple);
+            IList<FilterAttribute> filterData = null;
 
-                var contentList = _contentService.Search(filter.keyword,
+            if (filter.IsValid(out filterData))
+            {
+                var contentList = _contentService.Search(filter.Keyword,
                     Data.Entities.ContentType.Pet,
                     filterData,
-                    filter.pageSize,
-                    filter.page);
+                    filter.PageSize,
+                    filter.Page,
+                    filter.OrderByEnum);
 
                 var models = contentList.ToModels(Url.Content);
 
@@ -88,8 +85,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            //System.Threading.Thread.Sleep(3000);
+            return Ok(new { result = true });
         }
     }
 }

@@ -13,7 +13,8 @@ namespace Huellitas.Business.Services.Contents
             ContentType? contentType = null, 
             IList<FilterAttribute> attributesFilter = null, 
             int pageSize = int.MaxValue, 
-            int page = 0);
+            int page = 0,
+            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder);
 
         Content GetById(int id);
     }

@@ -40,6 +40,7 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<RolePemission>().Map();
             modelBuilder.Entity<SystemSetting>().Map();
             modelBuilder.Entity<User>().Map();
+            modelBuilder.Entity<Log>().Map();
         }
 
         public virtual DbSet<AdoptionForm> AdoptionForms { get; set; }
@@ -61,5 +62,7 @@ namespace Huellitas.Data.Core
         public virtual DbSet<RolePemission> RolePemissions { get; set; }
         public virtual DbSet<SystemSetting> SystemSettings { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        public virtual DbSet<Log> Logs { get; set; }
     }
 }

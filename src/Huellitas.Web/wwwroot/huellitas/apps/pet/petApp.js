@@ -9,13 +9,13 @@
 
     API = {
         list: function () {
-            PetApp.List.Controller.list();
+            return PetApp.List.Controller.list();
         },
         edit: function (id, model) {
-            PetApp.Edit.Controller.edit(id, model);
+            return PetApp.Edit.Controller.edit(id, model);
         },
         create: function () {
-            PetApp.Edit.Controller.create();
+            return PetApp.Edit.Controller.create();
         }
     }
 

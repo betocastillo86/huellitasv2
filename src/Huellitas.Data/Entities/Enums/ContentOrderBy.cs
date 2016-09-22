@@ -9,6 +9,6 @@ namespace Huellitas.Data.Entities
     {
         DisplayOrder,
         Name,
-        CreationDate
+        CreatedDate
     }
 }

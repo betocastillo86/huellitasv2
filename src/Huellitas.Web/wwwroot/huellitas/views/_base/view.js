@@ -3,9 +3,31 @@ this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _)
     var _remove = Marionette.View.prototype.remove;
     _.extend(Marionette.View.prototype, {
         remove: function () {
-            console.log('removing', this);
+
             var args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-            return _remove.apply(this, args);
+            var that = this;
+
+            console.log('removing', this);
+
+            if (this.model && this.model.isDestroyed()) {
+                var wrapper = this.$el.toogleWrapper({
+                    className: 'opacity',
+                    backgroundColor: 'red'
+                });
+
+                wrapper.fadeOut(400, function () {
+                    wrapper.remove();
+                });
+
+                this.$el.fadeOut(400, function () {
+                    _remove.apply(that, args);
+                });
+
+                
+            }
+            else {              
+                return _remove.apply(that, args);
+            }
         },
         templateHelpers: {
             linkTo: function (name, url, options) {

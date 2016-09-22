@@ -9,11 +9,11 @@ namespace Huellitas.Web.Models.Api.Common
 {
     public abstract class BaseFilterModel 
     {
-        public string orderBy { get; set; }
+        public string OrderBy { get; set; }
 
-        public int page { get; set; } = 0;
+        public int Page { get; set; } = 0;
 
-        public int pageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 10;
 
         protected int MaxPageSize { get; set; } = 50;
 
@@ -54,28 +54,35 @@ namespace Huellitas.Web.Models.Api.Common
             }
         }
 
+        protected void AddError(HuellitasExceptionCode code, string message, string target = null)
+        {
+            AddError(code.ToString(), message, target);
+        }
+
         protected void AddError(string code, string message, string target = null)
         {
             Errors.Add(new ApiError()
             {
-                Code = HuellitasExceptionCode.BadArgument.ToString(),
+                Code = code,
                 Target = target,
                 Message = message
             });
         }
+
+        
 
         /// <summary>
         /// Realiza validaciones genericas del modelo
         /// </summary>
         protected void GeneralValidations()
         {
-            if (pageSize > MaxPageSize)
+            if (PageSize > MaxPageSize)
                 AddError(HuellitasExceptionCode.BadArgument.ToString(), $"Tamaño máximo de paginación excedido. El máximo es {MaxPageSize}", "PageSize");
 
-            if (page < 0)
+            if (Page < 0)
                 AddError(HuellitasExceptionCode.BadArgument.ToString(), "La pagina debe ser mayor a 0", "Page");
 
-            if (!string.IsNullOrEmpty(orderBy) && !ValidOrdersBy.Contains(orderBy.ToLower()))
+            if (!string.IsNullOrEmpty(OrderBy) && !ValidOrdersBy.Select(c => c.ToLower()).Contains(OrderBy.ToLower()))
                 AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", ValidOrdersBy)}");
         }
         #endregion

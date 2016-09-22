@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using Huellitas.Web.Infraestructure.Start;
 using Huellitas.Data.Core;
 using Huellitas.Business.Services.Contents;
+using Huellitas.Business.Helpers;
+using Huellitas.Web.Infraestructure.Filters.Exceptions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Huellitas.Web
 {
@@ -25,13 +28,15 @@ namespace Huellitas.Web
             //Agrega las configuraciones personalizadas
             services.AddConfigurations();
 
-            services.AddMvc();
+            services.AddMvc(config => {
+                //var logger = services.Add
+                config.Filters.Add(typeof(WebApiExceptionAttribute));
+            });
 
             //Registra los Repositorios genericos
-            //services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.RegisterHuellitasServices();
 
-            services.AddScoped<IContentService, ContentService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

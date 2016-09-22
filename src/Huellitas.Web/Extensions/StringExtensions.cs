@@ -11,9 +11,20 @@ namespace Huellitas.Web.Extensions
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
+                return value.Split(new char[] { ',' });
+            }
+
+            return returnDefaultNull ? null : new string[0];
+        }
+
+        public static int[] ToIntList(this string value, bool returnDefaultNull = true)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
                 try
                 {
-                    return value.Split(new char[] { ',' });
+
+                    return value.Split(new char[] { ',' }).Select(c => Convert.ToInt32(c)).ToArray();
                 }
                 catch (FormatException)
                 {
@@ -21,7 +32,7 @@ namespace Huellitas.Web.Extensions
                 }
             }
 
-            return returnDefaultNull ? null : new string[0];
+            return returnDefaultNull ? null : new int[0];
         }
     }
 }

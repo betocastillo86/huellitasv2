@@ -33,7 +33,8 @@ namespace Huellitas.Business.Services.Contents
             ContentType? contentType = null, 
             IList<FilterAttribute> attributesFilter = null, 
             int pageSize = int.MaxValue, 
-            int page = 0)
+            int page = 0,
+            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder)
         {
 
             var query = _contentRepository.TableNoTracking
@@ -51,6 +52,7 @@ namespace Huellitas.Business.Services.Contents
                 query = query.Where(c => c.TypeId == typeId);
             }
 
+            
             #region Attributes
             if (attributesFilter != null && attributesFilter.Count > 0)
             {
@@ -132,6 +134,20 @@ namespace Huellitas.Business.Services.Contents
             }
             #endregion
 
+
+            switch (orderBy)
+            {
+                case ContentOrderBy.Name:
+                    query = query.OrderBy(c => c.DisplayOrder);
+                    break;
+                case ContentOrderBy.CreatedDate:
+                    query = query.OrderByDescending(c => c.CreatedDate);
+                    break;
+                case ContentOrderBy.DisplayOrder:
+                default:
+                    query = query.OrderBy(c => c.DisplayOrder);
+                    break;
+            }
 
             return new PagedList<Content>(query, page, pageSize);
         }

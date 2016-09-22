@@ -1,9 +1,11 @@
 Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _) {
 
     var _save = Backbone.Model.prototype.save;
+    var _destroy = Backbone.Model.prototype.destroy;
 
     Entities.Model = Backbone.Model.extend({
-        _save : _save,
+        _save: _save,
+        _destroy: _destroy,
         save: function (data, options) {
             var isNew = this.isNew();
             options = options || {};
@@ -14,10 +16,9 @@ Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _
             this._save(data, options);
         },
         saved: function (isNew, collection) {
-            
+
             if (isNew) {
-                if (collection)
-                {
+                if (collection) {
                     collection.add(this);
                     collection.trigger('model:created', this);
                 }
@@ -26,10 +27,19 @@ Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _
             }
             else {
                 collection = collection || this.collection;
-                if(collection)
+                if (collection)
                     collection.trigger('model:updated', this);
                 this.trigger('updated', this);
             }
+        },
+        destroy: function (options) {
+            options = options || {};
+            _.defaults(options, { wait: true });
+            this.set('_destroy', true);
+            return this._destroy(options);
+        },
+        isDestroyed: function () {
+            return this.get('_destroy');
         },
         consoleAll: function () {
             this.on('all', function (ev) { console.log(ev); });
