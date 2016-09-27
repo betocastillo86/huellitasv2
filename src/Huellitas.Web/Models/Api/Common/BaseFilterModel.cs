@@ -1,67 +1,108 @@
-﻿using Huellitas.Business.Exceptions;
-using Huellitas.Web.Infraestructure.WebApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseFilterModel.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Common
 {
-    public abstract class BaseFilterModel 
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Web.Infraestructure.WebApi;
+   
+    /// <summary>
+    /// Base Model for filter
+    /// </summary>
+    public abstract class BaseFilterModel
     {
-        public string OrderBy { get; set; }
+        /// <summary>
+        /// The errors
+        /// </summary>
+        private IList<ApiError> errors;
 
-        public int Page { get; set; } = 0;
-
-        public int PageSize { get; set; } = 10;
-
-        protected int MaxPageSize { get; set; } = 50;
-
-        protected string[] ValidOrdersBy { get; set; }
-
-        #region Methods
-        public abstract bool IsValid();
-
-
-        private IList<ApiError> _errors;
+        /// <summary>
+        /// Gets the errors.
+        /// </summary>
+        /// <value>
+        /// The errors.
+        /// </value>
         public IList<ApiError> Errors
         {
             get
             {
-                return _errors ?? (_errors = new List<ApiError>());
+                return this.errors ?? (this.errors = new List<ApiError>());
             }
         }
 
         /// <summary>
-        /// Convierte una lista separada por comas a una lista de int
+        /// Gets or sets the order by.
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="valueStr"></param>
-        /// <returns></returns>
-        protected int[] ToIntList(string property, string valueStr)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(valueStr))
-                    return new int[0];
+        /// <value>
+        /// The order by.
+        /// </value>
+        public string OrderBy { get; set; }
 
-                return valueStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => Convert.ToInt32(s)).ToArray();
-            }
-            catch (Exception)
-            {
-                AddError(HuellitasExceptionCode.BadArgument.ToString(), $"La lista de valores para el campo {property} es invalida", property);
-                return new int[0];
-            }
-        }
+        /// <summary>
+        /// Gets or sets the page.
+        /// </summary>
+        /// <value>
+        /// The page.
+        /// </value>
+        public int Page { get; set; } = 0;
 
+        /// <summary>
+        /// Gets or sets the size of the page.
+        /// </summary>
+        /// <value>
+        /// The size of the page.
+        /// </value>
+        public int PageSize { get; set; } = 10;
+
+        /// <summary>
+        /// Gets or sets the maximum size of the page.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the page.
+        /// </value>
+        protected int MaxPageSize { get; set; } = 50;
+
+        /// <summary>
+        /// Gets or sets the valid orders by.
+        /// </summary>
+        /// <value>
+        /// The valid orders by.
+        /// </value>
+        protected string[] ValidOrdersBy { get; set; }
+
+        /// <summary>
+        /// Returns true if ... is valid.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        /// </returns>
+        public abstract bool IsValid();
+
+        /// <summary>
+        /// Adds the error.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="target">The target.</param>
         protected void AddError(HuellitasExceptionCode code, string message, string target = null)
         {
-            AddError(code.ToString(), message, target);
+            this.AddError(code.ToString(), message, target);
         }
 
+        /// <summary>
+        /// Adds the error.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="target">The target.</param>
         protected void AddError(string code, string message, string target = null)
         {
-            Errors.Add(new ApiError()
+            this.Errors.Add(new ApiError()
             {
                 Code = code,
                 Target = target,
@@ -69,22 +110,49 @@ namespace Huellitas.Web.Models.Api.Common
             });
         }
 
-        
-
         /// <summary>
-        /// Realiza validaciones genericas del modelo
+        /// General the validations.
         /// </summary>
         protected void GeneralValidations()
         {
-            if (PageSize > MaxPageSize)
-                AddError(HuellitasExceptionCode.BadArgument.ToString(), $"Tamaño máximo de paginación excedido. El máximo es {MaxPageSize}", "PageSize");
+            if (this.PageSize > this.MaxPageSize)
+            {
+                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"Tamaño máximo de paginación excedido. El máximo es {this.MaxPageSize}", "PageSize");
+            }
 
-            if (Page < 0)
-                AddError(HuellitasExceptionCode.BadArgument.ToString(), "La pagina debe ser mayor a 0", "Page");
+            if (this.Page < 0)
+            {
+                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), "La pagina debe ser mayor a 0", "Page");
+            }
 
-            if (!string.IsNullOrEmpty(OrderBy) && !ValidOrdersBy.Select(c => c.ToLower()).Contains(OrderBy.ToLower()))
-                AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", ValidOrdersBy)}");
+            if (!string.IsNullOrEmpty(this.OrderBy) && !this.ValidOrdersBy.Select(c => c.ToLower()).Contains(this.OrderBy.ToLower()))
+            {
+                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", this.ValidOrdersBy)}");
+            }
         }
-        #endregion
+
+        /// <summary>
+        /// To the int list.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="valueStr">The value string.</param>
+        /// <returns>the value</returns>
+        protected int[] ToIntList(string property, string valueStr)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(valueStr))
+                {
+                    return new int[0];
+                }
+
+                return valueStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => Convert.ToInt32(s)).ToArray();
+            }
+            catch (Exception)
+            {
+                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"La lista de valores para el campo {property} es invalida", property);
+                return new int[0];
+            }
+        }
     }
 }

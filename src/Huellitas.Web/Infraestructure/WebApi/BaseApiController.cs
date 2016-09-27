@@ -1,29 +1,44 @@
-﻿using Huellitas.Business.Exceptions;
-using Huellitas.Business.Helpers;
-using Huellitas.Web.Infraestructure.Filters.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseApiController.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.WebApi
 {
+    using System.Collections.Generic;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Helpers;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Base for <c>Api</c> Controllers
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     public class BaseApiController : Controller
     {
         #region BadRequest
+
+        /// <summary>
+        /// Bad the request.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
+        /// <param name="message">The message.</param>
+        /// <returns>the value</returns>
         protected IActionResult BadRequest(HuellitasException ex, string message = null)
         {
             var error = new ApiError();
             error.Code = ex.Code.ToString();
             error.Message = message ?? ex.Message;
-            return StatusCode(400, new { Error = error });
+            return this.StatusCode(400, new { Error = error });
         }
 
         /// <summary>
-        /// Responde un bad request con errores anidados
+        /// Bad the request with nested errors
         /// </summary>
-        /// <returns></returns>
+        /// <param name="code">The code.</param>
+        /// <param name="errors">The errors.</param>
+        /// <param name="target">The target.</param>
+        /// <returns>the value</returns>
         protected IActionResult BadRequest(HuellitasExceptionCode code, IList<ApiError> errors, string target = null)
         {
             object objResponse = null;
@@ -33,7 +48,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
                 objResponse = new ApiError()
                 {
                     Code = code.ToString(),
-                    Message = EnumHelpers.GetDescription(code),
+                    Message = ExceptionMessages.GetMessage(code),
                     Target = target
                 };
             }
@@ -42,32 +57,36 @@ namespace Huellitas.Web.Infraestructure.WebApi
                 objResponse = new ApiError()
                 {
                     Code = code.ToString(),
-                    Message = EnumHelpers.GetDescription(code),
+                    Message = ExceptionMessages.GetMessage(code),
                     Details = errors,
                     Target = target
                 };
             }
 
-            return StatusCode(400, new { Error = objResponse });
+            return this.StatusCode(400, new { Error = objResponse });
         }
 
-        #endregion
+        #endregion BadRequest
 
         #region Ok
+
         /// <summary>
-        /// Retorna un 200 con los headers de la paginación
+        /// Ok the specified paged list
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="pagedList"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The Entity</typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="hasNextPage">if set to <c>true</c> [has next page].</param>
+        /// <param name="totalCount">The total count.</param>
+        /// <returns>the value</returns>
         protected IActionResult Ok<T>(IList<T> list, bool hasNextPage, int totalCount)
         {
             this.Response.Headers.Add(ApiHeadersList.PAGINATION_HASNEXTPAGE, hasNextPage.ToString());
             this.Response.Headers.Add(ApiHeadersList.PAGINATION_TOTALCOUNT, totalCount.ToString());
             this.Response.Headers.Add(ApiHeadersList.PAGINATION_COUNT, list.Count.ToString());
 
-            return StatusCode(200, list);
+            return this.StatusCode(200, list);
         }
-        #endregion
+
+        #endregion Ok
     }
 }

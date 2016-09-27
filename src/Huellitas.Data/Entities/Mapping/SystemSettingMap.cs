@@ -1,14 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SystemSettingMap.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities.Mapping
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    /// <summary>
+    /// System Setting Mapping
+    /// </summary>
     public static class SystemSettingMap
     {
+        /// <summary>
+        /// Maps the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<SystemSetting> entity)
         {
             entity.ToTable("SystemSetting");

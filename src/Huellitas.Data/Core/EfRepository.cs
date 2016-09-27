@@ -1,122 +1,41 @@
-﻿using Huellitas.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="EfRepository.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Huellitas.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
+    
+    /// <summary>
+    /// The Repository
+    /// </summary>
+    /// <typeparam name="T">The Entity</typeparam>
+    /// <seealso cref="Huellitas.Data.Core.IRepository{T}" />
     public partial class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
-        #region Fields
-
-        private readonly HuellitasContext _context;
-        private DbSet<T> _entities;
-
-        #endregion
-
-        #region Ctor
+        /// <summary>
+        /// The context
+        /// </summary>
+        private readonly HuellitasContext context;
 
         /// <summary>
-        /// Ctor
+        /// The entities
         /// </summary>
-        /// <param name="context">Object context</param>
+        private DbSet<T> entities;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EfRepository{T}"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public EfRepository(HuellitasContext context)
         {
-            this._context = context;
+            this.context = context;
         }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Get entity by identifier
-        /// </summary>
-        /// <param name="id">Identifier</param>
-        /// <returns>Entity</returns>
-        public virtual T GetById(int id)
-        {
-            //see some suggested performance optimization (not tested)
-            //http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
-            return this.Entities.FirstOrDefault(e => e.Id == id);
-        }
-
-        /// <summary>
-        /// Insert entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        public virtual void Insert(T entity)
-        {
-
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            this.Entities.Add(entity);
-
-            this._context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Insert entities
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        public virtual void Insert(IEnumerable<T> entities)
-        {
-            if (entities == null)
-                throw new ArgumentNullException("entities");
-
-            foreach (var entity in entities)
-                this.Entities.Add(entity);
-
-            this._context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Update entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        public virtual int Update(T entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            return this._context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Delete entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        public virtual int Delete(T entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException("entity");
-
-            this.Entities.Remove(entity);
-
-            return this._context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Delete entities
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        public virtual void Delete(IEnumerable<T> entities)
-        {
-            if (entities == null)
-                throw new ArgumentNullException("entities");
-
-            foreach (var entity in entities)
-                this.Entities.Remove(entity);
-
-            this._context.SaveChanges();
-        }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Gets a table
@@ -141,18 +60,127 @@ namespace Huellitas.Data.Core
         }
 
         /// <summary>
-        /// Entities
+        /// Gets the entities.
         /// </summary>
+        /// <value>
+        /// The entities.
+        /// </value>
         protected virtual DbSet<T> Entities
         {
             get
             {
-                if (_entities == null)
-                    _entities = _context.Set<T>();
-                return _entities;
+                if (this.entities == null)
+                {
+                    this.entities = this.context.Set<T>();
+                }
+                    
+                return this.entities;
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Delete entity
+        /// </summary>
+        /// <param name="entity">The entity</param>
+        /// <returns>the value</returns>
+        /// <exception cref="System.ArgumentNullException">the entity</exception>
+        public virtual int Delete(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            this.Entities.Remove(entity);
+
+            return this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Delete entities
+        /// </summary>
+        /// <param name="entities">The Entities</param>
+        /// <exception cref="System.ArgumentNullException">the entities</exception>
+        public virtual void Delete(IEnumerable<T> entities)
+        {
+            if (entities == null)
+            {
+                throw new ArgumentNullException("entities");
+            }
+
+            foreach (var entity in entities)
+            {
+                this.Entities.Remove(entity);
+            }
+                
+            this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Get entity by identifier
+        /// </summary>
+        /// <param name="id">the Identifier</param>
+        /// <returns>
+        /// The Entity
+        /// </returns>
+        public virtual T GetById(int id)
+        {
+            ////see some suggested performance optimization (not tested)
+            ////http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
+            return this.Entities.FirstOrDefault(e => e.Id == id);
+        }
+
+        /// <summary>
+        /// Insert entity
+        /// </summary>
+        /// <param name="entity">The entity</param>
+        /// <exception cref="System.ArgumentNullException">the entity</exception>
+        public virtual void Insert(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+                
+            this.Entities.Add(entity);
+
+            this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Insert entities
+        /// </summary>
+        /// <param name="entities">The Entities</param>
+        /// <exception cref="System.ArgumentNullException">the entities</exception>
+        public virtual void Insert(IEnumerable<T> entities)
+        {
+            if (entities == null)
+            {
+                throw new ArgumentNullException("entities");
+            }
+
+            foreach (var entity in entities)
+            {
+                this.Entities.Add(entity);
+            }
+                
+            this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Update entity
+        /// </summary>
+        /// <param name="entity">The entity</param>
+        /// <returns>the value</returns>
+        /// <exception cref="System.ArgumentNullException">the entity</exception>
+        public virtual int Update(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            return this.context.SaveChanges();
+        }
     }
 }

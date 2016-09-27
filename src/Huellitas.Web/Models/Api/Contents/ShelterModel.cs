@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ShelterModel.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
-    public class ShelterModel: ContentBaseModel
+    /// <summary>
+    /// Shelter Model
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Models.Api.Contents.ContentBaseModel" />
+    public class ShelterModel : ContentBaseModel
     {
-
     }
 }

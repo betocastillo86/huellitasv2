@@ -4038,8 +4038,7 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
           "Microsoft.Extensions.Configuration.Json": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "NETStandard.Library": "1.6.0",
-          "System.ComponentModel.Primitives": "4.1.0"
+          "NETStandard.Library": "1.6.0"
         },
         "compile": {
           "netstandard1.6/Huellitas.Data.dll": {}

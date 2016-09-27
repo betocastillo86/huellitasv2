@@ -1,22 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ContentAttributeType.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    using System.ComponentModel;
+
+    /// <summary>
+    /// Content Attribute Type
+    /// </summary>
     public enum ContentAttributeType
     {
-        [Description("Subtipo al que pertenece el contenido")]
+        /// <summary>
+        /// The subtype
+        /// </summary>
         Subtype,
-        [Description("Genero del animal")]
+
+        /// <summary>
+        /// The genre
+        /// </summary>
         Genre,
-        [Description("Edad del animal")]
+
+        /// <summary>
+        /// The age
+        /// </summary>
         Age,
-        [Description("Tamaño del animal")]
+
+        /// <summary>
+        /// The size
+        /// </summary>
         Size,
-        [Description("Fundaciones asociadas")]
+
+        /// <summary>
+        /// The shelter
+        /// </summary>
         Shelter
     }
 }

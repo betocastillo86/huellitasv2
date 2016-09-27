@@ -1,14 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ContentOrderBy.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    /// <summary>
+    /// Content Order By
+    /// </summary>
     public enum ContentOrderBy
     {
+        /// <summary>
+        /// The display order
+        /// </summary>
         DisplayOrder,
+
+        /// <summary>
+        /// The name
+        /// </summary>
         Name,
+
+        /// <summary>
+        /// The created date
+        /// </summary>
         CreatedDate
     }
 }

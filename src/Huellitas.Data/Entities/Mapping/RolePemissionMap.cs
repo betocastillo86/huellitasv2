@@ -1,15 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="RolePemissionMap.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities.Mapping
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    /// <summary>
+    /// Role Permission Mapping
+    /// </summary>
     public static class RolePemissionMap
     {
+        /// <summary>
+        /// Maps the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<RolePemission> entity)
         {
             entity.ToTable("RolePemission");

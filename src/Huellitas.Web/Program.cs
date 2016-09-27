@@ -1,14 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
+    using System.IO;
+    using Microsoft.AspNetCore.Hosting;
+
+    /// <summary>
+    /// Start program
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Mains the specified arguments.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()

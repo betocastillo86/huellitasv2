@@ -1,38 +1,102 @@
-﻿using Huellitas.Data.Entities;
-using Huellitas.Web.Models.Api.Common;
-using Huellitas.Web.Models.Api.Files;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ContentBaseModel.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System.ComponentModel.DataAnnotations;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Models.Api.Common;
+    
+    /// <summary>
+    /// Content Base Model
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
     public class ContentBaseModel : BaseModel
     {
-        [Required]
-        [MaxLength(150)]
-        public string Name { get; set; }
-
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>
+        /// The body.
+        /// </value>
         [Required]
         [MaxLength(4000)]
         public string Body { get; set; }
 
-        public ContentType TypeId { get; set; }
-
-        public StatusType Status { get; set; }
-
-        public string Image { get; set; }
-
-        public int DisplayOrder { get; set; }
-
-        public int Views { get; set; }
-
+        /// <summary>
+        /// Gets or sets the comments count.
+        /// </summary>
+        /// <value>
+        /// The comments count.
+        /// </value>
         public int CommentsCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the display order.
+        /// </summary>
+        /// <value>
+        /// The display order.
+        /// </value>
+        public int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image.
+        /// </summary>
+        /// <value>
+        /// The image.
+        /// </value>
+        public string Image { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         public LocationModel Location { get; set; }
 
-        public string Email { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        [Required]
+        [MaxLength(150)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        public StatusType Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type identifier.
+        /// </summary>
+        /// <value>
+        /// The type identifier.
+        /// </value>
+        public ContentType TypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the views.
+        /// </summary>
+        /// <value>
+        /// The views.
+        /// </value>
+        public int Views { get; set; }
     }
 }

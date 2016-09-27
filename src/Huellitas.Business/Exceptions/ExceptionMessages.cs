@@ -1,0 +1,31 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExceptionMessages.cs" company="Dasigno">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Exceptions
+{
+    /// <summary>
+    /// Gets the exception messages
+    /// </summary>
+    public static class ExceptionMessages
+    {
+        /// <summary>
+        /// Gets the exception message.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns>the message</returns>
+        public static string GetMessage(HuellitasExceptionCode code)
+        {
+            switch (code)
+            {
+                case HuellitasExceptionCode.RowNotFound:
+                    return "El registro no se ha encontrado";
+                case HuellitasExceptionCode.BadArgument:
+                    return "Argumento invalido";
+                default:
+                    return null;
+            }
+        }
+    }
+}

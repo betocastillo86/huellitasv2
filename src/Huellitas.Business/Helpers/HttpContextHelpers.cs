@@ -1,129 +1,157 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="HttpContextHelpers.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Business.Helpers
 {
+    using System;
+    using System.Linq;
+    using Microsoft.AspNetCore.Http;
+
+    /// <summary>
+    /// Helpers for HttpContext
+    /// </summary>
+    /// <seealso cref="Huellitas.Business.Helpers.IHttpContextHelpers" />
     public class HttpContextHelpers : IHttpContextHelpers
     {
+        /// <summary>
+        /// The accessor
+        /// </summary>
+        private readonly IHttpContextAccessor accessor;
 
-        #region props
-        private readonly IHttpContextAccessor _accesor;
-        private HttpContext _httpContext { get { return _accesor.HttpContext; } }
-        #endregion
-
-        public HttpContextHelpers(IHttpContextAccessor accesor)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpContextHelpers"/> class.
+        /// </summary>
+        /// <param name="accessor">The accessor.</param>
+        public HttpContextHelpers(IHttpContextAccessor accessor)
         {
-            _accesor = accesor;
+            this.accessor = accessor;
         }
 
+        /// <summary>
+        /// Gets the HTTP context.
+        /// </summary>
+        /// <value>
+        /// The HTTP context.
+        /// </value>
+        private HttpContext HttpContext
+        {
+            get
+            {
+                return this.accessor.HttpContext;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current <c>ip</c> address.
+        /// </summary>
+        /// <returns>the value</returns>
         public virtual string GetCurrentIpAddress()
         {
-            if (!IsRequestAvailable())
-                return string.Empty;
-
-            var result = "";
-            if (_accesor.HttpContext.Request.Headers != null)
+            if (!this.IsRequestAvailable())
             {
-                //////The X-Forwarded-For (XFF) HTTP header field is a de facto standard
-                //////for identifying the originating IP address of a client
-                //////connecting to a web server through an HTTP proxy or load balancer.
+                return string.Empty;
+            }
+
+            var result = string.Empty;
+            if (this.accessor.HttpContext.Request.Headers != null)
+            {
+                ////The X-Forwarded-For (XFF) HTTP header field is a de facto standard
+                ////for identifying the originating <c>ip</c> address of a client
+                ////connecting to a web server through an HTTP proxy or load balancer.
                 var forwardedHttpHeader = "X-FORWARDED-FOR";
 
-                //it's used for identifying the originating IP address of a client connecting to a web server
-                //through an HTTP proxy or load balancer. 
-                string xff = _httpContext.Request.Headers.Keys
+                ////it's used for identifying the originating <c>ip</c> address of a client connecting to a web server
+                ////through an HTTP proxy or load balancer.
+                string xff = this.HttpContext.Request.Headers.Keys
                     .Where(x => forwardedHttpHeader.Equals(x, StringComparison.CurrentCultureIgnoreCase))
-                    .Select(k => _httpContext.Request.Headers[k])
+                    .Select(k => this.HttpContext.Request.Headers[k])
                     .FirstOrDefault();
 
-                //if you want to exclude private IP addresses, then see http://stackoverflow.com/questions/2577496/how-can-i-get-the-clients-ip-address-in-asp-net-mvc
-                if (!String.IsNullOrEmpty(xff))
+                ////if you want to exclude private <c>ip</c> addresses, then see http://stackoverflow.com/questions/2577496/how-can-i-get-the-clients-ip-address-in-asp-net-mvc
+                if (!string.IsNullOrEmpty(xff))
                 {
                     string lastIp = xff.Split(new[] { ',' }).FirstOrDefault();
                     result = lastIp;
                 }
             }
 
-            if (String.IsNullOrEmpty(result) && _httpContext.Request.Host.HasValue)
+            if (string.IsNullOrEmpty(result) && this.HttpContext.Request.Host.HasValue)
             {
-                result = _httpContext.Request.Host.Value;
+                result = this.HttpContext.Request.Host.Value;
             }
 
-            //some validation
+            ////some validation
             if (result == "::1")
+            {
                 result = "127.0.0.1";
-            //remove port
-            if (!String.IsNullOrEmpty(result))
+            }
+
+            ////remove port
+            if (!string.IsNullOrEmpty(result))
             {
                 int index = result.IndexOf(":", StringComparison.CurrentCultureIgnoreCase);
                 if (index > 0)
+                {
                     result = result.Substring(0, index);
+                }
             }
-            return result;
 
+            return result;
         }
 
+        /// <summary>
+        /// Gets the this page URL.
+        /// </summary>
+        /// <param name="includeQueryString">if set to <c>true</c> [include query string].</param>
+        /// <returns>the value</returns>
         public virtual string GetThisPageUrl(bool includeQueryString)
         {
             string url = string.Empty;
-            if (!IsRequestAvailable())
+            if (!this.IsRequestAvailable())
+            {
                 return url;
+            }
 
             if (includeQueryString)
             {
-                url = _httpContext.Request.Path;
+                url = this.HttpContext.Request.Path;
             }
             else
             {
-                if (_httpContext.Request.PathBase != null)
+                if (this.HttpContext.Request.PathBase != null)
                 {
-                    url = _httpContext.Request.PathBase;
+                    url = this.HttpContext.Request.PathBase;
                 }
             }
+
             url = url.ToLowerInvariant();
             return url;
         }
 
-        private string TryGetRefferUrl()
-        {
-            string referrerUrl = string.Empty;
-
-            //URL referrer is null in some case (for example, in IE 8)
-            if (IsRequestAvailable() && _httpContext.Request.Headers.ContainsKey("Referer"))
-                referrerUrl = _httpContext.Request.Headers["Referer"];
-
-            return referrerUrl;
-        }
-
-        protected virtual bool IsRequestAvailable()
-        {
-            try
-            {
-                if (_accesor?.HttpContext?.Request == null)
-                    return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
+        /// <summary>
+        /// Determines whether [is static resource] [the specified request].
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>
+        ///   <c>true</c> if [is static resource] [the specified request]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">request parameter</exception>
         public virtual bool IsStaticResource(HttpRequest request)
         {
             if (request == null)
+            {
                 throw new ArgumentNullException("request");
+            }
 
             string path = request.Path;
             string extension = System.IO.Path.GetExtension(request.Path);
 
-            if (extension == null) return false;
+            if (extension == null)
+            {
+                return false;
+            }
 
             switch (extension.ToLower())
             {
@@ -145,6 +173,46 @@ namespace Huellitas.Business.Helpers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Determines whether [is request available].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is request available]; otherwise, <c>false</c>.
+        /// </returns>
+        protected virtual bool IsRequestAvailable()
+        {
+            try
+            {
+                if (this.accessor?.HttpContext?.Request == null)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Tries the get <c>refferer</c> URL.
+        /// </summary>
+        /// <returns>the value</returns>
+        private string TryGetRefferUrl()
+        {
+            string referrerUrl = string.Empty;
+
+            ////URL referrer is null in some case (for example, in IE 8)
+            if (this.IsRequestAvailable() && this.HttpContext.Request.Headers.ContainsKey("Referer"))
+            {
+                referrerUrl = this.HttpContext.Request.Headers["Referer"];
+            }
+
+            return referrerUrl;
         }
     }
 }

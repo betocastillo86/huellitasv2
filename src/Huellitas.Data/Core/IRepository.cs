@@ -1,58 +1,73 @@
-﻿using Huellitas.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IRepository.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Core
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Huellitas.Data.Entities;
+
+    /// <summary>
+    /// Interface of Repository
+    /// </summary>
+    /// <typeparam name="T">The class base entity</typeparam>
     public partial interface IRepository<T> where T : BaseEntity
-    {        
+    {
         /// <summary>
-        /// Get entity by identifier
+        /// Gets the table.
         /// </summary>
-        /// <param name="id">Identifier</param>
-        /// <returns>Entity</returns>
-        T GetById(int id);
+        /// <value>
+        /// The table.
+        /// </value>
+        IQueryable<T> Table { get; }
 
         /// <summary>
-        /// Insert entity
+        /// Gets the table no tracking.
         /// </summary>
-        /// <param name="entity">Entity</param>
-        void Insert(T entity);
+        /// <value>
+        /// The table no tracking.
+        /// </value>
+        IQueryable<T> TableNoTracking { get; }
 
         /// <summary>
-        /// Insert entities
+        /// Deletes the specified entity.
         /// </summary>
-        /// <param name="entities">Entities</param>
-        void Insert(IEnumerable<T> entities);
-
-        /// <summary>
-        /// Update entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        int Update(T entity);
-
-        /// <summary>
-        /// Delete entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the value</returns>
         int Delete(T entity);
 
         /// <summary>
         /// Delete entities
         /// </summary>
-        /// <param name="entities">Entities</param>
+        /// <param name="entities">The Entities</param>
         void Delete(IEnumerable<T> entities);
 
         /// <summary>
-        /// Gets a table
+        /// Get entity by identifier
         /// </summary>
-        IQueryable<T> Table { get; }
+        /// <param name="id">the Identifier</param>
+        /// <returns>the entity</returns>
+        T GetById(int id);
 
         /// <summary>
-        /// Gets a table with "no tracking" enabled (EF feature) Use it only when you load record(s) only for read-only operations
+        /// Insert entity
         /// </summary>
-        IQueryable<T> TableNoTracking { get; }
+        /// <param name="entity">The entity</param>
+        void Insert(T entity);
+
+        /// <summary>
+        /// Insert entities
+        /// </summary>
+        /// <param name="entities">The Entities</param>
+        void Insert(IEnumerable<T> entities);
+
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the value</returns>
+        int Update(T entity);
     }
 }

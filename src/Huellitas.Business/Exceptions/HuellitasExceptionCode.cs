@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="HuellitasExceptionCode.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Business.Exceptions
 {
+    using System.ComponentModel;
+
+    /// <summary>
+    /// Exceptions codes
+    /// </summary>
     public enum HuellitasExceptionCode
     {
-        [Description("La fila no existe")]
+        /// <summary>
+        /// The row not found
+        /// </summary>
         RowNotFound = 2000,
 
-        [Description("Parametro mal enviado")]
+        /// <summary>
+        /// The bad argument
+        /// </summary>
         BadArgument = 2001
     }
 }

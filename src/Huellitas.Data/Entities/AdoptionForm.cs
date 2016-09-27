@@ -1,33 +1,162 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="AdoptionForm.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// The class Adoption Form
+    /// </summary>
+    /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
     public partial class AdoptionForm : BaseEntity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdoptionForm"/> class.
+        /// </summary>
         public AdoptionForm()
         {
-            AdoptionFormAnswer = new HashSet<AdoptionFormAnswer>();
-            AdoptionFormAttribute = new HashSet<AdoptionFormAttribute>();
+            this.AdoptionFormAnswer = new HashSet<AdoptionFormAnswer>();
+            this.AdoptionFormAttribute = new HashSet<AdoptionFormAttribute>();
         }
 
-        public int ContentId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public int JobId { get; set; }
-        public int LocationId { get; set; }
-        public string Town { get; set; }
+        /// <summary>
+        /// Gets or sets the address.
+        /// </summary>
+        /// <value>
+        /// The address.
+        /// </value>
         public string Address { get; set; }
-        public DateTime BirthDate { get; set; }
-        public short FamilyMembers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form answer.
+        /// </summary>
+        /// <value>
+        /// The adoption form answer.
+        /// </value>
+        public virtual ICollection<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form attribute.
+        /// </summary>
+        /// <value>
+        /// The adoption form attribute.
+        /// </value>
+        public virtual ICollection<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
+
+        /// <summary>
+        /// Gets or sets the autoreply token.
+        /// </summary>
+        /// <value>
+        /// The autoreply token.
+        /// </value>
         public Guid AutoreplyToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth date.
+        /// </summary>
+        /// <value>
+        /// The birth date.
+        /// </value>
+        public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public virtual Content Content { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content identifier.
+        /// </summary>
+        /// <value>
+        /// The content identifier.
+        /// </value>
+        public int ContentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the creation date.
+        /// </summary>
+        /// <value>
+        /// The creation date.
+        /// </value>
         public DateTime CreationDate { get; set; }
 
-        public virtual ICollection<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
-        public virtual ICollection<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
-        public virtual Content Content { get; set; }
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the family members.
+        /// </summary>
+        /// <value>
+        /// The family members.
+        /// </value>
+        public short FamilyMembers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the job.
+        /// </summary>
+        /// <value>
+        /// The job.
+        /// </value>
         public virtual CustomTableRow Job { get; set; }
+
+        /// <summary>
+        /// Gets or sets the job identifier.
+        /// </summary>
+        /// <value>
+        /// The job identifier.
+        /// </value>
+        public int JobId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         public virtual Location Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location identifier.
+        /// </summary>
+        /// <value>
+        /// The location identifier.
+        /// </value>
+        public int LocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number.
+        /// </summary>
+        /// <value>
+        /// The phone number.
+        /// </value>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the town.
+        /// </summary>
+        /// <value>
+        /// The town.
+        /// </value>
+        public string Town { get; set; }
     }
 }

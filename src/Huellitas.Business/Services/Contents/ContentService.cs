@@ -1,43 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Huellitas.Data.Entities;
-using Huellitas.Data.Infraestructure;
-using Huellitas.Data.Core;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ContentService.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
+    using Huellitas.Data.Core;
+    using Huellitas.Data.Entities;
+    using Huellitas.Data.Infraestructure;
+    using Microsoft.EntityFrameworkCore;
+
+    /// <summary>
+    /// Content Service
+    /// </summary>
+    /// <seealso cref="Huellitas.Business.Services.Contents.IContentService" />
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]
     public class ContentService : IContentService
     {
         #region props
-        private readonly HuellitasContext _context;
-        private readonly IRepository<Content> _contentRepository;
-        private readonly IRepository<ContentAttribute> _contentAttributeRepository;
-        #endregion
+
+        /// <summary>
+        /// The content attribute repository
+        /// </summary>
+        private readonly IRepository<ContentAttribute> contentAttributeRepository;
+
+        /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
+        /// <summary>
+        /// The context/
+        /// </summary>
+        private readonly HuellitasContext context;
+
+        #endregion props
 
         #region ctor
-        public ContentService(IRepository<Content> contentRepository,
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentService"/> class.
+        /// </summary>
+        /// <param name="contentRepository">The content repository.</param>
+        /// <param name="contentAttributeRepository">The content attribute repository.</param>
+        /// <param name="context">The context.</param>
+        public ContentService(
+            IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
             HuellitasContext context)
         {
-            _contentRepository = contentRepository;
-            _contentAttributeRepository = contentAttributeRepository;
-            _context = context;
+            this.contentRepository = contentRepository;
+            this.contentAttributeRepository = contentAttributeRepository;
+            this.context = context;
         }
-        #endregion
 
-        public IPagedList<Content> Search(string keyword = null,
-            ContentType? contentType = null, 
-            IList<FilterAttribute> attributesFilter = null, 
-            int pageSize = int.MaxValue, 
+        #endregion ctor
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the value</returns>
+        public Content GetById(int id)
+        {
+            return this.contentRepository.GetById(id);
+        }
+
+        /// <summary>
+        /// Searches the specified keyword.
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <param name="attributesFilter">The attributes filter.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <returns>the value</returns>
+        public IPagedList<Content> Search(
+            string keyword = null,
+            ContentType? contentType = null,
+            IList<FilterAttribute> attributesFilter = null,
+            int pageSize = int.MaxValue,
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder)
         {
-
-            var query = _contentRepository.TableNoTracking
+            var query = this.contentRepository.TableNoTracking
                 .Include(c => c.ContentAttributes)
                 .Where(c => !c.Deleted);
 
@@ -52,37 +104,37 @@ namespace Huellitas.Business.Services.Contents
                 query = query.Where(c => c.TypeId == typeId);
             }
 
-            
             #region Attributes
+
             if (attributesFilter != null && attributesFilter.Count > 0)
             {
                 var strQueryAttributes = new StringBuilder();
-                //queryAttributes.AppendLine("SELECT ContentId as Id, NULL as Name, NULL as Body, 0 as TypeId, 0 as Status, 0 as UserId, NULL as CreatedDate, 0 as DisplayOrder, 0 as CommentsCount, 0 as Featured, 0 as Deleted, NULL as Email, NULL as FileId, NULL as UpdatedDate, NULL as Views, NULL as LocationId  FROM (");
+                ////queryAttributes.AppendLine("SELECT ContentId as Id, NULL as Name, NULL as Body, 0 as TypeId, 0 as Status, 0 as UserId, NULL as CreatedDate, 0 as DisplayOrder, 0 as CommentsCount, 0 as Featured, 0 as Deleted, NULL as Email, NULL as FileId, NULL as UpdatedDate, NULL as Views, NULL as LocationId  FROM (");
                 strQueryAttributes.AppendLine("SELECT ContentId as Id, ContentId, NULL as Attribute, NULL as Value FROM (");
                 strQueryAttributes.AppendLine("SELECT count(ContentId) as countContents, contentId");
                 strQueryAttributes.AppendLine(" FROM ContentAttribute");
                 strQueryAttributes.AppendLine("WHERE");
 
-                //REV:int countAdditionalOptions = 0;
-                for (int iAttribute = 0; iAttribute < attributesFilter.Count; iAttribute++)
+                ////REV:int countAdditionalOptions = 0;
+                for (int i = 0; i < attributesFilter.Count; i++)
                 {
-                    var attribute = attributesFilter.ElementAt(iAttribute);
+                    var attribute = attributesFilter.ElementAt(i);
 
-                    if (iAttribute > 0)
+                    if (i > 0)
+                    {
                         strQueryAttributes.Append(" or ");
+                    }
 
                     switch (attribute.FilterType)
                     {
                         case FilterAttributeType.Equals:
                             strQueryAttributes.Append($" (Attribute = '{attribute.Attribute}' and Value = '{attribute.Value}')");
-                            //queryAttributes =  queryAttributes.Union(_contentAttributeRepository.TableNoTracking.Where(ca => ca.Attribute.Equals(attribute.Attribute.ToString()) && ca.Value.Equals(attribute.Value)));
                             break;
+
                         case FilterAttributeType.Range:
                             strQueryAttributes.Append($" (Attribute = '{attribute.Attribute}' and Value between '{attribute.Value}' and '{attribute.ValueTo}')");
-                            //int valueFrom = Convert.ToInt32(attribute.Value);
-                            //int valueTo = Convert.ToInt32(attribute.ValueTo);
-                            //queryAttributes = queryAttributes.Union(_contentAttributeRepository.TableNoTracking.Where(ca => ca.Attribute.Equals(attribute.Attribute.ToString()) && (Convert.ToInt32(ca.Value) >= valueFrom && Convert.ToInt32(ca.Value) <= valueTo) ));
                             break;
+
                         case FilterAttributeType.Multiple:
 
                             int countOptions = 0;
@@ -90,19 +142,24 @@ namespace Huellitas.Business.Services.Contents
                             var values = (string[])attribute.Value;
 
                             strQueryAttributes.Append("(");
-                            //Toma cada una de las opciones y las agrega al filtro
+
+                            ////Toma cada una de las opciones y las agrega al filtro
                             foreach (var optionValue in values)
                             {
-                                if (countOptions > 0) strQueryAttributes.Append(" or ");
+                                if (countOptions > 0)
+                                {
+                                    strQueryAttributes.Append(" or ");
+                                }
+
                                 strQueryAttributes.Append($" (Attribute = '{attribute.Attribute}' and Value = '{optionValue}')");
                                 countOptions++;
                             }
-                            //Suma la cantidad de opciones adicionales para poder coincidir el final de busquedas con el mismo numero de criterios
-                            //REV:countAdditionalOptions += countOptions - 1;
-                            strQueryAttributes.Append(")");
 
-                            //queryAttributes = queryAttributes.Union(_contentAttributeRepository.TableNoTracking.Where(ca => ca.Attribute.Equals(attribute.Attribute.ToString()) && values.Contains(ca.Value)));
+                            ////Suma la cantidad de opciones adicionales para poder coincidir el final de busquedas con el mismo numero de criterios
+                            ////REV:countAdditionalOptions += countOptions - 1;
+                            strQueryAttributes.Append(")");
                             break;
+
                         default:
                             break;
                     }
@@ -112,37 +169,32 @@ namespace Huellitas.Business.Services.Contents
 
                 strQueryAttributes.Append($") as f where	f.countContents = {attributesFilter.Count }");
 
-
-
-                var queryAttributes = _context.ContentAttributes.FromSql(strQueryAttributes.ToString());
+                var queryAttributes = this.context.ContentAttributes.FromSql(strQueryAttributes.ToString());
                 var contentsFromAttributes = queryAttributes.Select(c => c.ContentId).ToList();
 
-                
                 if (contentsFromAttributes.Count > 0)
                 {
                     query = query.Where(c => contentsFromAttributes.Contains(c.Id));
                 }
                 else
                 {
-                    //Si no se encuentra ninguna coincidencia es porque no hay resultados
+                    ////Si no se encuentra ninguna coincidencia es porque no hay resultados
                     return new PagedList<Content>();
                 }
-
-                //var y = x.ToList();
-                //var x = queryAttributes.ToList();
-                //query = query.Where(c => queryAttributes.Select(ca => ca.ContentId).Contains(c.Id));
             }
-            #endregion
 
+            #endregion Attributes
 
             switch (orderBy)
             {
                 case ContentOrderBy.Name:
                     query = query.OrderBy(c => c.DisplayOrder);
                     break;
+
                 case ContentOrderBy.CreatedDate:
                     query = query.OrderByDescending(c => c.CreatedDate);
                     break;
+
                 case ContentOrderBy.DisplayOrder:
                 default:
                     query = query.OrderBy(c => c.DisplayOrder);
@@ -150,11 +202,6 @@ namespace Huellitas.Business.Services.Contents
             }
 
             return new PagedList<Content>(query, page, pageSize);
-        }
-
-        public Content GetById(int id)
-        {
-            return _contentRepository.GetById(id);
         }
     }
 }

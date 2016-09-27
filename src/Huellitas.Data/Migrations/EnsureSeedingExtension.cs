@@ -1,36 +1,54 @@
-﻿using Huellitas.Data.Core;
-using Huellitas.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="EnsureSeedingExtension.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Data.Migrations
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Huellitas.Data.Core;
+    using Huellitas.Data.Entities;
+
+    /// <summary>
+    /// Ensure the seeding of data base
+    /// </summary>
     public static class EnsureSeedingExtension
     {
+        /// <summary>
+        /// Ensures the seeding.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public static void EnsureSeeding(this HuellitasContext context)
         {
             if (context.AllMigrationsApplied())
             {
-                SeedingContents(context);
+                EnsureSeedingExtension.SeedingContents(context);
             }
         }
 
         #region Contents
+
+        /// <summary>
+        /// Seeds the contents.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedingContents(HuellitasContext context)
         {
-            SeedRoles(context);
-            SeedUsers(context);
-            SeedCustomTables(context);
-            SeedCustomTablesRows(context);
-            SeedContents(context);
+            EnsureSeedingExtension.SeedRoles(context);
+            EnsureSeedingExtension.SeedUsers(context);
+            EnsureSeedingExtension.SeedCustomTables(context);
+            EnsureSeedingExtension.SeedCustomTablesRows(context);
+            EnsureSeedingExtension.SeedContents(context);
         }
 
-
-
         #region Roles
+
+        /// <summary>
+        /// Seeds the roles.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedRoles(HuellitasContext context)
         {
             var list = new List<Role>();
@@ -47,8 +65,15 @@ namespace Huellitas.Data.Migrations
 
             context.SaveChanges();
         }
-        #endregion
+
+        #endregion Roles
+
         #region Users
+
+        /// <summary>
+        /// Seeds the users.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedUsers(HuellitasContext context)
         {
             var list = new List<User>();
@@ -65,8 +90,15 @@ namespace Huellitas.Data.Migrations
 
             context.SaveChanges();
         }
-        #endregion
+
+        #endregion Users
+
         #region CustomTables
+
+        /// <summary>
+        /// Seeds the custom tables.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedCustomTables(HuellitasContext context)
         {
             var list = new List<CustomTable>();
@@ -85,21 +117,28 @@ namespace Huellitas.Data.Migrations
 
             context.SaveChanges();
         }
-        #endregion
+
+        #endregion CustomTables
+
         #region CustomTablesRows
+
+        /// <summary>
+        /// Seeds the custom tables rows.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedCustomTablesRows(HuellitasContext context)
         {
             var list = new List<CustomTableRow>();
 
-            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Perro" }); //1
-            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Gato" });//2
-            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Miniatura" });//3
-            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Pequeño" });//4
-            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Mediano-Pequeño" });//5
-            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Mediano-Grande" });//6
-            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Grande" });//7
-            list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Macho" });//8
-            list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Hembra" });//9
+            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Perro" }); 
+            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Gato" });
+            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Miniatura" });
+            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Pequeño" });
+            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Mediano-Pequeño" });
+            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Mediano-Grande" });
+            list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Grande" });
+            list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Macho" });
+            list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Hembra" });
 
             foreach (var item in list)
             {
@@ -111,10 +150,15 @@ namespace Huellitas.Data.Migrations
 
             context.SaveChanges();
         }
-        #endregion
 
+        #endregion CustomTablesRows
 
         #region Contents
+
+        /// <summary>
+        /// Seeds the contents.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private static void SeedContents(HuellitasContext context)
         {
             var list = new List<Content>();
@@ -127,21 +171,38 @@ namespace Huellitas.Data.Migrations
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
                 UserId = 1,
-                ContentAttributes = new List<ContentAttribute>() {
+                ContentAttributes = new List<ContentAttribute>()
+                {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "5" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "3" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "1" }
                     }
             });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Pet Dos", Body = "Cuerpo de contenido de prueba Pet 2", Type = Entities.ContentType.Pet, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1,
-                ContentAttributes = new List<ContentAttribute>() {
+            list.Add(new Entities.Content()
+            {
+                Name = "Contenido de prueba Pet Dos",
+                Body = "Cuerpo de contenido de prueba Pet 2",
+                Type = Entities.ContentType.Pet,
+                StatusType = Entities.StatusType.Published,
+                CreatedDate = DateTime.Now,
+                UserId = 1,
+                ContentAttributes = new List<ContentAttribute>()
+                {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "5" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
                     }
             });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Pet Tres", Body = "Cuerpo de contenido de prueba Pet 3", Type = Entities.ContentType.Pet, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1,
-                ContentAttributes = new List<ContentAttribute>() {
+            list.Add(new Entities.Content()
+            {
+                Name = "Contenido de prueba Pet Tres",
+                Body = "Cuerpo de contenido de prueba Pet 3",
+                Type = Entities.ContentType.Pet,
+                StatusType = Entities.StatusType.Published,
+                CreatedDate = DateTime.Now,
+                UserId = 1,
+                ContentAttributes = new List<ContentAttribute>()
+                {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "3" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
@@ -149,7 +210,6 @@ namespace Huellitas.Data.Migrations
             });
             list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1 });
             list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1 });
-
 
             foreach (var item in list)
             {
@@ -161,11 +221,9 @@ namespace Huellitas.Data.Migrations
 
             context.SaveChanges();
         }
-        #endregion
 
+        #endregion Contents
 
-
-
-        #endregion
+        #endregion Contents
     }
 }
