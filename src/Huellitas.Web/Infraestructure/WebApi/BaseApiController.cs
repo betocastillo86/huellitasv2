@@ -9,6 +9,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Helpers;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     /// <summary>
     /// Base for <c>Api</c> Controllers
@@ -16,7 +17,38 @@ namespace Huellitas.Web.Infraestructure.WebApi
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     public class BaseApiController : Controller
     {
-        #region BadRequest
+        #region BadRequest        
+        
+        /// <summary>
+        /// Creates an <see cref="T:Microsoft.AspNetCore.Mvc.BadRequestObjectResult" /> that produces a Bad Request (400) response.
+        /// </summary>
+        /// <param name="modelState">the model state</param>
+        /// <returns>
+        /// The created <see cref="T:Microsoft.AspNetCore.Mvc.BadRequestObjectResult" /> for the response.
+        /// </returns>
+        public override BadRequestObjectResult BadRequest(ModelStateDictionary modelState)
+        {
+            var error = new ApiError();
+            error.Code = HuellitasExceptionCode.BadArgument.ToString();
+            error.Message = ExceptionMessages.GetMessage(HuellitasExceptionCode.BadArgument);
+
+            foreach (var key in modelState.Keys)
+            {
+                var errorState = modelState[key];
+
+                foreach (var detailError in errorState.Errors)
+                {
+                    error.Details.Add(new ApiError()
+                    {
+                        Code = HuellitasExceptionCode.BadArgument.ToString(),
+                        Message = detailError.ErrorMessage,
+                        Target = key
+                    });
+                }
+            }
+
+            return base.BadRequest(error);
+        }
 
         /// <summary>
         /// Bad the request.
@@ -29,6 +61,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
             var error = new ApiError();
             error.Code = ex.Code.ToString();
             error.Message = message ?? ex.Message;
+            error.Target = ex.Target;
             return this.StatusCode(400, new { Error = error });
         }
 

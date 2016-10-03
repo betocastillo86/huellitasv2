@@ -27,7 +27,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.DisplayOrder).HasDefaultValueSql("0");
 
             entity.HasOne(d => d.Content)
-                .WithMany(p => p.ContentFile)
+                .WithMany(p => p.ContentFiles)
                 .HasForeignKey(d => d.ContentId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_ContentFile_Content");

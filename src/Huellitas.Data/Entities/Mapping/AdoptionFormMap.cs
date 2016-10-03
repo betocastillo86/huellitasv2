@@ -61,7 +61,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasConstraintName("FK_AdoptionForm_CustomTableRow");
 
             entity.HasOne(d => d.Location)
-                .WithMany(p => p.AdoptionForm)
+                .WithMany()
                 .HasForeignKey(d => d.LocationId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionForm_Location");

@@ -35,6 +35,16 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The shelter
         /// </summary>
-        Shelter
+        Shelter,
+        
+        /// <summary>
+        /// The automatic reply
+        /// </summary>
+        AutoReply,
+
+        /// <summary>
+        /// The castrated
+        /// </summary>
+        Castrated
     }
 }

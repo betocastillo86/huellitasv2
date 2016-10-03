@@ -23,6 +23,10 @@ namespace Huellitas.Business.Exceptions
                     return "El registro no se ha encontrado";
                 case HuellitasExceptionCode.BadArgument:
                     return "Argumento invalido";
+                case HuellitasExceptionCode.ShelterNotFound:
+                    return "El refugio relacionado no existe";
+                case HuellitasExceptionCode.InvalidForeignKey:
+                    return "El registro que se desea relacionar no existe";
                 default:
                     return null;
             }

@@ -132,7 +132,7 @@ namespace Huellitas.Web.Models.Api.Common
         }
 
         /// <summary>
-        /// To the int list.
+        /// To the integer list.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <param name="valueStr">The value string.</param>

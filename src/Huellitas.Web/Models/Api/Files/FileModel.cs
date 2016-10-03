@@ -11,6 +11,14 @@ namespace Huellitas.Web.Models.Api.Files
     public class FileModel
     {
         /// <summary>
+        /// Gets or sets the display order.
+        /// </summary>
+        /// <value>
+        /// The display order.
+        /// </value>
+        public int DisplayOrder { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the file.
         /// </summary>
         /// <value>

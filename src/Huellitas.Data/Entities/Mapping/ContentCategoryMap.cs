@@ -29,7 +29,7 @@ namespace Huellitas.Data.Entities.Mapping
                     .HasConstraintName("FK_ContentCategory_Category");
 
             entity.HasOne(d => d.Content)
-                .WithMany(p => p.ContentCategory)
+                .WithMany(p => p.ContentCategories)
                 .HasForeignKey(d => d.ContentId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_ContentCategory_Content");

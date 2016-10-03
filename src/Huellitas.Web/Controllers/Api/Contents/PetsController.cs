@@ -7,6 +7,7 @@
 namespace Huellitas.Web.Controllers.Api.Contents
 {
     using System.Collections.Generic;
+    using Data.Entities;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -99,15 +100,51 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
-        /// Posts the specified value.
+        /// Posts the specified model.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>the value</returns>
+        /// <param name="model">The model.</param>
+        /// <returns>the pet id</returns>
         [HttpPost]
-        public IActionResult Post([FromBody]string value)
+        public IActionResult Post([FromBody]PetModel model)
         {
-            System.Threading.Thread.Sleep(3000);
-            return this.Ok(new { Id = 3 });
+            this.ValidateInsertModel(model);
+
+            if (this.ModelState.IsValid)
+            {
+                var content = model.ToEntity(this.contentService);
+                content.UserId = 1;
+
+                for (int i = 0; i < model.Files.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        content.FileId = model.Files[i].Id;
+                    }
+                    else
+                    {
+                        content.ContentFiles.Add(new ContentFile()
+                        {
+                            FileId = model.Files[i].Id
+                        });
+                    }
+                }
+
+                try
+                {
+                    this.contentService.Insert(content);
+                }
+                catch (HuellitasException e)
+                {
+                    return this.BadRequest(e);
+                }
+
+                var createdUri = this.Url.Action("Get", "Pets", new { id = content.Id });
+                return this.Created(createdUri, new { Id = content.Id });
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
         }
 
         /// <summary>
@@ -120,6 +157,24 @@ namespace Huellitas.Web.Controllers.Api.Contents
         public IActionResult Put(int id, [FromBody]string value)
         {
             return this.Ok(new { result = true });
+        }
+
+        /// <summary>
+        /// Validates the insert model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        private void ValidateInsertModel(PetModel model)
+        {
+            if (model.Files == null || model.Files.Count == 0)
+            {
+                this.ModelState.AddModelError("Images", "Al menos se debe cargar una imagen");
+            }
+
+            if (model.Shelter == null && model.Location == null)
+            {
+                this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
+                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+            }
         }
     }
 }

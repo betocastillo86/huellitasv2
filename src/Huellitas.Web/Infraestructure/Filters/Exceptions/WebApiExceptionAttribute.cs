@@ -69,7 +69,7 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
             {
                 error.Code = "ServerError";
                 error.Message = context.Exception.Message;
-                error.Details = new List<ApiError>() { new ApiError() { Message = context.Exception.ToString() } };
+                error.Details.Add(new ApiError() { Message = context.Exception.ToString() });
             }
             else
             {

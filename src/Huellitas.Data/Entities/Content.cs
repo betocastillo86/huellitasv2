@@ -8,12 +8,13 @@ namespace Huellitas.Data.Entities
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Abstract;
 
     /// <summary>
     /// The class Content
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class Content : BaseEntity
+    public partial class Content : BaseEntity, ISeoEntity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Content"/> class.
@@ -22,8 +23,8 @@ namespace Huellitas.Data.Entities
         {
             this.AdoptionForm = new HashSet<AdoptionForm>();
             this.ContentAttributes = new HashSet<ContentAttribute>();
-            this.ContentCategory = new HashSet<ContentCategory>();
-            this.ContentFile = new HashSet<ContentFile>();
+            this.ContentCategories = new HashSet<ContentCategory>();
+            this.ContentFiles = new HashSet<ContentFile>();
             this.RelatedContentContent = new HashSet<RelatedContent>();
             this.RelatedContentRelatedContentNavigation = new HashSet<RelatedContent>();
         }
@@ -66,7 +67,7 @@ namespace Huellitas.Data.Entities
         /// <value>
         /// The content category.
         /// </value>
-        public virtual ICollection<ContentCategory> ContentCategory { get; set; }
+        public virtual ICollection<ContentCategory> ContentCategories { get; set; }
 
         /// <summary>
         /// Gets or sets the content file.
@@ -74,7 +75,7 @@ namespace Huellitas.Data.Entities
         /// <value>
         /// The content file.
         /// </value>
-        public virtual ICollection<ContentFile> ContentFile { get; set; }
+        public virtual ICollection<ContentFile> ContentFiles { get; set; }
 
         /// <summary>
         /// Gets or sets the created date.
@@ -259,5 +260,13 @@ namespace Huellitas.Data.Entities
         /// The views.
         /// </value>
         public int Views { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the friendly.
+        /// </summary>
+        /// <value>
+        /// The name of the friendly.
+        /// </value>
+        public string FriendlyName { get; set; }
     }
 }

@@ -10,10 +10,12 @@ namespace Huellitas.Business.Services.Contents
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
+    using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
+    using Seo;
 
     /// <summary>
     /// Content Service
@@ -22,8 +24,6 @@ namespace Huellitas.Business.Services.Contents
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]
     public class ContentService : IContentService
     {
-        #region props
-
         /// <summary>
         /// The content attribute repository
         /// </summary>
@@ -35,32 +35,34 @@ namespace Huellitas.Business.Services.Contents
         private readonly IRepository<Content> contentRepository;
 
         /// <summary>
+        /// The <c>seo</c> service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
         /// The context/
         /// </summary>
         private readonly HuellitasContext context;
-
-        #endregion props
-
-        #region ctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentService"/> class.
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
+        /// <param name="seoService">The <c>seo</c> service.</param>
         /// <param name="context">The context.</param>
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
+            ISeoService seoService,
             HuellitasContext context)
         {
             this.contentRepository = contentRepository;
             this.contentAttributeRepository = contentAttributeRepository;
             this.context = context;
+            this.seoService = seoService;
         }
-
-        #endregion ctor
-
+        
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
@@ -69,6 +71,52 @@ namespace Huellitas.Business.Services.Contents
         public Content GetById(int id)
         {
             return this.contentRepository.GetById(id);
+        }
+
+        /// <summary>
+        /// Inserts the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        public void Insert(Content content)
+        {
+            content.CreatedDate = DateTime.Now;
+            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.TableNoTracking);
+
+            try
+            {
+                this.contentRepository.Insert(content);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is System.Data.SqlClient.SqlException)
+                {
+                    var inner = (System.Data.SqlClient.SqlException)e.InnerException;
+
+                    if (inner.Number == 547)
+                    {
+                        string target = string.Empty;
+
+                        if (inner.Message.IndexOf("FK_Content_Location") != -1)
+                        {
+                            target = "Location";
+                        }
+                        else if (inner.Message.IndexOf("FK_Content_File") != -1 || inner.Message.IndexOf("FK_ContentFile_File") != -1)
+                        {
+                            target = "File";
+                        }
+                        else
+                        {
+                            throw;
+                        }
+
+                        throw new HuellitasException(target, HuellitasExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>

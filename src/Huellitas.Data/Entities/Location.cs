@@ -18,25 +18,7 @@ namespace Huellitas.Data.Entities
         /// </summary>
         public Location()
         {
-            this.AdoptionForm = new HashSet<AdoptionForm>();
-            this.Content = new HashSet<Content>();
         }
-
-        /// <summary>
-        /// Gets or sets the adoption form.
-        /// </summary>
-        /// <value>
-        /// The adoption form.
-        /// </value>
-        public virtual ICollection<AdoptionForm> AdoptionForm { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        /// <value>
-        /// The content.
-        /// </value>
-        public virtual ICollection<Content> Content { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Location"/> is deleted.
@@ -60,6 +42,14 @@ namespace Huellitas.Data.Entities
         /// <value>
         /// The parent location identifier.
         /// </value>
-        public int ParentLocationId { get; set; }
+        public int? ParentLocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent location.
+        /// </summary>
+        /// <value>
+        /// The parent location.
+        /// </value>
+        public virtual Location ParentLocation { get; set; }
     }
 }

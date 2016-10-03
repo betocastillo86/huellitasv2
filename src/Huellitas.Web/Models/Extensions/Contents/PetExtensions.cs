@@ -7,14 +7,63 @@ namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using Business.Exceptions;
+    using Business.Services.Contents;
+    using Data.Extensions;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Contents;
-    
+
     /// <summary>
     /// Pet Extensions
     /// </summary>
     public static class PetExtensions
     {
+        /// <summary>
+        /// To the entity.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <returns>the value</returns>
+        /// <exception cref="HuellitasException">the exceptions</exception>
+        public static Content ToEntity(this PetModel model, IContentService contentService)
+        {
+            var entity = new Content();
+            entity.Id = model.Id;
+            entity.Name = model.Name;
+            entity.Body = model.Body;
+            entity.DisplayOrder = model.DisplayOrder;
+            entity.Email = model.Email;
+            entity.StatusType = StatusType.Created;
+            entity.Type = ContentType.Pet;
+
+            if (model.Shelter == null)
+            {
+                entity.LocationId = model.Location.Id;
+            }
+            else
+            {
+                var shelter = contentService.GetById(model.Shelter.Id);
+                if (shelter != null)
+                {
+                    shelter.LocationId = shelter.LocationId;
+                    entity.ContentAttributes.Add(ContentAttributeType.Shelter, shelter.Id);
+                }
+                else
+                {
+                    throw new HuellitasException(HuellitasExceptionCode.ShelterNotFound);
+                }
+            }
+
+            entity.ContentAttributes.Add(ContentAttributeType.AutoReply, model.AutoReply);
+            entity.ContentAttributes.Add(ContentAttributeType.Age, model.Moths);
+            entity.ContentAttributes.Add(ContentAttributeType.Subtype, model.Subtype.Value);
+            entity.ContentAttributes.Add(ContentAttributeType.Genre, model.Genre.Value);
+            entity.ContentAttributes.Add(ContentAttributeType.Size, model.Size.Value);
+            entity.ContentAttributes.Add(ContentAttributeType.Castrated, model.Castrated);
+
+            return entity;
+        }
+
         /// <summary>
         /// To the model.
         /// </summary>
