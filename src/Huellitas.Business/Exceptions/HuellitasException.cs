@@ -26,7 +26,7 @@ namespace Huellitas.Business.Exceptions
         /// Initializes a new instance of the <see cref="HuellitasException"/> class.
         /// </summary>
         /// <param name="code">The code.</param>
-        public HuellitasException(HuellitasExceptionCode code) : base(EnumHelpers.GetDescription(code))
+        public HuellitasException(HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
         {
         }
 
@@ -45,7 +45,7 @@ namespace Huellitas.Business.Exceptions
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="code">The code.</param>
-        public HuellitasException(string target, HuellitasExceptionCode code) : base(EnumHelpers.GetDescription(code))
+        public HuellitasException(string target, HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
         {
             this.Target = target;
         }

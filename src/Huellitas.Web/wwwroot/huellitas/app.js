@@ -1,3 +1,4 @@
+'use strict'
 this.Huellitas = (function (Backbone, Marionette) {
     var App = new Marionette.Application();
 

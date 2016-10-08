@@ -2,12 +2,12 @@
     this.startWithParent = false;
 
     var API = {
-        list: function () {
-            return LeftApp.List.Controller.list();
+        menu: function () {
+            return LeftApp.Menu.Controller.show();
         }
     };
 
     LeftApp.on('start', function () {
-        API.list();
+        API.menu();
     });
 });
