@@ -13,6 +13,11 @@ namespace Huellitas.Web.Infraestructure.WebApi
     public class ApiError
     {
         /// <summary>
+        /// The details
+        /// </summary>
+        private IList<ApiError> details;
+
+        /// <summary>
         /// Gets or sets the message.
         /// </summary>
         /// <value>
@@ -42,6 +47,17 @@ namespace Huellitas.Web.Infraestructure.WebApi
         /// <value>
         /// The details.
         /// </value>
-        public IList<ApiError> Details { get; set; }
+        public IList<ApiError> Details
+        {
+            get
+            {
+                return this.details ?? (this.details = new List<ApiError>());
+            }
+
+            set
+            {
+                this.details = value;
+            }
+        }
     }
 }

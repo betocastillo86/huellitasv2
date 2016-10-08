@@ -25,6 +25,7 @@ _UpgradeReport_Files/
 ###############
 **/node_modules/
 **/wwwroot/lib
+**/wwwroot/img/content
 **/wwwroot/js
 */bin/
 **/obj/

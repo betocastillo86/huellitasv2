@@ -5,10 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Files;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Common;
-    
+
     /// <summary>
     /// Content Base Model
     /// </summary>
@@ -56,6 +58,14 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The image.
         /// </value>
         public string Image { get; set; }
+
+        /// <summary>
+        /// Gets or sets the images.
+        /// </summary>
+        /// <value>
+        /// The images.
+        /// </value>
+        public IList<FileModel> Files { get; set; }
 
         /// <summary>
         /// Gets or sets the location.

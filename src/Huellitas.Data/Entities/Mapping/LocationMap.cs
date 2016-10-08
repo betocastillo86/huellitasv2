@@ -24,6 +24,9 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnType("varchar(50)");
+
+            entity.Property(e => e.ParentLocationId)
+                .IsRequired(false);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasConstraintName("FK_Content_File");
 
             entity.HasOne(d => d.Location)
-                .WithMany(p => p.Content)
+                .WithMany()
                 .HasForeignKey(d => d.LocationId)
                 .HasConstraintName("FK_Content_Location");
 
@@ -55,6 +55,9 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Content_User");
+
+            entity.HasIndex(c => c.FriendlyName)
+                .IsUnique();
         }
     }
 }

@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// Content Attribute Model
     /// </summary>
@@ -25,6 +27,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The value.
         /// </value>
+        [Required]
         public T Value { get; set; }
     }
 }

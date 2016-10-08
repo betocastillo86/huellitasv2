@@ -22,6 +22,12 @@ namespace Huellitas.Business.Services.Contents
         Content GetById(int id);
 
         /// <summary>
+        /// Inserts the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        void Insert(Content content);
+
+        /// <summary>
         /// Searches the specified keyword.
         /// </summary>
         /// <param name="keyword">The keyword.</param>

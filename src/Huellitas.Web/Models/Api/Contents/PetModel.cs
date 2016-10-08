@@ -6,8 +6,9 @@
 namespace Huellitas.Web.Models.Api.Contents
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Huellitas.Web.Models.Api.Files;
-    
+
     /// <summary>
     /// Pet Model
     /// </summary>
@@ -49,15 +50,8 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The genre.
         /// </value>
+        [Required]
         public ContentAttributeModel<int> Genre { get; set; }
-
-        /// <summary>
-        /// Gets or sets the images.
-        /// </summary>
-        /// <value>
-        /// The images.
-        /// </value>
-        public IList<FileModel> Images { get; set; }
 
         /// <summary>
         /// Gets or sets the moths.
@@ -65,6 +59,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The moths.
         /// </value>
+        [Required]
         public int Moths { get; set; }
 
         /// <summary>
@@ -94,6 +89,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The size.
         /// </value>
+        [Required]
         public ContentAttributeModel<int> Size { get; set; }
 
         /// <summary>
@@ -102,6 +98,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The subtype.
         /// </value>
+        [Required]
         public ContentAttributeModel<int> Subtype { get; set; }
     }
 }

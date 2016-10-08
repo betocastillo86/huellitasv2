@@ -48,6 +48,7 @@ namespace Huellitas.Business.Exceptions
         public HuellitasException(string target, HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
         {
             this.Target = target;
+            this.Code = code;
         }
 
         /// <summary>

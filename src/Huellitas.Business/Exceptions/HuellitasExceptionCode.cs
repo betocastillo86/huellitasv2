@@ -13,6 +13,16 @@ namespace Huellitas.Business.Exceptions
     public enum HuellitasExceptionCode
     {
         /// <summary>
+        /// The shelter not found
+        /// </summary>
+        ShelterNotFound = 100,
+
+        /// <summary>
+        /// The invalid foreign key
+        /// </summary>
+        InvalidForeignKey = 500,
+
+        /// <summary>
         /// The row not found
         /// </summary>
         RowNotFound = 2000,

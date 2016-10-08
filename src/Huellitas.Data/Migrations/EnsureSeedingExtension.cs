@@ -28,8 +28,6 @@ namespace Huellitas.Data.Migrations
             }
         }
 
-        #region Contents
-
         /// <summary>
         /// Seeds the contents.
         /// </summary>
@@ -41,6 +39,8 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedCustomTables(context);
             EnsureSeedingExtension.SeedCustomTablesRows(context);
             EnsureSeedingExtension.SeedContents(context);
+            EnsureSeedingExtension.SeedFiles(context);
+            EnsureSeedingExtension.SeedLocations(context);
         }
 
         #region Roles
@@ -130,7 +130,7 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<CustomTableRow>();
 
-            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Perro" }); 
+            list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Perro" });
             list.Add(new CustomTableRow() { CustomTableId = 1, Value = "Gato" });
             list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Miniatura" });
             list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Pequeño" });
@@ -171,6 +171,9 @@ namespace Huellitas.Data.Migrations
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
                 UserId = 1,
+                FileId = 1,
+                LocationId = 1,
+                FriendlyName = "pet-uno",
                 ContentAttributes = new List<ContentAttribute>()
                 {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "5" },
@@ -186,6 +189,9 @@ namespace Huellitas.Data.Migrations
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
                 UserId = 1,
+                FileId = 2,
+                LocationId = 1,
+                FriendlyName = "pet-dos",
                 ContentAttributes = new List<ContentAttribute>()
                 {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
@@ -201,6 +207,9 @@ namespace Huellitas.Data.Migrations
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
                 UserId = 1,
+                FileId = 1,
+                LocationId = 1,
+                FriendlyName = "pet-tres",
                 ContentAttributes = new List<ContentAttribute>()
                 {
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
@@ -208,8 +217,8 @@ namespace Huellitas.Data.Migrations
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
                     }
             });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1 });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1 });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });
 
             foreach (var item in list)
             {
@@ -224,6 +233,68 @@ namespace Huellitas.Data.Migrations
 
         #endregion Contents
 
-        #endregion Contents
+        #region Files
+
+        /// <summary>
+        /// Seeds the files.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedFiles(HuellitasContext context)
+        {
+            var list = new List<File>();
+
+            list.Add(new File()
+            {
+                Name = "Imagen Uno",
+                MimeType = "image/jpg",
+                FileName = "1_imagen1.jpg"
+            });
+
+            list.Add(new File()
+            {
+                Name = "Imagen Dos",
+                MimeType = "image/jpg",
+                FileName = "2_imagen2.jpg"
+            });
+
+            foreach (var item in list)
+            {
+                if (!context.Files.Any(c => c.Name.Equals(item.Name)))
+                {
+                    context.Files.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+        }
+
+        #endregion Files
+
+        #region Locations
+
+        /// <summary>
+        /// Seeds the locations.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedLocations(HuellitasContext context)
+        {
+            var list = new List<Location>();
+
+            var parent = new Location() { Name = "Colombia" };
+            list.Add(parent);
+            list.Add(new Location() { Name = "Bogotá", ParentLocation = parent });
+
+            foreach (var item in list)
+            {
+                if (!context.Locations.Any(c => c.Name.Equals(item.Name)))
+                {
+                    context.Locations.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+        }
+
+        #endregion Locations
     }
 }
