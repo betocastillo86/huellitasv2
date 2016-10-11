@@ -5,7 +5,16 @@
 
     Entities.ModuleCollection = Entities.Collection.extend({
         model: Entities.Module,
-        url: '/api/modules'
+        url: '/api/modules',
+        selectByKey: function (key) {
+            this.choose(this.findWhere({key:key}));
+        },
+        choose: function (newChoosed) {
+            var model = this.findWhere({ choosen: true });
+            if(model)
+                model.set('choosen', false);
+            newChoosed.set('choosen', true);
+        }
     });
 
     var API = {

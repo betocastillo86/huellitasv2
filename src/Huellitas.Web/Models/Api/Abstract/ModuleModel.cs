@@ -5,11 +5,21 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Abstract
 {
+    using Huellitas.Web.Models.Api.Common;
+
     /// <summary>
     /// Module model
     /// </summary>
-    public class ModuleModel
+    public class ModuleModel : BaseModel
     {
+        /// <summary>
+        /// Gets or sets the key.
+        /// </summary>
+        /// <value>
+        /// The key.
+        /// </value>
+        public string Key { get; set; }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

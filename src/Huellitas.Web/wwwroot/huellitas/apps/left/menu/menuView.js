@@ -14,7 +14,18 @@
 
     Menu.MenuItemView = App.Views.ItemView.extend({
         tagName: 'li',
-        template: 'left/menu/menuItemView'
+        template: 'left/menu/menuItemView',
+        modelEvents: {
+            'change:choosen': 'switchChoose'
+        },
+        switchChoose: function () {
+            if (this.model.get('choosen')) {
+                this.$el.addClass('active');
+            }
+            else {
+                this.$el.removeClass('active');
+            }
+        }
     });
 
     Menu.MenuView = App.Views.CompositeView.extend({

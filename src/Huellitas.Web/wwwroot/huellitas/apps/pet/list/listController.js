@@ -1,6 +1,8 @@
 ﻿Huellitas.module('PetApp.List', function (List, App, Backbone, Marionette, $, _) {
     List.Controller = {
         list: function () {
+            App.vent.trigger('menu:choose', 'Animals');
+
             var pets = App.request('pet:entities');
 
             var that = this;

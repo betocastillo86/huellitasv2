@@ -25,10 +25,10 @@ namespace Huellitas.Web.Controllers.Api.Abstract
         public IActionResult Get()
         {
             var modules = new List<ModuleModel>();
-            modules.Add(new ModuleModel() { Name = "Animales", Url = "/pets" });
-            modules.Add(new ModuleModel() { Name = "Usuarios", Url = "/users" });
-            modules.Add(new ModuleModel() { Name = "Fundaciones", Url = "/shelters" });
-            modules.Add(new ModuleModel() { Name = "Formularios", Url = "/adoptionforms" });
+            modules.Add(new ModuleModel() { Id = 1, Name = "Animales", Key = "Animals", Url = "/pets" });
+            modules.Add(new ModuleModel() { Id = 2, Name = "Usuarios", Key = "Users", Url = "/users" });
+            modules.Add(new ModuleModel() { Id = 3, Name = "Fundaciones", Key = "Shelters", Url = "/shelters" });
+            modules.Add(new ModuleModel() { Id = 4, Name = "Formularios", Key = "Forms", Url = "/adoptionforms" });
             return this.Ok(modules);
         }
     }

@@ -1,18 +1,17 @@
 ﻿Huellitas.module('LeftApp.Menu', function (Menu, App, Backbone, Marionette, $, _) {
     Menu.Controller = {
-        show: function () {
+        show: function (menuModules) {
             this.layout = this.getLayoutView();
 
             this.layout.on('show', function () {
-                this.showMainRegion();
+                this.showMainRegion(menuModules);
                 this.showUserRegion();
             }, this);
 
             App.leftRegion.show(this.layout);
         },
-        showMainRegion: function () {
-            var modules = App.request('module:entities');
-            var menuView = this.getMenuView(modules);
+        showMainRegion: function (menuModules) {
+            var menuView = this.getMenuView(menuModules);
             return this.layout.mainRegion.show(menuView);
         },
         showUserRegion: function () {
