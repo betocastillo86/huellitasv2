@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Files;
@@ -36,6 +37,14 @@ namespace Huellitas.Web.Models.Api.Contents
         public int CommentsCount { get; set; }
 
         /// <summary>
+        /// Gets or sets the creation date.
+        /// </summary>
+        /// <value>
+        /// The creation date.
+        /// </value>
+        public DateTime CreationDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the display order.
         /// </summary>
         /// <value>
@@ -52,20 +61,20 @@ namespace Huellitas.Web.Models.Api.Contents
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the image.
-        /// </summary>
-        /// <value>
-        /// The image.
-        /// </value>
-        public string Image { get; set; }
-
-        /// <summary>
         /// Gets or sets the images.
         /// </summary>
         /// <value>
         /// The images.
         /// </value>
         public IList<FileModel> Files { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image.
+        /// </summary>
+        /// <value>
+        /// The image.
+        /// </value>
+        public string Image { get; set; }
 
         /// <summary>
         /// Gets or sets the location.

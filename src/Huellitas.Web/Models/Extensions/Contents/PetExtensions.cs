@@ -81,7 +81,8 @@ namespace Huellitas.Web.Models.Extensions
                 DisplayOrder = entity.DisplayOrder,
                 Status = entity.StatusType,
                 TypeId = entity.Type,
-                Views = entity.Views
+                Views = entity.Views,
+                CreationDate = entity.CreatedDate
             };
 
             foreach (var attribute in entity.ContentAttributes)

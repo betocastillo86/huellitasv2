@@ -13,7 +13,7 @@ namespace Huellitas.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
-    
+
     /// <summary>
     /// The startup
     /// </summary>
@@ -69,7 +69,8 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            });
+            }).AddJsonOptions(c => c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat);
+
 
             ////Registra los Repositorios genericos
             services.RegisterHuellitasServices();

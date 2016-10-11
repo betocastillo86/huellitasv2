@@ -47,7 +47,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
                 }
             }
 
-            return base.BadRequest(error);
+            return base.BadRequest(new BaseApiError() { Error = error });
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
             error.Code = ex.Code.ToString();
             error.Message = message ?? ex.Message;
             error.Target = ex.Target;
-            return this.StatusCode(400, new { Error = error });
+            return this.StatusCode(400, new BaseApiError() { Error = error });
         }
 
         /// <summary>
@@ -74,29 +74,15 @@ namespace Huellitas.Web.Infraestructure.WebApi
         /// <returns>the value</returns>
         protected IActionResult BadRequest(HuellitasExceptionCode code, IList<ApiError> errors, string target = null)
         {
-            object objResponse = null;
-
-            if (errors == null || errors.Count == 0)
+            var error = new ApiError()
             {
-                objResponse = new ApiError()
-                {
-                    Code = code.ToString(),
-                    Message = ExceptionMessages.GetMessage(code),
-                    Target = target
-                };
-            }
-            else
-            {
-                objResponse = new ApiError()
-                {
-                    Code = code.ToString(),
-                    Message = ExceptionMessages.GetMessage(code),
-                    Details = errors,
-                    Target = target
-                };
-            }
+                Code = code.ToString(),
+                Message = ExceptionMessages.GetMessage(code),
+                Target = target,
+                Details = errors == null || errors.Count == 0 ? null : errors
+            };
 
-            return this.StatusCode(400, new { Error = objResponse });
+            return this.StatusCode(400, new BaseApiError() { Error = error });
         }
 
         #endregion BadRequest
