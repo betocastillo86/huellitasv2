@@ -1,10 +1,12 @@
-//Array.prototype.insertAt = function (index, item) {
-//    if (this.splice)
-//    {
-//        this.splice(index, 0, item);
-//    }
-    
-//    return this;
-//}
-
-//var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child;
+String.prototype.queryToJson = function () {
+    var query = this.toString();
+    var arr = query.split("&");
+    result = {};
+    for (i = 0; i < arr.length; i++) {
+        k = arr[i].split('=');
+        var value = k[1] || '';
+        result[k[0]] = !isNaN(value) ? parseInt(value) : value;
+    }
+    console.log(result);
+    return result;
+};

@@ -19,7 +19,36 @@
     });
 
     List.Filter = App.Views.ItemView.extend({
-        template: 'pet/list/_filter'
+        template: 'pet/list/_filter',
+        bindings: {
+            '#filterName': 'keyword',
+            '#filterShelter': {
+                observe: 'shelter',
+                selectOptions: {
+                    collection: 'this.shelters',
+                    labelPath: 'name',
+                    valuePath: 'id',
+                    defaultOption: {
+                        label: '-',
+                        value: undefined
+                    }
+                }
+            }
+        },
+        initialize: function (args) {
+            this.shelters = args.shelters;
+            console.log(this.model.toJSON());
+        },
+        events: {
+            'click #btnFilter': 'filter'
+        },
+        filter: function () {
+            this.trigger('filter:pet:changed', this.model.toJSON());
+        },
+        onRender: function () {
+            this.stickit();
+            Backbone.Validation.bind(this);
+        }
     });
 
     List.PetItem = App.Views.ItemView.extend({
@@ -30,8 +59,8 @@
             'click': 'select'
         },
         triggers: {
-            'click'             : 'pet:item:clicked',
-            'click .btn-delete' : 'pet:item:delete:clicked'
+            'click': 'pet:item:clicked',
+            'click .btn-delete': 'pet:item:delete:clicked'
         }
     });
 

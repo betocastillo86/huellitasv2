@@ -36,7 +36,7 @@
             editView.on('form:cancel', function () {
                 App.vent.trigger('pet:cancelled', model);
             });
-            var formView = App.request('form:wrapper', editView, {footer:true});
+            var formView = App.request('form:wrapper', editView, { footer: true });
             this.layout.formRegion.show(formView);
         },
         titleRegion: function (model) {
@@ -44,13 +44,13 @@
             this.layout.titleRegion.show(titleView);
         },
         getLayoutView: function (model) {
-            return new Edit.Layout({model:model});
+            return new Edit.Layout({ model: model });
         },
         getEditView: function (model) {
-            return new Edit.Pet({ model :model});
+            return new Edit.Pet({ model: model });
         },
         getTitleView: function (model) {
-            return new Edit.Title({model:model});
+            return new Edit.Title({ model: model });
         }
-    }
+    };
 });

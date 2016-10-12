@@ -1,10 +1,6 @@
 (function (Backbone) {
     return _.extend(Backbone.Marionette.Application.prototype, {
         navigate: function (route, options) {
-            route: route || {};
-            //if (route.chatAt(0) === '/')
-            //    route = '#' + route;
-            route = '#' + route;
             return Backbone.history.navigate(route, options);
         },
         getCurrentRoute: function () {

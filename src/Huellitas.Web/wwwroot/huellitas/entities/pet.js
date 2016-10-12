@@ -14,9 +14,9 @@
     });
 
     var API = {
-        getAll: function () {
+        getAll: function (filter) {
             var pets = new Entities.PetCollection();
-            pets.fetch({ reset: true });
+            pets.fetch({ reset: true, data : filter });
             return pets;
         },
         get: function (id) {
@@ -29,7 +29,9 @@
         }
     }
 
-    App.reqres.setHandler('pet:entities', API.getAll);
+    App.reqres.setHandler('pet:entities', function (filter) {
+        return API.getAll(filter);
+    });
     App.reqres.setHandler('pet:entity', API.get);
     App.reqres.setHandler('pet:new:entity', API.getNew);
 });

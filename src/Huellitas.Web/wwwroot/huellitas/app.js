@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 this.Huellitas = (function (Backbone, Marionette) {
     var App = new Marionette.Application();
 
     App.addRegions({
         headerRegion: '#header-region',
         mainRegion: '#main-region',
-        leftRegion: '#left-region',
+        leftRegion: '#left-region'
     });
 
     App.rootRoute = '/';
@@ -18,7 +18,7 @@ this.Huellitas = (function (Backbone, Marionette) {
         else
         {
             App.menuModules.on('sync', function () {
-                App.menuModules.selectByKey(module)
+                App.menuModules.selectByKey(module);
             });
         }
     });

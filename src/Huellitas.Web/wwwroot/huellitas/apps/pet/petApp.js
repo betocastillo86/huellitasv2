@@ -8,8 +8,10 @@
     });
 
     API = {
-        list: function () {
-            return PetApp.List.Controller.list();
+        list: function (filter) {
+            if (filter)
+                filter = filter.queryToJson();
+            return PetApp.List.Controller.list(filter);
         },
         edit: function (id, model) {
             return PetApp.Edit.Controller.edit(id, model);
@@ -17,15 +19,15 @@
         create: function () {
             return PetApp.Edit.Controller.create();
         }
-    }
+    };
 
     App.vent.on('pet:new:clicked', function () {
-        App.navigate('/pets/create', { trigger: false, replace: true })
+        App.navigate('/pets/create', { trigger: false, replace: true });
         //return API.create();
     });
 
     App.vent.on('pet:item:clicked', function (model) {
-        App.navigate('/pets/' + model.id + '/edit', { trigger: false, replace: true })
+        App.navigate('/pets/' + model.id + '/edit', { trigger: false, replace: true });
         //API.edit(model.id, model);
     });
 
@@ -35,5 +37,5 @@
 
     App.addInitializer = function () {
         new PetApp.Router({ controller: API });
-    }
+    };
 });
