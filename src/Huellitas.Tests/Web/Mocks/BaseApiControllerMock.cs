@@ -1,17 +1,17 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="BaseApiControllerMock.cs" company="Dasigno">
+// <copyright file="BaseApiControllerMock.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.Mocks
 {
+    using System.Collections.Generic;
     using Business.Exceptions;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
 
     /// <summary>
-    /// Base Api Controller Mock
+    /// Base <c>Api</c> Controller Mock
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     public class BaseApiControllerMock : BaseApiController
@@ -31,7 +31,7 @@ namespace Huellitas.Tests.Web.Mocks
         /// <summary>
         /// Oks the header.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type</typeparam>
         /// <param name="list">The list.</param>
         /// <param name="hasNextPage">if set to <c>true</c> [has next page].</param>
         /// <param name="totalCount">The total count.</param>

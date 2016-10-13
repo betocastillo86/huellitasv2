@@ -11,9 +11,8 @@ namespace Huellitas.Web.Models.Api.Contents
     using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Extensions;
     using Huellitas.Web.Models.Api.Common;
-    
+
     /// <summary>
     /// Pet Filter Model
     /// </summary>
@@ -83,7 +82,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The type.
         /// </value>
-        public string Type { get; set; }
+        public string SubType { get; set; }
 
         /// <summary>
         /// Returns true if ... is valid.
@@ -118,14 +117,18 @@ namespace Huellitas.Web.Models.Api.Contents
                 try
                 {
                     selectedFilters.AddRangeAttribute(ContentAttributeType.Age, this.Age);
+
                     currentFilterToConvert = "Genre";
-                    selectedFilters.Add(ContentAttributeType.Genre, this.Genre);
+                    selectedFilters.AddInt(ContentAttributeType.Genre, this.Genre);
+
                     currentFilterToConvert = "Size";
-                    selectedFilters.Add(ContentAttributeType.Size, this.Size.ToStringList(), FilterAttributeType.Multiple);
+                    selectedFilters.AddIntList(ContentAttributeType.Size, this.Size);
+
                     currentFilterToConvert = "Shelter";
-                    selectedFilters.Add(ContentAttributeType.Shelter, this.Shelter.ToStringList(), FilterAttributeType.Multiple);
+                    selectedFilters.AddIntList(ContentAttributeType.Shelter, this.Shelter);
+
                     currentFilterToConvert = "Subtype";
-                    selectedFilters.Add(ContentAttributeType.Subtype, this.Type.ToStringList(), FilterAttributeType.Multiple);
+                    selectedFilters.AddIntList(ContentAttributeType.Subtype, this.SubType);
                 }
                 catch (HuellitasException e)
                 {

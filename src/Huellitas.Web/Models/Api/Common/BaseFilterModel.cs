@@ -127,7 +127,7 @@ namespace Huellitas.Web.Models.Api.Common
 
             if (!string.IsNullOrEmpty(this.OrderBy) && !this.ValidOrdersBy.Select(c => c.ToLower()).Contains(this.OrderBy.ToLower()))
             {
-                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", this.ValidOrdersBy)}");
+                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", this.ValidOrdersBy)}", "OrderBy");
             }
         }
 

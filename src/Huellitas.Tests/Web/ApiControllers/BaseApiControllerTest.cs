@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="BaseApiControllerTest.cs" company="Dasigno">
+// <copyright file="BaseApiControllerTest.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace Huellitas.Tests.Web.ApiControllers
     using NUnit.Framework;
 
     /// <summary>
-    /// Basei Api Controller Tests
+    /// Base <c>Api</c> Controller Tests
     /// </summary>
     [TestFixture]
     public class BaseApiControllerTest

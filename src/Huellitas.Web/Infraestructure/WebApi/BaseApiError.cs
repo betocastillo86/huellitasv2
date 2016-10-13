@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="BaseApiError.cs" company="Dasigno">
+// <copyright file="BaseApiError.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.WebApi
 {
     /// <summary>
-    /// Base Api Error
+    /// Base <c>Api</c> Error
     /// </summary>
     public class BaseApiError
     {
