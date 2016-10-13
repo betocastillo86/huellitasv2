@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='dev, css, templatesHandlebars' />
+﻿/// <binding BeforeBuild='css' AfterBuild='templatesHandlebars' />
 /// <binding BeforeBuild='externallibs' />
 /*
 This file in the main entry point for defining Gulp tasks and using Gulp plugins.

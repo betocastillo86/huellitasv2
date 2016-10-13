@@ -1,24 +1,38 @@
+'use strict';
 this.Huellitas = (function (Backbone, Marionette) {
     var App = new Marionette.Application();
 
     App.addRegions({
         headerRegion: '#header-region',
         mainRegion: '#main-region',
-        leftRegion: '#left-region',
+        leftRegion: '#left-region'
     });
 
     App.rootRoute = '/';
 
+    App.vent.on('menu:choose', function (module) {
+        if (App.menuModules.length)
+        {
+            App.menuModules.selectByKey(module);
+        }
+        else
+        {
+            App.menuModules.on('sync', function () {
+                App.menuModules.selectByKey(module);
+            });
+        }
+    });
+
     App.addInitializer(function(){
         App.module('HeaderApp').start();
-        App.module('LeftApp').start();
+        App.module('LeftApp').start(App.menuModules);
         //App.module('Main').start();
         //App.module('MainApp').start();
         //App.module('FooterApp').start();
     });
 
     App.on('before:start', function () {
-        console.log('Antes de empezar 12');
+        App.menuModules = App.request('module:entities');
     });
 
     App.on('start', function () {

@@ -9,7 +9,7 @@ this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _)
 
             console.log('removing', this);
 
-            if (this.model && this.model.isDestroyed()) {
+            if (this.model && this.model['isDestroyed'] && this.model.isDestroyed()) {
                 var wrapper = this.$el.toogleWrapper({
                     className: 'opacity',
                     backgroundColor: 'red'
