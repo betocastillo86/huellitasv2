@@ -60,6 +60,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The moths.
         /// </value>
         [Required]
+        [Range(1, int.MaxValue)]
         public int Moths { get; set; }
 
         /// <summary>

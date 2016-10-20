@@ -14,12 +14,13 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Huellitas.Web.Models.Api.Contents;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Api.Common;
 
     /// <summary>
     /// Pets Controller
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
-    [Route("api/[controller]")]
+    [Route("api/pets")]
     public class PetsController : BaseApiController
     {
         #region props
@@ -76,7 +77,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filter.Page,
                     filter.OrderByEnum);
 
-                var models = contentList.ToModels(Url.Content);
+                var models = contentList.ToPetModels(Url.Content);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -91,10 +92,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>the value</returns>
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
-            ////System.Threading.Thread.Sleep(3000);
             var model = this.contentService.GetById(id);
             return this.Ok(model);
         }
@@ -107,9 +108,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpPost]
         public IActionResult Post([FromBody]PetModel model)
         {
-            this.ValidateInsertModel(model);
-
-            if (this.ModelState.IsValid)
+            if (this.ModelState.IsValid & model.IsValid(this.ModelState))
             {
                 var content = model.ToEntity(this.contentService);
                 content.UserId = 1;
@@ -138,8 +137,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     return this.BadRequest(e);
                 }
 
-                var createdUri = this.Url.Action("Get", "Pets", new { id = content.Id });
-                return this.Created(createdUri, new { Id = content.Id });
+                var createdUri = this.Url.Link("Api_Pets_GetById", new BaseModel { Id = content.Id });
+                return this.Created(createdUri, new BaseModel { Id = content.Id });
             }
             else
             {
@@ -159,22 +158,5 @@ namespace Huellitas.Web.Controllers.Api.Contents
             return this.Ok(new { result = true });
         }
 
-        /// <summary>
-        /// Validates the insert model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        private void ValidateInsertModel(PetModel model)
-        {
-            if (model.Files == null || model.Files.Count == 0)
-            {
-                this.ModelState.AddModelError("Images", "Al menos se debe cargar una imagen");
-            }
-
-            if (model.Shelter == null && model.Location == null)
-            {
-                this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
-                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
-            }
-        }
     }
 }
