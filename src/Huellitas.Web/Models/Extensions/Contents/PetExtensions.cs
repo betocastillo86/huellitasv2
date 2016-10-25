@@ -46,7 +46,7 @@ namespace Huellitas.Web.Models.Extensions
                 var shelter = contentService.GetById(model.Shelter.Id);
                 if (shelter != null)
                 {
-                    shelter.LocationId = shelter.LocationId;
+                    entity.LocationId = shelter.LocationId;
                     entity.ContentAttributes.Add(ContentAttributeType.Shelter, shelter.Id);
                 }
                 else

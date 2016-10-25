@@ -43,6 +43,9 @@ namespace Huellitas.Business.Services.Seo
                 .Replace(" ", "-")
                 .ToLower();
 
+            var regexMultipleSpaces = new Regex("[-]{2,}", RegexOptions.None);
+            friendlyname = regexMultipleSpaces.Replace(friendlyname, "-");
+
             if (friendlyname.Length > maxLength)
             {
                 ////Valida que el nombre no pase del tamaño permitido, pero agrega las palabras completas en el titulo

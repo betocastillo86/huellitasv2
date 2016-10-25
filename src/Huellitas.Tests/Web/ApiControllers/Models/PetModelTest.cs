@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Models.Api.Contents;
     using Huellitas.Web.Models.Extensions;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
 
     /// <summary>
     /// Pet Model Test
@@ -19,6 +19,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     [TestFixture]
     public class PetModelTest
     {
+        /// <summary>
+        /// Pets the model state invalid.
+        /// </summary>
         [Test]
         public void PetModelStateInvalid()
         {

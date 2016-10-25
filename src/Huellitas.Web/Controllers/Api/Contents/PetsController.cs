@@ -157,6 +157,5 @@ namespace Huellitas.Web.Controllers.Api.Contents
         {
             return this.Ok(new { result = true });
         }
-
     }
 }

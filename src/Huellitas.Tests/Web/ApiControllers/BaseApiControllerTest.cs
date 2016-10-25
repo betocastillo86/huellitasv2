@@ -6,12 +6,12 @@
 namespace Huellitas.Tests.Web.ApiControllers
 {
     using System.Collections.Generic;
-    using Business.Exceptions;
+    using Huellitas.Business.Exceptions;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using NUnit.Framework;
-
+    
     /// <summary>
     /// Base <c>Api</c> Controller Tests
     /// </summary>
