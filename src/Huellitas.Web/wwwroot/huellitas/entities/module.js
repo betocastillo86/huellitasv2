@@ -1,9 +1,9 @@
 ﻿Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _) {
-    Entities.Module = Entities.Model.extend({
+    Entities.Module = App.Entities.Model.extend({
         urlRoot: '/api/modules'
     });
 
-    Entities.ModuleCollection = Entities.Collection.extend({
+    Entities.ModuleCollection = App.Entities.Collection.extend({
         model: Entities.Module,
         url: '/api/modules',
         selectByKey: function (key) {

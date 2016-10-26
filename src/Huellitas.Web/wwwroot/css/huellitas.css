@@ -1,3 +1,7 @@
 ﻿.opacity {
     opacity:0.4;
 }
+
+.autocomplete {
+    z-index:2;
+}

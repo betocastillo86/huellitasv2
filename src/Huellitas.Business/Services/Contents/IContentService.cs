@@ -18,8 +18,9 @@ namespace Huellitas.Business.Services.Contents
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
+        /// <param name="includeLocation">Includes the location in the query</param>
         /// <returns>the value</returns>
-        Content GetById(int id);
+        Content GetById(int id, bool includeLocation = false);
 
         /// <summary>
         /// Inserts the specified content.

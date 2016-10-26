@@ -95,7 +95,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         public IActionResult Get(int id)
         {
             ////System.Threading.Thread.Sleep(3000);
-            var model = this.contentService.GetById(id);
+            var model = this.contentService.GetById(id, true).ToModel(contentUrlFunction:Url.Content);
             return this.Ok(model);
         }
 

@@ -55,9 +55,6 @@
         template: 'pet/list/_petItem',
         tagName: 'tr',
         className: 'pointer',
-        events: {
-            'click': 'select'
-        },
         triggers: {
             'click': 'pet:item:clicked',
             'click .btn-delete': 'pet:item:delete:clicked'

@@ -31,6 +31,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IContentService, ContentService>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ISeoService, SeoService>();
+            services.AddScoped<ICustomTableService, CustomTableService>();
         }
     }
 }

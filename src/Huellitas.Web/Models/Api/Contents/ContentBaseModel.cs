@@ -42,7 +42,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The creation date.
         /// </value>
-        public DateTime CreationDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Gets or sets the display order.
