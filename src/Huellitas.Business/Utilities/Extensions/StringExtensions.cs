@@ -42,7 +42,7 @@ namespace Huellitas.Business.Utilities.Extensions
         /// </returns>
         public static bool IsValidIntList(this string text)
         {
-            return Regex.Matches(text, @"(\d+)*(,\d+)*").Count == 2;
+            return Regex.IsMatch(text, @"^(\d+)(,\d+)*$");
         }
 
         /// <summary>

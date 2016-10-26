@@ -130,29 +130,5 @@ namespace Huellitas.Web.Models.Api.Common
                 this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"El parametro orderBy no es valido. Las opciones son: {string.Join(",", this.ValidOrdersBy)}", "OrderBy");
             }
         }
-
-        /// <summary>
-        /// To the integer list.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="valueStr">The value string.</param>
-        /// <returns>the value</returns>
-        protected int[] ToIntList(string property, string valueStr)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(valueStr))
-                {
-                    return new int[0];
-                }
-
-                return valueStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => Convert.ToInt32(s)).ToArray();
-            }
-            catch (Exception)
-            {
-                this.AddError(HuellitasExceptionCode.BadArgument.ToString(), $"La lista de valores para el campo {property} es invalida", property);
-                return new int[0];
-            }
-        }
     }
 }

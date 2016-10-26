@@ -28,6 +28,7 @@ namespace Huellitas.Business.Exceptions
         /// <param name="code">The code.</param>
         public HuellitasException(HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
         {
+            this.Code = code;
         }
 
         /// <summary>

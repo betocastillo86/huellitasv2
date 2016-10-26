@@ -6,7 +6,7 @@
 namespace Huellitas.Tests.Web.Mocks
 {
     using System.Collections.Generic;
-    using Business.Exceptions;
+    using Huellitas.Business.Exceptions;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
 

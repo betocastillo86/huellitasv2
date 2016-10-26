@@ -11,7 +11,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Huellitas.Business.Services.Contents;
     using Huellitas.Web.Controllers.Api.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
+    using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
@@ -65,6 +67,56 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             Assert.AreEqual("1", controller.Response.Headers[ApiHeadersList.PAGINATION_COUNT].ToString());
             Assert.AreEqual("0", controller.Response.Headers[ApiHeadersList.PAGINATION_TOTALCOUNT].ToString());
             Assert.AreEqual(1, list.Count);
+        }
+
+        /// <summary>
+        /// Posts the pets bad request.
+        /// </summary>
+        [Test]
+        public void PostPetsBadRequest()
+        {
+            var mockContentService = new Mock<IContentService>();
+
+            var controller = new PetsController(mockContentService.Object);
+
+            var model = new PetModel();
+            var response = controller.Post(model) as ObjectResult;
+
+            var error = (response.Value as BaseApiError).Error;
+
+            Assert.AreEqual(400, response.StatusCode);
+            Assert.AreEqual("Images", error.Details[0].Target);
+            Assert.AreEqual("Shelter", error.Details[1].Target);
+            Assert.AreEqual("Location", error.Details[2].Target);
+        }
+
+        /// <summary>
+        /// Posts the pets <c>ok</c>.
+        /// </summary>
+        [Test]
+        public void PostPetsOk()
+        {
+            var mockContentService = new Mock<IContentService>();
+
+            var model = new PetModel().MockNew();
+
+            int newId = 1;
+
+            var content = model.ToEntity(mockContentService.Object);
+            mockContentService.Setup(c => c.Insert(It.IsAny<Content>()))
+                .Callback((Content content1) =>
+                {
+                    content1.Id = newId;
+                });
+
+            var controller = new PetsController(mockContentService.Object);
+            controller.AddUrl(true);
+
+            var response = controller.Post(model) as ObjectResult;
+
+            Assert.AreEqual(201, response.StatusCode);
+            Assert.IsTrue(controller.IsValidModelState(model));
+            Assert.AreEqual(newId, (response.Value as BaseModel).Id);
         }
     }
 }
