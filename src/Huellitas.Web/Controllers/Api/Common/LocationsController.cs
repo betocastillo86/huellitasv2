@@ -1,16 +1,27 @@
-﻿using Huellitas.Data.Entities;
-using Huellitas.Web.Infraestructure.WebApi;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="LocationsController.cs" company="Dasigno">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Common
 {
+    using System.Collections.Generic;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Infraestructure.WebApi;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Locations Controller
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/locations")]
     public class LocationsController : BaseApiController
     {
+        /// <summary>
+        /// Gets the specified parent identifier.
+        /// </summary>
+        /// <param name="parentId">if set to <c>true</c> [parent identifier].</param>
+        /// <returns>the locations</returns>
         [HttpGet]
         public IActionResult Get(bool parentId)
         {
