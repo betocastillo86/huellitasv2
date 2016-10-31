@@ -62,15 +62,25 @@ namespace Huellitas.Business.Services.Contents
             this.context = context;
             this.seoService = seoService;
         }
-        
+
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
+        /// <param name="includeLocation">Includes the location in the query</param>
         /// <returns>the value</returns>
-        public Content GetById(int id)
+        public Content GetById(int id, bool includeLocation = false)
         {
-            return this.contentRepository.GetById(id);
+            var query = this.contentRepository.Table
+                .Include(c => c.ContentAttributes)
+                .Where(c => c.Id == id && !c.Deleted);
+
+            if (includeLocation)
+            {
+                query = query.Include(c => c.Location);
+            }
+
+            return query.FirstOrDefault();
         }
 
         /// <summary>
@@ -139,6 +149,7 @@ namespace Huellitas.Business.Services.Contents
         {
             var query = this.contentRepository.TableNoTracking
                 .Include(c => c.ContentAttributes)
+                .Include(c => c.Location)
                 .Where(c => !c.Deleted);
 
             if (!string.IsNullOrEmpty(keyword))

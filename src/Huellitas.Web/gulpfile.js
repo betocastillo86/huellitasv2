@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='css' AfterBuild='templatesHandlebars' />
+﻿/// <binding />
 /// <binding BeforeBuild='externallibs' />
 /*
 This file in the main entry point for defining Gulp tasks and using Gulp plugins.
@@ -45,12 +45,14 @@ paths.libs = [
     paths.webroot + 'lib/marionette/lib/backbone.marionette.js',
     paths.webroot + 'lib/handlebars/handlebars.js',
     paths.webroot + 'lib/marionette.handlebars/dist/marionette.handlebars.js',
+    paths.webroot + 'lib/autocomplete.js/dist/autocomplete.js'
 ];
 
 paths.css = [
     paths.webroot + 'lib/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
     paths.webroot + 'lib/gentelella/vendors/font-awesome/css/font-awesome.min.css',
     paths.webroot + 'lib/gentelella/build/css/custom.min.css',
+    paths.webroot + 'lib/autocomplete.js/dist/autocomplete.css',
     paths.webroot + 'css/huellitas.css'
 ];
 paths.concatJsDest = paths.webroot + "js/site.min.js";
@@ -98,7 +100,7 @@ gulp.task('css', function () {
 gulp.task('dev', function () {
     return gulp.src(paths.libs, { base: '.' })
             .pipe(concat(paths.concatJsDest))
-            .pipe(uglify())
+            //.pipe(uglify())
             .pipe(gulp.dest('.'));
 });
 

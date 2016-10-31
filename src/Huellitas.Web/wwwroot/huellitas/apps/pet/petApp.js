@@ -22,17 +22,18 @@
     };
 
     App.vent.on('pet:new:clicked', function () {
-        App.navigate('/pets/create', { trigger: false, replace: true });
-        //return API.create();
+        App.navigate('/pets/create');
+        return API.create();
     });
 
     App.vent.on('pet:item:clicked', function (model) {
-        App.navigate('/pets/' + model.id + '/edit', { trigger: false, replace: true });
-        //API.edit(model.id, model);
+        App.navigate('/pets/' + model.id + '/edit');
+        API.edit(model.id, model);
     });
 
     App.vent.on('pet:cancelled', function (model) {
         App.navigate('/pets');
+        API.list();
     });
 
     App.addInitializer = function () {

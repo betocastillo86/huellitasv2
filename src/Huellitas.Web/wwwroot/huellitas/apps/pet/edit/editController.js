@@ -47,7 +47,12 @@
             return new Edit.Layout({ model: model });
         },
         getEditView: function (model) {
-            return new Edit.Pet({ model: model });
+            var statusTypes = App.request('statusType:entities:cached');
+            var genres = App.request('customtable:row:entities:cached', Huellitas.settings.customTable.genre);
+            var sizes = App.request('customtable:row:entities:cached', Huellitas.settings.customTable.size);
+            var subtypes = App.request('customtable:row:entities:cached', Huellitas.settings.customTable.subtype);
+            var shelters = App.request('shelter:entities');
+            return new Edit.Pet({ model: model, statusTypes: statusTypes, genres: genres, sizes: sizes, subtypes: subtypes, shelters: shelters });
         },
         getTitleView: function (model) {
             return new Edit.Title({ model: model });

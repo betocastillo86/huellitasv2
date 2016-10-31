@@ -96,7 +96,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Route("{id}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
-            var model = this.contentService.GetById(id);
+            var model = this.contentService.GetById(id, true).ToModel(contentUrlFunction:Url.Content);
             return this.Ok(model);
         }
 

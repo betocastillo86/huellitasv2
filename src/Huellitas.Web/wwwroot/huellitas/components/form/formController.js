@@ -11,6 +11,7 @@
             this.listenTo(this.formLayout, 'destroy', this.destroy);
             this.listenTo(this.formLayout, 'form:submit', this.formSubmit);
             this.listenTo(this.formLayout, 'form:cancel', this.formCancel);
+            this.listenTo(this.formLayout.formContentRegion, 'show', this.formRender);
         },
         onDestroy: function () {
             console.log('onDestroy', this);
@@ -43,6 +44,9 @@
                 var collection = this.contentView.collection;
                 this.processFormSubmit(model, collection);
             }
+        },
+        formRender: function () {
+            this.contentView.triggerMethod('form:render');
         },
         formCancel: function () {
             this.contentView.triggerMethod('form:cancel');

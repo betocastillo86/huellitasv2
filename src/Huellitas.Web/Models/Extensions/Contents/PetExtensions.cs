@@ -83,8 +83,13 @@ namespace Huellitas.Web.Models.Extensions
                 Status = entity.StatusType,
                 TypeId = entity.Type,
                 Views = entity.Views,
-                CreationDate = entity.CreatedDate
+                CreatedDate = entity.CreatedDate
             };
+
+            if (entity.LocationId.HasValue)
+            {
+                model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+            }
 
             foreach (var attribute in entity.ContentAttributes)
             {
@@ -107,7 +112,7 @@ namespace Huellitas.Web.Models.Extensions
                         break;
 
                     case ContentAttributeType.Shelter:
-                        ////model.Shelter = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        model.Shelter = new ShelterModel() { Id = Convert.ToInt32(attribute.Value) };
                         break;
 
                     default:
