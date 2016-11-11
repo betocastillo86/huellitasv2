@@ -16,6 +16,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
+    using Business.Services.Files;
 
     /// <summary>
     /// Pets Controller
@@ -31,6 +32,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </summary>
         private readonly IContentService contentService;
 
+        /// <summary>
+        /// The files helper
+        /// </summary>
+        private readonly IFilesHelper filesHelper;
+
         #endregion props
 
         #region ctor
@@ -39,9 +45,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// Initializes a new instance of the <see cref="PetsController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
-        public PetsController(IContentService contentService)
+        public PetsController(
+            IContentService contentService,
+            IFilesHelper filesHelper)
         {
             this.contentService = contentService;
+            this.filesHelper = filesHelper;
         }
 
         #endregion ctor
@@ -80,7 +89,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filter.Page,
                     filter.OrderByEnum);
 
-                var models = contentList.ToPetModels(Url.Content);
+                var models = contentList.ToPetModels(this.contentService, contentUrlFunction: Url.Content);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -99,7 +108,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Route("{id}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
-            var model = this.contentService.GetById(id, true).ToPetModel(contentUrlFunction: Url.Content);
+            var model = this.contentService.GetById(id, true).ToPetModel(this.contentService, this.filesHelper, Url.Content);
             return this.Ok(model);
         }
 

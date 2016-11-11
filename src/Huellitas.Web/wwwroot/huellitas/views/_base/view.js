@@ -51,6 +51,9 @@ this.Huellitas.module('Views', function (Views, App, Backbone, Marionette, $, _)
         },
         addOpacityWrapper: function (init) {
             this.$el.toogleWrapper({ className: 'opacity' }, init);
+        },
+        consoleAll: function () {
+            this.on('all', function (ev) { console.log(ev); });
         }
     });
 

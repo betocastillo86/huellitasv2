@@ -11,6 +11,7 @@ namespace Huellitas.Web.Models.Api.Contents
     using Files;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Common;
+    using Users;
 
     /// <summary>
     /// Content Base Model
@@ -117,5 +118,13 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The views.
         /// </value>
         public int Views { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>
+        /// The user.
+        /// </value>
+        public BaseUserModel User { get; set; }
     }
 }

@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Infraestructure.Start
 {
     using System.IO;
+    using Business.Services.Files;
     using Business.Caching;
     using Business.Configuration;
     using Business.Services.Configuration;
@@ -57,6 +58,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ISeoService, SeoService>();
             services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
+            services.AddScoped<IFilesHelper, FilesHelper>();
         }
     }
 }

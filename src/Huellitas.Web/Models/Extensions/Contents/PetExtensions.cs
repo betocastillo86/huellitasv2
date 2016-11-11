@@ -13,6 +13,10 @@ namespace Huellitas.Web.Models.Extensions
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Contents;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using System.Linq;
+    using Common;
+    using Business.Services.Files;
+    using Api.Users;
 
     /// <summary>
     /// Pet Extensions
@@ -71,7 +75,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="entity">The entity.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <returns>the value</returns>
-        public static PetModel ToPetModel(this Content entity, Func<string, string> contentUrlFunction = null)
+        public static PetModel ToPetModel(this Content entity, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
             var model = new PetModel()
             {
@@ -89,6 +93,24 @@ namespace Huellitas.Web.Models.Extensions
             if (entity.LocationId.HasValue)
             {
                 model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+            }
+
+            if (entity.User != null)
+            {
+                model.User = new BaseUserModel
+                {
+                    Id = entity.UserId,
+                    Name = entity.User.Name
+                };
+            }
+
+            if (withFiles && filesHelper != null)
+            {
+                //TODO:Convertir en modelos
+                model.Files = contentService.GetFiles(entity.Id)
+                    .Select(c => c.File)
+                    .ToList()
+                    .ToModels(filesHelper, contentUrlFunction);
             }
 
             foreach (var attribute in entity.ContentAttributes)
@@ -129,12 +151,12 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="entities">The entities.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <returns>the value</returns>
-        public static IList<PetModel> ToPetModels(this IList<Content> entities, Func<string, string> contentUrlFunction = null)
+        public static IList<PetModel> ToPetModels(this IList<Content> entities, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
             var models = new List<PetModel>();
             foreach (var entity in entities)
             {
-                models.Add(entity.ToPetModel(contentUrlFunction: contentUrlFunction));
+                models.Add(entity.ToPetModel(contentService, filesHelper, contentUrlFunction, withFiles));
             }
 
             return models;
