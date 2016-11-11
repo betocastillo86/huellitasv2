@@ -69,7 +69,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         public void ToPetEntityInvalid()
         {
             var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>())).Returns((Content)null);
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns((Content)null);
 
             var model = new PetModel().MockNew();
             model.Shelter = null;
@@ -104,7 +104,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var shelterId = 2;
 
             var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>())).Returns(new Content() { Id = shelterId, LocationId = locationId });
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
 
             var model = new PetModel().MockNew();
             model.Shelter = new ShelterModel() { Id = 1 };

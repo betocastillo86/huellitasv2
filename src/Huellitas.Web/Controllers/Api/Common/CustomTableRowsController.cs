@@ -11,7 +11,7 @@ namespace Huellitas.Web.Controllers.Api.Common
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Customtable rows controller
+    /// Custom table rows controller
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("/api/customtablerows")]
@@ -31,10 +31,14 @@ namespace Huellitas.Web.Controllers.Api.Common
             this.customTableService = customTableService;
         }
 
+        /// <summary>
+        /// Gets the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns>the result</returns>
         [HttpGet]
         public IActionResult Get(CustomTableRowFilter filter)
         {
-            //this.customTableService.GetRowsByTableId(filter)
             return null;
         }
     }

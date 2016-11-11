@@ -66,6 +66,9 @@ namespace Huellitas.Web
             ////Agrega las configuraciones personalizadas
             services.AddConfigurations();
 
+            ////Agrega las opciones de cache
+            services.AddMemoryCache();
+
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));

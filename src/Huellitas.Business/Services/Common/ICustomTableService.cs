@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Common
 {
-    using Huellitas.Data.Entities;
     using System.Collections.Generic;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface of Custom Table Service

@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Abstract
 {
+    using System;
+    using System.Collections.Generic;
     using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Status Type controller

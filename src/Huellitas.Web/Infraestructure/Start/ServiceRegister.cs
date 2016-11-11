@@ -6,6 +6,9 @@
 namespace Huellitas.Web.Infraestructure.Start
 {
     using Business.Services.Files;
+    using Business.Caching;
+    using Business.Configuration;
+    using Business.Services.Configuration;
     using Business.Services.Seo;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
@@ -29,9 +32,17 @@ namespace Huellitas.Web.Infraestructure.Start
 
             services.AddTransient<IHttpContextHelpers, HttpContextHelpers>();
 
+            ////Core
+            services.AddScoped<ICacheManager, MemoryCacheManager>();
+
+            ////Settings
+            services.AddScoped<IContentSettings, ContentSettings>();
+
+            ////Services
             services.AddScoped<IContentService, ContentService>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ISeoService, SeoService>();
+            services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
             services.AddScoped<IFilesHelper, FilesHelper>();
         }

@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CustomTableExtensions.cs" company="Huellitas sin hogar">
+// <copyright file="ISetting.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions
+
+namespace Huellitas.Business.Configuration
 {
     /// <summary>
-    /// Custom table Extensions
+    /// Interface of settings
     /// </summary>
-    public static class CustomTableExtensions
+    public interface ISetting
     {
-        
     }
 }
