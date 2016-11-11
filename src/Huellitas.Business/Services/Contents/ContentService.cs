@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Text;
     using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
     using Seo;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Content Service
@@ -30,20 +30,24 @@ namespace Huellitas.Business.Services.Contents
         private readonly IRepository<ContentAttribute> contentAttributeRepository;
 
         /// <summary>
+        /// The content file repository
+        /// </summary>
+        private readonly IRepository<ContentFile> contentFileRepository;
+
+        /// <summary>
         /// The content repository
         /// </summary>
         private readonly IRepository<Content> contentRepository;
-
-        /// <summary>
-        /// The <c>seo</c> service
-        /// </summary>
-        private readonly ISeoService seoService;
 
         /// <summary>
         /// The context/
         /// </summary>
         private readonly HuellitasContext context;
 
+        /// <summary>
+        /// The <c>seo</c> service
+        /// </summary>
+        private readonly ISeoService seoService;
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentService"/> class.
         /// </summary>
@@ -54,6 +58,7 @@ namespace Huellitas.Business.Services.Contents
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
+            IRepository<ContentFile> contentFileRepository,
             ISeoService seoService,
             HuellitasContext context)
         {
@@ -61,6 +66,7 @@ namespace Huellitas.Business.Services.Contents
             this.contentAttributeRepository = contentAttributeRepository;
             this.context = context;
             this.seoService = seoService;
+            this.contentFileRepository = contentFileRepository;
         }
 
         /// <summary>
@@ -73,6 +79,8 @@ namespace Huellitas.Business.Services.Contents
         {
             var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
+                .Include(c => c.File)
+                .Include(c => c.User)
                 .Where(c => c.Id == id && !c.Deleted);
 
             if (includeLocation)
@@ -81,6 +89,21 @@ namespace Huellitas.Business.Services.Contents
             }
 
             return query.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the files of a content
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <returns>
+        /// the files
+        /// </returns>
+        public IList<ContentFile> GetFiles(int contentId)
+        {
+            return this.contentFileRepository.TableNoTracking
+                .Include(c => c.File)
+                .Where(c => c.ContentId == contentId)
+                .ToList();
         }
 
         /// <summary>
@@ -128,7 +151,6 @@ namespace Huellitas.Business.Services.Contents
                 }
             }
         }
-
         /// <summary>
         /// Searches the specified keyword.
         /// </summary>

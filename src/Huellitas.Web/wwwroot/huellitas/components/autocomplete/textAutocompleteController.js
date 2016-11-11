@@ -1,7 +1,13 @@
 ﻿Huellitas.module('Components.Autocomplete', function (Autocomplete, App, Backbone, Marionette, $, _) {
     Autocomplete.Controller = Marionette.Controller.extend({
         getAutocompleteView: function (args) {
-            return new Autocomplete.TextView(args);
+            return new Autocomplete.TextView(this.getDefaults(args));
+        },
+        getDefaults: function (args) {
+            return _.defaults(args, {
+                isObjectType: true,
+                queryArg : 'q'
+            });
         }
     });
 

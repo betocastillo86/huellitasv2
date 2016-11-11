@@ -3,7 +3,8 @@
         template: 'pet/edit/editLayout',
         regions: {
             formRegion: '#form-region',
-            titleRegion: '#title-region'
+            titleRegion: '#title-region',
+            galleryRegion:'#gallery-region'
         }
     });
 
@@ -14,6 +15,7 @@
         },
         events: {
             'click .moreOptions': 'showMoreOptions'
+            //'click #divLoadFile': 'uploadFile'
         },
         bindings: {
             '.txtName': 'name',
@@ -112,9 +114,14 @@
             this.sizes = args.sizes;
             this.subtypes = args.subtypes;
             this.shelters = args.shelters;
-            this.model.consoleAll();
+            //this.fileView = App.request('fileupload:view', { url: '/api/fileupload', multiple:true});
+            //this.galleryView = args.gallery;
+            //this.model.consoleAll();
         },
-        loadAutoComplete: function () {
+        //uploadFile: function () {
+        //    this.fileView.open();
+        //},
+        loadAutoCompleteLocation: function () {
             this.autocompleteView = App.request('autocomplete:text',
                 '.txtLocation',
                 this.model,
@@ -122,6 +129,18 @@
                     url: '/api/locations',
                     selector: '.txtLocation',
                     observe: 'location',
+                    isObjectType: true
+                }
+            );
+        },
+        loadAutoCompleteUser: function () {
+            this.autocompleteView = App.request('autocomplete:text',
+                '.txtUser',
+                this.model,
+                {
+                    url: '/api/users',
+                    selector: '.txtUser',
+                    observe: 'user',
                     isObjectType: true
                 }
             );
@@ -137,7 +156,8 @@
             return true;
         },
         onFormRender: function () {
-            this.loadAutoComplete();
+            this.loadAutoCompleteLocation();
+            this.loadAutoCompleteUser();
         }
     });
 

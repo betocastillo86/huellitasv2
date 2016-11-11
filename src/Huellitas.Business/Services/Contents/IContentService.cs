@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
-    using System.Collections.Generic;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Interface of Content Service
@@ -23,11 +23,17 @@ namespace Huellitas.Business.Services.Contents
         Content GetById(int id, bool includeLocation = false);
 
         /// <summary>
+        /// Gets the files of a content
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <returns>the files</returns>
+        IList<ContentFile> GetFiles(int contentId);
+
+        /// <summary>
         /// Inserts the specified content.
         /// </summary>
         /// <param name="content">The content.</param>
         void Insert(Content content);
-
         /// <summary>
         /// Searches the specified keyword.
         /// </summary>

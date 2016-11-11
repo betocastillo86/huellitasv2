@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using Business.Services.Files;
     using Business.Services.Seo;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
@@ -32,6 +33,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ISeoService, SeoService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
+            services.AddScoped<IFilesHelper, FilesHelper>();
         }
     }
 }

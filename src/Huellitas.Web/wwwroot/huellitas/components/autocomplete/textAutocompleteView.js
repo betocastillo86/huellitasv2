@@ -5,8 +5,9 @@
         isObjectType: false,
         observe: undefined,
         observeText: undefined,
+        queryArg: 'q',
         initialize: function (args) {
-            this.setInstancePropertiesFor('url', 'selector', 'isObjectType', 'observe', 'observeText');
+            this.setInstancePropertiesFor('url', 'selector', 'isObjectType', 'observe', 'observeText', 'queryArg');
             this.loadAutoComplete();
             this.bindElements();
         },
@@ -14,6 +15,7 @@
             var that = this;
             AutoComplete({
                 Url: this.url,
+                QueryArg: this.queryArg,
                 _Post: function (response) {
                     return _.map(JSON.parse(response), function (el) { return { Label: el.name, Value: el.id } });
                 },
@@ -33,6 +35,9 @@
                     }
 
                     that.bindElements();
+                },
+                _Position:function() {
+                    this.DOMResults.setAttribute("class", "autocomplete");
                 },
                 HttpHeaders: {
                     'Content-Type': 'application/json'
