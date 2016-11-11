@@ -25,7 +25,7 @@ namespace Huellitas.Data.Entities.Mapping
                    .HasName("IX_SystemSetting")
                    .IsUnique();
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id);
 
             entity.Property(e => e.Name)
                 .IsRequired()

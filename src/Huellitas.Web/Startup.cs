@@ -32,6 +32,8 @@ namespace Huellitas.Web
 
             ////app.UseDeveloperExceptionPage();
 
+            app.AddJWTAuthorization(env, loggerFactory);
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -62,9 +64,6 @@ namespace Huellitas.Web
         {
             ////Habilita configuraciones con inyecciond e dependencia
             services.AddOptions();
-
-            ////Agrega las configuraciones personalizadas
-            services.AddConfigurations();
 
             ////Agrega las opciones de cache
             services.AddMemoryCache();

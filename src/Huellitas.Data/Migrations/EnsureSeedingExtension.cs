@@ -41,6 +41,7 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedContents(context);
             EnsureSeedingExtension.SeedFiles(context);
             EnsureSeedingExtension.SeedLocations(context);
+            EnsureSeedingExtension.SeedSettings(context);
         }
 
         #region Roles
@@ -296,5 +297,31 @@ namespace Huellitas.Data.Migrations
         }
 
         #endregion Locations
+
+        #region Settings        
+        /// <summary>
+        /// Seeds the settings.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedSettings(HuellitasContext context)
+        {
+            var list = new List<SystemSetting>();
+
+            list.Add(new SystemSetting() { Name = "SecuritySettings.AuthenticationAudience", Value = "AudienceAuthentication" });
+            list.Add(new SystemSetting() { Name = "SecuritySettings.AuthenticationIssuer", Value = "AuthenticationIssuer" });
+            list.Add(new SystemSetting() { Name = "SecuritySettings.AuthenticationSecretKey", Value = "TheSecretKey132456789" });
+            list.Add(new SystemSetting() { Name = "SecuritySettings.ExpirationTokenMinutes", Value = "60" });
+
+            foreach (var item in list)
+            {
+                if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
+                {
+                    context.SystemSettings.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
     }
 }

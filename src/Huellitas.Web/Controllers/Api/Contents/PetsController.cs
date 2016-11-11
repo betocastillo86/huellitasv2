@@ -13,6 +13,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Contents;
     using Huellitas.Web.Models.Extensions;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
 
@@ -53,6 +54,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var claimAdmin = this.User.FindFirst("IsAdmin");
             ////System.Threading.Thread.Sleep(3000);
             return this.Ok(new { result = true });
         }
@@ -63,6 +65,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="filter">The filter.</param>
         /// <returns>the value</returns>
         [HttpGet]
+        [Authorize]
         public IActionResult Get(PetsFilterModel filter)
         {
             IList<FilterAttribute> filterData = null;

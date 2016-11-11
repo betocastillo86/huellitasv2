@@ -24,11 +24,9 @@ namespace Huellitas.Web.Infraestructure.Start
         {
             if (env.IsDevelopment())
             {
-                using (var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext)))
-                {
-                    context.Database.EnsureCreated();
-                    context.EnsureSeeding();
-                }
+                var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext));
+                context.Database.EnsureCreated();
+                context.EnsureSeeding();
             }
         }
     }

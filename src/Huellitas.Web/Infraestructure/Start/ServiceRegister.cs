@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using System.IO;
     using Business.Caching;
     using Business.Configuration;
     using Business.Services.Configuration;
@@ -13,7 +14,10 @@ namespace Huellitas.Web.Infraestructure.Start
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Core;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Security;
 
     /// <summary>
     /// Helper for register services
@@ -26,6 +30,14 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="services">The services.</param>
         public static void RegisterHuellitasServices(this IServiceCollection services)
         {
+            ////Registra el contexto de base de datos
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+
+            var connectionStringConfig = builder.Build();
+            services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(connectionStringConfig.GetConnectionString("DefaultConnection")));
+
             ////Registra los Repositorios genericos
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
@@ -33,9 +45,11 @@ namespace Huellitas.Web.Infraestructure.Start
 
             ////Core
             services.AddScoped<ICacheManager, MemoryCacheManager>();
+            services.AddScoped<IAuthenticationTokenGenerator, AuthenticationTokenGeneratorJWT>();
 
             ////Settings
             services.AddScoped<IContentSettings, ContentSettings>();
+            services.AddScoped<ISecuritySettings, SecuritySettings>();
 
             ////Services
             services.AddScoped<IContentService, ContentService>();
