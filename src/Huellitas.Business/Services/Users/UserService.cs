@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IUserService.cs" company="Huellitas sin hogar">
+// <copyright file="UserService.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

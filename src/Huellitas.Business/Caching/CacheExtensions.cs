@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CacheExtensions.cs" company="Dasigno">
+// <copyright file="CacheExtensions.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Files
 {
+    using System;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
-    using System;
 
     /// <summary>
     /// Upload Files Controller

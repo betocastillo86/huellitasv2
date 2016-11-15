@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CacheEntryMock.cs" company="Dasigno">
+// <copyright file="CacheEntryMock.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

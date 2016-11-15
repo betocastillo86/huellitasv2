@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SecuritySettings.cs" company="Dasigno">
+// <copyright file="SecuritySettings.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

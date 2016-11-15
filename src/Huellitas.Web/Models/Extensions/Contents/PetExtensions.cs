@@ -7,22 +7,50 @@ namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using Api.Users;
     using Business.Exceptions;
     using Business.Services.Contents;
+    using Business.Services.Files;
+    using Common;
     using Data.Extensions;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Contents;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using System.Linq;
-    using Common;
-    using Business.Services.Files;
-    using Api.Users;
 
     /// <summary>
     /// Pet Extensions
     /// </summary>
     public static class PetExtensions
     {
+        /// <summary>
+        /// Returns true if ... is valid.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="modelState">State of the model.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified model state is valid; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsValid(this PetModel model, ModelStateDictionary modelState)
+        {
+            bool isValid = true;
+
+            if (model.Files == null || model.Files.Count == 0)
+            {
+                modelState.AddModelError("Images", "Al menos se debe cargar una imagen");
+                isValid = false;
+            }
+
+            if (model.Shelter == null && model.Location == null)
+            {
+                modelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+                modelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
         /// <summary>
         /// To the entity.
         /// </summary>
@@ -73,7 +101,10 @@ namespace Huellitas.Web.Models.Extensions
         /// To the model.
         /// </summary>
         /// <param name="entity">The entity.</param>
+        /// <param name="contentService">the content service</param>
+        /// <param name="filesHelper">the file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
+        /// <param name="withFiles">if contains files or not in the response</param>
         /// <returns>the value</returns>
         public static PetModel ToPetModel(this Content entity, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
@@ -148,7 +179,10 @@ namespace Huellitas.Web.Models.Extensions
         /// To the models.
         /// </summary>
         /// <param name="entities">The entities.</param>
+        /// <param name="contentService">The content service</param>
+        /// <param name="filesHelper">The file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
+        /// <param name="withFiles">if contains files or not</param>
         /// <returns>the value</returns>
         public static IList<PetModel> ToPetModels(this IList<Content> entities, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
@@ -159,34 +193,6 @@ namespace Huellitas.Web.Models.Extensions
             }
 
             return models;
-        }
-
-        /// <summary>
-        /// Returns true if ... is valid.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="modelState">State of the model.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified model state is valid; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsValid(this PetModel model, ModelStateDictionary modelState)
-        {
-            bool isValid = true;
-
-            if (model.Files == null || model.Files.Count == 0)
-            {
-                modelState.AddModelError("Images", "Al menos se debe cargar una imagen");
-                isValid = false;
-            }
-
-            if (model.Shelter == null && model.Location == null)
-            {
-                modelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
-                modelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
-                isValid = false;
-            }
-
-            return isValid;
         }
     }
 }

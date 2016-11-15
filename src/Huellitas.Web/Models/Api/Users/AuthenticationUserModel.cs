@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AuthenticationUserModel.cs" company="Dasigno">
+// <copyright file="AuthenticationUserModel.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

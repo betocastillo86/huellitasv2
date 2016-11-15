@@ -6,11 +6,13 @@
 namespace Huellitas.Web.Infraestructure.Start
 {
     using System.IO;
-    using Business.Services.Files;
     using Business.Caching;
     using Business.Configuration;
+    using Business.Security;
     using Business.Services.Configuration;
+    using Business.Services.Files;
     using Business.Services.Seo;
+    using Business.Services.Users;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
@@ -19,8 +21,6 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
-    using Business.Services.Users;
-    using Business.Security;
 
     /// <summary>
     /// Helper for register services

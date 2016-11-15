@@ -8,13 +8,12 @@ namespace Huellitas.Web.Controllers.Api.Users
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Security.Principal;
-    using Huellitas.Data.Entities;
+    using Business.Security;
+    using Business.Services.Users;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
     using Microsoft.AspNetCore.Mvc;
-    using Business.Services.Users;
-    using Business.Security;
 
     /// <summary>
     /// Authentication Controller
@@ -29,14 +28,14 @@ namespace Huellitas.Web.Controllers.Api.Users
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
         /// <summary>
-        /// The user service
-        /// </summary>
-        private readonly IUserService userService;
-
-        /// <summary>
         /// The security helpers
         /// </summary>
         private readonly ISecurityHelpers securityHelpers;
+
+        /// <summary>
+        /// The user service
+        /// </summary>
+        private readonly IUserService userService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class.

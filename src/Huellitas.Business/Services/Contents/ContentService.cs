@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
     using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
     using Seo;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Content Service
@@ -48,11 +48,13 @@ namespace Huellitas.Business.Services.Contents
         /// The <c>seo</c> service
         /// </summary>
         private readonly ISeoService seoService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentService"/> class.
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
+        /// <param name="contentFileRepository">the content file repository</param>
         /// <param name="seoService">The <c>seo</c> service.</param>
         /// <param name="context">The context.</param>
         public ContentService(
@@ -151,6 +153,7 @@ namespace Huellitas.Business.Services.Contents
                 }
             }
         }
+
         /// <summary>
         /// Searches the specified keyword.
         /// </summary>

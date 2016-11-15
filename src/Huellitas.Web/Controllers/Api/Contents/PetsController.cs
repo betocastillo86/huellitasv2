@@ -7,6 +7,7 @@
 namespace Huellitas.Web.Controllers.Api.Contents
 {
     using System.Collections.Generic;
+    using Business.Services.Files;
     using Data.Entities;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
@@ -16,7 +17,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
-    using Business.Services.Files;
 
     /// <summary>
     /// Pets Controller
@@ -36,6 +36,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// The files helper
         /// </summary>
         private readonly IFilesHelper filesHelper;
+
         #endregion props
 
         #region ctor
@@ -44,6 +45,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// Initializes a new instance of the <see cref="PetsController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
+        /// <param name="filesHelper">the file helper</param>
         public PetsController(
             IContentService contentService,
             IFilesHelper filesHelper)

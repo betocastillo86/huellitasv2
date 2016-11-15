@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
+    using System.Collections.Generic;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Interface of Content Service
@@ -34,6 +34,7 @@ namespace Huellitas.Business.Services.Contents
         /// </summary>
         /// <param name="content">The content.</param>
         void Insert(Content content);
+
         /// <summary>
         /// Searches the specified keyword.
         /// </summary>

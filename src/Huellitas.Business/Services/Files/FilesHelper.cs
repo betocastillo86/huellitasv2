@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IFilesHelper.cs" company="Huellitas sin hogar">
+// <copyright file="FilesHelper.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -38,13 +38,16 @@ namespace Huellitas.Business.Services.Files
             }
         }
 
-        private string GetFolderName(File file)
-        {
-            return "000000";
-        }
-
+        /// <summary>
+        /// Gets the size of the file name with.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the file name</returns>
         private string GetFileNameWithSize(string fileName, int width = 0, int height = 0)
         {
+            ////TODO:Implementar metodo
             if (width != 0 && height != 0)
             {
                 return fileName;
@@ -53,6 +56,17 @@ namespace Huellitas.Business.Services.Files
             {
                 return fileName;
             }
+        }
+
+        /// <summary>
+        /// Gets the name of the folder depending of file name or creation
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns>the folder name</returns>
+        private string GetFolderName(File file)
+        {
+            ////TODO: Implementar metodo
+            return "000000";
         }
     }
 }

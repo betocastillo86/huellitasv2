@@ -47,6 +47,7 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
         /// </summary>
         /// <param name="logService">The log service.</param>
         /// <param name="hostingEnvironment">The hosting environment.</param>
+        /// <param name="workContext">the work context</param>
         public WebApiExceptionAttribute(
             ILogService logService, 
             IHostingEnvironment hostingEnvironment,

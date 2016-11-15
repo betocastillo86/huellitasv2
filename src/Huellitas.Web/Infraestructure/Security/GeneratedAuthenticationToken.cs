@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GeneratedAuthenticationToken.cs" company="Dasigno">
+// <copyright file="GeneratedAuthenticationToken.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
