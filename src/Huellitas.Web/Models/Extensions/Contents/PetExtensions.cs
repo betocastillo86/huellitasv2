@@ -106,7 +106,6 @@ namespace Huellitas.Web.Models.Extensions
 
             if (withFiles && filesHelper != null)
             {
-                //TODO:Convertir en modelos
                 model.Files = contentService.GetFiles(entity.Id)
                     .Select(c => c.File)
                     .ToList()

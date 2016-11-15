@@ -36,7 +36,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// The files helper
         /// </summary>
         private readonly IFilesHelper filesHelper;
-
         #endregion props
 
         #region ctor

@@ -13,6 +13,7 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Security;
 
     /// <summary>
     /// Attribute for web <c>api</c> exceptions
@@ -28,6 +29,11 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
         private readonly IHostingEnvironment hostingEnvironment;
 
         /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
         /// The log service
         /// </summary>
         private readonly ILogService logService;
@@ -41,10 +47,14 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
         /// </summary>
         /// <param name="logService">The log service.</param>
         /// <param name="hostingEnvironment">The hosting environment.</param>
-        public WebApiExceptionAttribute(ILogService logService, IHostingEnvironment hostingEnvironment)
+        public WebApiExceptionAttribute(
+            ILogService logService, 
+            IHostingEnvironment hostingEnvironment,
+            IWorkContext workContext)
         {
             this.logService = logService;
             this.hostingEnvironment = hostingEnvironment;
+            this.workContext = workContext;
         }
 
         #endregion ctor
@@ -63,8 +73,6 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
 
             var error = new ApiError();
 
-            ////var logService = (ILogService)context.HttpContext.RequestServices.GetService(typeof(ILogService));
-            ////TODO:Enviar el usuario autenticado si existe
             if (this.hostingEnvironment.IsDevelopment())
             {
                 error.Code = "ServerError";
@@ -77,7 +85,7 @@ namespace Huellitas.Web.Infraestructure.Filters.Exceptions
                 error.Message = "Ocurrió un error inesperado";
             }
 
-            this.logService.Error(context.Exception, null);
+            this.logService.Error(context.Exception, this.workContext.CurrentUser);
             context.Result = new ObjectResult(new { Error = error });
         }
     }

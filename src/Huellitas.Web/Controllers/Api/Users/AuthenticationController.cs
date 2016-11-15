@@ -13,6 +13,8 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
     using Microsoft.AspNetCore.Mvc;
+    using Business.Services.Users;
+    using Business.Security;
 
     /// <summary>
     /// Authentication Controller
@@ -27,12 +29,29 @@ namespace Huellitas.Web.Controllers.Api.Users
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
         /// <summary>
+        /// The user service
+        /// </summary>
+        private readonly IUserService userService;
+
+        /// <summary>
+        /// The security helpers
+        /// </summary>
+        private readonly ISecurityHelpers securityHelpers;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
         /// </summary>
         /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
-        public AuthenticationController(IAuthenticationTokenGenerator authenticationTokenGenerator)
+        /// <param name="userService">The user service.</param>
+        /// <param name="securityHelpers">The security helpers.</param>
+        public AuthenticationController(
+            IAuthenticationTokenGenerator authenticationTokenGenerator,
+            IUserService userService,
+            ISecurityHelpers securityHelpers)
         {
             this.authenticationTokenGenerator = authenticationTokenGenerator;
+            this.userService = userService;
+            this.securityHelpers = securityHelpers;
         }
 
         /// <summary>
@@ -45,21 +64,24 @@ namespace Huellitas.Web.Controllers.Api.Users
         {
             if (model != null && this.ModelState.IsValid)
             {
-                ////TODO:Realizar validación de la autenticación
+                var password = this.securityHelpers.ToSha1(model.Password, model.Email);
+                var user = this.userService.ValidateAuthentication(model.Email, password);
 
-                var user = new User();
-                user.Name = "Gabriel Castillo";
-                user.Email = "gabriel.castillo86@hotmail.com";
-                user.Id = 55;
+                if (user != null)
+                {
+                    var genericIdentity = new GenericIdentity(user.Id.ToString(), "Token");
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
+                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Name, user.Name));
 
-                var genericIdentity = new GenericIdentity(user.Id.ToString(), "Token");
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                claims.Add(new Claim(ClaimTypes.Name, user.Name));
-
-                var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims);
-                return this.Ok(token);
+                    var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims);
+                    return this.Ok(token);
+                }
+                else
+                {
+                    return this.Unauthorized();
+                }
             }
             else
             {

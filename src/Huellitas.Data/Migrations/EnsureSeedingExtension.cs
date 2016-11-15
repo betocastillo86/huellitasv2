@@ -79,7 +79,7 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<User>();
 
-            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "202cb962ac59075b964b07152d234b70"/*123*/, RoleId = 1, CreatedDate = DateTime.Now });
+            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "210c1680b957c6ed6df5d9afd17f205cd9a01dbb"/*123.admin@admin.com*/, RoleId = 1, CreatedDate = DateTime.Now });
 
             foreach (var item in list)
             {

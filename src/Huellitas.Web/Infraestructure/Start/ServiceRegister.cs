@@ -19,6 +19,8 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
+    using Business.Services.Users;
+    using Business.Security;
 
     /// <summary>
     /// Helper for register services
@@ -47,10 +49,14 @@ namespace Huellitas.Web.Infraestructure.Start
             ////Core
             services.AddScoped<ICacheManager, MemoryCacheManager>();
             services.AddScoped<IAuthenticationTokenGenerator, AuthenticationTokenGeneratorJWT>();
+            services.AddScoped<IWorkContext, WorkContext>();
 
             ////Settings
             services.AddScoped<IContentSettings, ContentSettings>();
             services.AddScoped<ISecuritySettings, SecuritySettings>();
+
+            ////Helpers
+            services.AddScoped<ISecurityHelpers, SecurityHelpers>();
 
             ////Services
             services.AddScoped<IContentService, ContentService>();
@@ -59,6 +65,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
             services.AddScoped<IFilesHelper, FilesHelper>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

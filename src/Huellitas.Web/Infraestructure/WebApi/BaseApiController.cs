@@ -18,58 +18,6 @@ namespace Huellitas.Web.Infraestructure.WebApi
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     public class BaseApiController : Controller
     {
-        /// <summary>
-        /// The current user
-        /// </summary>
-        private User currentUser;
-
-        /// <summary>
-        /// The current user identifier
-        /// </summary>
-        private int currentUserId;
-
-        /// <summary>
-        /// Gets the current user.
-        /// </summary>
-        /// <value>
-        /// The current user.
-        /// </value>
-        public User CurrentUser
-        {
-            get
-            {
-                if (this.User.Identity.IsAuthenticated)
-                {
-                    if (this.currentUser == null)
-                    {
-                        ////TODO: Search in IUserService
-                        this.currentUser = new Data.Entities.User() { Id = this.CurrentUserId, Name = "Gabriel Castillo", Email = "gabriel.castillo86@hotmail.com" };
-                    }
-                }
-
-                return this.currentUser;
-            }
-        }
-
-        /// <summary>
-        /// Gets the current user identifier.
-        /// </summary>
-        /// <value>
-        /// The current user identifier.
-        /// </value>
-        public int CurrentUserId
-        {
-            get
-            {
-                if (this.User.Identity.IsAuthenticated)
-                {
-                    this.currentUserId = int.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                }
-
-                return this.currentUserId;
-            }
-        }
-
         #region BadRequest
 
         /// <summary>
