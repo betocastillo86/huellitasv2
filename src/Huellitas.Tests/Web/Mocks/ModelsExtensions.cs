@@ -26,7 +26,7 @@ namespace Huellitas.Tests.Web.Mocks
             model.Subtype = new ContentAttributeModel<int>() { Value = 1 };
             model.Genre = new ContentAttributeModel<int>() { Value = 1 };
             model.Size = new ContentAttributeModel<int>() { Value = 1 };
-            model.Moths = 5;
+            model.Months = 5;
             model.Files = new List<FileModel>() { new FileModel() { FileName = "a" } };
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
             return model;

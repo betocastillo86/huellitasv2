@@ -26,6 +26,7 @@ namespace Huellitas.Business.Services.Files
         /// </returns>
         public string GetFullPath(File file, Func<string, string> contentUrlFunction = null, int width = 0, int height = 0)
         {
+            ////TODO:Especificar mejor y terminar desarrollo
             var fileName = $"~/img/content/{this.GetFolderName(file)}/{this.GetFileNameWithSize(file.FileName, width, height)}";
 
             if (contentUrlFunction != null)

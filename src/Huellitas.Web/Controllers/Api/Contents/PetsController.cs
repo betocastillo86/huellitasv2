@@ -3,10 +3,11 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Huellitas.Web.Controllers.Api.Contents
 {
     using System.Collections.Generic;
+    using Business.Caching;
+    using Business.Services.Common;
     using Business.Services.Files;
     using Data.Entities;
     using Huellitas.Business.Exceptions;
@@ -28,15 +29,24 @@ namespace Huellitas.Web.Controllers.Api.Contents
         #region props
 
         /// <summary>
+        /// The cache manager
+        /// </summary>
+        private readonly ICacheManager cacheManager;
+
+        /// <summary>
         /// The content service
         /// </summary>
         private readonly IContentService contentService;
 
         /// <summary>
+        /// The cache manager
+        /// </summary>
+        private readonly ICustomTableService customTableService;
+
+        /// <summary>
         /// The files helper
         /// </summary>
         private readonly IFilesHelper filesHelper;
-
         #endregion props
 
         #region ctor
@@ -46,12 +56,18 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </summary>
         /// <param name="contentService">The content service.</param>
         /// <param name="filesHelper">the file helper</param>
+        /// <param name="cacheManager">the cache manager</param>
+        /// <param name="customTableService">the custom table service</param>
         public PetsController(
             IContentService contentService,
-            IFilesHelper filesHelper)
+            IFilesHelper filesHelper,
+            ICacheManager cacheManager,
+            ICustomTableService customTableService)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
+            this.cacheManager = cacheManager;
+            this.customTableService = customTableService;
         }
 
         #endregion ctor
@@ -90,7 +106,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filter.Page,
                     filter.OrderByEnum);
 
-                var models = contentList.ToPetModels(this.contentService, contentUrlFunction: Url.Content);
+                var models = contentList.ToPetModels(this.contentService, this.customTableService, this.cacheManager, contentUrlFunction: Url.Content);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -109,7 +125,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Route("{id}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
-            var model = this.contentService.GetById(id, true).ToPetModel(this.contentService, this.filesHelper, Url.Content);
+            var model = this.contentService.GetById(id, true).ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.filesHelper, Url.Content);
             return this.Ok(model);
         }
 

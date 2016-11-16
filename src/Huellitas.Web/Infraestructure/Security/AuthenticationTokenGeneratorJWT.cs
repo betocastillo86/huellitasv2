@@ -39,14 +39,15 @@ namespace Huellitas.Web.Infraestructure.Security
         /// </summary>
         /// <param name="genericIdentity">The generic identity.</param>
         /// <param name="claims">The claims.</param>
+        /// <param name="generationDate">The date when the key is generation. Usually you can use DateTimeOffset.Now</param>
         /// <returns>
         /// The generated token for authentication
         /// </returns>
-        public GeneratedAuthenticationToken GenerateToken(GenericIdentity genericIdentity, IList<Claim> claims)
+        public GeneratedAuthenticationToken GenerateToken(GenericIdentity genericIdentity, IList<Claim> claims, DateTimeOffset generationDate)
         {
             var identity = new ClaimsIdentity(genericIdentity, claims);
 
-            var now = DateTimeOffset.Now;
+            var now = generationDate;
             var nowDate = new DateTime(now.Ticks);
 
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.securitySettings.AuthenticationSecretKey));

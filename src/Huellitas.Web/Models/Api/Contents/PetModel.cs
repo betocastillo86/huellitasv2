@@ -61,7 +61,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </value>
         [Required]
         [Range(1, int.MaxValue)]
-        public int Moths { get; set; }
+        public int Months { get; set; }
 
         /// <summary>
         /// Gets or sets the related pets.

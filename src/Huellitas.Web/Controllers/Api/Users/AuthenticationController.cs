@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Security.Principal;
@@ -74,7 +75,7 @@ namespace Huellitas.Web.Controllers.Api.Users
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                     claims.Add(new Claim(ClaimTypes.Name, user.Name));
 
-                    var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims);
+                    var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims, DateTimeOffset.Now);
                     return this.Ok(token);
                 }
                 else

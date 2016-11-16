@@ -14,8 +14,23 @@ namespace Huellitas.Business.Caching
     public static class CacheKeys
     {
         /// <summary>
+        /// The custom table rows by table
+        /// </summary>
+        public const string CUSTOMTABLEROWS_BY_TABLE = "cache.customtablerows.bytable.{0}";
+
+        /// <summary>
+        /// The custom table rows pattern
+        /// </summary>
+        public const string CUSTOMTABLEROWS_PATTERN = "cache.customtablerows";
+
+        /// <summary>
         /// All the settings
         /// </summary>
         public const string SETTINGS_GET_ALL = "cache.settings.all";
+
+        /// <summary>
+        /// all the shelters
+        /// </summary>
+        public const string SHELTERS_ALL = "cache.shelters.all";
     }
 }

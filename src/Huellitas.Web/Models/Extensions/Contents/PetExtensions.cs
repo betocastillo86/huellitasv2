@@ -9,7 +9,10 @@ namespace Huellitas.Web.Models.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using Api.Users;
+    using Business.Caching;
     using Business.Exceptions;
+    using Business.Extensions.Services;
+    using Business.Services.Common;
     using Business.Services.Contents;
     using Business.Services.Files;
     using Common;
@@ -88,7 +91,7 @@ namespace Huellitas.Web.Models.Extensions
             }
 
             entity.ContentAttributes.Add(ContentAttributeType.AutoReply, model.AutoReply);
-            entity.ContentAttributes.Add(ContentAttributeType.Age, model.Moths);
+            entity.ContentAttributes.Add(ContentAttributeType.Age, model.Months);
             entity.ContentAttributes.Add(ContentAttributeType.Subtype, model.Subtype.Value);
             entity.ContentAttributes.Add(ContentAttributeType.Genre, model.Genre.Value);
             entity.ContentAttributes.Add(ContentAttributeType.Size, model.Size.Value);
@@ -102,11 +105,13 @@ namespace Huellitas.Web.Models.Extensions
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="contentService">the content service</param>
+        /// <param name="customTableService">the custom table service</param>
+        /// <param name="cacheManager">the cache manager</param>
         /// <param name="filesHelper">the file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if contains files or not in the response</param>
         /// <returns>the value</returns>
-        public static PetModel ToPetModel(this Content entity, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
+        public static PetModel ToPetModel(this Content entity, IContentService contentService, ICustomTableService customTableService, ICacheManager cacheManager, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
             var model = new PetModel()
             {
@@ -145,26 +150,30 @@ namespace Huellitas.Web.Models.Extensions
 
             foreach (var attribute in entity.ContentAttributes)
             {
+                var attributeId = 0;
+                int.TryParse(attribute.Value, out attributeId);
+
                 switch (attribute.AttributeType)
                 {
                     case ContentAttributeType.Subtype:
-                        model.Subtype = new ContentAttributeModel<int>() { Text = "s", Value = Convert.ToInt32(attribute.Value) };
+                        model.Subtype = new ContentAttributeModel<int>() { Text = customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalSubtype, attributeId), Value = attributeId };
                         break;
 
                     case ContentAttributeType.Genre:
-                        model.Genre = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        model.Genre = new ContentAttributeModel<int>() { Text = customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalGenre, attributeId), Value = attributeId };
                         break;
 
                     case ContentAttributeType.Age:
-                        model.Moths = Convert.ToInt32(attribute.Value);
+                        model.Months = attributeId;
                         break;
 
                     case ContentAttributeType.Size:
-                        model.Size = new ContentAttributeModel<int>() { Text = "a", Value = Convert.ToInt32(attribute.Value) };
+                        model.Size = new ContentAttributeModel<int>() { Text = customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalSize, attributeId), Value = attributeId };
                         break;
 
                     case ContentAttributeType.Shelter:
-                        model.Shelter = new ShelterModel() { Id = Convert.ToInt32(attribute.Value) };
+                        var shelterContent = contentService.GetCachedShelter(cacheManager, attributeId);
+                        model.Shelter = new ShelterModel() { Id = attributeId, Name = shelterContent != null ? shelterContent.Name : string.Empty };
                         break;
 
                     default:
@@ -180,16 +189,18 @@ namespace Huellitas.Web.Models.Extensions
         /// </summary>
         /// <param name="entities">The entities.</param>
         /// <param name="contentService">The content service</param>
+        /// <param name="customTableService">the custom table service</param>
+        /// <param name="cacheManager">the cache manager</param>
         /// <param name="filesHelper">The file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if contains files or not</param>
         /// <returns>the value</returns>
-        public static IList<PetModel> ToPetModels(this IList<Content> entities, IContentService contentService, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
+        public static IList<PetModel> ToPetModels(this IList<Content> entities, IContentService contentService, ICustomTableService customTableService, ICacheManager cacheManager, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
         {
             var models = new List<PetModel>();
             foreach (var entity in entities)
             {
-                models.Add(entity.ToPetModel(contentService, filesHelper, contentUrlFunction, withFiles));
+                models.Add(entity.ToPetModel(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, withFiles));
             }
 
             return models;
