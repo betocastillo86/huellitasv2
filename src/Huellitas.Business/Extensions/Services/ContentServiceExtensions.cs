@@ -25,7 +25,6 @@ namespace Huellitas.Business.Extensions.Services
         /// <returns>the cached shelter</returns>
         public static Content GetCachedShelter(this IContentService service, ICacheManager cacheManager, int id)
         {
-            ////TODO:Test
             return GetCachedShelters(service, cacheManager).FirstOrDefault(c => c.Id == id);
         }
 

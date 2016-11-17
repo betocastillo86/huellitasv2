@@ -10,6 +10,7 @@ namespace Huellitas.Business.Services.Contents
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
+    using Data.Entities.Enums;
     using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
@@ -45,6 +46,11 @@ namespace Huellitas.Business.Services.Contents
         private readonly HuellitasContext context;
 
         /// <summary>
+        /// The related content repository
+        /// </summary>
+        private readonly IRepository<RelatedContent> relatedContentRepository;
+
+        /// <summary>
         /// The <c>seo</c> service
         /// </summary>
         private readonly ISeoService seoService;
@@ -62,13 +68,15 @@ namespace Huellitas.Business.Services.Contents
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<ContentFile> contentFileRepository,
             ISeoService seoService,
-            HuellitasContext context)
+            HuellitasContext context,
+            IRepository<RelatedContent> relatedContentRepository)
         {
             this.contentRepository = contentRepository;
             this.contentAttributeRepository = contentAttributeRepository;
             this.context = context;
             this.seoService = seoService;
             this.contentFileRepository = contentFileRepository;
+            this.relatedContentRepository = relatedContentRepository;
         }
 
         /// <summary>
@@ -76,7 +84,9 @@ namespace Huellitas.Business.Services.Contents
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="includeLocation">Includes the location in the query</param>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         public Content GetById(int id, bool includeLocation = false)
         {
             var query = this.contentRepository.Table
@@ -106,6 +116,37 @@ namespace Huellitas.Business.Services.Contents
                 .Include(c => c.File)
                 .Where(c => c.ContentId == contentId)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Gets the related contents by type optional
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="page">the page</param>
+        /// <param name="pageSize">the page size</param>
+        /// <returns>
+        /// List of related contents by type
+        /// </returns>
+        public IPagedList<Content> GetRelated(
+            int id,
+            RelationType? relation = null,
+            int page = 0,
+            int pageSize = int.MaxValue)
+        {
+            var query = this.relatedContentRepository.Table
+                .Include(c => c.RelatedContentNavigation)
+                .Where(c => c.ContentId == id || c.RelatedContentId == id);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToInt16(relation);
+                query = query.Where(c => c.RelationType == relationId);
+            }
+
+            var querySelect = query.Select(c => c.ContentId == id ? c.RelatedContentNavigation : c.Content);
+
+            return new PagedList<Content>(querySelect, page, pageSize);
         }
 
         /// <summary>

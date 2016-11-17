@@ -6,6 +6,7 @@
 namespace Huellitas.Business.Services.Contents
 {
     using System.Collections.Generic;
+    using Data.Entities.Enums;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
 
@@ -28,6 +29,20 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="contentId">The content identifier.</param>
         /// <returns>the files</returns>
         IList<ContentFile> GetFiles(int contentId);
+
+        /// <summary>
+        /// Gets the related contents by type optional
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="page">the page</param>
+        /// <param name="pageSize">the page size</param>
+        /// <returns>List of related contents by type</returns>
+        IPagedList<Content> GetRelated(
+            int id,
+            RelationType? relation = null,
+            int page = 0,
+            int pageSize = int.MaxValue);
 
         /// <summary>
         /// Inserts the specified content.

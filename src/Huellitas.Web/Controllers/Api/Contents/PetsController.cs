@@ -18,6 +18,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
+    using Infraestructure.Security;
 
     /// <summary>
     /// Pets Controller
@@ -47,6 +48,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// The files helper
         /// </summary>
         private readonly IFilesHelper filesHelper;
+
+        /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
         #endregion props
 
         #region ctor
@@ -58,16 +64,19 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="filesHelper">the file helper</param>
         /// <param name="cacheManager">the cache manager</param>
         /// <param name="customTableService">the custom table service</param>
+        /// <param name="workContext">the work context</param>
         public PetsController(
             IContentService contentService,
             IFilesHelper filesHelper,
             ICacheManager cacheManager,
-            ICustomTableService customTableService)
+            ICustomTableService customTableService,
+            IWorkContext workContext)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
             this.cacheManager = cacheManager;
             this.customTableService = customTableService;
+            this.workContext = workContext;
         }
 
         #endregion ctor
@@ -91,7 +100,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="filter">The filter.</param>
         /// <returns>the value</returns>
         [HttpGet]
-        [Authorize]
         public IActionResult Get(PetsFilterModel filter)
         {
             IList<FilterAttribute> filterData = null;
@@ -125,7 +133,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Route("{id}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
-            var model = this.contentService.GetById(id, true).ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.filesHelper, Url.Content);
+            var content = this.contentService.GetById(id, true);
+
+            var model = content.ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.filesHelper, Url.Content, true, true);
+
             return this.Ok(model);
         }
 
@@ -135,12 +146,13 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="model">The model.</param>
         /// <returns>the pet id</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]PetModel model)
         {
             if (this.ModelState.IsValid & model.IsValid(this.ModelState))
             {
                 var content = model.ToEntity(this.contentService);
-                content.UserId = 1;
+                content.UserId = this.workContext.CurrentUserId;
 
                 for (int i = 0; i < model.Files.Count; i++)
                 {

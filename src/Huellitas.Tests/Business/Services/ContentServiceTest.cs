@@ -72,7 +72,8 @@ namespace Huellitas.Tests.Business
             IRepository<ContentAttribute> contentAttributeRepository = null,
             IRepository<ContentFile> contentFileRepository = null,
             ISeoService seoService = null,
-            HuellitasContext context = null)
+            HuellitasContext context = null,
+            IRepository<RelatedContent> relatedContentRepository = null)
         {
             if (contentRepository == null)
             {
@@ -89,6 +90,11 @@ namespace Huellitas.Tests.Business
                 contentFileRepository = new Mock<IRepository<ContentFile>>().Object;
             }
 
+            if (relatedContentRepository == null)
+            {
+                relatedContentRepository = new Mock<IRepository<RelatedContent>>().Object;
+            }
+
             if (seoService == null)
             {
                 seoService = new Mock<ISeoService>().Object;
@@ -99,7 +105,7 @@ namespace Huellitas.Tests.Business
                 context = HuellitasContextHelpers.GetHuellitasContext();
             }
 
-            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context);
+            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context, relatedContentRepository);
         }
     }
 }

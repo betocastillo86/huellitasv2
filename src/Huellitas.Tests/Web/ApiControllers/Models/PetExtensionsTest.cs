@@ -9,6 +9,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using System.Collections.Generic;
     using System.Linq;
     using Data.Entities;
+    using Data.Entities.Enums;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Exceptions;
@@ -21,7 +22,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    
+
     /// <summary>
     /// Pet Extensions Test
     /// </summary>
@@ -165,6 +166,23 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         }
 
         /// <summary>
+        /// To the pet model with related pets.
+        /// </summary>
+        [Test]
+        public void ToPetModel_WithRelatedPets()
+        {
+            var mockCustomTableService = this.MockCustomTableService();
+            var mockContentService = this.MockContentService();
+
+            var mockCacheManager = new Mock<ICacheManager>();
+
+            var entity = this.MockEntity();
+            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, false, true);
+
+            Assert.AreEqual(2, model.RelatedPets.Count);
+        }
+
+        /// <summary>
         /// To the pet model valid.
         /// </summary>
         [Test]
@@ -179,7 +197,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var mockCacheManager = new Mock<ICacheManager>();
 
             var entity = this.MockEntity();
-            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, mockFilesHelper.Object, null, true);
+            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, mockFilesHelper.Object, null, true, withRelated: false);
 
             Assert.AreEqual(entity.Id, model.Id);
             Assert.AreEqual(entity.Name, model.Name);
@@ -195,6 +213,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual("TableRowName", model.Subtype.Text);
             Assert.AreEqual("TableRowName", model.Genre.Text);
             Assert.AreEqual(10, model.Months);
+            Assert.Zero(model.RelatedPets.Count);
             Assert.AreEqual("ContentName", model.Shelter.Name);
             Assert.AreEqual(2, model.Files.Count);
             Assert.AreEqual("File1", model.Files[0].Name);
@@ -210,6 +229,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var mockContentService = new Mock<IContentService>();
             mockContentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
             mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
+            mockContentService.Setup(c => c.GetRelated(It.IsAny<int>(), It.IsAny<RelationType>(), 0, int.MaxValue)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "Content1" }, new Content { Id = 1, Name = "Content2" } });
             return mockContentService;
         }
 
