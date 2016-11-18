@@ -64,9 +64,10 @@ namespace Huellitas.Tests.Business
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
         /// <param name="contentFileRepository">The content file repository.</param>
-        /// <param name="seoService">The <c>seo</c> service.</param>
+        /// <param name="seoService">The SEO service.</param>
         /// <param name="context">The context.</param>
-        /// <returns>the service</returns>
+        /// <param name="relatedContentRepository">The related content repository.</param>
+        /// <returns>the mock</returns>
         private ContentService MockContentService(
             IRepository<Content> contentRepository = null,
             IRepository<ContentAttribute> contentAttributeRepository = null,

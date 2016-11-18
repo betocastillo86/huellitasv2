@@ -5,8 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Files
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Business.Services.Files;
+    using Business.Services.Seo;
+    using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Api.Common;
+    using Models.Api.Files;
 
     /// <summary>
     /// File Controller
@@ -15,6 +24,45 @@ namespace Huellitas.Web.Controllers.Api.Files
     [Route("api/files")]
     public class FileController : BaseApiController
     {
+        /// <summary>
+        /// The file service
+        /// </summary>
+        private readonly IFileService fileService;
+
+        /// <summary>
+        /// The files helper
+        /// </summary>
+        private readonly IFilesHelper filesHelper;
+
+        /// <summary>
+        /// The hosting environment
+        /// </summary>
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        /// <summary>
+        /// The SEO service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileController"/> class.
+        /// </summary>
+        /// <param name="hostingEnvironment">The hosting environment.</param>
+        /// <param name="fileService">The File Service</param>
+        /// <param name="filesHelper">The files helper</param>
+        /// <param name="seoService">The SEO Service</param>
+        public FileController(
+            IHostingEnvironment hostingEnvironment,
+            IFileService fileService,
+            IFilesHelper filesHelper,
+            ISeoService seoService)
+        {
+            this.hostingEnvironment = hostingEnvironment;
+            this.fileService = fileService;
+            this.filesHelper = filesHelper;
+            this.seoService = seoService;
+        }
+
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
@@ -25,6 +73,70 @@ namespace Huellitas.Web.Controllers.Api.Files
         public IActionResult Delete(int id)
         {
             return this.Ok(new { deleted = true });
+        }
+
+        /// <summary>
+        /// Posts the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>the file id and thumbnail Url</returns>
+        [HttpPost]
+        public async Task<IActionResult> Post(PostFileModel model)
+        {
+            ////TODO:Test
+            if (this.IsValidModel(model.Files))
+            {
+                var file = new File();
+
+                foreach (var dataFile in model.Files)
+                {
+                    file.Name = model.Name;
+                    file.FileName = string.Concat(this.seoService.GenerateFriendlyName(file.Name), System.IO.Path.GetExtension(dataFile.FileName));
+                    file.MimeType = this.filesHelper.GetContentTypeByFileName(file.FileName);
+
+                    using (var streamFile = dataFile.OpenReadStream())
+                    {
+                        var fileBinary = new byte[streamFile.Length];
+                        streamFile.Read(fileBinary, 0, fileBinary.Length);
+                        await this.fileService.InsertAsync(file, fileBinary);
+                    }
+                }
+
+                ////TODO:Return Thumbnail
+                return this.Ok(new BaseModel { Id = file.Id });
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model] [the specified files].
+        /// </summary>
+        /// <param name="files">The files.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified files]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsValidModel(ICollection<IFormFile> files)
+        {
+            if (files == null)
+            {
+                this.ModelState.AddModelError("File", "No se ha enviado ningún archivo");
+            }
+            else
+            {
+                if (files.Count == 0)
+                {
+                    this.ModelState.AddModelError("File", "No se ha enviado ningún archivo");
+                }
+                else if (files.Count > 1)
+                {
+                    this.ModelState.AddModelError("File", "No se permite más de un archivo");
+                }
+            }
+
+            return this.ModelState.ErrorCount == 0;
         }
     }
 }
