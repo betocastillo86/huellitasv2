@@ -4,7 +4,41 @@
         validation: {
             'name': {
                 required: true
+            },
+            'body': {
+                required: true
+            },
+            'location': {
+                required: function (value, field, model) {
+                    return !model.shelter || !model.shelter.id;
+                }
+            },
+            'subtype': {
+                required: true
+            },
+            'genre': {
+                required: true
+            },
+            'size': {
+                required: true
+            },
+            'months': {
+                required: true,
+                min: 1
+            },
+            'status': {
+                required:true
             }
+        },
+        labels: {
+            'body': 'Descripción',
+            'name': 'Name',
+            'location': 'Ubicación',
+            'subtype': 'Tipo',
+            'genre': 'Genero',
+            'size': 'Tamaño',
+            'months': 'Edad'
+
         }
     });
 
@@ -16,7 +50,7 @@
     var API = {
         getAll: function (filter) {
             var pets = new Entities.PetCollection();
-            pets.fetch({ reset: true, data : filter });
+            pets.fetch({ reset: true, data: filter });
             return pets;
         },
         get: function (id) {

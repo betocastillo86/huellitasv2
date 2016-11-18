@@ -126,5 +126,13 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The user.
         /// </value>
         public BaseUserModel User { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ContentBaseModel"/> is featured.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if featured; otherwise, <c>false</c>.
+        /// </value>
+        public bool Featured { get; set; }
     }
 }

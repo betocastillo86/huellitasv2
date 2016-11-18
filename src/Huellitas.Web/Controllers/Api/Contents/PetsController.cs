@@ -91,7 +91,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="filter">The filter.</param>
         /// <returns>the value</returns>
         [HttpGet]
-        [Authorize]
         public IActionResult Get(PetsFilterModel filter)
         {
             IList<FilterAttribute> filterData = null;

@@ -19,7 +19,14 @@
     ImageGallery.Item = App.Views.ItemView.extend({
         template: 'imageGallery/galleryItem',
         triggers: {
-            'click .fa-times': 'item:delete'
+            'click .fa-times'   : 'item:delete',
+            'click .fa-pencil'  : 'item:edit'
+        },
+        modelEvents: {
+            'change:fileName' : 'changeImageSrc'
+        },
+        changeImageSrc: function (model, value) {
+            this.$('.mainImage').attr('src', value);
         },
         serializeData: function () {
             return {

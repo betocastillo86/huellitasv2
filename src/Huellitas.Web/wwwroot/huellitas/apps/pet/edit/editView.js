@@ -4,14 +4,16 @@
         regions: {
             formRegion: '#form-region',
             titleRegion: '#title-region',
-            galleryRegion:'#gallery-region'
+            galleryRegion: '#gallery-region'
         }
     });
 
     Edit.Pet = App.Views.ItemView.extend({
         template: 'pet/edit/editPet',
         modelEvents: {
-            'change:shelter': 'shelterChanged'
+            'change:shelter': 'shelterChanged',
+            'change:yearsAge': 'ageChanged',
+            'change:monthsAge': 'ageChanged'
         },
         events: {
             'click .moreOptions': 'showMoreOptions'
@@ -19,6 +21,7 @@
         },
         bindings: {
             '.txtName': 'name',
+            '.txtBody': 'body',
             '.ddlStatusType': {
                 observe: 'status',
                 selectOptions: {
@@ -107,6 +110,19 @@
                     return !isNaN(value) ? { id: parseInt(value) } : undefined;
                 }
             },
+            '.chkFeatured': 'featured',
+            '.chkAutoreply': 'autoReply',
+            '.chkCastrated': 'castrated',
+            '.txtYears': 'yearsAge',
+            '.txtMonths': 'monthsAge',
+            '.txtTotalMonths': {
+                observe: 'months',
+                controlToMark: '.errorMonths'
+            },
+            '.hiddenLocation': {
+                observe: 'location',
+                controlToMark: '.txtLocation'
+            }
         },
         initialize: function (args) {
             this.statusTypes = args.statusTypes;
@@ -114,10 +130,12 @@
             this.sizes = args.sizes;
             this.subtypes = args.subtypes;
             this.shelters = args.shelters;
+            this.model.consoleAll();
             //this.fileView = App.request('fileupload:view', { url: '/api/fileupload', multiple:true});
             //this.galleryView = args.gallery;
             //this.model.consoleAll();
         },
+
         //uploadFile: function () {
         //    this.fileView.open();
         //},
@@ -146,11 +164,21 @@
             );
         },
         shelterChanged: function () {
-            this.$('.rowLocation').css('display', this.model.get('shelter') ? 'none' : 'block');
+            this.$('.noShelter').css('display', this.model.get('shelter') ? 'none' : 'block');
+        },
+        ageChanged: function () {
+            var years = parseInt(this.model.get('yearsAge'));
+            var months = parseInt(this.model.get('monthsAge'));
+            this.model.set('months', (!isNaN(years) ? years * 12 : 0) + (!isNaN(months) ? months : 0));
         },
         showMoreOptions: function () {
             this.isShowingMoreOptions = !this.isShowingMoreOptions;
             this.$('.divMoreOptions').css('display', this.isShowingMoreOptions ? 'block' : 'none');
+        },
+        loadMonthsAndYears: function () {
+            var months = this.model.get('months');
+            this.model.set('yearsAge', Math.floor(months / 12));
+            this.model.set('monthsAge', months % 12);
         },
         onFormSubmit: function () {
             return true;
@@ -158,6 +186,7 @@
         onFormRender: function () {
             this.loadAutoCompleteLocation();
             this.loadAutoCompleteUser();
+            this.loadMonthsAndYears();
         }
     });
 

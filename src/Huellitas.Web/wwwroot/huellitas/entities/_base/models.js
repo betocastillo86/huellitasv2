@@ -42,7 +42,8 @@ Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _
             return this.get('_destroy');
         },
         consoleAll: function () {
-            this.on('all', function (ev) { console.log(ev); });
+            var that = this;
+            this.on('all', function (ev) { console.log(ev, that.toJSON()); });
         }
     });
 });
