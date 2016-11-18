@@ -4,7 +4,7 @@
         tagName: 'form',
         className: 'form-horizontal form-label-left',
         initialize: function () {
-            this.setInstancePropertiesFor('config', 'buttons', 'bindings');
+            this.setInstancePropertiesFor('config', 'buttons', 'bindings', 'goToFocus');
         },
         modelEvents: {
             'validated:invalid'     : 'changeErrors',
@@ -44,7 +44,17 @@
                     var inputEl = that.$(index);
                     //Si es un objeto busca la propiedad en el campo observe
                     if (_.isObject(element)) {
-                        fieldsToMark[element['observe']] = element['controlToMark'] ? that.$(element['controlToMark']) : inputEl.closest('.item');
+                        //fieldsToMark[element['observe']] = element['controlToMark'] ? that.$(element['controlToMark']) : inputEl.closest('.item');
+
+                        var markError = undefined;
+                        if (element['controlToMark']) {
+                            markError = { inputEl: that.$(element['controlToMark']), containerEl: that.$(element['controlToMark']).closest('.item') };
+                        }
+                        else {
+                            markError= { inputEl: inputEl, containerEl: inputEl.closest('.item') };
+                        }
+
+                        fieldsToMark[element['observe']] = markError;
                     }
                     else {
                         fieldsToMark[element] = { inputEl: inputEl, containerEl: inputEl.closest('.item') };
@@ -66,6 +76,26 @@
                     el.containerEl.addClass("bad");
                 }
             });
+
+            if (this.config.goToFocus)
+            {
+                this.scrollFocusObject('.bad:first', -15);
+            }
+        },
+        scrollFocusObject: function (selector, addPixels) {
+            //Valida que el selector exista
+            var obj = this.$(selector);
+            if (!obj.length)
+                return;
+            if (addPixels == undefined)
+                addPixels = 0;
+
+            var position = 0;
+            if (obj.offset() != undefined)
+                position = obj.offset().top;
+            $('html, body').animate({
+                scrollTop: position + addPixels
+            }, 500);
         },
         syncStart: function (model) {
             if (this.config.syncing)

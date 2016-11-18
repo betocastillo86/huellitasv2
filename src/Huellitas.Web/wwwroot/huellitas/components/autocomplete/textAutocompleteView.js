@@ -24,20 +24,27 @@
                     var name = item.innerHTML;
 
                     if (that.isObjectType) {
-                        var selected = that.model.get(that.observe);
+                        var selected = that.model.get(that.observe) || {};
                         selected.id = id;
                         selected.name = name;
                         that.model.set(that.observe, selected);
                     }
                     else {
-                        that.model.set(that.observe, selected.id);
-                        that.model.set(that.observeText, selected.name);
+                        that.model.set(that.observe, id);
+                        that.model.set(that.observeText, id);
                     }
 
                     that.bindElements();
                 },
                 _Position:function() {
                     this.DOMResults.setAttribute("class", "autocomplete");
+                },
+                _Blur: function (event) {
+                    if (event.target.value.trim() == '')
+                    {
+                        that.model.unset(that.observe);
+                    }
+                    console.log('blur');
                 },
                 HttpHeaders: {
                     'Content-Type': 'application/json'

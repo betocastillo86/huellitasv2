@@ -35,6 +35,21 @@
                 }
             }, this);
 
+            view.on('childview:item:edit', function (childView) {
+                var that = this;
+                var uploadViewEdit = App.request('fileupload:view', { url: options.url, multiple: options.multiple });
+                uploadViewEdit.on('file:sent', function (file) {
+                    childView.model.set('fileName', file.fileName);
+
+                    if (!childView.model.isNew()) {
+                        
+                        childView.model.save();
+                    }
+                    
+                }, that);
+                uploadViewEdit.open();
+            });
+
             return this.layout.listRegion.show(view);
         },
         deleteFile: function (listView, childView) {

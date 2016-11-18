@@ -18,12 +18,12 @@
         },
         showFormContentRegion: function () {
             this.formLayout.formContentRegion.show(this.contentView);
-            
+
             if (this.contentView.bindings)
                 this.contentView.stickit();
 
             if (this.contentView.model.validation)
-                Backbone.Validation.bind(this.contentView);                
+                Backbone.Validation.bind(this.contentView);
         },
         getFormLayout: function (args) {
             args = args || {};
@@ -38,8 +38,7 @@
             });
         },
         formSubmit: function () {
-            if (this.contentView.triggerMethod('form:submit') && this.validateModel())
-            {
+            if (this.contentView.triggerMethod('form:submit') && this.validateModel()) {
                 var model = this.contentView.model;
                 var collection = this.contentView.collection;
                 this.processFormSubmit(model, collection);
@@ -57,7 +56,7 @@
             return model.isValid();
         },
         processFormSubmit: function (model, collection) {
-            model.save({}, {collection :collection});
+            model.save({}, { collection: collection });
         },
         getDefaultConfig: function (config) {
             config = config || {};
@@ -65,7 +64,8 @@
                 footer: true,
                 focusFirstInput: true,
                 errors: true,
-                syncing:true
+                syncing: true,
+                goToFocus: true
                 //buttons: this.getDefaultButtons(config.buttons)
             });
         },

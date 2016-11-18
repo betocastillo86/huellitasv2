@@ -132,7 +132,8 @@ namespace Huellitas.Web.Models.Extensions
                 Status = entity.StatusType,
                 TypeId = entity.Type,
                 Views = entity.Views,
-                CreatedDate = entity.CreatedDate
+                CreatedDate = entity.CreatedDate,
+                Featured = entity.Featured
             };
 
             if (entity.LocationId.HasValue)
@@ -179,6 +180,14 @@ namespace Huellitas.Web.Models.Extensions
 
                     case ContentAttributeType.Age:
                         model.Months = attributeId;
+                        break;
+
+                    case ContentAttributeType.AutoReply:
+                        model.AutoReply = Convert.ToBoolean(attribute.Value);
+                        break;
+
+                    case ContentAttributeType.Castrated:
+                        model.Castrated = Convert.ToBoolean(attribute.Value);
                         break;
 
                     case ContentAttributeType.Size:
