@@ -23,7 +23,6 @@ namespace Huellitas.Business.Extensions.Services
         /// <returns>the value column</returns>
         public static string GetValueByCustomTableAndId(this ICustomTableService service, CustomTableType table, int id)
         {
-            ////TODO:Test
             var row = service.GetRowsByTableIdCached(table).FirstOrDefault(c => c.Id == id);
             if (row != null)
             {

@@ -111,7 +111,15 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if contains files or not in the response</param>
         /// <returns>the value</returns>
-        public static PetModel ToPetModel(this Content entity, IContentService contentService, ICustomTableService customTableService, ICacheManager cacheManager, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
+        public static PetModel ToPetModel(
+            this Content entity, 
+            IContentService contentService, 
+            ICustomTableService customTableService, 
+            ICacheManager cacheManager, 
+            IFilesHelper filesHelper = null, 
+            Func<string, string> contentUrlFunction = null, 
+            bool withFiles = false, 
+            bool withRelated = false)
         {
             var model = new PetModel()
             {
@@ -147,6 +155,11 @@ namespace Huellitas.Web.Models.Extensions
                     .Select(c => c.File)
                     .ToList()
                     .ToModels(filesHelper, contentUrlFunction);
+            }
+
+            if (withRelated)
+            {
+                model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.Enums.RelationType.SimilarPets).ToPetModels(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, false);
             }
 
             foreach (var attribute in entity.ContentAttributes)

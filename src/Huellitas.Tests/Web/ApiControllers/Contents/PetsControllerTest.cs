@@ -21,12 +21,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Mocks;
     using Moq;
     using NUnit.Framework;
+    using Huellitas.Web.Infraestructure.Security;
 
     /// <summary>
     /// Pets Controller Test
     /// </summary>
     [TestFixture]
-    public class PetsControllerTest
+    public class PetsControllerTest : BaseTest
     {
         /// <summary>
         /// Gets the pets invalid filter.
@@ -39,7 +40,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object);
+            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
 
             var filter = new PetsFilterModel();
             filter.Shelter = "4,b,c,5";
@@ -65,7 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder)).Returns(new PagedList<Content>() { new Content() { } });
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object);
+            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
             controller.AddResponse().AddUrl();
 
             var filter = new PetsFilterModel();
@@ -90,7 +91,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object);
+            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
 
             var model = new PetModel();
             var response = controller.Post(model) as ObjectResult;
@@ -124,7 +125,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                     content1.Id = newId;
                 });
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object);
+            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
             controller.AddUrl(true);
 
             var response = controller.Post(model) as ObjectResult;
