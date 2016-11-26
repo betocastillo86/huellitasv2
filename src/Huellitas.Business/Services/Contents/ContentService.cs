@@ -60,9 +60,10 @@ namespace Huellitas.Business.Services.Contents
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
-        /// <param name="contentFileRepository">the content file repository</param>
-        /// <param name="seoService">The <c>seo</c> service.</param>
+        /// <param name="contentFileRepository">The content file repository.</param>
+        /// <param name="seoService">The SEO service.</param>
         /// <param name="context">The context.</param>
+        /// <param name="relatedContentRepository">The related content repository.</param>
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,

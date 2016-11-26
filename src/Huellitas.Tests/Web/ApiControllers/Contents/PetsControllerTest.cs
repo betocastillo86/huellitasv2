@@ -21,7 +21,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using Huellitas.Web.Infraestructure.Security;
 
     /// <summary>
     /// Pets Controller Test

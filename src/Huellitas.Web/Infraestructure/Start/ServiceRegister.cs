@@ -66,6 +66,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ICustomTableService, CustomTableService>();
             services.AddScoped<IFilesHelper, FilesHelper>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
         }
     }
 }

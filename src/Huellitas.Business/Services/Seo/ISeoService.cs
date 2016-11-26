@@ -17,9 +17,9 @@ namespace Huellitas.Business.Services.Seo
         /// Generates the name of the friendly.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="query">The query.</param>
+        /// <param name="query">The query of SEO entities to validate if the friendly name already exists</param>
         /// <param name="maxLength">The maximum length.</param>
         /// <returns>the value</returns>
-        string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query, int maxLength = 280);
+        string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query = null, int maxLength = 280);
     }
 }

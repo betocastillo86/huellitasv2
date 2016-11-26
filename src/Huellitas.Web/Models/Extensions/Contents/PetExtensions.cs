@@ -101,16 +101,17 @@ namespace Huellitas.Web.Models.Extensions
         }
 
         /// <summary>
-        /// To the model.
+        /// To the pet model.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <param name="contentService">the content service</param>
-        /// <param name="customTableService">the custom table service</param>
-        /// <param name="cacheManager">the cache manager</param>
-        /// <param name="filesHelper">the file helper</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
-        /// <param name="withFiles">if contains files or not in the response</param>
-        /// <returns>the value</returns>
+        /// <param name="withFiles">if set to <c>true</c> [with files].</param>
+        /// <param name="withRelated">if set to <c>true</c> [with related].</param>
+        /// <returns>the model</returns>
         public static PetModel ToPetModel(
             this Content entity, 
             IContentService contentService, 

@@ -15,10 +15,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Contents;
     using Huellitas.Web.Models.Extensions;
+    using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
-    using Infraestructure.Security;
 
     /// <summary>
     /// Pets Controller
@@ -53,6 +53,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// The work context
         /// </summary>
         private readonly IWorkContext workContext;
+
         #endregion props
 
         #region ctor
@@ -159,13 +160,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     {
                         content.FileId = model.Files[i].Id;
                     }
-                    else
+
+                    content.ContentFiles.Add(new ContentFile()
                     {
-                        content.ContentFiles.Add(new ContentFile()
-                        {
-                            FileId = model.Files[i].Id
-                        });
-                    }
+                        FileId = model.Files[i].Id
+                    });
                 }
 
                 try

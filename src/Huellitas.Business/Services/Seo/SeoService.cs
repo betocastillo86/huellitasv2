@@ -26,7 +26,7 @@ namespace Huellitas.Business.Services.Seo
         /// <returns>
         /// the value
         /// </returns>
-        public string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query, int maxLength = 280)
+        public string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query = null, int maxLength = 280)
         {
             ////TODO: Implementar
             ////var wordsToRemove = FactoryContext.Resolve<GeneralSettings>().SeoWordsToRemove.Split(new char[] { ',' });
@@ -62,12 +62,16 @@ namespace Huellitas.Business.Services.Seo
                 friendlyname = friendlyname.Substring(0, maxLength + 20);
             }
 
-            var isAvailable = !query.Any(c => c.FriendlyName.Equals(friendlyname));
-
-            ////Si el nombre no está disponible genera un numero aleatorio para completar la URL
-            if (!isAvailable)
+            ////TODO:Test with null
+            if (query != null)
             {
-                friendlyname = $"{friendlyname}-{new Random().Next(1000000).ToString()}";
+                var isAvailable = !query.Any(c => c.FriendlyName.Equals(friendlyname));
+
+                ////Si el nombre no está disponible genera un numero aleatorio para completar la URL
+                if (!isAvailable)
+                {
+                    friendlyname = $"{friendlyname}-{new Random().Next(1000000).ToString()}";
+                }
             }
 
             return friendlyname;
