@@ -53,7 +53,10 @@
         },
         bindElements: function () {
             if (this.isObjectType) {
-                this.$el.val(this.model.get(this.observe).name);
+                if (this.model.get(this.observe))
+                {
+                    this.$el.val(this.model.get(this.observe).name);
+                }
             }
             else {
                 this.$el.val(this.model.get(this.observeText));

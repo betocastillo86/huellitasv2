@@ -11,7 +11,8 @@ Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _
             options = options || {};
             _.defaults(options, {
                 //wait: true,
-                success: _.bind(this.saved, this, isNew, options.collection)
+                success: _.bind(this.saved, this, isNew, options.collection),
+                error: _.bind(this.errorSaving, this, isNew, options.collection)
             });
             this._save(data, options);
         },
@@ -30,6 +31,16 @@ Huellitas.module('Entities', function (Entities, App, Backbone, Marionette, $, _
                 if (collection)
                     collection.trigger('model:updated', this);
                 this.trigger('updated', this);
+            }
+        },
+        errorSaving: function (isNew, collection, model, response) {
+            if (response.status == 400)
+            {
+                this.trigger('badrequest', response.responseJSON.error);
+            }
+            else if (response.status == 401)
+            {
+                this.trigger('unauthorized');
             }
         },
         destroy: function (options) {

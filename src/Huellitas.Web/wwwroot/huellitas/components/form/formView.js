@@ -7,10 +7,11 @@
             this.setInstancePropertiesFor('config', 'buttons', 'bindings', 'goToFocus');
         },
         modelEvents: {
-            'validated:invalid'     : 'changeErrors',
-            'validated:valid'       : 'removeErrors',
-            'sync:start'            : 'syncStart',
-            'sync:stop'             : 'syncStop'
+            'validated:invalid': 'changeErrors',
+            'validated:valid': 'removeErrors',
+            'sync:start': 'syncStart',
+            'sync:stop': 'syncStop',
+            'badrequest': 'showServerError'
         },
         triggers: {
             'submit': 'form:submit',
@@ -51,7 +52,7 @@
                             markError = { inputEl: that.$(element['controlToMark']), containerEl: that.$(element['controlToMark']).closest('.item') };
                         }
                         else {
-                            markError= { inputEl: inputEl, containerEl: inputEl.closest('.item') };
+                            markError = { inputEl: inputEl, containerEl: inputEl.closest('.item') };
                         }
 
                         fieldsToMark[element['observe']] = markError;
@@ -77,8 +78,7 @@
                 }
             });
 
-            if (this.config.goToFocus)
-            {
+            if (this.config.goToFocus) {
                 this.scrollFocusObject('.bad:first', -15);
             }
         },
@@ -115,6 +115,9 @@
         },
         getFormDataType: function () {
             return this.model.isNew() ? 'new' : 'edit';
+        },
+        showServerError: function (error) {
+            alert(error.Message);
         }
     });
 });

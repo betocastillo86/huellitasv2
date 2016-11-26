@@ -70,6 +70,7 @@
             var model = fileInfo.model;
             if (model.isNew()) {
                 this.fileCollection.add({ name: fileInfo.data.fileName, fileName: '/img/content/000000/1_imagen1.jpg' });
+                model.set('images', this.fileCollection.toJSON());
             }
             else {
                 var newFile = App.request('file:new:entity');
@@ -89,7 +90,14 @@
             this.fileCollection.add(model);
         },
         getGalleryView: function (model) {
-            this.fileCollection = App.request('file:entities:byContent', model.get('id'));
+            if (model.isNew())
+            {
+                this.fileCollection = App.request('file:new:entities');
+            }
+            else {
+                this.fileCollection = App.request('file:entities:byContent', model.get('id'));
+            }
+            
             return App.request('imagegallery:view', {
                 title: 'Mi titulo',
                 model: model,

@@ -26,6 +26,9 @@
         },
         getNew: function () {
             return new Entities.File();
+        },
+        getNewCollection: function () {
+            return new Entities.FileCollection();
         }
     };
 
@@ -34,6 +37,10 @@
             throw new Error('ContentId es obligatorio');
 
         return API.getByContent(contentId);
+    });
+
+    App.reqres.setHandler('file:new:entities', function () {
+        return API.getNewCollection();
     });
 
     App.reqres.setHandler('file:new:entity', function () {

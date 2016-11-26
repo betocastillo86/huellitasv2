@@ -146,7 +146,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="model">The model.</param>
         /// <returns>the pet id</returns>
         [HttpPost]
-        [Authorize]
         public IActionResult Post([FromBody]PetModel model)
         {
             if (this.ModelState.IsValid & model.IsValid(this.ModelState))

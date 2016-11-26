@@ -40,7 +40,7 @@ namespace Huellitas.Web.Models.Extensions
 
             if (model.Files == null || model.Files.Count == 0)
             {
-                modelState.AddModelError("Images", "Al menos se debe cargar una imagen");
+                modelState.AddModelError("Files", "Al menos se debe cargar una imagen");
                 isValid = false;
             }
 
