@@ -41,30 +41,33 @@ namespace Huellitas.Web.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var rootPath = _appEnvironment.ContentRootPath + "\\wwwroot";
-            var files = SearchJsInPath(rootPath + "\\huellitas", true);
             var strHtml = new StringBuilder();
 
-            strHtml.Append("<script src=\"/huellitas/app.js\"></script>");
-
-            SearchJsInPath(rootPath + "\\huellitas\\config", true)
+            SearchJsInPath(rootPath + "\\app", true)
                 .ToList()
                 .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
-            SearchJsInPath(rootPath + "\\huellitas\\entities", true)
-                .ToList()
-                .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+ 
 
-            SearchJsInPath(rootPath + "\\huellitas\\views", true)
-                .ToList()
-                .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+            //SearchJsInPath(rootPath + "\\huellitas\\config", true)
+            //    .ToList()
+            //    .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
-            SearchJsInPath(rootPath + "\\huellitas\\apps", true)
-                .ToList()
-                .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+            //SearchJsInPath(rootPath + "\\huellitas\\entities", true)
+            //    .ToList()
+            //    .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
-            SearchJsInPath(rootPath + "\\huellitas\\components", true)
-                .ToList()
-                .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+            //SearchJsInPath(rootPath + "\\huellitas\\views", true)
+            //    .ToList()
+            //    .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+
+            //SearchJsInPath(rootPath + "\\huellitas\\apps", true)
+            //    .ToList()
+            //    .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
+
+            //SearchJsInPath(rootPath + "\\huellitas\\components", true)
+            //    .ToList()
+            //    .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
             output.Content.SetHtmlContent(strHtml.ToString());
             base.Process(context, output);
@@ -80,6 +83,12 @@ namespace Huellitas.Web.TagHelpers
         {
             var foundFiles = new List<string>();
 
+            if (root)
+                foreach (var file in System.IO.Directory.GetFiles(path))
+                {
+                    foundFiles.Add(file);
+                }
+
             foreach (var directory in System.IO.Directory.GetDirectories(path).OrderBy(c => c))
             {
                 foreach (var file in System.IO.Directory.GetFiles(directory).Where(f => f.EndsWith(".js")).OrderBy(c => c))
@@ -89,12 +98,6 @@ namespace Huellitas.Web.TagHelpers
 
                 foundFiles.AddRange(SearchJsInPath(directory, false));
             }
-
-            if (root)
-                foreach (var file in System.IO.Directory.GetFiles(path))
-                {
-                    foundFiles.Add(file);
-                }
 
             return foundFiles;
         }
