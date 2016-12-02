@@ -15,9 +15,14 @@
     function configRoutes($routeProvider) {
         $routeProvider
         .when('/', {
-            templateUrl:    'app/layout/welcome.html',
-            controller:     'WelcomeController',
-            controllerAs:   'vm'
+            templateUrl: 'app/layout/welcome.html',
+            controller: 'WelcomeController',
+            controllerAs: 'vm'
+        })
+        .when('/pets', {
+            templateUrl: 'app/pets/listPets.html',
+            controller: 'ListPetsController',
+            controllerAs: 'vm'
         });
     }
 
