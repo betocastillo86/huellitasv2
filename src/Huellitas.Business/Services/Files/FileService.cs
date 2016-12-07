@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Files
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
@@ -36,6 +39,20 @@ namespace Huellitas.Business.Services.Files
         {
             this.fileRepository = fileRepository;
             this.filesHelper = filesHelper;
+        }
+
+        /// <summary>
+        /// Gets the by ids.
+        /// </summary>
+        /// <param name="ids">The identifiers</param>
+        /// <returns>
+        /// the files
+        /// </returns>
+        public IList<File> GetByIds(int[] ids)
+        {
+            return this.fileRepository.Table
+                .Where(c => ids.Contains(c.Id))
+                .ToList();
         }
 
         /// <summary>

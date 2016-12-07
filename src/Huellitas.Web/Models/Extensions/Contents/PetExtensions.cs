@@ -8,6 +8,7 @@ namespace Huellitas.Web.Models.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Api.Files;
     using Api.Users;
     using Business.Caching;
     using Business.Exceptions;
@@ -27,50 +28,42 @@ namespace Huellitas.Web.Models.Extensions
     public static class PetExtensions
     {
         /// <summary>
-        /// Returns true if ... is valid.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="modelState">State of the model.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified model state is valid; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsValid(this PetModel model, ModelStateDictionary modelState)
-        {
-            bool isValid = true;
-
-            if (model.Files == null || model.Files.Count == 0)
-            {
-                modelState.AddModelError("Files", "Al menos se debe cargar una imagen");
-                isValid = false;
-            }
-
-            if (model.Shelter == null && model.Location == null)
-            {
-                modelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
-                modelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
-        /// <summary>
         /// To the entity.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="files">The files</param>
+        /// <param name="entity">entity to asign the data</param>
         /// <returns>the value</returns>
         /// <exception cref="HuellitasException">the exceptions</exception>
-        public static Content ToEntity(this PetModel model, IContentService contentService)
+        public static Content ToEntity(this PetModel model, IContentService contentService, Content entity = null, IList<FileModel> files = null)
         {
-            var entity = new Content();
-            entity.Id = model.Id;
+            if (entity == null)
+            {
+                entity = new Content();
+                entity.Id = model.Id;
+                entity.StatusType = StatusType.Created;
+                entity.Type = ContentType.Pet;
+
+                for (int i = 0; i < model.Files.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        entity.FileId = model.Files[i].Id;
+                    }
+
+                    entity.ContentFiles.Add(new ContentFile()
+                    {
+                        FileId = model.Files[i].Id,
+                        DisplayOrder = i
+                    });
+                }
+            }
+
             entity.Name = model.Name;
             entity.Body = model.Body;
             entity.DisplayOrder = model.DisplayOrder;
             entity.Email = model.Email;
-            entity.StatusType = StatusType.Created;
-            entity.Type = ContentType.Pet;
 
             if (model.Shelter == null)
             {

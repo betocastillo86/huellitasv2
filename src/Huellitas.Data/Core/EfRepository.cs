@@ -8,9 +8,10 @@ namespace Huellitas.Data.Core
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
-    
+
     /// <summary>
     /// The Repository
     /// </summary>
@@ -73,7 +74,7 @@ namespace Huellitas.Data.Core
                 {
                     this.entities = this.context.Set<T>();
                 }
-                    
+
                 return this.entities;
             }
         }
@@ -112,7 +113,7 @@ namespace Huellitas.Data.Core
             {
                 this.Entities.Remove(entity);
             }
-                
+
             this.context.SaveChanges();
         }
 
@@ -141,7 +142,7 @@ namespace Huellitas.Data.Core
             {
                 throw new ArgumentNullException("entity");
             }
-                
+
             this.Entities.Add(entity);
 
             this.context.SaveChanges();
@@ -163,8 +164,26 @@ namespace Huellitas.Data.Core
             {
                 this.Entities.Add(entity);
             }
-                
+
             this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Insert entity
+        /// </summary>
+        /// <param name="entity">The entity</param>
+        /// <returns>the task</returns>
+        /// <exception cref="System.ArgumentNullException">the entities</exception>
+        public async Task InsertAsync(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            this.Entities.Add(entity);
+
+            await this.context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -181,6 +200,24 @@ namespace Huellitas.Data.Core
             }
 
             return this.context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// the value
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">the entity</exception>
+        public async Task<int> UpdateAsync(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            return await this.context.SaveChangesAsync();
         }
     }
 }

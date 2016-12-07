@@ -6,6 +6,7 @@
 namespace Huellitas.Business.Services.Contents
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Data.Entities.Enums;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
@@ -45,10 +46,11 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue);
 
         /// <summary>
-        /// Inserts the specified content.
+        /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
-        void Insert(Content content);
+        /// <returns>the task</returns>
+        Task InsertAsync(Content content);
 
         /// <summary>
         /// Searches the specified keyword.

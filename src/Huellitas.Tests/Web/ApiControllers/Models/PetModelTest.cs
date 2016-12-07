@@ -56,18 +56,18 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.IsFalse(Validator.TryValidateObject(model, new ValidationContext(model), validationErrors));
             Assert.AreEqual("Size", validationErrors.FirstOrDefault().MemberNames.FirstOrDefault());
 
-            model = model.MockNew();
-            model.Files = null;
-            var modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-            Assert.IsFalse(model.IsValid(modelState));          
-            Assert.AreEqual("Images", modelState.FirstOrDefault().Key);
+            ////model = model.MockNew();
+            ////model.Files = null;
+            ////var modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+            ////Assert.IsFalse(model.IsValid(modelState));          
+            ////Assert.AreEqual("Images", modelState.FirstOrDefault().Key);
 
-            model = model.MockNew();
-            model.Location = null;
-            modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-            Assert.IsFalse(model.IsValid(modelState));
-            Assert.IsNotNull(modelState["Location"]);
-            Assert.IsNotNull(modelState["Shelter"]);
+            ////model = model.MockNew();
+            ////model.Location = null;
+            ////modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+            ////Assert.IsFalse(model.IsValid(modelState));
+            ////Assert.IsNotNull(modelState["Location"]);
+            ////Assert.IsNotNull(modelState["Shelter"]);
 
             ////model = model.MockNew();
             ////model.Moths = 0;

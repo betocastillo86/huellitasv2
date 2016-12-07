@@ -11,11 +11,35 @@ namespace Huellitas.Business.Configuration
     public interface IContentSettings
     {
         /// <summary>
-        /// Gets the default size of the page.
+        /// Gets the picture size width detail.
         /// </summary>
         /// <value>
-        /// The default size of the page.
+        /// The picture size width detail.
         /// </value>
-        int DefaultPageSize { get; }
+        int PictureSizeWidthDetail { get; }
+
+        /// <summary>
+        /// Gets the picture size height detail.
+        /// </summary>
+        /// <value>
+        /// The picture size height detail.
+        /// </value>
+        int PictureSizeHeightDetail { get; }
+
+        /// <summary>
+        /// Gets the picture size width list.
+        /// </summary>
+        /// <value>
+        /// The picture size width list.
+        /// </value>
+        int PictureSizeWidthList { get; }
+
+        /// <summary>
+        /// Gets the picture size height list.
+        /// </summary>
+        /// <value>
+        /// The picture size height list.
+        /// </value>
+        int PictureSizeHeightList { get; }
     }
 }

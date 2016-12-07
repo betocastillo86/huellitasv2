@@ -6,7 +6,10 @@
 namespace Huellitas.Web.Controllers.Api.Contents
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Business.Caching;
+    using Business.Configuration;
     using Business.Services.Common;
     using Business.Services.Files;
     using Data.Entities;
@@ -54,6 +57,21 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </summary>
         private readonly IWorkContext workContext;
 
+        /// <summary>
+        /// The picture service
+        /// </summary>
+        private readonly IPictureService pictureService;
+
+        /// <summary>
+        /// The content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
+        /// <summary>
+        /// The file service
+        /// </summary>
+        private readonly IFileService fileService;
+
         #endregion props
 
         #region ctor
@@ -66,18 +84,27 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="cacheManager">the cache manager</param>
         /// <param name="customTableService">the custom table service</param>
         /// <param name="workContext">the work context</param>
+        /// <param name="pictureService">the picture service</param>
+        /// <param name="contentSettings">content settings</param>
+        /// <param name="fileService">the file service</param>
         public PetsController(
             IContentService contentService,
             IFilesHelper filesHelper,
             ICacheManager cacheManager,
             ICustomTableService customTableService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IPictureService pictureService,
+            IContentSettings contentSettings,
+            IFileService fileService)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
             this.cacheManager = cacheManager;
             this.customTableService = customTableService;
             this.workContext = workContext;
+            this.pictureService = pictureService;
+            this.contentSettings = contentSettings;
+            this.fileService = fileService;
         }
 
         #endregion ctor
@@ -147,29 +174,30 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="model">The model.</param>
         /// <returns>the pet id</returns>
         [HttpPost]
-        public IActionResult Post([FromBody]PetModel model)
+        public async Task<IActionResult> Post([FromBody]PetModel model)
         {
-            if (this.ModelState.IsValid & model.IsValid(this.ModelState))
+            if (this.IsValidModel(model))
             {
-                var content = model.ToEntity(this.contentService);
-                content.UserId = this.workContext.CurrentUserId;
-
-                for (int i = 0; i < model.Files.Count; i++)
-                {
-                    if (i == 0)
-                    {
-                        content.FileId = model.Files[i].Id;
-                    }
-
-                    content.ContentFiles.Add(new ContentFile()
-                    {
-                        FileId = model.Files[i].Id
-                    });
-                }
+                Content content = null;
 
                 try
                 {
-                    this.contentService.Insert(content);
+                    content = model.ToEntity(this.contentService, files: model.Files);
+                    content.UserId = this.workContext.CurrentUserId;
+
+                    await this.contentService.InsertAsync(content);
+
+                    if (content.ContentFiles.Count > 0)
+                    {
+                        ////TODO:Test
+                        var files = this.fileService.GetByIds(content.ContentFiles.Select(c => c.FileId).ToArray());
+
+                        foreach (var file in files)
+                        {
+                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
+                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                        }
+                    }
                 }
                 catch (HuellitasException e)
                 {
@@ -195,6 +223,34 @@ namespace Huellitas.Web.Controllers.Api.Contents
         public IActionResult Put(int id, [FromBody]string value)
         {
             return this.Ok(new { result = true });
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool IsValidModel(PetModel model)
+        {
+            ////Removes shelter validation to avoid validate body and name properties
+            this.ModelState.Remove("Shelter.Body");
+            this.ModelState.Remove("Shelter.Name");
+
+            if (model.Files == null || model.Files.Count == 0)
+            {
+                this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");
+            }
+
+            if (model.Shelter == null && model.Location == null)
+            {
+                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+                this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
+            }
+
+            return this.ModelState.IsValid;
         }
     }
 }

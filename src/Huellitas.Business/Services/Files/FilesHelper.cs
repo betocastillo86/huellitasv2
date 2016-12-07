@@ -181,9 +181,8 @@ namespace Huellitas.Business.Services.Files
         /// <param name="file">The file.</param>
         /// <param name="filesByFolder">number of files the can host by folder</param>
         /// <returns>the folder name</returns>
-        private string GetFolderName(File file, int filesByFolder = 50)
+        public string GetFolderName(File file, int filesByFolder = 50)
         {
-            ////TODO:Test
             ////Every 50 files creates a new Folder
             var folder = Math.Ceiling((decimal)file.Id / filesByFolder);
             return folder.ToString("000000");

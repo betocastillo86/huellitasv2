@@ -312,6 +312,11 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "SecuritySettings.AuthenticationSecretKey", Value = "TheSecretKey132456789" });
             list.Add(new SystemSetting() { Name = "SecuritySettings.ExpirationTokenMinutes", Value = "60" });
 
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthDetail", Value = "800" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightDetail", Value = "800" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthList", Value = "500" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "500" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

@@ -7,6 +7,7 @@ namespace Huellitas.Data.Core
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
 
     /// <summary>
@@ -58,6 +59,13 @@ namespace Huellitas.Data.Core
         void Insert(T entity);
 
         /// <summary>
+        /// Inserts the asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the task</returns>
+        Task InsertAsync(T entity);
+
+        /// <summary>
         /// Insert entities
         /// </summary>
         /// <param name="entities">The Entities</param>
@@ -69,5 +77,12 @@ namespace Huellitas.Data.Core
         /// <param name="entity">The entity.</param>
         /// <returns>the value</returns>
         int Update(T entity);
+
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the value</returns>
+        Task<int> UpdateAsync(T entity);
     }
 }
