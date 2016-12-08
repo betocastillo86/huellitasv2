@@ -1,0 +1,17 @@
+﻿<div class="row">
+    <div class="col-sm-5">
+        <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Mostrando {{main.pager.count}} de {{main.pager.totalCount}}</div>
+    </div>
+    <div class="col-sm-7">
+        <div class="paging_simple_numbers text-right" id="datatable_paginate">
+            <ul class="pagination">
+                <li class="paginate_button previous" ng-class="pager.classPrevious()" id="datatable_previous" ng-click="pager.previousPage()"><a aria-controls="datatable" data-dt-idx="0" tabindex="0">Previous</a></li>
+                <li ng-repeat="currentPage in pager.getArrayPages() track by $index" class="paginate_button" ng-class="pager.activeClass($index)" ng-click="pager.changePage($index)">
+                    <a href="" tabindex="0" >{{$index+1}}</a>
+                </li>
+                <li class="paginate_button next" id="datatable_next" ng-class="pager.classNext()" ng-click="pager.nextPage()"><a aria-controls="datatable" data-dt-idx="7" tabindex="0">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+

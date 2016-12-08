@@ -10,6 +10,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Data.Entities;
     using Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller
@@ -39,7 +40,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get()
         {
-            return this.Ok(this.contentService.Search(contentType: ContentType.Shelter)); 
+            var contents = this.contentService.Search(contentType: ContentType.Shelter);
+            return this.Ok(contents.ToList(), contents.HasNextPage, contents.TotalCount); 
         }
     }
 }

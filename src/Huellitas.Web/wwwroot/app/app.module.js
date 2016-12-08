@@ -3,12 +3,12 @@
 
     angular.module('app', [
         // Angular modules 
-        'ngRoute'
+        'ngRoute',
 
         // Custom modules 
 
         // 3rd Party Modules
-
+        'angucomplete-alt'
     ])
     .config(configRoutes);
 
@@ -17,12 +17,17 @@
         .when('/', {
             templateUrl: 'app/layout/welcome.html',
             controller: 'WelcomeController',
-            controllerAs: 'vm'
+            controllerAs: 'main'
         })
         .when('/pets', {
             templateUrl: 'app/pets/listPets.html',
             controller: 'ListPetsController',
-            controllerAs: 'vm'
+            controllerAs: 'main'
+        })
+        .when('/pets/:id/edit', {
+            templateUrl: 'app/pets/editPet.html',
+            controller: 'EditPetController',
+            controllerAs: 'main'
         });
     }
 

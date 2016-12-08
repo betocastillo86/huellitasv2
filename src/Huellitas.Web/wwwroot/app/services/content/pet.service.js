@@ -7,7 +7,8 @@
     function petService($http)
     {
         return {
-            getAll : getAll
+            getAll: getAll,
+            getById : getById
         };
 
         function getAll(filter)
@@ -24,6 +25,22 @@
             function getAllError()
             {
                 console.log('Get all error');
+            }
+        }
+
+        function getById(id)
+        {
+            return $http.get('/api/pets/' + id)
+            .then(getByIdCompleted)
+            .catch(getByIdError);
+
+            function getByIdCompleted(response) {
+                return response.data;
+            }
+
+            function getByIdError(response) {
+                console.log('Get by id error');
+                return response;
             }
         }
     }

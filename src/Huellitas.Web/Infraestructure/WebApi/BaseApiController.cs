@@ -11,6 +11,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
     using Huellitas.Business.Exceptions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Controllers.Api.Common;
 
     /// <summary>
     /// Base for <c>Api</c> Controllers
@@ -98,13 +99,15 @@ namespace Huellitas.Web.Infraestructure.WebApi
         /// <param name="hasNextPage">if set to <c>true</c> [has next page].</param>
         /// <param name="totalCount">The total count.</param>
         /// <returns>the value</returns>
-        protected IActionResult Ok<T>(IList<T> list, bool hasNextPage, int totalCount)
+        protected IActionResult Ok<T>(IList<T> list, bool hasNextPage, int totalCount) where T : class
         {
-            this.Response.Headers.Add(ApiHeadersList.PAGINATION_HASNEXTPAGE, hasNextPage.ToString());
-            this.Response.Headers.Add(ApiHeadersList.PAGINATION_TOTALCOUNT, totalCount.ToString());
-            this.Response.Headers.Add(ApiHeadersList.PAGINATION_COUNT, list.Count.ToString());
+            var model = new PaginationResponseModel<T>()
+            {
+                Meta = new PaginationInformationModel { Count = list.Count, HasNextPage = hasNextPage, TotalCount = totalCount },
+                Results = list
+            };
 
-            return this.StatusCode(200, list);
+            return this.StatusCode(200, model);
         }
 
         #endregion Ok

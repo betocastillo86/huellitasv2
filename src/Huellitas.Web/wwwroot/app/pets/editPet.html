@@ -1,0 +1,186 @@
+﻿<div class="">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Editar <small>{{main.model.name}}</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                        <input type="file" fileupload-huellitas />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Nombre <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Descripción <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="form-control" rows="3" ng-model="main.model.body"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <select class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                    <label ng-repeat="subtype in main.subtypes track by subtype.id" ng-click="main.changeSubtype(subtype.id)" class="btn" ng-class="main.activeTooggleClass(subtype.id, main.model.subtype.value)">
+                                        &nbsp; {{subtype.value}} &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Genero</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                    <label ng-repeat="genre in main.genres track by genre.id" ng-click="main.changeGenre(genre.id)" class="btn" ng-class="main.activeTooggleClass(genre.id, main.model.genre.value)">
+                                        &nbsp; {{genre.value}} &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-6">
+                                Edad <span class="required">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.years" placeholder="Años" /> años
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.months" placeholder="Meses" /> meses
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Refugio</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <angucomplete-alt id="shelter"
+                                                  placeholder="Ingresar refugio"
+                                                  pause="400"
+                                                  remote-url="/api/shelters?keyword="
+                                                  remote-url-data-field="results"
+                                                  title-field="name"
+                                                  selected-object="main.changeShelter"
+                                                  initial-value="main.model.shelter.name"
+                                                  input-class="form-control col-md-9 col-xs-12" />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="!main.model.shelter.id">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Ciudad</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <angucomplete-alt id="location"
+                                                  placeholder="Ingresar Ubicación"
+                                                  pause="400"
+                                                  remote-url="/api/locations?keyword="
+                                                  title-field="name"
+                                                  selected-object="main.changeLocation"
+                                                  initial-value="main.model.location.name"
+                                                  input-class="form-control col-md-9 col-xs-12" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Esterilizado</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                    <label ng-click="main.changeCastrated(true)" class="btn" ng-class="main.activeTooggleClass(true, main.model.castrated)">
+                                        &nbsp; Si &nbsp;
+                                    </label>
+                                    <label ng-click="main.changeCastrated(false)" class="btn" ng-class="main.activeTooggleClass(false, main.model.castrated)">
+                                        &nbsp; No &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="x_title">
+                            <h2>Opciones adicionales</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link" ng-click="main.toogleShowMore()">Ver más</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div ng-if="main.showMoreActive">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control" ng-model="main.model.status" ng-options="status.id as status.name for status in main.statusTypes"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Auto respuesta</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div id="gender" class="btn-group" data-toggle="buttons">
+                                        <label ng-click="main.changeAutoReply(true)" class="btn" ng-class="main.activeTooggleClass(true, main.model.autoReply)">
+                                            &nbsp; Si &nbsp;
+                                        </label>
+                                        <label ng-click="main.changeAutoReply(false)" class="btn" ng-class="main.activeTooggleClass(false, main.model.autoReply)">
+                                            &nbsp; No &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Destacado</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div id="gender" class="btn-group" data-toggle="buttons">
+                                        <label ng-click="main.changeFeatured(true)" class="btn" ng-class="main.activeTooggleClass(true, main.model.featured)">
+                                            &nbsp; Si &nbsp;
+                                        </label>
+                                        <label ng-click="main.changeFeatured(false)" class="btn" ng-class="main.activeTooggleClass(false, main.model.featured)">
+                                            &nbsp; No &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Fotos</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link" ng-click="main.toogleShowPictures()">Ver más</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-if="main.showPicturesActive">
+                    ver las fotos
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
