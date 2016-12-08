@@ -30,11 +30,35 @@ namespace Huellitas.Business.Configuration
         }
 
         /// <summary>
-        /// Gets the default size of the page.
+        /// Gets the picture size width detail.
         /// </summary>
         /// <value>
-        /// The default size of the page.
+        /// The picture size width detail.
         /// </value>
-        public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("ContentSettings.DefaultPageSize"); } }
+        public int PictureSizeWidthDetail { get { return this.settingService.GetCachedSetting<int>("ContentSettings.PictureSizeWidthDetail"); } }
+
+        /// <summary>
+        /// Gets the picture size height detail.
+        /// </summary>
+        /// <value>
+        /// The picture size height detail.
+        /// </value>
+        public int PictureSizeHeightDetail { get { return this.settingService.GetCachedSetting<int>("ContentSettings.PictureSizeHeightDetail"); } }
+
+        /// <summary>
+        /// Gets the picture size width list.
+        /// </summary>
+        /// <value>
+        /// The picture size width list.
+        /// </value>
+        public int PictureSizeWidthList { get { return this.settingService.GetCachedSetting<int>("ContentSettings.PictureSizeWidthList"); } }
+
+        /// <summary>
+        /// Gets the picture size height list.
+        /// </summary>
+        /// <value>
+        /// The picture size height list.
+        /// </value>
+        public int PictureSizeHeightList { get { return this.settingService.GetCachedSetting<int>("ContentSettings.PictureSizeHeightList"); } }
     }
 }

@@ -6,9 +6,11 @@
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Data.Entities;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
+    using Huellitas.Business.Configuration;
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Files;
@@ -16,6 +18,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api.Files;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -39,7 +42,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
+            var controller = this.MockController();
 
             var filter = new PetsFilterModel();
             filter.Shelter = "4,b,c,5";
@@ -62,10 +65,22 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
 
             mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder)).Returns(new PagedList<Content>() { new Content() { } });
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
+            var controller = new PetsController(
+                mockContentService.Object, 
+                fileHelpers.Object, 
+                cacheManager.Object, 
+                customTableService.Object, 
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
             controller.AddResponse().AddUrl();
 
             var filter = new PetsFilterModel();
@@ -83,22 +98,33 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Posts the pets bad request.
         /// </summary>
         [Test]
-        public void PostPetsBadRequest()
+        public async Task PostPetsBadRequest()
         {
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
+            var controller = new PetsController(
+                mockContentService.Object, 
+                fileHelpers.Object, 
+                cacheManager.Object, 
+                customTableService.Object, 
+                this.WorkContextMock.Object, 
+                pictureService.Object, 
+                contentSettings.Object,
+                fileService.Object);
 
             var model = new PetModel();
-            var response = controller.Post(model) as ObjectResult;
+            var response = await controller.Post(model) as ObjectResult;
 
             var error = (response.Value as BaseApiError).Error;
 
             Assert.AreEqual(400, response.StatusCode);
-            Assert.AreEqual("Images", error.Details[0].Target);
+            Assert.AreEqual("Files", error.Details[0].Target);
             Assert.AreEqual("Shelter", error.Details[1].Target);
             Assert.AreEqual("Location", error.Details[2].Target);
         }
@@ -107,31 +133,108 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Posts the pets <c>ok</c>.
         /// </summary>
         [Test]
-        public void PostPetsOk()
+        public async Task PostPetsOk()
         {
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+
+            var fileService = new Mock<IFileService>();
+            fileService.Setup(c => c.GetByIds(It.IsAny<int[]>()))
+                .Returns(new List<File>());
+
             var model = new PetModel().MockNew();
 
             int newId = 1;
 
             var content = model.ToEntity(mockContentService.Object);
-            mockContentService.Setup(c => c.Insert(It.IsAny<Content>()))
+            mockContentService.Setup(c => c.InsertAsync(It.IsAny<Content>()))
                 .Callback((Content content1) =>
                 {
                     content1.Id = newId;
-                });
+                })
+                .Returns(Task.FromResult(0));
 
-            var controller = new PetsController(mockContentService.Object, fileHelpers.Object, cacheManager.Object, customTableService.Object, this.WorkContextMock.Object);
+            var controller = new PetsController(
+                mockContentService.Object, 
+                fileHelpers.Object, 
+                cacheManager.Object, 
+                customTableService.Object, 
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
             controller.AddUrl(true);
 
-            var response = controller.Post(model) as ObjectResult;
+            var response = await controller.Post(model) as ObjectResult;
 
             Assert.AreEqual(201, response.StatusCode);
             Assert.IsTrue(controller.IsValidModelState(model));
             Assert.AreEqual(newId, (response.Value as BaseModel).Id);
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model true].
+        /// </summary>
+        [Test]
+        public void IsValidModel_True()
+        {
+            var controller = this.MockController();
+            var model = new PetModel();
+            model.Files = new List<FileModel>() { new FileModel() };
+            model.Shelter = new ShelterModel();
+            Assert.IsTrue(controller.IsValidModel(model));
+
+            model.Shelter = null;
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model));
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model false].
+        /// </summary>
+        [Test]
+        public void IsValidModel_False()
+        {
+            var controller = this.MockController();
+            var model = new PetModel();
+            model.Files = new List<FileModel>();
+            model.Shelter = new ShelterModel();
+            Assert.IsFalse(controller.IsValidModel(model));
+            Assert.IsNotNull(controller.ModelState["Files"]);
+            Assert.IsNull(controller.ModelState["Location"]);
+
+            controller = this.MockController();
+            model = new PetModel();
+            model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
+            Assert.IsFalse(controller.IsValidModel(model)); 
+            Assert.IsNotNull(controller.ModelState["Location"]);
+            Assert.IsNull(controller.ModelState["Files"]);
+        }
+
+        private PetsController MockController()
+        {
+            var mockContentService = new Mock<IContentService>();
+            var fileHelpers = new Mock<IFilesHelper>();
+            var customTableService = new Mock<ICustomTableService>();
+            var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
+
+            return new PetsController(
+                mockContentService.Object, 
+                fileHelpers.Object, 
+                cacheManager.Object, 
+                customTableService.Object, 
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
         }
     }
 }

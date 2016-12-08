@@ -10,6 +10,7 @@ namespace Huellitas.Business.Services.Contents
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using Data.Entities.Enums;
     using Exceptions;
     using Huellitas.Data.Core;
@@ -151,17 +152,19 @@ namespace Huellitas.Business.Services.Contents
         }
 
         /// <summary>
-        /// Inserts the specified content.
+        /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
-        public void Insert(Content content)
+        /// <returns>the task</returns>
+        /// <exception cref="HuellitasException">the exception</exception>
+        public async Task InsertAsync(Content content)
         {
             content.CreatedDate = DateTime.Now;
             content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.TableNoTracking);
 
             try
             {
-                this.contentRepository.Insert(content);
+                await this.contentRepository.InsertAsync(content);
             }
             catch (DbUpdateException e)
             {
@@ -180,6 +183,10 @@ namespace Huellitas.Business.Services.Contents
                         else if (inner.Message.IndexOf("FK_Content_File") != -1 || inner.Message.IndexOf("FK_ContentFile_File") != -1)
                         {
                             target = "File";
+                        }
+                        else if (inner.Message.IndexOf("FK_Content_User") != -1)
+                        {
+                            target = "User";
                         }
                         else
                         {

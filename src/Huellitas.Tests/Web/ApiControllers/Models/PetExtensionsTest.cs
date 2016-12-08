@@ -29,43 +29,43 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     [TestFixture]
     public class PetExtensionsTest
     {
-        /// <summary>
-        /// Determines whether [is valid false].
-        /// </summary>
-        [Test]
-        public void IsValid_False()
-        {
-            var model = new PetModel();
-            model.Shelter = new ShelterModel();
-            model.Files = new List<FileModel>();
-            var modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-            Assert.IsFalse(model.IsValid(modelState));
-            Assert.IsNotNull(modelState["Images"]);
-            Assert.IsNull(modelState["Location"]);
+        ///////// <summary>
+        ///////// Determines whether [is valid false].
+        ///////// </summary>
+        //////[Test]
+        //////public void IsValid_False()
+        //////{
+        //////    var model = new PetModel();
+        //////    model.Shelter = new ShelterModel();
+        //////    model.Files = new List<FileModel>();
+        //////    var modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+        //////    Assert.IsFalse(model.IsValid(modelState));
+        //////    Assert.IsNotNull(modelState["Images"]);
+        //////    Assert.IsNull(modelState["Location"]);
 
-            model = new PetModel();
-            model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
-            modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-            Assert.IsFalse(model.IsValid(modelState));
-            Assert.IsNotNull(modelState["Location"]);
-            Assert.IsNull(modelState["Images"]);
-        }
+        //////    model = new PetModel();
+        //////    model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
+        //////    modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+        //////    Assert.IsFalse(model.IsValid(modelState));
+        //////    Assert.IsNotNull(modelState["Location"]);
+        //////    Assert.IsNull(modelState["Images"]);
+        //////}
 
-        /// <summary>
-        /// Determines whether [is valid true].
-        /// </summary>
-        [Test]
-        public void IsValid_True()
-        {
-            var model = new PetModel();
-            model.Files = new List<FileModel>() { new FileModel() };
-            model.Shelter = new ShelterModel();
-            Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
+        ///////// <summary>
+        ///////// Determines whether [is valid true].
+        ///////// </summary>
+        //////[Test]
+        //////public void IsValid_True()
+        //////{
+        //////    var model = new PetModel();
+        //////    model.Files = new List<FileModel>() { new FileModel() };
+        //////    model.Shelter = new ShelterModel();
+        //////    Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
 
-            model.Shelter = null;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
-            Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
-        }
+        //////    model.Shelter = null;
+        //////    model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+        //////    Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
+        //////}
 
         /// <summary>
         /// To the pet entity invalid.
