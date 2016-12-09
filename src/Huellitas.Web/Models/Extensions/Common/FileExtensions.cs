@@ -23,12 +23,17 @@ namespace Huellitas.Web.Models.Extensions.Common
         /// <param name="fileHelper">The file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <returns>the model</returns>
-        public static FileModel ToModel(this File file, IFilesHelper fileHelper, Func<string, string> contentUrlFunction = null)
+        public static FileModel ToModel(
+            this File file, 
+            IFilesHelper fileHelper, 
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
         {
             return new Api.Files.FileModel()
             {
                 Id = file.Id,
-                FileName = fileHelper.GetFullPath(file, contentUrlFunction),
+                FileName = fileHelper.GetFullPath(file, contentUrlFunction, width, height),
                 Name = file.Name
             };
         }
@@ -40,13 +45,17 @@ namespace Huellitas.Web.Models.Extensions.Common
         /// <param name="fileHelper">The file helper</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <returns>the models</returns>
-        public static IList<FileModel> ToModels(this IList<File> files, IFilesHelper fileHelper, Func<string, string> contentUrlFunction = null)
+        public static IList<FileModel> ToModels(
+            this IList<File> files, 
+            IFilesHelper fileHelper, Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
         {
             var list = new List<FileModel>();
 
             foreach (var file in files)
             {
-                list.Add(file.ToModel(fileHelper, contentUrlFunction));
+                list.Add(file.ToModel(fileHelper, contentUrlFunction, width, height));
             }
 
             return list;
