@@ -62,7 +62,6 @@ namespace Huellitas.Business.Services.Seo
                 friendlyname = friendlyname.Substring(0, maxLength + 20);
             }
 
-            ////TODO:Test with null
             if (query != null)
             {
                 var isAvailable = !query.Any(c => c.FriendlyName.Equals(friendlyname));

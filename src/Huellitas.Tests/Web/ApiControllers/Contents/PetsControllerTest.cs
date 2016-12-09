@@ -97,6 +97,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <summary>
         /// Posts the pets bad request.
         /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task PostPetsBadRequest()
         {
@@ -130,8 +131,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         }
 
         /// <summary>
-        /// Posts the pets <c>ok</c>.
+        /// Posts the pets ok.
         /// </summary>
+        /// <returns>The task</returns>
         [Test]
         public async Task PostPetsOk()
         {
@@ -216,6 +218,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             Assert.IsNull(controller.ModelState["Files"]);
         }
 
+        /// <summary>
+        /// Mocks the controller.
+        /// </summary>
+        /// <returns>the controller</returns>
         private PetsController MockController()
         {
             var mockContentService = new Mock<IContentService>();

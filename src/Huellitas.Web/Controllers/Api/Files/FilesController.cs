@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FileController.cs" company="Huellitas sin hogar">
+// <copyright file="FilesController.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -22,7 +22,7 @@ namespace Huellitas.Web.Controllers.Api.Files
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/files")]
-    public class FileController : BaseApiController
+    public class FilesController : BaseApiController
     {
         /// <summary>
         /// The file service
@@ -45,13 +45,13 @@ namespace Huellitas.Web.Controllers.Api.Files
         private readonly ISeoService seoService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileController"/> class.
+        /// Initializes a new instance of the <see cref="FilesController"/> class.
         /// </summary>
         /// <param name="hostingEnvironment">The hosting environment.</param>
         /// <param name="fileService">The File Service</param>
         /// <param name="filesHelper">The files helper</param>
         /// <param name="seoService">The SEO Service</param>
-        public FileController(
+        public FilesController(
             IHostingEnvironment hostingEnvironment,
             IFileService fileService,
             IFilesHelper filesHelper,
@@ -90,7 +90,7 @@ namespace Huellitas.Web.Controllers.Api.Files
 
                 foreach (var dataFile in model.Files)
                 {
-                    file.Name = model.Name;
+                    file.Name = model.Name ?? System.IO.Path.GetFileNameWithoutExtension(dataFile.Name);
                     file.FileName = string.Concat(this.seoService.GenerateFriendlyName(file.Name), System.IO.Path.GetExtension(dataFile.FileName));
                     file.MimeType = this.filesHelper.GetContentTypeByFileName(file.FileName);
 
@@ -118,7 +118,8 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// <returns>
         ///   <c>true</c> if [is valid model] [the specified files]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsValidModel(ICollection<IFormFile> files)
+        [NonAction]
+        public bool IsValidModel(ICollection<IFormFile> files)
         {
             if (files == null)
             {

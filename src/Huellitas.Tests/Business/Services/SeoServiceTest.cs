@@ -37,6 +37,18 @@ namespace Huellitas.Tests.Business.Services
         }
 
         /// <summary>
+        /// Generates the friendly name with the query null.
+        /// </summary>
+        [Test]
+        public void GenerateFriendlyName_Query_Null()
+        {
+            var service = new SeoService();
+            Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido", null));
+            Assert.AreEqual("con-punto", service.GenerateFriendlyName("Con punto.", null));
+            Assert.AreEqual("con-coma", service.GenerateFriendlyName("Con coma,", null));
+        }
+
+        /// <summary>
         /// Generates the maximum length of the repeated with.
         /// </summary>
         [Test]

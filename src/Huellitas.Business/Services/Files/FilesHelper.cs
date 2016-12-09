@@ -89,7 +89,6 @@ namespace Huellitas.Business.Services.Files
         /// </returns>
         public string GetFullPath(File file, Func<string, string> contentUrlFunction = null, int width = 0, int height = 0)
         {
-            ////TODO:Test
             var fileName = $"/img/content/{this.GetFolderName(file)}/{this.GetFileNameWithSize(file, width, height)}";
 
             if (contentUrlFunction != null)
@@ -113,7 +112,6 @@ namespace Huellitas.Business.Services.Files
         /// </returns>
         public string GetPhysicalPath(File file, int width = 0, int height = 0)
         {
-            ////TODO:Test
             var relativePath = this.GetFullPath(file, null, width, height);
             return string.Concat(this.hostingEnvironment.WebRootPath, relativePath);
         }
@@ -159,9 +157,8 @@ namespace Huellitas.Business.Services.Files
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <returns>the file name</returns>
-        private string GetFileNameWithSize(File file, int width = 0, int height = 0)
+        public string GetFileNameWithSize(File file, int width = 0, int height = 0)
         {
-            ////TODO:Test
             var nameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
             var extension = System.IO.Path.GetExtension(file.FileName);
 

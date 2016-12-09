@@ -32,11 +32,15 @@ namespace Huellitas.Web.Models.Extensions
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="entity">entity to assign the data</param>
         /// <param name="files">The files</param>
-        /// <param name="entity">entity to asign the data</param>
         /// <returns>the value</returns>
         /// <exception cref="HuellitasException">the exceptions</exception>
-        public static Content ToEntity(this PetModel model, IContentService contentService, Content entity = null, IList<FileModel> files = null)
+        public static Content ToEntity(
+            this PetModel model, 
+            IContentService contentService, 
+            Content entity = null, 
+            IList<FileModel> files = null)
         {
             if (entity == null)
             {
