@@ -43,17 +43,15 @@ paths.libs = [
     paths.external + 'angular-route/angular-route.js',
     paths.external + 'gentelella/vendors/jquery/dist/jquery.min.js',
     paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
-    paths.external + 'angucomplete-alt/dist/angucomplete-alt.min.js'
-    
+    paths.external + 'angucomplete-alt/dist/angucomplete-alt.min.js',
+    paths.external + 'underscore/underscore.js'
 ];
 
 paths.css = [
     paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
     paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
-    paths.external + 'gentelella/build/css/custom.min.css'
-    
-   /*,
-    paths.webroot + 'css/huellitas.css'*/
+    paths.external + 'gentelella/build/css/custom.min.css',
+    paths.webroot + 'css/huellitas.css'
 ];
 
 paths.concatJsDest = paths.webroot + "js/site.min.js";

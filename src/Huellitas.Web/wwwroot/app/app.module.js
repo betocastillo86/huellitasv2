@@ -8,7 +8,8 @@
         // Custom modules 
 
         // 3rd Party Modules
-        'angucomplete-alt'
+        'angucomplete-alt',
+        'underscore'
     ])
     .config(configRoutes);
 

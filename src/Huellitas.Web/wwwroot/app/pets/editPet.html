@@ -8,14 +8,15 @@
                 </div>
                 <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-                        <input type="file" fileupload-huellitas />
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                    <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save()" >
+                        <pre>{{formPet | json}}</pre>
+                        <div class="form-group" >
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Nombre <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" />
+                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-maxlength="50"  />
+                                <validation-message form="formPet" field="formPet.name"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -23,13 +24,15 @@
                                 Descripción <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea class="form-control" rows="3" ng-model="main.model.body"></textarea>
+                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500" ></textarea>
+                                <validation-message form="formPet" field="formPet.body"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <select class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes"></select>
+                                <select name="size" class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes" ng-class="main.isInvalidClass(formPet, formPet.size)" required></select>
+                                <validation-message form="formPet" field="formPet.size"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -39,7 +42,9 @@
                                     <label ng-repeat="subtype in main.subtypes track by subtype.id" ng-click="main.changeSubtype(subtype.id)" class="btn" ng-class="main.activeTooggleClass(subtype.id, main.model.subtype.value)">
                                         &nbsp; {{subtype.value}} &nbsp;
                                     </label>
+                                    <input type="text" name="subtype" ng-model="main.model.subtype.value" style="display:none"  required />
                                 </div>
+                                <validation-message form="formPet" field="formPet.subtype"></validation-message>
                             </div>
                         </div>
 
@@ -50,7 +55,9 @@
                                     <label ng-repeat="genre in main.genres track by genre.id" ng-click="main.changeGenre(genre.id)" class="btn" ng-class="main.activeTooggleClass(genre.id, main.model.genre.value)">
                                         &nbsp; {{genre.value}} &nbsp;
                                     </label>
+                                    <input type="text" name="genre" ng-model="main.model.genre.value" style="display:none" required />
                                 </div>
+                                <validation-message form="formPet" field="formPet.genre"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -58,37 +65,48 @@
                                 Edad <span class="required">*</span>
                             </label>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.years" placeholder="Años" /> años
+                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.years" placeholder="Años" ng-change="main.changeMonths()" /> años
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.months" placeholder="Meses" /> meses
+                                <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.months" placeholder="Meses" ng-change="main.changeMonths()" ng-class="main.isInvalidClass(formPet, formPet.months)" /> meses
                             </div>
+                            <input type="number" name="months" ng-model="main.model.months" style="display:none" required ng-min="1"  />
+                            <validation-message form="formPet" field="formPet.months"></validation-message>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Refugio</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <angucomplete-alt id="shelter"
-                                                  placeholder="Ingresar refugio"
-                                                  pause="400"
-                                                  remote-url="/api/shelters?keyword="
-                                                  remote-url-data-field="results"
-                                                  title-field="name"
-                                                  selected-object="main.changeShelter"
-                                                  initial-value="main.model.shelter.name"
-                                                  input-class="form-control col-md-9 col-xs-12" />
+                                <div>
+                                    <angucomplete-alt id="shelter"
+                                                      placeholder="Ingresar refugio"
+                                                      pause="400"
+                                                      remote-url="/api/shelters?keyword="
+                                                      remote-url-data-field="results"
+                                                      title-field="name"
+                                                      selected-object="main.changeShelter"
+                                                      initial-value="main.model.shelter.name"
+                                                      input-class="form-control col-md-9 col-xs-12" />
+                                </div>
                             </div>
+                            
                         </div>
                         <div class="form-group" ng-if="!main.model.shelter.id">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Ciudad</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <angucomplete-alt id="location"
-                                                  placeholder="Ingresar Ubicación"
-                                                  pause="400"
-                                                  remote-url="/api/locations?keyword="
-                                                  title-field="name"
-                                                  selected-object="main.changeLocation"
-                                                  initial-value="main.model.location.name"
-                                                  input-class="form-control col-md-9 col-xs-12" />
+                                <div>
+                                    <angucomplete-alt id="location"
+                                                      placeholder="Ingresar Ubicación"
+                                                      pause="400"
+                                                      remote-url="/api/locations?keyword="
+                                                      title-field="name"
+                                                      selected-object="main.changeLocation"
+                                                      initial-value="main.model.location.name"
+                                                      input-class="form-control col-md-9 col-xs-12"
+                                                      field-required="main.isLocationRequired()"
+                                                      input-name="location"
+                                                      field-required-class="parsley-error" />
+                                </div>
+                                <validation-message form="formPet" field="formPet.location"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -165,22 +183,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Fotos</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link" ng-click="main.toogleShowPictures()">Ver más</a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div ng-if="main.showPicturesActive">
-                    ver las fotos
+         
+        <div class="col-md-6 col-sm-12 col-xs-12"  ng-if="main.showPicturesActive">
+            <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
+         </div>
+
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Fotos</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link" ng-click="main.toogleShowPictures()">Ver más</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div ng-if="main.showPicturesActive">
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 </div>

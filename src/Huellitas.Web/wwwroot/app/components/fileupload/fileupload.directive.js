@@ -8,25 +8,33 @@
         return {
             restrict: 'EA',
             link: link,
-            scope: false
+            scope: {
+                onadded: '=',
+                callbackParam :'@'
+            }
         };
 
         function link(scope, element, attrs)
         {
-            var model = scope.$eval(attrs.obj);
-
             angular.element(element).on('change', sendFile);
+            var isMultiple = angular.element(element)[0].attributes.multiple !== undefined;
 
             function sendFile(e)
             {
-                fileService.post(element[0].files[0])
-                .then(postCompleted);
+                var fileUpload = element[0];
+                for (var i = 0; i < fileUpload.files.length; i++) {
+                    fileService.post(fileUpload.files[i])
+                     .then(postCompleted);
+                }
             }
 
             function postCompleted(response)
             {
-                model.id = response.id;
-                model.thumbnail = response.thumbnail;
+                //if it has a callback method for added then call it
+                if (scope.onadded)
+                {
+                    scope.onadded(response.data, scope.callbackParam);
+                }
             }
         }
     }

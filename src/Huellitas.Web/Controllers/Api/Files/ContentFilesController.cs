@@ -44,5 +44,13 @@ namespace Huellitas.Web.Controllers.Api.Files
             ////TODO:Implementar metodo
             return this.Ok(new { Id = new System.Random().Next(5, 150) });
         }
+
+        [HttpDelete]
+        [Route("{fileId}")]
+        public IActionResult Delete(int contentId, int fileId)
+        {
+            ////TODO:Implementar
+            return this.Ok(new { result = true });
+        }
     }
 }

@@ -45,22 +45,30 @@ namespace Huellitas.Web.Controllers.Api.Files
         private readonly ISeoService seoService;
 
         /// <summary>
+        /// The picture service
+        /// </summary>
+        private readonly IPictureService pictureService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FileController"/> class.
         /// </summary>
         /// <param name="hostingEnvironment">The hosting environment.</param>
         /// <param name="fileService">The File Service</param>
         /// <param name="filesHelper">The files helper</param>
         /// <param name="seoService">The SEO Service</param>
+        /// <param name="pictureService">the picture service</param>
         public FileController(
             IHostingEnvironment hostingEnvironment,
             IFileService fileService,
             IFilesHelper filesHelper,
-            ISeoService seoService)
+            ISeoService seoService,
+            IPictureService pictureService)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.fileService = fileService;
             this.filesHelper = filesHelper;
             this.seoService = seoService;
+            this.pictureService = pictureService;
         }
 
         /// <summary>
@@ -102,8 +110,9 @@ namespace Huellitas.Web.Controllers.Api.Files
                     }
                 }
 
-                ////TODO:Return Thumbnail
-                return this.Ok(new BaseModel { Id = file.Id });
+                var thumbnail = this.pictureService.GetPicturePath(file, 200, 200, true);
+
+                return this.Ok(new { Id = file.Id, Thumbnail = thumbnail });
             }
             else
             {

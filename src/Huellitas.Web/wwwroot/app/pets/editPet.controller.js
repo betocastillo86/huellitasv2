@@ -2,15 +2,15 @@
     angular.module('app')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', 'petService', 'customTableRowService', 'statusTypeService'];
+    EditPetController.$inject = ['$routeParams', 'petService', 'customTableRowService', 'statusTypeService', 'fileService'];
 
-    function EditPetController($routeParams, petService, customTableRowService, statusTypeService) {
+    function EditPetController($routeParams, petService, customTableRowService, statusTypeService, fileService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.model = {};
         vm.showMoreActive = false;
         vm.showPicturesActive = true;
-
+        
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
         vm.changeSubtype = changeSubtype;
@@ -21,6 +21,12 @@
         vm.changeFeatured = changeFeatured;
         vm.changeAutoReply = changeAutoReply;
         vm.changeCastrated = changeCastrated;
+        vm.removeImage = removeImage;
+        vm.imageAdded = imageAdded;
+        vm.save = save;
+        vm.isInvalidClass = isInvalidClass;
+        vm.changeMonths = changeMonths;
+        vm.isLocationRequired = isLocationRequired;
         
 
         activate();
@@ -152,6 +158,48 @@
             vm.model.castrated = castrated;
         }
 
-        
+        function removeImage(image)
+        {
+            if(vm.model.id)
+            {
+                fileService.deleteContentFile(vm.model.id, image.id);
+            }
+        }
+
+        function imageAdded(image)
+        {
+            if(vm.model.id)
+            {
+                fileService.postContentFile(vm.model.id, image);
+            }
+        }
+
+        function isInvalidClass(form, field)
+        {
+            return form.$submitted && !field.$valid ? 'parsley-error' : undefined;
+        }
+
+        function changeMonths()
+        {
+            if(!vm.years || vm.years == '')
+            {
+                vm.years = 0;
+            }
+            if(!vm.months || vm.months == '')
+            {
+                vm.months = 0;
+            }
+            vm.model.months = (vm.years * 12) + vm.months;
+        }
+
+        function isLocationRequired()
+        {
+            return (!vm.model.location || !vm.model.location.id) && (!vm.model.shelter || !vm.model.shelter.id);
+        }
+
+        function save()
+        {
+            console.log('formulario enviado');
+        }
     }
 })();

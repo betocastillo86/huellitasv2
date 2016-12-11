@@ -5,9 +5,15 @@
     function galleryHuellitas() {
         return {
             restrict: 'E',
-            templateUrl: 'app/components/gallery.gallery.html',
+            templateUrl: 'app/components/gallery/gallery.html',
             controller: 'GalleryController',
-            controllerAs: 'gallery'
+            controllerAs: 'gallery',
+            scope: {
+                images: '=',
+                title: '@',
+                ondelete: '=',
+                onadded: '='
+            }
         };
     }
 })();
