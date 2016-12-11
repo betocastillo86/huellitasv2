@@ -28,5 +28,19 @@ namespace Huellitas.Business.Services.Files
         /// <param name="ids">The identifiers</param>
         /// <returns>the files</returns>
         IList<File> GetByIds(int[] ids);
+
+        /// <summary>
+        /// Gets the files by content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <returns>the list of files</returns>
+        IList<File> GetByContentId(int contentId);
+
+        /// <summary>
+        /// Inserts the content file asynchronous.
+        /// </summary>
+        /// <param name="contentFile">The content file.</param>
+        /// <returns>the result</returns>
+        Task InsertContentFileAsync(ContentFile contentFile);
     }
 }

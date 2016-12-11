@@ -6,9 +6,17 @@
 namespace Huellitas.Web.Controllers.Api.Files
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Business.Exceptions;
+    using Business.Services.Contents;
+    using Business.Services.Files;
+    using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Files;
+    using Infraestructure.Security;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Extensions.Common;
 
     /// <summary>
     /// Content Files Controller
@@ -18,18 +26,48 @@ namespace Huellitas.Web.Controllers.Api.Files
     public class ContentFilesController : BaseApiController
     {
         /// <summary>
+        /// The file service
+        /// </summary>
+        private readonly IFileService fileService;
+
+        /// <summary>
+        /// The file helper
+        /// </summary>
+        private readonly IFilesHelper fileHelper;
+
+        /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
+        /// </summary>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="fileHelper">the file helper</param>
+        /// <param name="workContext">the context</param>
+        public ContentFilesController(
+            IFileService fileService,
+            IFilesHelper fileHelper,
+            IWorkContext workContext)
+        {
+            this.fileService = fileService;
+            this.fileHelper = fileHelper;
+        }
+
+
+        /// <summary>
         /// Gets the specified content identifier.
         /// </summary>
         /// <param name="contentId">The content identifier.</param>
         /// <returns>The files of content</returns>
         [HttpGet]
-        public IActionResult Get(int contentId)
+        public IActionResult Get(int contentId, [FromQuery]FilterSizeModel sizes)
         {
-            ////TODO:Implementar metodo
-            var files = new List<FileModel>();
-            files.Add(new Models.Api.Files.FileModel() { Id = 1, Name = "Archivo Uno", FileName = "/img/content/000000/1_imagen1.jpg" });
-            files.Add(new Models.Api.Files.FileModel() { Id = 2, Name = "Archivo Dos", FileName = "/img/content/000000/2_imagen2.jpg" });
-            return this.Ok(files);
+            var models = this.fileService.GetByContentId(contentId)
+                .ToModels(this.fileHelper, Url.Content, sizes.Width, sizes.Height);
+
+            return this.Ok(models);
         }
 
         /// <summary>
@@ -39,10 +77,41 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// <param name="model">The model.</param>
         /// <returns>the value</returns>
         [HttpPost]
-        public IActionResult Post(int contentId, [FromBody]FileModel model)
+        public async Task<IActionResult> Post(int contentId, [FromBody]FileModel model)
         {
-            ////TODO:Implementar metodo
-            return this.Ok(new { Id = new System.Random().Next(5, 150) });
+            ////TODO:Solo usuarios administradores
+            if (model != null && model.Id > 0)
+            {
+                var contentFile = new ContentFile()
+                {
+                    ContentId = contentId,
+                    FileId = model.Id,
+                    DisplayOrder = model.DisplayOrder
+                };
+
+                try
+                {
+                    await this.fileService.InsertContentFileAsync(contentFile);
+                }
+                catch (HuellitasException e)
+                {
+                    if (e.Code == HuellitasExceptionCode.InvalidForeignKey)
+                    {
+                        return this.BadRequest(e, "No se encuentra la relación");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return this.Ok(new { Id = contentFile.Id });
+            }
+            else
+            {
+                this.ModelState.AddModelError("Id", "El campo File Id es obligatorio");
+                return this.BadRequest(this.ModelState);
+            }
         }
 
         [HttpDelete]
