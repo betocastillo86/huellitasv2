@@ -9,14 +9,13 @@
                 <div class="x_content">
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save()" >
-                        <pre>{{formPet | json}}</pre>
                         <div class="form-group" >
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Nombre <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-maxlength="50"  />
-                                <validation-message form="formPet" field="formPet.name"></validation-message>
+                                <validation-message form="formPet" field="formPet.name" ng-maxlength="50" name="nombre"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -25,14 +24,14 @@
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500" ></textarea>
-                                <validation-message form="formPet" field="formPet.body"></validation-message>
+                                <validation-message form="formPet" field="formPet.body" name="descripción"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select name="size" class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes" ng-class="main.isInvalidClass(formPet, formPet.size)" required></select>
-                                <validation-message form="formPet" field="formPet.size"></validation-message>
+                                <validation-message form="formPet" field="formPet.size" name="tamaño"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -44,7 +43,7 @@
                                     </label>
                                     <input type="text" name="subtype" ng-model="main.model.subtype.value" style="display:none"  required />
                                 </div>
-                                <validation-message form="formPet" field="formPet.subtype"></validation-message>
+                                <validation-message form="formPet" field="formPet.subtype"  name="tipo"></validation-message>
                             </div>
                         </div>
 
@@ -57,7 +56,7 @@
                                     </label>
                                     <input type="text" name="genre" ng-model="main.model.genre.value" style="display:none" required />
                                 </div>
-                                <validation-message form="formPet" field="formPet.genre"></validation-message>
+                                <validation-message form="formPet" field="formPet.genre"  name="genero"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,7 +70,7 @@
                                 <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.months" placeholder="Meses" ng-change="main.changeMonths()" ng-class="main.isInvalidClass(formPet, formPet.months)" /> meses
                             </div>
                             <input type="number" name="months" ng-model="main.model.months" style="display:none" required ng-min="1"  />
-                            <validation-message form="formPet" field="formPet.months"></validation-message>
+                            <validation-message form="formPet" field="formPet.months" ng-min="1" name="edad"></validation-message>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Refugio</label>
@@ -106,7 +105,7 @@
                                                       input-name="location"
                                                       field-required-class="parsley-error" />
                                 </div>
-                                <validation-message form="formPet" field="formPet.location"></validation-message>
+                                <validation-message form="formPet" field="formPet.location"  name="ubicación"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
