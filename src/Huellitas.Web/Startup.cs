@@ -73,6 +73,9 @@ namespace Huellitas.Web
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
             }).AddJsonOptions(c => c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat);
 
+            ////Register all policies required
+            services.ConfigurePolicies();
+
             ////Registra los Repositorios genericos
             services.RegisterHuellitasServices();
 

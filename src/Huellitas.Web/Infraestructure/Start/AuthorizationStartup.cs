@@ -5,10 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using System.Security.Claims;
     using System.Text;
     using Business.Configuration;
+    using Data.Entities.Enums;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
@@ -46,6 +49,16 @@ namespace Huellitas.Web.Infraestructure.Start
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = validationParameters
+            });
+        }
+
+
+        public static void ConfigurePolicies(this IServiceCollection services)
+        {
+            services.AddAuthorization(c => {
+                c.AddPolicy("IsAdmin", policy => {
+                    policy.RequireClaim(ClaimTypes.Role, RoleEnum.SuperAdmin.ToString(), "Admin");
+                });
             });
         }
     }

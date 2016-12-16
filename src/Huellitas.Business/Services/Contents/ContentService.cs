@@ -137,7 +137,6 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue)
         {
             var query = this.relatedContentRepository.Table
-                .Include(c => c.RelatedContentNavigation)
                 .Where(c => c.ContentId == id || c.RelatedContentId == id);
 
             if (relation.HasValue)
@@ -146,9 +145,13 @@ namespace Huellitas.Business.Services.Contents
                 query = query.Where(c => c.RelationType == relationId);
             }
 
-            var querySelect = query.Select(c => c.ContentId == id ? c.RelatedContentNavigation : c.Content);
+            var queryIds = query.Select(c => c.ContentId == id ? c.RelatedContentId : c.ContentId);
 
-            return new PagedList<Content>(querySelect, page, pageSize);
+            var finalQuery = this.contentRepository.Table
+                .Include(c => c.Location)
+                .Where(c => queryIds.Contains(c.Id));
+
+            return new PagedList<Content>(finalQuery, page, pageSize);
         }
 
         /// <summary>
@@ -335,6 +338,56 @@ namespace Huellitas.Business.Services.Contents
             }
 
             return new PagedList<Content>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Updates the asynchronous.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task UpdateAsync(Content content)
+        {
+            try
+            {
+                await this.contentRepository.UpdateAsync(content);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.InnerException is System.Data.SqlClient.SqlException)
+                {
+                    var inner = (System.Data.SqlClient.SqlException)e.InnerException;
+
+                    if (inner.Number == 547)
+                    {
+                        string target = string.Empty;
+
+                        if (inner.Message.IndexOf("FK_Content_Location") != -1)
+                        {
+                            target = "Location";
+                        }
+                        else if (inner.Message.IndexOf("FK_Content_File") != -1 || inner.Message.IndexOf("FK_ContentFile_File") != -1)
+                        {
+                            target = "File";
+                        }
+                        else if (inner.Message.IndexOf("FK_Content_User") != -1)
+                        {
+                            target = "User";
+                        }
+                        else
+                        {
+                            throw;
+                        }
+
+                        throw new HuellitasException(target, HuellitasExceptionCode.InvalidForeignKey);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
     }
 }

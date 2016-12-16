@@ -10,6 +10,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using System.Threading.Tasks;
     using Business.Caching;
     using Business.Configuration;
+    using Business.Extensions.Entities;
     using Business.Services.Common;
     using Business.Services.Files;
     using Data.Entities;
@@ -174,9 +175,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="model">The model.</param>
         /// <returns>the pet id</returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody]PetModel model)
         {
-            if (this.IsValidModel(model))
+            if (this.IsValidModel(model, true))
             {
                 Content content = null;
 
@@ -217,12 +219,51 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// Puts the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="value">The value.</param>
-        /// <returns>the value</returns>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        /// the response
+        /// </returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]string value)
+        [Authorize]
+        public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
         {
-            return this.Ok(new { result = true });
+            //TODO:Test
+            if (this.IsValidModel(model, false))
+            {
+                var content = this.contentService.GetById(id);
+
+                if (content != null)
+                {
+                    if (!this.workContext.CurrentUser.CanEditAnyContent())
+                    {
+                        ////TODO:Validar cuando un usuario pertenece también a un shelter
+                        if (content.UserId != this.workContext.CurrentUserId)
+                        {
+                            return this.Forbid();
+                        }
+                    }
+
+                    content = model.ToEntity(this.contentService, content);
+
+                    try
+                    {
+                        await this.contentService.UpdateAsync(content);
+                        return this.Ok(new { result = true });
+                    }
+                    catch (HuellitasException e)
+                    {
+                        return this.BadRequest(e);
+                    }
+                }
+                else
+                {
+                    return this.NotFound();
+                }
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
         }
 
         /// <summary>
@@ -233,13 +274,13 @@ namespace Huellitas.Web.Controllers.Api.Contents
         ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
         /// </returns>
         [NonAction]
-        public bool IsValidModel(PetModel model)
+        public bool IsValidModel(PetModel model, bool isNew)
         {
             ////Removes shelter validation to avoid validate body and name properties
             this.ModelState.Remove("Shelter.Body");
             this.ModelState.Remove("Shelter.Name");
 
-            if (model.Files == null || model.Files.Count == 0)
+            if (isNew && (model.Files == null || model.Files.Count == 0))
             {
                 this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");
             }

@@ -7,6 +7,7 @@ namespace Huellitas.Data.Entities
 {
     using System;
     using System.Collections.Generic;
+    using Enums;
 
     /// <summary>
     /// The class User
@@ -102,5 +103,23 @@ namespace Huellitas.Data.Entities
         /// The role identifier.
         /// </value>
         public int RoleId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the role enum.
+        /// </summary>
+        /// <value>
+        /// The role enum.
+        /// </value>
+        public virtual RoleEnum RoleEnum
+        {
+            get
+            {
+                return (Enums.RoleEnum)this.RoleId;
+            }
+            set
+            {
+                this.RoleId = Convert.ToInt32(value);
+            }
+        }
     }
 }
