@@ -158,12 +158,23 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <param name="id">The identifier.</param>
         /// <returns>the value</returns>
         [HttpGet]
-        [Route("{id}", Name = "Api_Pets_GetById")]
+        [Route("{id:int}", Name = "Api_Pets_GetById")]
         public IActionResult Get(int id)
         {
             var content = this.contentService.GetById(id, true);
 
-            var model = content.ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.filesHelper, Url.Content, true, true);
+            var model = content.ToPetModel(
+                this.contentService, 
+                this.customTableService, 
+                this.cacheManager, 
+                this.filesHelper, 
+                Url.Content, 
+                true, 
+                true,
+                this.contentSettings.PictureSizeWidthDetail,
+                this.contentSettings.PictureSizeHeightDetail,
+                this.contentSettings.PictureSizeWidthList,
+                this.contentSettings.PictureSizeHeightList);
 
             return this.Ok(model);
         }
@@ -183,6 +194,9 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 try
                 {
                     content = model.ToEntity(this.contentService, files: model.Files);
+
+                    ////TODO:Para usuarios administradores asignar el valor del estado que viene sino asignar el valor sin y pendiente de aprobación
+
                     content.UserId = this.workContext.CurrentUserId;
 
                     await this.contentService.InsertAsync(content);
@@ -222,6 +236,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]string value)
         {
+            ////TODO:Implementar
             return this.Ok(new { result = true });
         }
 

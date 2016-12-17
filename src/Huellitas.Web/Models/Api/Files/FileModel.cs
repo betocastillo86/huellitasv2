@@ -49,5 +49,13 @@ namespace Huellitas.Web.Models.Api.Files
         /// The name.
         /// </value>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the thumbnail.
+        /// </summary>
+        /// <value>
+        /// The thumbnail.
+        /// </value>
+        public string Thumbnail { get; set; }
     }
 }

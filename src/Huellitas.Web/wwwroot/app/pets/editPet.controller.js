@@ -2,12 +2,17 @@
     angular.module('app')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', 'petService', 'customTableRowService', 'statusTypeService', 'fileService'];
+    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService'];
 
-    function EditPetController($routeParams, petService, customTableRowService, statusTypeService, fileService) {
+    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService) {
         var vm = this;
         vm.id = $routeParams.id;
+
         vm.model = {};
+        vm.model.autoReply = true;
+        vm.model.featured = false;
+        vm.model.status = app.Settings.statusTypes.published;
+
         vm.showMoreActive = false;
         vm.showPicturesActive = true;
         
@@ -27,6 +32,7 @@
         vm.isInvalidClass = isInvalidClass;
         vm.changeMonths = changeMonths;
         vm.isLocationRequired = isLocationRequired;
+        vm.saveAndContinue = saveAndContinue;
         
 
         activate();
@@ -160,17 +166,22 @@
 
         function removeImage(image)
         {
-            if(vm.model.id)
-            {
+            if (vm.model.id) {
                 fileService.deleteContentFile(vm.model.id, image.id);
+            }
+            else {
+                vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
             }
         }
 
         function imageAdded(image)
         {
-            if(vm.model.id)
-            {
+            if (vm.model.id) {
                 fileService.postContentFile(vm.model.id, image);
+            }
+            else {
+                vm.model.files = vm.model.files || [];
+                vm.model.files.push(image);
             }
         }
 
@@ -197,9 +208,66 @@
             return (!vm.model.location || !vm.model.location.id) && (!vm.model.shelter || !vm.model.shelter.id);
         }
 
-        function save()
+        function saveAndContinue()
         {
-            console.log('formulario enviado');
+            vm.continueAfterSaving = true;
+        }
+
+        function save(isValid)
+        {
+            if (isValid)
+            {
+                if (vm.model.id > 0) {
+                    petService.put(vm.model)
+                    .then(saveCompleted)
+                    .catch(saveError);
+                }
+                else {
+                    petService.post(vm.model)
+                    .then(saveCompleted)
+                    .catch(saveError);
+                }
+            }
+
+            function saveCompleted(response)
+            {
+                response = response.data;
+                var message = 'La mascota fue actualizada correctamente';
+                var isNew = !vm.model.id;
+
+                if (isNew)
+                {
+                    message = 'La mascota se ha creado correctamente';
+                    vm.model.id = response.id;
+                }
+
+                modalService.show({
+                    message: message
+                })
+                .then(function (modal) {
+                    modal.closed.then(function () {
+                        if (vm.continueAfterSaving) {
+                            //if it is new and want to continue updates the location
+                            if (isNew) {
+                                $location.path('/pets/' + vm.model.id + '/edit');
+                            }
+                        }
+                        else {
+                            $location.path('/pets');
+                        }
+
+                        vm.continueAfterSaving = false;
+                    });
+                });
+            }
+
+
+            function saveError(response)
+            {
+                modalService.showError({
+                    error: response.data.error
+                });
+            }
         }
     }
 })();

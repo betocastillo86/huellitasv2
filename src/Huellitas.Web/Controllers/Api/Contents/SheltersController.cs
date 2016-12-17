@@ -40,6 +40,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get()
         {
+            ////TODO:Implementar
             var contents = this.contentService.Search(contentType: ContentType.Shelter);
             return this.Ok(contents.ToList(), contents.HasNextPage, contents.TotalCount); 
         }

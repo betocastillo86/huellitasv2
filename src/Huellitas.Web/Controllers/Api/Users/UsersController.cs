@@ -25,6 +25,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         [HttpGet]
         public IActionResult Get(UsersFilterModel model)
         {
+            ////TODO:Implementar
             var users = new List<BaseUserModel>();
             users.Add(new BaseUserModel { Id = 1, Name = "Pepito" });
             users.Add(new BaseUserModel { Id = 2, Name = "Erica" });

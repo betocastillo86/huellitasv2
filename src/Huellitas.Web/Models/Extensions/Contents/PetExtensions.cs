@@ -117,7 +117,11 @@ namespace Huellitas.Web.Models.Extensions
             IFilesHelper filesHelper = null, 
             Func<string, string> contentUrlFunction = null, 
             bool withFiles = false, 
-            bool withRelated = false)
+            bool withRelated = false,
+            int width = 0,
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
         {
             var model = new PetModel()
             {
@@ -152,7 +156,7 @@ namespace Huellitas.Web.Models.Extensions
                 model.Files = contentService.GetFiles(entity.Id)
                     .Select(c => c.File)
                     .ToList()
-                    .ToModels(filesHelper, contentUrlFunction);
+                    .ToModels(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
 
             if (withRelated)
@@ -215,12 +219,34 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if contains files or not</param>
         /// <returns>the value</returns>
-        public static IList<PetModel> ToPetModels(this IList<Content> entities, IContentService contentService, ICustomTableService customTableService, ICacheManager cacheManager, IFilesHelper filesHelper = null, Func<string, string> contentUrlFunction = null, bool withFiles = false)
+        public static IList<PetModel> ToPetModels(
+            this IList<Content> entities, 
+            IContentService contentService, 
+            ICustomTableService customTableService, 
+            ICacheManager cacheManager, 
+            IFilesHelper filesHelper = null, 
+            Func<string, string> contentUrlFunction = null, 
+            bool withFiles = false,
+            int width = 0,
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
         {
             var models = new List<PetModel>();
             foreach (var entity in entities)
             {
-                models.Add(entity.ToPetModel(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, withFiles));
+                models.Add(entity.ToPetModel(
+                    contentService, 
+                    customTableService, 
+                    cacheManager, 
+                    filesHelper, 
+                    contentUrlFunction, 
+                    withFiles,
+                    false,
+                    width,
+                    height,
+                    thumbnailWidth,
+                    thumbnailHeight));
             }
 
             return models;

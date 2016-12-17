@@ -25,6 +25,7 @@ namespace Huellitas.Web.Controllers.Api.Common
         [HttpGet]
         public IActionResult Get(bool parentId)
         {
+            ////TODO:Implementar
             var list = new List<Location>();
             var bog = new Location() { Id = 2, Name = "Bogota", ParentLocationId = 1 };
             list.Add(bog);

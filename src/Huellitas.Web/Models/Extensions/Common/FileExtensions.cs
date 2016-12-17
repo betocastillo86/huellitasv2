@@ -28,13 +28,23 @@ namespace Huellitas.Web.Models.Extensions.Common
             IFilesHelper fileHelper, 
             Func<string, string> contentUrlFunction = null,
             int width = 0,
-            int height = 0)
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
         {
+            ////TODO:Test con thumbnail
+            string thumbnail = null;
+            if (thumbnailHeight > 0 && thumbnailWidth > 0)
+            {
+                thumbnail = fileHelper.GetFullPath(file, contentUrlFunction, thumbnailWidth, thumbnailHeight);
+            }
+
             return new Api.Files.FileModel()
             {
                 Id = file.Id,
                 FileName = fileHelper.GetFullPath(file, contentUrlFunction, width, height),
-                Name = file.Name
+                Name = file.Name,
+                Thumbnail = thumbnail
             };
         }
 
@@ -49,13 +59,15 @@ namespace Huellitas.Web.Models.Extensions.Common
             this IList<File> files, 
             IFilesHelper fileHelper, Func<string, string> contentUrlFunction = null,
             int width = 0,
-            int height = 0)
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
         {
             var list = new List<FileModel>();
 
             foreach (var file in files)
             {
-                list.Add(file.ToModel(fileHelper, contentUrlFunction, width, height));
+                list.Add(file.ToModel(fileHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight));
             }
 
             return list;

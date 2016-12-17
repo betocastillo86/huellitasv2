@@ -1,7 +1,7 @@
 ﻿var app = app || {};
 app.Settings = {
     general: {
-        pageSize: 20
+        pageSize: 10
     },
     customTables: {
         animalSubtype: 1,

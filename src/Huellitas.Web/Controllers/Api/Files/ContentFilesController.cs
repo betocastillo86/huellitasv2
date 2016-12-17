@@ -92,6 +92,7 @@ namespace Huellitas.Web.Controllers.Api.Files
                 try
                 {
                     await this.fileService.InsertContentFileAsync(contentFile);
+                    ////TODO:Redimensionar las imagenes
                 }
                 catch (HuellitasException e)
                 {

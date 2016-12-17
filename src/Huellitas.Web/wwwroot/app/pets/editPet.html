@@ -8,7 +8,7 @@
                 </div>
                 <div class="x_content">
                     <br>
-                    <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save()" >
+                    <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)" >
                         <div class="form-group" >
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Nombre <span class="required">*</span>
@@ -28,14 +28,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño *</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select name="size" class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes" ng-class="main.isInvalidClass(formPet, formPet.size)" required></select>
                                 <validation-message form="formPet" field="formPet.size" name="tamaño"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo <span class="required">*</span></label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <div id="gender" class="btn-group" data-toggle="buttons">
                                     <label ng-repeat="subtype in main.subtypes track by subtype.id" ng-click="main.changeSubtype(subtype.id)" class="btn" ng-class="main.activeTooggleClass(subtype.id, main.model.subtype.value)">
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Genero</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Genero <span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div id="gender" class="btn-group" data-toggle="buttons">
                                     <label ng-repeat="genre in main.genres track by genre.id" ng-click="main.changeGenre(genre.id)" class="btn" ng-class="main.activeTooggleClass(genre.id, main.model.genre.value)">
@@ -173,11 +173,11 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="submit" class="btn btn-primary">Cancel</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <a type="submit" class="btn btn-default" href="#/pets">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="main.saveAndContinue()">Guardar y continuar</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -186,23 +186,6 @@
         <div class="col-md-6 col-sm-12 col-xs-12"  ng-if="main.showPicturesActive">
             <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
          </div>
-
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Fotos</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link" ng-click="main.toogleShowPictures()">Ver más</a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div ng-if="main.showPicturesActive">
-
-                    </div>
-                </div>
-            </div>
         </div>
 
 </div>

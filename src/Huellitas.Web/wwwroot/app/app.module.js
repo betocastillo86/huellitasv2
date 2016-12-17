@@ -29,6 +29,11 @@
             templateUrl: 'app/pets/editPet.html',
             controller: 'EditPetController',
             controllerAs: 'main'
+        })
+        .when('/pets/new', {
+            templateUrl: 'app/pets/editPet.html',
+            controller: 'EditPetController',
+            controllerAs: 'main'
         });
     }
 

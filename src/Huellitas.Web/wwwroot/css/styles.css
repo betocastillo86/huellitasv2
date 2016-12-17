@@ -16481,3 +16481,7 @@ input.ng-invalid-parsley-error {
   background: #FAEDEC;
   border: 1px solid #E85445;
 }
+
+.nav-md .container.body .col-md-3.left_col {
+  z-index: 1000 !important;
+}
