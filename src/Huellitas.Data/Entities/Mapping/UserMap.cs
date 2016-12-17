@@ -40,6 +40,8 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(50)");
 
+            entity.Ignore(e => e.RoleEnum);
+
             entity.Property(e => e.PhoneNumber).HasColumnType("varchar(15)");
 
             entity.HasOne(d => d.Role)

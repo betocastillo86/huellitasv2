@@ -8,6 +8,7 @@ namespace Huellitas.Business.Services.Users
     using System.Linq;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// User Service
@@ -40,6 +41,7 @@ namespace Huellitas.Business.Services.Users
         public User ValidateAuthentication(string email, string password)
         {
             return this.userRepository.Table
+                .Include(c => c.Role)
                 .FirstOrDefault(c => c.Email.Equals(email) && c.Password.Equals(password) && !c.Deleted);
         }
 

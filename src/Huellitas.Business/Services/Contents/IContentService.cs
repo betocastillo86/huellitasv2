@@ -69,5 +69,12 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue,
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder);
+
+        /// <summary>
+        /// Updates the asynchronous.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>the task</returns>
+        Task UpdateAsync(Content content);
     }
 }

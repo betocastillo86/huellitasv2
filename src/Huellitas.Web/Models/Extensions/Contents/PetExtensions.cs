@@ -87,12 +87,12 @@ namespace Huellitas.Web.Models.Extensions
                 }
             }
 
-            entity.ContentAttributes.Add(ContentAttributeType.AutoReply, model.AutoReply);
-            entity.ContentAttributes.Add(ContentAttributeType.Age, model.Months);
-            entity.ContentAttributes.Add(ContentAttributeType.Subtype, model.Subtype.Value);
-            entity.ContentAttributes.Add(ContentAttributeType.Genre, model.Genre.Value);
-            entity.ContentAttributes.Add(ContentAttributeType.Size, model.Size.Value);
-            entity.ContentAttributes.Add(ContentAttributeType.Castrated, model.Castrated);
+            entity.ContentAttributes.Add(ContentAttributeType.AutoReply, model.AutoReply, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Age, model.Months, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Subtype, model.Subtype.Value, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Genre, model.Genre.Value, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Size, model.Size.Value, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Castrated, model.Castrated, true);
 
             return entity;
         }
@@ -137,7 +137,7 @@ namespace Huellitas.Web.Models.Extensions
                 Featured = entity.Featured
             };
 
-            if (entity.LocationId.HasValue)
+            if (entity.LocationId.HasValue && entity.Location != null)
             {
                 model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
             }
@@ -161,7 +161,8 @@ namespace Huellitas.Web.Models.Extensions
 
             if (withRelated)
             {
-                model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.Enums.RelationType.SimilarPets).ToPetModels(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, false);
+                model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.Enums.RelationType.SimilarPets)
+                    .ToPetModels(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, false);
             }
 
             foreach (var attribute in entity.ContentAttributes)

@@ -74,6 +74,7 @@ namespace Huellitas.Web.Controllers.Api.Users
                     claims.Add(new Claim(ClaimTypes.Email, user.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                     claims.Add(new Claim(ClaimTypes.Name, user.Name));
+                    claims.Add(new Claim(ClaimTypes.Role, user.Role.Name));
 
                     var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims, DateTimeOffset.Now);
                     return this.Ok(token);
