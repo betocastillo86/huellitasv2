@@ -10,6 +10,7 @@
                 form: '=',
                 field: '=',
                 maxlength: '@ngMaxlength',
+                minlength: '@ngMinlength',
                 min: '@ngMin',
                 max: '@ngMax',
                 name: '@'
@@ -54,6 +55,14 @@
                         }
                         else {
                             return fieldName + ' excede el máximo de caracteres';
+                        }
+                    }
+                    else if (field.$error['minlength']) {
+                        if (scope.minlength) {
+                            return fieldName + ' debe tener al menos ' + scope.minlength + ' caracteres.';
+                        }
+                        else {
+                            return fieldName + ' tiene muy pocos caracteres';
                         }
                     }
                     else {

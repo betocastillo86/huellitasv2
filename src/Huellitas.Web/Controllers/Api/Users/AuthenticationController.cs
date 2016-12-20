@@ -15,6 +15,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Api;
 
     /// <summary>
     /// Authentication Controller
@@ -76,8 +77,10 @@ namespace Huellitas.Web.Controllers.Api.Users
                     claims.Add(new Claim(ClaimTypes.Name, user.Name));
                     claims.Add(new Claim(ClaimTypes.Role, user.Role.Name));
 
+                    //TODO:TEST
                     var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims, DateTimeOffset.Now);
-                    return this.Ok(token);
+                    var userModel = new AuthenticatedUserModel() { Email = model.Email, Name= user.Name, Id = user.Id, Token = token  };
+                    return this.Ok(userModel);
                 }
                 else
                 {
