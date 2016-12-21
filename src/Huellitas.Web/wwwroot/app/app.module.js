@@ -12,10 +12,12 @@
         'angucomplete-alt',
         'underscore'
     ])
-    .config(configRoutes)
+    .config(config)
     .run(run);
 
-    function configRoutes($routeProvider, $locationProvider) {
+    function config($routeProvider, $locationProvider, $httpProvider) {
+
+        $httpProvider.interceptors.push('expiredSessionInterceptor');
 
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix("!");
@@ -48,21 +50,20 @@
         });
     }
 
-    function run($rootScope, $http, $location, $localStorage)
+    function run($rootScope, $http, $location, sessionService)
     {
         // keep user logged in after page refresh
-        if ($localStorage.currentUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+        if (sessionService.getCurrentUser()) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + sessionService.getToken();
         }
-        
+
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             var publicPages = ['/login', '/Login'];
             var restrictedPage = publicPages.indexOf($location.path()) === -1;
-            if (restrictedPage && !$localStorage.currentUser) {
+            if (restrictedPage && !sessionService.isAuthenticated()) {
                 document.location = '/admin/login';
             }
-            else if (!restrictedPage && $localStorage.currentUser)
-            {
+            else if (!restrictedPage && sessionService.isAuthenticated()) {
                 document.location = '/admin';
             }
         });

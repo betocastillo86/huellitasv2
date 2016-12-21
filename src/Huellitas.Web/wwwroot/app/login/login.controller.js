@@ -24,11 +24,7 @@
 
         function authenticationValid(response)
         {
-            response = response.data;
-
-
-            //document.location.href = '/admmi';
-            console.log('autenticado');
+            document.location = '/admin';
         }
 
         function authenticationInvalid()

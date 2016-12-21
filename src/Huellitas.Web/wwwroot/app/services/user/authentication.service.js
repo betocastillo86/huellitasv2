@@ -3,9 +3,9 @@
     angular.module('app')
         .factory('authenticationService', authenticationService);
 
-    authenticationService.$inject = ['$http', '$q', '$localStorage'];
+    authenticationService.$inject = ['$http', '$q', 'sessionService'];
 
-    function authenticationService($http, $q, $localStorage)
+    function authenticationService($http, $q, sessionService)
     {
         return {
             post : post
@@ -24,7 +24,9 @@
             function postCompleted(response)
             {
                 response = response.data;
-                $localStorage.currentUser = { email: response.email, id: response.id, name: response.name, token: response.token.accessToken };
+                var user = { email: response.email, id: response.id, name: response.name, token: response.token.accessToken };
+                sessionService.setCurrentUser(user);
+
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.token.accessToken;
                 deferred.resolve(response);
             }
