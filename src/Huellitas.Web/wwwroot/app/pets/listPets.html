@@ -3,7 +3,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Animales <a class="btn btn-success" href="#/pets/new" ><i class="fa fa-plus"></i> Nuevo Animal</a></h2>
+                    <h2>Animales <a class="btn btn-success" href="/admin/pets/new" ><i class="fa fa-plus"></i> Nuevo Animal</a></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -74,7 +74,7 @@
                                     <td>{{pet.genre.text}}</td>
                                     <td>{{pet.shelter ? pet.shelter.name : ''}}</td>
                                     <td class="last">
-                                        <a href="#/pets/{{pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="/admin/pets/{{pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                         <button type="button" class="btn btn-info btn-xs">Ver</button>
                                     </td>
                                 </tr>

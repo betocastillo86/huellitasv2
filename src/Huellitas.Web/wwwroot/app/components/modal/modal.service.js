@@ -25,7 +25,7 @@
         function getTemplate(modalType) {
             var deferred = $q.defer();
 
-            var templateUrl = 'app/components/modal/modal-' + modalType + '.html';
+            var templateUrl = '/app/components/modal/modal-' + modalType + '.html';
 
             $templateRequest(templateUrl, true)
                 .then(templateCompleted, templateError);

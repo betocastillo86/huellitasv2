@@ -9,6 +9,7 @@ namespace Huellitas.Web.Controllers.Api.Abstract
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Abstract;
+    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// Modules Controller
@@ -22,6 +23,7 @@ namespace Huellitas.Web.Controllers.Api.Abstract
         /// </summary>
         /// <returns>the value</returns>
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             var modules = new List<ModuleModel>();

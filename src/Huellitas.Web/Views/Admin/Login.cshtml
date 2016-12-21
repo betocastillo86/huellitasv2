@@ -1,0 +1,78 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Huellitas.Web
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/admin/" />
+
+    <title>Entrar - Huellitas sin hogar</title>
+
+
+    <environment names="Development">
+        <script src="/js/site.min.js"></script>
+        <jsresources></jsresources>
+        <link href="~/css/styles.css" rel="stylesheet">
+    </environment>
+    <environment names="Staging,Production">
+        <script src="/js/site.min.js"></script>
+        <link href="~/css/styles.css" rel="stylesheet">
+    </environment>
+
+</head>
+
+<body class="login" ng-controller="LoginController as main">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form name="form" ng-submit="main.validateAuthentication(form.$valid)" novalidate>
+                        <h1>Entrar</h1>
+
+                        <div ng-if="main.errorAuthentication" class="alert alert-danger alert-dismissible fade in" role="alert">
+                            <strong>Error!</strong> {{main.errorAuthentication}}
+                        </div>
+
+                        <div>
+                            <input type="email" name="email" class="form-control" placeholder="Correo" required="" ng-model="main.model.email" />
+                            <validation-message form="form" field="form.email" name="correo"></validation-message>
+                        </div>
+                        <div>
+                            <input type="password" name="password" class="form-control" placeholder="Clave" required="" ng-minlength="5" ng-model="main.model.password" />
+                            <validation-message form="form" field="form.password" name="clave" ng-minlength="5"></validation-message>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-default submit" href="index.html">Entrar</button>
+                            <a class="reset_pass" href="#">Olvidaste tu clave?</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">
+                                Eres nuevo?
+                                <a href="#signup" class="to_register"> Registrate </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div>
+                                <h1><i class="fa fa-paw"></i> Huellitas sin hogar!</h1>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

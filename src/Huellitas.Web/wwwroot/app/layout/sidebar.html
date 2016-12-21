@@ -26,7 +26,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu" style="">
                     <li ng-repeat="module in sidebar.modules">
-                        <a href="#{{module.url}}"><i class="fa fa-home"></i> {{module.name}} <span class="fa fa-chevron-down"></span></a>
+                        <a ng-href="/admin{{module.url}}"><i class="fa fa-home"></i> {{module.name}} <span class="fa fa-chevron-down"></span></a>
                     </li>
                 </ul>
             </div>
