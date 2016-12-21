@@ -8,6 +8,7 @@ namespace Huellitas.Web.Controllers.Api.Common
     using Huellitas.Business.Services.Common;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Extensions.Common;
 
     /// <summary>
     /// Custom Table Controller
@@ -39,8 +40,10 @@ namespace Huellitas.Web.Controllers.Api.Common
         [Route("{id}/rows")]
         public IActionResult GetByTable(int id)
         {
-            ////TODO:Implementar
-            return this.Ok(this.customTableService.GetRowsByTableId(id));
+            ////TODO:Test
+            var rows = this.customTableService.GetRowsByTableId(id);
+            var model = rows.ToModels();
+            return this.Ok(model);
         }
     }
 }

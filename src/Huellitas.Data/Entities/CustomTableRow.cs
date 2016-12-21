@@ -23,36 +23,20 @@ namespace Huellitas.Data.Entities
         }
 
         /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
+        public string Value { get; set; }
+
+        /// <summary>
         /// Gets or sets the additional information.
         /// </summary>
         /// <value>
         /// The additional information.
         /// </value>
         public string AdditionalInfo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the adoption form.
-        /// </summary>
-        /// <value>
-        /// The adoption form.
-        /// </value>
-        public virtual ICollection<AdoptionForm> AdoptionForm { get; set; }
-
-        /// <summary>
-        /// Gets or sets the adoption form attribute.
-        /// </summary>
-        /// <value>
-        /// The adoption form attribute.
-        /// </value>
-        public virtual ICollection<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
-
-        /// <summary>
-        /// Gets or sets the custom table.
-        /// </summary>
-        /// <value>
-        /// The custom table.
-        /// </value>
-        public virtual CustomTable CustomTable { get; set; }
 
         /// <summary>
         /// Gets or sets the custom table identifier.
@@ -71,11 +55,27 @@ namespace Huellitas.Data.Entities
         public bool Deleted { get; set; }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets or sets the custom table.
         /// </summary>
         /// <value>
-        /// The value.
+        /// The custom table.
         /// </value>
-        public string Value { get; set; }
+        public virtual CustomTable CustomTable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form.
+        /// </summary>
+        /// <value>
+        /// The adoption form.
+        /// </value>
+        public virtual ICollection<AdoptionForm> AdoptionForm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form attribute.
+        /// </summary>
+        /// <value>
+        /// The adoption form attribute.
+        /// </value>
+        public virtual ICollection<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
     }
 }

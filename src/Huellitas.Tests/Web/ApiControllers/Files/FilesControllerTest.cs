@@ -86,12 +86,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
             var filesHelperMock = new Mock<IFilesHelper>();
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             var seoServiceMock = new Mock<ISeoService>();
+            var pictureService = new Mock<IPictureService>();
 
             var controller = new FilesController(
                 hostingEnvironmentMock.Object,
                 fileServiceMock.Object,
                 filesHelperMock.Object,
-                seoServiceMock.Object);
+                seoServiceMock.Object,
+                pictureService.Object);
 
             return controller;
         }

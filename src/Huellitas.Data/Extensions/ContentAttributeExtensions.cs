@@ -57,5 +57,44 @@ namespace Huellitas.Data.Extensions
                 });
             }
         }
+
+        /// <summary>
+        /// Gets the attribute.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>the attribute</returns>
+        public static ContentAttribute GetAttribute(this Content content, ContentAttributeType attribute)
+        {
+            if (content.ContentAttributes != null)
+            {
+                return content.ContentAttributes.FirstOrDefault(c => c.Attribute == attribute.ToString());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the attribute value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="content">The content.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>the value</returns>
+        public static T GetAttribute<T>(this Content content, ContentAttributeType attribute)
+        {
+            var contentAttribute = content.GetAttribute(attribute);
+
+            if (contentAttribute != null)
+            {
+                return (T)(object)contentAttribute.Value;
+            }
+            else
+            {
+                return default(T);
+            }
+        }
     }
 }

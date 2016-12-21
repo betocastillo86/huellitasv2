@@ -217,6 +217,7 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<SystemSetting>().Map();
             modelBuilder.Entity<User>().Map();
             modelBuilder.Entity<Log>().Map();
+            modelBuilder.Entity<ContentUser>().Map();
         }
     }
 }

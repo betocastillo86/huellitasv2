@@ -14,6 +14,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Business.Services.Common;
     using Business.Services.Files;
     using Data.Entities;
+    using Data.Extensions;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -197,9 +198,17 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 {
                     content = model.ToEntity(this.contentService, files: model.Files);
 
-                    ////TODO:Para usuarios administradores asignar el valor del estado que viene sino asignar el valor sin y pendiente de aprobación
-
                     content.UserId = this.workContext.CurrentUserId;
+
+                    //Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanAproveContents())
+                    {
+                        content.StatusType = model.Status;
+                    }
+                    else
+                    {
+                        content.StatusType = StatusType.Created;
+                    }
 
                     await this.contentService.InsertAsync(content);
 
@@ -250,7 +259,18 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 {
                     if (!this.workContext.CurrentUser.CanEditAnyContent())
                     {
-                        ////TODO:Validar cuando un usuario pertenece también a un shelter
+                        var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
+
+                        if (shelterId > 0)
+                        {
+                            ////Searches the user in shelter's users to validate if can change the pet 
+                            var shelterUsers = this.contentService.GetUsersByContentId(id, Data.Entities.Enums.ContentUserRelationType.Shelter).Select(c => c.UserId).ToList();
+                            if (!shelterUsers.Contains(this.workContext.CurrentUserId))
+                            {
+                                return this.Forbid();
+                            }
+                        }
+
                         if (content.UserId != this.workContext.CurrentUserId)
                         {
                             return this.Forbid();

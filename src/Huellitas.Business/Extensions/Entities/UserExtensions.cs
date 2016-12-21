@@ -24,5 +24,17 @@ namespace Huellitas.Business.Extensions.Entities
         {
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
+
+        /// <summary>
+        /// Determines whether this instance [can aprove contents] the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can aprove contents] the specified user; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool CanAproveContents(this User user)
+        {
+            return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
+        }
     }
 }

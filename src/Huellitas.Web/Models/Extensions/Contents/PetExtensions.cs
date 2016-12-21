@@ -45,7 +45,7 @@ namespace Huellitas.Web.Models.Extensions
             if (entity == null)
             {
                 entity = new Content();
-                entity.Id = model.Id;
+                //entity.Id = model.Id;
                 entity.StatusType = StatusType.Created;
                 entity.Type = ContentType.Pet;
 

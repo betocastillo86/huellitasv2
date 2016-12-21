@@ -42,6 +42,11 @@ namespace Huellitas.Business.Services.Contents
         private readonly IRepository<Content> contentRepository;
 
         /// <summary>
+        /// The content user repository
+        /// </summary>
+        private readonly IRepository<ContentUser> contentUserRepository;
+
+        /// <summary>
         /// The context/
         /// </summary>
         private readonly HuellitasContext context;
@@ -152,6 +157,27 @@ namespace Huellitas.Business.Services.Contents
                 .Where(c => queryIds.Contains(c.Id));
 
             return new PagedList<Content>(finalQuery, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the users by content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>
+        /// the list of users
+        /// </returns>
+        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = default(ContentUserRelationType?))
+        {
+            var query = this.contentUserRepository.Table.Where(c => c.ContentId == contentId);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToDecimal(relation.Value);
+                query = query.Where(c => c.RelationTypeId == relationId);
+            }
+
+            return query.ToList();
         }
 
         /// <summary>

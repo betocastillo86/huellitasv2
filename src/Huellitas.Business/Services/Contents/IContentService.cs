@@ -46,6 +46,14 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue);
 
         /// <summary>
+        /// Gets the users by content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>the list of users</returns>
+        IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null);
+
+        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>

@@ -14,6 +14,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Files;
+    using Huellitas.Web.Controllers.Api.Common;
     using Huellitas.Web.Controllers.Api.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Common;
@@ -85,13 +86,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var filter = new PetsFilterModel();
             var reponse = controller.Get(filter) as ObjectResult;
-            var list = reponse.Value as IList<PetModel>;
+            var list = reponse.Value as PaginationResponseModel<PetModel>;
 
             Assert.AreEqual(200, reponse.StatusCode);
-            Assert.AreEqual("False", controller.Response.Headers[ApiHeadersList.PAGINATION_HASNEXTPAGE].ToString());
-            Assert.AreEqual("1", controller.Response.Headers[ApiHeadersList.PAGINATION_COUNT].ToString());
-            Assert.AreEqual("0", controller.Response.Headers[ApiHeadersList.PAGINATION_TOTALCOUNT].ToString());
-            Assert.AreEqual(1, list.Count);
+            Assert.IsFalse(list.Meta.HasNextPage);
+            Assert.AreEqual(1, list.Meta.Count);
+            Assert.AreEqual(0, list.Meta.TotalCount);
+            Assert.AreEqual(1, list.Results.Count);
         }
 
         /// <summary>
@@ -183,37 +184,77 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Determines whether [is valid model true].
         /// </summary>
         [Test]
-        public void IsValidModel_True()
+        public void IsValidModel_New_True()
         {
             var controller = this.MockController();
             var model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() };
             model.Shelter = new ShelterModel();
-            Assert.IsTrue(controller.IsValidModel(model));
+            Assert.IsTrue(controller.IsValidModel(model, true));
 
             model.Shelter = null;
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
-            Assert.IsTrue(controller.IsValidModel(model));
+            Assert.IsTrue(controller.IsValidModel(model, true));
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model not new true].
+        /// </summary>
+        [Test]
+        public void IsValidModel_NotNew_True()
+        {
+            var controller = this.MockController();
+            var model = new PetModel();
+            model.Files = new List<FileModel>() { new FileModel() };
+            model.Shelter = new ShelterModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
+
+            model.Files = new List<FileModel>();
+            model.Shelter = null;
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
+
+
+            model.Files = null;
+            model.Shelter = null;
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
         }
 
         /// <summary>
         /// Determines whether [is valid model false].
         /// </summary>
         [Test]
-        public void IsValidModel_False()
+        public void IsValidModel_New_False()
         {
             var controller = this.MockController();
             var model = new PetModel();
             model.Files = new List<FileModel>();
             model.Shelter = new ShelterModel();
-            Assert.IsFalse(controller.IsValidModel(model));
+            Assert.IsFalse(controller.IsValidModel(model, true));
             Assert.IsNotNull(controller.ModelState["Files"]);
             Assert.IsNull(controller.ModelState["Location"]);
 
             controller = this.MockController();
             model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
-            Assert.IsFalse(controller.IsValidModel(model)); 
+            Assert.IsFalse(controller.IsValidModel(model, true)); 
+            Assert.IsNotNull(controller.ModelState["Location"]);
+            Assert.IsNull(controller.ModelState["Files"]);
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model not new false].
+        /// </summary>
+        [Test]
+        public void IsValidModel_NotNew_False()
+        {
+            var controller = this.MockController();
+            var model = new PetModel();
+
+            model = new PetModel();
+            model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
+            Assert.IsFalse(controller.IsValidModel(model, false));
             Assert.IsNotNull(controller.ModelState["Location"]);
             Assert.IsNull(controller.ModelState["Files"]);
         }
