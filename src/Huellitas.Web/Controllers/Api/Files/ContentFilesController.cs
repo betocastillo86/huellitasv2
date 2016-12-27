@@ -33,20 +33,13 @@ namespace Huellitas.Web.Controllers.Api.Files
         private readonly IFileService fileService;
 
         /// <summary>
-        /// The work context
-        /// </summary>
-        private readonly IWorkContext workContext;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
         /// </summary>
         /// <param name="fileService">The file service.</param>
         /// <param name="fileHelper">the file helper</param>
-        /// <param name="workContext">the context</param>
         public ContentFilesController(
             IFileService fileService,
-            IFilesHelper fileHelper,
-            IWorkContext workContext)
+            IFilesHelper fileHelper)
         {
             this.fileService = fileService;
             this.fileHelper = fileHelper;

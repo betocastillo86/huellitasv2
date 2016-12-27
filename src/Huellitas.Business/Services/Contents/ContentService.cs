@@ -70,13 +70,15 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="seoService">The SEO service.</param>
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
+        /// <param name="contentUserRepository">The content user repository.</param>
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<ContentFile> contentFileRepository,
             ISeoService seoService,
             HuellitasContext context,
-            IRepository<RelatedContent> relatedContentRepository)
+            IRepository<RelatedContent> relatedContentRepository,
+            IRepository<ContentUser> contentUserRepository)
         {
             this.contentRepository = contentRepository;
             this.contentAttributeRepository = contentAttributeRepository;
@@ -84,6 +86,7 @@ namespace Huellitas.Business.Services.Contents
             this.seoService = seoService;
             this.contentFileRepository = contentFileRepository;
             this.relatedContentRepository = relatedContentRepository;
+            this.contentUserRepository = contentUserRepository;
         }
 
         /// <summary>
