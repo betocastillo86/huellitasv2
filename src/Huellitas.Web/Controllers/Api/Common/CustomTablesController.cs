@@ -40,7 +40,6 @@ namespace Huellitas.Web.Controllers.Api.Common
         [Route("{id}/rows")]
         public IActionResult GetByTable(int id)
         {
-            ////TODO:Test
             var rows = this.customTableService.GetRowsByTableId(id);
             var model = rows.ToModels();
             return this.Ok(model);

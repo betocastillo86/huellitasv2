@@ -4427,7 +4427,8 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
           "Microsoft.Extensions.Configuration.Json": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "NETStandard.Library": "1.6.0"
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel.TypeConverter": "4.1.0"
         },
         "compile": {
           "netstandard1.6/Huellitas.Data.dll": {}
@@ -5208,7 +5209,7 @@
       ]
     },
     "Microsoft.DiaSymReader/1.0.8": {
-      "sha512": "ABLULVhCAiyBFLBT5xX6vB4NhZDgwUylGRQK+zW5nZn2rbh1f8LOnFZ9gVSxzL6qOzPNb32Nu3QZ43iZerHOxA==",
+      "sha512": "HAhTmRgU+nnDVYxMZFAS1iwqg6CudbsSMZfSY9UJj4AJO4L69xZCtTOPKC5rW8+egNBWjDb0iBZV4ZdNI6dZnA==",
       "type": "package",
       "path": "Microsoft.DiaSymReader/1.0.8",
       "files": [

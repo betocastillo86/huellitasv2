@@ -13,9 +13,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-    using Security;
 
     /// <summary>
     /// Adds the authorization startup configuration
@@ -52,11 +50,18 @@ namespace Huellitas.Web.Infraestructure.Start
             });
         }
 
-
+        /// <summary>
+        /// Configures the policies.
+        /// </summary>
+        /// <param name="services">The services.</param>
         public static void ConfigurePolicies(this IServiceCollection services)
         {
-            services.AddAuthorization(c => {
-                c.AddPolicy("IsAdmin", policy => {
+            services.AddAuthorization(c =>
+            {
+                c.AddPolicy(
+                    "IsAdmin", 
+                    policy =>
+                {
                     policy.RequireClaim(ClaimTypes.Role, RoleEnum.SuperAdmin.ToString(), "Admin");
                 });
             });

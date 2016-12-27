@@ -5,16 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Files
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Business.Exceptions;
-    using Business.Services.Contents;
     using Business.Services.Files;
     using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Files;
     using Infraestructure.Security;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions.Common;
 
@@ -26,14 +23,14 @@ namespace Huellitas.Web.Controllers.Api.Files
     public class ContentFilesController : BaseApiController
     {
         /// <summary>
-        /// The file service
-        /// </summary>
-        private readonly IFileService fileService;
-
-        /// <summary>
         /// The file helper
         /// </summary>
         private readonly IFilesHelper fileHelper;
+
+        /// <summary>
+        /// The file service
+        /// </summary>
+        private readonly IFileService fileService;
 
         /// <summary>
         /// The work context
@@ -55,12 +52,26 @@ namespace Huellitas.Web.Controllers.Api.Files
             this.fileHelper = fileHelper;
         }
 
+        /// <summary>
+        /// Deletes the specified content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileId">The file identifier.</param>
+        /// <returns>the action</returns>
+        [HttpDelete]
+        [Route("{fileId}")]
+        public IActionResult Delete(int contentId, int fileId)
+        {
+            ////TODO:Implementar
+            return this.Ok(new { result = true });
+        }
 
         /// <summary>
         /// Gets the specified content identifier.
         /// </summary>
         /// <param name="contentId">The content identifier.</param>
-        /// <returns>The files of content</returns>
+        /// <param name="sizes">The sizes.</param>
+        /// <returns>the action</returns>
         [HttpGet]
         public IActionResult Get(int contentId, [FromQuery]FilterSizeModel sizes)
         {
@@ -113,14 +124,6 @@ namespace Huellitas.Web.Controllers.Api.Files
                 this.ModelState.AddModelError("Id", "El campo File Id es obligatorio");
                 return this.BadRequest(this.ModelState);
             }
-        }
-
-        [HttpDelete]
-        [Route("{fileId}")]
-        public IActionResult Delete(int contentId, int fileId)
-        {
-            ////TODO:Implementar
-            return this.Ok(new { result = true });
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Data.Entities;
+    using Data.Entities.Enums;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
@@ -214,7 +215,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
 
-
             model.Files = null;
             model.Shelter = null;
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
@@ -260,12 +260,133 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         }
 
         /// <summary>
-        /// Mocks the controller.
+        /// Determines whether this instance [can user edit pet true can edit any content].
         /// </summary>
-        /// <returns>the controller</returns>
-        private PetsController MockController()
+        [Test]
+        public void CanUserEditPet_True_CanEditAnyContent()
+        {
+            var controller = this.MockController();
+            var content = new Content();
+            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
+            Assert.IsTrue(controller.CanUserEditPet(content));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can edit pet true is shelter user].
+        /// </summary>
+        [Test]
+        public void CanUserEditPet_True_IsShelterUser()
+        {
+            var validUserId = 1;
+            var mockContentService = new Mock<IContentService>();
+            mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter))
+                .Returns(new List<ContentUser> { new ContentUser { UserId = validUserId } });
+
+            var controller = this.MockController(mockContentService);
+            var content = new Content();
+            content.ContentAttributes.Add(new Data.Entities.ContentAttribute { AttributeType = ContentAttributeType.Shelter, Value = "2" });
+            
+            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = validUserId, Name = "Admin", RoleEnum = RoleEnum.Public });
+
+            Assert.IsTrue(controller.CanUserEditPet(content));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can edit pet true is owner].
+        /// </summary>
+        [Test]
+        public void CanUserEditPet_True_IsOwner()
+        {
+            var controller = this.MockController();
+            var content = new Content();
+            content.UserId = 1;
+            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.Public });
+            Assert.IsTrue(controller.CanUserEditPet(content));
+        }
+
+        /// <summary>
+        /// Puts the pets ok.
+        /// </summary>
+        /// <returns>the result</returns>
+        [Test]
+        public async Task PutPets_Ok()
         {
             var mockContentService = new Mock<IContentService>();
+            var fileHelpers = new Mock<IFilesHelper>();
+            var customTableService = new Mock<ICustomTableService>();
+            var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
+
+            var model = new PetModel().MockNew();
+
+            int newId = 1;
+
+            var content = new Content() { Id = newId };
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns(content);
+
+            var controller = new PetsController(
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
+            var response = await controller.Put(newId, model) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Puts the pets not found.
+        /// </summary>
+        /// <returns>the result</returns>
+        [Test]
+        public async Task PutPets_NotFound()
+        {
+            var mockContentService = new Mock<IContentService>();
+            var fileHelpers = new Mock<IFilesHelper>();
+            var customTableService = new Mock<ICustomTableService>();
+            var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
+
+            var model = new PetModel().MockNew();
+
+            int newId = 1;
+
+            var content = new Content() { Id = newId };
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns((Content)null);
+
+            var controller = new PetsController(
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
+            var response = await controller.Put(newId, model) as NotFoundResult;
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Mocks the controller.
+        /// </summary>
+        /// <param name="mockContentService">The mock content service.</param>
+        /// <returns>the mock</returns>
+        private PetsController MockController(Mock<IContentService> mockContentService = null)
+        {
+            mockContentService = mockContentService ?? new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
             var cacheManager = new Mock<ICacheManager>();

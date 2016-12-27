@@ -7,6 +7,7 @@ namespace Huellitas.Data.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using Huellitas.Data.Entities;
 
@@ -31,7 +32,7 @@ namespace Huellitas.Data.Extensions
                 throw new ArgumentNullException(nameof(value));
             }
 
-            //if the attribute can be replace, it will search it and replaces the value
+            ////if the attribute can be replace, it will search it and replaces the value
             if (replace)
             {
                 var existentAttribute = attributes.FirstOrDefault(c => c.AttributeType == attribute);
@@ -79,17 +80,18 @@ namespace Huellitas.Data.Extensions
         /// <summary>
         /// Gets the attribute value
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type</typeparam>
         /// <param name="content">The content.</param>
         /// <param name="attribute">The attribute.</param>
         /// <returns>the value</returns>
-        public static T GetAttribute<T>(this Content content, ContentAttributeType attribute)
+        public static T GetAttribute<T>(this Content content, ContentAttributeType attribute) 
         {
             var contentAttribute = content.GetAttribute(attribute);
 
             if (contentAttribute != null)
             {
-                return (T)(object)contentAttribute.Value;
+                var destinationConverter = TypeDescriptor.GetConverter(typeof(T));
+                return (T)destinationConverter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, contentAttribute.Value);
             }
             else
             {

@@ -116,6 +116,7 @@ namespace Huellitas.Data.Entities
             {
                 return (Enums.RoleEnum)this.RoleId;
             }
+
             set
             {
                 this.RoleId = Convert.ToInt32(value);

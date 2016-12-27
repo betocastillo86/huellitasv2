@@ -200,8 +200,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                     content.UserId = this.workContext.CurrentUserId;
 
-                    //Only if the user can aprove contents changes the status
-                    if (this.workContext.CurrentUser.CanAproveContents())
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
                     {
                         content.StatusType = model.Status;
                     }
@@ -214,7 +214,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                     if (content.ContentFiles.Count > 0)
                     {
-                        ////TODO:Test
                         var files = this.fileService.GetByIds(content.ContentFiles.Select(c => c.FileId).ToArray());
 
                         foreach (var file in files)
@@ -250,31 +249,16 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
         {
-            //TODO:Test
+            ////TODO:Test
             if (this.IsValidModel(model, false))
             {
                 var content = this.contentService.GetById(id);
 
                 if (content != null)
                 {
-                    if (!this.workContext.CurrentUser.CanEditAnyContent())
+                    if (!this.CanUserEditPet(content))
                     {
-                        var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
-
-                        if (shelterId > 0)
-                        {
-                            ////Searches the user in shelter's users to validate if can change the pet 
-                            var shelterUsers = this.contentService.GetUsersByContentId(id, Data.Entities.Enums.ContentUserRelationType.Shelter).Select(c => c.UserId).ToList();
-                            if (!shelterUsers.Contains(this.workContext.CurrentUserId))
-                            {
-                                return this.Forbid();
-                            }
-                        }
-
-                        if (content.UserId != this.workContext.CurrentUserId)
-                        {
-                            return this.Forbid();
-                        }
+                        return this.Forbid();
                     }
 
                     content = model.ToEntity(this.contentService, content);
@@ -301,9 +285,44 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
+        /// Determines whether this instance [can user edit pet] the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can user edit pet] the specified content; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanUserEditPet(Content content)
+        {
+            if (!this.workContext.CurrentUser.CanEditAnyContent())
+            {
+                var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
+
+                if (shelterId > 0)
+                {
+                    ////Searches the user in shelter's users to validate if can change the pet 
+                    var shelterUsers = this.contentService.GetUsersByContentId(content.Id, Data.Entities.Enums.ContentUserRelationType.Shelter)
+                                                .Select(c => c.UserId)
+                                                .ToList();
+                    if (!shelterUsers.Contains(this.workContext.CurrentUserId))
+                    {
+                        return false;
+                    }
+                }
+                else if (content.UserId != this.workContext.CurrentUserId)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Determines whether [is valid model] [the specified model].
         /// </summary>
         /// <param name="model">The model.</param>
+        /// <param name="isNew">if set to <c>true</c> [is new].</param>
         /// <returns>
         ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
         /// </returns>
