@@ -33,7 +33,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasOne(d => d.Content)
                 .WithMany(p => p.ContentAttributes)
                 .HasForeignKey(d => d.ContentId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_ContentAttribute_Content");
         }
     }

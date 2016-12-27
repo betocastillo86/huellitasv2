@@ -69,9 +69,10 @@ namespace Huellitas.Web.Models.Extensions
             entity.DisplayOrder = model.DisplayOrder;
             entity.Email = model.Email;
 
-            if (model.Shelter == null)
+            if (model.Shelter == null || model.Shelter.Id == 0)
             {
                 entity.LocationId = model.Location.Id;
+                entity.ContentAttributes.Remove(ContentAttributeType.Shelter);
             }
             else
             {
@@ -79,7 +80,7 @@ namespace Huellitas.Web.Models.Extensions
                 if (shelter != null)
                 {
                     entity.LocationId = shelter.LocationId;
-                    entity.ContentAttributes.Add(ContentAttributeType.Shelter, shelter.Id);
+                    entity.ContentAttributes.Add(ContentAttributeType.Shelter, shelter.Id, true);
                 }
                 else
                 {

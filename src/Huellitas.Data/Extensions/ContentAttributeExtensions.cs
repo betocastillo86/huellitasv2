@@ -26,18 +26,20 @@ namespace Huellitas.Data.Extensions
         public static void Add(this ICollection<ContentAttribute> attributes, ContentAttributeType attribute, object value, bool replace = false)
         {
             ////TODO:Test
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
             //if the attribute can be replace, it will search it and replaces the value
             if (replace)
             {
                 var existentAttribute = attributes.FirstOrDefault(c => c.AttributeType == attribute);
                 if (existentAttribute != null)
                 {
-                    existentAttribute.Value = value.ToString();
+                    if (value != null)
+                    {
+                        existentAttribute.Value = value.ToString();
+                    }
+                    else
+                    {
+                        attributes.Remove(existentAttribute);
+                    }
                 }
                 else
                 {
@@ -55,6 +57,21 @@ namespace Huellitas.Data.Extensions
                     AttributeType = attribute,
                     Value = value.ToString()
                 });
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified attribute.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        /// <param name="attribute">The attribute.</param>
+        public static void Remove(this ICollection<ContentAttribute> attributes, ContentAttributeType attribute)
+        {
+            ////TODO:Test
+            var existentAttribute = attributes.FirstOrDefault(c => c.AttributeType == attribute);
+            if (existentAttribute != null)
+            {
+                attributes.Remove(existentAttribute);
             }
         }
     }

@@ -248,6 +248,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                 if (content != null)
                 {
+                    ////TODO:Validar el cambio de estado del contenido si puede o no para publicado
                     if (!this.workContext.CurrentUser.CanEditAnyContent())
                     {
                         ////TODO:Validar cuando un usuario pertenece también a un shelter

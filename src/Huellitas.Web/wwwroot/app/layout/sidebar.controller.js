@@ -8,7 +8,7 @@
     function SideBarController(moduleService)
     {
         var vm = this;
-        vm.title = "Este es el nuevo titulo";
+        vm.title = "Huellitas sin hogar";
 
         activate();
 
