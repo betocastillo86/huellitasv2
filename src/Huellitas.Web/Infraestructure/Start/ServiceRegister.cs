@@ -68,6 +68,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<ILocationService, LocationService>();
         }
     }
 }

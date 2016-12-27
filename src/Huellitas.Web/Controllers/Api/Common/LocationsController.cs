@@ -6,9 +6,12 @@
 namespace Huellitas.Web.Controllers.Api.Common
 {
     using System.Collections.Generic;
+    using Business.Services.Common;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Api.Common;
+    using Models.Extensions.Common;
 
     /// <summary>
     /// Locations Controller
@@ -18,20 +21,44 @@ namespace Huellitas.Web.Controllers.Api.Common
     public class LocationsController : BaseApiController
     {
         /// <summary>
+        /// The location service
+        /// </summary>
+        private readonly ILocationService locationService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LocationsController"/> class.
+        /// </summary>
+        /// <param name="locationService">The location service.</param>
+        public LocationsController(ILocationService locationService)
+        {
+            this.locationService = locationService;
+        }
+
+        /// <summary>
         /// Gets the specified parent identifier.
         /// </summary>
         /// <param name="parentId">if set to <c>true</c> [parent identifier].</param>
         /// <returns>the locations</returns>
         [HttpGet]
-        public IActionResult Get(bool parentId)
+        public IActionResult Get([FromQuery]LocationFilterModel filter)
         {
-            ////TODO:Implementar
-            var list = new List<Location>();
-            var bog = new Location() { Id = 2, Name = "Bogota", ParentLocationId = 1 };
-            list.Add(bog);
-            list.Add(new Location() { Id = 3, Name = "Suba", ParentLocationId = 2 });
-            list.Add(new Location() { Id = 4, Name = "Bosa", ParentLocationId = 2 });
-            return this.Ok(list);
+            ////TODO:test
+            if (filter.IsValid())
+            {
+                var locations = this.locationService.GetAll(
+                    filter.Name, 
+                    filter.ParentId, 
+                    filter.Page, 
+                    filter.PageSize);
+
+                var models = locations.ToModels();
+
+                return this.Ok(models, locations.HasNextPage, locations.TotalCount);
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
         }
     }
 }

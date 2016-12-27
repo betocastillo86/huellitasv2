@@ -96,14 +96,15 @@
                                     <angucomplete-alt id="location"
                                                       placeholder="Ingresar Ubicación"
                                                       pause="400"
-                                                      remote-url="/api/locations?keyword="
+                                                      remote-url="/api/locations?pagesize=8&name="
                                                       title-field="name"
                                                       selected-object="main.changeLocation"
                                                       initial-value="main.model.location.name"
                                                       input-class="form-control col-md-9 col-xs-12"
                                                       field-required="main.isLocationRequired()"
                                                       input-name="location"
-                                                      field-required-class="parsley-error" />
+                                                      field-required-class="parsley-error"
+                                                      remote-url-data-field="results" />
                                 </div>
                                 <validation-message form="formPet" field="formPet.location"  name="ubicación"></validation-message>
                             </div>

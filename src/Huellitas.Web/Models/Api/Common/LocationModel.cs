@@ -8,16 +8,8 @@ namespace Huellitas.Web.Models.Api.Common
     /// <summary>
     /// Location Model
     /// </summary>
-    public class LocationModel
+    public class LocationModel : BaseModel
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
