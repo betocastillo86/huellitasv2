@@ -81,6 +81,19 @@ namespace Huellitas.Business.Services.Files
         }
 
         /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the file
+        /// </returns>
+        public File GetById(int id)
+        {
+            return this.fileRepository.Table
+                .FirstOrDefault(c => c.Id == id);
+        }
+
+        /// <summary>
         /// Inserts the file asynchronous.
         /// </summary>
         /// <param name="file">The file.</param>

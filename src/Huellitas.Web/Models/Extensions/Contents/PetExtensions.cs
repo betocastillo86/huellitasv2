@@ -12,6 +12,7 @@ namespace Huellitas.Web.Models.Extensions
     using Api.Users;
     using Business.Caching;
     using Business.Exceptions;
+    using Business.Extensions.Entities;
     using Business.Extensions.Services;
     using Business.Services.Common;
     using Business.Services.Contents;

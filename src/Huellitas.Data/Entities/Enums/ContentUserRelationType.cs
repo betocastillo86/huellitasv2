@@ -13,6 +13,6 @@ namespace Huellitas.Data.Entities.Enums
         /// <summary>
         /// The shelter where the user works
         /// </summary>
-        Shelter
+        Shelter = 1
     }
 }

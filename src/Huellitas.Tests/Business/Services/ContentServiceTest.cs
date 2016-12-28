@@ -86,6 +86,7 @@ namespace Huellitas.Tests.Business
         /// <param name="seoService">The SEO service.</param>
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
+        /// <param name="contentUserRepository">content user repository</param>
         /// <returns>the mock</returns>
         private ContentService MockContentService(
             IRepository<Content> contentRepository = null,
@@ -93,7 +94,8 @@ namespace Huellitas.Tests.Business
             IRepository<ContentFile> contentFileRepository = null,
             ISeoService seoService = null,
             HuellitasContext context = null,
-            IRepository<RelatedContent> relatedContentRepository = null)
+            IRepository<RelatedContent> relatedContentRepository = null,
+            IRepository<ContentUser> contentUserRepository = null)
         {
             if (contentRepository == null)
             {
@@ -125,7 +127,12 @@ namespace Huellitas.Tests.Business
                 context = HuellitasContextHelpers.GetHuellitasContext();
             }
 
-            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context, relatedContentRepository);
+            if (contentUserRepository == null)
+            {
+                contentUserRepository = new Mock<IRepository<ContentUser>>().Object;
+            }
+
+            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context, relatedContentRepository, contentUserRepository);
         }
     }
 }

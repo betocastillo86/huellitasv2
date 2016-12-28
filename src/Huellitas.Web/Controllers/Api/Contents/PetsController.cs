@@ -249,17 +249,21 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model, false))
             {
                 var content = this.contentService.GetById(id);
 
                 if (content != null)
                 {
-                    ////TODO:Validar el cambio de estado del contenido si puede o no para publicado
                     if (!this.CanUserEditPet(content))
                     {
                         return this.Forbid();
+                    }
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
                     }
 
                     content = model.ToEntity(this.contentService, content);
@@ -295,28 +299,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [NonAction]
         public bool CanUserEditPet(Content content)
         {
-            if (!this.workContext.CurrentUser.CanEditAnyContent())
-            {
-                var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
-
-                if (shelterId > 0)
-                {
-                    ////Searches the user in shelter's users to validate if can change the pet 
-                    var shelterUsers = this.contentService.GetUsersByContentId(content.Id, Data.Entities.Enums.ContentUserRelationType.Shelter)
-                                                .Select(c => c.UserId)
-                                                .ToList();
-                    if (!shelterUsers.Contains(this.workContext.CurrentUserId))
-                    {
-                        return false;
-                    }
-                }
-                else if (content.UserId != this.workContext.CurrentUserId)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return this.workContext.CurrentUser.CanUserEditPet(content, this.contentService);
         }
 
         /// <summary>

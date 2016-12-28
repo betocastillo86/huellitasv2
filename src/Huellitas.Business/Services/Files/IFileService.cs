@@ -30,6 +30,13 @@ namespace Huellitas.Business.Services.Files
         IList<File> GetByIds(int[] ids);
 
         /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the file</returns>
+        File GetById(int id);
+
+        /// <summary>
         /// Gets the files by content identifier.
         /// </summary>
         /// <param name="contentId">The content identifier.</param>

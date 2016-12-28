@@ -170,7 +170,7 @@ namespace Huellitas.Business.Services.Contents
         /// <returns>
         /// the list of users
         /// </returns>
-        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = default(ContentUserRelationType?))
+        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null)
         {
             var query = this.contentUserRepository.Table.Where(c => c.ContentId == contentId);
 
