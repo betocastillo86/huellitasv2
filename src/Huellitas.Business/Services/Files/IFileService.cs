@@ -15,19 +15,20 @@ namespace Huellitas.Business.Services.Files
     public interface IFileService
     {
         /// <summary>
-        /// Inserts the file asynchronous.
+        /// Deletes the content file.
         /// </summary>
-        /// <param name="file">The file.</param>
-        /// <param name="fileContent">the bytes of the file</param>
-        /// <returns>the asynchronous result</returns>
-        Task InsertAsync(File file, byte[] fileContent);
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileId">The file identifier.</param>
+        /// <param name="removeFileIfDoesnotHaveRelationship">removes the file if does not have any relationship</param>
+        /// <returns>the task</returns>
+        Task DeleteContentFile(int contentId, int fileId, bool removeFileIfDoesnotHaveRelationship = false);
 
         /// <summary>
-        /// Gets the by ids.
+        /// Gets the files by content identifier.
         /// </summary>
-        /// <param name="ids">The identifiers</param>
-        /// <returns>the files</returns>
-        IList<File> GetByIds(int[] ids);
+        /// <param name="contentId">The content identifier.</param>
+        /// <returns>the list of files</returns>
+        IList<File> GetByContentId(int contentId);
 
         /// <summary>
         /// Gets the by identifier.
@@ -37,11 +38,19 @@ namespace Huellitas.Business.Services.Files
         File GetById(int id);
 
         /// <summary>
-        /// Gets the files by content identifier.
+        /// Gets the by ids.
         /// </summary>
-        /// <param name="contentId">The content identifier.</param>
-        /// <returns>the list of files</returns>
-        IList<File> GetByContentId(int contentId);
+        /// <param name="ids">The identifiers</param>
+        /// <returns>the files</returns>
+        IList<File> GetByIds(int[] ids);
+
+        /// <summary>
+        /// Inserts the file asynchronous.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="fileContent">the bytes of the file</param>
+        /// <returns>the asynchronous result</returns>
+        Task InsertAsync(File file, byte[] fileContent);
 
         /// <summary>
         /// Inserts the content file asynchronous.

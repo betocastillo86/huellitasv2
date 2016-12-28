@@ -89,10 +89,23 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// <returns>the action</returns>
         [HttpDelete]
         [Route("{fileId}")]
-        public IActionResult Delete(int contentId, int fileId)
+        [Authorize]
+        public async Task<IActionResult> Delete(int contentId, int fileId)
         {
-            ////TODO:Implementar
-            return this.Ok(new { result = true });
+            ////TODO:Test
+            var content = this.contentService.GetById(contentId);
+
+            if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))
+            {
+                await this.fileService.DeleteContentFile(contentId, fileId, true);
+
+                ////TODO:Eliminar los archivos fisicos que se redimensionaron previamente SOLO SI SE ELIMINÓ LA RAIZ
+                return this.Ok(new { result = true });
+            }
+            else
+            {
+                return this.Forbid();
+            }
         }
 
         /// <summary>

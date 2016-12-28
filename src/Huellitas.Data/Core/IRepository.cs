@@ -40,6 +40,13 @@ namespace Huellitas.Data.Core
         int Delete(T entity);
 
         /// <summary>
+        /// Deletes the asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the entities modified</returns>
+        Task<int> DeleteAsync(T entity);
+
+        /// <summary>
         /// Delete entities
         /// </summary>
         /// <param name="entities">The Entities</param>
