@@ -44,6 +44,8 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.Property(e => e.PhoneNumber).HasColumnType("varchar(15)");
 
+            entity.Property(e => e.PhoneNumber2).HasColumnType("varchar(15)");
+
             entity.HasOne(d => d.Role)
                 .WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)

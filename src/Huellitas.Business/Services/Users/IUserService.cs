@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Users
 {
+    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
 
     /// <summary>
@@ -25,6 +26,6 @@ namespace Huellitas.Business.Services.Users
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns>The user</returns>
-        User ValidateAuthentication(string email, string password);
+        Task<User> ValidateAuthentication(string email, string password);
     }
 }

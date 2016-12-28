@@ -283,9 +283,29 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<Location>();
 
-            var parent = new Location() { Name = "Colombia" };
+            var parent = new Location() { Id = 1, Name = "Colombia" };
             list.Add(parent);
-            list.Add(new Location() { Name = "Bogotá", ParentLocation = parent });
+            list.Add(new Location() { Name = "Bogotá", ParentLocationId = 1 });
+            var cundinamarca = new Location() { Name = "Cundinamarca", ParentLocationId = 1 };
+            list.Add(cundinamarca);
+            var valle = new Location() { Name = "Valle", ParentLocationId = 1 };
+            list.Add(valle);
+            var atlantico = new Location() { Name = "Atlantico", ParentLocationId = 1 };
+            list.Add(atlantico);
+            var antioquia = new Location() { Name = "Antioquia", ParentLocationId = 1 };
+            list.Add(antioquia);
+
+            list.Add(new Location() { Name = "Cali", ParentLocation = valle });
+            list.Add(new Location() { Name = "Tulua", ParentLocation = valle });
+            list.Add(new Location() { Name = "Palmira", ParentLocation = valle });
+
+            list.Add(new Location() { Name = "Barranquilla", ParentLocation = atlantico });
+            list.Add(new Location() { Name = "Soledad", ParentLocation = atlantico });
+            list.Add(new Location() { Name = "Otro de Atlantico", ParentLocation = atlantico });
+
+            list.Add(new Location() { Name = "Medellin", ParentLocation = antioquia });
+            list.Add(new Location() { Name = "Turbaco", ParentLocation = antioquia });
+            list.Add(new Location() { Name = "Envigado", ParentLocation = antioquia });
 
             foreach (var item in list)
             {

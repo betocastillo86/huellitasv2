@@ -165,20 +165,37 @@ namespace Huellitas.Web.Controllers.Api.Contents
         {
             var content = this.contentService.GetById(id, true);
 
-            var model = content.ToPetModel(
-                this.contentService, 
-                this.customTableService, 
-                this.cacheManager, 
-                this.filesHelper, 
-                Url.Content, 
-                true, 
-                true,
-                this.contentSettings.PictureSizeWidthDetail,
-                this.contentSettings.PictureSizeHeightDetail,
-                this.contentSettings.PictureSizeWidthList,
-                this.contentSettings.PictureSizeHeightList);
+            if (content != null)
+            {
+                if (content.Type == ContentType.Pet)
+                {
+                    var model = content.ToPetModel(
+                    this.contentService,
+                    this.customTableService,
+                    this.cacheManager,
+                    this.filesHelper,
+                    Url.Content,
+                    true,
+                    true,
+                    this.contentSettings.PictureSizeWidthDetail,
+                    this.contentSettings.PictureSizeHeightDetail,
+                    this.contentSettings.PictureSizeWidthList,
+                    this.contentSettings.PictureSizeHeightList);
 
-            return this.Ok(model);
+                    return this.Ok(model);
+                }
+                else
+                {
+                    ////TODO:Test
+                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                    return this.BadRequest(this.ModelState);
+                }
+            }
+            else
+            {
+                ////TODO:test
+                return this.NotFound();
+            }
         }
 
         /// <summary>

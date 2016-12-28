@@ -63,6 +63,10 @@ namespace Huellitas.Web.Models.Extensions
                     });
                 }
             }
+            else
+            {
+                entity.FileId = model.Files.FirstOrDefault().Id;
+            }
 
             entity.Name = model.Name;
             entity.Body = model.Body;
@@ -145,6 +149,11 @@ namespace Huellitas.Web.Models.Extensions
             if (entity.LocationId.HasValue && entity.Location != null)
             {
                 model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+            }
+
+            if (entity.FileId.HasValue && entity.File != null)
+            {
+                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
 
             if (entity.User != null)

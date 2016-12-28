@@ -75,7 +75,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The image.
         /// </value>
-        public string Image { get; set; }
+        public FileModel Image { get; set; }
 
         /// <summary>
         /// Gets or sets the location.

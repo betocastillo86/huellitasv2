@@ -45,6 +45,56 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The castrated
         /// </summary>
-        Castrated
+        Castrated,
+
+        /// <summary>
+        /// The phone
+        /// </summary>
+        Phone1,
+
+        /// <summary>
+        /// The phone
+        /// </summary>
+        Phone2,
+
+        /// <summary>
+        /// The latitude
+        /// </summary>
+        Lat,
+
+        /// <summary>
+        /// The Longitude
+        /// </summary>
+        Lng,
+
+        /// <summary>
+        /// The owner
+        /// </summary>
+        Owner,
+
+        /// <summary>
+        /// The address
+        /// </summary>
+        Address,
+
+        /// <summary>
+        /// The facebook
+        /// </summary>
+        Facebook,
+
+        /// <summary>
+        /// The twitter
+        /// </summary>
+        Twitter,
+
+        /// <summary>
+        /// The instagram
+        /// </summary>
+        Instagram,
+
+        /// <summary>
+        /// The video
+        /// </summary>
+        Video
     }
 }
