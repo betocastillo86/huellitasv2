@@ -118,14 +118,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 }
                 else
                 {
-                    ////TODO:Test
                     this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
                     return this.BadRequest(this.ModelState);
                 }
             }
             else
             {
-                ////TODO:test
                 return this.NotFound();
             }
         }

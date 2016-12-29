@@ -142,9 +142,15 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filterData,
                     filter.PageSize,
                     filter.Page,
-                    filter.OrderByEnum);
+                    filter.OrderByEnum,
+                    filter.LocationId);
 
-                var models = contentList.ToPetModels(this.contentService, this.customTableService, this.cacheManager, contentUrlFunction: Url.Content);
+                var models = contentList.ToPetModels(
+                    this.contentService, 
+                    this.customTableService, 
+                    this.cacheManager, 
+                    contentUrlFunction: Url.Content,
+                    filesHelper: this.filesHelper);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -186,14 +192,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 }
                 else
                 {
-                    ////TODO:Test
                     this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
                     return this.BadRequest(this.ModelState);
                 }
             }
             else
             {
-                ////TODO:test
                 return this.NotFound();
             }
         }

@@ -90,7 +90,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The location identifier.
         /// </value>
-        ////TODO:Aplicar el filtro
         public int? LocationId { get; set; }
 
         /// <summary>

@@ -82,7 +82,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The shelter.
         /// </value>
-        public ShelterModel Shelter { get; set; }
+        public ContentBaseModel Shelter { get; set; }
 
         /// <summary>
         /// Gets or sets the size.

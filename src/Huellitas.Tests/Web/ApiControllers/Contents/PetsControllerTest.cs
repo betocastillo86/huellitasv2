@@ -71,7 +71,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
                 mockContentService.Object, 
@@ -377,6 +377,82 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var response = await controller.Put(newId, model) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Gets the pet by identifier not found.
+        /// </summary>
+        [Test]
+        public void GetPetById_NotFound()
+        {
+            var mockContentService = new Mock<IContentService>();
+            var fileHelpers = new Mock<IFilesHelper>();
+            var customTableService = new Mock<ICustomTableService>();
+            var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
+
+            var model = new PetModel().MockNew();
+
+            int id = 1;
+
+            var content = new Content() { Id = id };
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns((Content)null);
+
+            var controller = new PetsController(
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
+            var response = controller.Get(id) as NotFoundResult;
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Gets the type of the pet by identifier bad request not pet.
+        /// </summary>
+        [Test]
+        public void GetPetById_BadRequest_NotPetType()
+        {
+            var mockContentService = new Mock<IContentService>();
+            var fileHelpers = new Mock<IFilesHelper>();
+            var customTableService = new Mock<ICustomTableService>();
+            var cacheManager = new Mock<ICacheManager>();
+            var pictureService = new Mock<IPictureService>();
+            var contentSettings = new Mock<IContentSettings>();
+            var fileService = new Mock<IFileService>();
+
+            var model = new PetModel().MockNew();
+
+            int id = 1;
+
+            var content = new Content() { Id = id, Type = ContentType.Shelter };
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+                .Returns(content);
+
+            var controller = new PetsController(
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
+                this.WorkContextMock.Object,
+                pictureService.Object,
+                contentSettings.Object,
+                fileService.Object);
+
+            var response = controller.Get(id) as ObjectResult;
+            var error = (response.Value as BaseApiError).Error;
+
+            Assert.AreEqual(400, response.StatusCode);
+            Assert.AreEqual("BadArgument", error.Code);
+            Assert.AreEqual("Id", error.Details[0].Target);
         }
 
         /// <summary>

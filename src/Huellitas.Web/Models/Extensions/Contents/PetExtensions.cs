@@ -212,7 +212,7 @@ namespace Huellitas.Web.Models.Extensions
 
                     case ContentAttributeType.Shelter:
                         var shelterContent = contentService.GetCachedShelter(cacheManager, attributeId);
-                        model.Shelter = new ShelterModel() { Id = attributeId, Name = shelterContent != null ? shelterContent.Name : string.Empty };
+                        model.Shelter = new ContentBaseModel() { Id = attributeId, Name = shelterContent != null ? shelterContent.Name : string.Empty };
                         break;
 
                     default:

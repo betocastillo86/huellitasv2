@@ -53,7 +53,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </returns>
         public override bool IsValid()
         {
-            ////TODO:Test
             var orderEnum = ContentOrderBy.CreatedDate;
             Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
             this.OrderByEnum = orderEnum;
