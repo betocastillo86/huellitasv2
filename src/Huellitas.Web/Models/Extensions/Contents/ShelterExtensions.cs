@@ -8,6 +8,8 @@ namespace Huellitas.Web.Models.Extensions.Contents
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Api.Files;
+    using Data.Extensions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Files;
     using Huellitas.Data.Entities;
@@ -20,6 +22,65 @@ namespace Huellitas.Web.Models.Extensions.Contents
     /// </summary>
     public static class ShelterExtensions
     {
+        /// <summary>
+        /// To the entity.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="entity">The entity.</param>
+        /// <param name="files">The files.</param>
+        /// <returns>the content</returns>
+        public static Content ToEntity(
+            this ShelterModel model,
+            IContentService contentService,
+            Content entity = null,
+            IList<FileModel> files = null)
+        {
+            if (entity == null)
+            {
+                entity = new Content();
+                entity.StatusType = StatusType.Created;
+                entity.Type = ContentType.Pet;
+
+                for (int i = 0; i < model.Files.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        entity.FileId = model.Files[i].Id;
+                    }
+
+                    entity.ContentFiles.Add(new ContentFile()
+                    {
+                        FileId = model.Files[i].Id,
+                        DisplayOrder = i
+                    });
+                }
+            }
+            else
+            {
+                entity.FileId = model.Files.FirstOrDefault().Id;
+            }
+
+            entity.Name = model.Name;
+            entity.Body = model.Body;
+            entity.DisplayOrder = model.DisplayOrder;
+            entity.LocationId = model.Location.Id;
+            entity.Email = model.Email;
+
+            entity.ContentAttributes.Add(ContentAttributeType.Facebook, model.Facebook, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Twitter, model.Twitter, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Instagram, model.Instagram, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Video, model.Video, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Address, model.Address, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Owner, model.Owner, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Lng, model.Lng, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Lat, model.Lat, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Phone2, model.Phone2, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Phone1, model.Phone, true);
+
+            return entity;
+        }
+
         /// <summary>
         /// To the shelter model.
         /// </summary>

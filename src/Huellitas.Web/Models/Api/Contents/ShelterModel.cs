@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Huellitas.Web.Models.Api.Users;
 
 namespace Huellitas.Web.Models.Api.Contents
@@ -28,6 +29,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The address.
         /// </value>
+        [Required]
         public string Address { get; set; }
 
         /// <summary>
@@ -36,6 +38,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The phone.
         /// </value>
+        [Required]
         public string Phone { get; set; }
 
         /// <summary>
@@ -44,6 +47,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The phone2.
         /// </value>
+        [Required]
         public string Phone2 { get; set; }
 
         /// <summary>
@@ -52,6 +56,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The owner.
         /// </value>
+        [Required]
         public string Owner { get; set; }
 
         /// <summary>
@@ -60,6 +65,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The lat.
         /// </value>
+        [Required]
         public decimal Lat { get; set; }
 
         /// <summary>
@@ -68,6 +74,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The LNG.
         /// </value>
+        [Required]
         public decimal Lng { get; set; }
 
         /// <summary>
