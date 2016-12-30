@@ -40,7 +40,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
             {
                 entity = new Content();
                 entity.StatusType = StatusType.Created;
-                entity.Type = ContentType.Pet;
+                entity.Type = ContentType.Shelter;
 
                 for (int i = 0; i < model.Files.Count; i++)
                 {
@@ -66,6 +66,8 @@ namespace Huellitas.Web.Models.Extensions.Contents
             entity.DisplayOrder = model.DisplayOrder;
             entity.LocationId = model.Location.Id;
             entity.Email = model.Email;
+            ////TODO:Revisar en PETS y Shelters cuando puede un usuario enviar destacado
+            entity.Featured = model.Featured;
 
             entity.ContentAttributes.Add(ContentAttributeType.Facebook, model.Facebook, true);
             entity.ContentAttributes.Add(ContentAttributeType.Twitter, model.Twitter, true);

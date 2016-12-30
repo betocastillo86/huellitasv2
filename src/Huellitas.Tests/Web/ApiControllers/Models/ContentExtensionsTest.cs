@@ -32,7 +32,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin };
             var content = new Content { };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsTrue(response);
         }
 
@@ -45,7 +45,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 1 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsTrue(response);
         }
 
@@ -58,7 +58,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsFalse(response);
         }
 
@@ -75,7 +75,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
                 .Returns(contentUsers);
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsTrue(response);
         }
 
@@ -92,7 +92,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
                 .Returns(contentUsers);
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsFalse(response);
         }
 
@@ -105,7 +105,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsFalse(response);
         }
 
@@ -118,10 +118,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 1 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, contentService.Object);
+            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
             Assert.IsTrue(response);
         }
-
-
     }
 }

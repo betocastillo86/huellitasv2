@@ -43,11 +43,14 @@ namespace Huellitas.Data.Extensions
                 }
                 else
                 {
-                    attributes.Add(new ContentAttribute()
+                    if (value != null)
                     {
-                        AttributeType = attribute,
-                        Value = value.ToString()
-                    });
+                        attributes.Add(new ContentAttribute()
+                        {
+                            AttributeType = attribute,
+                            Value = value.ToString()
+                        });
+                    }
                 }
             }
             else

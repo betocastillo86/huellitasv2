@@ -11,6 +11,14 @@ namespace Huellitas.Web.Models.Api.Files
     public class FileModel
     {
         /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the display order.
         /// </summary>
         /// <value>
@@ -25,14 +33,6 @@ namespace Huellitas.Web.Models.Api.Files
         /// The name of the file.
         /// </value>
         public string FileName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
-        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the MIME.

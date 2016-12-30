@@ -19,6 +19,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Common;
     using Models.Api.Contents;
+    using Models.Extensions;
     using Models.Extensions.Contents;
 
     /// <summary>
@@ -62,7 +63,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// Initializes a new instance of the <see cref="SheltersController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
-        /// <param name="filesHelper">files helper</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="pictureService">The picture service.</param>
         public SheltersController(
             IContentService contentService,
             IFilesHelper filesHelper,
@@ -80,9 +85,10 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
-        /// Gets this instance.
+        /// Gets the specified filter.
         /// </summary>
-        /// <returns>the result</returns>
+        /// <param name="filter">The filter.</param>
+        /// <returns>the list</returns>
         [HttpGet]
         public IActionResult Get([FromQuery]ShelterFilterModel filter)
         {
@@ -118,7 +124,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// Gets the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>the content</returns>
         [HttpGet]
         [Route("{id:int}", Name = "Api_Shelters_GetById")]
         public IActionResult Get(int id)
@@ -129,6 +135,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
             {
                 if (content.Type == ContentType.Shelter)
                 {
+                    ////TODO:Revisar en PETS y Shelters caso de contenido no publicado todavía solo para administradore y dueños del contenido
                     var model = content.ToShelterModel(
                     this.contentService,
                     this.filesHelper,
@@ -154,11 +161,16 @@ namespace Huellitas.Web.Controllers.Api.Contents
             }
         }
 
-
+        /// <summary>
+        /// Posts the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post([FromBody]ShelterModel model)
         {
+            ////TODO:Test
             if (this.IsValidModel(model, true))
             {
                 Content content = null;
@@ -206,9 +218,76 @@ namespace Huellitas.Web.Controllers.Api.Contents
             }
         }
 
+        /// <summary>
+        /// Puts the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>the action</returns>
+        [HttpPut("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Put(int id, [FromBody]ShelterModel model)
+        {
+            ////TODO:Test
+            if (this.IsValidModel(model, false))
+            {
+                var content = this.contentService.GetById(id);
+
+                if (content != null)
+                {
+                    if (content.Type != ContentType.Shelter)
+                    {
+                        this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
+                        return this.BadRequest(this.ModelState);
+                    }
+
+                    if (!this.workContext.CurrentUser.CanUserEditShelter(content, this.contentService))
+                    {
+                        return this.Forbid();
+                    }
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
+                    }
+
+                    content = model.ToEntity(this.contentService, content);
+
+                    try
+                    {
+                        await this.contentService.UpdateAsync(content);
+                        return this.Ok(new { result = true });
+                    }
+                    catch (HuellitasException e)
+                    {
+                        return this.BadRequest(e);
+                    }
+                }
+                else
+                {
+                    return this.NotFound();
+                }
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="isNew">if set to <c>true</c> [is new].</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         public bool IsValidModel(ShelterModel model, bool isNew)
         {
+            ////TODO:Test
+
             if (isNew && (model.Files == null || model.Files.Count == 0))
             {
                 this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");

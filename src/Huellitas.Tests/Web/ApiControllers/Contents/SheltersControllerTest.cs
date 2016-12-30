@@ -24,8 +24,19 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     [TestFixture]
     public class SheltersControllerTest
     {
+        /// <summary>
+        /// The content service
+        /// </summary>
         private Mock<IContentService> contentService = new Mock<IContentService>();
+
+        /// <summary>
+        /// The content settings
+        /// </summary>
         private Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
+
+        /// <summary>
+        /// The file helpers
+        /// </summary>
         private Mock<IFilesHelper> fileHelpers = new Mock<IFilesHelper>();
 
         /// <summary>
@@ -68,7 +79,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             int id = 1;
 
             var content = new Content() { Id = id };
-            contentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), true))
                 .Returns((Content)null);
 
             var controller = this.GetController();

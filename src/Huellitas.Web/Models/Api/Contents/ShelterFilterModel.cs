@@ -15,6 +15,9 @@ namespace Huellitas.Web.Models.Api.Contents
     /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
     public class ShelterFilterModel : BaseFilterModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShelterFilterModel"/> class.
+        /// </summary>
         public ShelterFilterModel()
         {
             this.MaxPageSize = 20;

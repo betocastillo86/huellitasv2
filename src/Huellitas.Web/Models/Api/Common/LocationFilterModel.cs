@@ -11,6 +11,9 @@ namespace Huellitas.Web.Models.Api.Common
     /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
     public class LocationFilterModel : BaseFilterModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LocationFilterModel"/> class.
+        /// </summary>
         public LocationFilterModel()
         {
             this.MaxPageSize = 50;

@@ -35,10 +35,10 @@ namespace Huellitas.Web.Controllers.Api.Common
         }
 
         /// <summary>
-        /// Gets the specified parent identifier.
+        /// Gets the specified filter.
         /// </summary>
-        /// <param name="parentId">if set to <c>true</c> [parent identifier].</param>
-        /// <returns>the locations</returns>
+        /// <param name="filter">The filter.</param>
+        /// <returns>the contents</returns>
         [HttpGet]
         public IActionResult Get([FromQuery]LocationFilterModel filter)
         {

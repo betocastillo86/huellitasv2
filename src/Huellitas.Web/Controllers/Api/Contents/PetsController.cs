@@ -276,6 +276,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                 if (content != null)
                 {
+                    if (content.Type != ContentType.Pet)
+                    {
+                        this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                        return this.BadRequest(this.ModelState);
+                    }
+
                     if (!this.CanUserEditPet(content))
                     {
                         return this.Forbid();

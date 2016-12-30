@@ -88,7 +88,7 @@ namespace Huellitas.Data.Entities
         Twitter,
 
         /// <summary>
-        /// The instagram
+        /// The <c>instagram</c>
         /// </summary>
         Instagram,
 

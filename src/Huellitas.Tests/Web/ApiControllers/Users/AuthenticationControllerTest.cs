@@ -29,10 +29,19 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     [TestFixture]
     public class AuthenticationControllerTest
     {
+        /// <summary>
+        /// The authentication token generator
+        /// </summary>
         private Mock<IAuthenticationTokenGenerator> authenticationTokenGenerator;
 
+        /// <summary>
+        /// The security helpers
+        /// </summary>
         private Mock<ISecurityHelpers> securityHelpers;
 
+        /// <summary>
+        /// The user service
+        /// </summary>
         private Mock<IUserService> userService;
 
         /// <summary>
@@ -48,9 +57,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// <summary>
         /// Mocks the authentication controller.
         /// </summary>
-        /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="securityHelpers">The security helpers.</param>
         /// <returns>the mock</returns>
         public AuthenticationController MockAuthenticationController()
         {
@@ -60,6 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// <summary>
         /// Posts the authentication invalid model bad password.
         /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task PostAuthentication_InvalidModel_BadPassword()
         {
@@ -74,10 +81,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// <summary>
         /// Posts the authentication invalid model null.
         /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task PostAuthentication_InvalidModel_Null()
         {
             var controller = this.MockAuthenticationController();
+
             AuthenticationUserModel model = null;
             var response = await controller.Post(model) as ObjectResult;
             var error = (response.Value as BaseApiError).Error;
@@ -86,6 +95,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             Assert.AreEqual("BadArgument", error.Code);
         }
 
+        /// <summary>
+        /// Posts the authentication ok.
+        /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task PostAuthentication_Ok()
         {
@@ -115,6 +128,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             Assert.AreEqual(200, response.StatusCode);
         }
 
+        /// <summary>
+        /// Posts the authentication unauthorized wrong password.
+        /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task PostAuthentication_Unauthorized_WrongPassword()
         {

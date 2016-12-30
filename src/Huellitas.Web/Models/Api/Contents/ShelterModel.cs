@@ -3,12 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Huellitas.Web.Models.Api.Users;
-
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// Shelter Model
     /// </summary>
@@ -47,7 +45,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The phone2.
         /// </value>
-        [Required]
         public string Phone2 { get; set; }
 
         /// <summary>
@@ -60,10 +57,10 @@ namespace Huellitas.Web.Models.Api.Contents
         public string Owner { get; set; }
 
         /// <summary>
-        /// Gets or sets the lat.
+        /// Gets or sets the latitude
         /// </summary>
         /// <value>
-        /// The lat.
+        /// The latitude.
         /// </value>
         [Required]
         public decimal Lat { get; set; }
@@ -94,10 +91,10 @@ namespace Huellitas.Web.Models.Api.Contents
         public string Twitter { get; set; }
 
         /// <summary>
-        /// Gets or sets the instagram.
+        /// Gets or sets the <c>instagram</c>.
         /// </summary>
         /// <value>
-        /// The instagram.
+        /// The <c>instagram</c>.
         /// </value>
         public string Instagram { get; set; }
     }
