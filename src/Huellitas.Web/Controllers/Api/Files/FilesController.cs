@@ -50,13 +50,13 @@ namespace Huellitas.Web.Controllers.Api.Files
         private readonly IPictureService pictureService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileController"/> class.
+        /// Initializes a new instance of the <see cref="FilesController"/> class.
         /// </summary>
         /// <param name="hostingEnvironment">The hosting environment.</param>
-        /// <param name="fileService">The File Service</param>
-        /// <param name="filesHelper">The files helper</param>
-        /// <param name="seoService">The SEO Service</param>
-        /// <param name="pictureService">the picture service</param>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="seoService">The SEO service.</param>
+        /// <param name="pictureService">The picture service.</param>
         public FilesController(
             IHostingEnvironment hostingEnvironment,
             IFileService fileService,

@@ -9,8 +9,8 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    [Migration("20161111211237_AlterColumn_Id_Table_SystemSetting")]
-    partial class AlterColumn_Id_Table_SystemSetting
+    [Migration("20161219225606_AddTable_ContentUser")]
+    partial class AddTable_ContentUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -262,6 +262,29 @@ namespace Huellitas.Data.Migrations
                     b.HasIndex("FileId");
 
                     b.ToTable("ContentFile");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.ContentUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContentId")
+                        .HasColumnName("ContentId");
+
+                    b.Property<short>("RelationTypeId")
+                        .HasColumnName("RelationTypeId");
+
+                    b.Property<int>("UserId")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ContentUser");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTable", b =>
@@ -640,6 +663,19 @@ namespace Huellitas.Data.Migrations
                         .WithMany("ContentFile")
                         .HasForeignKey("FileId")
                         .HasConstraintName("FK_ContentFile_File");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.ContentUser", b =>
+                {
+                    b.HasOne("Huellitas.Data.Entities.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("FK_ContentUser_Content");
+
+                    b.HasOne("Huellitas.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_ContentUser_User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTableRow", b =>

@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Extensions
 {
-    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using Huellitas.Data.Entities;
 
@@ -26,7 +26,7 @@ namespace Huellitas.Data.Extensions
         public static void Add(this ICollection<ContentAttribute> attributes, ContentAttributeType attribute, object value, bool replace = false)
         {
             ////TODO:Test
-            //if the attribute can be replace, it will search it and replaces the value
+            ////if the attribute can be replace, it will search it and replaces the value
             if (replace)
             {
                 var existentAttribute = attributes.FirstOrDefault(c => c.AttributeType == attribute);
@@ -57,6 +57,47 @@ namespace Huellitas.Data.Extensions
                     AttributeType = attribute,
                     Value = value.ToString()
                 });
+            }
+        }
+
+        /// <summary>
+        /// Gets the attribute.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>the attribute</returns>
+        public static ContentAttribute GetAttribute(this Content content, ContentAttributeType attribute)
+        {
+            if (content.ContentAttributes != null)
+            {
+                return content.ContentAttributes.FirstOrDefault(c => c.Attribute == attribute.ToString());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the attribute value
+        /// </summary>
+        /// <typeparam name="T">the type</typeparam>
+        /// <param name="content">The content.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>the value</returns>
+        public static T GetAttribute<T>(this Content content, ContentAttributeType attribute)
+        {
+            ////TODO:Test
+            var contentAttribute = content.GetAttribute(attribute);
+
+            if (contentAttribute != null)
+            {
+                var destinationConverter = TypeDescriptor.GetConverter(typeof(T));
+                return (T)destinationConverter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, contentAttribute.Value);
+            }
+            else
+            {
+                return default(T);
             }
         }
 

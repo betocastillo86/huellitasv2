@@ -19,15 +19,7 @@ namespace Huellitas.Web.Controllers
         /// </summary>
         /// <returns>the view</returns>
         public ActionResult Index()
-        {
-            //if (this.User.Identity.IsAuthenticated)
-            //{
-            //    return this.View();
-            //}
-            //else
-            //{
-            //    return this.RedirectToAction("Login");
-            //}          
+        {     
             return this.View();
         }
 
@@ -37,14 +29,6 @@ namespace Huellitas.Web.Controllers
         /// <returns>the view</returns>
         public ActionResult Login()
         {
-            //if (this.User.Identity.IsAuthenticated)
-            //{
-            //    return this.RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    return this.View();
-            //}
             return this.View();
         }
     }

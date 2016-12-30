@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Files
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Business.Configuration;
     using Business.Exceptions;
     using Business.Services.Contents;
     using Business.Services.Files;
@@ -16,6 +16,7 @@ namespace Huellitas.Web.Controllers.Api.Files
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Extensions;
     using Models.Extensions.Common;
 
     /// <summary>
@@ -26,34 +27,93 @@ namespace Huellitas.Web.Controllers.Api.Files
     public class ContentFilesController : BaseApiController
     {
         /// <summary>
+        /// The file helper
+        /// </summary>
+        private readonly IFilesHelper fileHelper;
+
+        /// <summary>
         /// The file service
         /// </summary>
         private readonly IFileService fileService;
 
         /// <summary>
-        /// The file helper
+        /// The content service
         /// </summary>
-        private readonly IFilesHelper fileHelper;
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
+        /// The picture service
+        /// </summary>
+        private readonly IPictureService pictureService;
+
+        /// <summary>
+        /// The content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
         /// </summary>
         /// <param name="fileService">The file service.</param>
         /// <param name="fileHelper">the file helper</param>
+        /// <param name="contentService">content service</param>
+        /// <param name="workContext">work context</param>
+        /// <param name="pictureService">picture service</param>
+        /// <param name="contentSettings">the content settings</param>
         public ContentFilesController(
             IFileService fileService,
-            IFilesHelper fileHelper)
+            IFilesHelper fileHelper,
+            IContentService contentService,
+            IWorkContext workContext,
+            IPictureService pictureService,
+            IContentSettings contentSettings)
         {
             this.fileService = fileService;
             this.fileHelper = fileHelper;
+            this.contentService = contentService;
+            this.workContext = workContext;
+            this.pictureService = pictureService;
+            this.contentSettings = contentSettings;
         }
 
+        /// <summary>
+        /// Deletes the specified content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileId">The file identifier.</param>
+        /// <returns>the action</returns>
+        [HttpDelete]
+        [Route("{fileId}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int contentId, int fileId)
+        {
+            ////TODO:Test
+            var content = this.contentService.GetById(contentId);
+
+            if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))
+            {
+                await this.fileService.DeleteContentFile(contentId, fileId, true);
+
+                ////TODO:Eliminar los archivos fisicos que se redimensionaron previamente SOLO SI SE ELIMINÓ LA RAIZ
+                return this.Ok(new { result = true });
+            }
+            else
+            {
+                return this.Forbid();
+            }
+        }
 
         /// <summary>
         /// Gets the specified content identifier.
         /// </summary>
         /// <param name="contentId">The content identifier.</param>
-        /// <returns>The files of content</returns>
+        /// <param name="sizes">The sizes.</param>
+        /// <returns>the action</returns>
         [HttpGet]
         public IActionResult Get(int contentId, [FromQuery]FilterSizeModel sizes)
         {
@@ -70,50 +130,62 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// <param name="model">The model.</param>
         /// <returns>the value</returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post(int contentId, [FromBody]FileModel model)
         {
-            ////TODO:Solo usuarios administradores
             if (model != null && model.Id > 0)
             {
-                var contentFile = new ContentFile()
-                {
-                    ContentId = contentId,
-                    FileId = model.Id,
-                    DisplayOrder = model.DisplayOrder
-                };
+                var content = this.contentService.GetById(contentId);
 
-                try
+                if (content != null)
                 {
-                    await this.fileService.InsertContentFileAsync(contentFile);
-                    ////TODO:Redimensionar las imagenes
-                }
-                catch (HuellitasException e)
-                {
-                    if (e.Code == HuellitasExceptionCode.InvalidForeignKey)
+                    if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))
                     {
-                        return this.BadRequest(e, "No se encuentra la relación");
+                        var contentFile = new ContentFile()
+                        {
+                            ContentId = contentId,
+                            FileId = model.Id,
+                            DisplayOrder = model.DisplayOrder
+                        };
+
+                        try
+                        {
+                            await this.fileService.InsertContentFileAsync(contentFile);
+
+                            var file = this.fileService.GetById(model.Id);
+
+                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
+                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                        }
+                        catch (HuellitasException e)
+                        {
+                            if (e.Code == HuellitasExceptionCode.InvalidForeignKey)
+                            {
+                                return this.BadRequest(e, "No se encuentra la relación");
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+
+                        return this.Ok(new { Id = contentFile.Id });
                     }
                     else
                     {
-                        throw;
+                        return this.Forbid();
                     }
                 }
-
-                return this.Ok(new { Id = contentFile.Id });
+                else
+                {
+                    return this.NotFound();
+                }                
             }
             else
             {
                 this.ModelState.AddModelError("Id", "El campo File Id es obligatorio");
                 return this.BadRequest(this.ModelState);
             }
-        }
-
-        [HttpDelete]
-        [Route("{fileId}")]
-        public IActionResult Delete(int contentId, int fileId)
-        {
-            ////TODO:Implementar
-            return this.Ok(new { result = true });
         }
     }
 }

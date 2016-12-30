@@ -1,23 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="RoleEnum.cs" company="Huellitas sin hogar">
+// <copyright file="ContentUserRelationType.cs" company="Dasigno">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities.Enums
 {
     /// <summary>
-    /// Role Enum
+    /// Content User Relation Type
     /// </summary>
-    public enum RoleEnum
+    public enum ContentUserRelationType : short
     {
         /// <summary>
-        /// The super admin
+        /// The shelter where the user works
         /// </summary>
-        SuperAdmin = 1,
-
-        /// <summary>
-        /// The public
-        /// </summary>
-        Public = 2
+        Shelter = 1
     }
 }

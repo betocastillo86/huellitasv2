@@ -12,6 +12,7 @@ namespace Huellitas.Web.Models.Extensions
     using Api.Users;
     using Business.Caching;
     using Business.Exceptions;
+    using Business.Extensions.Entities;
     using Business.Extensions.Services;
     using Business.Services.Common;
     using Business.Services.Contents;
@@ -45,7 +46,6 @@ namespace Huellitas.Web.Models.Extensions
             if (entity == null)
             {
                 entity = new Content();
-                entity.Id = model.Id;
                 entity.StatusType = StatusType.Created;
                 entity.Type = ContentType.Pet;
 
@@ -62,6 +62,10 @@ namespace Huellitas.Web.Models.Extensions
                         DisplayOrder = i
                     });
                 }
+            }
+            else
+            {
+                entity.FileId = model.Files.FirstOrDefault().Id;
             }
 
             entity.Name = model.Name;
@@ -109,6 +113,10 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
         /// <param name="withRelated">if set to <c>true</c> [with related].</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="thumbnailWidth">Width of the thumbnail.</param>
+        /// <param name="thumbnailHeight">Height of the thumbnail.</param>
         /// <returns>the model</returns>
         public static PetModel ToPetModel(
             this Content entity, 
@@ -141,6 +149,11 @@ namespace Huellitas.Web.Models.Extensions
             if (entity.LocationId.HasValue && entity.Location != null)
             {
                 model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+            }
+
+            if (entity.FileId.HasValue && entity.File != null)
+            {
+                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
 
             if (entity.User != null)
@@ -199,7 +212,7 @@ namespace Huellitas.Web.Models.Extensions
 
                     case ContentAttributeType.Shelter:
                         var shelterContent = contentService.GetCachedShelter(cacheManager, attributeId);
-                        model.Shelter = new ShelterModel() { Id = attributeId, Name = shelterContent != null ? shelterContent.Name : string.Empty };
+                        model.Shelter = new ContentBaseModel() { Id = attributeId, Name = shelterContent != null ? shelterContent.Name : string.Empty };
                         break;
 
                     default:
@@ -211,16 +224,20 @@ namespace Huellitas.Web.Models.Extensions
         }
 
         /// <summary>
-        /// To the models.
+        /// To the pet models.
         /// </summary>
         /// <param name="entities">The entities.</param>
-        /// <param name="contentService">The content service</param>
-        /// <param name="customTableService">the custom table service</param>
-        /// <param name="cacheManager">the cache manager</param>
-        /// <param name="filesHelper">The file helper</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
-        /// <param name="withFiles">if contains files or not</param>
-        /// <returns>the value</returns>
+        /// <param name="withFiles">if set to <c>true</c> [with files].</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="thumbnailWidth">Width of the thumbnail.</param>
+        /// <param name="thumbnailHeight">Height of the thumbnail.</param>
+        /// <returns>the models</returns>
         public static IList<PetModel> ToPetModels(
             this IList<Content> entities, 
             IContentService contentService, 

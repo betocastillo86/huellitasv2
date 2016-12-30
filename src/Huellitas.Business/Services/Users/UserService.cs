@@ -6,6 +6,7 @@
 namespace Huellitas.Business.Services.Users
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
@@ -38,11 +39,11 @@ namespace Huellitas.Business.Services.Users
         /// <returns>
         /// The user
         /// </returns>
-        public User ValidateAuthentication(string email, string password)
+        public async Task<User> ValidateAuthentication(string email, string password)
         {
-            return this.userRepository.Table
+            return await this.userRepository.Table
                 .Include(c => c.Role)
-                .FirstOrDefault(c => c.Email.Equals(email) && c.Password.Equals(password) && !c.Deleted);
+                .FirstOrDefaultAsync(c => c.Email.Equals(email) && c.Password.Equals(password) && !c.Deleted);
         }
 
         /// <summary>

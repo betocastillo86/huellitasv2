@@ -21,14 +21,14 @@ namespace Huellitas.Business.Services.Files
     public class FileService : IFileService
     {
         /// <summary>
-        /// The file repository
-        /// </summary>
-        private readonly IRepository<File> fileRepository;
-
-        /// <summary>
         /// The content file repository
         /// </summary>
         private readonly IRepository<ContentFile> contentFileRepository;
+
+        /// <summary>
+        /// The file repository
+        /// </summary>
+        private readonly IRepository<File> fileRepository;
 
         /// <summary>
         /// The files helper
@@ -52,6 +52,38 @@ namespace Huellitas.Business.Services.Files
         }
 
         /// <summary>
+        /// Deletes the content file.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileId">The file identifier.</param>
+        /// <param name="removeFileIfDoesnotHaveRelationship">removes the file if does not have any relationship</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        /// <exception cref="HuellitasException">Row not found</exception>
+        public async Task DeleteContentFile(int contentId, int fileId, bool removeFileIfDoesnotHaveRelationship = false)
+        {
+            var contentFile = this.contentFileRepository.Table
+                .Include(c => c.File)
+                .FirstOrDefault(c => c.ContentId == contentId && c.FileId == fileId);
+
+            if (contentFile != null)
+            {
+                await this.contentFileRepository.DeleteAsync(contentFile);
+
+                ////if does not have any relationship with contents deletes the file
+                if (removeFileIfDoesnotHaveRelationship && !this.contentFileRepository.Table.Any(c => c.FileId == fileId))
+                {
+                    await this.fileRepository.DeleteAsync(contentFile.File);
+                }
+            }
+            else
+            {
+                throw new HuellitasException(HuellitasExceptionCode.RowNotFound);
+            }
+        }
+
+        /// <summary>
         /// Gets the files by content identifier.
         /// </summary>
         /// <param name="contentId">The content identifier.</param>
@@ -64,6 +96,19 @@ namespace Huellitas.Business.Services.Files
                 .Where(c => c.ContentId == contentId)
                 .Select(c => c.File)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the file
+        /// </returns>
+        public File GetById(int id)
+        {
+            return this.fileRepository.Table
+                .FirstOrDefault(c => c.Id == id);
         }
 
         /// <summary>

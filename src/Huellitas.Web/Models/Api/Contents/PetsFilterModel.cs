@@ -85,20 +85,12 @@ namespace Huellitas.Web.Models.Api.Contents
         public string SubType { get; set; }
 
         /// <summary>
-        /// Returns true if ... is valid.
+        /// Gets or sets the location identifier.
         /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool IsValid()
-        {
-            this.GeneralValidations();
-
-            var orderEnum = ContentOrderBy.CreatedDate;
-            Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
-            this.OrderByEnum = orderEnum;
-            return this.Errors == null || this.Errors.Count == 0;
-        }
+        /// <value>
+        /// The location identifier.
+        /// </value>
+        public int? LocationId { get; set; }
 
         /// <summary>
         /// Returns true if ... is valid.
@@ -111,6 +103,10 @@ namespace Huellitas.Web.Models.Api.Contents
         {
             if (this.IsValid())
             {
+                var orderEnum = ContentOrderBy.CreatedDate;
+                Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
+                this.OrderByEnum = orderEnum;
+
                 selectedFilters = new List<FilterAttribute>();
 
                 string currentFilterToConvert = "Age";

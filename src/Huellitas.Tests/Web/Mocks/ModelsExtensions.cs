@@ -31,5 +31,30 @@ namespace Huellitas.Tests.Web.Mocks
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
             return model;
         }
+
+        /// <summary>
+        /// Mocks the new.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>the model</returns>
+        public static ShelterModel MockNew(this ShelterModel model)
+        {
+            model.Name = "Name";
+            model.Body = "Body";
+            model.Address = "cr 10 10 10";
+            model.Email = "aaa@aaa.com";
+            model.Facebook = "facebook.com";
+            model.Files = new List<FileModel>() { new FileModel() { FileName = "a" } };
+            model.Instagram = "instagram.com";
+            model.Lat = 123;
+            model.Lng = 456;
+            model.Owner = "Owner";
+            model.Phone = "123456";
+            model.Phone2 = "789123";
+            model.Twitter = "twitter.com";
+            model.Video = "youtube.com";
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
+            return model;
+        }
     }
 }

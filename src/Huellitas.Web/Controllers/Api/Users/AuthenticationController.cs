@@ -9,6 +9,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Security.Principal;
+    using System.Threading.Tasks;
     using Business.Security;
     using Business.Services.Users;
     using Huellitas.Web.Infraestructure.Security;
@@ -61,12 +62,12 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// <param name="model">The model.</param>
         /// <returns>the action</returns>
         [HttpPost]
-        public IActionResult Post([FromBody]AuthenticationUserModel model)
+        public async Task<IActionResult> Post([FromBody]AuthenticationUserModel model)
         {
             if (model != null && this.ModelState.IsValid)
             {
                 var password = this.securityHelpers.ToSha1(model.Password, model.Email);
-                var user = this.userService.ValidateAuthentication(model.Email, password);
+                var user = await this.userService.ValidateAuthentication(model.Email, password);
 
                 if (user != null)
                 {
@@ -77,9 +78,8 @@ namespace Huellitas.Web.Controllers.Api.Users
                     claims.Add(new Claim(ClaimTypes.Name, user.Name));
                     claims.Add(new Claim(ClaimTypes.Role, user.Role.Name));
 
-                    //TODO:TEST
                     var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims, DateTimeOffset.Now);
-                    var userModel = new AuthenticatedUserModel() { Email = model.Email, Name= user.Name, Id = user.Id, Token = token  };
+                    var userModel = new AuthenticatedUserModel() { Email = model.Email, Name = user.Name, Id = user.Id, Token = token };
                     return this.Ok(userModel);
                 }
                 else

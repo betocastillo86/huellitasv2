@@ -42,6 +42,11 @@ namespace Huellitas.Business.Services.Contents
         private readonly IRepository<Content> contentRepository;
 
         /// <summary>
+        /// The content user repository
+        /// </summary>
+        private readonly IRepository<ContentUser> contentUserRepository;
+
+        /// <summary>
         /// The context/
         /// </summary>
         private readonly HuellitasContext context;
@@ -65,13 +70,15 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="seoService">The SEO service.</param>
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
+        /// <param name="contentUserRepository">The content user repository.</param>
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<ContentFile> contentFileRepository,
             ISeoService seoService,
             HuellitasContext context,
-            IRepository<RelatedContent> relatedContentRepository)
+            IRepository<RelatedContent> relatedContentRepository,
+            IRepository<ContentUser> contentUserRepository)
         {
             this.contentRepository = contentRepository;
             this.contentAttributeRepository = contentAttributeRepository;
@@ -79,6 +86,7 @@ namespace Huellitas.Business.Services.Contents
             this.seoService = seoService;
             this.contentFileRepository = contentFileRepository;
             this.relatedContentRepository = relatedContentRepository;
+            this.contentUserRepository = contentUserRepository;
         }
 
         /// <summary>
@@ -155,6 +163,27 @@ namespace Huellitas.Business.Services.Contents
         }
 
         /// <summary>
+        /// Gets the users by content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>
+        /// the list of users
+        /// </returns>
+        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null)
+        {
+            var query = this.contentUserRepository.Table.Where(c => c.ContentId == contentId);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToDecimal(relation.Value);
+                query = query.Where(c => c.RelationTypeId == relationId);
+            }
+
+            return query.ToList();
+        }
+
+        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -215,18 +244,23 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="page">The page.</param>
         /// <param name="orderBy">The order by.</param>
-        /// <returns>the value</returns>
+        /// <param name="locationId">the location</param>
+        /// <returns>
+        /// the value
+        /// </returns>
         public IPagedList<Content> Search(
             string keyword = null,
             ContentType? contentType = null,
             IList<FilterAttribute> attributesFilter = null,
             int pageSize = int.MaxValue,
             int page = 0,
-            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder)
+            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
+            int? locationId = null)
         {
             var query = this.contentRepository.TableNoTracking
                 .Include(c => c.ContentAttributes)
                 .Include(c => c.Location)
+                .Include(c => c.File)
                 .Where(c => !c.Deleted);
 
             if (!string.IsNullOrEmpty(keyword))
@@ -238,6 +272,11 @@ namespace Huellitas.Business.Services.Contents
             {
                 var typeId = Convert.ToInt16(contentType);
                 query = query.Where(c => c.TypeId == typeId);
+            }
+
+            if (locationId.HasValue)
+            {
+                query = query.Where(c => c.LocationId == locationId || c.Location.ParentLocationId == locationId);
             }
 
             #region Attributes
@@ -349,6 +388,7 @@ namespace Huellitas.Business.Services.Contents
         /// </returns>
         public async Task UpdateAsync(Content content)
         {
+            ////TODO:Test
             try
             {
                 await this.contentRepository.UpdateAsync(content);

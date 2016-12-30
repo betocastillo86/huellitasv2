@@ -36,7 +36,7 @@ namespace Huellitas.Tests
         private void MockWorkContext()
         {
             this.WorkContextMock = new Mock<IWorkContext>();
-            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin" });
+            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
             this.WorkContextMock.SetupGet(c => c.CurrentUserId).Returns(1);
         }
     }

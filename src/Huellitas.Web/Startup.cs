@@ -41,12 +41,12 @@ namespace Huellitas.Web
                 routes.MapRoute(
                     name: "adminLoginRoute",
                     template: "admin/login",
-                    defaults: new {  controller = "Admin", action ="Login"});
+                    defaults: new { controller = "Admin", action = "Login" });
 
                 routes.MapRoute(
                     name: "defaultAdminRoute",
                     template: "admin/{*complement}",
-                    defaults:new { controller = "Admin", action = "Index" });
+                    defaults: new { controller = "Admin", action = "Index" });
 
                 routes.MapRoute(
                     name: "defaultRoute",

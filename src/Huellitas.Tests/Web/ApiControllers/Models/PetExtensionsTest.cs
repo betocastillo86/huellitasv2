@@ -29,44 +29,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     [TestFixture]
     public class PetExtensionsTest
     {
-        ///////// <summary>
-        ///////// Determines whether [is valid false].
-        ///////// </summary>
-        //////[Test]
-        //////public void IsValid_False()
-        //////{
-        //////    var model = new PetModel();
-        //////    model.Shelter = new ShelterModel();
-        //////    model.Files = new List<FileModel>();
-        //////    var modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-        //////    Assert.IsFalse(model.IsValid(modelState));
-        //////    Assert.IsNotNull(modelState["Images"]);
-        //////    Assert.IsNull(modelState["Location"]);
-
-        //////    model = new PetModel();
-        //////    model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
-        //////    modelState = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
-        //////    Assert.IsFalse(model.IsValid(modelState));
-        //////    Assert.IsNotNull(modelState["Location"]);
-        //////    Assert.IsNull(modelState["Images"]);
-        //////}
-
-        ///////// <summary>
-        ///////// Determines whether [is valid true].
-        ///////// </summary>
-        //////[Test]
-        //////public void IsValid_True()
-        //////{
-        //////    var model = new PetModel();
-        //////    model.Files = new List<FileModel>() { new FileModel() };
-        //////    model.Shelter = new ShelterModel();
-        //////    Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
-
-        //////    model.Shelter = null;
-        //////    model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
-        //////    Assert.IsTrue(model.IsValid(new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()));
-        //////}
-
         /// <summary>
         /// To the pet entity invalid.
         /// </summary>
@@ -228,7 +190,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var mockContentService = new Mock<IContentService>();
             mockContentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
-            mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
+            mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder, null)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
             mockContentService.Setup(c => c.GetRelated(It.IsAny<int>(), It.IsAny<RelationType>(), 0, int.MaxValue)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "Content1" }, new Content { Id = 1, Name = "Content2" } });
             return mockContentService;
         }

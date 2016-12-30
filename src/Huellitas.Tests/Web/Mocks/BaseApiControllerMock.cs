@@ -27,18 +27,5 @@ namespace Huellitas.Tests.Web.Mocks
         {
             return this.BadRequest(code, errors, target);
         }
-
-        /// <summary>
-        /// Oks the header.
-        /// </summary>
-        /// <typeparam name="T">the type</typeparam>
-        /// <param name="list">The list.</param>
-        /// <param name="hasNextPage">if set to <c>true</c> [has next page].</param>
-        /// <param name="totalCount">The total count.</param>
-        /// <returns>Test result</returns>
-        public IActionResult OkHeader<T>(IList<T> list, bool hasNextPage, int totalCount)
-        {
-            return this.Ok(list, hasNextPage, totalCount);
-        }
     }
 }

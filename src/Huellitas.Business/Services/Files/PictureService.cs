@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Files
 {
+    using Common;
+    using Extensions.Services;
     using Huellitas.Data.Entities;
 
     /// <summary>
@@ -19,12 +21,21 @@ namespace Huellitas.Business.Services.Files
         private readonly IFilesHelper fileHelper;
 
         /// <summary>
+        /// The log service
+        /// </summary>
+        private readonly ILogService logService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PictureService"/> class.
         /// </summary>
         /// <param name="fileHelper">The file helper.</param>
-        public PictureService(IFilesHelper fileHelper)
+        /// <param name="logService">the log service</param>
+        public PictureService(
+            IFilesHelper fileHelper,
+            ILogService logService)
         {
             this.fileHelper = fileHelper;
+            this.logService = logService;
         }
 
         /// <summary>
@@ -60,14 +71,20 @@ namespace Huellitas.Business.Services.Files
         {
             ////Takes the original image path
             var pathOriginalFile = this.fileHelper.GetPhysicalPath(file);
-
-            using (System.IO.FileStream stream = System.IO.File.OpenRead(pathOriginalFile))
+            try
             {
-                using (System.IO.FileStream output = System.IO.File.OpenWrite(resizedPath))
+                using (System.IO.FileStream stream = System.IO.File.OpenRead(pathOriginalFile))
                 {
-                    ////TODO:Implementar
-                    stream.CopyTo(output);
+                    using (System.IO.FileStream output = System.IO.File.OpenWrite(resizedPath))
+                    {
+                        ////TODO:Implementar
+                        stream.CopyTo(output);
+                    }
                 }
+            }
+            catch (System.Exception e)
+            {
+                this.logService.Error(e);
             }
         }
     }

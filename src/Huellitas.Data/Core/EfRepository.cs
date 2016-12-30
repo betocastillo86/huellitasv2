@@ -98,6 +98,24 @@ namespace Huellitas.Data.Core
         }
 
         /// <summary>
+        /// Deletes the asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the number of rows</returns>
+        /// <exception cref="System.ArgumentNullException">the entity</exception>
+        public async Task<int> DeleteAsync(T entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            this.Entities.Remove(entity);
+
+            return await this.context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Delete entities
         /// </summary>
         /// <param name="entities">The Entities</param>

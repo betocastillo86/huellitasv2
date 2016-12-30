@@ -7,9 +7,9 @@ namespace Huellitas.Web.Controllers.Api.Abstract
 {
     using System.Collections.Generic;
     using Huellitas.Web.Infraestructure.WebApi;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api.Abstract;
-    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// Modules Controller

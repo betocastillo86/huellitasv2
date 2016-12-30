@@ -89,6 +89,14 @@ namespace Huellitas.Data.Entities
         public string PhoneNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets the phone number2.
+        /// </summary>
+        /// <value>
+        /// The phone number2.
+        /// </value>
+        public string PhoneNumber2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the role.
         /// </summary>
         /// <value>
@@ -116,6 +124,7 @@ namespace Huellitas.Data.Entities
             {
                 return (Enums.RoleEnum)this.RoleId;
             }
+
             set
             {
                 this.RoleId = Convert.ToInt32(value);

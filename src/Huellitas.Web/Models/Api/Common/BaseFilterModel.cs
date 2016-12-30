@@ -5,12 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Common
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Business.Exceptions;
     using Huellitas.Web.Infraestructure.WebApi;
-   
+
     /// <summary>
     /// Base Model for filter
     /// </summary>
@@ -81,7 +80,11 @@ namespace Huellitas.Web.Models.Api.Common
         /// <returns>
         ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
         /// </returns>
-        public abstract bool IsValid();
+        public virtual bool IsValid()
+        {
+            this.GeneralValidations();
+            return this.errors == null || this.errors.Count == 0;
+        }
 
         /// <summary>
         /// Adds the error.

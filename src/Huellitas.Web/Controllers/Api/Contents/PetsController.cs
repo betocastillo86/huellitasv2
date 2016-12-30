@@ -14,6 +14,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Business.Services.Common;
     using Business.Services.Files;
     using Data.Entities;
+    using Data.Extensions;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -141,9 +142,15 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filterData,
                     filter.PageSize,
                     filter.Page,
-                    filter.OrderByEnum);
+                    filter.OrderByEnum,
+                    filter.LocationId);
 
-                var models = contentList.ToPetModels(this.contentService, this.customTableService, this.cacheManager, contentUrlFunction: Url.Content);
+                var models = contentList.ToPetModels(
+                    this.contentService, 
+                    this.customTableService, 
+                    this.cacheManager, 
+                    contentUrlFunction: Url.Content,
+                    filesHelper: this.filesHelper);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -164,20 +171,35 @@ namespace Huellitas.Web.Controllers.Api.Contents
         {
             var content = this.contentService.GetById(id, true);
 
-            var model = content.ToPetModel(
-                this.contentService, 
-                this.customTableService, 
-                this.cacheManager, 
-                this.filesHelper, 
-                Url.Content, 
-                true, 
-                true,
-                this.contentSettings.PictureSizeWidthDetail,
-                this.contentSettings.PictureSizeHeightDetail,
-                this.contentSettings.PictureSizeWidthList,
-                this.contentSettings.PictureSizeHeightList);
+            if (content != null)
+            {
+                if (content.Type == ContentType.Pet)
+                {
+                    var model = content.ToPetModel(
+                    this.contentService,
+                    this.customTableService,
+                    this.cacheManager,
+                    this.filesHelper,
+                    Url.Content,
+                    true,
+                    true,
+                    this.contentSettings.PictureSizeWidthDetail,
+                    this.contentSettings.PictureSizeHeightDetail,
+                    this.contentSettings.PictureSizeWidthList,
+                    this.contentSettings.PictureSizeHeightList);
 
-            return this.Ok(model);
+                    return this.Ok(model);
+                }
+                else
+                {
+                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                    return this.BadRequest(this.ModelState);
+                }
+            }
+            else
+            {
+                return this.NotFound();
+            }
         }
 
         /// <summary>
@@ -197,15 +219,22 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 {
                     content = model.ToEntity(this.contentService, files: model.Files);
 
-                    ////TODO:Para usuarios administradores asignar el valor del estado que viene sino asignar el valor sin y pendiente de aprobación
-
                     content.UserId = this.workContext.CurrentUserId;
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
+                    }
+                    else
+                    {
+                        content.StatusType = StatusType.Created;
+                    }
 
                     await this.contentService.InsertAsync(content);
 
                     if (content.ContentFiles.Count > 0)
                     {
-                        ////TODO:Test
                         var files = this.fileService.GetByIds(content.ContentFiles.Select(c => c.FileId).ToArray());
 
                         foreach (var file in files)
@@ -241,21 +270,21 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
         {
-            //TODO:Test
             if (this.IsValidModel(model, false))
             {
                 var content = this.contentService.GetById(id);
 
                 if (content != null)
                 {
-                    ////TODO:Validar el cambio de estado del contenido si puede o no para publicado
-                    if (!this.workContext.CurrentUser.CanEditAnyContent())
+                    if (!this.CanUserEditPet(content))
                     {
-                        ////TODO:Validar cuando un usuario pertenece también a un shelter
-                        if (content.UserId != this.workContext.CurrentUserId)
-                        {
-                            return this.Forbid();
-                        }
+                        return this.Forbid();
+                    }
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
                     }
 
                     content = model.ToEntity(this.contentService, content);
@@ -282,9 +311,23 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
+        /// Determines whether this instance [can user edit pet] the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can user edit pet] the specified content; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanUserEditPet(Content content)
+        {
+            return this.workContext.CurrentUser.CanUserEditPet(content, this.contentService);
+        }
+
+        /// <summary>
         /// Determines whether [is valid model] [the specified model].
         /// </summary>
         /// <param name="model">The model.</param>
+        /// <param name="isNew">if set to <c>true</c> [is new].</param>
         /// <returns>
         ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
         /// </returns>

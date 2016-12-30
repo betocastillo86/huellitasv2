@@ -46,6 +46,14 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue);
 
         /// <summary>
+        /// Gets the users by content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>the list of users</returns>
+        IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null);
+
+        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -61,6 +69,7 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="page">The page.</param>
         /// <param name="orderBy">The order by.</param>
+        /// <param name="locationId">the location</param>
         /// <returns>the value</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -68,7 +77,8 @@ namespace Huellitas.Business.Services.Contents
             IList<FilterAttribute> attributesFilter = null,
             int pageSize = int.MaxValue,
             int page = 0,
-            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder);
+            ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
+            int? locationId = null);
 
         /// <summary>
         /// Updates the asynchronous.

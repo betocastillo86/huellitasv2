@@ -6,12 +6,10 @@
 namespace Huellitas.Web.Infraestructure.WebApi
 {
     using System.Collections.Generic;
-    using System.Security.Claims;
-    using Data.Entities;
+    using Controllers.Api.Common;
     using Huellitas.Business.Exceptions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using Controllers.Api.Common;
 
     /// <summary>
     /// Base for <c>Api</c> Controllers
