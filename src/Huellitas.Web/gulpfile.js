@@ -43,8 +43,9 @@ paths.libs = [
     paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
     paths.external + 'angular/angular.js',
     paths.external + 'ngstorage/ngStorage.js',
+    paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'angular-route/angular-route.js',
-    paths.external + 'angucomplete-alt/dist/angucomplete-alt.min.js',
+    paths.external + 'angucomplete-alt/angucomplete-alt.js',
     paths.external + 'underscore/underscore.js'
 ];
 

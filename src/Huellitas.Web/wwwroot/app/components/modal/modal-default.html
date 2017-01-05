@@ -8,8 +8,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
             </div>
-            <div class="modal-body">
-                {{modal.message}}
+            <div class="modal-body" ng-bind-html="modal.message">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" ng-click="modal.close()">Aceptar</button>

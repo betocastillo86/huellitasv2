@@ -11,6 +11,8 @@ namespace Huellitas.Web.Models.Api.Contents
     using Files;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Common;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using Users;
 
     /// <summary>
@@ -20,12 +22,24 @@ namespace Huellitas.Web.Models.Api.Contents
     public class ContentBaseModel : BaseModel
     {
         /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        [Required]
+        [MaxLength(150)]
+        [MinLength(20)]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the body.
         /// </summary>
         /// <value>
         /// The body.
         /// </value>
         [Required]
+        [MinLength(50)]
         [MaxLength(4000)]
         public string Body { get; set; }
 
@@ -86,21 +100,12 @@ namespace Huellitas.Web.Models.Api.Contents
         public LocationModel Location { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        [Required]
-        [MaxLength(150)]
-        public string Name { get; set; }
-
-        /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>
         /// The status.
         /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
         public StatusType Status { get; set; }
 
         /// <summary>

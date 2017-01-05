@@ -1,0 +1,192 @@
+﻿<div class="">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Editar <small>{{main.model.name}}</small></h2>
+                    <div class="nav navbar-right">
+                        <span class="label" style="color:white" ng-class="[
+                                              {'label-default' : main.model.status == 'Created'},
+                                              {'label-danger' : main.model.status == 'Closed'},
+                                              {'label-warning' : main.model.status == 'Hidden'},
+                                              {'label-success' : main.model.status == 'Published'}
+                                              ]">{{main.model.status}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <form name="formShelter" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formShelter.$valid)">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Nombre <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formShelter, formShelter.name)" required ng-maxlength="150" ng-minlength="20"  />
+                                <validation-message form="formShelter" field="formShelter.name" ng-maxlength="150" ng-minlength="20" name="nombre"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Descripción <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formShelter, formShelter.body)" required ng-maxlength="500" ng-minlength="50"></textarea>
+                                <validation-message form="formShelter" field="formShelter.body" name="descripción" ng-maxlength="500" ng-minlength="50"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Ciudad <span class="required">*</span></label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div>
+                                    <angucomplete-alt id="location"
+                                                      placeholder="Ingresar Ubicación"
+                                                      pause="400"
+                                                      remote-url="/api/locations?pagesize=8&name="
+                                                      title-field="name"
+                                                      selected-object="main.changeLocation"
+                                                      initial-value="main.model.location.name"
+                                                      input-class="form-control col-md-9 col-xs-12"
+                                                      field-required="true"
+                                                      input-name="location"
+                                                      field-required-class="parsley-error"
+                                                      remote-url-data-field="results" />
+                                </div>
+                                <validation-message form="formShelter" field="formShelter.location" name="ubicación"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Dirección <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="address" type="text"  class="form-control col-md-7 col-xs-12" ng-model="main.model.address" ng-class="main.isInvalidClass(formShelter, formShelter.address)"   ng-maxlength="50" ng-minlength="5" required />
+                                <validation-message form="formShelter" field="formShelter.address" ng-maxlength="50" ng-minlength="5" name="dirección"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Teléfono <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="phone" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.phone" ng-class="main.isInvalidClass(formShelter, formShelter.phone)" ng-maxlength="11" ng-minlength="7"  required />
+                                <validation-message form="formShelter" field="formShelter.phone" ng-maxlength="11" ng-minlength="7"  name="teléfono"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Encargado <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="owner" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.owner" ng-class="main.isInvalidClass(formShelter, formShelter.owner)" ng-minlength="5" ng-maxlength="80" required />
+                                <validation-message form="formShelter" field="formShelter.owner"  ng-minlength="5" ng-maxlength="80" name="encargado"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Segundo Teléfono 
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="phone2" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.phone2" ng-class="main.isInvalidClass(formShelter, formShelter.phone2)" ng-maxlength="11" ng-minlength="7" />
+                                <validation-message form="formShelter" field="formShelter.phone2" ng-maxlength="11" ng-minlength="7"  name="segundo teléfono"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Facebook
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="facebook" type="url" class="form-control col-md-7 col-xs-12" ng-model="main.model.facebook" ng-class="main.isInvalidClass(formShelter, formShelter.facebook)" ng-maxlength="200" ng-pattern="main.regexFacebook" />
+                                <validation-message form="formShelter" field="formShelter.facebook" ng-maxlength="200" name="facebook"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Instagram
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="instagram" type="url" class="form-control col-md-7 col-xs-12" ng-model="main.model.instagram" ng-class="main.isInvalidClass(formShelter, formShelter.instagram)" ng-maxlength="200" ng-pattern="main.regexInstagram" />
+                                <validation-message form="formShelter" field="formShelter.instagram" ng-maxlength="200" name="instagram"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Twitter
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="twitter" type="url" class="form-control col-md-7 col-xs-12" ng-model="main.model.twitter" ng-class="main.isInvalidClass(formShelter, formShelter.twitter)" ng-maxlength="200" ng-pattern="main.regexTwitter" />
+                                <validation-message form="formShelter" field="formShelter.twitter" ng-maxlength="200" name="twitter"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Video
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input name="video" type="url" class="form-control col-md-7 col-xs-12" ng-model="main.model.video" ng-class="main.isInvalidClass(formShelter, formShelter.video)" ng-maxlength="150" ng-pattern="main.regexYoutube" />
+                                <validation-message form="formShelter" field="formShelter.video" ng-maxlength="150" name="video"></validation-message>
+                            </div>
+                        </div>
+                        <div class="x_title">
+                            <h2>Opciones adicionales</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link" ng-click="main.toogleShowMore()">Ver más</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div ng-if="main.showMoreActive">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in main.statusTypes"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Auto respuesta</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div id="gender" class="btn-group" data-toggle="buttons">
+                                        <label ng-click="main.changeAutoReply(true)" class="btn" ng-class="main.activeTooggleClass(true, main.model.autoReply)">
+                                            &nbsp; Si &nbsp;
+                                        </label>
+                                        <label ng-click="main.changeAutoReply(false)" class="btn" ng-class="main.activeTooggleClass(false, main.model.autoReply)">
+                                            &nbsp; No &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Destacado</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div id="gender" class="btn-group" data-toggle="buttons">
+                                        <label ng-click="main.changeFeatured(true)" class="btn" ng-class="main.activeTooggleClass(true, main.model.featured)">
+                                            &nbsp; Si &nbsp;
+                                        </label>
+                                        <label ng-click="main.changeFeatured(false)" class="btn" ng-class="main.activeTooggleClass(false, main.model.featured)">
+                                            &nbsp; No &nbsp;
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a type="submit" class="btn btn-default" href="/admin/pets">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="main.saveAndContinue()">Guardar y continuar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
+            <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
+        </div>
+    </div>
+
+</div>

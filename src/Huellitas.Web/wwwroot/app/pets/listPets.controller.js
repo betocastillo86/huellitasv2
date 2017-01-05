@@ -15,13 +15,15 @@
         vm.pets = [];
         vm.pager = {};
         vm.changePage = changePage;
+        vm.shelterChanged = shelterChanged;
 
         activate();
         
         function activate() {
             getPets();
-            getShelters();
         }
+
+        return vm;
 
         function getPets() {
             return petService.getAll(vm.filter)
@@ -36,20 +38,16 @@
             }
         }
 
-        function getShelters() {
-            return shelterService.getAll()
-                .then(getSheltersCompleted);
-
-            function getSheltersCompleted(data) {
-                vm.shelters = data.results;
-                return vm.shelters;
-            }
-        }
-
         function changePage(page)
         {
             vm.filter.page = page;
             return getPets();
+        }
+
+        function shelterChanged(selected)
+        {
+            vm.filter.shelter = selected ? selected.originalObject.id : undefined;
+            changePage(0);
         }
     }
 

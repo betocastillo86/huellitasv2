@@ -53,6 +53,7 @@ namespace Huellitas.Tests.Web.Mocks
             model.Phone2 = "789123";
             model.Twitter = "twitter.com";
             model.Video = "youtube.com";
+            model.AutoReply = true;
             model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
             return model;
         }

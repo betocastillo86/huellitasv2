@@ -6,16 +6,19 @@
 
     function shelterService($http) {
         return {
-            getAll: getAll
+            getAll: getAll,
+            getById: getById,
+            post: post,
+            put: put
         };
 
-        function getAll() {
-            return $http.get('/api/shelters')
+        function getAll(filter) {
+            return $http.get('/api/shelters', { params: filter })
             .then(getAllComplete)
             .catch(getAllError);
 
             function getAllComplete(response) {
-                return response.data;
+                return response;
             }
 
             function getAllError() {
@@ -23,6 +26,18 @@
             }
         }
 
+        function getById(id)
+        {
+            return $http.get('/api/shelters/' + id);
+        }
+
+        function post(model) {
+            return $http.post('/api/shelters', model);
+        }
+
+        function put(model) {
+            return $http.put('/api/shelters/' + model.id, model);
+        }
     }
 
 })();

@@ -72,6 +72,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
             entity.ContentAttributes.Add(ContentAttributeType.Facebook, model.Facebook, true);
             entity.ContentAttributes.Add(ContentAttributeType.Twitter, model.Twitter, true);
             entity.ContentAttributes.Add(ContentAttributeType.Instagram, model.Instagram, true);
+            entity.ContentAttributes.Add(ContentAttributeType.AutoReply, model.AutoReply, true);
             entity.ContentAttributes.Add(ContentAttributeType.Video, model.Video, true);
             entity.ContentAttributes.Add(ContentAttributeType.Address, model.Address, true);
             entity.ContentAttributes.Add(ContentAttributeType.Owner, model.Owner, true);
@@ -196,6 +197,10 @@ namespace Huellitas.Web.Models.Extensions.Contents
 
                     case ContentAttributeType.Video:
                         model.Video = value;
+                        break;
+
+                    case ContentAttributeType.AutoReply:
+                        model.AutoReply = Convert.ToBoolean(value);
                         break;
 
                     default:

@@ -150,7 +150,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     this.customTableService, 
                     this.cacheManager, 
                     contentUrlFunction: Url.Content,
-                    filesHelper: this.filesHelper);
+                    filesHelper: this.filesHelper,
+                    width: this.contentSettings.PictureSizeWidthDetail,
+                    height: this.contentSettings.PictureSizeHeightDetail,
+                    thumbnailWidth: this.contentSettings.PictureSizeWidthList,
+                    thumbnailHeight: this.contentSettings.PictureSizeHeightList);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -221,6 +225,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                     content.UserId = this.workContext.CurrentUserId;
 
+                    ////TODO:Crear servicio para contenidos relacionados
                     ////Only if the user can aprove contents changes the status
                     if (this.workContext.CurrentUser.CanApproveContents())
                     {

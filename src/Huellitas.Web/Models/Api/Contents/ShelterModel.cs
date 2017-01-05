@@ -19,6 +19,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The video.
         /// </value>
+        [StringLength(200, MinimumLength = 5)]
         public string Video { get; set; }
 
         /// <summary>
@@ -28,6 +29,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The address.
         /// </value>
         [Required]
+        [StringLength(80, MinimumLength = 5)]
         public string Address { get; set; }
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The phone.
         /// </value>
         [Required]
+        [StringLength(11, MinimumLength = 7)]
         public string Phone { get; set; }
 
         /// <summary>
@@ -45,6 +48,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The phone2.
         /// </value>
+        [StringLength(11, MinimumLength = 7)]
         public string Phone2 { get; set; }
 
         /// <summary>
@@ -54,6 +58,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The owner.
         /// </value>
         [Required]
+        [StringLength(80, MinimumLength = 5)]
         public string Owner { get; set; }
 
         /// <summary>
@@ -97,5 +102,13 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The <c>instagram</c>.
         /// </value>
         public string Instagram { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ShelterModel"/> is autoreply.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if autoreply; otherwise, <c>false</c>.
+        /// </value>
+        public bool AutoReply { get; set; }
     }
 }

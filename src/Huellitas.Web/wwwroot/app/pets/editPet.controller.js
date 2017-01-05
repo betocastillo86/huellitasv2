@@ -14,7 +14,7 @@
         vm.model.status = app.Settings.statusTypes.published;
 
         vm.showMoreActive = false;
-        vm.showPicturesActive = true;
+        vm.showPicturesActive = false;
         
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
@@ -33,13 +33,15 @@
         vm.changeMonths = changeMonths;
         vm.isLocationRequired = isLocationRequired;
         vm.saveAndContinue = saveAndContinue;
-        
 
         activate();
 
         function activate() {
             if (vm.id) {
                 getPetById(vm.id);
+            }
+            else {
+                vm.showPicturesActive = true;
             }
 
             getSizes();
@@ -57,6 +59,7 @@
                 vm.model = model;
                 vm.years = Math.floor(model.months / 12);
                 vm.months = model.months % 12;
+                vm.showPicturesActive = true;
             }
 
             function getError() {

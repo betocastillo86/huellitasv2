@@ -25,10 +25,10 @@ namespace Huellitas.Web.Controllers.Api.Abstract
         public IActionResult Get()
         {
             var list = new List<object>();
-            list.Add(new { Id = Convert.ToInt32(StatusType.Created), Name = "Creado" });
-            list.Add(new { Id = Convert.ToInt32(StatusType.Published), Name = "Publicado" });
-            list.Add(new { Id = Convert.ToInt32(StatusType.Hidden), Name = "Oculto" });
-            list.Add(new { Id = Convert.ToInt32(StatusType.Closed), Name = "Cerrado" });
+            list.Add(new { Id = Convert.ToInt32(StatusType.Created), Name = "Creado", Enum = StatusType.Created.ToString() });
+            list.Add(new { Id = Convert.ToInt32(StatusType.Published), Name = "Publicado", Enum = StatusType.Published.ToString() });
+            list.Add(new { Id = Convert.ToInt32(StatusType.Hidden), Name = "Oculto", Enum = StatusType.Hidden.ToString() });
+            list.Add(new { Id = Convert.ToInt32(StatusType.Closed), Name = "Cerrado", Enum = StatusType.Closed.ToString() });
             return this.Ok(list);
         }
     }
