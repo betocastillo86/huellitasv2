@@ -44,7 +44,7 @@ namespace Huellitas.Tests.Web.Mocks
             model.Address = "cr 10 10 10";
             model.Email = "aaa@aaa.com";
             model.Facebook = "facebook.com";
-            model.Files = new List<FileModel>() { new FileModel() { FileName = "a" } };
+            model.Files = new List<FileModel>() { new FileModel() { Id = 789, Name = "a", FileName = "a" }, new FileModel() { Id = 1112, Name = "b", FileName = "b" } };
             model.Instagram = "instagram.com";
             model.Lat = 123;
             model.Lng = 456;

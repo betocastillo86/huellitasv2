@@ -41,6 +41,14 @@ namespace Huellitas.Web.Models.Api.Contents
         public string Keyword { get; set; }
 
         /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        public StatusType? Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the order by enum.
         /// </summary>
         /// <value>
@@ -51,14 +59,20 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
+        /// <param name="canGetUnpublished">if set to <c>true</c> [can get un published].</param>
         /// <returns>
-        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified can get un published is valid; otherwise, <c>false</c>.
         /// </returns>
-        public override bool IsValid()
+        public bool IsValid(bool canGetUnpublished)
         {
             var orderEnum = ContentOrderBy.CreatedDate;
             Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
             this.OrderByEnum = orderEnum;
+
+            if (!canGetUnpublished && this.Status != StatusType.Published)
+            {
+                this.AddError("Status", "No puede obtener contenidos sin publicar");
+            }
 
             return base.IsValid();
         }

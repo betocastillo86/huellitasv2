@@ -6,13 +6,18 @@
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Data.Entities;
+    using Data.Entities.Enums;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Files;
     using Huellitas.Web.Controllers.Api.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
+    using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Extensions.Contents;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
@@ -22,7 +27,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     /// Shelters Controller Test
     /// </summary>
     [TestFixture]
-    public class SheltersControllerTest
+    public class SheltersControllerTest : BaseTest
     {
         /// <summary>
         /// The content service
@@ -40,7 +45,70 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         private Mock<IFilesHelper> fileHelpers = new Mock<IFilesHelper>();
 
         /// <summary>
-        /// Gets the type of the pet by identifier bad request not pet.
+        /// The file service
+        /// </summary>
+        private Mock<IFileService> fileService = new Mock<IFileService>();
+
+        /// <summary>
+        /// The picture service
+        /// </summary>
+        private Mock<IPictureService> pictureService = new Mock<IPictureService>();
+
+        /// <summary>
+        /// Posts the shelter bad request.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PostShelter_BadRequest()
+        {
+            var controller = this.GetController();
+
+            var model = new ShelterModel();
+            var response = await controller.Post(model) as ObjectResult;
+
+            var error = (response.Value as BaseApiError).Error;
+
+            Assert.AreEqual(400, response.StatusCode);
+            Assert.AreEqual("Files", error.Details[0].Target);
+            Assert.AreEqual("Location", error.Details[1].Target);
+        }
+
+        /// <summary>
+        /// Posts the shelter ok.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PostShelter_Ok()
+        {
+            this.fileService = new Mock<IFileService>();
+            this.fileService.Setup(c => c.GetByIds(It.IsAny<int[]>()))
+                .Returns(new List<File>());
+
+            var model = new ShelterModel().MockNew();
+
+            int newId = 1;
+
+            var content = model.ToEntity(this.contentService.Object);
+            this.contentService.Setup(c => c.InsertAsync(It.IsAny<Content>()))
+                .Callback((Content content1) =>
+                {
+                    content1.Id = newId;
+                })
+                .Returns(Task.FromResult(0));
+
+            var controller = this.GetController();
+
+            controller.AddUrl(true);
+
+            var response = await controller.Post(model) as ObjectResult;
+
+            Assert.AreEqual(201, response.StatusCode);
+            Assert.IsTrue(controller.IsValidModelState(model));
+            Assert.AreEqual(newId, (response.Value as BaseModel).Id);
+        }
+
+        /// <summary>
+        /// Gets the type of the shelter by identifier bad request not pet.
         /// </summary>
         [Test]
         public void GetShelterById_BadRequest_NotPetType()
@@ -69,7 +137,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         }
 
         /// <summary>
-        /// Gets the pet by identifier not found.
+        /// Gets the shelter by identifier not found.
         /// </summary>
         [Test]
         public void GetShelterById_NotFound()
@@ -89,6 +157,217 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         }
 
         /// <summary>
+        /// Gets the shelter by identifier not found unpublished.
+        /// </summary>
+        [Test]
+        public void GetShelterById_NotFound_Unpublished()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            int id = 1;
+            var content = new Content() { Id = id, Type = ContentType.Shelter, StatusType = StatusType.Created };
+
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+                .Returns(content);
+
+            var controller = this.GetController();
+
+            var response = controller.Get(id) as NotFoundResult;
+
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Gets the shelter by identifier ok unpublished.
+        /// </summary>
+        [Test]
+        public void GetShelterById_Ok_Unpublished()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.SuperAdmin });
+
+            int id = 1;
+            var content = new Content() { Id = id, Type = ContentType.Shelter, StatusType = StatusType.Created };
+
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+                .Returns(content);
+
+            this.contentService.Setup(c => c.GetFiles(id))
+                .Returns(new List<ContentFile>());
+
+            var controller = this.GetController();
+            controller.AddUrl();
+
+            var response = controller.Get(id) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Puts the shelters ok.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PutShelters_Ok()
+        {
+            var model = new ShelterModel().MockNew();
+
+            int newId = 1;
+
+            var content = new Content() { Id = newId, Type = ContentType.Shelter };
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns(content);
+
+            var controller = this.GetController();
+            controller.AddUrl(true);
+            controller.AddResponse();
+
+            var response = await controller.Put(newId, model) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Puts the shelters forbid.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PutShelters_Forbid()
+        {
+            var model = new ShelterModel().MockNew();
+
+            int newId = 1;
+
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            var content = new Content() { Id = newId, Type = ContentType.Shelter };
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns(content);
+
+            var controller = this.GetController();
+
+            var response = await controller.Put(newId, model);
+            Assert.IsTrue(response is ForbidResult);
+        }
+
+        /// <summary>
+        /// Puts the shelters not found.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PutShelters_NotFound()
+        {
+            var model = new ShelterModel().MockNew();
+
+            int newId = 1;
+
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns((Content)null);
+
+            var controller = this.GetController();
+
+            var response = await controller.Put(newId, model) as NotFoundResult;
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Puts the type of the shelters bad request not shelter.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PutShelters_BadRequest_NotShelterType()
+        {
+            var model = new ShelterModel().MockNew();
+
+            int newId = 1;
+
+            var content = new Content() { Id = newId, Type = ContentType.Pet };
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false))
+                .Returns(content);
+
+            var controller = this.GetController();
+
+            var response = await controller.Put(newId, model) as ObjectResult;
+            var error = (response.Value as BaseApiError).Error;
+
+            Assert.AreEqual(400, response.StatusCode);
+            Assert.AreEqual("BadArgument", error.Code);
+            Assert.AreEqual("Id", error.Details[0].Target);
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model true].
+        /// </summary>
+        [Test]
+        public void SheltersController_IsValidModel_New_True()
+        {
+            var controller = this.GetController();
+            var model = new ShelterModel();
+            model.Files = new List<FileModel>() { new FileModel() };
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, true));
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model not new true].
+        /// </summary>
+        [Test]
+        public void SheltersController_IsValidModel_NotNew_True()
+        {
+            var controller = this.GetController();
+            var model = new ShelterModel();
+            model.Files = new List<FileModel>() { new FileModel() };
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
+
+            model.Files = new List<FileModel>();
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
+
+            model.Files = null;
+            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            Assert.IsTrue(controller.IsValidModel(model, false));
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model false].
+        /// </summary>
+        [Test]
+        public void SheltersController_IsValidModel_New_False()
+        {
+            var controller = this.GetController();
+            var model = new ShelterModel();
+            model.Files = new List<FileModel>();
+            Assert.IsFalse(controller.IsValidModel(model, true));
+            Assert.IsNotNull(controller.ModelState["Files"]);
+            Assert.IsNotNull(controller.ModelState["Location"]);
+
+            controller = this.GetController();
+            model = new ShelterModel();
+            model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
+            Assert.IsFalse(controller.IsValidModel(model, true));
+            Assert.IsNotNull(controller.ModelState["Location"]);
+            Assert.IsNull(controller.ModelState["Files"]);
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model not new false].
+        /// </summary>
+        [Test]
+        public void SheltersController_IsValidModel_NotNew_False()
+        {
+            var controller = this.GetController();
+            var model = new ShelterModel();
+
+            model = new ShelterModel();
+            Assert.IsFalse(controller.IsValidModel(model, false));
+            Assert.IsNotNull(controller.ModelState["Location"]);
+            Assert.IsNull(controller.ModelState["Files"]);
+        }
+
+        /// <summary>
         /// Gets the controller.
         /// </summary>
         /// <returns>the controller</returns>
@@ -97,7 +376,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             return new SheltersController(
                 this.contentService.Object,
                 this.fileHelpers.Object,
-                this.contentSettings.Object);
+                this.contentSettings.Object,
+                this.workContext.Object,
+                this.fileService.Object,
+                this.pictureService.Object);
         }
     }
 }

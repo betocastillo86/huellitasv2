@@ -22,7 +22,20 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool CanApproveContents(this User user)
         {
-            ////TODO:Test
+            ////TODO:Implementar
+            return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
+        }
+
+        /// <summary>
+        /// Determines whether [is super admin].
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <c>true</c> if [is super admin] [the specified user]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsSuperAdmin(this User user)
+        {
+            ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
 

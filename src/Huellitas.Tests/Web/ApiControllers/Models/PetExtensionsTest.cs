@@ -190,7 +190,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var mockContentService = new Mock<IContentService>();
             mockContentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
-            mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder, null)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
+            mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder, null, null)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
             mockContentService.Setup(c => c.GetRelated(It.IsAny<int>(), It.IsAny<RelationType>(), 0, int.MaxValue)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "Content1" }, new Content { Id = 1, Name = "Content2" } });
             return mockContentService;
         }

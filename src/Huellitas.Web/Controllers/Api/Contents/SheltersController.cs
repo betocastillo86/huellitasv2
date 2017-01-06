@@ -92,7 +92,9 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get([FromQuery]ShelterFilterModel filter)
         {
-            if (filter.IsValid())
+            var canGetUnplublished = this.CanGetUnpublished();
+        
+            if (filter.IsValid(canGetUnplublished))
             {
                 var contents = this.contentService.Search(
                     contentType: ContentType.Shelter,
@@ -100,7 +102,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     pageSize: filter.PageSize,
                     keyword: filter.Keyword,
                     orderBy: filter.OrderByEnum,
-                    locationId: filter.LocationId);
+                    locationId: filter.LocationId,
+                    status: filter.Status);
 
                 var models = contents.ToShelterModels(
                     this.contentService, 
@@ -133,14 +136,18 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
             if (content != null)
             {
+                ////Only an admin user can see unpublished shelters
+                if (content.StatusType != StatusType.Published && !this.workContext.CurrentUser.CanEditAnyContent())
+                {
+                    return this.NotFound();
+                }
+
                 if (content.Type == ContentType.Shelter)
                 {
-                    ////TODO:Revisar en PETS y Shelters caso de contenido no publicado todavía solo para administradore y dueños del contenido
                     var model = content.ToShelterModel(
                     this.contentService,
                     this.filesHelper,
                     Url.Content,
-                    true,
                     true,
                     this.contentSettings.PictureSizeWidthDetail,
                     this.contentSettings.PictureSizeHeightDetail,
@@ -170,7 +177,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Authorize]
         public async Task<IActionResult> Post([FromBody]ShelterModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model, true))
             {
                 Content content = null;
@@ -185,10 +191,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     if (this.workContext.CurrentUser.CanApproveContents())
                     {
                         content.StatusType = model.Status;
+                        content.Featured = model.Featured;
                     }
                     else
                     {
                         content.StatusType = StatusType.Created;
+                        content.Featured = false;
                     }
 
                     await this.contentService.InsertAsync(content);
@@ -223,12 +231,13 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPut("{id:int}")]
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody]ShelterModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model, false))
             {
                 var content = this.contentService.GetById(id);
@@ -246,10 +255,11 @@ namespace Huellitas.Web.Controllers.Api.Contents
                         return this.Forbid();
                     }
 
-                    ////Only if the user can aprove contents changes the status
+                    ////Only if the user can aprove contents changes the status and featured
                     if (this.workContext.CurrentUser.CanApproveContents())
                     {
                         content.StatusType = model.Status;
+                        content.Featured = model.Featured;
                     }
 
                     content = model.ToEntity(this.contentService, content);
@@ -276,6 +286,17 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
+        /// Determines whether this instance [can get unpublished].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance [can get unpublished]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanGetUnpublished()
+        {
+            return this.workContext.CurrentUser.IsSuperAdmin();
+        }
+
+        /// <summary>
         /// Determines whether [is valid model] [the specified model].
         /// </summary>
         /// <param name="model">The model.</param>
@@ -286,8 +307,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [NonAction]
         public bool IsValidModel(ShelterModel model, bool isNew)
         {
-            ////TODO:Test
-
             if (isNew && (model.Files == null || model.Files.Count == 0))
             {
                 this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");

@@ -78,6 +78,63 @@ namespace Huellitas.Tests.Business
         }
 
         /// <summary>
+        /// Updates the content with invalid file.
+        /// </summary>
+        [Test]
+        public void UpdateContent_With_Invalid_File()
+        {
+            var mockException = SqlExceptionHelper.GetDbUpdateExceptionWithSqlException(547, "FK_Content_File FK_ContentFile_File");
+
+            var mockContentRepository = new Mock<IRepository<Content>>();
+            mockContentRepository.Setup(c => c.UpdateAsync(It.IsAny<Content>()))
+                .Throws(mockException);
+
+            var contentService = this.MockContentService(contentRepository: mockContentRepository.Object);
+
+            var ex = Assert.ThrowsAsync<HuellitasException>(async () => await contentService.UpdateAsync(new Content()));
+            Assert.AreEqual("File", ex.Target);
+            Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey, ex.Code);
+        }
+
+        /// <summary>
+        /// Updates the content with invalid location.
+        /// </summary>
+        [Test]
+        public void UpdateContent_With_Invalid_Location()
+        {
+            var mockException = SqlExceptionHelper.GetDbUpdateExceptionWithSqlException(547, "FK_Content_Location");
+
+            var mockContentRepository = new Mock<IRepository<Content>>();
+            mockContentRepository.Setup(c => c.UpdateAsync(It.IsAny<Content>()))
+                .Throws(mockException);
+
+            var contentService = this.MockContentService(contentRepository: mockContentRepository.Object);
+
+            var ex = Assert.ThrowsAsync<HuellitasException>(async () => await contentService.UpdateAsync(new Content()));
+            Assert.AreEqual("Location", ex.Target);
+            Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey, ex.Code);
+        }
+
+        /// <summary>
+        /// Updates the content with invalid user.
+        /// </summary>
+        [Test]
+        public void UpdateContent_With_Invalid_User()
+        {
+            var mockException = SqlExceptionHelper.GetDbUpdateExceptionWithSqlException(547, "FK_Content_User");
+
+            var mockContentRepository = new Mock<IRepository<Content>>();
+            mockContentRepository.Setup(c => c.UpdateAsync(It.IsAny<Content>()))
+                .Throws(mockException);
+
+            var contentService = this.MockContentService(contentRepository: mockContentRepository.Object);
+
+            var ex = Assert.ThrowsAsync<HuellitasException>(async () => await contentService.UpdateAsync(new Content()));
+            Assert.AreEqual("User", ex.Target);
+            Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey, ex.Code);
+        }
+
+        /// <summary>
         /// Mocks the content service.
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>

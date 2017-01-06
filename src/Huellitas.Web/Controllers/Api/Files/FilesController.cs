@@ -91,7 +91,6 @@ namespace Huellitas.Web.Controllers.Api.Files
         [HttpPost]
         public async Task<IActionResult> Post(PostFileModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model.Files))
             {
                 var file = new File();

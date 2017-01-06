@@ -148,7 +148,6 @@ namespace Huellitas.Business.Services.Files
         /// </returns>
         public async Task InsertContentFileAsync(ContentFile contentFile)
         {
-            ////TODO:Test
             try
             {
                 await this.contentFileRepository.InsertAsync(contentFile);

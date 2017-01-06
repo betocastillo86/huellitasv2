@@ -69,8 +69,9 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="page">The page.</param>
         /// <param name="orderBy">The order by.</param>
-        /// <param name="locationId">the location</param>
-        /// <returns>the value</returns>
+        /// <param name="locationId">The location identifier.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
             ContentType? contentType = null,
@@ -78,7 +79,8 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue,
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
-            int? locationId = null);
+            int? locationId = null,
+            StatusType? status = null);
 
         /// <summary>
         /// Updates the asynchronous.

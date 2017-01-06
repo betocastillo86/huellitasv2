@@ -105,7 +105,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
+            var response = ContentExtensions.CanUserEditShelter(user, content, this.contentService.Object);
             Assert.IsFalse(response);
         }
 
@@ -118,7 +118,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
             var content = new Content { UserId = 1 };
 
-            var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
+            var response = ContentExtensions.CanUserEditShelter(user, content, this.contentService.Object);
             Assert.IsTrue(response);
         }
     }

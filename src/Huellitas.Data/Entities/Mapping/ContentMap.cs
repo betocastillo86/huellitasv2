@@ -51,7 +51,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasConstraintName("FK_Content_Location");
 
             entity.HasOne(d => d.User)
-                .WithMany(p => p.Content)
+                .WithMany(p => p.Contents)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Content_User");

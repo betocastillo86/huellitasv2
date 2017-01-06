@@ -36,7 +36,6 @@ namespace Huellitas.Web.Models.Extensions.Common
             int thumbnailWidth = 0,
             int thumbnailHeight = 0)
         {
-            ////TODO:Test con thumbnail
             string thumbnail = null;
             if (thumbnailHeight > 0 && thumbnailWidth > 0)
             {

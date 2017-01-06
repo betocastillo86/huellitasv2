@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests
 {
+    using System.Diagnostics.CodeAnalysis;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Moq;
@@ -12,6 +13,7 @@ namespace Huellitas.Tests
     /// <summary>
     /// Base class for testing
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed.")]
     public class BaseTest
     {
         /// <summary>
@@ -23,21 +25,21 @@ namespace Huellitas.Tests
         }
 
         /// <summary>
-        /// Gets or sets the work context mock.
+        /// Gets or sets the work context.
         /// </summary>
         /// <value>
-        /// The work context mock.
+        /// The work context.
         /// </value>
-        public Mock<IWorkContext> WorkContextMock { get; set; }
+        protected Mock<IWorkContext> workContext { get; set; }
 
         /// <summary>
         /// Mocks the work context.
         /// </summary>
         private void MockWorkContext()
         {
-            this.WorkContextMock = new Mock<IWorkContext>();
-            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
-            this.WorkContextMock.SetupGet(c => c.CurrentUserId).Returns(1);
+            this.workContext = new Mock<IWorkContext>();
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
+            this.workContext.SetupGet(c => c.CurrentUserId).Returns(1);
         }
     }
 }

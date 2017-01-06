@@ -35,6 +35,28 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(file.Name, model.Name);
             Assert.AreEqual(file.Id, model.Id);
             Assert.AreEqual("thevalue", model.FileName);
+            Assert.IsNull(model.Thumbnail);
+        }
+
+        /// <summary>
+        /// To the file model valid thumbnail.
+        /// </summary>
+        [Test]
+        public void ToFileModelValid_Thumbnail()
+        {
+            var mockFileHelper = new Mock<IFilesHelper>();
+            mockFileHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, It.IsAny<int>(), It.IsAny<int>())).Returns("thevalue");
+
+            var file = new File();
+            file.Id = 1;
+            file.FileName = "fileName.jpg";
+            file.Name = "The Name";
+            var model = file.ToModel(mockFileHelper.Object, null, 0, 0, 100, 100);
+
+            Assert.AreEqual(file.Name, model.Name);
+            Assert.AreEqual(file.Id, model.Id);
+            Assert.AreEqual("thevalue", model.FileName);
+            Assert.AreEqual("thevalue", model.Thumbnail);
         }
     }
 }

@@ -71,14 +71,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
                 mockContentService.Object, 
                 fileHelpers.Object, 
                 cacheManager.Object, 
                 customTableService.Object, 
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -116,7 +116,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object, 
                 cacheManager.Object, 
                 customTableService.Object, 
-                this.WorkContextMock.Object, 
+                this.workContext.Object, 
                 pictureService.Object, 
                 contentSettings.Object,
                 fileService.Object);
@@ -167,7 +167,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object, 
                 cacheManager.Object, 
                 customTableService.Object, 
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -267,7 +267,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             var controller = this.MockController();
             var content = new Content();
-            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
             Assert.IsTrue(controller.CanUserEditPet(content));
         }
 
@@ -286,7 +286,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var content = new Content();
             content.ContentAttributes.Add(new Data.Entities.ContentAttribute { AttributeType = ContentAttributeType.Shelter, Value = "2" });
             
-            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = validUserId, Name = "Admin", RoleEnum = RoleEnum.Public });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = validUserId, Name = "Admin", RoleEnum = RoleEnum.Public });
 
             Assert.IsTrue(controller.CanUserEditPet(content));
         }
@@ -300,7 +300,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.MockController();
             var content = new Content();
             content.UserId = 1;
-            this.WorkContextMock.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.Public });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.Public });
             Assert.IsTrue(controller.CanUserEditPet(content));
         }
 
@@ -323,7 +323,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             int newId = 1;
 
-            var content = new Content() { Id = newId };
+            var content = new Content() { Id = newId, Type = ContentType.Pet };
             mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false))
                 .Returns(content);
 
@@ -332,7 +332,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object,
                 cacheManager.Object,
                 customTableService.Object,
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -370,7 +370,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object,
                 cacheManager.Object,
                 customTableService.Object,
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -406,7 +406,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object,
                 cacheManager.Object,
                 customTableService.Object,
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -429,8 +429,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            var model = new PetModel().MockNew();
-
             int id = 1;
 
             var content = new Content() { Id = id, Type = ContentType.Shelter };
@@ -442,7 +440,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object,
                 cacheManager.Object,
                 customTableService.Object,
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);
@@ -453,6 +451,160 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
             Assert.AreEqual("Id", error.Details[0].Target);
+        }
+
+        /// <summary>
+        /// Gets the pet by identifier not found unpublished pet.
+        /// </summary>
+        [Test]
+        public void GetPetById_NotFound_UnpublishedPet()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            int id = 1;
+            var content = new Content() { Id = id, Type = ContentType.Pet, StatusType = StatusType.Created };
+
+            var mockContentService = new Mock<IContentService>();
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+                .Returns(content);
+
+            var controller = this.MockController(mockContentService);
+
+            var response = controller.Get(id) as NotFoundResult;
+
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Gets the pet by identifier ok unpublished pet.
+        /// </summary>
+        [Test]
+        public void GetPetById_Ok_UnpublishedPet()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.SuperAdmin });
+
+            int id = 1;
+            var content = new Content() { Id = id, Type = ContentType.Pet, StatusType = StatusType.Created };
+
+            var mockContentService = new Mock<IContentService>();
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), true))
+                .Returns(content);
+
+            mockContentService.Setup(c => c.GetFiles(It.IsAny<int>()))
+                .Returns(new List<ContentFile>());
+
+            mockContentService.Setup(c => c.GetRelated(It.IsAny<int>(), RelationType.SimilarPets, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new PagedList<Content>());
+
+            var controller = this.MockController(mockContentService);
+            controller.AddUrl(true);
+
+            var response = controller.Get(id) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished no session false].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_NoSession_False()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser).Returns((User)null);
+            var controller = this.MockController();
+            Assert.IsFalse(controller.CanGetUnpublished(null));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished admin true].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_Admin_True()
+        {
+            var controller = this.MockController();
+            Assert.IsTrue(controller.CanGetUnpublished(null));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished shelter owner true].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_ShelterOwner_True()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            var contentService = new Mock<IContentService>();
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
+
+            var filter = new PetsFilterModel();
+            filter.Shelter = "1";
+
+            var controller = this.MockController(contentService);
+            Assert.IsTrue(controller.CanGetUnpublished(filter));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished many shelters false].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_ManyShelters_False()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            var contentService = new Mock<IContentService>();
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
+
+            var filter = new PetsFilterModel();
+            filter.Shelter = "1,2,3";
+
+            var controller = this.MockController(contentService);
+            Assert.IsFalse(controller.CanGetUnpublished(filter));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished no shelter owner false].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_NoShelterOwner_False()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            var contentService = new Mock<IContentService>();
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
+
+            var filter = new PetsFilterModel();
+            filter.Shelter = "1";
+
+            var controller = this.MockController(contentService);
+            Assert.IsFalse(controller.CanGetUnpublished(filter));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished no shelter filter false].
+        /// </summary>
+        [Test]
+        public void CanGetUnpublished_NoShelterFilter_False()
+        {
+            this.workContext.SetupGet(c => c.CurrentUser)
+                .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
+
+            var contentService = new Mock<IContentService>();
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
+
+            var filter = new PetsFilterModel();
+            filter.Shelter = null;
+
+            var controller = this.MockController(contentService);
+            Assert.IsFalse(controller.CanGetUnpublished(filter));
         }
 
         /// <summary>
@@ -475,7 +627,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 fileHelpers.Object, 
                 cacheManager.Object, 
                 customTableService.Object, 
-                this.WorkContextMock.Object,
+                this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
                 fileService.Object);

@@ -81,7 +81,8 @@ namespace Huellitas.Data.Migrations
             var list = new List<User>();
 
             list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "210c1680b957c6ed6df5d9afd17f205cd9a01dbb"/*123.admin@admin.com*/, RoleId = 1, CreatedDate = DateTime.Now });
-            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "fbaee72e992b7892dcb3e3a3918befac5c1cb553"/*123.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now });
+            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "55d81fa21753c11353fcb3a4721a5d8ab59e5813"/*123456.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now });
+            list.Add(new Entities.User() { Name = "Fundación", Email = "fundacion@fundacion.com", Password = "614c39951f7372fcad450958b43e6fe9edd34923"/*123456.fundacion@fundacion.com*/, RoleId = 2, CreatedDate = DateTime.Now });
 
             foreach (var item in list)
             {

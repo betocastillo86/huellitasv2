@@ -93,19 +93,33 @@ namespace Huellitas.Web.Models.Api.Contents
         public int? LocationId { get; set; }
 
         /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>
+        /// The status.
+        /// </value>
+        public StatusType? Status { get; set; }
+
+        /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
+        /// <param name="canGetUnpublished">if set to <c>true</c> [can get un published].</param>
         /// <param name="selectedFilters">The selected filters.</param>
         /// <returns>
-        ///   <c>true</c> if the specified selected filters is valid; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified can get unpublished is valid; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsValid(out IList<FilterAttribute> selectedFilters)
+        public bool IsValid(bool canGetUnpublished, out IList<FilterAttribute> selectedFilters)
         {
             if (this.IsValid())
             {
                 var orderEnum = ContentOrderBy.CreatedDate;
                 Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
                 this.OrderByEnum = orderEnum;
+
+                if (!canGetUnpublished && this.Status != StatusType.Published)
+                {
+                    this.AddError("Status", "No puede obtener contenidos sin publicar");
+                }
 
                 selectedFilters = new List<FilterAttribute>();
 

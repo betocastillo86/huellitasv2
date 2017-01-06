@@ -13,7 +13,9 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Business.Extensions.Entities;
     using Business.Services.Common;
     using Business.Services.Files;
+    using Business.Utilities.Extensions;
     using Data.Entities;
+    using Data.Entities.Enums;
     using Data.Extensions;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
@@ -134,7 +136,9 @@ namespace Huellitas.Web.Controllers.Api.Contents
         {
             IList<FilterAttribute> filterData = null;
 
-            if (filter.IsValid(out filterData))
+            var canGetUnplublished = this.CanGetUnpublished(filter);
+
+            if (filter.IsValid(canGetUnplublished, out filterData))
             {
                 var contentList = this.contentService.Search(
                     filter.Keyword,
@@ -143,7 +147,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filter.PageSize,
                     filter.Page,
                     filter.OrderByEnum,
-                    filter.LocationId);
+                    filter.LocationId,
+                    filter.Status);
 
                 var models = contentList.ToPetModels(
                     this.contentService, 
@@ -173,6 +178,12 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
             if (content != null)
             {
+                ////Only the user can see an unpublished pet if can edit it
+                if (content.StatusType != StatusType.Published && !this.CanUserEditPet(content))
+                {
+                    return this.NotFound();
+                }
+
                 if (content.Type == ContentType.Pet)
                 {
                     var model = content.ToPetModel(
@@ -327,6 +338,47 @@ namespace Huellitas.Web.Controllers.Api.Contents
         public bool CanUserEditPet(Content content)
         {
             return this.workContext.CurrentUser.CanUserEditPet(content, this.contentService);
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished] the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can get unpublished] the specified filter; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanGetUnpublished(PetsFilterModel filter)
+        {
+            var user = this.workContext.CurrentUser;
+            ////Si no tiene sesión no puede traerlos todos
+            if (user != null)
+            {
+                ////Si es superadmin puede traerlos todos
+                if (user.IsSuperAdmin())
+                {
+                    return true;
+                }
+                else
+                {
+                    ////Si no es super admin y pertenece a alguna de los refugios los puede traer todos                    
+                    ////Si el filtro tiene más de un refugio no permite ver inactivos
+                    if (filter.Shelter.ToIntList(false).Length == 1)
+                    {
+                        ////Puede traer inactivos si pertenece al refugio
+                        var shelterId = filter.Shelter.ToIntList().FirstOrDefault();
+                        return this.contentService.GetUsersByContentId(shelterId, ContentUserRelationType.Shelter).Any(c => c.UserId == user.Id);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

@@ -41,6 +41,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
                 entity = new Content();
                 entity.StatusType = StatusType.Created;
                 entity.Type = ContentType.Shelter;
+                entity.Featured = model.Featured;
 
                 for (int i = 0; i < model.Files.Count; i++)
                 {
@@ -66,8 +67,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
             entity.DisplayOrder = model.DisplayOrder;
             entity.LocationId = model.Location.Id;
             entity.Email = model.Email;
-            ////TODO:Revisar en PETS y Shelters cuando puede un usuario enviar destacado
-            entity.Featured = model.Featured;
 
             entity.ContentAttributes.Add(ContentAttributeType.Facebook, model.Facebook, true);
             entity.ContentAttributes.Add(ContentAttributeType.Twitter, model.Twitter, true);
@@ -91,7 +90,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
-        /// <param name="withRelated">if set to <c>true</c> [with related].</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
@@ -103,13 +101,11 @@ namespace Huellitas.Web.Models.Extensions.Contents
             IFilesHelper filesHelper = null,
             Func<string, string> contentUrlFunction = null,
             bool withFiles = false,
-            bool withRelated = false,
             int width = 0,
             int height = 0,
             int thumbnailWidth = 0,
             int thumbnailHeight = 0)
         {
-            ////TODO:Test
             var model = new ShelterModel()
             {
                 Id = entity.Id,
@@ -125,7 +121,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
                 Email = entity.Email
             };
 
-            if (entity.FileId.HasValue && entity.File != null)
+            if (entity.FileId.HasValue && entity.File != null && filesHelper != null)
             {
                 model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
@@ -214,7 +210,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
-        /// <param name="withRelated">if set to <c>true</c> [with related].</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
@@ -226,7 +221,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
             IFilesHelper filesHelper = null,
             Func<string, string> contentUrlFunction = null,
             bool withFiles = false,
-            bool withRelated = false,
             int width = 0,
             int height = 0,
             int thumbnailWidth = 0,
@@ -238,7 +232,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
                     filesHelper,
                     contentUrlFunction,
                     withFiles,
-                    withRelated,
                     width,
                     height,
                     thumbnailWidth,

@@ -22,7 +22,6 @@ namespace Huellitas.Web.Models.Extensions.Common
         /// <returns>the model</returns>
         public static CustomTableRowModel ToModel(this CustomTableRow entity)
         {
-            ////TODO:Test
             return new CustomTableRowModel
             {
                 Id = entity.Id,

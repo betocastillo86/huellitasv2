@@ -21,7 +21,7 @@ namespace Huellitas.Data.Entities
         public User()
         {
             this.AdoptionFormAnswer = new HashSet<AdoptionFormAnswer>();
-            this.Content = new HashSet<Content>();
+            this.Contents = new HashSet<Content>();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Huellitas.Data.Entities
         /// <value>
         /// The content.
         /// </value>
-        public virtual ICollection<Content> Content { get; set; }
+        public virtual ICollection<Content> Contents { get; set; }
 
         /// <summary>
         /// Gets or sets the created date.

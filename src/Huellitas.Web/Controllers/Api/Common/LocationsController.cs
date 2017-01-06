@@ -42,7 +42,6 @@ namespace Huellitas.Web.Controllers.Api.Common
         [HttpGet]
         public IActionResult Get([FromQuery]LocationFilterModel filter)
         {
-            ////TODO:test
             if (filter.IsValid())
             {
                 var locations = this.locationService.GetAll(

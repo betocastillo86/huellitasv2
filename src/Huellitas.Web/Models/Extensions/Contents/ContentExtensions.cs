@@ -60,7 +60,7 @@ namespace Huellitas.Web.Models.Extensions
                 else if (shelterId > 0)
                 {
                     ////Searches the user in shelter's users to validate if can change the pet
-                    var shelterUsers = contentService.GetUsersByContentId(content.Id, Data.Entities.Enums.ContentUserRelationType.Shelter)
+                    var shelterUsers = contentService.GetUsersByContentId(shelterId, Data.Entities.Enums.ContentUserRelationType.Shelter)
                                                 .Select(c => c.UserId)
                                                 .ToList();
 
@@ -89,7 +89,7 @@ namespace Huellitas.Web.Models.Extensions
         public static bool CanUserEditShelter(this User user, Content content, IContentService contentService)
         {
             ////Only can edit content if the user is admin or content's owner
-            return !user.CanEditAnyContent() || content.UserId == user.Id;
+            return user.CanEditAnyContent() || content.UserId == user.Id;
         }
     }
 }

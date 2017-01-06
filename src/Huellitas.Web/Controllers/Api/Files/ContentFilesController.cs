@@ -92,7 +92,6 @@ namespace Huellitas.Web.Controllers.Api.Files
         [Authorize]
         public async Task<IActionResult> Delete(int contentId, int fileId)
         {
-            ////TODO:Test
             var content = this.contentService.GetById(contentId);
 
             if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))

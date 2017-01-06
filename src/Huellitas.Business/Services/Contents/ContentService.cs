@@ -245,6 +245,7 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="page">The page.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="locationId">the location</param>
+        /// <param name="status">the status</param>
         /// <returns>
         /// the value
         /// </returns>
@@ -255,7 +256,8 @@ namespace Huellitas.Business.Services.Contents
             int pageSize = int.MaxValue,
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
-            int? locationId = null)
+            int? locationId = null,
+            StatusType? status = null)
         {
             var query = this.contentRepository.TableNoTracking
                 .Include(c => c.ContentAttributes)
@@ -277,6 +279,12 @@ namespace Huellitas.Business.Services.Contents
             if (locationId.HasValue)
             {
                 query = query.Where(c => c.LocationId == locationId || c.Location.ParentLocationId == locationId);
+            }
+
+            if (status.HasValue)
+            {
+                var statusId = Convert.ToInt16(status.Value);
+                query = query.Where(c => c.Status == statusId);
             }
 
             #region Attributes
@@ -388,7 +396,6 @@ namespace Huellitas.Business.Services.Contents
         /// </returns>
         public async Task UpdateAsync(Content content)
         {
-            ////TODO:Test
             try
             {
                 await this.contentRepository.UpdateAsync(content);
