@@ -143,9 +143,6 @@
             function templateError() {
                 console.log('template error');
             }
-
-
-
         }
 
         function showError(options)

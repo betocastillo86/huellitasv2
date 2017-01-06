@@ -5,6 +5,7 @@
         // Angular modules 
         'ngRoute',
         'ngStorage',
+        'ngSanitize',
 
         // Custom modules 
 
@@ -46,6 +47,21 @@
         .when('/pets/new', {
             templateUrl: '/app/pets/editPet.html',
             controller: 'EditPetController',
+            controllerAs: 'main'
+        })
+        .when('/shelters', {
+            templateUrl: '/app/shelters/listShelters.html',
+            controller: 'ListSheltersController',
+            controllerAs: 'main'
+        })
+        .when('/shelters/:id/edit', {
+            templateUrl: '/app/shelters/editShelter.html',
+            controller: 'EditShelterController',
+            controllerAs: 'main'
+        })
+        .when('/shelters/new', {
+            templateUrl: '/app/shelters/editShelter.html',
+            controller: 'EditShelterController',
             controllerAs: 'main'
         });
     }

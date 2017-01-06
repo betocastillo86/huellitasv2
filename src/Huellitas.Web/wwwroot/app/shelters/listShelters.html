@@ -1,9 +1,9 @@
-﻿<div >
+﻿<div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Animales <a class="btn btn-success" href="/admin/pets/new" ><i class="fa fa-plus"></i> Nuevo Animal</a></h2>
+                    <h2>Refugios <a class="btn btn-success" href="/admin/shelters/new"><i class="fa fa-plus"></i> Nuevo Refugio</a></h2>
                     <div class="clearfix"></div>
                 </div>
 
@@ -16,36 +16,37 @@
                                 Nombre
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getPets()" ng-model-options="{ debounce : 300 }">
+                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getShelters()" ng-model-options="{ debounce : 300 }">
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                Fundación
+                                Ciudad
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <angucomplete-alt id="shelter"
-                                                  placeholder="Ingresar refugio"
-                                                  pause="400"
-                                                  remote-url="/api/shelters?keyword="
-                                                  remote-url-data-field="results"
+                                
+                                <angucomplete-alt id="location"
+                                                  placeholder="Filtrar por ubicación"
+                                                  pause="500"
+                                                  remote-url="/api/locations?pagesize=8&name="
                                                   title-field="name"
-                                                  selected-object="main.shelterChanged"
-                                                  input-class="form-control col-md-9 col-xs-12" />
+                                                  selected-object="main.changeFilterLocation"
+                                                  input-class="form-control col-md-9 col-xs-12"
+                                                  input-name="location"
+                                                  remote-url-data-field="results" />
                             </div>
                         </div>
                     </form>
                 </div>
 
-                <div class="x_content>"
+                <div class="x_content">
                     <div class="table-responsive">
                         <table class="table table-striped jambo_table bulk_action">
                             <thead>
                                 <tr class="headings">
                                     <th class="column-title">Imagen</th>
                                     <th class="column-title">Nombre</th>
-                                    <th class="column-title">Tipo</th>
-                                    <th class="column-title">Genero</th>
+                                    <th class="column-title">Ubicación</th>
                                     <th class="column-title">Encargado</th>
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
@@ -55,34 +56,32 @@
                             </thead>
 
                             <tbody>
-                                <tr ng-repeat="pet in main.pets" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td><img ng-src="{{pet.image.thumbnail}}" title="{{pet.name}}" width="40" height="40" /></td>
-                                    <td>{{pet.name}}</td>
-                                    <td>{{pet.subtype.text}}</td>
-                                    <td>{{pet.genre.text}}</td>
-                                    <td>{{pet.shelter ? pet.shelter.name : ''}}</td>
+                                <tr ng-repeat="shelter in main.shelters" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td><img ng-src="{{shelter.image.thumbnail}}" title="{{shelter.name}}" width="40" height="40" /></td>
+                                    <td>{{shelter.name}}</td>
+                                    <td>{{shelter.location.name}}</td>
+                                    <td>{{shelter.owner}}</td>
                                     <td>
                                         <span class="label" ng-class="[
-                                              {'label-default' : pet.status == 'Created'},
-                                              {'label-danger' : pet.status == 'Closed'},
-                                              {'label-warning' : pet.status == 'Hidden'},
-                                              {'label-success' : pet.status == 'Published'}
-                                              ]">{{pet.status}}</span>
+                                              {'label-default' : shelter.status == 'Created'},
+                                              {'label-danger' : shelter.status == 'Closed'},
+                                              {'label-warning' : shelter.status == 'Hidden'},
+                                              {'label-success' : shelter.status == 'Published'}
+                                              ]">{{shelter.status}}</span>
                                     </td>
                                     <td class="last">
-                                        <a type="button" class="btn btn-xs">
-                                            Ver</button>
-                                            <a href="/admin/pets/{{pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="/admin/shelters/{{shelter.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <button type="button" class="btn btn-info btn-xs">Ver</button>
                                     </td>
                                 </tr>
-                                <tr ng-show="!main.pets.length">
+                                <tr ng-show="!main.shelters.length">
                                     <td colspan="5"  class="last">
                                      No hay registros
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                         <list-pager class="pagerDirective" info="main.pagerInfo" ></list-pager>
                     </div>
                 </div>

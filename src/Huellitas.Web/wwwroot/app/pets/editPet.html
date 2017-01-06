@@ -3,18 +3,29 @@
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Editar <small>{{main.model.name}}</small></h2>
+                    <h2>
+                        Editar <small>{{main.model.name}}</small>
+                    </h2>
+                    <div class="nav navbar-right">
+                        <span class="label" style="color:white" ng-class="[
+                                              {'label-default' : main.model.status == 'Created'},
+                                              {'label-danger' : main.model.status == 'Closed'},
+                                              {'label-warning' : main.model.status == 'Hidden'},
+                                              {'label-success' : main.model.status == 'Published'}
+                                              ]">{{main.model.status}}</span>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
+               
                 <div class="x_content">
                     <br>
-                    <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)" >
-                        <div class="form-group" >
+                    <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Nombre <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-maxlength="50"  />
+                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-maxlength="50" />
                                 <validation-message form="formPet" field="formPet.name" ng-maxlength="50" name="nombre"></validation-message>
                             </div>
                         </div>
@@ -23,7 +34,7 @@
                                 Descripción <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500" ></textarea>
+                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500"></textarea>
                                 <validation-message form="formPet" field="formPet.body" name="descripción"></validation-message>
                             </div>
                         </div>
@@ -41,9 +52,9 @@
                                     <label ng-repeat="subtype in main.subtypes track by subtype.id" ng-click="main.changeSubtype(subtype.id)" class="btn" ng-class="main.activeTooggleClass(subtype.id, main.model.subtype.value)">
                                         &nbsp; {{subtype.value}} &nbsp;
                                     </label>
-                                    <input type="text" name="subtype" ng-model="main.model.subtype.value" style="display:none"  required />
+                                    <input type="text" name="subtype" ng-model="main.model.subtype.value" style="display:none" required />
                                 </div>
-                                <validation-message form="formPet" field="formPet.subtype"  name="tipo"></validation-message>
+                                <validation-message form="formPet" field="formPet.subtype" name="tipo"></validation-message>
                             </div>
                         </div>
 
@@ -56,7 +67,7 @@
                                     </label>
                                     <input type="text" name="genre" ng-model="main.model.genre.value" style="display:none" required />
                                 </div>
-                                <validation-message form="formPet" field="formPet.genre"  name="genero"></validation-message>
+                                <validation-message form="formPet" field="formPet.genre" name="genero"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -69,7 +80,7 @@
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 <input type="number" class="form-control col-md-7 col-xs-12" ng-model="main.months" placeholder="Meses" ng-change="main.changeMonths()" ng-class="main.isInvalidClass(formPet, formPet.months)" /> meses
                             </div>
-                            <input type="number" name="months" ng-model="main.model.months" style="display:none" required ng-min="1"  />
+                            <input type="number" name="months" ng-model="main.model.months" style="display:none" required ng-min="1" />
                             <validation-message form="formPet" field="formPet.months" ng-min="1" name="edad"></validation-message>
                         </div>
                         <div class="form-group">
@@ -87,7 +98,7 @@
                                                       input-class="form-control col-md-9 col-xs-12" />
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="form-group" ng-if="!main.model.shelter.id">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Ciudad</label>
@@ -106,7 +117,7 @@
                                                       field-required-class="parsley-error"
                                                       remote-url-data-field="results" />
                                 </div>
-                                <validation-message form="formPet" field="formPet.location"  name="ubicación"></validation-message>
+                                <validation-message form="formPet" field="formPet.location" name="ubicación"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -140,7 +151,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" ng-model="main.model.status" ng-options="status.id as status.name for status in main.statusTypes"></select>
+                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in main.statusTypes"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -183,10 +194,10 @@
                 </div>
             </div>
         </div>
-         
-        <div class="col-md-6 col-sm-12 col-xs-12"  ng-if="main.showPicturesActive">
+
+        <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
             <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
-         </div>
         </div>
+    </div>
 
 </div>
