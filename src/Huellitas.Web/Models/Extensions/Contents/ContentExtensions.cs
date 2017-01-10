@@ -5,8 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Api.Contents;
     using Business.Extensions.Entities;
+    using Business.Services.Files;
+    using Common;
     using Data.Extensions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
@@ -16,6 +21,61 @@ namespace Huellitas.Web.Models.Extensions
     /// </summary>
     public static class ContentExtensions
     {
+        /// <summary>
+        /// To the model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="contentUrlFunction">The content URL function.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the model</returns>
+        public static ContentModel ToModel(
+            this Content entity,
+            IFilesHelper filesHelper,
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
+        {
+            ////TODO:Test
+            var model = new ContentModel();
+            model.Attributes = entity.ContentAttributes.ToModels();
+            model.Body = entity.Body;
+            model.CommentsCount = entity.CommentsCount;
+            model.CreatedDate = entity.CreatedDate;
+            model.DisplayOrder = entity.DisplayOrder;
+            model.Email = entity.Email;
+            model.Featured = entity.Featured;
+
+            if (entity.FileId.HasValue && entity.File != null)
+            {
+                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// To the models.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="contentUrlFunction">The content URL function.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the list</returns>
+        public static IList<ContentModel> ToModels(
+            this ICollection<Content> entities,
+            IFilesHelper filesHelper,
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
+        {
+            return entities
+                .Select(c => c.ToModel(filesHelper, contentUrlFunction, width, height))
+                .ToList();
+        }
+
         /// <summary>
         /// Determines whether this instance [can user edit content] the specified content.
         /// </summary>

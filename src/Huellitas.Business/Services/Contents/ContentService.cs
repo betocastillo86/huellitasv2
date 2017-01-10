@@ -157,6 +157,7 @@ namespace Huellitas.Business.Services.Contents
 
             var finalQuery = this.contentRepository.Table
                 .Include(c => c.Location)
+                .Include(c => c.ContentAttributes)
                 .Where(c => queryIds.Contains(c.Id));
 
             return new PagedList<Content>(finalQuery, page, pageSize);

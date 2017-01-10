@@ -3,23 +3,25 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models
 {
-    using System.ComponentModel.DataAnnotations;
+    using Huellitas.Data.Entities;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
-    /// Content Attribute Model
+    /// Content Attribute Model Not Typed
     /// </summary>
-    /// <typeparam name="T">Any type</typeparam>
-    public class ContentAttributeModel<T>
+    public class ContentAttributeModel
     {
         /// <summary>
-        /// Gets or sets the text.
+        /// Gets or sets the attribute.
         /// </summary>
         /// <value>
-        /// The text.
+        /// The attribute.
         /// </value>
-        public string Text { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ContentAttributeType Attribute { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
@@ -27,7 +29,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// The value.
         /// </value>
-        [Required]
-        public T Value { get; set; }
+        public string Value { get; set; }
     }
 }
