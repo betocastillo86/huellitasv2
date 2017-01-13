@@ -17,5 +17,13 @@ namespace Huellitas.Web.Models.Api.Users
         /// The keyword.
         /// </value>
         public string Keyword { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [full object].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [full object]; otherwise, <c>false</c>.
+        /// </value>
+        public bool FullObject { get; set; }
     }
 }

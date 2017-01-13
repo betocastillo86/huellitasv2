@@ -23,14 +23,14 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// <param name="model">The model.</param>
         /// <returns>the filtered users</returns>
         [HttpGet]
-        public IActionResult Get(UsersFilterModel model)
+        public IActionResult Get([FromQuery]UsersFilterModel model)
         {
             ////TODO:Implementar
             var users = new List<BaseUserModel>();
             users.Add(new BaseUserModel { Id = 1, Name = "Pepito" });
             users.Add(new BaseUserModel { Id = 2, Name = "Erica" });
             users.Add(new BaseUserModel { Id = 3, Name = "Gabriel" });
-            return this.Ok(users);
+            return this.Ok(users, false, 3);
         }
     }
 }
