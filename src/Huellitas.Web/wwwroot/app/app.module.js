@@ -63,11 +63,15 @@
             templateUrl: '/app/shelters/editShelter.html',
             controller: 'EditShelterController',
             controllerAs: 'main'
+        })
+        .when('/users', {
+            templateUrl: '/app/users/listUsers.html',
+            controller: 'ListUsersController',
+            controllerAs: 'main'
         });
     }
 
-    function run($rootScope, $http, $location, sessionService)
-    {
+    function run($rootScope, $http, $location, sessionService) {
         // keep user logged in after page refresh
         if (sessionService.getCurrentUser()) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionService.getToken();

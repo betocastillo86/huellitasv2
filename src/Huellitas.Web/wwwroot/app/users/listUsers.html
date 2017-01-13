@@ -1,0 +1,62 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Usuarios <a class="btn btn-success" href="/admin/users/new"><i class="fa fa-plus"></i> Nuevo Usuario</a></h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Nombre o correo
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getUsers()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Nombre</th>
+                                    <th class="column-title">Correo</th>
+                                    <th class="column-title">Rol</th>
+                                    <th class="column-title no-link last">
+                                        <span class="nobr">Opciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="user in main.users" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>El rol</td>
+                                    <td class="last">
+                                        <a href="/admin/users/{{user.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <button type="button" class="btn btn-info btn-xs">Ver</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!main.users.length">
+                                    <td colspan="5" class="last">
+                                        No hay registros
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <list-pager class="pagerDirective"></list-pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
