@@ -15,15 +15,27 @@ namespace Huellitas.Business.Subscribers
     /// Creates Related Contents Subscriber
     /// </summary>
     /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
-    public class CreateRelatedContentsSubscriber : ISubscriber<EntityInsertedMessage<Content>>
+    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.Content}}" />
+    public class CreateRelatedContentsSubscriber : 
+        ISubscriber<EntityInsertedMessage<Content>>,
+        ISubscriber<EntityUpdatedMessage<Content>>
     {
+        /// <summary>
+        /// Handles the event.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void HandleEvent(EntityUpdatedMessage<Content> message)
+        {
+            Debug.WriteLine("Entro a esto EntityUpdatedMessage");
+        }
+
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
         public void HandleEvent(EntityInsertedMessage<Content> message)
         {
-            Debug.WriteLine("Entro a esto");
+            Debug.WriteLine("Entro a esto EntityInsertedMessage");
         }
     }
 }

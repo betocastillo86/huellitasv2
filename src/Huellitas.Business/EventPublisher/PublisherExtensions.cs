@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Huellitas.Data.Entities;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="PublisherExtensions.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Business.EventPublisher
 {
+    using System.Collections.Generic;
+    using Huellitas.Data.Entities;
+
     /// <summary>
     /// Publisher Extensions
     /// </summary>

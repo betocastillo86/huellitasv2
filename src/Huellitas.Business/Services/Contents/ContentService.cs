@@ -410,6 +410,7 @@ namespace Huellitas.Business.Services.Contents
             try
             {
                 await this.contentRepository.UpdateAsync(content);
+                this.publisher.EntityUpdated(content);
             }
             catch (DbUpdateException e)
             {

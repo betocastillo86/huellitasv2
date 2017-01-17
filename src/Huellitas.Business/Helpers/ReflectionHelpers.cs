@@ -12,7 +12,7 @@ namespace Huellitas.Business.Helpers
     using Microsoft.Extensions.DependencyModel;
 
     /// <summary>
-    /// Refletion Helpers
+    /// Reflection Helpers
     /// </summary>
     public class ReflectionHelpers
     {
@@ -61,7 +61,7 @@ namespace Huellitas.Business.Helpers
         /// <summary>
         /// Validates if does the type implement open generic.
         /// </summary>
-        /// <param name="type">The type.</param>
+        /// <param name="typeinfo">The type.</param>
         /// <param name="openGeneric">The open generic.</param>
         /// <returns>the value</returns>
         private static bool DoesTypeImplementOpenGeneric(TypeInfo typeinfo, Type openGeneric)

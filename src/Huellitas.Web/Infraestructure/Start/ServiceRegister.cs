@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using System;
     using System.IO;
+    using System.Reflection;
     using Business.Caching;
     using Business.Configuration;
     using Business.EventPublisher;
@@ -23,8 +25,6 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
-    using System.Reflection;
-    using System;
 
     /// <summary>
     /// Helper for register services
@@ -79,9 +79,12 @@ namespace Huellitas.Web.Infraestructure.Start
 
             foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ISubscriber<>)))
             {
-                var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces((type, criteria) => {
-                    return type.GetTypeInfo().IsGenericType && (((Type)criteria).GetTypeInfo()).IsAssignableFrom(type.GetGenericTypeDefinition());
-                }, typeof(ISubscriber<>));
+                var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
+                    (type, criteria) =>
+                {
+                    return type.GetTypeInfo().IsGenericType && ((Type)criteria).GetTypeInfo().IsAssignableFrom(type.GetGenericTypeDefinition());
+                },
+                    typeof(ISubscriber<>));
 
                 foreach (var serviceFoundType in servicesTypeFound)
                 {
