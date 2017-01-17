@@ -60,7 +60,6 @@ namespace Huellitas.Business.Services.Common
         /// <returns>the rows</returns>
         public IList<CustomTableRow> GetRowsByTableIdCached(CustomTableType tableId)
         {
-            ////TODO:Clean cache
             var key = string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, tableId);
             return this.cacheManager.Get(
                 key, 

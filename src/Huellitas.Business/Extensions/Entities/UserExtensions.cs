@@ -22,7 +22,6 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool CanApproveContents(this User user)
         {
-            ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
 
@@ -35,7 +34,6 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool IsSuperAdmin(this User user)
         {
-            ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
 

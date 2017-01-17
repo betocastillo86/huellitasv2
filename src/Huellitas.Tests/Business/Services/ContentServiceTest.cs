@@ -145,6 +145,7 @@ namespace Huellitas.Tests.Business
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
         /// <param name="contentUserRepository">content user repository</param>
+        /// <param name="publisher">the publisher</param>
         /// <returns>the mock</returns>
         private ContentService MockContentService(
             IRepository<Content> contentRepository = null,
