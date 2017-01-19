@@ -5,14 +5,18 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using System;
     using System.IO;
+    using System.Reflection;
     using Business.Caching;
     using Business.Configuration;
+    using Business.EventPublisher;
     using Business.Security;
     using Business.Services.Configuration;
     using Business.Services.Files;
     using Business.Services.Seo;
     using Business.Services.Users;
+    using Dasigno.NosUne.Business.EventPublisher;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
@@ -69,6 +73,24 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<ILocationService, LocationService>();
+
+            ////Events
+            services.AddScoped<IPublisher, Publisher>();
+
+            foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ISubscriber<>)))
+            {
+                var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
+                    (type, criteria) =>
+                {
+                    return type.GetTypeInfo().IsGenericType && ((Type)criteria).GetTypeInfo().IsAssignableFrom(type.GetGenericTypeDefinition());
+                },
+                    typeof(ISubscriber<>));
+
+                foreach (var serviceFoundType in servicesTypeFound)
+                {
+                    services.AddScoped(serviceFoundType, implementationType);
+                }
+            }
         }
     }
 }

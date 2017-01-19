@@ -12,6 +12,7 @@ namespace Huellitas.Business.Services.Contents
     using System.Text;
     using System.Threading.Tasks;
     using Data.Entities.Enums;
+    using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
@@ -62,6 +63,11 @@ namespace Huellitas.Business.Services.Contents
         private readonly ISeoService seoService;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContentService"/> class.
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>
@@ -71,6 +77,7 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
         /// <param name="contentUserRepository">The content user repository.</param>
+        /// <param name="publisher">the publisher</param>
         public ContentService(
             IRepository<Content> contentRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
@@ -78,7 +85,8 @@ namespace Huellitas.Business.Services.Contents
             ISeoService seoService,
             HuellitasContext context,
             IRepository<RelatedContent> relatedContentRepository,
-            IRepository<ContentUser> contentUserRepository)
+            IRepository<ContentUser> contentUserRepository,
+            IPublisher publisher)
         {
             this.contentRepository = contentRepository;
             this.contentAttributeRepository = contentAttributeRepository;
@@ -87,6 +95,7 @@ namespace Huellitas.Business.Services.Contents
             this.contentFileRepository = contentFileRepository;
             this.relatedContentRepository = relatedContentRepository;
             this.contentUserRepository = contentUserRepository;
+            this.publisher = publisher;
         }
 
         /// <summary>
@@ -198,6 +207,7 @@ namespace Huellitas.Business.Services.Contents
             try
             {
                 await this.contentRepository.InsertAsync(content);
+                this.publisher.EntityInserted(content);
             }
             catch (DbUpdateException e)
             {
@@ -400,6 +410,7 @@ namespace Huellitas.Business.Services.Contents
             try
             {
                 await this.contentRepository.UpdateAsync(content);
+                this.publisher.EntityUpdated(content);
             }
             catch (DbUpdateException e)
             {

@@ -92,8 +92,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </value>
         public int? LocationId { get; set; }
 
-        ////TODO: Agregar filtro de estado y no permitir ver a usuarios que no sean admin a contenidos inactivos
-
         /// <summary>
         /// Gets or sets the status.
         /// </summary>

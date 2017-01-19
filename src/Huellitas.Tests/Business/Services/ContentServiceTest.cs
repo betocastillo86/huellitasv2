@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Business
 {
+    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Seo;
@@ -144,6 +145,7 @@ namespace Huellitas.Tests.Business
         /// <param name="context">The context.</param>
         /// <param name="relatedContentRepository">The related content repository.</param>
         /// <param name="contentUserRepository">content user repository</param>
+        /// <param name="publisher">the publisher</param>
         /// <returns>the mock</returns>
         private ContentService MockContentService(
             IRepository<Content> contentRepository = null,
@@ -152,7 +154,8 @@ namespace Huellitas.Tests.Business
             ISeoService seoService = null,
             HuellitasContext context = null,
             IRepository<RelatedContent> relatedContentRepository = null,
-            IRepository<ContentUser> contentUserRepository = null)
+            IRepository<ContentUser> contentUserRepository = null,
+            IPublisher publisher = null)
         {
             if (contentRepository == null)
             {
@@ -189,7 +192,12 @@ namespace Huellitas.Tests.Business
                 contentUserRepository = new Mock<IRepository<ContentUser>>().Object;
             }
 
-            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context, relatedContentRepository, contentUserRepository);
+            if (publisher == null)
+            {
+                publisher = new Mock<IPublisher>().Object;
+            }
+
+            return new ContentService(contentRepository, contentAttributeRepository, contentFileRepository, seoService, context, relatedContentRepository, contentUserRepository, publisher);
         }
     }
 }
