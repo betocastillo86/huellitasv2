@@ -31,7 +31,7 @@ namespace Huellitas.Data.Infraestructure
             this.TotalCount = query.Count();
             this.TotalPages = this.TotalCount / this.PageSize;
 
-            if (this.TotalPages % this.PageSize > 0)
+            if (this.TotalCount % this.PageSize > 0)
             {
                 this.TotalPages++;
             }

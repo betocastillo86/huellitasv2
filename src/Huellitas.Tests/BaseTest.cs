@@ -6,6 +6,7 @@
 namespace Huellitas.Tests
 {
     using System.Diagnostics.CodeAnalysis;
+    using Huellitas.Business.Caching;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Moq;
@@ -31,6 +32,11 @@ namespace Huellitas.Tests
         /// The work context.
         /// </value>
         protected Mock<IWorkContext> workContext { get; set; }
+
+        /// <summary>
+        /// The cache manager
+        /// </summary>
+        protected Mock<ICacheManager> cacheManager = new Mock<ICacheManager>();
 
         /// <summary>
         /// Mocks the work context.

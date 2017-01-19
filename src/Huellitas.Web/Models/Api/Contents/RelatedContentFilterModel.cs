@@ -52,7 +52,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </returns>
         public override bool IsValid()
         {
-            ////TODO:Test
             if (this.AsContentType && !this.RelationType.HasValue)
             {
                 this.AddError(Business.Exceptions.HuellitasExceptionCode.BadArgument, "AsContentType no puede ser True si no tiene filtro de RelationType", "AsContentType");
