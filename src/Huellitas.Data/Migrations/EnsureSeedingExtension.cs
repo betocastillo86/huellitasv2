@@ -86,7 +86,7 @@ namespace Huellitas.Data.Migrations
 
             foreach (var item in list)
             {
-                if (!context.Users.Any(c => c.Name.Equals(item.Name)))
+                if (!context.Users.Any(c => c.Email.Equals(item.Email)))
                 {
                     context.Users.Add(item);
                 }

@@ -18,6 +18,11 @@ namespace Huellitas.Business.Exceptions
         ShelterNotFound = 100,
 
         /// <summary>
+        /// The user email was already used
+        /// </summary>
+        UserEmailAlreadyUsed = 150,
+
+        /// <summary>
         /// The invalid foreign key
         /// </summary>
         InvalidForeignKey = 500,

@@ -22,6 +22,11 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool CanApproveContents(this User user)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
@@ -35,6 +40,11 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool IsSuperAdmin(this User user)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
@@ -48,6 +58,45 @@ namespace Huellitas.Business.Extensions.Entities
         /// </returns>
         public static bool CanEditAnyContent(this User user)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
+            return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can edit any user] the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can edit any user] the specified user; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool CanEditAnyUser(this User user)
+        {
+            if (user == null)
+            {
+                return false;
+            }
+
+            return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see sensitive user information] the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can see sensitive user information] the specified user; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool CanSeeSensitiveUserInfo(this User user)
+        {
+            if (user == null)
+            {
+                return false;
+            }
+
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
     }

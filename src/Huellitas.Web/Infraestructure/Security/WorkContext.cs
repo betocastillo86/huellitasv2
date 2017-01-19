@@ -63,7 +63,7 @@ namespace Huellitas.Web.Infraestructure.Security
                 {
                     if (this.currentUser == null)
                     {
-                        this.currentUser = this.userService.GetById(this.CurrentUserId);
+                        this.currentUser = this.userService.GetById(this.CurrentUserId).Result;
                     }
                 }
 

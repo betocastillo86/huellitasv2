@@ -66,19 +66,15 @@ namespace Huellitas.Web.Controllers.Api.Users
         {
             if (model != null && this.ModelState.IsValid)
             {
-                var password = this.securityHelpers.ToSha1(model.Password, model.Email);
+                var password = this.securityHelpers.ToSha1(model.Password, this.securityHelpers.ToSha1(model.Password));
                 var user = await this.userService.ValidateAuthentication(model.Email, password);
 
                 if (user != null)
                 {
-                    var genericIdentity = new GenericIdentity(user.Id.ToString(), "Token");
-                    var claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                    claims.Add(new Claim(ClaimTypes.Name, user.Name));
-                    claims.Add(new Claim(ClaimTypes.Role, user.Role.Name));
+                    IList<Claim> claims;
 
-                    var token = this.authenticationTokenGenerator.GenerateToken(genericIdentity, claims, DateTimeOffset.Now);
+                    var identity = AuthenticationHelper.GetIdentity(user, out claims);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
                     var userModel = new AuthenticatedUserModel() { Email = model.Email, Name = user.Name, Id = user.Id, Token = token };
                     return this.Ok(userModel);
                 }

@@ -7,6 +7,8 @@ namespace Huellitas.Data.Infraestructure
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Paged list
@@ -116,6 +118,43 @@ namespace Huellitas.Data.Infraestructure
         public int TotalPages
         {
             get; private set;
+        }
+
+        /// <summary>
+        /// Make Asynchronous the specified query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>The paged list</returns>
+        public async Task<PagedList<T>> Async(IQueryable<T> query, int page, int pageSize)
+        {
+            ////counts all rows
+            this.TotalCount = await query.CountAsync();
+
+            var list = await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+            this.AddRange(list);
+
+            this.CalculateValues(page, pageSize);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Calculates the values.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        private void CalculateValues(int page, int pageSize)
+        {
+            this.PageIndex = page;
+            this.PageSize = pageSize;
+            this.TotalPages = this.TotalCount / this.PageSize;
+
+            if (this.TotalPages % this.PageSize > 0)
+            {
+                this.TotalPages++;
+            }
         }
     }
 }

@@ -85,6 +85,17 @@ namespace Huellitas.Web.Infraestructure.WebApi
             return this.StatusCode(400, new BaseApiError() { Error = error });
         }
 
+        /// <summary>
+        /// Sends a Bad request.
+        /// </summary>
+        /// <param name="errors">The errors.</param>
+        /// <param name="target">The target.</param>
+        /// <returns>The action</returns>
+        protected IActionResult BadRequest(IList<ApiError> errors, string target = null)
+        {
+            return this.BadRequest(HuellitasExceptionCode.BadArgument, errors, target);
+        }
+
         #endregion BadRequest
 
         #region Ok

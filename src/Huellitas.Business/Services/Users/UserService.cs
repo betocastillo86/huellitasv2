@@ -5,8 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Users
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Data.Entities.Enums;
+    using Data.Infraestructure;
+    using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
@@ -32,6 +36,124 @@ namespace Huellitas.Business.Services.Users
         }
 
         /// <summary>
+        /// Deletes the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Delete(User user)
+        {
+            user.Deleted = true;
+
+            await this.userRepository.UpdateAsync(user);
+            ////TODO:publicar el evento
+        }
+
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="role">The role.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>
+        /// the list of users
+        /// </returns>
+        public async Task<IPagedList<User>> GetAll(
+            string keyword = null,
+            RoleEnum? role = null,
+            int page = 0,
+            int pageSize = int.MaxValue)
+        {
+            var query = this.userRepository.Table.Where(c => !c.Deleted);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(c => c.Name.Contains(keyword) || c.Email.Contains(keyword));
+            }
+
+            if (role.HasValue)
+            {
+                var rolId = Convert.ToInt32(role);
+                query = query.Where(c => c.RoleId == rolId);
+            }
+
+            query = query.OrderByDescending(c => c.CreatedDate);
+
+            return await new PagedList<User>().Async(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// The user
+        /// </returns>
+        public async Task<User> GetById(int id)
+        {
+            return await this.userRepository.Table
+                .FirstOrDefaultAsync(c => c.Id == id && !c.Deleted);
+        }
+
+        /// <summary>
+        /// Inserts the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Insert(User user)
+        {
+            user.CreatedDate = DateTime.Now;
+
+            try
+            {
+                await this.userRepository.InsertAsync(user);
+                ////TODO:Agregar publisher
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("'IX_User'"))
+                {
+                    throw new HuellitasException(HuellitasExceptionCode.UserEmailAlreadyUsed);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Update(User user)
+        {
+            try
+            {
+                await this.userRepository.UpdateAsync(user);
+                ////TODO:Agregar publisher
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("'IX_User'"))
+                {
+                    throw new HuellitasException(HuellitasExceptionCode.UserEmailAlreadyUsed);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
         /// Validates the authentication.
         /// </summary>
         /// <param name="email">The email.</param>
@@ -44,18 +166,6 @@ namespace Huellitas.Business.Services.Users
             return await this.userRepository.Table
                 .Include(c => c.Role)
                 .FirstOrDefaultAsync(c => c.Email.Equals(email) && c.Password.Equals(password) && !c.Deleted);
-        }
-
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>
-        /// The user
-        /// </returns>
-        public User GetById(int id)
-        {
-            return this.userRepository.Table.FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace Huellitas.Business.Exceptions
                     return "El refugio relacionado no existe";
                 case HuellitasExceptionCode.InvalidForeignKey:
                     return "El registro que se desea relacionar no existe";
+                case HuellitasExceptionCode.UserEmailAlreadyUsed:
+                    return "El correo electrónico ya se encuentra registrado";
                 default:
                     return null;
             }

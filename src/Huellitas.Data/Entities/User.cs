@@ -25,36 +25,12 @@ namespace Huellitas.Data.Entities
         }
 
         /// <summary>
-        /// Gets or sets the adoption form answer.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The adoption form answer.
+        /// The name.
         /// </value>
-        public virtual ICollection<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        /// <value>
-        /// The content.
-        /// </value>
-        public virtual ICollection<Content> Contents { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created date.
-        /// </summary>
-        /// <value>
-        /// The created date.
-        /// </value>
-        public DateTime CreatedDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="User"/> is deleted.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if deleted; otherwise, <c>false</c>.
-        /// </value>
-        public bool Deleted { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
@@ -63,14 +39,6 @@ namespace Huellitas.Data.Entities
         /// The email.
         /// </value>
         public string Email { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
@@ -111,6 +79,38 @@ namespace Huellitas.Data.Entities
         /// The role identifier.
         /// </value>
         public int RoleId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created date.
+        /// </summary>
+        /// <value>
+        /// The created date.
+        /// </value>
+        public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="User"/> is deleted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if deleted; otherwise, <c>false</c>.
+        /// </value>
+        public bool Deleted { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form answer.
+        /// </summary>
+        /// <value>
+        /// The adoption form answer.
+        /// </value>
+        public virtual ICollection<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public virtual ICollection<Content> Contents { get; set; }
 
         /// <summary>
         /// Gets or sets the role enum.
