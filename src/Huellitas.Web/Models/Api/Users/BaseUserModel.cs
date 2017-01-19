@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Users
 {
+    using System.ComponentModel.DataAnnotations;
     using Huellitas.Web.Models.Api.Common;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Huellitas.Web.Models.Api.Users
         /// <value>
         /// The name.
         /// </value>
+        [StringLength(100, MinimumLength = 4)]
         public string Name { get; set; }
     }
 }

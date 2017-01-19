@@ -87,6 +87,16 @@ namespace Huellitas.Web.Models.Api.Common
         }
 
         /// <summary>
+        /// Adds the error by default Bad Argument
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="message">The message.</param>
+        protected void AddError(string target, string message)
+        {
+            this.AddError(HuellitasExceptionCode.BadArgument.ToString(), message, target);
+        }
+
+        /// <summary>
         /// Adds the error.
         /// </summary>
         /// <param name="code">The code.</param>
