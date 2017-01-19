@@ -1,13 +1,24 @@
-﻿namespace Huellitas.Tests.Web.ApiControllers.Contents
+﻿//-----------------------------------------------------------------------
+// <copyright file="RelatedContentFilterModelTest.cs" company="Dasigno">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System;
     using System.Linq;
     using Huellitas.Web.Models.Api.Contents;
     using NUnit.Framework;
 
+    /// <summary>
+    /// Related Contents Filter Model Test
+    /// </summary>
     [TestFixture]
     public class RelatedContentFilterModelTest
     {
+        /// <summary>
+        /// Related the content filter is valid as content type false.
+        /// </summary>
         [Test]
         public void RelatedContentFilter_IsValid_AsContentType_False()
         {
@@ -17,6 +28,9 @@
             Assert.AreEqual("AsContentType", filter.Errors.FirstOrDefault().Target);
         }
 
+        /// <summary>
+        /// Related the content filter is valid as content type true.
+        /// </summary>
         [Test]
         public void RelatedContentFilter_IsValid_AsContentType_True()
         {
@@ -26,6 +40,9 @@
             Assert.IsTrue(filter.IsValid());
         }
 
+        /// <summary>
+        /// Related the content filter is valid relation type false.
+        /// </summary>
         [Test]
         public void RelatedContentFilter_IsValid_RelationType_False()
         {
@@ -35,6 +52,9 @@
             Assert.AreEqual("RelationType", filter.Errors.FirstOrDefault().Target);
         }
 
+        /// <summary>
+        /// Related the content filter is valid relation type true.
+        /// </summary>
         [Test]
         public void RelatedContentFilter_IsValid_RelationType_True()
         {

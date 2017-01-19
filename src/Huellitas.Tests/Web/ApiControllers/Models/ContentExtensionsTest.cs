@@ -26,6 +26,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         /// </summary>
         private Mock<IContentService> contentService = new Mock<IContentService>();
 
+        /// <summary>
+        /// The mock of cache
+        /// </summary>
         private Mock<IFilesHelper> mockCacheManager = new Mock<IFilesHelper>();
 
         /// <summary>
@@ -127,12 +130,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.IsTrue(response);
         }
 
+        /// <summary>
+        /// Converts to content model test without file
+        /// </summary>
         [Test]
         public void ToContentModel_NoFile()
         {
             var content = this.GetContent();
 
-            var model = content.ToModel(mockCacheManager.Object);
+            var model = content.ToModel(this.mockCacheManager.Object);
 
             Assert.AreEqual(content.Id, model.Id);
             Assert.AreEqual(content.Name, model.Name);
@@ -144,16 +150,16 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(content.CreatedDate, model.CreatedDate);
             Assert.AreEqual(content.LocationId, model.Location.Id);
             Assert.IsNull(model.Image);
-
-            ////TODO:Habilitar y probar
-            //Assert.AreEqual(content.UserId, model.User.Id);
-
+            Assert.AreEqual(content.UserId, model.User.Id);
             Assert.AreEqual(content.ContentAttributes.ElementAt(0).Value, model.Attributes.ElementAt(0).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(1).Value, model.Attributes.ElementAt(1).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(2).Value, model.Attributes.ElementAt(2).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(3).Value, model.Attributes.ElementAt(3).Value);
         }
 
+        /// <summary>
+        /// Converts to content model test with file
+        /// </summary>
         [Test]
         public void ToContentModel_WithFile()
         {
@@ -161,7 +167,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             content.FileId = 1;
             content.File = new File { Id = 1, Name = "nombre", FileName = "nombrearchivo" };
 
-            var model = content.ToModel(mockCacheManager.Object);
+            var model = content.ToModel(this.mockCacheManager.Object);
 
             Assert.AreEqual(content.Id, model.Id);
             Assert.AreEqual(content.Name, model.Name);
@@ -172,18 +178,18 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(content.Views, model.Views);
             Assert.AreEqual(content.CreatedDate, model.CreatedDate);
             Assert.AreEqual(content.LocationId, model.Location.Id);
-
-            ////TODO:Habilitar y probar
-            //Assert.AreEqual(content.UserId, model.User.Id);
-
+            Assert.AreEqual(content.UserId, model.User.Id);
             Assert.AreEqual(content.File.Name, model.Image.Name);
-
             Assert.AreEqual(content.ContentAttributes.ElementAt(0).Value, model.Attributes.ElementAt(0).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(1).Value, model.Attributes.ElementAt(1).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(2).Value, model.Attributes.ElementAt(2).Value);
             Assert.AreEqual(content.ContentAttributes.ElementAt(3).Value, model.Attributes.ElementAt(3).Value);
         }
 
+        /// <summary>
+        /// gets the content
+        /// </summary>
+        /// <returns>the content</returns>
         private Content GetContent()
         {
             var entity = new Content();

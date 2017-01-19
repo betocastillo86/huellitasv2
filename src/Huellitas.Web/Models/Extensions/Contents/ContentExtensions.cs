@@ -60,11 +60,10 @@ namespace Huellitas.Web.Models.Extensions
                 model.Location = entity.Location.ToModel();
             }
 
-            ////TODO:Habilitar y probar
-            //if (entity.User != null)
-            //{
-            //    model.User = entity.User.ToUserModel();
-            //}
+            if (entity.User != null)
+            {
+                model.User = entity.User.ToBaseUserModel();
+            }
 
             return model;
         }
