@@ -80,7 +80,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get(int id, [FromQuery]RelatedContentFilterModel filter)
         {
-            ////TODO:Test
             if (filter.IsValid())
             {
                 var related = this.contentService

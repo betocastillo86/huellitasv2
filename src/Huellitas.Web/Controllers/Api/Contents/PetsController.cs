@@ -236,7 +236,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                     content.UserId = this.workContext.CurrentUserId;
 
-                    ////TODO:Crear servicio para contenidos relacionados
                     ////Only if the user can aprove contents changes the status
                     if (this.workContext.CurrentUser.CanApproveContents())
                     {

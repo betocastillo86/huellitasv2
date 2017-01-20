@@ -37,8 +37,11 @@ namespace Huellitas.Web.Models.Extensions
             int width = 0,
             int height = 0)
         {
-            ////TODO:Test
             var model = new ContentModel();
+            model.Id = entity.Id;
+            model.Views = entity.Views;
+            model.Name = entity.Name;
+            model.Status = entity.StatusType;
             model.Attributes = entity.ContentAttributes.ToModels();
             model.Body = entity.Body;
             model.CommentsCount = entity.CommentsCount;
@@ -50,6 +53,16 @@ namespace Huellitas.Web.Models.Extensions
             if (entity.FileId.HasValue && entity.File != null)
             {
                 model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height);
+            }
+
+            if (entity.LocationId.HasValue && entity.Location != null)
+            {
+                model.Location = entity.Location.ToModel();
+            }
+
+            if (entity.User != null)
+            {
+                model.User = entity.User.ToBaseUserModel();
             }
 
             return model;

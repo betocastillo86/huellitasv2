@@ -6,6 +6,7 @@
 namespace Huellitas.Tests
 {
     using System.Diagnostics.CodeAnalysis;
+    using Huellitas.Business.Caching;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Moq;
@@ -14,8 +15,14 @@ namespace Huellitas.Tests
     /// Base class for testing
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed.")]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed.")]
     public class BaseTest
     {
+        /// <summary>
+        /// The cache manager
+        /// </summary>
+        protected Mock<ICacheManager> cacheManager = new Mock<ICacheManager>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseTest"/> class.
         /// </summary>
