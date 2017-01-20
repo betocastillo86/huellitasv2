@@ -73,6 +73,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();
