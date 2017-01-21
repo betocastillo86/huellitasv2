@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<RelatedContent> entity)
         {
-            entity.ToTable("RelatedContent");
+            entity.ToTable("RelatedContents");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_RelatedContent");
 
             entity.HasOne(d => d.Content)
                     .WithMany(p => p.RelatedContentContent)

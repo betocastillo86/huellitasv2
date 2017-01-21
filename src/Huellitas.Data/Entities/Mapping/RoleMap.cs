@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<Role> entity)
         {
-            entity.ToTable("Role");
+            entity.ToTable("Roles");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_Role");
 
             entity.Property(e => e.Description).HasColumnType("varchar(200)");
 

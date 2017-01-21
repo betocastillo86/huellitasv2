@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<User> entity)
         {
-            entity.ToTable("User");
+            entity.ToTable("Users");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_User");
 
             entity.HasIndex(e => e.Email)
                     .HasName("IX_User")

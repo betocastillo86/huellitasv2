@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<EmailNotification> entity)
         {
-            entity.ToTable("EmailNotification");
+            entity.ToTable("EmailNotifications");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_EmailNotification");
 
             entity.Property(e => e.Id);
 

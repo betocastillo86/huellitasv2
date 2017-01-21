@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<SystemSetting> entity)
         {
-            entity.ToTable("SystemSetting");
+            entity.ToTable("SystemSettings");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_SystemSetting");
 
             entity.HasIndex(e => e.Name)
                    .HasName("IX_SystemSetting")

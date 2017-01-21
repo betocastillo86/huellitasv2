@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<AdoptionForm> entity)
         {
-            entity.ToTable("AdoptionForm");
+            entity.ToTable("AdoptionForms");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_AdoptionForm");
 
             entity.Property(e => e.Id);
 

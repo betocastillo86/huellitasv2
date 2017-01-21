@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<File> entity)
         {
-            entity.ToTable("File");
+            entity.ToTable("Files");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_File");
 
             entity.Property(e => e.FileName)
                                 .IsRequired()

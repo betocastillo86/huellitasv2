@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<ContentAttribute> entity)
         {
-            entity.ToTable("ContentAttribute");
+            entity.ToTable("ContentAttributes");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_ContentAttribute");
 
             entity.Property(e => e.Attribute)
                     .IsRequired()
