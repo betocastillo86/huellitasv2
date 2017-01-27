@@ -32,7 +32,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.Notes).HasMaxLength(1500);
 
             entity.HasOne(d => d.AdoptionForm)
-                .WithMany(p => p.AdoptionFormAnswer)
+                .WithMany(p => p.Answers)
                 .HasForeignKey(d => d.AdoptionFormId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionFormAnswer_AdoptionForm");

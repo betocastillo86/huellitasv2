@@ -1,38 +1,33 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CustomTableType.cs" company="Huellitas sin hogar">
+// <copyright file="AdoptionFormAnswerStatus.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
     /// <summary>
-    /// Custom table Type
+    /// Adoption Form Answer Status
     /// </summary>
-    public enum CustomTableType
+    public enum AdoptionFormAnswerStatus : short
     {
         /// <summary>
-        /// The animal subtype
+        /// The none
         /// </summary>
-        AnimalSubtype = 1,
+        None = 0,
 
         /// <summary>
-        /// The animal size
+        /// The approved
         /// </summary>
-        AnimalSize = 2,
+        Approved = 1,
 
         /// <summary>
-        /// The animal genre
+        /// The denied
         /// </summary>
-        AnimalGenre = 3,
+        Denied = 2,
 
         /// <summary>
-        /// The question adoption form
+        /// The already adopted
         /// </summary>
-        QuestionAdoptionForm = 4,
-
-        /// <summary>
-        /// The jobs
-        /// </summary>
-        Jobs = 5
+        AlreadyAdopted = 3
     }
 }

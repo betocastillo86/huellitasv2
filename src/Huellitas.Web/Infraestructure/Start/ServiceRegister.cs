@@ -12,6 +12,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Business.Configuration;
     using Business.EventPublisher;
     using Business.Security;
+    using Business.Services.AdoptionForms;
     using Business.Services.Configuration;
     using Business.Services.Files;
     using Business.Services.Seo;
@@ -74,6 +75,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAdoptionFormService, AdoptionFormService>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();

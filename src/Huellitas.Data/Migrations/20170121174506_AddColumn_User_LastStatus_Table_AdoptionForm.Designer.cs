@@ -9,9 +9,10 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20170121174506_AddColumn_User_LastStatus_Table_AdoptionForm")]
+    partial class AddColumn_User_LastStatus_Table_AdoptionForm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -330,8 +331,6 @@ namespace Huellitas.Data.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int?>("ParentCustomTableRowId");
-
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -340,8 +339,6 @@ namespace Huellitas.Data.Migrations
                         .HasName("PK_CustomTableRow");
 
                     b.HasIndex("CustomTableId");
-
-                    b.HasIndex("ParentCustomTableRowId");
 
                     b.ToTable("CustomTableRows");
                 });
@@ -723,10 +720,6 @@ namespace Huellitas.Data.Migrations
                         .WithMany("CustomTableRow")
                         .HasForeignKey("CustomTableId")
                         .HasConstraintName("FK_CustomTableRow_CustomTable");
-
-                    b.HasOne("Huellitas.Data.Entities.CustomTableRow", "ParentCustomTableRow")
-                        .WithMany()
-                        .HasForeignKey("ParentCustomTableRowId");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Location", b =>
