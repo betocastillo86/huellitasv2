@@ -55,12 +55,28 @@ namespace Huellitas.Data.Entities
         public bool Deleted { get; set; }
 
         /// <summary>
+        /// Gets or sets the parent custom table row identifier.
+        /// </summary>
+        /// <value>
+        /// The parent custom table row identifier.
+        /// </value>
+        public int? ParentCustomTableRowId { get; set; }
+
+        /// <summary>
         /// Gets or sets the custom table.
         /// </summary>
         /// <value>
         /// The custom table.
         /// </value>
         public virtual CustomTable CustomTable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent custom table row.
+        /// </summary>
+        /// <value>
+        /// The parent custom table row.
+        /// </value>
+        public virtual CustomTableRow ParentCustomTableRow { get; set; }
 
         /// <summary>
         /// Gets or sets the adoption form.

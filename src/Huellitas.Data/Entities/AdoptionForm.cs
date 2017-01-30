@@ -7,6 +7,7 @@ namespace Huellitas.Data.Entities
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// The class Adoption Form
@@ -19,57 +20,33 @@ namespace Huellitas.Data.Entities
         /// </summary>
         public AdoptionForm()
         {
-            this.AdoptionFormAnswer = new HashSet<AdoptionFormAnswer>();
-            this.AdoptionFormAttribute = new HashSet<AdoptionFormAttribute>();
+            this.Answers = new HashSet<AdoptionFormAnswer>();
+            this.Attributes = new HashSet<AdoptionFormAttribute>();
         }
 
         /// <summary>
-        /// Gets or sets the address.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The address.
+        /// The name.
         /// </value>
-        public string Address { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the adoption form answer.
+        /// Gets or sets the email.
         /// </summary>
         /// <value>
-        /// The adoption form answer.
+        /// The email.
         /// </value>
-        public virtual ICollection<AdoptionFormAnswer> AdoptionFormAnswer { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the adoption form attribute.
+        /// Gets or sets the user identifier.
         /// </summary>
         /// <value>
-        /// The adoption form attribute.
+        /// The user identifier.
         /// </value>
-        public virtual ICollection<AdoptionFormAttribute> AdoptionFormAttribute { get; set; }
-
-        /// <summary>
-        /// Gets or sets the autoreply token.
-        /// </summary>
-        /// <value>
-        /// The autoreply token.
-        /// </value>
-        public Guid AutoreplyToken { get; set; }
-
-        /// <summary>
-        /// Gets or sets the birth date.
-        /// </summary>
-        /// <value>
-        /// The birth date.
-        /// </value>
-        public DateTime BirthDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        /// <value>
-        /// The content.
-        /// </value>
-        public virtual Content Content { get; set; }
+        public int? UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the content identifier.
@@ -86,14 +63,6 @@ namespace Huellitas.Data.Entities
         /// The creation date.
         /// </value>
         public DateTime CreationDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email.
-        /// </summary>
-        /// <value>
-        /// The email.
-        /// </value>
-        public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the family members.
@@ -136,14 +105,6 @@ namespace Huellitas.Data.Entities
         public int LocationId { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Gets or sets the phone number.
         /// </summary>
         /// <value>
@@ -158,5 +119,89 @@ namespace Huellitas.Data.Entities
         /// The town.
         /// </value>
         public string Town { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last status.
+        /// </summary>
+        /// <value>
+        /// The last status.
+        /// </value>
+        public short? LastStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address.
+        /// </summary>
+        /// <value>
+        /// The address.
+        /// </value>
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the autoreply token.
+        /// </summary>
+        /// <value>
+        /// The autoreply token.
+        /// </value>
+        public Guid AutoreplyToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth date.
+        /// </summary>
+        /// <value>
+        /// The birth date.
+        /// </value>
+        public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public virtual Content Content { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>
+        /// The user.
+        /// </value>
+        public virtual User User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form answer.
+        /// </summary>
+        /// <value>
+        /// The adoption form answer.
+        /// </value>
+        public virtual ICollection<AdoptionFormAnswer> Answers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form attribute.
+        /// </summary>
+        /// <value>
+        /// The adoption form attribute.
+        /// </value>
+        public virtual ICollection<AdoptionFormAttribute> Attributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status enum.
+        /// </summary>
+        /// <value>
+        /// The status enum.
+        /// </value>
+        [NotMapped]
+        public AdoptionFormAnswerStatus LastStatusEnum
+        {
+            get
+            {
+                return (AdoptionFormAnswerStatus)this.LastStatus;
+            }
+
+            set
+            {
+                this.LastStatus = Convert.ToInt16(value);
+            }
+        }
     }
 }

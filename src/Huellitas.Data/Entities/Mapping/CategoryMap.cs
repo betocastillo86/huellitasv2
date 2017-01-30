@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<Category> entity)
         {
-            entity.ToTable("Category");
+            entity.ToTable("Categories");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_Category");
 
             entity.Property(e => e.Description)
                     .IsRequired()

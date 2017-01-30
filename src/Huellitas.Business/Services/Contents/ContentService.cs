@@ -53,6 +53,11 @@ namespace Huellitas.Business.Services.Contents
         private readonly HuellitasContext context;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// The related content repository
         /// </summary>
         private readonly IRepository<RelatedContent> relatedContentRepository;
@@ -61,11 +66,6 @@ namespace Huellitas.Business.Services.Contents
         /// The <c>seo</c> service
         /// </summary>
         private readonly ISeoService seoService;
-
-        /// <summary>
-        /// The publisher
-        /// </summary>
-        private readonly IPublisher publisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentService"/> class.
@@ -247,6 +247,28 @@ namespace Huellitas.Business.Services.Contents
         }
 
         /// <summary>
+        /// Determines whether [is user in content] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>
+        ///   <c>true</c> if [is user in content] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsUserInContent(int userId, int contentId, ContentUserRelationType? relation = null)
+        {
+            var query = this.contentUserRepository.Table.Where(c => c.UserId == userId && c.ContentId == contentId);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToInt16(relation);
+                query = query.Where(c => c.RelationTypeId == relationId);
+            }
+
+            return query.Any();
+        }
+
+        /// <summary>
         /// Searches the specified keyword.
         /// </summary>
         /// <param name="keyword">The keyword.</param>
@@ -306,7 +328,7 @@ namespace Huellitas.Business.Services.Contents
                 ////queryAttributes.AppendLine("SELECT ContentId as Id, NULL as Name, NULL as Body, 0 as TypeId, 0 as Status, 0 as UserId, NULL as CreatedDate, 0 as DisplayOrder, 0 as CommentsCount, 0 as Featured, 0 as Deleted, NULL as Email, NULL as FileId, NULL as UpdatedDate, NULL as Views, NULL as LocationId  FROM (");
                 strQueryAttributes.AppendLine("SELECT ContentId as Id, ContentId, NULL as Attribute, NULL as Value FROM (");
                 strQueryAttributes.AppendLine("SELECT count(ContentId) as countContents, contentId");
-                strQueryAttributes.AppendLine(" FROM ContentAttribute");
+                strQueryAttributes.AppendLine(" FROM ContentAttributes");
                 strQueryAttributes.AppendLine("WHERE");
 
                 ////REV:int countAdditionalOptions = 0;

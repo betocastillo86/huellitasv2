@@ -42,7 +42,52 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedFiles(context);
             EnsureSeedingExtension.SeedLocations(context);
             EnsureSeedingExtension.SeedSettings(context);
+            EnsureSeedingExtension.SeedAdoptionForms(context);
         }
+
+        #region AdoptionForms        
+        /// <summary>
+        /// Seeds the adoption forms.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedAdoptionForms(HuellitasContext context)
+        {
+            var list = new List<AdoptionForm>();
+
+            var jobId = context.CustomTableRows.FirstOrDefault(c => c.CustomTableId == Convert.ToInt32(CustomTableType.Jobs)).Id;
+
+            list.Add(new AdoptionForm() { ContentId = 1, Name = "Nombre formulario 1", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
+            list.Add(new AdoptionForm() { ContentId = 2, Name = "Nombre formulario 2", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
+            list.Add(new AdoptionForm() { ContentId = 3, Name = "Nombre formulario 3", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
+
+            var questions = context.CustomTableRows.Where(c => c.CustomTableId == Convert.ToInt32(CustomTableType.QuestionAdoptionForm)).ToList();
+
+            foreach (var item in list)
+            {
+                if (!context.AdoptionForms.Any(c => c.Name.Equals(item.Name)))
+                {
+                    foreach (var question in questions)
+                    {
+                        var attribute = new AdoptionFormAttribute { AttributeId = question.Id };
+                        if (question.AdditionalInfo.Split(new char[] { '|' }).Length > 1)
+                        {
+                            attribute.Value = question.AdditionalInfo.Split(new char[] { '|' })[1].Split(new char[] { ',' })[0];
+                        }
+                        else
+                        {
+                            attribute.Value = "Si";
+                        }
+
+                        item.Attributes.Add(attribute);
+                    }
+                    
+                    context.AdoptionForms.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
 
         #region Roles
 
@@ -110,10 +155,12 @@ namespace Huellitas.Data.Migrations
             list.Add(new CustomTable() { Id = 1, Name = "Subtipo Animales", Description = "Subtipo de contenido para animales" });
             list.Add(new CustomTable() { Id = 2, Name = "Tamaño", Description = "Tamaño de los animales existentes" });
             list.Add(new CustomTable() { Id = 3, Name = "Genero de los animales", Description = "Tamaño de los animales existentes" });
+            list.Add(new CustomTable() { Id = 4, Name = "Preguntas Formularios", Description = "Preguntas hechas en los formularios de adopción" });
+            list.Add(new CustomTable() { Id = Convert.ToInt32(CustomTableType.Jobs), Name = "Trabajos para formularios", Description = "Trabajos para formularios" });
 
             foreach (var item in list)
             {
-                if (!context.CustomTables.Any(c => c.Name.Equals(item.Name)))
+                if (!context.CustomTables.Any(c => c.Id.Equals(item.Id)))
                 {
                     context.CustomTables.Add(item);
                 }
@@ -143,6 +190,31 @@ namespace Huellitas.Data.Migrations
             list.Add(new CustomTableRow() { CustomTableId = 2, Value = "Grande" });
             list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Macho" });
             list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Hembra" });
+
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Porque razón quieres adoptar un animal?", AdditionalInfo = $"{AdoptionFormQuestionType.Text}" });
+            var morePets = new CustomTableRow() { CustomTableId = 4, Value = "¿Tienes otras mascotas actualmente?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}" };
+            list.Add(morePets);
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Que tipo de animal y que cantidad de ellos?", ParentCustomTableRow = morePets, AdditionalInfo = $"{AdoptionFormQuestionType.ChecksWithText}|Perro,Gato,Otro" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿En qué lugar de la casa dormirá el animal?", AdditionalInfo = $"{AdoptionFormQuestionType.Text}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Quién es la persona que autorizará la adopción del animal?", AdditionalInfo = $"{AdoptionFormQuestionType.SingleWithOther}|Soy Responsable,Madre,Padre" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Cuánto tiempo al día permanecerá solo el animal?", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Nunca,2 a 4 horas,4 a 6 horas,Más de 6 horas" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Qué tipo de vivienda tienes?", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Apartamento,Casa,Finca,Bodega" });
+            var previousPets = new CustomTableRow() { CustomTableId = 4, Value = "¿Has tenido animales de compañía anteriormente?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}" };
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "Cuentanos un poco de tu anterior mascota", ParentCustomTableRow = previousPets, AdditionalInfo = $"{AdoptionFormQuestionType.OptionsWithText}|Especie,Cuanto tiempo vivió contigo?|¿En dónde está el animal?" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Qué sucedería si alguien en la familia resulta alérgico a los pelos de los animales o si alguien desea tener un hijo?", AdditionalInfo = $"{AdoptionFormQuestionType.Text}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Qué sucedería si tuvieras que mudarte a otra casa o ciudad /país?", AdditionalInfo = $"{AdoptionFormQuestionType.Text}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Estás consciente y aceptas los gastos que genera tener un animal de compañía?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Estás consciente y aceptas que adoptar un animal es una responsabilidad de 14 a 17 años?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Estás consciente y aceptas que el animal necesita un periodo de ajuste en el que aprenda dónde debe ir al baño y se adapte a la familia?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Vives en casa propia o arriendo?", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Casa propia,Arriendo" });
+            list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Cuánto crees que son los gastos mensuales para mantener bien al animal que deseas adoptar?", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Hasta $20.000,Entre $20.000 y $50.000,Entre $50.000 y $80.000,Más de 80.000 pesos" });
+
+            var jobs = Convert.ToInt32(CustomTableType.Jobs);
+            list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Empleado" });
+            list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Desempleado" });
+            list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Independiente" });
+            list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Estudiante" });
+            list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Hogar" });
 
             foreach (var item in list)
             {

@@ -13,6 +13,7 @@
                 minlength: '@ngMinlength',
                 min: '@ngMin',
                 max: '@ngMax',
+                otherValue: '@otherValue',
                 name: '@'
             },
             link: link
@@ -63,6 +64,14 @@
                         }
                         else {
                             return fieldName + ' tiene muy pocos caracteres';
+                        }
+                    }
+                    else if (field.$error['compareTo']) {
+                        if (scope.otherValue) {
+                            return fieldName + ' debe ser igual al campo ' + scope.otherValue + ' .';
+                        }
+                        else {
+                            return fieldName + ' no es igual';
                         }
                     }
                     else {

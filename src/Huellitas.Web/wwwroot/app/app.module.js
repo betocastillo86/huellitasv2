@@ -65,9 +65,19 @@
             controllerAs: 'main'
         })
         .when('/users', {
-            templateUrl: '/app/users/listUsers.html',
-            controller: 'ListUsersController',
-            controllerAs: 'main'
+            templateUrl:    '/app/users/listUsers.html',
+            controller:     'ListUsersController',
+            controllerAs:   'main'
+        })
+        .when('/users/:id/edit', {
+            templateUrl:    '/app/users/editUser.html',
+            controller:     'EditUserController',
+            controllerAs:   'main'
+        })
+        .when('/users/new', {
+            templateUrl:    '/app/users/editUser.html',
+            controller:     'EditUserController',
+            controllerAs:   'main'
         });
     }
 

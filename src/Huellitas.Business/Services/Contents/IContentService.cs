@@ -61,6 +61,17 @@ namespace Huellitas.Business.Services.Contents
         Task InsertAsync(Content content);
 
         /// <summary>
+        /// Determines whether [is user in content] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <returns>
+        ///   <c>true</c> if [is user in content] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        bool IsUserInContent(int userId, int contentId, ContentUserRelationType? relation = null);
+
+        /// <summary>
         /// Searches the specified keyword.
         /// </summary>
         /// <param name="keyword">The keyword.</param>

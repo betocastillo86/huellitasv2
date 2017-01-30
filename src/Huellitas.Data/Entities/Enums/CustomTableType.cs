@@ -23,6 +23,16 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The animal genre
         /// </summary>
-        AnimalGenre = 3
+        AnimalGenre = 3,
+
+        /// <summary>
+        /// The question adoption form
+        /// </summary>
+        QuestionAdoptionForm = 4,
+
+        /// <summary>
+        /// The jobs
+        /// </summary>
+        Jobs = 5
     }
 }

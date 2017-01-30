@@ -6,6 +6,7 @@
 namespace Huellitas.Data.Entities
 {
     using System;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Adoption Form Answer
@@ -76,5 +77,25 @@ namespace Huellitas.Data.Entities
         /// The user identifier.
         /// </value>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status enum.
+        /// </summary>
+        /// <value>
+        /// The status enum.
+        /// </value>
+        [NotMapped]
+        public AdoptionFormAnswerStatus StatusEnum
+        {
+            get
+            {
+                return (AdoptionFormAnswerStatus)this.Status;
+            }
+
+            set
+            {
+                this.Status = Convert.ToInt16(value);
+            }
+        }
     }
 }

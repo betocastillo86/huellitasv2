@@ -13,5 +13,9 @@ app.Settings = {
         published: 1,
         hidden: 2,
         closed: 3
+    },
+    resources: {
+        'UserRole.Public': 'Público',
+        'UserRole.SuperAdmin': 'Super Administrador'
     }
 }

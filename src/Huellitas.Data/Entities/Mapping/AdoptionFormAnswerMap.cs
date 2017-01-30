@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<AdoptionFormAnswer> entity)
         {
-            entity.ToTable("AdoptionFormAnswer");
+            entity.ToTable("AdoptionFormAnswers");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_AdoptionFormAnswer");
 
             entity.Property(e => e.AdditionalInfo).HasMaxLength(2000);
 
@@ -29,7 +32,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.Notes).HasMaxLength(1500);
 
             entity.HasOne(d => d.AdoptionForm)
-                .WithMany(p => p.AdoptionFormAnswer)
+                .WithMany(p => p.Answers)
                 .HasForeignKey(d => d.AdoptionFormId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionFormAnswer_AdoptionForm");

@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<CustomTable> entity)
         {
-            entity.ToTable("CustomTable");
+            entity.ToTable("CustomTables");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_CustomTable");
 
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedNever();

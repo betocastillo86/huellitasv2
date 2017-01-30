@@ -2,11 +2,12 @@
     angular.module('app')
         .controller('ListUsersController', ListUsersController);
 
-    ListUsersController.$inject = ['userService'];
+    ListUsersController.$inject = ['userService', 'roleService'];
 
-    function ListUsersController(userService) {
+    function ListUsersController(userService, roleService) {
         var vm = this;
         vm.users = [];
+        vm.roles = [];
 
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
@@ -16,6 +17,7 @@
 
         vm.changePage = changePage;
         vm.getUsers = getUsers;
+        vm.resources = app.Settings.resources;
 
         activate();
 
@@ -23,6 +25,7 @@
 
         function activate() {
             getUsers();
+            getRoles();
         }
 
         function getUsers()
@@ -42,6 +45,23 @@
             function getUsersError()
             {
                 console.log('Error al obtener');
+            }
+        }
+
+        function getRoles()
+        {
+            roleService.getAll()
+                .then(getAllCompleted)
+                .catch(getAllError);
+
+            function getAllCompleted(response)
+            {
+                vm.roles = response.data;
+            }
+
+            function getAllError()
+            {
+                console.log('Error al cargar');
             }
         }
 

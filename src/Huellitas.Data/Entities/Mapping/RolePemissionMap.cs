@@ -20,7 +20,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<RolePemission> entity)
         {
-            entity.ToTable("RolePemission");
+            entity.ToTable("RolePemissions");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_RolePemission");
 
             entity.HasOne(d => d.Permission)
                    .WithMany(p => p.RolePemission)

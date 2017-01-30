@@ -19,7 +19,10 @@ namespace Huellitas.Data.Entities.Mapping
         /// <param name="entity">The entity.</param>
         public static void Map(this EntityTypeBuilder<Location> entity)
         {
-            entity.ToTable("Location");
+            entity.ToTable("Locations");
+
+            entity.HasKey(c => c.Id)
+                .HasName("PK_Location");
 
             entity.Property(e => e.Name)
                     .IsRequired()
@@ -27,6 +30,12 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.Property(e => e.ParentLocationId)
                 .IsRequired(false);
+
+            entity.HasOne(c => c.ParentLocation)
+                .WithMany()
+                .HasForeignKey(c => c.ParentLocationId)
+                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
+                .HasConstraintName("FK_Location_Location_ParentLocationId");
         }
     }
 }
