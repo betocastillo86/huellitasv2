@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Dasigno.NosUne.Business.EventPublisher
+namespace Huellitas.Business.EventPublisher
 {
     /// <summary>
     /// Interface of subscriber <![CDATA[Interfaz encargada de suscribir las clases a los eventos especificos que deseen suscribir]]>

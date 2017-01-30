@@ -6,6 +6,7 @@
 namespace Huellitas.Tests
 {
     using System.Diagnostics.CodeAnalysis;
+    using Data.Entities.Enums;
     using Huellitas.Business.Caching;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
@@ -40,13 +41,45 @@ namespace Huellitas.Tests
         protected Mock<IWorkContext> workContext { get; set; }
 
         /// <summary>
-        /// Mocks the work context.
+        /// Setups this instance.
         /// </summary>
-        private void MockWorkContext()
+        protected virtual void Setup()
         {
             this.workContext = new Mock<IWorkContext>();
             this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
             this.workContext.SetupGet(c => c.CurrentUserId).Returns(1);
+            this.workContext.SetupGet(c => c.IsAuthenticated).Returns(true);
+        }
+
+        /// <summary>
+        /// Setups the not authenticated.
+        /// </summary>
+        protected virtual void SetupNotAuthenticated()
+        {
+            this.workContext = new Mock<IWorkContext>();
+            this.workContext.SetupGet(c => c.CurrentUser).Returns((User)null);
+            this.workContext.SetupGet(c => c.CurrentUserId).Returns(0);
+            this.workContext.SetupGet(c => c.IsAuthenticated).Returns(false);
+        }
+
+        /// <summary>
+        /// Setups the public user.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        protected virtual void SetupPublicUser(int id = 1)
+        {
+            this.workContext = new Mock<IWorkContext>();
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = id, Name = "Publico", RoleEnum = RoleEnum.Public });
+            this.workContext.SetupGet(c => c.CurrentUserId).Returns(id);
+            this.workContext.SetupGet(c => c.IsAuthenticated).Returns(true);
+        }
+
+        /// <summary>
+        /// Mocks the work context.
+        /// </summary>
+        private void MockWorkContext()
+        {
+            this.Setup();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IPublisher.cs" company="Dasigno">
+// <copyright file="IPublisher.cs" company="Huellitas Sin Hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

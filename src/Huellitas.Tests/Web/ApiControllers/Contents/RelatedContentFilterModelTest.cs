@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="RelatedContentFilterModelTest.cs" company="Dasigno">
+// <copyright file="RelatedContentFilterModelTest.cs" company="Huellitas Sin Hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

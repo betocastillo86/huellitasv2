@@ -39,6 +39,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetsInvalidFilter()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -63,6 +65,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetsValidFilter()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -103,6 +107,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public async Task PostPetsBadRequest()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -139,6 +145,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public async Task PostPetsOk()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -187,6 +195,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void IsValidModel_New_True()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() };
@@ -204,6 +214,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void IsValidModel_NotNew_True()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() };
@@ -227,6 +239,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void IsValidModel_New_False()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var model = new PetModel();
             model.Files = new List<FileModel>();
@@ -249,6 +263,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void IsValidModel_NotNew_False()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var model = new PetModel();
 
@@ -265,6 +281,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanUserEditPet_True_CanEditAnyContent()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var content = new Content();
             this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
@@ -277,6 +295,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanUserEditPet_True_IsShelterUser()
         {
+            this.Setup();
+
             var validUserId = 1;
             var mockContentService = new Mock<IContentService>();
             mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter))
@@ -297,6 +317,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanUserEditPet_True_IsOwner()
         {
+            this.Setup();
+
             var controller = this.MockController();
             var content = new Content();
             content.UserId = 1;
@@ -311,6 +333,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public async Task PutPets_Ok()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -349,6 +373,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public async Task PutPets_NotFound()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -385,6 +411,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetById_NotFound()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -421,6 +449,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetById_BadRequest_NotPetType()
         {
+            this.Setup();
+
             var mockContentService = new Mock<IContentService>();
             var fileHelpers = new Mock<IFilesHelper>();
             var customTableService = new Mock<ICustomTableService>();
@@ -459,6 +489,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetById_NotFound_UnpublishedPet()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
@@ -482,6 +514,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void GetPetById_Ok_UnpublishedPet()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.SuperAdmin });
 
@@ -512,6 +546,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_NoSession_False()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser).Returns((User)null);
             var controller = this.MockController();
             Assert.IsFalse(controller.CanGetUnpublished(null));
@@ -523,6 +559,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_Admin_True()
         {
+            this.Setup();
+
             var controller = this.MockController();
             Assert.IsTrue(controller.CanGetUnpublished(null));
         }
@@ -533,6 +571,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_ShelterOwner_True()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
@@ -553,6 +593,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_ManyShelters_False()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
@@ -573,6 +615,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_NoShelterOwner_False()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
@@ -593,6 +637,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         [Test]
         public void CanGetUnpublished_NoShelterFilter_False()
         {
+            this.Setup();
+
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 

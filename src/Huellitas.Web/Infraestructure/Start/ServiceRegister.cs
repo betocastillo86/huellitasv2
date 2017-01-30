@@ -16,7 +16,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Business.Services.Files;
     using Business.Services.Seo;
     using Business.Services.Users;
-    using Dasigno.NosUne.Business.EventPublisher;
+    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
