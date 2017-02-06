@@ -10,6 +10,7 @@ namespace Huellitas.Business.Services.Users
     using System.Threading.Tasks;
     using Data.Entities.Enums;
     using Data.Infraestructure;
+    using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
@@ -27,12 +28,21 @@ namespace Huellitas.Business.Services.Users
         private readonly IRepository<User> userRepository;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
-        public UserService(IRepository<User> userRepository)
+        /// <param name="publisher">The publisher.</param>
+        public UserService(
+            IRepository<User> userRepository,
+            IPublisher publisher)
         {
             this.userRepository = userRepository;
+            this.publisher = publisher;
         }
 
         /// <summary>
@@ -47,7 +57,8 @@ namespace Huellitas.Business.Services.Users
             user.Deleted = true;
 
             await this.userRepository.UpdateAsync(user);
-            ////TODO:publicar el evento
+
+            this.publisher.EntityDeleted(user);
         }
 
         /// <summary>
@@ -111,7 +122,8 @@ namespace Huellitas.Business.Services.Users
             try
             {
                 await this.userRepository.InsertAsync(user);
-                ////TODO:Agregar publisher
+
+                this.publisher.EntityInserted(user);
             }
             catch (DbUpdateException e)
             {
@@ -138,7 +150,8 @@ namespace Huellitas.Business.Services.Users
             try
             {
                 await this.userRepository.UpdateAsync(user);
-                ////TODO:Agregar publisher
+
+                this.publisher.EntityUpdated(user);
             }
             catch (DbUpdateException e)
             {

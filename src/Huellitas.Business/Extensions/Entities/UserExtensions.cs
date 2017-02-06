@@ -27,7 +27,6 @@ namespace Huellitas.Business.Extensions.Entities
                 return false;
             }
 
-            ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
 
@@ -45,7 +44,6 @@ namespace Huellitas.Business.Extensions.Entities
                 return false;
             }
 
-            ////TODO:Implementar
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
 

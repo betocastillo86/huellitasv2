@@ -133,7 +133,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Route("{id:int}", Name = "Api_Users_GetById")]
         public async Task<IActionResult> Get(int id)
         {
-            ////TODO:Test
             var user = await this.userService.GetById(id);
 
             if (user != null)

@@ -421,6 +421,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var controller = this.GetController();
             var model = this.GetModel();
+            model.Role = RoleEnum.Public;
 
             var response = await controller.Put(id, model) as NotFoundResult;
 
