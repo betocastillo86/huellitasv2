@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Security
 {
+    using System;
     using System.Security.Claims;
     using Business.Services.Users;
     using Huellitas.Data.Entities;
@@ -87,6 +88,20 @@ namespace Huellitas.Web.Infraestructure.Security
                 }
 
                 return this.currentUserId;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is authenticated.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return this.accessor.HttpContext.User.Identity.IsAuthenticated;
             }
         }
     }

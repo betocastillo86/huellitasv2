@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Publisher.cs" company="Dasigno">
+// <copyright file="Publisher.cs" company="Huellitas Sin Hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -7,7 +7,7 @@ namespace Huellitas.Business.EventPublisher
 {
     using System;
     using System.Collections.Generic;
-    using Dasigno.NosUne.Business.EventPublisher;
+    using Huellitas.Business.EventPublisher;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
 

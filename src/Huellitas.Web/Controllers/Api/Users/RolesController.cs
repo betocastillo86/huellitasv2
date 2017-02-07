@@ -52,7 +52,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Authorize]
         public async Task<IActionResult> Get()
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();

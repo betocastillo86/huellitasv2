@@ -66,7 +66,6 @@ namespace Huellitas.Web.Models.Extensions
         /// <returns>the model</returns>
         public static UserModel ToModel(this User entity, bool canSeeSensitiveInfo)
         {
-            ////TODO:Test
             return new UserModel
             {
                 Id = entity.Id,

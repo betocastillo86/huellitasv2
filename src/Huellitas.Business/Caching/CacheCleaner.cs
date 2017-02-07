@@ -5,22 +5,21 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Caching
 {
-    using Dasigno.NosUne.Business.EventPublisher;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
 
     /// <summary>
     /// Clears the cache
     /// </summary>
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.Content}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.Content}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.SystemSetting}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.SystemSetting}}" />
-    /// <seealso cref="Dasigno.NosUne.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.SystemSetting}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.CustomTableRow}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.Content}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.Content}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.SystemSetting}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.SystemSetting}}" />
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.SystemSetting}}" />
     public class CacheCleaner :
         ////Custom Table Row
         ISubscriber<EntityInsertedMessage<CustomTableRow>>,

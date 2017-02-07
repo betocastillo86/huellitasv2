@@ -107,7 +107,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]UsersFilterModel filter)
         {
-            ////TODO:Test
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
 
             if (filter.IsValid(canSeeWholeUser))
@@ -134,7 +133,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Route("{id:int}", Name = "Api_Users_GetById")]
         public async Task<IActionResult> Get(int id)
         {
-            ////TODO:Test
             var user = await this.userService.GetById(id);
 
             if (user != null)
@@ -168,7 +166,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [NonAction]
         public bool IsValidModel(UserModel model, bool isNew, bool canCreateAdmin)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
@@ -198,7 +195,7 @@ namespace Huellitas.Web.Controllers.Api.Users
                 }
 
                 ////If the user is not admin and want to create a user. It cant.
-                if (!canCreateAdmin && this.User.Identity.IsAuthenticated)
+                if (!canCreateAdmin && this.workContext.IsAuthenticated)
                 {
                     this.ModelState.AddModelError("Role", "Este tipo de usuario no puede crear usuarios");
                 }
@@ -215,7 +212,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]UserModel model)
         {
-            ////TODO:Test
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
             if (this.IsValidModel(model, true, canSeeWholeUser))
             {
@@ -233,7 +229,7 @@ namespace Huellitas.Web.Controllers.Api.Users
                 }
 
                 ////If the user does not have session the logs in
-                if (!this.User.Identity.IsAuthenticated)
+                if (!this.workContext.IsAuthenticated)
                 {
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
@@ -266,7 +262,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Route("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody]UserModel model)
         {
-            ////TODO:Test
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
             if (this.IsValidModel(model, false, canSeeWholeUser))
             {

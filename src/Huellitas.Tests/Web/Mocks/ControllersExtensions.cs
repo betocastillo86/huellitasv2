@@ -6,6 +6,8 @@
 namespace Huellitas.Tests.Web.Mocks
 {
     using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
