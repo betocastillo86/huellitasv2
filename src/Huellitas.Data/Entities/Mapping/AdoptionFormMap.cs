@@ -51,6 +51,9 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(50)");
 
+            entity.Property(e => e.FamilyMembersAge)
+                .HasColumnType("varchar(50)");
+
             entity.HasOne(d => d.Content)
                 .WithMany(p => p.AdoptionForm)
                 .HasForeignKey(d => d.ContentId)

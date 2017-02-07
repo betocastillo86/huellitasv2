@@ -1,0 +1,56 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="HomeController.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Extensions.Entities
+{
+    using System;
+    using System.Collections.Generic;
+    using Huellitas.Business.Models;
+    using Huellitas.Business.Services.Common;
+    using Huellitas.Data.Entities;
+
+    /// <summary>
+    /// Custom table row service extensions
+    /// </summary>
+    public static class CustomTableRowServiceExtensions
+    {
+        /// <summary>
+        /// Gets the adoption form questions.
+        /// </summary>
+        /// <param name="customTableRowService">The custom table row service.</param>
+        /// <returns>list of questions</returns>
+        public static IList<AdoptionFormQuestionModel> GetAdoptionFormQuestions(this ICustomTableService customTableRowService)
+        {
+            ////TODO:Test
+            var rows = customTableRowService.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm));
+
+            var models = new List<AdoptionFormQuestionModel>();
+
+            foreach (var row in rows)
+            {
+                var model = new AdoptionFormQuestionModel()
+                {
+                    Id = row.Id,
+                    Question = row.Value,
+                    QuestionParentId = row.ParentCustomTableRowId
+                };
+
+                var additionalInfo = row.AdditionalInfo.Split(new char[] { '|' });
+                model.QuestionType = (AdoptionFormQuestionType)Enum.Parse(typeof(AdoptionFormQuestionType), additionalInfo[0]);
+
+                if (!string.IsNullOrEmpty(additionalInfo[1]))
+                {
+                    model.Options = additionalInfo[1].Split(new char[',']);
+                }
+
+                model.Required = Convert.ToBoolean(additionalInfo[2]);
+
+                models.Add(model);
+            }
+
+            return models;
+        }
+    }
+}

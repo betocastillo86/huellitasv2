@@ -99,5 +99,14 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="content">The content.</param>
         /// <returns>the task</returns>
         Task UpdateAsync(Content content);
+
+        /// <summary>
+        /// Gets the content attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>the value</returns>
+        T GetContentAttribute<T>(int contentId, ContentAttributeType attribute);
     }
 }

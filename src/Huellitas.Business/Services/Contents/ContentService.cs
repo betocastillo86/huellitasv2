@@ -7,6 +7,7 @@ namespace Huellitas.Business.Services.Contents
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
@@ -120,6 +121,34 @@ namespace Huellitas.Business.Services.Contents
             }
 
             return query.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the content attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns>
+        /// the value
+        /// </returns>
+        public T GetContentAttribute<T>(int contentId, ContentAttributeType attribute)
+        {
+            var attributeName = attribute.ToString();
+            var attributeValue = this.contentAttributeRepository.Table
+                .Where(c => c.Attribute.Equals(attributeName) && c.ContentId.Equals(contentId))
+                .Select(c => c.Value)
+                .FirstOrDefault();
+
+            if (attributeValue != null)
+            {
+                var destinationConverter = TypeDescriptor.GetConverter(typeof(T));
+                return (T)destinationConverter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, attributeValue);
+            }
+            else
+            {
+                return default(T);
+            }
         }
 
         /// <summary>

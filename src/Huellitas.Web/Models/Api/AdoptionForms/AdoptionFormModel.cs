@@ -7,6 +7,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Contents;
@@ -27,11 +28,22 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         public ContentBaseModel Content { get; set; }
 
         /// <summary>
+        /// Gets or sets the content identifier.
+        /// </summary>
+        /// <value>
+        /// The content identifier.
+        /// </value>
+        [Required]
+        public int? ContentId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>
         /// The name.
         /// </value>
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
         public string Name { get; set; }
 
         /// <summary>
@@ -40,6 +52,8 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The email.
         /// </value>
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
@@ -56,6 +70,8 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The address.
         /// </value>
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
         public string Address { get; set; }
 
         /// <summary>
@@ -64,7 +80,8 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The birth date.
         /// </value>
-        public DateTime BirthDate { get; set; }
+        [Required]
+        public DateTime? BirthDate { get; set; }
 
         /// <summary>
         /// Gets or sets the family members.
@@ -72,7 +89,11 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The family members.
         /// </value>
-        public short FamilyMembers { get; set; }
+        [Required]
+        public short? FamilyMembers { get; set; }
+
+        [Required]
+        public string FamilyMembersAge { get; set; }
 
         /// <summary>
         /// Gets or sets the job.
@@ -80,6 +101,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The job.
         /// </value>
+        [Required]
         public ContentAttributeModel<int> Job { get; set; }
 
         /// <summary>
@@ -88,6 +110,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The location.
         /// </value>
+        [Required]
         public LocationModel Location { get; set; }
 
         /// <summary>
@@ -96,6 +119,8 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The phone number.
         /// </value>
+        [Required]
+        [StringLength(100, MinimumLength = 7)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
@@ -104,6 +129,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The town.
         /// </value>
+        [Required]
         public string Town { get; set; }
 
         /// <summary>
@@ -123,11 +149,19 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         public BaseUserModel User { get; set; }
 
         /// <summary>
-        /// Gets or sets the answers.
+        /// Gets or sets the attributes.
         /// </summary>
         /// <value>
-        /// The answers.
+        /// The attributes.
         /// </value>
-        public IList<AdoptionFormAttributeModel> Answers { get; set; }
+        public IList<AdoptionFormAttributeModel> Attributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the attributes.
+        /// </summary>
+        /// <value>
+        /// The attributes.
+        /// </value>
+        public IList<AdoptionFormAnswerModel> Answers { get; set; }
     }
 }

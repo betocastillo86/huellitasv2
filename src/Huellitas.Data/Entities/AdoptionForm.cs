@@ -73,6 +73,14 @@ namespace Huellitas.Data.Entities
         public short FamilyMembers { get; set; }
 
         /// <summary>
+        /// Gets or sets the family members age.
+        /// </summary>
+        /// <value>
+        /// The family members age.
+        /// </value>
+        public string FamilyMembersAge { get; set; }
+
+        /// <summary>
         /// Gets or sets the job.
         /// </summary>
         /// <value>

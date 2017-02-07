@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.AdoptionForms
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
@@ -39,5 +40,33 @@ namespace Huellitas.Business.Services.AdoptionForms
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
             int page = 0,
             int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the entity</returns>
+        AdoptionForm GetById(int id);
+
+        /// <summary>
+        /// Gets the attributes.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the list of attributes</returns>
+        IList<AdoptionFormAttribute> GetAttributes(int id);
+
+        /// <summary>
+        /// Gets the answers.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the list</returns>
+        IList<AdoptionFormAnswer> GetAnswers(int id);
+
+        /// <summary>
+        /// Inserts the specified form.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>the task</returns>
+        Task Insert(AdoptionForm form);
     }
 }

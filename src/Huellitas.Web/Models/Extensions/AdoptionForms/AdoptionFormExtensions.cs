@@ -44,7 +44,9 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
                 Town = entity.Town,
                 Status = entity.LastStatusEnum,
                 Job = new ContentAttributeModel<int> { Value = entity.JobId },
-                Location = new LocationModel { Id = entity.LocationId }
+                Location = new LocationModel { Id = entity.LocationId },
+                ContentId = entity.ContentId,
+                FamilyMembersAge = entity.FamilyMembersAge
             };
 
             if (entity.Location != null)
@@ -83,6 +85,40 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
             Func<string, string> contentUrlFunction = null)
         {
             return entities.Select(c => c.ToModel(filesHelper, contentUrlFunction)).ToList();
+        }
+
+        /// <summary>
+        /// To the entity.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public static AdoptionForm ToEntity(this AdoptionFormModel model)
+        {
+            ////TODO:Test
+            var entity = new AdoptionForm
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Email = model.Email,
+                CreationDate = model.CreationDate,
+                Address = model.Address,
+                BirthDate = model.BirthDate.Value,
+                FamilyMembers = model.FamilyMembers.Value,
+                PhoneNumber = model.PhoneNumber,
+                Town = model.Town,
+                LastStatusEnum = model.Status,
+                JobId = model.Job.Value,
+                LocationId = model.Location.Id,
+                ContentId = model.ContentId.Value,
+                FamilyMembersAge = model.FamilyMembersAge
+            };
+
+            if (model.Attributes?.Count > 0)
+            {
+                entity.Attributes = model.Attributes.ToEntities();
+            }
+
+            return entity;
         }
     }
 }

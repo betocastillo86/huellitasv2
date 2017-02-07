@@ -6,9 +6,11 @@
 namespace Huellitas.Business.Services.AdoptionForms
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Data.Core;
+    using Exceptions;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,16 @@ namespace Huellitas.Business.Services.AdoptionForms
         private readonly IRepository<AdoptionForm> adoptionFormRepository;
 
         /// <summary>
+        /// The adoption form attribute repository
+        /// </summary>
+        private readonly IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository;
+
+        /// <summary>
+        /// The adoption form answer repository
+        /// </summary>
+        private readonly IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository;
+
+        /// <summary>
         /// The content attribute repository
         /// </summary>
         private readonly IRepository<ContentAttribute> contentAttributeRepository;
@@ -36,10 +48,14 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
         public AdoptionFormService(
             IRepository<AdoptionForm> adoptionFormRepository,
-            IRepository<ContentAttribute> contentAttributeRepository)
+            IRepository<ContentAttribute> contentAttributeRepository,
+            IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository,
+            IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository)
         {
             this.adoptionFormRepository = adoptionFormRepository;
             this.contentAttributeRepository = contentAttributeRepository;
+            this.adoptionFormAttributeRepository = adoptionFormAttributeRepository;
+            this.adoptionFormAnswerRepository = adoptionFormAnswerRepository;
         }
 
         /// <summary>
@@ -59,15 +75,15 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// the list of adoption forms
         /// </returns>
         public IPagedList<AdoptionForm> GetAll(
-            string user = null, 
-            int? contentId = null, 
-            int? locationId = null, 
+            string user = null,
+            int? contentId = null,
+            int? locationId = null,
             int? shelterId = null,
             int? formUserId = null,
             int? contentUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
-            AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate, 
-            int page = 0, 
+            AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
+            int page = 0,
             int pageSize = int.MaxValue)
         {
             var query = this.adoptionFormRepository.Table
@@ -120,9 +136,11 @@ namespace Huellitas.Business.Services.AdoptionForms
                 case AdoptionFormOrderBy.Pet:
                     query = query.OrderBy(c => c.Content.Name);
                     break;
+
                 case AdoptionFormOrderBy.Name:
                     query = query.OrderBy(c => c.Name);
                     break;
+
                 case AdoptionFormOrderBy.CreationDate:
                 default:
                     query = query.OrderByDescending(c => c.CreationDate);
@@ -130,6 +148,90 @@ namespace Huellitas.Business.Services.AdoptionForms
             }
 
             return new PagedList<AdoptionForm>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the attributes.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the list of attributes
+        /// </returns>
+        public IList<AdoptionFormAttribute> GetAttributes(int id)
+        {
+            return this.adoptionFormAttributeRepository.Table
+                .Include(c => c.Attribute)
+                .Where(c => c.AdoptionFormId == id)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets the answers.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the list
+        /// </returns>
+        public IList<AdoptionFormAnswer> GetAnswers(int id)
+        {
+            return this.adoptionFormAnswerRepository.Table
+                .Include(c => c.User)
+                .Where(c => c.AdoptionFormId == id)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the entity
+        /// </returns>
+        public AdoptionForm GetById(int id)
+        {
+            return this.adoptionFormRepository.Table
+                .Include(c => c.User)
+                .Include(c => c.Content)
+                .FirstOrDefault(c => c.Id == id);
+        }
+
+        /// <summary>
+        /// Inserts the specified form.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Insert(AdoptionForm form)
+        {
+            try
+            {
+                form.CreationDate = DateTime.Now;
+                await this.adoptionFormRepository.InsertAsync(form);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("FK_AdoptionForm_Content1"))
+                {
+                    throw new HuellitasException("Content", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else if (e.ToString().Contains("FK_AdoptionForm_CustomTableRow"))
+                {
+                    throw new HuellitasException("Job", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else if (e.ToString().Contains("FK_AdoptionForm_Location"))
+                {
+                    throw new HuellitasException("Location", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else if (e.ToString().Contains("FK_AdoptionForms_Users_UserId"))
+                {
+                    throw new HuellitasException("User", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }
