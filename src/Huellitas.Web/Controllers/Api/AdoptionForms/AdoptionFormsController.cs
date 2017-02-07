@@ -37,11 +37,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         private readonly IAdoptionFormService adoptionFormService;
 
         /// <summary>
-        /// The work context
-        /// </summary>
-        private readonly IWorkContext workContext;
-
-        /// <summary>
         /// The content service
         /// </summary>
         private readonly IContentService contentService;
@@ -57,12 +52,18 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         private readonly IFilesHelper filesHelper;
 
         /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormsController"/> class.
         /// </summary>
         /// <param name="adoptionFormService">The adoption form service.</param>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
         /// <param name="filesHelper">The files helper.</param>
+        /// <param name="customTableService">The custom table service.</param>
         public AdoptionFormsController(
             IAdoptionFormService adoptionFormService,
             IWorkContext workContext,
@@ -75,6 +76,48 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             this.contentService = contentService;
             this.filesHelper = filesHelper;
             this.customTableService = customTableService;
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form] the specified form.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can see form] the specified form; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanSeeForm(AdoptionForm form)
+        {
+            ////TODO:Test
+            ////Si es el que llena el formulario
+            if (this.workContext.CurrentUserId == form.UserId)
+            {
+                return true;
+            }
+            else if (this.workContext.CurrentUserId == form.Content.UserId)
+            {
+                ////Si es el dueño del contenido
+                return true;
+            }
+
+            if (this.workContext.CurrentUser.IsSuperAdmin())
+            {
+                ////Si es admin
+                return true;
+            }
+            else
+            {
+                ////Valida si el usuario es perteneciente al refugio
+                var shelter = this.contentService.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter);
+                if (shelter.HasValue)
+                {
+                    return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelter.Value, ContentUserRelationType.Shelter);
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
@@ -112,6 +155,11 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             }
         }
 
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the action</returns>
         [HttpGet]
         [Authorize]
         [Route("{id:int}")]
@@ -141,6 +189,39 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             {
                 return this.NotFound();
             }
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool IsValidModel(AdoptionFormModel model)
+        {
+            ////TODO:Test
+            if (model == null)
+            {
+                return false;
+            }
+
+            if (model.Attributes != null)
+            {
+                this.ValidateQuestions(model.Attributes);
+            }
+            else
+            {
+                this.ModelState.AddModelError("Attributes", "Debe ingresar las respuestas del formulario");
+            }
+
+            if (model.FamilyMembers.HasValue && model.FamilyMembers.Value != model.FamilyMembersAge?.Split(new char[] { ',' }).Length)
+            {
+                this.ModelState.AddModelError("FamilyMembersAge", "Las edades deben corresponder al número de miembros");
+            }
+
+            return this.ModelState.IsValid;
         }
 
         /// <summary>
@@ -176,84 +257,10 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         }
 
         /// <summary>
-        /// Determines whether this instance [can see form] the specified form.
-        /// </summary>
-        /// <param name="form">The form.</param>
-        /// <returns>
-        ///   <c>true</c> if this instance [can see form] the specified form; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool CanSeeForm(AdoptionForm form)
-        {
-            ////TODO:Test
-
-            ////Si es el que llena el formulario
-            if (this.workContext.CurrentUserId == form.UserId)
-            {
-                return true;
-            }
-            ////Si es el dueño del contenido
-            else if (this.workContext.CurrentUserId == form.Content.UserId)
-            {
-                return true;
-            }
-            ////Si es admin
-            if (this.workContext.CurrentUser.IsSuperAdmin())
-            {
-                return true;
-            }
-            else
-            {
-                ////Valida si el usuario es perteneciente al refugio
-                var shelter = this.contentService.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter);
-                if (shelter.HasValue)
-                {
-                    return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelter.Value, ContentUserRelationType.Shelter);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Determines whether [is valid model] [the specified model].
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <returns>
-        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool IsValidModel(AdoptionFormModel model)
-        {
-            ////TODO:Test
-            if (model == null)
-            {
-                return false;
-            }
-
-            if (model.Attributes != null)
-            {
-                this.ValidateQuestions(model.Attributes);
-            }
-            else
-            {
-                this.ModelState.AddModelError("Attributes", "Debe ingresar las respuestas del formulario");
-            }
-
-            if (model.FamilyMembers.HasValue &&  model.FamilyMembers.Value != model.FamilyMembersAge?.Split(new char[] { ',' }).Length)
-            {
-                this.ModelState.AddModelError("FamilyMembersAge", "Las edades deben corresponder al número de miembros");
-            }
-
-            return this.ModelState.IsValid;
-        }
-
-        /// <summary>
         /// Validates the questions.
         /// </summary>
         /// <param name="attributes">The attributes.</param>
+        [NonAction]
         public void ValidateQuestions(IList<AdoptionFormAttributeModel> attributes)
         {
             ////TODO:Test

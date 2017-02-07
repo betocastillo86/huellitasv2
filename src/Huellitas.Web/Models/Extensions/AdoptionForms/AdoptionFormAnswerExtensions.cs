@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AdoptionFormAttributeExtensions.cs" company="Huellitas sin hogar">
+// <copyright file="AdoptionFormAnswerExtensions.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -19,7 +19,7 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// To the model.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns></returns>
+        /// <returns>the model</returns>
         public static AdoptionFormAnswerModel ToModel(this AdoptionFormAnswer entity)
         {
             return new AdoptionFormAnswerModel
@@ -38,7 +38,7 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// To the models.
         /// </summary>
         /// <param name="entities">The entities.</param>
-        /// <returns></returns>
+        /// <returns>the models</returns>
         public static IList<AdoptionFormAnswerModel> ToModels(this ICollection<AdoptionFormAnswer> entities)
         {
             return entities.Select(ToModel).ToList();

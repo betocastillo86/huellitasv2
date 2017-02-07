@@ -43,7 +43,7 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// To the model.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns></returns>
+        /// <returns>the model</returns>
         public static AdoptionFormAttributeModel ToModel(this AdoptionFormAttribute entity)
         {
             return new AdoptionFormAttributeModel
@@ -58,7 +58,7 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// To the models.
         /// </summary>
         /// <param name="entities">The entities.</param>
-        /// <returns></returns>
+        /// <returns>the models</returns>
         public static IList<AdoptionFormAttributeModel> ToModels(this ICollection<AdoptionFormAttribute> entities)
         {
             return entities.Select(ToModel).ToList();

@@ -46,6 +46,8 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// </summary>
         /// <param name="adoptionFormRepository">The adoption form repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
+        /// <param name="adoptionFormAttributeRepository">The adoption form attribute repository.</param>
+        /// <param name="adoptionFormAnswerRepository">The adoption form answer repository.</param>
         public AdoptionFormService(
             IRepository<AdoptionForm> adoptionFormRepository,
             IRepository<ContentAttribute> contentAttributeRepository,

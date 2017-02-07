@@ -92,6 +92,12 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         [Required]
         public short? FamilyMembers { get; set; }
 
+        /// <summary>
+        /// Gets or sets the family members age.
+        /// </summary>
+        /// <value>
+        /// The family members age.
+        /// </value>
         [Required]
         public string FamilyMembersAge { get; set; }
 

@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Huellitas.Data.Entities;
-using Huellitas.Web.Models.Extensions;
-using NUnit.Framework;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserExtensionsTest.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using System;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Models.Extensions;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// User Extensions Test
+    /// </summary>
     [TestFixture]
     public class UserExtensionsTest
     {
@@ -46,6 +50,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.IsNull(model.Role);
         }
 
+        /// <summary>
+        /// Gets the entity.
+        /// </summary>
+        /// <returns>the user</returns>
         private User GetEntity()
         {
             return new User
@@ -54,13 +62,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Email = "email@email.com",
                 Name = "name",
                 CreatedDate = DateTime.Now,
-                Deleted =false,
+                Deleted = false,
                 Password = "123",
                 PhoneNumber = "456",
                 PhoneNumber2 = "789",
                 RoleEnum = Data.Entities.Enums.RoleEnum.Public
             };
         }
-        
     }
 }

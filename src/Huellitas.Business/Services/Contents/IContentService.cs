@@ -103,7 +103,7 @@ namespace Huellitas.Business.Services.Contents
         /// <summary>
         /// Gets the content attribute.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type</typeparam>
         /// <param name="contentId">The content identifier.</param>
         /// <param name="attribute">The attribute.</param>
         /// <returns>the value</returns>
