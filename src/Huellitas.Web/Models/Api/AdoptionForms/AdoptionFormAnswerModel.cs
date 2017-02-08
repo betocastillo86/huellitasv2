@@ -6,9 +6,12 @@
 namespace Huellitas.Web.Models.Api.AdoptionForms
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Users;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Adoption Form Answer Model
@@ -30,7 +33,9 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The status.
         /// </value>
-        public AdoptionFormAnswerStatus Status { get; set; }
+        [Required]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public AdoptionFormAnswerStatus? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the additional information.

@@ -22,9 +22,9 @@ namespace Huellitas.Business.Services.AdoptionForms
     public class AdoptionFormService : IAdoptionFormService
     {
         /// <summary>
-        /// The adoption form repository
+        /// The adoption form answer repository
         /// </summary>
-        private readonly IRepository<AdoptionForm> adoptionFormRepository;
+        private readonly IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository;
 
         /// <summary>
         /// The adoption form attribute repository
@@ -32,9 +32,9 @@ namespace Huellitas.Business.Services.AdoptionForms
         private readonly IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository;
 
         /// <summary>
-        /// The adoption form answer repository
+        /// The adoption form repository
         /// </summary>
-        private readonly IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository;
+        private readonly IRepository<AdoptionForm> adoptionFormRepository;
 
         /// <summary>
         /// The content attribute repository
@@ -153,21 +153,6 @@ namespace Huellitas.Business.Services.AdoptionForms
         }
 
         /// <summary>
-        /// Gets the attributes.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>
-        /// the list of attributes
-        /// </returns>
-        public IList<AdoptionFormAttribute> GetAttributes(int id)
-        {
-            return this.adoptionFormAttributeRepository.Table
-                .Include(c => c.Attribute)
-                .Where(c => c.AdoptionFormId == id)
-                .ToList();
-        }
-
-        /// <summary>
         /// Gets the answers.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -178,6 +163,21 @@ namespace Huellitas.Business.Services.AdoptionForms
         {
             return this.adoptionFormAnswerRepository.Table
                 .Include(c => c.User)
+                .Where(c => c.AdoptionFormId == id)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets the attributes.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the list of attributes
+        /// </returns>
+        public IList<AdoptionFormAttribute> GetAttributes(int id)
+        {
+            return this.adoptionFormAttributeRepository.Table
+                .Include(c => c.Attribute)
                 .Where(c => c.AdoptionFormId == id)
                 .ToList();
         }
@@ -228,6 +228,37 @@ namespace Huellitas.Business.Services.AdoptionForms
                 else if (e.ToString().Contains("FK_AdoptionForms_Users_UserId"))
                 {
                     throw new HuellitasException("User", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Inserts the answer.
+        /// </summary>
+        /// <param name="answer">The answer.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task InsertAnswer(AdoptionFormAnswer answer)
+        {
+            try
+            {
+                answer.CreationDate = DateTime.Now;
+                await this.adoptionFormAnswerRepository.InsertAsync(answer);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("FK_AdoptionFormAnswer_AdoptionForm"))
+                {
+                    throw new HuellitasException("AdoptionFormId", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else if (e.ToString().Contains("FK_AdoptionFormAnswer_User"))
+                {
+                    throw new HuellitasException("UserId", HuellitasExceptionCode.InvalidForeignKey);
                 }
                 else
                 {

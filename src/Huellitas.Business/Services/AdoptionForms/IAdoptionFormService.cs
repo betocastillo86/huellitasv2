@@ -42,11 +42,11 @@ namespace Huellitas.Business.Services.AdoptionForms
             int pageSize = int.MaxValue);
 
         /// <summary>
-        /// Gets the by identifier.
+        /// Gets the answers.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the entity</returns>
-        AdoptionForm GetById(int id);
+        /// <returns>the list</returns>
+        IList<AdoptionFormAnswer> GetAnswers(int id);
 
         /// <summary>
         /// Gets the attributes.
@@ -56,11 +56,11 @@ namespace Huellitas.Business.Services.AdoptionForms
         IList<AdoptionFormAttribute> GetAttributes(int id);
 
         /// <summary>
-        /// Gets the answers.
+        /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the list</returns>
-        IList<AdoptionFormAnswer> GetAnswers(int id);
+        /// <returns>the entity</returns>
+        AdoptionForm GetById(int id);
 
         /// <summary>
         /// Inserts the specified form.
@@ -68,5 +68,12 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="form">The form.</param>
         /// <returns>the task</returns>
         Task Insert(AdoptionForm form);
+
+        /// <summary>
+        /// Inserts the answer.
+        /// </summary>
+        /// <param name="answer">The answer.</param>
+        /// <returns>the task</returns>
+        Task InsertAnswer(AdoptionFormAnswer answer);
     }
 }

@@ -43,5 +43,24 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         {
             return entities.Select(ToModel).ToList();
         }
+
+        /// <summary>
+        /// To the entity.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>the entity</returns>
+        public static AdoptionFormAnswer ToEntity(this AdoptionFormAnswerModel model)
+        {
+            return new AdoptionFormAnswer
+            {
+                Id = model.Id,
+                AdditionalInfo = model.AdditionalInfo,
+                AdoptionFormId = model.AdoptionFormId,
+                CreationDate = model.CreationDate,
+                Notes = model.Notes,
+                StatusEnum = model.Status.Value,
+                UserId = model.User != null ? model.User.Id : 0
+            };
+        }
     }
 }
