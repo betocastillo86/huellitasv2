@@ -1,0 +1,112 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Solicitante
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.userName" ng-change="main.getForms()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Fundación
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <angucomplete-alt id="shelter"
+                                                  placeholder="Ingresar refugio"
+                                                  pause="400"
+                                                  remote-url="/api/shelters?keyword="
+                                                  remote-url-data-field="results"
+                                                  title-field="name"
+                                                  selected-object="main.shelterChanged"
+                                                  input-class="form-control col-md-9 col-xs-12" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Mascota
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <angucomplete-alt id="shelter"
+                                                  placeholder="Ingresar refugio"
+                                                  pause="400"
+                                                  remote-url="/api/pets?keyword="
+                                                  remote-url-data-field="results"
+                                                  title-field="name"
+                                                  selected-object="main.petChanged"
+                                                  input-class="form-control col-md-9 col-xs-12" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Estado
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select class="form-control" ng-model="main.filter.status" ng-options="status.id as status.name for status in main.listStatus" ng-change="main.getForms()" >
+                                    <option value="">Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content>"
+                <div class="table-responsive">
+                <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                <tr class="headings">
+                    <th class="column-title">Imagen</th>
+                    <th class="column-title">Mascota</th>
+                    <th class="column-title">Solicitante</th>
+                    <th class="column-title">Fecha Solicitud</th>
+                    <th class="column-title">Ubicación</th>
+                    <th class="column-title">Estado</th>
+                    <th class="column-title no-link last">
+                         <span class="nobr">Opciones</span>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="form in main.forms" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                <td><img ng-src="{{form.content.image.fileName}}" title="{{form.content.name}}" width="40" height="40" /></td>
+                    <td>{{form.content.name}}</td>
+                    <td>{{form.name}}</td>
+                    <td>{{form.creationdate}}</td>
+                    <td>{{form.location.name}}</td>
+                    <td>
+                        <span class="label" ng-class="[
+                        {'label-default' : form.status == 'None'},
+                        {'label-danger' : form.status == 'Denied'},
+                        {'label-warning' : form.status == 'AlreadyAdopted'},
+                        {'label-success' : form.status == 'Approved'}
+                        ]">{{form.status}}</span>
+                    </td>
+                <td class="last">
+                <a type="button" class="btn btn-xs">
+                Ver</button>
+                <a href="/admin/adoptionforms/{{form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                </td>
+                </tr>
+                <tr ng-show="!main.forms.length">
+                <td colspan="5"  class="last">
+                No hay registros
+                </td>
+                </tr>
+                </tbody>
+                </table>
+
+                <list-pager class="pagerDirective"></list-pager>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

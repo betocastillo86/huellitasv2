@@ -78,6 +78,11 @@
             templateUrl:    '/app/users/editUser.html',
             controller:     'EditUserController',
             controllerAs:   'main'
+        })
+        .when('/adoptionforms', {
+            templateUrl:    '/app/adoptionforms/listforms.html',
+            controller:     'ListFormController',
+            controllerAs:   'main'
         });
     }
 

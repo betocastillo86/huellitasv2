@@ -12,6 +12,8 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
     using Huellitas.Web.Models.Api.Common;
     using Huellitas.Web.Models.Api.Contents;
     using Huellitas.Web.Models.Api.Users;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Adoption Form Model
@@ -144,6 +146,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// <value>
         /// The status.
         /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
         public AdoptionFormAnswerStatus Status { get; set; }
 
         /// <summary>

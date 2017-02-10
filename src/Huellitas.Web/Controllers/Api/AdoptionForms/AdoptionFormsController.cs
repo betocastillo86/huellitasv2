@@ -146,7 +146,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     filter.OrderByEnum,
                     filter.Page,
                     filter.PageSize);
-                var models = forms.ToModel(this.filesHelper, Url.Content);
+                var models = forms.ToModels(this.filesHelper, Url.Content);
                 return this.Ok(models, forms.HasNextPage, forms.TotalCount);
             }
             else
