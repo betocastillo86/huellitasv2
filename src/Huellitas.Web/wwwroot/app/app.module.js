@@ -2,22 +2,22 @@
     'use strict';
 
     angular.module('app', [
-        // Angular modules 
+        // Angular modules
         'ngRoute',
         'ngStorage',
         'ngSanitize',
 
-        // Custom modules 
+        // Custom modules
 
         // 3rd Party Modules
         'angucomplete-alt',
-        'underscore'
+        'underscore',
+        'textAngular'
     ])
     .config(config)
     .run(run);
 
     function config($routeProvider, $locationProvider, $httpProvider) {
-
         $httpProvider.interceptors.push('expiredSessionInterceptor');
 
         $locationProvider.html5Mode(true);
@@ -65,24 +65,29 @@
             controllerAs: 'main'
         })
         .when('/users', {
-            templateUrl:    '/app/users/listUsers.html',
-            controller:     'ListUsersController',
-            controllerAs:   'main'
+            templateUrl: '/app/users/listUsers.html',
+            controller: 'ListUsersController',
+            controllerAs: 'main'
         })
         .when('/users/:id/edit', {
-            templateUrl:    '/app/users/editUser.html',
-            controller:     'EditUserController',
-            controllerAs:   'main'
+            templateUrl: '/app/users/editUser.html',
+            controller: 'EditUserController',
+            controllerAs: 'main'
         })
         .when('/users/new', {
-            templateUrl:    '/app/users/editUser.html',
-            controller:     'EditUserController',
-            controllerAs:   'main'
+            templateUrl: '/app/users/editUser.html',
+            controller: 'EditUserController',
+            controllerAs: 'main'
         })
         .when('/adoptionforms', {
-            templateUrl:    '/app/adoptionforms/listforms.html',
-            controller:     'ListFormController',
-            controllerAs:   'main'
+            templateUrl: '/app/adoptionforms/listforms.html',
+            controller: 'ListFormController',
+            controllerAs: 'main'
+        })
+        .when('/adoptionforms/:id/edit', {
+            templateUrl: '/app/adoptionforms/editform.html',
+            controller: 'EditFormController',
+            controllerAs: 'main'
         });
     }
 
@@ -102,7 +107,5 @@
                 document.location = '/admin';
             }
         });
-
     }
-
 })();

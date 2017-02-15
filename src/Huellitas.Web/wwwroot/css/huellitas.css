@@ -24,3 +24,7 @@ input.ng-invalid-parsley-error {
 .nav-md .container.body .col-md-3.left_col {
     z-index:1000 !important;
 }
+
+.force-left {
+    text-align:left !important;
+}

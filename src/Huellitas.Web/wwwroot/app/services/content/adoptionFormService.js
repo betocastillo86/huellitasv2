@@ -7,12 +7,18 @@
     function adoptionFormService($http) {
 
         return {
-            getAll: getAll
+            getAll: getAll,
+            getById : getById
         };
 
         function getAll(filter)
         {
             return $http.get('/api/adoptionforms', { params: filter });
+        }
+
+        function getById(id)
+        {
+            return $http.get('/api/adoptionforms/' + id);
         }
     }
 

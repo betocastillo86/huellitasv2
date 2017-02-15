@@ -195,6 +195,9 @@ namespace Huellitas.Business.Services.AdoptionForms
             return this.adoptionFormRepository.Table
                 .Include(c => c.User)
                 .Include(c => c.Content)
+                .Include(c => c.Content.File)
+                .Include(c => c.Job)
+                .Include(c => c.Location)
                 .FirstOrDefault(c => c.Id == id);
         }
 
