@@ -298,7 +298,7 @@ namespace Huellitas.Data.Migrations
 
             foreach (var item in list)
             {
-                if (!context.Contents.Any(c => c.Name.Equals(item.Name)))
+                if (!context.Contents.Any(c => c.FriendlyName.Equals(item.FriendlyName)))
                 {
                     context.Contents.Add(item);
                 }

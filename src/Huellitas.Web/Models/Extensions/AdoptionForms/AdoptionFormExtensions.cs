@@ -79,7 +79,7 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <returns>the list</returns>
-        public static IList<AdoptionFormModel> ToModel(
+        public static IList<AdoptionFormModel> ToModels(
             this ICollection<AdoptionForm> entities,
             IFilesHelper filesHelper,
             Func<string, string> contentUrlFunction = null)

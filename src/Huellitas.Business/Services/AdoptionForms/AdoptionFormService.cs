@@ -90,6 +90,7 @@ namespace Huellitas.Business.Services.AdoptionForms
         {
             var query = this.adoptionFormRepository.Table
                 .Include(c => c.Content)
+                .Include(c => c.Content.File)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(user))
@@ -194,6 +195,9 @@ namespace Huellitas.Business.Services.AdoptionForms
             return this.adoptionFormRepository.Table
                 .Include(c => c.User)
                 .Include(c => c.Content)
+                .Include(c => c.Content.File)
+                .Include(c => c.Job)
+                .Include(c => c.Location)
                 .FirstOrDefault(c => c.Id == id);
         }
 

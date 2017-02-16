@@ -46,13 +46,17 @@ paths.libs = [
     paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'angular-route/angular-route.js',
     paths.external + 'angucomplete-alt/angucomplete-alt.js',
-    paths.external + 'underscore/underscore.js'
+    paths.external + 'underscore/underscore.js',
+    paths.external + 'textAngular/dist/textAngular-rangy.min.js',
+    paths.external + 'textAngular/dist/textAngular-sanitize.min.js',
+    paths.external + 'textAngular/dist/textAngular.min.js'
 ];
 
 paths.css = [
     paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
     paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
     paths.external + 'gentelella/build/css/custom.min.css',
+    paths.external + 'textAngular/dist/textAngular.css',
     paths.webroot + 'css/huellitas.css'
 ];
 

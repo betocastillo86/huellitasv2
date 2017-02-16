@@ -57,6 +57,31 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             this.contentService = contentService;
         }
 
+        [HttpGet]
+        public IActionResult Get(int formId)
+        {
+            ////TODO:Test
+            var form = this.adoptionFormService.GetById(formId);
+
+            if (form != null)
+            {
+                if (this.CanUserAnswerForm(form))
+                {
+                    var answers = this.adoptionFormService.GetAnswers(formId);
+                    var models = answers.ToModels();
+                    return this.Ok(models);
+                }
+                else
+                {
+                    return this.Forbid();
+                }
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
+
         /// <summary>
         /// Determines whether this instance [can answer form] the specified form.
         /// </summary>
