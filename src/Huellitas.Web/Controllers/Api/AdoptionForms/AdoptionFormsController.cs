@@ -88,7 +88,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool CanSeeForm(AdoptionForm form)
         {
-            ////TODO:Test
             ////Si es el que llena el formulario
             if (this.workContext.CurrentUserId == form.UserId)
             {
@@ -129,8 +128,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [Authorize]
         public IActionResult Get([FromQuery] AdoptionFormFilterModel filter)
         {
-            ////TODO:Test
-            ////TODO:Async
             var canSeeAllForms = this.workContext.CurrentUser.IsSuperAdmin();
 
             if (filter.IsValid(this.workContext.CurrentUserId, this.contentService, canSeeAllForms))
@@ -165,7 +162,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [Route("{id:int}")]
         public IActionResult Get(int id)
         {
-            ////TODO:Test
             var form = this.adoptionFormService.GetById(id);
 
             if (form != null)
@@ -201,7 +197,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool IsValidModel(AdoptionFormModel model)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
@@ -273,7 +268,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                 ////If it's required and it'snot fill marks error
                 if (question.Required && string.IsNullOrEmpty(attribute?.Value))
                 {
-                    this.ModelState.AddModelError("Attributes.", $"La pregunta '{question.Question}' es obligatoria");
+                    this.ModelState.AddModelError("Attributes", $"La pregunta '{question.Question}' es obligatoria");
                 }
             }
         }

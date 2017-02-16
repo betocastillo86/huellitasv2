@@ -49,7 +49,6 @@ namespace Huellitas.Web.Models.Api.Users
         /// </returns>
         public bool IsValid(bool canShowSensitiveInfo)
         {
-            ////TODO:Test
             if (!canShowSensitiveInfo)
             {
                 if (this.FullObject)
