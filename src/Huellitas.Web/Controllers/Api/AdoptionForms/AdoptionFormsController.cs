@@ -159,7 +159,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         /// <returns>the action</returns>
         [HttpGet]
         [Authorize]
-        [Route("{id:int}")]
+        [Route("{id:int}", Name = "Api_AdoptionForms_GetById")]
         public IActionResult Get(int id)
         {
             var form = this.adoptionFormService.GetById(id);
@@ -228,7 +228,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AdoptionFormModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model))
             {
                 var entity = model.ToEntity();
@@ -243,7 +242,8 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     return this.BadRequest(e);
                 }
 
-                return this.Ok(new BaseModel() { Id = entity.Id });
+                var createdUri = this.Url.Link("Api_AdoptionForms_GetById", new BaseModel() { Id = entity.Id });
+                return this.Created(createdUri, new BaseModel() { Id = entity.Id });
             }
             else
             {
@@ -258,7 +258,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public void ValidateQuestions(IList<AdoptionFormAttributeModel> attributes)
         {
-            ////TODO:Test
             var questions = this.customTableService.GetAdoptionFormQuestions();
 
             foreach (var question in questions)

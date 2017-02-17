@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Huellitas.Business.Exceptions;
 using Huellitas.Business.Models;
 using Huellitas.Business.Services.AdoptionForms;
 using Huellitas.Business.Services.Common;
@@ -15,6 +16,7 @@ using Huellitas.Web.Controllers.Api.AdoptionForms;
 using Huellitas.Web.Controllers.Api.Common;
 using Huellitas.Web.Infraestructure.WebApi;
 using Huellitas.Web.Models.Api.AdoptionForms;
+using Huellitas.Web.Models.Api.Common;
 using Huellitas.Web.Models.Api.Contents;
 using Huellitas.Web.Models.Extensions.AdoptionForms;
 using Microsoft.AspNetCore.Mvc;
@@ -161,6 +163,94 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.IsAssignableFrom(typeof(ForbidResult), response);
         }
 
+        /// <summary>
+        /// Posts the adoption form ok.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PostAdoptionForm_Ok()
+        {
+            this.Setup();
+
+            var model = this.GetModel();
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
+                .Callback((AdoptionForm c) => {
+                    c.Id = 2;
+                })
+                .Returns(Task.FromResult(0)); ;
+
+            var controller = this.GetController();
+            controller.AddUrl(true);
+            controller.AddResponse();
+
+            var result = await controller.Post(model) as ObjectResult;
+
+            Assert.AreEqual(201, result.StatusCode);
+            Assert.IsAssignableFrom(typeof(BaseModel), result.Value);
+        }
+
+        /// <summary>
+        /// Posts the adoption form bad request invalid model.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PostAdoptionForm_BadRequest_InvalidModel()
+        {
+            this.Setup();
+
+            var model = this.GetModel();
+            model.Attributes = null;
+
+            this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
+                .Callback((AdoptionForm c) => {
+                    c.Id = 2;
+                });
+
+            var controller = this.GetController();
+            controller.AddUrl();
+            controller.AddResponse();
+
+            var result = await controller.Post(model) as ObjectResult;
+
+            Assert.AreEqual(400, result.StatusCode);
+        }
+
+        /// <summary>
+        /// Posts the adoption form bad request no location.
+        /// </summary>
+        /// <returns>the action</returns>
+        [Test]
+        public async Task PostAdoptionForm_BadRequest_NoLocation()
+        {
+            this.Setup();
+
+            var model = this.GetModel();
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
+                .Throws(new HuellitasException("Location", HuellitasExceptionCode.InvalidForeignKey));
+
+            var controller = this.GetController();
+            controller.AddUrl();
+            controller.AddResponse();
+
+            var result = await controller.Post(model) as ObjectResult;
+            var error = result.Value as BaseApiError;
+            
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey.ToString(), error.Error.Code);
+            Assert.AreEqual("Location", error.Error.Target);
+        }
+
+        /// <summary>
+        /// Adoptions the forms controller validate questions ok.
+        /// </summary>
         [Test]
         public void AdoptionFormsController_ValidateQuestions_Ok()
         {
