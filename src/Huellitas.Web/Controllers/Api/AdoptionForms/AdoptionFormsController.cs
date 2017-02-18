@@ -88,7 +88,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool CanSeeForm(AdoptionForm form)
         {
-            ////TODO:Test
             ////Si es el que llena el formulario
             if (this.workContext.CurrentUserId == form.UserId)
             {
@@ -129,8 +128,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [Authorize]
         public IActionResult Get([FromQuery] AdoptionFormFilterModel filter)
         {
-            ////TODO:Test
-            ////TODO:Async
             var canSeeAllForms = this.workContext.CurrentUser.IsSuperAdmin();
 
             if (filter.IsValid(this.workContext.CurrentUserId, this.contentService, canSeeAllForms))
@@ -162,10 +159,9 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         /// <returns>the action</returns>
         [HttpGet]
         [Authorize]
-        [Route("{id:int}")]
+        [Route("{id:int}", Name = "Api_AdoptionForms_GetById")]
         public IActionResult Get(int id)
         {
-            ////TODO:Test
             var form = this.adoptionFormService.GetById(id);
 
             if (form != null)
@@ -201,7 +197,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool IsValidModel(AdoptionFormModel model)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
@@ -233,7 +228,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AdoptionFormModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model))
             {
                 var entity = model.ToEntity();
@@ -248,7 +242,8 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     return this.BadRequest(e);
                 }
 
-                return this.Ok(new BaseModel() { Id = entity.Id });
+                var createdUri = this.Url.Link("Api_AdoptionForms_GetById", new BaseModel() { Id = entity.Id });
+                return this.Created(createdUri, new BaseModel() { Id = entity.Id });
             }
             else
             {
@@ -263,7 +258,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public void ValidateQuestions(IList<AdoptionFormAttributeModel> attributes)
         {
-            ////TODO:Test
             var questions = this.customTableService.GetAdoptionFormQuestions();
 
             foreach (var question in questions)
@@ -273,7 +267,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                 ////If it's required and it'snot fill marks error
                 if (question.Required && string.IsNullOrEmpty(attribute?.Value))
                 {
-                    this.ModelState.AddModelError("Attributes.", $"La pregunta '{question.Question}' es obligatoria");
+                    this.ModelState.AddModelError("Attributes", $"La pregunta '{question.Question}' es obligatoria");
                 }
             }
         }

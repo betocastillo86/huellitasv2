@@ -65,7 +65,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [HttpGet]
         public IActionResult Get(int formId)
         {
-            ////TODO:Test
             var form = this.adoptionFormService.GetById(formId);
 
             if (form != null)
@@ -97,7 +96,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool CanUserAnswerForm(AdoptionForm form)
         {
-            ////TODO:Test
             ////Si es admin puede responder
             if (this.workContext.CurrentUser.IsSuperAdmin())
             {
@@ -129,7 +127,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool IsValidModel(AdoptionFormAnswerModel model)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
@@ -148,7 +145,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [HttpPost]
         public async Task<IActionResult> Post(int formId, [FromBody] AdoptionFormAnswerModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model))
             {
                 var form = this.adoptionFormService.GetById(formId);
