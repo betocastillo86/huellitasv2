@@ -187,6 +187,29 @@ namespace Huellitas.Data.Core
         }
 
         /// <summary>
+        /// Inserts the asynchronous.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">null entities</exception>
+        public virtual async Task InsertAsync(IEnumerable<T> entities)
+        {
+            if (entities == null)
+            {
+                throw new ArgumentNullException("entities");
+            }
+
+            foreach (var entity in entities)
+            {
+                this.Entities.Add(entity);
+            }
+
+            await this.context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Insert entity
         /// </summary>
         /// <param name="entity">The entity</param>
@@ -236,6 +259,24 @@ namespace Huellitas.Data.Core
             }
 
             return await this.context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Updates the asynchronous.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <returns>
+        /// the value
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">null entities</exception>
+        public virtual async Task UpdateAsync(ICollection<T> entities)
+        {
+            if (entities == null)
+            {
+                throw new ArgumentNullException("entities");
+            }
+
+            await this.context.SaveChangesAsync();
         }
     }
 }

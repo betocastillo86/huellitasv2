@@ -43,6 +43,38 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedLocations(context);
             EnsureSeedingExtension.SeedSettings(context);
             EnsureSeedingExtension.SeedAdoptionForms(context);
+            EnsureSeedingExtension.SeedNotifications(context);
+        }
+
+        /// <summary>
+        /// Seeds the notifications.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedNotifications(HuellitasContext context)
+        {
+            var list = new List<Notification>();
+            list.Add(new Notification() { Id = 1, Name = "Registro de usuario", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = null, EmailSubject = "Bienvenido a Huellitas sin hogar", EmailHtml = "Te has registrado correctamente" });
+            list.Add(new Notification() { Id = 2, Name = "Mascota creada correctamente", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = null, EmailSubject = "Mascota creada correctamente", EmailHtml = "Tu mascota ha sido creada correctamente" });
+            list.Add(new Notification() { Id = 3, Name = "Mascota aprobada", Active = true, IsEmail = true, IsSystem = true, SystemText = "Tu mascota de nombre %%Pet.Name%% fue aprobada", Tags = null, EmailSubject = "Mascota creada correctamente", EmailHtml = "Tu mascota ha sido creada correctamente" });
+            list.Add(new Notification() { Id = 4, Name = "Formulario de adopción enviado", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = null, EmailSubject = "Tu formulario está siendo evaluado", EmailHtml = "Tu formulario está siendo evaluado" });
+            list.Add(new Notification() { Id = 5, Name = "Formulario de adopción recibido", Active = true, IsEmail = true, IsSystem = true, SystemText = "Has recibido un formulario de adopción", Tags = null, EmailSubject = "Has recibido un formulario de adopción", EmailHtml = "Has recibido un formulario de adopción" });
+            list.Add(new Notification() { Id = 6, Name = "El formulario fue aprobado", Active = true, IsEmail = true, IsSystem = true, SystemText = "El formulario fue aprobado", Tags = null, EmailSubject = "El formulario fue aprobado", EmailHtml = "El formulario fue aprobado" });
+            list.Add(new Notification() { Id = 7, Name = "El formulario fue rechazado", Active = true, IsEmail = true, IsSystem = true, SystemText = "El formulario fue rechazado", Tags = null, EmailSubject = "El formulario fue rechazado", EmailHtml = "El formulario fue rechazado" });
+            list.Add(new Notification() { Id = 8, Name = "El formulario fue rechazado por adopción previa", Active = true, IsEmail = true, IsSystem = true, SystemText = "El formulario fue rechazado por adopción previa", Tags = null, EmailSubject = "El formulario fue rechazado por adopción previa", EmailHtml = "El formulario fue rechazado por adopción previa" });
+            list.Add(new Notification() { Id = 9, Name = "Confirmación solicitud de refugio recibida", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = null, EmailSubject = "Tu solicitud de refugio ha sido recibida", EmailHtml = "Tu solicitud de refugio ha sido recibida" });
+            list.Add(new Notification() { Id = 10, Name = "Solicitud de shelter rechazada", Active = true, IsEmail = true, IsSystem = true, SystemText = "Se ha solicitado un nuevo shelter", Tags = null, EmailSubject = "Se ha solicitado un nuevo shelter", EmailHtml = "Se ha solicitado un nuevo shelter" });
+            list.Add(new Notification() { Id = 11, Name = "Se ha solicitado un nuevo shelter", Active = true, IsEmail = true, IsSystem = true, SystemText = "Solicitud de shelter rechazada", Tags = null, EmailSubject = "Solicitud de shelter rechazada", EmailHtml = "Solicitud de shelter rechazada" });
+            list.Add(new Notification() { Id = 12, Name = "Aprobación de shelter en la plataforma", Active = true, IsEmail = true, IsSystem = true, SystemText = "Aprobación de shelter en la plataforma", Tags = null, EmailSubject = "Aprobación de shelter en la plataforma", EmailHtml = "Aprobación de shelter en la plataforma" });
+
+            foreach (var item in list)
+            {
+                if (!context.Notifications.Any(c => c.Id.Equals(item.Id)))
+                {
+                    context.Notifications.Add(item);
+                }
+            }
+
+            context.SaveChanges();
         }
 
         #region AdoptionForms        
@@ -411,6 +443,11 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightDetail", Value = "800" });
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthList", Value = "500" });
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "500" });
+
+            list.Add(new SystemSetting() { Name = "GeneralSettings.SiteUrl", Value = "http://localhost:23178/" });
+
+            list.Add(new SystemSetting() { Name = "NotificationSettings.BodyBaseHtml", Value = "<html><body><h1>Huellitas sin Hogar</h2>%%Body%%</body></html>" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.EmailSenderName", Value = "Huellitas sin hogar" });
 
             foreach (var item in list)
             {

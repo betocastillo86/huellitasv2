@@ -11,6 +11,10 @@ namespace Huellitas.Web.Controllers.Api.Abstract
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Adoption Form Answer Status Controller
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/[controller]")]
     public class AdoptionFormAnswerStatusController : BaseApiController
     {

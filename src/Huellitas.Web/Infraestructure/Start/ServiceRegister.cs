@@ -17,7 +17,6 @@ namespace Huellitas.Web.Infraestructure.Start
     using Business.Services.Files;
     using Business.Services.Seo;
     using Business.Services.Users;
-    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Services.Common;
     using Huellitas.Business.Services.Contents;
@@ -58,6 +57,8 @@ namespace Huellitas.Web.Infraestructure.Start
 
             ////Settings
             services.AddScoped<IContentSettings, ContentSettings>();
+            services.AddScoped<IGeneralSettings, GeneralSettings>();
+            services.AddScoped<INotificationSettings, NotificationSettings>();
             services.AddScoped<ISecuritySettings, SecuritySettings>();
 
             ////Helpers

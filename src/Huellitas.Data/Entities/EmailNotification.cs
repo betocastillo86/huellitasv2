@@ -14,12 +14,36 @@ namespace Huellitas.Data.Entities
     public partial class EmailNotification : BaseEntity
     {
         /// <summary>
+        /// Gets or sets the subject.
+        /// </summary>
+        /// <value>
+        /// The subject.
+        /// </value>
+        public string Subject { get; set; }
+
+        /// <summary>
         /// Gets or sets the body.
         /// </summary>
         /// <value>
         /// The body.
         /// </value>
         public string Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets to.
+        /// </summary>
+        /// <value>
+        /// To email.
+        /// </value>
+        public string To { get; set; }
+
+        /// <summary>
+        /// Gets or sets to name.
+        /// </summary>
+        /// <value>
+        /// To name.
+        /// </value>
+        public string ToName { get; set; }
 
         /// <summary>
         /// Gets or sets the cc.
@@ -60,29 +84,5 @@ namespace Huellitas.Data.Entities
         /// The sent tries.
         /// </value>
         public short SentTries { get; set; }
-
-        /// <summary>
-        /// Gets or sets the subject.
-        /// </summary>
-        /// <value>
-        /// The subject.
-        /// </value>
-        public string Subject { get; set; }
-
-        /// <summary>
-        /// Gets or sets to.
-        /// </summary>
-        /// <value>
-        /// To email.
-        /// </value>
-        public string To { get; set; }
-
-        /// <summary>
-        /// Gets or sets to name.
-        /// </summary>
-        /// <value>
-        /// To name.
-        /// </value>
-        public string ToName { get; set; }
     }
 }

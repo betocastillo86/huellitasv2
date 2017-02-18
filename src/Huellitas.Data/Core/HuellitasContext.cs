@@ -184,6 +184,22 @@ namespace Huellitas.Data.Core
         public virtual DbSet<User> Users { get; set; }
 
         /// <summary>
+        /// Gets or sets the system notifications.
+        /// </summary>
+        /// <value>
+        /// The system notifications.
+        /// </value>
+        public virtual DbSet<User> SystemNotifications { get; set; }
+
+        /// <summary>
+        /// Gets or sets the notifications.
+        /// </summary>
+        /// <value>
+        /// The notifications.
+        /// </value>
+        public virtual DbSet<Notification> Notifications { get; set; }
+
+        /// <summary>
         /// Override this method to further configure the model that was discovered by convention from the entity types
         /// exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on your derived context. The resulting model may be cached
         /// and re-used for subsequent instances of your derived context.
@@ -218,6 +234,8 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<User>().Map();
             modelBuilder.Entity<Log>().Map();
             modelBuilder.Entity<ContentUser>().Map();
+            modelBuilder.Entity<SystemNotification>().Map();
+            modelBuilder.Entity<Notification>().Map();
         }
     }
 }

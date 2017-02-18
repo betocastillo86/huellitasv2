@@ -79,6 +79,13 @@ namespace Huellitas.Data.Core
         void Insert(IEnumerable<T> entities);
 
         /// <summary>
+        /// Inserts the asynchronous.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <returns>the task</returns>
+        Task InsertAsync(IEnumerable<T> entities);
+
+        /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
@@ -91,5 +98,12 @@ namespace Huellitas.Data.Core
         /// <param name="entity">The entity.</param>
         /// <returns>the value</returns>
         Task<int> UpdateAsync(T entity);
+
+        /// <summary>
+        /// Updates the asynchronous.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <returns>the value</returns>
+        Task UpdateAsync(ICollection<T> entities);
     }
 }

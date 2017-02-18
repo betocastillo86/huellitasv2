@@ -32,5 +32,10 @@ namespace Huellitas.Business.Caching
         /// all the shelters
         /// </summary>
         public const string SHELTERS_ALL = "cache.shelters.all";
+
+        /// <summary>
+        /// The notifications all
+        /// </summary>
+        public const string NOTIFICATIONS_ALL = "cache.notifications.all";
     }
 }

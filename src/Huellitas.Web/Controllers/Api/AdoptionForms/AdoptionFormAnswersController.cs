@@ -57,6 +57,11 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             this.contentService = contentService;
         }
 
+        /// <summary>
+        /// Gets the specified form identifier.
+        /// </summary>
+        /// <param name="formId">The form identifier.</param>
+        /// <returns>the action</returns>
         [HttpGet]
         public IActionResult Get(int formId)
         {
