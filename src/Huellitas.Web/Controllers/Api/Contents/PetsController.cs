@@ -11,6 +11,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Business.Caching;
     using Business.Configuration;
     using Business.Extensions.Entities;
+    using Business.Security;
     using Business.Services.Common;
     using Business.Services.Files;
     using Business.Utilities.Extensions;

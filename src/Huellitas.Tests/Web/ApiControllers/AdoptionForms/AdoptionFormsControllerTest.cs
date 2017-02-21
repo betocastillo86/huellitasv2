@@ -1,33 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Huellitas.Business.Exceptions;
-using Huellitas.Business.Models;
-using Huellitas.Business.Services.AdoptionForms;
-using Huellitas.Business.Services.Common;
-using Huellitas.Business.Services.Contents;
-using Huellitas.Business.Services.Files;
-using Huellitas.Data.Entities;
-using Huellitas.Data.Infraestructure;
-using Huellitas.Tests.Web.Mocks;
-using Huellitas.Web.Controllers.Api.AdoptionForms;
-using Huellitas.Web.Controllers.Api.Common;
-using Huellitas.Web.Infraestructure.WebApi;
-using Huellitas.Web.Models.Api.AdoptionForms;
-using Huellitas.Web.Models.Api.Common;
-using Huellitas.Web.Models.Api.Contents;
-using Huellitas.Web.Models.Extensions.AdoptionForms;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="AdoptionFormsControllerTest.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Services.AdoptionForms;
+    using Huellitas.Business.Services.Common;
+    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Services.Files;
+    using Huellitas.Data.Entities;
+    using Huellitas.Data.Infraestructure;
+    using Huellitas.Tests.Web.Mocks;
+    using Huellitas.Web.Controllers.Api.AdoptionForms;
+    using Huellitas.Web.Controllers.Api.Common;
+    using Huellitas.Web.Infraestructure.WebApi;
+    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Extensions.AdoptionForms;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// Adoption Forms Controller Test
+    /// </summary>
+    /// <seealso cref="Huellitas.Tests.BaseTest" />
     [TestFixture]
     public class AdoptionFormsControllerTest : BaseTest
     {
+        /// <summary>
+        /// The adoption form service
+        /// </summary>
+        private Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
 
         /// <summary>
         /// The content service
@@ -35,9 +46,9 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         private Mock<IContentService> contentService = new Mock<IContentService>();
 
         /// <summary>
-        /// The adoption form service
+        /// The custom table service
         /// </summary>
-        private Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
+        private Mock<ICustomTableService> customTableService = new Mock<ICustomTableService>();
 
         /// <summary>
         /// The files helper
@@ -45,42 +56,230 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
 
         /// <summary>
-        /// The custom table service
-        /// </summary>
-        private Mock<ICustomTableService> customTableService = new Mock<ICustomTableService>();
-
-        /// <summary>
-        /// Setups this instance.
-        /// </summary>
-        protected override void Setup()
-        {
-            this.adoptionFormService = new Mock<IAdoptionFormService>();
-            this.filesHelper = new Mock<IFilesHelper>();
-            this.contentService = new Mock<IContentService>();
-            this.customTableService = new Mock<ICustomTableService>();
-            base.Setup();
-        }
-
-        /// <summary>
-        /// Gets the adoption forms ok.
+        /// Adoptions the forms controller is valid model false family members age.
         /// </summary>
         [Test]
-        public void GetAdoptionForms_Ok()
+        public void AdoptionFormsController_IsValidModel_False_FamilyMembersAge()
         {
             this.Setup();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            var model = this.GetModel();
+            model.FamilyMembers = 5;
 
             var controller = this.GetController();
-            controller.AddUrl();
 
-            var filter = new AdoptionFormFilterModel();
+            Assert.IsFalse(controller.IsValidModel(model));
+            Assert.IsNotNull(controller.ModelState["FamilyMembersAge"]);
+        }
 
-            var response = controller.Get(filter) as ObjectResult;
+        /// <summary>
+        /// Adoptions the forms controller is valid model false no attributes.
+        /// </summary>
+        [Test]
+        public void AdoptionFormsController_IsValidModel_False_NoAttributes()
+        {
+            this.Setup();
 
-            Assert.AreEqual(200, response.StatusCode);
-            Assert.IsAssignableFrom(typeof(PaginationResponseModel<AdoptionFormModel>), response.Value);
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            var model = this.GetModel();
+            model.Attributes = null;
+            var controller = this.GetController();
+
+            Assert.IsFalse(controller.IsValidModel(model));
+            Assert.IsNotNull(controller.ModelState["Attributes"]);
+        }
+
+        /// <summary>
+        /// Adoptions the forms controller is valid model true.
+        /// </summary>
+        [Test]
+        public void AdoptionFormsController_IsValidModel_True()
+        {
+            this.Setup();
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            var model = this.GetModel();
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.IsValidModel(model));
+        }
+
+        /// <summary>
+        /// Adoptions the forms controller validate questions invalid required.
+        /// </summary>
+        [Test]
+        public void AdoptionFormsController_ValidateQuestions_InvalidRequired()
+        {
+            this.Setup();
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            var attributes = this.GetAttributes();
+
+            attributes.RemoveAt(attributes.Count - 1);
+
+            var controller = this.GetController();
+
+            controller.ValidateQuestions(attributes);
+
+            Assert.IsFalse(controller.ModelState.IsValid);
+            Assert.IsNotNull(controller.ModelState["Attributes"]);
+        }
+
+        /// <summary>
+        /// Adoptions the forms controller validate questions ok.
+        /// </summary>
+        [Test]
+        public void AdoptionFormsController_ValidateQuestions_Ok()
+        {
+            this.Setup();
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(this.GetQuestions());
+
+            var attributes = this.GetAttributes();
+            var controller = this.GetController();
+
+            controller.ValidateQuestions(attributes);
+
+            Assert.IsTrue(controller.ModelState.IsValid);
+        }
+
+        /// <summary>
+        /// Adoptions the forms controller validate questions without question no required true.
+        /// </summary>
+        [Test]
+        public void AdoptionFormsController_ValidateQuestions_WithoutQuestion_NoRequired_True()
+        {
+            this.Setup();
+
+            var questions = this.GetQuestions();
+            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|False" });
+
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
+                .Returns(questions);
+
+            var attributes = this.GetAttributes();
+
+            var controller = this.GetController();
+
+            controller.ValidateQuestions(attributes);
+
+            Assert.IsTrue(controller.ModelState.IsValid);
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form false no shelter].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_False_NoShelter()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
+                .Returns((int?)null);
+
+            var controller = this.GetController();
+
+            Assert.IsFalse(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form false shelter no user].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_False_ShelterNoUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
+                .Returns(5);
+
+            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+                .Returns(false);
+
+            var controller = this.GetController();
+
+            Assert.IsFalse(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form true admin].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_Admin()
+        {
+            this.Setup();
+
+            var form = this.GetEntity();
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form true content user].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_ContentUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+            form.Content.UserId = 55;
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form true form user].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_FormUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+            form.UserId = 55;
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form true shelter user].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_ShelterUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
+                .Returns(5);
+
+            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+                .Returns(true);
+
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
         }
 
         /// <summary>
@@ -107,6 +306,70 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.AreEqual("FormUserId", error.Error.Details[0].Target);
         }
 
+        /// <summary>
+        /// Gets the adoption forms ok.
+        /// </summary>
+        [Test]
+        public void GetAdoptionForms_Ok()
+        {
+            this.Setup();
+
+            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
+
+            var controller = this.GetController();
+            controller.AddUrl();
+
+            var filter = new AdoptionFormFilterModel();
+
+            var response = controller.Get(filter) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+            Assert.IsAssignableFrom(typeof(PaginationResponseModel<AdoptionFormModel>), response.Value);
+        }
+
+        /// <summary>
+        /// Gets the adoption forms by identifier forbid.
+        /// </summary>
+        [Test]
+        public void GetAdoptionFormsById_Forbid()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
+                .Returns(this.GetEntity());
+
+            var controller = this.GetController();
+            controller.AddUrl();
+
+            var response = controller.Get(1);
+
+            Assert.IsAssignableFrom(typeof(ForbidResult), response);
+        }
+
+        /// <summary>
+        /// Gets the adoption forms by identifier not found.
+        /// </summary>
+        [Test]
+        public void GetAdoptionFormsById_NotFound()
+        {
+            this.Setup();
+
+            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
+                .Returns((AdoptionForm)null);
+
+            var controller = this.GetController();
+            controller.AddUrl();
+
+            var response = controller.Get(1) as NotFoundResult;
+
+            Assert.AreEqual(404, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Gets the adoption forms by identifier ok.
+        /// </summary>
         [Test]
         public void GetAdoptionFormsById_Ok()
         {
@@ -130,69 +393,6 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.AreEqual(200, response.StatusCode);
         }
 
-        [Test]
-        public void GetAdoptionFormsById_NotFound()
-        {
-            this.Setup();
-
-            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
-                .Returns((AdoptionForm)null);
-
-            var controller = this.GetController();
-            controller.AddUrl();
-
-            var response = controller.Get(1) as NotFoundResult;
-
-            Assert.AreEqual(404, response.StatusCode);
-        }
-
-        [Test]
-        public void GetAdoptionFormsById_Forbid()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
-                .Returns(this.GetEntity());
-
-            var controller = this.GetController();
-            controller.AddUrl();
-
-            var response = controller.Get(1);
-
-            Assert.IsAssignableFrom(typeof(ForbidResult), response);
-        }
-
-        /// <summary>
-        /// Posts the adoption form ok.
-        /// </summary>
-        /// <returns>the task</returns>
-        [Test]
-        public async Task PostAdoptionForm_Ok()
-        {
-            this.Setup();
-
-            var model = this.GetModel();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
-                .Callback((AdoptionForm c) => {
-                    c.Id = 2;
-                })
-                .Returns(Task.FromResult(0)); ;
-
-            var controller = this.GetController();
-            controller.AddUrl(true);
-            controller.AddResponse();
-
-            var result = await controller.Post(model) as ObjectResult;
-
-            Assert.AreEqual(201, result.StatusCode);
-            Assert.IsAssignableFrom(typeof(BaseModel), result.Value);
-        }
-
         /// <summary>
         /// Posts the adoption form bad request invalid model.
         /// </summary>
@@ -206,7 +406,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             model.Attributes = null;
 
             this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
-                .Callback((AdoptionForm c) => {
+                .Callback((AdoptionForm c) =>
+                {
                     c.Id = 2;
                 });
 
@@ -242,209 +443,59 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var result = await controller.Post(model) as ObjectResult;
             var error = result.Value as BaseApiError;
-            
+
             Assert.AreEqual(400, result.StatusCode);
             Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey.ToString(), error.Error.Code);
             Assert.AreEqual("Location", error.Error.Target);
         }
 
         /// <summary>
-        /// Adoptions the forms controller validate questions ok.
+        /// Posts the adoption form ok.
         /// </summary>
+        /// <returns>the task</returns>
         [Test]
-        public void AdoptionFormsController_ValidateQuestions_Ok()
+        public async Task PostAdoptionForm_Ok()
         {
             this.Setup();
+
+            var model = this.GetModel();
 
             this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
                 .Returns(this.GetQuestions());
 
-            var attributes = this.GetAttributes();
+            this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
+                .Callback((AdoptionForm c) =>
+                {
+                    c.Id = 2;
+                })
+                .Returns(Task.FromResult(0));
+
             var controller = this.GetController();
+            controller.AddUrl(true);
+            controller.AddResponse();
 
-            controller.ValidateQuestions(attributes);
+            var result = await controller.Post(model) as ObjectResult;
 
-            Assert.IsTrue(controller.ModelState.IsValid);
+            Assert.AreEqual(201, result.StatusCode);
+            Assert.IsAssignableFrom(typeof(BaseModel), result.Value);
         }
 
         /// <summary>
-        /// Adoptions the forms controller validate questions invalid required.
+        /// Setups this instance.
         /// </summary>
-        [Test]
-        public void AdoptionFormsController_ValidateQuestions_InvalidRequired()
+        protected override void Setup()
         {
-            this.Setup();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            var attributes = this.GetAttributes();
-            //var question = attributes.ElementAt(attributes.Count - 1).Question;
-            attributes.RemoveAt(attributes.Count - 1);
-
-            var controller = this.GetController();
-
-            controller.ValidateQuestions(attributes);
-
-            Assert.IsFalse(controller.ModelState.IsValid);
-            Assert.IsNotNull(controller.ModelState["Attributes"]);
+            this.adoptionFormService = new Mock<IAdoptionFormService>();
+            this.filesHelper = new Mock<IFilesHelper>();
+            this.contentService = new Mock<IContentService>();
+            this.customTableService = new Mock<ICustomTableService>();
+            base.Setup();
         }
 
-        [Test]
-        public void AdoptionFormsController_ValidateQuestions_WithoutQuestion_NoRequired_True()
-        {
-            this.Setup();
-
-            var questions = this.GetQuestions();
-            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|False" });
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(questions);
-
-            var attributes = this.GetAttributes();
-
-            var controller = this.GetController();
-
-            controller.ValidateQuestions(attributes);
-
-            Assert.IsTrue(controller.ModelState.IsValid);
-        }
-
-        [Test]
-        public void AdoptionFormsController_IsValidModel_True()
-        {
-            this.Setup();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            var model = this.GetModel();
-            var controller = this.GetController();
-
-            Assert.IsTrue(controller.IsValidModel(model));
-        }
-
-        [Test]
-        public void AdoptionFormsController_IsValidModel_False_NoAttributes()
-        {
-            this.Setup();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            var model = this.GetModel();
-            model.Attributes = null;
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.IsValidModel(model));
-            Assert.IsNotNull(controller.ModelState["Attributes"]);
-        }
-
-        [Test]
-        public void AdoptionFormsController_IsValidModel_False_FamilyMembersAge()
-        {
-            this.Setup();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            var model = this.GetModel();
-            model.FamilyMembers = 5;
-
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.IsValidModel(model));
-            Assert.IsNotNull(controller.ModelState["FamilyMembersAge"]);
-        }
-
-        [Test]
-        public void CanSeeForm_True_Admin()
-        {
-            this.Setup();
-
-            var form = this.GetEntity();
-            var controller = this.GetController();
-
-            Assert.IsTrue(controller.CanSeeForm(form));
-        }
-
-        [Test]
-        public void CanSeeForm_True_FormUser()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            var form = this.GetEntity();
-            form.UserId = 55;
-            var controller = this.GetController();
-
-            Assert.IsTrue(controller.CanSeeForm(form));
-        }
-
-        [Test]
-        public void CanSeeForm_True_ContentUser()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            var form = this.GetEntity();
-            form.Content.UserId = 55;
-            var controller = this.GetController();
-
-            Assert.IsTrue(controller.CanSeeForm(form));
-        }
-
-        [Test]
-        public void CanSeeForm_True_ShelterUser()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            var form = this.GetEntity();
-            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
-                .Returns(5);
-
-            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
-                .Returns(true);
-
-            var controller = this.GetController();
-
-            Assert.IsTrue(controller.CanSeeForm(form));
-        }
-
-        [Test]
-        public void CanSeeForm_False_ShelterNoUser()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            var form = this.GetEntity();
-            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
-                .Returns(5);
-
-            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
-                .Returns(false);
-
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.CanSeeForm(form));
-        }
-
-        [Test]
-        public void CanSeeForm_False_NoShelter()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            var form = this.GetEntity();
-            this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
-                .Returns((int?)null);
-
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.CanSeeForm(form));
-        }
-
+        /// <summary>
+        /// Gets the attributes.
+        /// </summary>
+        /// <returns>the list</returns>
         private IList<AdoptionFormAttributeModel> GetAttributes()
         {
             var attributes = new List<AdoptionFormAttributeModel>();
@@ -458,29 +509,18 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             return attributes;
         }
 
-        //private IList<AdoptionFormQuestionModel> GetQuestions()
-        //{
-        //    var questions = new List<AdoptionFormQuestionModel>();
-
-        //    questions.Add(new AdoptionFormQuestionModel { Id = 1, Question = "question1", Options = new string[] { "a", "b", "c" }, Required = true });
-        //    questions.Add(new AdoptionFormQuestionModel { Id = 2, Question = "question2", Options = new string[] { "a", "b", "c" }, Required = true });
-        //    questions.Add(new AdoptionFormQuestionModel { Id = 3, Question = "question3", Options = new string[] { "a", "b", "c" }, Required = true });
-        //    questions.Add(new AdoptionFormQuestionModel { Id = 4, Question = "question4", Options = new string[] { "a", "b", "c" }, Required = true });
-        //    questions.Add(new AdoptionFormQuestionModel { Id = 5, Question = "question5", Options = new string[] { "a", "b", "c" }, Required = true });
-
-        //    return questions;
-        //}
-        private IList<CustomTableRow> GetQuestions()
+        /// <summary>
+        /// Gets the controller.
+        /// </summary>
+        /// <returns>the controller</returns>
+        private AdoptionFormsController GetController()
         {
-            var questions = new List<CustomTableRow>();
-
-            questions.Add(new CustomTableRow { Id = 1, Value = "question1", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 2, Value = "question2", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 3, Value = "question3", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 4, Value = "question4", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|True" });
-
-            return questions;
+            return new AdoptionFormsController(
+                this.adoptionFormService.Object,
+                this.workContext.Object,
+                this.contentService.Object,
+                this.filesHelper.Object,
+                this.customTableService.Object);
         }
 
         /// <summary>
@@ -527,28 +567,31 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 Email = "email@email.com",
                 FamilyMembers = 1,
                 FamilyMembersAge = "20",
-                Job = new ContentAttributeModel<int> { Text = "Job", Value = 1  },
+                Job = new ContentAttributeModel<int> { Text = "Job", Value = 1 },
                 Status = AdoptionFormAnswerStatus.None,
                 Location = new Huellitas.Web.Models.Api.Common.LocationModel { Id = 1, Name = "location" },
                 Name = "Username del usuario",
                 Town = "Barrio",
-                User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id =1, Name = "user" },
+                User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "user" },
                 PhoneNumber = "3669223"
             };
         }
 
         /// <summary>
-        /// Gets the controller.
+        /// Gets the questions.
         /// </summary>
-        /// <returns>the controller</returns>
-        private AdoptionFormsController GetController()
+        /// <returns>the list</returns>
+        private IList<CustomTableRow> GetQuestions()
         {
-            return new AdoptionFormsController(
-                this.adoptionFormService.Object,
-                this.workContext.Object,
-                this.contentService.Object,
-                this.filesHelper.Object,
-                this.customTableService.Object);
+            var questions = new List<CustomTableRow>();
+
+            questions.Add(new CustomTableRow { Id = 1, Value = "question1", AdditionalInfo = "Single|a,b,c|True" });
+            questions.Add(new CustomTableRow { Id = 2, Value = "question2", AdditionalInfo = "Single|a,b,c|True" });
+            questions.Add(new CustomTableRow { Id = 3, Value = "question3", AdditionalInfo = "Single|a,b,c|True" });
+            questions.Add(new CustomTableRow { Id = 4, Value = "question4", AdditionalInfo = "Single|a,b,c|True" });
+            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|True" });
+
+            return questions;
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Huellitas.Web.Controllers.Api.Users
 {
     using System.Threading.Tasks;
     using Business.Extensions.Entities;
+    using Business.Security;
     using Huellitas.Business.Services.Users;
     using Huellitas.Web.Infraestructure.WebApi;
     using Infraestructure.Security;

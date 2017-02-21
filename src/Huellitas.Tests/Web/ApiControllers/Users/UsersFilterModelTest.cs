@@ -3,16 +3,11 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Huellitas.Web.Models.Api.Users;
-using NUnit.Framework;
-
 namespace Huellitas.Tests.Web.ApiControllers.Users
 {
+    using Huellitas.Web.Models.Api.Users;
+    using NUnit.Framework;
+
     /// <summary>
     /// Users Filter Model Test
     /// </summary>

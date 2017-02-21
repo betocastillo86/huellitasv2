@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.EventPublisher
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Interface of subscriber <![CDATA[Interfaz encargada de suscribir las clases a los eventos especificos que deseen suscribir]]>
     /// </summary>
@@ -15,6 +17,7 @@ namespace Huellitas.Business.EventPublisher
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        void HandleEvent(T message);
+        /// <returns>the task</returns>
+        Task HandleEvent(T message);
     }
 }

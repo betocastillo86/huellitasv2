@@ -37,5 +37,10 @@ namespace Huellitas.Business.Caching
         /// The notifications all
         /// </summary>
         public const string NOTIFICATIONS_ALL = "cache.notifications.all";
+
+        /// <summary>
+        /// The locations all
+        /// </summary>
+        public const string LOCATIONS_ALL = "cache.locations.all";
     }
 }

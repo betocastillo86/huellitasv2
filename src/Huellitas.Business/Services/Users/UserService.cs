@@ -58,7 +58,7 @@ namespace Huellitas.Business.Services.Users
 
             await this.userRepository.UpdateAsync(user);
 
-            this.publisher.EntityDeleted(user);
+            await this.publisher.EntityDeleted(user);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Huellitas.Business.Services.Users
             {
                 await this.userRepository.InsertAsync(user);
 
-                this.publisher.EntityInserted(user);
+                await this.publisher.EntityInserted(user);
             }
             catch (DbUpdateException e)
             {
@@ -151,7 +151,7 @@ namespace Huellitas.Business.Services.Users
             {
                 await this.userRepository.UpdateAsync(user);
 
-                this.publisher.EntityUpdated(user);
+                await this.publisher.EntityUpdated(user);
             }
             catch (DbUpdateException e)
             {

@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.EventPublisher
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     /// The Publisher
     /// </summary>
@@ -15,6 +17,7 @@ namespace Huellitas.Business.EventPublisher
         /// </summary>
         /// <typeparam name="T">any type</typeparam>
         /// <param name="message">The message.</param>
-        void Publish<T>(T message);
+        /// <returns>The task</returns>
+        Task Publish<T>(T message);
     }
 }

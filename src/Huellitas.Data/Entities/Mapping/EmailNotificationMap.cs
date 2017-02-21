@@ -24,7 +24,8 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasKey(c => c.Id)
                 .HasName("PK_EmailNotification");
 
-            entity.Property(e => e.Id);
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
 
             entity.Property(e => e.Body).IsRequired();
 

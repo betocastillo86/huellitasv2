@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Caching
 {
+    using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
 
@@ -43,6 +44,7 @@ namespace Huellitas.Business.Caching
         /// Initializes a new instance of the <see cref="CacheCleaner"/> class.
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
+        /// <returns>the task</returns>
         public CacheCleaner(ICacheManager cacheManager)
         {
             this.cacheManager = cacheManager;
@@ -54,27 +56,33 @@ namespace Huellitas.Business.Caching
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityInsertedMessage<Content> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityInsertedMessage<Content> message)
         {
             this.cacheManager.Remove(CacheKeys.SHELTERS_ALL);
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityDeletedMessage<Content> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityDeletedMessage<Content> message)
         {
             this.cacheManager.Remove(CacheKeys.SHELTERS_ALL);
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityUpdatedMessage<Content> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityUpdatedMessage<Content> message)
         {
             this.cacheManager.Remove(CacheKeys.SHELTERS_ALL);
+            await Task.FromResult(0);
         }
 
         #endregion Content
@@ -85,27 +93,33 @@ namespace Huellitas.Business.Caching
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityDeletedMessage<SystemSetting> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityDeletedMessage<SystemSetting> message)
         {
             this.cacheManager.Clear();
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityUpdatedMessage<SystemSetting> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityUpdatedMessage<SystemSetting> message)
         {
             this.cacheManager.Clear();
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityInsertedMessage<SystemSetting> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityInsertedMessage<SystemSetting> message)
         {
             this.cacheManager.Clear();
+            await Task.FromResult(0);
         }
 
         #endregion System Setting
@@ -116,27 +130,33 @@ namespace Huellitas.Business.Caching
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityDeletedMessage<CustomTableRow> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityDeletedMessage<CustomTableRow> message)
         {
             this.cacheManager.Remove(string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, message.Entity.CustomTableId));
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityUpdatedMessage<CustomTableRow> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityUpdatedMessage<CustomTableRow> message)
         {
             this.cacheManager.Remove(string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, message.Entity.CustomTableId));
+            await Task.FromResult(0);
         }
 
         /// <summary>
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void HandleEvent(EntityInsertedMessage<CustomTableRow> message)
+        /// <returns>the task</returns>
+        public async Task HandleEvent(EntityInsertedMessage<CustomTableRow> message)
         {
             this.cacheManager.Remove(string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, message.Entity.CustomTableId));
+            await Task.FromResult(0);
         }
 
         #endregion Custom Table Row

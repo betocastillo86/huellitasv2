@@ -40,7 +40,8 @@ namespace Huellitas.Data.Migrations
                 name: "EmailNotification",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     To = table.Column<string>(maxLength: 200, nullable: false),
                     ToName = table.Column<string>(maxLength: 200, nullable: true),
                     CC = table.Column<string>(maxLength: 500, nullable: true),

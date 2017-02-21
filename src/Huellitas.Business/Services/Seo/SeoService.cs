@@ -9,6 +9,8 @@ namespace Huellitas.Business.Services.Seo
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using Business.Configuration;
+    using Data.Entities;
     using Data.Entities.Abstract;
 
     /// <summary>
@@ -17,6 +19,20 @@ namespace Huellitas.Business.Services.Seo
     /// <seealso cref="Huellitas.Business.Services.Seo.ISeoService" />
     public class SeoService : ISeoService
     {
+        /// <summary>
+        /// The general settings
+        /// </summary>
+        private readonly IGeneralSettings generalSettings;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeoService"/> class.
+        /// </summary>
+        /// <param name="generalSettings">The general settings.</param>
+        public SeoService(IGeneralSettings generalSettings)
+        {
+            this.generalSettings = generalSettings;
+        }
+
         /// <summary>
         /// Generates the name of the friendly.
         /// </summary>
@@ -74,6 +90,31 @@ namespace Huellitas.Business.Services.Seo
             }
 
             return friendlyname;
+        }
+
+        /// <summary>
+        /// Gets the content URL.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        /// the url
+        /// </returns>
+        public string GetContentUrl(Content content)
+        {
+            ////TODO:Test
+            var root = string.Empty;
+
+            switch (content.Type)
+            {
+                case ContentType.Pet:
+                    root = "animal";
+                    break;
+                case ContentType.Shelter:
+                    root = "fundacion";
+                    break;
+            }
+
+            return $"{this.generalSettings.SiteUrl}/{root}/{content.FriendlyName}";
         }
     }
 }

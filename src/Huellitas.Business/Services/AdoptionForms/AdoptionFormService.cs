@@ -10,6 +10,7 @@ namespace Huellitas.Business.Services.AdoptionForms
     using System.Linq;
     using System.Threading.Tasks;
     using Data.Core;
+    using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
@@ -42,22 +43,30 @@ namespace Huellitas.Business.Services.AdoptionForms
         private readonly IRepository<ContentAttribute> contentAttributeRepository;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormService"/> class.
         /// </summary>
         /// <param name="adoptionFormRepository">The adoption form repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
         /// <param name="adoptionFormAttributeRepository">The adoption form attribute repository.</param>
         /// <param name="adoptionFormAnswerRepository">The adoption form answer repository.</param>
+        /// <param name="publisher">the publisher</param>
         public AdoptionFormService(
             IRepository<AdoptionForm> adoptionFormRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository,
-            IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository)
+            IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository,
+            IPublisher publisher)
         {
             this.adoptionFormRepository = adoptionFormRepository;
             this.contentAttributeRepository = contentAttributeRepository;
             this.adoptionFormAttributeRepository = adoptionFormAttributeRepository;
             this.adoptionFormAnswerRepository = adoptionFormAnswerRepository;
+            this.publisher = publisher;
         }
 
         /// <summary>
@@ -215,6 +224,7 @@ namespace Huellitas.Business.Services.AdoptionForms
                 ////TODO:Test
                 form.CreationDate = DateTime.Now;
                 await this.adoptionFormRepository.InsertAsync(form);
+                await this.publisher.EntityInserted(form);
             }
             catch (DbUpdateException e)
             {
@@ -254,6 +264,7 @@ namespace Huellitas.Business.Services.AdoptionForms
             {
                 answer.CreationDate = DateTime.Now;
                 await this.adoptionFormAnswerRepository.InsertAsync(answer);
+                await this.publisher.EntityInserted(answer);
             }
             catch (DbUpdateException e)
             {

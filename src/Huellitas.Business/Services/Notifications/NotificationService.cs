@@ -80,8 +80,8 @@ namespace Huellitas.Business.Services.Notifications
         /// <param name="publisher">The publisher.</param>
         public NotificationService(
             IUserService userService,
-            GeneralSettings generalSettings,
-            NotificationSettings notificationSettings,
+            IGeneralSettings generalSettings,
+            INotificationSettings notificationSettings,
             IRepository<Notification> notificationRepository,
             IRepository<SystemNotification> systemNotificationRepository,
             IRepository<EmailNotification> emailNotificationRepository,
@@ -269,18 +269,33 @@ namespace Huellitas.Business.Services.Notifications
                 ////Asigna por defecto el parametro url el target url
                 if (!string.IsNullOrEmpty(targetUrl) && !parameters.Any(c => c.Key.Equals("Url")))
                 {
+                    if (targetUrl.StartsWith("/"))
+                    {
+                        string.Concat(this.generalSettings.SiteUrl, targetUrl);
+                    }
+
                     parameters.Add("Url", targetUrl);
                 }
 
                 parameters.Add("FacebookUrl", this.generalSettings.FacebookUrl);
                 parameters.Add("InstagramUrl", this.generalSettings.InstagramUrl);
 
+                if (userTriggerEvent != null)
+                {
+                    parameters.AddOrReplace("TriggerUser.Name", userTriggerEvent.Name);
+                    parameters.AddOrReplace("TriggerUser.Email", userTriggerEvent.Email);
+                }
+
                 var systemNotificationsToInsert = new List<SystemNotification>();
                 var emailNotificationsToInsert = new List<EmailNotification>();
 
                 ////Recorre los usuarios a los que debe realizar la notificación
+
                 foreach (var user in users)
                 {
+                    parameters.AddOrReplace("NotifiedUser.Name", user.Name);
+                    parameters.AddOrReplace("NotifiedUser.Email", user.Email);
+
                     ////Si la notificación es del sistema la envia
                     if (notification.IsSystem)
                     {
@@ -394,7 +409,7 @@ namespace Huellitas.Business.Services.Notifications
 
             await this.notificationRepository.UpdateAsync(entity);
 
-            this.publisher.EntityUpdated(entity);
+            await this.publisher.EntityUpdated(entity);
         }
 
         /// <summary>
