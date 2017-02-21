@@ -94,7 +94,6 @@ namespace Huellitas.Web.Models.Extensions.AdoptionForms
         /// <returns>the entity</returns>
         public static AdoptionForm ToEntity(this AdoptionFormModel model)
         {
-            ////TODO:Test
             var entity = new AdoptionForm
             {
                 Id = model.Id,
