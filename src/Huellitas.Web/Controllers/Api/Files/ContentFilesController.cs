@@ -8,6 +8,7 @@ namespace Huellitas.Web.Controllers.Api.Files
     using System.Threading.Tasks;
     using Business.Configuration;
     using Business.Exceptions;
+    using Business.Security;
     using Business.Services.Contents;
     using Business.Services.Files;
     using Data.Entities;

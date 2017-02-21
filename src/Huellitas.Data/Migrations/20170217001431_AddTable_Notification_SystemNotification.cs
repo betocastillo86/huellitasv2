@@ -15,14 +15,14 @@ namespace Huellitas.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
-                    Deleted = table.Column<bool>(nullable: false),
-                    EmailHtml = table.Column<string>(nullable: true),
-                    EmailSubject = table.Column<string>(maxLength: 500, nullable: true),
+                    Name = table.Column<string>(maxLength: 300, nullable: false),
                     IsEmail = table.Column<bool>(nullable: false),
                     IsSystem = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 300, nullable: false),
+                    EmailHtml = table.Column<string>(nullable: true),
+                    EmailSubject = table.Column<string>(maxLength: 500, nullable: true),
                     SystemText = table.Column<string>(maxLength: 2000, nullable: true),
+                    Active = table.Column<bool>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: false),
                     Tags = table.Column<string>(maxLength: 500, nullable: true),
                     UpdateDate = table.Column<DateTime>(nullable: true)
                 },
@@ -37,12 +37,12 @@ namespace Huellitas.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Value = table.Column<string>(maxLength: 500, nullable: false),
+                    TargetURL = table.Column<string>(maxLength: 500, nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Seen = table.Column<bool>(nullable: false),
-                    TargetURL = table.Column<string>(maxLength: 500, nullable: false),
                     TriggerUserId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(maxLength: 500, nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

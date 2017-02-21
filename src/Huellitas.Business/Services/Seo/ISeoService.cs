@@ -6,7 +6,8 @@
 namespace Huellitas.Business.Services.Seo
 {
     using System.Linq;
-    using Huellitas.Data.Entities.Abstract;   
+    using Data.Entities;
+    using Huellitas.Data.Entities.Abstract;
 
     /// <summary>
     /// Interface to friendly
@@ -21,5 +22,12 @@ namespace Huellitas.Business.Services.Seo
         /// <param name="maxLength">The maximum length.</param>
         /// <returns>the value</returns>
         string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query = null, int maxLength = 280);
+
+        /// <summary>
+        /// Gets the content URL.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>the url</returns>
+        string GetContentUrl(Content content);
     }
 }

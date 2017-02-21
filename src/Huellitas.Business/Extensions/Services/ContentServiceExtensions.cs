@@ -17,6 +17,25 @@ namespace Huellitas.Business.Extensions.Services
     public static class ContentServiceExtensions
     {
         /// <summary>
+        /// Gets the shelter by pet.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="petId">The pet identifier.</param>
+        /// <returns>the shelter</returns>
+        public static Content GetShelterByPet(this IContentService service, int petId)
+        {
+            ////TODO:Test
+            var shelterId = service.GetContentAttribute<int?>(petId, ContentAttributeType.Shelter);
+
+            if (shelterId.HasValue)
+            {
+                return service.GetById(shelterId.Value);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets the cached shelter.
         /// </summary>
         /// <param name="service">The service.</param>

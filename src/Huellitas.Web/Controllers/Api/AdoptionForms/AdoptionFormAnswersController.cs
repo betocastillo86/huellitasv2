@@ -8,6 +8,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
     using System.Threading.Tasks;
     using Business.Exceptions;
     using Business.Extensions.Entities;
+    using Business.Security;
     using Business.Services.AdoptionForms;
     using Business.Services.Contents;
     using Data.Entities;

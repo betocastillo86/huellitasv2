@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Common
 {
+    using System.Collections.Generic;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
 
@@ -26,5 +27,18 @@ namespace Huellitas.Business.Services.Common
             int? parentId = null,
             int page = 0,
             int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Gets the cached locations.
+        /// </summary>
+        /// <returns>the locations</returns>
+        IList<Location> GetCachedLocations();
+
+        /// <summary>
+        /// Gets the cached location by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the location</returns>
+        Location GetCachedLocationById(int id);
     }
 }

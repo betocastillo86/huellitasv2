@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Infraestructure.Filters.Exceptions
 {
     using System.Collections.Generic;
+    using Business.Security;
     using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services.Common;
     using Huellitas.Web.Infraestructure.WebApi;

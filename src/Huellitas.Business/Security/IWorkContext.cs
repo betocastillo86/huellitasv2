@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Infraestructure.Security
+namespace Huellitas.Business.Security
 {
     using Huellitas.Data.Entities;
 

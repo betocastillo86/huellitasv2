@@ -7,6 +7,7 @@ namespace Huellitas.Web.Infraestructure.Security
 {
     using System;
     using System.Security.Claims;
+    using Business.Security;
     using Business.Services.Users;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Http;

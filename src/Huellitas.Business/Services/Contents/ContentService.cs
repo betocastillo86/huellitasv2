@@ -206,12 +206,20 @@ namespace Huellitas.Business.Services.Contents
         /// </summary>
         /// <param name="contentId">The content identifier.</param>
         /// <param name="relation">The relation.</param>
+        /// <param name="loadUser">load user info</param>
         /// <returns>
         /// the list of users
         /// </returns>
-        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null)
+        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null, bool loadUser = false)
         {
-            var query = this.contentUserRepository.Table.Where(c => c.ContentId == contentId);
+            var query = this.contentUserRepository.Table;
+
+            if (loadUser)
+            {
+                query = query.Include(c => c.User);
+            }
+                
+            query = query.Where(c => c.ContentId == contentId);
 
             if (relation.HasValue)
             {
@@ -236,7 +244,7 @@ namespace Huellitas.Business.Services.Contents
             try
             {
                 await this.contentRepository.InsertAsync(content);
-                this.publisher.EntityInserted(content);
+                await this.publisher.EntityInserted(content);
             }
             catch (DbUpdateException e)
             {
@@ -461,7 +469,7 @@ namespace Huellitas.Business.Services.Contents
             try
             {
                 await this.contentRepository.UpdateAsync(content);
-                this.publisher.EntityUpdated(content);
+                await this.publisher.EntityUpdated(content);
             }
             catch (DbUpdateException e)
             {

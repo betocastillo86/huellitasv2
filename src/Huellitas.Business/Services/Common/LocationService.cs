@@ -6,7 +6,9 @@
 namespace Huellitas.Business.Services.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Caching;
     using Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
@@ -23,12 +25,21 @@ namespace Huellitas.Business.Services.Common
         private readonly IRepository<Location> locationRepository;
 
         /// <summary>
+        /// The cache manager
+        /// </summary>
+        private readonly ICacheManager cacheManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LocationService"/> class.
         /// </summary>
         /// <param name="locationRepository">The location repository.</param>
-        public LocationService(IRepository<Location> locationRepository)
+        /// <param name="cacheManager">The cache manager.</param>
+        public LocationService(
+            IRepository<Location> locationRepository,
+            ICacheManager cacheManager)
         {
             this.locationRepository = locationRepository;
+            this.cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -56,6 +67,34 @@ namespace Huellitas.Business.Services.Common
             }
 
             return new PagedList<Location>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the cached locations.
+        /// </summary>
+        /// <returns>
+        /// the locations
+        /// </returns>
+        public IList<Location> GetCachedLocations()
+        {
+            return this.cacheManager.Get(
+                CacheKeys.CUSTOMTABLEROWS_BY_TABLE, 
+                () => 
+                {
+                return this.GetAll();
+            });
+        }
+
+        /// <summary>
+        /// Gets the cached location by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// the location
+        /// </returns>
+        public Location GetCachedLocationById(int id)
+        {
+            return this.GetCachedLocations().FirstOrDefault(c => c.Id == id);
         }
     }
 }

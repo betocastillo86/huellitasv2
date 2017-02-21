@@ -7,6 +7,7 @@ namespace Huellitas.Business.EventPublisher
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
@@ -35,12 +36,13 @@ namespace Huellitas.Business.EventPublisher
         /// </summary>
         /// <typeparam name="T">the type</typeparam>
         /// <param name="message">The message.</param>
-        public void Publish<T>(T message)
+        /// <returns>the task</returns>
+        public async Task Publish<T>(T message)
         {
             var subscriptios = this.GetSubscriptions<T>();
             foreach (var subscription in subscriptios)
             {
-                subscription.HandleEvent(message);
+                await subscription.HandleEvent(message);
             }
         }
 

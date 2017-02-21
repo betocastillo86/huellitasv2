@@ -10,6 +10,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions.Entities;
+    using Business.Security;
     using Business.Services.Contents;
     using Business.Services.Files;
     using Data.Entities;
