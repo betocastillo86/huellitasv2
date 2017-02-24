@@ -15,6 +15,21 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <a class="btn btn-app" href="/pets/{{main.model.content.id}}/edit">
+                        <i class="fa fa-edit"></i> Editar
+                    </a>
+                    <a class="btn btn-app" href="/pets/{{main.model.content.id}}/edit">
+                        <i class="fa fa-eye"></i> Ver
+                    </a>
+                    <button class="btn btn-app" ng-click="main.showAddUser()">
+                        <i class="fa fa-users"></i> Compartir
+                    </button>
+                    <button class="btn btn-app" ng-click="main.showSendByEmail()">
+                        <i class="fa fa-send"></i> Enviar
+                    </button>
+                </div>
+
+                <div class="x_content">
                     <br>
                     <div class="form-group">
                         <img ng-src="{{main.model.content.image.fileName}}" width="200" height="200" />
@@ -25,11 +40,6 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-6">
                                     Mascota.
                                 </label>
-                                <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.content.name}}
-                                    <a href="/pets/{{main.model.content.id}}/edit" class="btn btn-primary btn-xs">Ver</a>
-                                    <a href="/pets/{{main.model.content.id}}/edit" class="btn btn-default btn-xs">Editar</a>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-6">

@@ -22,10 +22,10 @@
 
 
         //searches the template by the modal type
-        function getTemplate(modalType) {
+        function getTemplate(templateUrl) {
             var deferred = $q.defer();
 
-            var templateUrl = '/app/components/modal/modal-' + modalType + '.html';
+            //var templateUrl = '/app/components/modal/modal-' + modalType + '.html';
 
             $templateRequest(templateUrl, true)
                 .then(templateCompleted, templateError);
@@ -49,9 +49,16 @@
             //loads the defaults options
             options = _.defaults(options, defaultOptions);
 
-            getTemplate(options.modalType)
-            .then(templateLoaded)
-            .catch(templateError);
+            if (options.template) {
+                getTemplate(options.template)
+                    .then(templateLoaded)
+                    .catch(templateError);
+            }
+            else {
+                getTemplate('/app/components/modal/modal-' + options.modalType + '.html')
+                    .then(templateLoaded)
+                    .catch(templateError);
+            }
 
             return deferred.promise;
 
@@ -78,7 +85,7 @@
                 };
 
                 var controllerObjBefore = scope[options.controllerAs];
-                var controller = $controller(getControllerName(options.modalType), inputs, false, options.controllerAs);
+                var controller = $controller(getControllerName(options), inputs, false, options.controllerAs);
 
                 if (options.controllerAs && controllerObjBefore) {
                     angular.extend(controller, controllerObjBefore);
@@ -130,18 +137,23 @@
                     }
                 }
 
-                function getControllerName(modalType) {
-                    modalType = modalType.toLowerCase();
-                    switch (modalType) {
-                        case 'default':
-                        default:
-                            return 'ModalDefaultController';
+                function getControllerName() {
+                    if (options.controller) {
+                        return options.controller;
+                    }
+                    else {
+                        var modalType = options.modalType.toLowerCase();
+                        switch (modalType) {
+                            case 'default':
+                            default:
+                                return 'ModalDefaultController';
+                        }
                     }
                 }
             }
 
             function templateError() {
-                console.log('template error');
+                console.log('template error', arguments);
             }
         }
 

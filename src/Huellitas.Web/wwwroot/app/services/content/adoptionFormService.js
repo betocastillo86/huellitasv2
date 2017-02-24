@@ -8,7 +8,9 @@
 
         return {
             getAll: getAll,
-            getById : getById
+            getById: getById,
+            postUser: postUser,
+            sendByEmail : sendByEmail
         };
 
         function getAll(filter)
@@ -19,6 +21,16 @@
         function getById(id)
         {
             return $http.get('/api/adoptionforms/' + id);
+        }
+
+        function postUser(formId, userId)
+        {
+            return $http.post('/api/adoptionforms/' + formId + '/users', { userId : userId })
+        }
+
+        function sendByEmail(formId, email)
+        {
+            return $http.post('/api/adoptionforms/' + formId + '/send', { email: email })
         }
     }
 

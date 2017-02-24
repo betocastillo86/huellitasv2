@@ -1,0 +1,32 @@
+﻿<div class="modal fade bs-example-modal-lg in" tabindex="-1" role="dialog" aria-hidden="true" style="display: block; padding-right: 17px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form name="formSendForm" novalidate="novalidate" ng-submit="modal.save(formSendForm.$valid)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Enviar formulario por correo</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="first-name">
+                            Invita a un usuario a responder este formulario
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="email" name="email" class="form-control col-md-9 col-xs-12" ng-model="modal.email" required />
+                        </div>
+                    </div>
+                    <validation-message form="formSendForm" field="formSendForm.email" name="correo"></validation-message>
+                </div>
+                <br />
+                <br />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

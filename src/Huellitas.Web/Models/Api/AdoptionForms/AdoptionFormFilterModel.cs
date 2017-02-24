@@ -60,6 +60,14 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         public int? ShelterId { get; set; }
 
         /// <summary>
+        /// Gets or sets the shared to user identifier.
+        /// </summary>
+        /// <value>
+        /// The shared to user identifier.
+        /// </value>
+        public int? SharedToUserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the order by enum.
         /// </summary>
         /// <value>
@@ -112,6 +120,7 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// </returns>
         public bool IsValid(int userId, IContentService contentService, bool canSeeAll)
         {
+            ////TODO:Test again with shared userid
             var orderByEnum = AdoptionFormOrderBy.CreationDate;
             Enum.TryParse(this.OrderBy, out orderByEnum);
             this.OrderByEnum = orderByEnum;
@@ -137,6 +146,13 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
                     if (this.ContentUserId != userId)
                     {
                         this.AddError("ContentUserId", "No puede acceder a los datos del id de usuario enviado");
+                    }
+                }
+                else if (this.SharedToUserId.HasValue)
+                {
+                    if (this.SharedToUserId != userId)
+                    {
+                        this.AddError("SharedToUserId", "No puede acceder a los datos del id de usuario enviado");
                     }
                 }
                 else

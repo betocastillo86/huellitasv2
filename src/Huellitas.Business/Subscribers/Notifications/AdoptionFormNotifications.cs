@@ -30,7 +30,8 @@ namespace Huellitas.Business.Subscribers.Notifications
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionForm}}" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionFormAnswer}}" />
     public class AdoptionFormNotifications : ISubscriber<EntityInsertedMessage<AdoptionForm>>,
-        ISubscriber<EntityInsertedMessage<AdoptionFormAnswer>>
+        ISubscriber<EntityInsertedMessage<AdoptionFormAnswer>>,
+        ISubscriber<EntityInsertedMessage<AdoptionFormUser>>
     {
         /// <summary>
         /// The adoption form service
@@ -119,6 +120,23 @@ namespace Huellitas.Business.Subscribers.Notifications
             await this.NotifyUserOfFormCreated(form, content, shelter);
 
             await this.NotifyPetOwnersOfFormCreated(form, content, shelter);
+        }
+
+        /// <summary>
+        /// Handles the event.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task HandleEvent(EntityInsertedMessage<AdoptionFormUser> message)
+        {
+            var userForm = message.Entity;
+            var form = this.adoptionFormService.GetById(userForm.AdoptionFormId);
+            var content = this.GetContentByForm(form);
+            var shelter = this.contentService.GetShelterByPet(content.Id);
+
+            await this.NotifyUserOfFormShared(form, content, shelter);
         }
 
         /// <summary>
@@ -305,6 +323,25 @@ namespace Huellitas.Business.Subscribers.Notifications
                 this.workContext.CurrentUser,
                 null,
                 Data.Entities.Enums.NotificationType.AdoptionFormConfirmation,
+                this.seoService.GetContentUrl(content),
+                parameters);
+        }
+
+        /// <summary>
+        /// Notifies the user of form shared.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <param name="content">The content.</param>
+        /// <param name="shelter">The shelter.</param>
+        /// <returns>the task</returns>
+        private async Task NotifyUserOfFormShared(AdoptionForm form, Content content, Content shelter)
+        {
+            var parameters = this.GetBasicParameters(content, shelter);
+
+            await this.notificationService.NewNotification(
+                form.User,
+                null,
+                Data.Entities.Enums.NotificationType.AdoptionFormShared,
                 this.seoService.GetContentUrl(content),
                 parameters);
         }

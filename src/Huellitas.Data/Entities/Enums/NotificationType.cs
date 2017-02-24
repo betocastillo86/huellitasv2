@@ -73,6 +73,16 @@ namespace Huellitas.Data.Entities.Enums
         /// <summary>
         /// The shelter approved
         /// </summary>
-        ShelterApproved = 12
+        ShelterApproved = 12,
+
+        /// <summary>
+        /// When The adoption form is shared to another existent user
+        /// </summary>
+        AdoptionFormShared = 13,
+
+        /// <summary>
+        /// The adoption form send
+        /// </summary>
+        AdoptionFormSent = 14
     }
 }

@@ -24,6 +24,7 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="shelterId">The shelter identifier.</param>
         /// <param name="formUserId">The form user identifier.</param>
         /// <param name="contentUserId">The content user identifier.</param>
+        /// <param name="sharedToUserId">Filter that search what forms have been share with it</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="page">The page.</param>
@@ -36,6 +37,7 @@ namespace Huellitas.Business.Services.AdoptionForms
             int? shelterId = null,
             int? formUserId = null,
             int? contentUserId = null,
+            int? sharedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
             int page = 0,
@@ -75,5 +77,29 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="answer">The answer.</param>
         /// <returns>the task</returns>
         Task InsertAnswer(AdoptionFormAnswer answer);
+
+        /// <summary>
+        /// Inserts the user.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        Task InsertUser(AdoptionFormUser entity);
+
+        /// <summary>
+        /// Determines whether [is user in adoption form] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="adoptionFormId">The adoption form identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if [is user in adoption form] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        bool IsUserInAdoptionForm(int userId, int adoptionFormId);
+
+        /// <summary>
+        /// Updates the specified form.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>the task</returns>
+        Task Update(AdoptionForm form);
     }
 }

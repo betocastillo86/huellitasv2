@@ -13,11 +13,13 @@
         vm.showForm = false;
         vm.showAnswers = false;
 
+        vm.showAddUser = showAddUser;
         vm.showDetailAnswer = showDetailAnswer;
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeAnswerStatus = changeAnswerStatus;
         vm.toogleShowMore = toogleShowMore;
         vm.saveResponse = saveResponse;
+        vm.showSendByEmail = showSendByEmail;
 
         return activate();
 
@@ -66,6 +68,14 @@
             vm.answer.status = status;
         }
 
+        function showAddUser()
+        {
+            modalService.show({
+                controller: 'AddFormUserController',
+                template : '/app/adoptionForms/addFormUser.html'
+            });
+        }
+
         function saveResponse(isValid) {
             if (isValid) {
                 vm.answer.adoptionFormId = vm.id;
@@ -97,6 +107,14 @@
                     vm.showAnswers = !vm.showAnswers;
                     break;
             }
+        }
+
+        function showSendByEmail()
+        {
+            modalService.show({
+                controller: 'SendFormByEmailController',
+                template: '/app/adoptionForms/sendFormByEmail.html'
+            });
         }
     }
 })();

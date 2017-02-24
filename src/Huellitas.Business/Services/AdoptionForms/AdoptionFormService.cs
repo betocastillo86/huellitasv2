@@ -38,6 +38,11 @@ namespace Huellitas.Business.Services.AdoptionForms
         private readonly IRepository<AdoptionForm> adoptionFormRepository;
 
         /// <summary>
+        /// The adoption form user repository
+        /// </summary>
+        private readonly IRepository<AdoptionFormUser> adoptionFormUserRepository;
+
+        /// <summary>
         /// The content attribute repository
         /// </summary>
         private readonly IRepository<ContentAttribute> contentAttributeRepository;
@@ -60,12 +65,14 @@ namespace Huellitas.Business.Services.AdoptionForms
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository,
             IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository,
+            IRepository<AdoptionFormUser> adoptionFormUserRepository,
             IPublisher publisher)
         {
             this.adoptionFormRepository = adoptionFormRepository;
             this.contentAttributeRepository = contentAttributeRepository;
             this.adoptionFormAttributeRepository = adoptionFormAttributeRepository;
             this.adoptionFormAnswerRepository = adoptionFormAnswerRepository;
+            this.adoptionFormUserRepository = adoptionFormUserRepository;
             this.publisher = publisher;
         }
 
@@ -78,6 +85,7 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="shelterId">The shelter identifier.</param>
         /// <param name="formUserId">The form user identifier.</param>
         /// <param name="contentUserId">The content user identifier.</param>
+        /// <param name="sharedToUserId">Filter that search what forms have been share with it</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="page">The page.</param>
@@ -92,6 +100,7 @@ namespace Huellitas.Business.Services.AdoptionForms
             int? shelterId = null,
             int? formUserId = null,
             int? contentUserId = null,
+            int? sharedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
             int page = 0,
@@ -115,6 +124,11 @@ namespace Huellitas.Business.Services.AdoptionForms
             if (locationId.HasValue)
             {
                 query = query.Where(c => c.LocationId == locationId.Value);
+            }
+
+            if (sharedToUserId.HasValue)
+            {
+                query = query.Where(c => c.Users.Any(x => x.UserId == sharedToUserId.Value));
             }
 
             if (shelterId.HasValue)
@@ -263,8 +277,84 @@ namespace Huellitas.Business.Services.AdoptionForms
             try
             {
                 answer.CreationDate = DateTime.Now;
+
                 await this.adoptionFormAnswerRepository.InsertAsync(answer);
+
+                // updates the last status form
+                var form = this.GetById(answer.AdoptionFormId);
+                form.LastStatusEnum = answer.StatusEnum;
+                await this.Update(form);
+
                 await this.publisher.EntityInserted(answer);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("FK_AdoptionFormAnswer_AdoptionForm"))
+                {
+                    throw new HuellitasException("AdoptionFormId", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else if (e.ToString().Contains("FK_AdoptionFormAnswer_User"))
+                {
+                    throw new HuellitasException("UserId", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Inserts the user.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>the user</returns>
+        public async Task InsertUser(AdoptionFormUser entity)
+        {
+            try
+            {
+                await this.adoptionFormUserRepository.InsertAsync(entity);
+
+                await this.publisher.EntityInserted(entity);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("FK_AdoptionFormUser_User"))
+                {
+                    throw new HuellitasException("UserId", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Determines whether [is user in adoption form] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="adoptionFormId">The adoption form identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if [is user in adoption form] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsUserInAdoptionForm(int userId, int adoptionFormId)
+        {
+            return this.adoptionFormUserRepository.Table.Any(c => c.UserId == userId && c.AdoptionFormId == adoptionFormId);
+        }
+
+        /// <summary>
+        /// Updates the specified form.
+        /// </summary>
+        /// <param name="form">The form.</param>
+        /// <returns>the task</returns>
+        public async Task Update(AdoptionForm form)
+        {
+            try
+            {
+                await this.adoptionFormRepository.UpdateAsync(form);
+
+                await this.publisher.EntityUpdated(form);
             }
             catch (DbUpdateException e)
             {

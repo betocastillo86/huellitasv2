@@ -1,0 +1,43 @@
+﻿<div class="modal fade bs-example-modal-lg in" tabindex="-1" role="dialog" aria-hidden="true" style="display: block; padding-right: 17px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form name="formAddUser" novalidate="novalidate" ng-submit="modal.save(formAddUser.$valid)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Invitar usuario</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="first-name">
+                            Invita a un usuario a responder este formulario
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <angucomplete-alt id="user"
+                                              placeholder="Ingresa el nombre o correo del usuario"
+                                              pause="400" 
+                                              remote-url="/api/users?keyword="
+                                              remote-url-data-field="results"
+                                              title-field="name" 
+                                              input-name="user"
+                                              field-required="true"
+                                              selected-object="modal.userChanged"
+                                              input-class="form-control col-md-9 col-xs-12" />
+
+                        </div>
+                    </div>
+                    <validation-message form="formAddUser" field="formAddUser.user" name="usuario"></validation-message>
+
+                </div>
+                <br />
+                <br />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" >Agregar</button>
+                </div>
+            </form>  
+        </div>
+    </div>
+</div>
+

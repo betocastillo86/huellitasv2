@@ -30,7 +30,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/[controller]")]
-    public class AdoptionFormsController : BaseApiController
+    public class AdoptionFormsController : AdoptionFormsBaseController
     {
         /// <summary>
         /// The adoption form service
@@ -70,54 +70,13 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             IWorkContext workContext,
             IContentService contentService,
             IFilesHelper filesHelper,
-            ICustomTableService customTableService)
+            ICustomTableService customTableService) : base(workContext, contentService, adoptionFormService)
         {
             this.adoptionFormService = adoptionFormService;
             this.workContext = workContext;
             this.contentService = contentService;
             this.filesHelper = filesHelper;
             this.customTableService = customTableService;
-        }
-
-        /// <summary>
-        /// Determines whether this instance [can see form] the specified form.
-        /// </summary>
-        /// <param name="form">The form.</param>
-        /// <returns>
-        ///   <c>true</c> if this instance [can see form] the specified form; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool CanSeeForm(AdoptionForm form)
-        {
-            ////Si es el que llena el formulario
-            if (this.workContext.CurrentUserId == form.UserId)
-            {
-                return true;
-            }
-            else if (this.workContext.CurrentUserId == form.Content.UserId)
-            {
-                ////Si es el dueño del contenido
-                return true;
-            }
-
-            if (this.workContext.CurrentUser.IsSuperAdmin())
-            {
-                ////Si es admin
-                return true;
-            }
-            else
-            {
-                ////Valida si el usuario es perteneciente al refugio
-                var shelter = this.contentService.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter);
-                if (shelter.HasValue)
-                {
-                    return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelter.Value, ContentUserRelationType.Shelter);
-                }
-                else
-                {
-                    return false;
-                }
-            }
         }
 
         /// <summary>
@@ -140,6 +99,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     filter.ShelterId,
                     filter.FormUserId,
                     filter.ContentUserId,
+                    filter.SharedToUserId,
                     filter.Status,
                     filter.OrderByEnum,
                     filter.Page,

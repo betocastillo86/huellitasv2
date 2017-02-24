@@ -193,6 +193,14 @@ namespace Huellitas.Data.Entities
         public virtual ICollection<AdoptionFormAttribute> Attributes { get; set; }
 
         /// <summary>
+        /// Gets or sets the uses.
+        /// </summary>
+        /// <value>
+        /// The uses.
+        /// </value>
+        public virtual ICollection<AdoptionFormUser> Users { get; set; }
+
+        /// <summary>
         /// Gets or sets the status enum.
         /// </summary>
         /// <value>

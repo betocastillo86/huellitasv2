@@ -8,7 +8,7 @@
         var vm = this;
         vm.forms = [];
         vm.listStatus = [];
-
+        
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
             page: 0

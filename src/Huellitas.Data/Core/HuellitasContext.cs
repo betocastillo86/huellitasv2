@@ -189,7 +189,15 @@ namespace Huellitas.Data.Core
         /// <value>
         /// The system notifications.
         /// </value>
-        public virtual DbSet<User> SystemNotifications { get; set; }
+        public virtual DbSet<SystemNotification> SystemNotifications { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adoption form users.
+        /// </summary>
+        /// <value>
+        /// The adoption form users.
+        /// </value>
+        public virtual DbSet<AdoptionFormUser> AdoptionFormUsers { get; set; }
 
         /// <summary>
         /// Gets or sets the notifications.
@@ -236,6 +244,7 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<ContentUser>().Map();
             modelBuilder.Entity<SystemNotification>().Map();
             modelBuilder.Entity<Notification>().Map();
+            modelBuilder.Entity<AdoptionFormUser>().Map();
         }
     }
 }
