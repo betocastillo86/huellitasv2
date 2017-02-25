@@ -18,6 +18,7 @@ namespace Huellitas.Web.Models.Extensions
     using Business.Services.Contents;
     using Business.Services.Files;
     using Common;
+    using Data.Entities.Enums;
     using Data.Extensions;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api.Contents;
@@ -89,6 +90,15 @@ namespace Huellitas.Web.Models.Extensions
                 else
                 {
                     throw new HuellitasException(HuellitasExceptionCode.ShelterNotFound);
+                }
+            }
+
+            ////TODO:Test again
+            if (model.Parents?.Count > 0)
+            {
+                foreach (var parent in model.Parents)
+                {
+                    entity.Users.Add(new Data.Entities.ContentUser { UserId = parent.UserId.Value, RelationType = ContentUserRelationType.Parent });
                 }
             }
 

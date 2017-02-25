@@ -2,20 +2,27 @@
     angular.module('app')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService'];
+    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService'];
 
-    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService) {
+    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService) {
         var vm = this;
         vm.id = $routeParams.id;
 
         vm.model = {};
+        vm.parents = [];
+        vm.usersFilter = {
+            page: 0,
+            pageSize: 20,
+            relationType: app.Settings.contentRelationTypes.parent
+        };
+
         vm.model.autoReply = true;
         vm.model.featured = false;
         vm.model.status = app.Settings.statusTypes.published;
 
         vm.showMoreActive = false;
         vm.showPicturesActive = false;
-        
+
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
         vm.changeSubtype = changeSubtype;
@@ -33,6 +40,7 @@
         vm.changeMonths = changeMonths;
         vm.isLocationRequired = isLocationRequired;
         vm.saveAndContinue = saveAndContinue;
+        vm.addParent = addParent;
 
         activate();
 
@@ -48,6 +56,7 @@
             getSubtypes();
             getGenres();
             getStatusTypes();
+            getParents();
         }
 
         function getPetById(id) {
@@ -64,6 +73,54 @@
 
             function getError() {
                 debugger;
+            }
+        }
+
+        function getParents() {
+            if (vm.id) {
+                contentService.getUsers(vm.id, vm.usersFilter)
+                .then(getCompleted)
+                .catch(getError);
+
+                function getCompleted(response) {
+                    vm.parents = response.data.results;
+                }
+
+                function getError() {
+                    console.log('Error trayendo usuarios');
+                }
+            }
+        }
+
+        function addParent(selected) {
+            if (selected) {
+                var user = selected.originalObject;
+
+                user.relationType = app.Settings.contentRelationTypes.parent;
+                vm.parents = vm.parents || [];
+                var contentUser = { userId: user.id, relationType: user.relationType };
+
+                if (vm.id) {
+                    
+
+                    contentService.postUser(vm.id, contentUser)
+                        .then(postCompleted)
+                        .catch(postError);
+
+                    function postCompleted() {
+                        vm.parents.push(user);
+                    }
+
+                    function postError(response) {
+                        modalService.showError({ error: response.data.error });
+                    }
+                }
+                else {
+                    vm.model.parents = vm.model.parents || [];
+
+                    vm.model.parents.push(contentUser);
+                    vm.parents.push(user);
+                }
             }
         }
 
@@ -133,20 +190,17 @@
             vm.model.subtype.value = subtype;
         }
 
-        function changeShelter(selectedShelter)
-        {
+        function changeShelter(selectedShelter) {
             vm.model.shelter = vm.model.shelter || {};
             vm.model.shelter.id = selectedShelter ? selectedShelter.originalObject.id : undefined;
         }
 
-        function changeLocation(selectedLocation)
-        {
+        function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
             vm.model.location.id = selectedLocation ? selectedLocation.originalObject.id : undefined;
         }
 
-        function toogleShowMore()
-        {
+        function toogleShowMore() {
             vm.showMoreActive = !vm.showMoreActive;
         }
 
@@ -154,8 +208,7 @@
             vm.showPicturesActive = !vm.showPicturesActive;
         }
 
-        function changeFeatured(featured)
-        {
+        function changeFeatured(featured) {
             vm.model.featured = featured;
         }
 
@@ -167,8 +220,7 @@
             vm.model.castrated = castrated;
         }
 
-        function removeImage(image)
-        {
+        function removeImage(image) {
             if (vm.model.id) {
                 fileService.deleteContentFile(vm.model.id, image.id);
             }
@@ -177,8 +229,7 @@
             }
         }
 
-        function imageAdded(image)
-        {
+        function imageAdded(image) {
             if (vm.model.id) {
                 fileService.postContentFile(vm.model.id, image);
             }
@@ -188,38 +239,30 @@
             }
         }
 
-        function isInvalidClass(form, field)
-        {
+        function isInvalidClass(form, field) {
             return form.$submitted && !field.$valid ? 'parsley-error' : undefined;
         }
 
-        function changeMonths()
-        {
-            if(!vm.years || vm.years == '')
-            {
+        function changeMonths() {
+            if (!vm.years || vm.years == '') {
                 vm.years = 0;
             }
-            if(!vm.months || vm.months == '')
-            {
+            if (!vm.months || vm.months == '') {
                 vm.months = 0;
             }
             vm.model.months = (vm.years * 12) + vm.months;
         }
 
-        function isLocationRequired()
-        {
+        function isLocationRequired() {
             return (!vm.model.location || !vm.model.location.id) && (!vm.model.shelter || !vm.model.shelter.id);
         }
 
-        function saveAndContinue()
-        {
+        function saveAndContinue() {
             vm.continueAfterSaving = true;
         }
 
-        function save(isValid)
-        {
-            if (isValid)
-            {
+        function save(isValid) {
+            if (isValid) {
                 if (vm.model.id > 0) {
                     petService.put(vm.model)
                     .then(saveCompleted)
@@ -232,14 +275,12 @@
                 }
             }
 
-            function saveCompleted(response)
-            {
+            function saveCompleted(response) {
                 response = response.data;
                 var message = 'La mascota fue actualizada correctamente';
                 var isNew = !vm.model.id;
 
-                if (isNew)
-                {
+                if (isNew) {
                     message = 'La mascota se ha creado correctamente';
                     vm.model.id = response.id;
                 }
@@ -264,9 +305,7 @@
                 });
             }
 
-
-            function saveError(response)
-            {
+            function saveError(response) {
                 modalService.showError({
                     error: response.data.error
                 });

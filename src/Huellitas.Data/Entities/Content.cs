@@ -173,6 +173,27 @@ namespace Huellitas.Data.Entities
         /// </value>
         public virtual ICollection<RelatedContent> RelatedContentRelatedContentNavigation { get; set; }
 
+
+        private ICollection<ContentUser> users;
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public virtual ICollection<ContentUser> Users
+        {
+            get
+            {
+                return users ?? (users = new List<ContentUser>());
+            }
+
+            set
+            {
+                users = value;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the status.
         /// </summary>

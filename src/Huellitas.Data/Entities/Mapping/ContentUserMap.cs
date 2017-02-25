@@ -40,7 +40,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Ignore(c => c.RelationType);
 
             entity.HasOne(c => c.Content)
-                .WithMany()
+                .WithMany(c => c.Users)
                 .HasForeignKey(c => c.ContentId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_ContentUser_Content");

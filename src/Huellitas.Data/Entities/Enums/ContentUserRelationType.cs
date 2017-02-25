@@ -13,6 +13,11 @@ namespace Huellitas.Data.Entities.Enums
         /// <summary>
         /// The shelter where the user works
         /// </summary>
-        Shelter = 1
+        Shelter = 1,
+
+        /// <summary>
+        /// The godfather
+        /// </summary>
+        Parent = 2
     }
 }

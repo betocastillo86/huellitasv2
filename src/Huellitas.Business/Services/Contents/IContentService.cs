@@ -51,8 +51,10 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="contentId">The content identifier.</param>
         /// <param name="relation">The relation.</param>
         /// <param name="includeUser">include user</param>
+        /// <param name="page">the page</param>
+        /// <param name="pageSize">the page size</param>
         /// <returns>the list of users</returns>
-        IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null, bool includeUser = false);
+        IPagedList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null, bool includeUser = false, int page = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Inserts the asynchronous.
@@ -60,6 +62,13 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="content">The content.</param>
         /// <returns>the task</returns>
         Task InsertAsync(Content content);
+
+        /// <summary>
+        /// Inserts the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>the task</returns>
+        Task InsertUser(ContentUser user);
 
         /// <summary>
         /// Determines whether [is user in content] [the specified user identifier].

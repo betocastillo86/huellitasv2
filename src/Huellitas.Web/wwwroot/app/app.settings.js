@@ -14,6 +14,10 @@ app.Settings = {
         hidden: 2,
         closed: 3
     },
+    contentRelationTypes: {
+        parent: 'Parent',
+        shelter : 'Shelter'
+    },
     resources: {
         'UserRole.Public': 'Público',
         'UserRole.SuperAdmin': 'Super Administrador'
