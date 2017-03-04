@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -110,5 +111,13 @@ namespace Huellitas.Web.Models.Api.Contents
         ///   <c>true</c> if autoreply; otherwise, <c>false</c>.
         /// </value>
         public bool AutoReply { get; set; }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public IList<ContentUserModel> Users { get; set; }
     }
 }

@@ -298,6 +298,35 @@ namespace Huellitas.Business.Services.Contents
         }
 
         /// <summary>
+        /// Gets the content user by user identifier and content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// the content user relationship
+        /// </returns>
+        public ContentUser GetContentUserById(int contentId, int userId)
+        {
+            return this.contentUserRepository.Table
+                .Include(c => c.Content)
+                .FirstOrDefault(c => c.ContentId == contentId && c.UserId == userId);
+        }
+
+        /// <summary>
+        /// Deletes the content user.
+        /// </summary>
+        /// <param name="contentUser">The content user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task DeleteContentUser(ContentUser contentUser)
+        {
+            await this.contentUserRepository.DeleteAsync(contentUser);
+
+            await this.publisher.EntityDeleted(contentUser);
+        }
+
+        /// <summary>
         /// Inserts the user.
         /// </summary>
         /// <param name="contentUser">The content user.</param>

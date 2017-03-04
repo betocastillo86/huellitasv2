@@ -99,7 +99,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                 if (content != null)
                 {
-                    if (this.CanAddUserToContent(model, content))
+                    if (this.CanAddOrRemoveUserToContent(content))
                     {
                         var contentUser = new ContentUser()
                         {
@@ -136,14 +136,45 @@ namespace Huellitas.Web.Controllers.Api.Contents
         }
 
         /// <summary>
+        /// Deletes the specified content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>the task</returns>
+        [HttpDelete]
+        [Authorize]
+        [Route("{userId:int}")]
+        public async Task<IActionResult> Delete(int contentId, int userId)
+        {
+            ////TODO:Test
+            var contentUser = this.contentService.GetContentUserById(contentId, userId);
+
+            if (contentUser != null)
+            {
+                if (this.CanAddOrRemoveUserToContent(contentUser.Content))
+                {
+                    await this.contentService.DeleteContentUser(contentUser);
+                    return this.Ok();
+                }
+                else
+                {
+                    return this.Forbid();
+                }
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
+
+        /// <summary>
         /// Determines whether this instance [can add user to content] the specified model.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <param name="content">The content.</param>
         /// <returns>
         ///   <c>true</c> if this instance [can add user to content] the specified model; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanAddUserToContent(ContentUserModel model, Content content)
+        public bool CanAddOrRemoveUserToContent(Content content)
         {
             ////TODO:Test
             if (this.workContext.CurrentUserId == content.UserId)

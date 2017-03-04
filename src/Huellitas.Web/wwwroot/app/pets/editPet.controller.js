@@ -41,6 +41,7 @@
         vm.isLocationRequired = isLocationRequired;
         vm.saveAndContinue = saveAndContinue;
         vm.addParent = addParent;
+        vm.deleteParent = deleteParent;
 
         activate();
 
@@ -124,6 +125,31 @@
             }
         }
 
+        function deleteParent(user)
+        {
+            if (vm.id) {
+
+                if (confirm('¿Seguro deseas eliminar este usuario?'))
+                {
+                    contentService.deleteUser(vm.id, user.id)
+                        .then(deleteCompleted)
+                        .catch(deleteError);
+
+                    function deleteCompleted() {
+                        vm.parents = _.reject(vm.parents, function (parent) { return parent.id === user.id; });
+                    }
+
+                    function deleteError(response) {
+                        modalService.showError({ error: response.data.error });
+                    }
+                }
+            }
+            else {
+                vm.parents = _.reject(vm.parents, function (parent) { return parent.id === user.id; });
+                vm.model.parents = _.reject(vm.model.parents, function (parent) { return parent.userId === user.id; });
+            }
+        }
+
         function getSizes() {
             customTableRowService.getSizes()
                 .then(getSizesCompleted);
@@ -177,7 +203,7 @@
         }
 
         function activeTooggleClass(indexValue, actualValue) {
-            return indexValue == actualValue ? 'btn-primary' : 'btn-default';
+            return indexValue === actualValue ? 'btn-primary' : 'btn-default';
         }
 
         function changeGenre(genre) {
@@ -225,7 +251,7 @@
                 fileService.deleteContentFile(vm.model.id, image.id);
             }
             else {
-                vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
+                vm.model.files = _.reject(vm.model.files, function (el) { return el.id === image.id });
             }
         }
 
@@ -244,10 +270,10 @@
         }
 
         function changeMonths() {
-            if (!vm.years || vm.years == '') {
+            if (!vm.years || vm.years === '') {
                 vm.years = 0;
             }
-            if (!vm.months || vm.months == '') {
+            if (!vm.months || vm.months === '') {
                 vm.months = 0;
             }
             vm.model.months = (vm.years * 12) + vm.months;

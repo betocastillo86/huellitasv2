@@ -7,8 +7,13 @@
     function contentService($http) {
         return {
             postUser: postUser,
-            getUsers: getUsers
+            getUsers: getUsers,
+            deleteUser: deleteUser
         };
+
+        function deleteUser(contentId, userId) {
+            return $http.delete('/api/contents/' + contentId + '/users/' + userId);
+        }
 
         function postUser(contentId, contentUser) {
             return $http.post('/api/contents/' + contentId + '/users', contentUser);

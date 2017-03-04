@@ -64,6 +64,21 @@ namespace Huellitas.Business.Services.Contents
         Task InsertAsync(Content content);
 
         /// <summary>
+        /// Gets the content user by user identifier and content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>the content user relationship</returns>
+        ContentUser GetContentUserById(int contentId, int userId);
+
+        /// <summary>
+        /// Deletes the content user.
+        /// </summary>
+        /// <param name="contentUser">The content user.</param>
+        /// <returns>the task</returns>
+        Task DeleteContentUser(ContentUser contentUser);
+
+        /// <summary>
         /// Inserts the user.
         /// </summary>
         /// <param name="user">The user.</param>

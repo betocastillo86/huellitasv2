@@ -59,6 +59,6 @@ namespace Huellitas.Web.Models.Api.Contents
         /// <value>
         /// My property.
         /// </value>
-        public User MyProperty { get; set; }
+        public User User { get; set; }
     }
 }
