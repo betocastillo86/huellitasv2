@@ -286,7 +286,7 @@ namespace Huellitas.Business.Subscribers.Notifications
         {
             var parameters = this.GetBasicParameters(content, shelter);
 
-            IList<User> users = null;
+            List<User> users = null;
 
             if (shelter == null)
             {
@@ -298,6 +298,12 @@ namespace Huellitas.Business.Subscribers.Notifications
                     .Select(c => c.User)
                     .ToList();
             }
+
+            var parents = this.contentService.GetUsersByContentId(content.Id, ContentUserRelationType.Parent, true)
+                .Select(c => c.User)
+                .ToList();
+
+            users.AddRange(parents);
 
             await this.notificationService.NewNotification(
                 users,

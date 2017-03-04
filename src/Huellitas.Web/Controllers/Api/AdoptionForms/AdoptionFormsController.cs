@@ -100,6 +100,8 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     filter.FormUserId,
                     filter.ContentUserId,
                     filter.SharedToUserId,
+                    filter.ParentUserId,
+                    filter.AllRelatedToUserId,
                     filter.Status,
                     filter.OrderByEnum,
                     filter.Page,

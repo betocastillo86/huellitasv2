@@ -10,6 +10,7 @@ namespace Huellitas.Business.Services.AdoptionForms
     using System.Linq;
     using System.Threading.Tasks;
     using Data.Core;
+    using Data.Entities.Enums;
     using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Entities;
@@ -48,6 +49,11 @@ namespace Huellitas.Business.Services.AdoptionForms
         private readonly IRepository<ContentAttribute> contentAttributeRepository;
 
         /// <summary>
+        /// The content user repository
+        /// </summary>
+        private readonly IRepository<ContentUser> contentUserRepository;
+
+        /// <summary>
         /// The publisher
         /// </summary>
         private readonly IPublisher publisher;
@@ -59,14 +65,17 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
         /// <param name="adoptionFormAttributeRepository">The adoption form attribute repository.</param>
         /// <param name="adoptionFormAnswerRepository">The adoption form answer repository.</param>
-        /// <param name="publisher">the publisher</param>
+        /// <param name="adoptionFormUserRepository">The adoption form user repository.</param>
+        /// <param name="publisher">The publisher.</param>
+        /// <param name="contentUserRepository">The content user repository.</param>
         public AdoptionFormService(
             IRepository<AdoptionForm> adoptionFormRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
             IRepository<AdoptionFormAttribute> adoptionFormAttributeRepository,
             IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository,
             IRepository<AdoptionFormUser> adoptionFormUserRepository,
-            IPublisher publisher)
+            IPublisher publisher,
+            IRepository<ContentUser> contentUserRepository)
         {
             this.adoptionFormRepository = adoptionFormRepository;
             this.contentAttributeRepository = contentAttributeRepository;
@@ -74,6 +83,7 @@ namespace Huellitas.Business.Services.AdoptionForms
             this.adoptionFormAnswerRepository = adoptionFormAnswerRepository;
             this.adoptionFormUserRepository = adoptionFormUserRepository;
             this.publisher = publisher;
+            this.contentUserRepository = contentUserRepository;
         }
 
         /// <summary>
@@ -86,6 +96,8 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="formUserId">The form user identifier.</param>
         /// <param name="contentUserId">The content user identifier.</param>
         /// <param name="sharedToUserId">Filter that search what forms have been share with it</param>
+        /// <param name="parentUserId">the parent user identifier</param>
+        /// <param name="allRelatedToUserId">all the forms related to an user</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="page">The page.</param>
@@ -101,6 +113,8 @@ namespace Huellitas.Business.Services.AdoptionForms
             int? formUserId = null,
             int? contentUserId = null,
             int? sharedToUserId = null,
+            int? parentUserId = null,
+            int? allRelatedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
             int page = 0,
@@ -126,29 +140,69 @@ namespace Huellitas.Business.Services.AdoptionForms
                 query = query.Where(c => c.LocationId == locationId.Value);
             }
 
-            if (sharedToUserId.HasValue)
+            ////Funcion que se reutoliza en los dos bloques de codigo y trae todos los contenidos en los que un usuario es padrino
+            Func<int, IQueryable<int>> getPetsByParent = (int userId) =>
             {
-                query = query.Where(c => c.Users.Any(x => x.UserId == sharedToUserId.Value));
-            }
-
-            if (shelterId.HasValue)
-            {
-                var attributeShelter = ContentAttributeType.Shelter.ToString();
-                var queryAttributes = this.contentAttributeRepository.Table
-                    .Where(c => c.Attribute.Equals(attributeShelter) && c.Value.Equals(shelterId.Value.ToString()))
+                var relationId = Convert.ToInt16(ContentUserRelationType.Parent);
+                return this.contentUserRepository.Table
+                    .Where(c => c.RelationTypeId == relationId && c.UserId == userId)
                     .Select(c => c.ContentId);
+            };
 
-                query = query.Where(c => queryAttributes.Contains(c.ContentId));
-            }
-
-            if (formUserId.HasValue)
+            //// Si debe traer los asociados a un usuario omite los demás filtros
+            if (allRelatedToUserId.HasValue)
             {
-                query = query.Where(c => c.UserId == formUserId.Value);
-            }
+                var petsWhichIsParent = getPetsByParent(allRelatedToUserId.Value);
 
-            if (contentUserId.HasValue)
+                ////Consulta los refugios del usuario para posteriormente traer los formularios de esos refugios
+                var relationId = Convert.ToInt16(ContentUserRelationType.Shelter);
+                var sheltersOfUser = this.contentUserRepository.Table.Where(c => c.UserId == allRelatedToUserId.Value && c.RelationTypeId == relationId)
+                    .Select(c => c.ContentId.ToString());
+
+                var attributeShelter = ContentAttributeType.Shelter.ToString();
+                var contentsOfShelter = this.contentAttributeRepository.Table
+                    .Where(c => c.Attribute.Equals(attributeShelter) && sheltersOfUser.Contains(c.Value))
+                    .Select(c => c.ContentId); 
+
+                query = query.Where(
+                    c => c.Users.Any(x => x.UserId == allRelatedToUserId.Value) ||
+                    petsWhichIsParent.Contains(c.ContentId) ||
+                    contentsOfShelter.Contains(c.ContentId) ||
+                    c.UserId == allRelatedToUserId.Value ||
+                    c.Content.UserId == allRelatedToUserId.Value);
+            }
+            else
             {
-                query = query.Where(c => c.Content.UserId == contentUserId.Value);
+                if (sharedToUserId.HasValue)
+                {
+                    query = query.Where(c => c.Users.Any(x => x.UserId == sharedToUserId.Value));
+                }
+
+                if (parentUserId.HasValue)
+                {
+                    var petsWhichIsParent = getPetsByParent(parentUserId.Value);
+                    query = query.Where(c => petsWhichIsParent.Contains(c.ContentId));
+                }
+
+                if (formUserId.HasValue)
+                {
+                    query = query.Where(c => c.UserId == formUserId.Value);
+                }
+
+                if (contentUserId.HasValue)
+                {
+                    query = query.Where(c => c.Content.UserId == contentUserId.Value);
+                }
+
+                if (shelterId.HasValue)
+                {
+                    var attributeShelter = ContentAttributeType.Shelter.ToString();
+                    var queryAttributes = this.contentAttributeRepository.Table
+                        .Where(c => c.Attribute.Equals(attributeShelter) && c.Value.Equals(shelterId.Value.ToString()))
+                        .Select(c => c.ContentId);
+
+                    query = query.Where(c => queryAttributes.Contains(c.ContentId));
+                }
             }
 
             if (lastStatus.HasValue)

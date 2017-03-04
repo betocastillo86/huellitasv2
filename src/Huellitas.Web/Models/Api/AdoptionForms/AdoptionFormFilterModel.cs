@@ -68,6 +68,22 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         public int? SharedToUserId { get; set; }
 
         /// <summary>
+        /// Gets or sets the parent user identifier.
+        /// </summary>
+        /// <value>
+        /// The parent user identifier.
+        /// </value>
+        public int? ParentUserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets all related to user identifier.
+        /// </summary>
+        /// <value>
+        /// All related to user identifier.
+        /// </value>
+        public int? AllRelatedToUserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the order by enum.
         /// </summary>
         /// <value>
@@ -153,6 +169,20 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
                     if (this.SharedToUserId != userId)
                     {
                         this.AddError("SharedToUserId", "No puede acceder a los datos del id de usuario enviado");
+                    }
+                }
+                else if (this.ParentUserId.HasValue)
+                {
+                    if (this.ParentUserId != userId)
+                    {
+                        this.AddError("ParentUserId", "No puede acceder a los datos del id de usuario enviado");
+                    }
+                }
+                else if (this.AllRelatedToUserId.HasValue)
+                {
+                    if (this.AllRelatedToUserId != userId)
+                    {
+                        this.AddError("AllRelatedToUserId", "No puede acceder a los datos del id de usuario enviado");
                     }
                 }
                 else

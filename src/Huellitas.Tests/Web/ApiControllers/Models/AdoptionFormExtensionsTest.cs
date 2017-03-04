@@ -21,6 +21,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     [TestFixture]
     public class AdoptionFormExtensionsTest : BaseTest
     {
+        /// <summary>
+        /// The files helper
+        /// </summary>
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
 
         /// <summary>
@@ -85,11 +88,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(entity.UserId, model.User.Id);
         }
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         protected override void Setup()
         {
             this.filesHelper = new Mock<IFilesHelper>();
             base.Setup();
         }
+
         /// <summary>
         /// Gets the attributes.
         /// </summary>
@@ -133,7 +140,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 UserId = 1,
                 Content = new Content() { UserId = 1, Name = "content" },
                 Location = new Location { Id = 1, Name = "location" },
-                User = new User { Id= 1, Name = "gabriel" }
+                User = new User { Id = 1, Name = "gabriel" }
             };
         }
 
@@ -161,7 +168,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Town = "Barrio",
                 User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "user" },
                 PhoneNumber = "3669223",
-                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id =1, AdditionalInfo = "a", CreationDate = DateTime.Now, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "b" } } }
+                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id = 1, AdditionalInfo = "a", CreationDate = DateTime.Now, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "b" } } }
             };
         }
     }

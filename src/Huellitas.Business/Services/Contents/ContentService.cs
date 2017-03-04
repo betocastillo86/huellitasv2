@@ -304,7 +304,6 @@ namespace Huellitas.Business.Services.Contents
         /// <returns>the task</returns>
         public async Task InsertUser(ContentUser contentUser)
         {
-
             try
             {
                 await this.contentUserRepository.InsertAsync(contentUser);
