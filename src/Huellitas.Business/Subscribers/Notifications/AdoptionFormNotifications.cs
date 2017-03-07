@@ -13,6 +13,7 @@ namespace Huellitas.Business.Subscribers.Notifications
     using Data.Entities.Enums;
     using Data.Extensions;
     using Exceptions;
+    using Extensions.Entities;
     using Extensions.Services;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
@@ -175,7 +176,7 @@ namespace Huellitas.Business.Subscribers.Notifications
                 parameters.Add("Shelter.Name", shelter.Name);
                 parameters.Add("Shelter.Url", this.seoService.GetContentUrl(shelter));
                 parameters.Add("Shelter.Phone", shelter.GetAttribute<string>(ContentAttributeType.Phone1));
-                parameters.Add("Shelter.Address", this.GetShelterAddress(shelter));
+                parameters.Add("Shelter.Address", shelter.GetShelterAddress(this.locationService));
                 parameters.Add("Shelter.Email", shelter.Email ?? "No disponible");
             }
             else
@@ -205,29 +206,6 @@ namespace Huellitas.Business.Subscribers.Notifications
             {
                 return this.contentService.GetById(adoptionForm.ContentId);
             }
-        }
-
-        /// <summary>
-        /// Gets the shelter address.
-        /// </summary>
-        /// <param name="shelter">The shelter.</param>
-        /// <returns>the address</returns>
-        private string GetShelterAddress(Content shelter)
-        {
-            var address = shelter.GetAttribute<string>(ContentAttributeType.Address);
-
-            if (shelter.LocationId.HasValue)
-            {
-                var location = shelter.Location;
-                if (location == null)
-                {
-                    location = this.locationService.GetCachedLocationById(shelter.LocationId.Value);
-                }
-
-                address = $"{location.Name}, {address}";
-            }
-
-            return !string.IsNullOrEmpty(address) ? address : "No disponible";
         }
 
         /// <summary>

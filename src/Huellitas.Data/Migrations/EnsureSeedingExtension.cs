@@ -67,6 +67,8 @@ namespace Huellitas.Data.Migrations
             list.Add(new Notification() { Id = 12, Name = "Aprobación de shelter en la plataforma", Active = true, IsEmail = true, IsSystem = true, SystemText = "Aprobación de shelter en la plataforma", Tags = null, EmailSubject = "Aprobación de shelter en la plataforma", EmailHtml = "Aprobación de shelter en la plataforma" });
             list.Add(new Notification() { Id = 13, Name = "Formulario compartido con usuario del sistema", Active = true, IsEmail = true, IsSystem = true, SystemText = "El formulario ha sido compartido", Tags = null, EmailSubject = "El formulario ha sido compartido", EmailHtml = "El formulario ha sido compartido" });
             list.Add(new Notification() { Id = 14, Name = "Formulario enviado al correo", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = null, EmailSubject = "Te han enviado un formulario de adopción", EmailHtml = "Te han enviado un formulario de adopción por %%Pet.Name%%" });
+            list.Add(new Notification() { Id = 15, Name = "Usuario agregado a un refugio", Active = true, IsEmail = true, IsSystem = true, SystemText = "Te han agregado al refugio %%Shelter.Name%%", Tags = null, EmailSubject = "Te han agregado al refugio %%Shelter.Name%%", EmailHtml = "Te han agregado a un refugio" });
+            list.Add(new Notification() { Id = 16, Name = "Padrino agregado a mascota", Active = true, IsEmail = true, IsSystem = true, SystemText = "Ahora eres padrino de %%Pet.Name%%", Tags = null, EmailSubject = "Ahora eres padrino de %%Pet.Name%%", EmailHtml = "Ahora eres padrino de %%Pet.Name%%" });
 
             foreach (var item in list)
             {
