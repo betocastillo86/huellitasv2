@@ -41,7 +41,14 @@ namespace Huellitas.Business.Services.Users
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The user</returns>
-        Task<User> GetById(int id);
+        Task<User> GetByIdAsync(int id);
+
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the user</returns>
+        User GetById(int id);
 
         /// <summary>
         /// Inserts the specified user.

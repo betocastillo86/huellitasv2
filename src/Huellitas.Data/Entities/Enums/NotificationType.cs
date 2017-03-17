@@ -83,7 +83,7 @@ namespace Huellitas.Data.Entities.Enums
         /// <summary>
         /// The adoption form send
         /// </summary>
-        AdoptionFormSent = 14,
+        AdoptionFormSentToOtherUser = 14,
 
         /// <summary>
         /// The user added to shelter

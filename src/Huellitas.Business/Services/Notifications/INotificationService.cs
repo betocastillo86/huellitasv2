@@ -20,8 +20,11 @@ namespace Huellitas.Business.Services.Notifications
         /// <summary>
         /// Gets all.
         /// </summary>
-        /// <returns>the value</returns>
-        IList<Notification> GetAll();
+        /// <param name="name">The name.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>the notifications</returns>
+        IPagedList<Notification> GetAll(string name = null, int page = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Gets the by identifier.

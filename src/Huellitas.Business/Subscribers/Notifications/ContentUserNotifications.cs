@@ -93,7 +93,7 @@ namespace Huellitas.Business.Subscribers.Notifications
             var contentUser = message.Entity;
 
             var content = contentUser.Content ?? this.contentService.GetById(contentUser.ContentId);
-            var user = contentUser.User ?? await this.userService.GetById(contentUser.UserId);
+            var user = contentUser.User ?? await this.userService.GetByIdAsync(contentUser.UserId);
 
             switch (contentUser.RelationType)
             {

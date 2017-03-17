@@ -101,12 +101,22 @@ namespace Huellitas.Business.Services.Notifications
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
         /// <returns>
-        /// the value
+        /// the notifications
         /// </returns>
-        public IList<Notification> GetAll()
+        public IPagedList<Notification> GetAll(string name = null, int page = 0, int pageSize = int.MaxValue)
         {
-            return this.notificationRepository.Table.ToList();
+            var query = this.notificationRepository.Table;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(c => c.Name.Contains(name));
+            }
+
+            return new PagedList<Notification>(query, page, pageSize);
         }
 
         /// <summary>

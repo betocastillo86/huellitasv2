@@ -82,11 +82,12 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                         ////TODO:Agregar todos los parameteros
                         var parameters = new List<NotificationParameter>();
                         parameters.Add("%Pet.Name%", form.Content.Name);
+                        parameters.Add("%Pet.Url%", form.Content.Name);
 
                         await this.notificationService.NewNotification(
                             user,
                             this.workContext.CurrentUser,
-                            NotificationType.AdoptionFormSent,
+                            NotificationType.AdoptionFormSentToOtherUser,
                             string.Empty,
                             parameters);
 

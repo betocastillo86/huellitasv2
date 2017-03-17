@@ -89,8 +89,8 @@
                     modalService.show({ message: 'Mensaje enviado correctamente' });
                 }
 
-                function postError() {
-                    console.log('Error respondiendo');
+                function postError(response) {
+                    modalService.showError({error:response.data.error});
                 }
             }
         }

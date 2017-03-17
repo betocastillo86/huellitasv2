@@ -37,7 +37,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasMaxLength(500);
 
             entity.Property(t => t.Tags)
-                .HasMaxLength(500);
+                .HasMaxLength(3000);
         }
     }
 }
