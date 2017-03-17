@@ -7,23 +7,34 @@ namespace Huellitas.Tests.Business.Services
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Huellitas.Business.Configuration;
     using Huellitas.Business.Services.Seo;
     using Huellitas.Data.Entities;
+    using Moq;
     using NUnit.Framework;
 
     /// <summary>
     /// <c>Seo</c> Service Test
     /// </summary>
     [TestFixture]
-    public class SeoServiceTest
+    public class SeoServiceTest : BaseTest
     {
+        private Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
+
+        protected override void Setup()
+        {
+            this.generalSettings = new Mock<IGeneralSettings>();
+            base.Setup();
+        }
+
         /// <summary>
         /// Generates the name of the correct friendly.
         /// </summary>
         [Test]
         public void GenerateCorrectFriendlyName()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido", contents));
             Assert.AreEqual("con-punto", service.GenerateFriendlyName("Con punto.", contents));
@@ -42,7 +53,8 @@ namespace Huellitas.Tests.Business.Services
         [Test]
         public void GenerateFriendlyName_Query_Null()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido", null));
             Assert.AreEqual("con-punto", service.GenerateFriendlyName("Con punto.", null));
             Assert.AreEqual("con-coma", service.GenerateFriendlyName("Con coma,", null));
@@ -54,7 +66,8 @@ namespace Huellitas.Tests.Business.Services
         [Test]
         public void GenerateRepeatedWithMaxLength()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer", service.GenerateFriendlyName("El primer contenido", contents, 10));
         }
@@ -65,7 +78,8 @@ namespace Huellitas.Tests.Business.Services
         [Test]
         public void GenerateRepeatedWithMaxLengthAndFinishWord()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido con palabra final", contents, 13));
             Assert.AreEqual("el-primer-si", service.GenerateFriendlyName("El primer si contenido con palabra final", contents, 13));
@@ -77,7 +91,8 @@ namespace Huellitas.Tests.Business.Services
         [Test]
         public void GenerateWithMaxLength()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             var contents = new List<Content>();
             contents.Add(new Content() { Name = "El primer contenido", FriendlyName = "el-primer" });
             contents.Add(new Content() { Name = "El segundo contenido", FriendlyName = "el-segundo" });
@@ -93,7 +108,8 @@ namespace Huellitas.Tests.Business.Services
         [Test]
         public void GenerateWithNoRepeatedUrls()
         {
-            var service = new SeoService();
+            this.Setup();
+            var service = new SeoService(this.generalSettings.Object);
             var contents = new List<Content>();
             contents.Add(new Content() { Name = "El primer contenido", FriendlyName = "el-primer-contenido" });
             contents.Add(new Content() { Name = "El segundo contenido", FriendlyName = "el-segundo-contenido" });

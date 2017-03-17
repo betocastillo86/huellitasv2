@@ -282,6 +282,22 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.IsTrue(controller.CanSeeForm(form));
         }
 
+        [Test]
+        public void CanSeeForm_True_AdoptionFormUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+
+            this.adoptionFormService.Setup(c => c.IsUserInAdoptionForm(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(true);
+
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
         /// <summary>
         /// Gets the adoption forms bad request invalid user.
         /// </summary>
@@ -291,7 +307,18 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.Setup();
             this.SetupNotAuthenticated();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+            this.adoptionFormService.Setup(c => c.GetAll(
+                It.IsAny<string>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                null,
+                It.IsAny<AdoptionFormOrderBy>(), 
+                It.IsAny<int>(), 
+                It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 
             var controller = this.GetController();
@@ -314,7 +341,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 
             var controller = this.GetController();

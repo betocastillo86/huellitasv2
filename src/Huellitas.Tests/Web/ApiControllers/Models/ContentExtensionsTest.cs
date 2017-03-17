@@ -80,7 +80,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var content = new Content { UserId = 1, ContentAttributes = new List<ContentAttribute> { new ContentAttribute { AttributeType = ContentAttributeType.Shelter, Value = "1" } } };
 
             var contentUsers = new List<ContentUser>() { new ContentUser() { UserId = 2 } };
-            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter, false))
                 .Returns(contentUsers);
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
@@ -97,7 +97,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var content = new Content { UserId = 2 };
 
             var contentUsers = new List<ContentUser>() { new ContentUser() { UserId = 3 } };
-            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter, true))
                 .Returns(contentUsers);
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);

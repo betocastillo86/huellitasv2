@@ -299,7 +299,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var validUserId = 1;
             var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter))
+            mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter, false))
                 .Returns(new List<ContentUser> { new ContentUser { UserId = validUserId } });
 
             var controller = this.MockController(mockContentService);
@@ -577,7 +577,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false))
                 .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
 
             var filter = new PetsFilterModel();
@@ -599,7 +599,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false))
                 .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
 
             var filter = new PetsFilterModel();
@@ -621,7 +621,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false))
                 .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
 
             var filter = new PetsFilterModel();
@@ -643,7 +643,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false))
                 .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
 
             var filter = new PetsFilterModel();

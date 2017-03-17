@@ -60,8 +60,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool CanSeeForm(AdoptionForm form)
         {
-            ////TODO:Test again
-
             ////Si es el que llena el formulario
             if (this.workContext.CurrentUserId == form.UserId)
             {

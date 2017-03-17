@@ -8,6 +8,7 @@ namespace Huellitas.Tests
     using System.Diagnostics.CodeAnalysis;
     using Data.Entities.Enums;
     using Huellitas.Business.Caching;
+    using Huellitas.Business.Security;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Moq;
