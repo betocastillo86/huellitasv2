@@ -1,18 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Huellitas.Business.Notifications;
-using Huellitas.Business.Security;
-using Huellitas.Business.Services.AdoptionForms;
-using Huellitas.Business.Services.Contents;
-using Huellitas.Business.Services.Notifications;
-using Huellitas.Data.Entities;
-using Huellitas.Data.Entities.Enums;
-using Huellitas.Web.Models.Api.AdoptionForms;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SendAdoptionFormsController.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.AdoptionForms
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Huellitas.Business.Notifications;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services.AdoptionForms;
+    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Data.Entities;
+    using Huellitas.Data.Entities.Enums;
+    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Send Adoption Forms Controller
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Controllers.Api.AdoptionForms.AdoptionFormsBaseController" />
     [Route("api/adoptionforms/{formId:int}/send")]
     public class SendAdoptionFormsController : AdoptionFormsBaseController
     {
@@ -73,11 +82,12 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                         ////TODO:Agregar todos los parameteros
                         var parameters = new List<NotificationParameter>();
                         parameters.Add("%Pet.Name%", form.Content.Name);
+                        parameters.Add("%Pet.Url%", form.Content.Name);
 
                         await this.notificationService.NewNotification(
                             user,
                             this.workContext.CurrentUser,
-                            NotificationType.AdoptionFormSent,
+                            NotificationType.AdoptionFormSentToOtherUser,
                             string.Empty,
                             parameters);
 
@@ -99,6 +109,13 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             }
         }
 
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsValidModel(SendAdoptionFormModel model)
         {
             if (model == null)

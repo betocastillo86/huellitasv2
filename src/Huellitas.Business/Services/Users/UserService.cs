@@ -102,10 +102,21 @@ namespace Huellitas.Business.Services.Users
         /// <returns>
         /// The user
         /// </returns>
-        public async Task<User> GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
             return await this.userRepository.Table
                 .FirstOrDefaultAsync(c => c.Id == id && !c.Deleted);
+        }
+
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the user</returns>
+        public User GetById(int id)
+        {
+            return this.userRepository.Table
+                .FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
 
         /// <summary>

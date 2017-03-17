@@ -2,13 +2,21 @@
     angular.module('app')
         .controller('EditShelterController', EditShelterController);
 
-    EditShelterController.$inject = ['$routeParams', '$location', 'shelterService', 'statusTypeService', 'modalService'];
+    EditShelterController.$inject = ['$routeParams', '$location', 'shelterService', 'statusTypeService', 'modalService', 'contentService'];
 
-    function EditShelterController($routeParams, $location, shelterService, statusTypeService, modalService)
+    function EditShelterController($routeParams, $location, shelterService, statusTypeService, modalService, contentService)
     {
         var vm = this;
         vm.id = $routeParams.id
         vm.model = {};
+        vm.users = [];
+
+        vm.usersFilter = {
+            page: 0,
+            pageSize: 20,
+            relationType: app.Settings.contentRelationTypes.shelter
+        };
+
         vm.model.status = app.Settings.statusTypes.published;
         vm.showMoreActive = false;
         vm.regexYoutube = '^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$';
@@ -28,6 +36,8 @@
         vm.removeImage = removeImage;
         vm.imageAdded = imageAdded;
         vm.save = save;
+        vm.addUser = addUser;
+        vm.deleteUser = deleteUser;
 
         activate();
 
@@ -42,6 +52,7 @@
             }
 
             getStatusTypes();
+            getUsers();
         }
 
         function getStatusTypes() {
@@ -54,6 +65,77 @@
 
             function statusTypesError() {
                 console.log(error, arguments);
+            }
+        }
+
+        function getUsers() {
+            if (vm.id) {
+                contentService.getUsers(vm.id, vm.usersFilter)
+                .then(getCompleted)
+                .catch(getError);
+
+                function getCompleted(response) {
+                    vm.users = response.data.results;
+                }
+
+                function getError() {
+                    console.log('Error trayendo usuarios');
+                }
+            }
+        }
+
+        function deleteUser(user) {
+            if (vm.id) {
+
+                if (confirm('¿Seguro deseas eliminar este usuario?')) {
+                    contentService.deleteUser(vm.id, user.id)
+                        .then(deleteCompleted)
+                        .catch(deleteError);
+
+                    function deleteCompleted() {
+                        vm.users = _.reject(vm.users, function (parent) { return parent.id === user.id; });
+                    }
+
+                    function deleteError(response) {
+                        modalService.showError({ error: response.data.error });
+                    }
+                }
+            }
+            else {
+                vm.users = _.reject(vm.users, function (parent) { return parent.id === user.id; });
+                vm.model.users = _.reject(vm.model.users, function (parent) { return parent.userId === user.id; });
+            }
+        }
+
+        function addUser(selected) {
+            if (selected) {
+                var user = selected.originalObject;
+
+                user.relationType = app.Settings.contentRelationTypes.shelter;
+                vm.users = vm.users || [];
+                var contentUser = { userId: user.id, relationType: user.relationType };
+
+                if (vm.id) {
+
+
+                    contentService.postUser(vm.id, contentUser)
+                        .then(postCompleted)
+                        .catch(postError);
+
+                    function postCompleted() {
+                        vm.users.push(user);
+                    }
+
+                    function postError(response) {
+                        modalService.showError({ error: response.data.error });
+                    }
+                }
+                else {
+                    vm.model.users = vm.model.users || [];
+
+                    vm.model.users.push(contentUser);
+                    vm.users.push(user);
+                }
             }
         }
 
@@ -80,7 +162,7 @@
         }
 
         function activeTooggleClass(indexValue, actualValue) {
-            return indexValue == actualValue ? 'btn-primary' : 'btn-default';
+            return indexValue === actualValue ? 'btn-primary' : 'btn-default';
         }
 
         function isInvalidClass(form, field) {
@@ -101,7 +183,7 @@
                 fileService.deleteContentFile(vm.model.id, image.id);
             }
             else {
-                vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
+                vm.model.files = _.reject(vm.model.files, function (el) { return el.id === image.id });
             }
         }
 

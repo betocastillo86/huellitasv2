@@ -29,7 +29,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </value>
         [Required]
         [MaxLength(150)]
-        [MinLength(20)]
+        [MinLength(3)]
         public string Name { get; set; }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Huellitas.Web.Models.Api.Contents
         /// The body.
         /// </value>
         [Required]
-        [MinLength(50)]
+        [MinLength(20)]
         [MaxLength(4000)]
         public string Body { get; set; }
 

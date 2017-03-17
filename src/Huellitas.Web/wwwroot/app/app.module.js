@@ -88,6 +88,16 @@
             templateUrl: '/app/adoptionforms/editform.html',
             controller: 'EditFormController',
             controllerAs: 'main'
+        })
+        .when('/notifications', {
+            templateUrl: '/app/notifications/listNotifications.html',
+            controller: 'ListNotificationsController',
+            controllerAs: 'main'
+        })
+        .when('/notifications/:id/edit', {
+            templateUrl: '/app/notifications/editNotification.html',
+            controller: 'EditNotificationController',
+            controllerAs: 'main'
         });
     }
 

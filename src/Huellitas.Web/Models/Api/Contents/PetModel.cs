@@ -85,6 +85,14 @@ namespace Huellitas.Web.Models.Api.Contents
         public ContentBaseModel Shelter { get; set; }
 
         /// <summary>
+        /// Gets or sets the parents.
+        /// </summary>
+        /// <value>
+        /// The parents.
+        /// </value>
+        public IList<ContentUserModel> Parents { get; set; }
+
+        /// <summary>
         /// Gets or sets the size.
         /// </summary>
         /// <value>

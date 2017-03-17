@@ -15,8 +15,9 @@
                                               ]">{{main.model.status}}</span>
                     </div>
                     <div class="clearfix"></div>
+
                 </div>
-               
+
                 <div class="x_content">
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
@@ -25,8 +26,8 @@
                                 Nombre <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-maxlength="50" />
-                                <validation-message form="formPet" field="formPet.name" ng-maxlength="50" name="nombre"></validation-message>
+                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formPet, formPet.name)" required ng-minlength="3" ng-maxlength="50" />
+                                <validation-message form="formPet" field="formPet.name" ng-maxlength="50" ng-minlength="3" name="nombre"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -198,6 +199,50 @@
         <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
             <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
         </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2 class="ng-binding">Padrinos</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <angucomplete-alt id="addParent"
+                                      placeholder="Agregar padrino"
+                                      pause="400"
+                                      remote-url="/api/users?keyword="
+                                      remote-url-data-field="results"
+                                      title-field="name"
+                                      selected-object="main.addParent"
+                                      input-class="form-control col-md-9 col-xs-12" />
+
+                    <table class="table jambo_table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="parent in main.parents">
+                                <td>{{parent.name}}</td>
+                                <td>{{parent.email}}</td>
+                                <td>{{parent.phone}}</td>
+                                <td><button type="button" class="btn btn-danger btn-xs" ng-click="main.deleteParent(parent)">Eliminar</button></td>
+                            </tr>
+                            <tr ng-if="!main.parents.length">
+                                <td colspan="5">No se hay padrinos asociados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
 </div>

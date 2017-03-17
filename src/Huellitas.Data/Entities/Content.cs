@@ -17,6 +17,11 @@ namespace Huellitas.Data.Entities
     public partial class Content : BaseEntity, ISeoEntity
     {
         /// <summary>
+        /// The users
+        /// </summary>
+        private ICollection<ContentUser> users;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Content"/> class.
         /// </summary>
         public Content()
@@ -172,6 +177,25 @@ namespace Huellitas.Data.Entities
         /// The related content related content navigation.
         /// </value>
         public virtual ICollection<RelatedContent> RelatedContentRelatedContentNavigation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public virtual ICollection<ContentUser> Users
+        {
+            get
+            {
+                return this.users ?? (this.users = new List<ContentUser>());
+            }
+
+            set
+            {
+                this.users = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the status.

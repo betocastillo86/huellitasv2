@@ -25,6 +25,8 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// <param name="formUserId">The form user identifier.</param>
         /// <param name="contentUserId">The content user identifier.</param>
         /// <param name="sharedToUserId">Filter that search what forms have been share with it</param>
+        /// <param name="parentUserId">the parent user identifier</param>
+        /// <param name="allRelatedToUserId">all the forms related to an user</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="page">The page.</param>
@@ -38,6 +40,8 @@ namespace Huellitas.Business.Services.AdoptionForms
             int? formUserId = null,
             int? contentUserId = null,
             int? sharedToUserId = null,
+            int? parentUserId = null,
+            int? allRelatedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
             int page = 0,
@@ -82,7 +86,7 @@ namespace Huellitas.Business.Services.AdoptionForms
         /// Inserts the user.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns></returns>
+        /// <returns>the task</returns>
         Task InsertUser(AdoptionFormUser entity);
 
         /// <summary>

@@ -80,7 +80,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         {
             if (this.workContext.CurrentUser.CanEditAnyUser())
             {
-                var user = await this.userService.GetById(id);
+                var user = await this.userService.GetByIdAsync(id);
 
                 if (user != null)
                 {
@@ -133,7 +133,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Route("{id:int}", Name = "Api_Users_GetById")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = await this.userService.GetById(id);
+            var user = await this.userService.GetByIdAsync(id);
 
             if (user != null)
             {
@@ -265,7 +265,7 @@ namespace Huellitas.Web.Controllers.Api.Users
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
             if (this.IsValidModel(model, false, canSeeWholeUser))
             {
-                var user = await this.userService.GetById(id);
+                var user = await this.userService.GetByIdAsync(id);
                 if (user == null)
                 {
                     return this.NotFound();

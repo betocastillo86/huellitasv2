@@ -207,10 +207,17 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="contentId">The content identifier.</param>
         /// <param name="relation">The relation.</param>
         /// <param name="loadUser">load user info</param>
+        /// <param name="page">the page</param>
+        /// <param name="pageSize">the page size</param>
         /// <returns>
         /// the list of users
         /// </returns>
-        public IList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null, bool loadUser = false)
+        public IPagedList<ContentUser> GetUsersByContentId(
+            int contentId,
+            ContentUserRelationType? relation = null,
+            bool loadUser = false,
+            int page = 0,
+            int pageSize = int.MaxValue)
         {
             var query = this.contentUserRepository.Table;
 
@@ -227,7 +234,9 @@ namespace Huellitas.Business.Services.Contents
                 query = query.Where(c => c.RelationTypeId == relationId);
             }
 
-            return query.ToList();
+            query = query.OrderBy(c => c.Id);
+
+            return new PagedList<ContentUser>(query, page, pageSize);
         }
 
         /// <summary>
@@ -268,6 +277,11 @@ namespace Huellitas.Business.Services.Contents
                         {
                             target = "User";
                         }
+                        else if (inner.Message.IndexOf("FK_ContentUser_User") != -1)
+                        {
+                            ////TODO:Test again
+                            target = "ContentUser";
+                        }
                         else
                         {
                             throw;
@@ -281,6 +295,61 @@ namespace Huellitas.Business.Services.Contents
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the content user by user identifier and content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// the content user relationship
+        /// </returns>
+        public ContentUser GetContentUserById(int contentId, int userId)
+        {
+            return this.contentUserRepository.Table
+                .Include(c => c.Content)
+                .FirstOrDefault(c => c.ContentId == contentId && c.UserId == userId);
+        }
+
+        /// <summary>
+        /// Deletes the content user.
+        /// </summary>
+        /// <param name="contentUser">The content user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task DeleteContentUser(ContentUser contentUser)
+        {
+            await this.contentUserRepository.DeleteAsync(contentUser);
+
+            await this.publisher.EntityDeleted(contentUser);
+        }
+
+        /// <summary>
+        /// Inserts the user.
+        /// </summary>
+        /// <param name="contentUser">The content user.</param>
+        /// <returns>the task</returns>
+        public async Task InsertUser(ContentUser contentUser)
+        {
+            try
+            {
+                await this.contentUserRepository.InsertAsync(contentUser);
+            }
+            catch (DbUpdateException e)
+            {
+                if (e.ToString().Contains("FK_ContentUser_User"))
+                {
+                    throw new HuellitasException("ContentUser", HuellitasExceptionCode.InvalidForeignKey);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            
+            await this.publisher.EntityInserted(contentUser);
         }
 
         /// <summary>

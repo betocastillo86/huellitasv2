@@ -1,0 +1,103 @@
+﻿<div class="">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Editar <small>{{main.model.name}}</small>
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form name="formNotification" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formNotification.$valid)">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Nombre
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                {{main.model.name}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Notificar por correo</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="isEmail" class="btn-group" data-toggle="buttons">
+                                    <label ng-click="main.changeIsEmail(true)" class="btn" ng-class="[{'btn-primary' : main.model.isEmail}, {'btn-default' : !main.model.isEmail}]">
+                                        &nbsp; Si &nbsp;
+                                    </label>
+                                    <label ng-click="main.changeIsEmail(false)" class="btn" ng-class="[{'btn-primary' : !main.model.isEmail}, {'btn-default' : main.model.isEmail}]">
+                                        &nbsp; No &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" ng-if="main.model.isEmail">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Asunto del correo
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="emailSubject" ng-model="main.model.emailSubject" ng-required="main.model.isEmail" class="form-control" /> 
+                                <validation-message form="formNotification" field="formNotification.emailSubject" name="asunto del correo"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="main.model.isEmail">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Contenido Correo
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <text-angular ng-model="main.model.emailHtml" name="emailHtml" ng-required="main.model.isEmail"></text-angular>
+                                <validation-message form="formNotification" field="formNotification.emailHtml" name="contenido del correo"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Notificar por sistema</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="isEmail" class="btn-group" data-toggle="buttons">
+                                    <label ng-click="main.changeIsSystem(true)" class="btn" ng-class="[{'btn-primary' : main.model.isSystem}, {'btn-default' : !main.model.isSystem}]">
+                                        &nbsp; Si &nbsp;
+                                    </label>
+                                    <label ng-click="main.changeIsSystem(false)" class="btn" ng-class="[{'btn-primary' : !main.model.isSystem}, {'btn-default' : main.model.isSystem}]">
+                                        &nbsp; No &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="main.model.isSystem">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Texto notificación
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input class="form-control" type="text" name="systemText" ng-model="main.model.systemText" ng-maxlength="100" ng-required="main.model.isSystem" />
+                                <validation-message form="formNotification" field="formNotification.systemText" name="texto de notificación" ng-maxlength="100" ></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Tags
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div ng-repeat="tag in main.tags">
+                                    <b>{{tag.key}}:</b> {{tag.value}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a type="submit" class="btn btn-default" href="/admin/notifications">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="main.saveAndContinue()">Guardar y continuar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

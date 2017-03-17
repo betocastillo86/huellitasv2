@@ -40,6 +40,7 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="adoptionFormService">The adoption form service.</param>
         public AdoptionFormsBaseController(
             IWorkContext workContext,
             IContentService contentService,
@@ -60,6 +61,8 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [NonAction]
         public bool CanSeeForm(AdoptionForm form)
         {
+            ////TODO:Test again usuarios en formulario y padrinos
+
             ////Si es el que llena el formulario
             if (this.workContext.CurrentUserId == form.UserId)
             {
@@ -70,10 +73,14 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                 ////Si es el dueño del contenido
                 return true;
             }
-
-            if (this.workContext.CurrentUser.IsSuperAdmin())
+            else if (this.workContext.CurrentUser.IsSuperAdmin())
             {
                 ////Si es admin
+                return true;
+            }
+            else if (this.contentService.IsUserInContent(this.workContext.CurrentUserId, form.ContentId, ContentUserRelationType.Parent))
+            {
+                ////Si es padrino
                 return true;
             }
             else if (this.adoptionFormService.IsUserInAdoptionForm(this.workContext.CurrentUserId, form.Id))
@@ -83,7 +90,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             }
             else
             {
-
                 ////Valida si el usuario es perteneciente al refugio
                 var shelter = this.contentService.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter);
                 if (shelter.HasValue)
@@ -96,7 +102,5 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                 }
             }
         }
-
-        
     }
 }

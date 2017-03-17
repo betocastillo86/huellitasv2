@@ -1,15 +1,24 @@
-﻿using System.Threading.Tasks;
-using Huellitas.Business.Security;
-using Huellitas.Business.Services.AdoptionForms;
-using Huellitas.Business.Services.Contents;
-using Huellitas.Data.Entities;
-using Huellitas.Web.Models.Api.AdoptionForms;
-using Huellitas.Web.Models.Api.Common;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="AdoptionFormUsersController.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.AdoptionForms
 {
+    using System.Threading.Tasks;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services.AdoptionForms;
+    using Huellitas.Business.Services.Contents;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Huellitas.Web.Models.Api.Common;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Adoption Form Users Controller
+    /// </summary>
+    /// <seealso cref="Huellitas.Web.Controllers.Api.AdoptionForms.AdoptionFormsBaseController" />
     [Route("api/adoptionforms/{formId}/users")]
     public class AdoptionFormUsersController : AdoptionFormsBaseController
     {
@@ -28,6 +37,12 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         /// </summary>
         private readonly IContentService contentService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdoptionFormUsersController"/> class.
+        /// </summary>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="adoptionFormService">The adoption form service</param>
         public AdoptionFormUsersController(
             IWorkContext workContext,
             IContentService contentService,
@@ -38,6 +53,12 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             this.adoptionFormService = adoptionFormService;
         }
 
+        /// <summary>
+        /// Posts the specified form identifier.
+        /// </summary>
+        /// <param name="formId">The form identifier.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>the task</returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(int formId, [FromBody] AdoptionFormUserModel model)
@@ -75,6 +96,13 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
             }
         }
 
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         private bool IsValidModel(AdoptionFormUserModel model)
         {

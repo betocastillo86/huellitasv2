@@ -78,7 +78,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 1;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(null);
 
             var controller = this.GetController();
@@ -99,7 +99,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 1;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User() { Id = id, Email = "email", Name = "name", Password = "123", RoleEnum = RoleEnum.Public });
 
             var controller = this.GetController();
@@ -126,7 +126,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 1;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User() { Id = 3, Name = "public", RoleEnum = RoleEnum.Public });
 
             var controller = this.GetController();
@@ -146,7 +146,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 1;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(null);
 
             var controller = this.GetController();
@@ -166,7 +166,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 1;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User() { Id = id, Email = "email", Name = "name", Password = "123", RoleEnum = RoleEnum.Public });
 
             var controller = this.GetController();
@@ -187,7 +187,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             var id = 2;
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User() { Id = 2, Name = "public", RoleEnum = RoleEnum.Public });
 
             var controller = this.GetController();
@@ -349,7 +349,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var id = 2;
             this.Setup();
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User { Id = id, Name = "Gabriel" });
 
             this.userService.Setup(c => c.Update(It.IsAny<User>()))
@@ -396,7 +396,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.Setup();
             this.SetupPublicUser(3);
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User { Id = id, Name = "Gabriel" });
 
             var controller = this.GetController();
@@ -438,7 +438,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var id = 2;
             this.Setup();
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User { Id = id, Name = "Gabriel" });
 
             var controller = this.GetController();
@@ -462,7 +462,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.Setup();
             this.SetupPublicUser(id);
 
-            this.userService.Setup(c => c.GetById(id))
+            this.userService.Setup(c => c.GetByIdAsync(id))
                 .ReturnsAsync(new User { Id = id, Name = "Gabriel" });
 
             var controller = this.GetController();

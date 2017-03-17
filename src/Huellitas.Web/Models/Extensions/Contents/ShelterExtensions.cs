@@ -9,6 +9,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
     using System.Collections.Generic;
     using System.Linq;
     using Api.Files;
+    using Data.Entities.Enums;
     using Data.Extensions;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Business.Services.Files;
@@ -67,6 +68,15 @@ namespace Huellitas.Web.Models.Extensions.Contents
             entity.DisplayOrder = model.DisplayOrder;
             entity.LocationId = model.Location.Id;
             entity.Email = model.Email;
+
+            ////TODO:Test again
+            if (model.Users?.Count > 0)
+            {
+                foreach (var parent in model.Users)
+                {
+                    entity.Users.Add(new Data.Entities.ContentUser { UserId = parent.UserId.Value, RelationType = ContentUserRelationType.Shelter });
+                }
+            }
 
             entity.ContentAttributes.Add(ContentAttributeType.Facebook, model.Facebook, true);
             entity.ContentAttributes.Add(ContentAttributeType.Twitter, model.Twitter, true);
