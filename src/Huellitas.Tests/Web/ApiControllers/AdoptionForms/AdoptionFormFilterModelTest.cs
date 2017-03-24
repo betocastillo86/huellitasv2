@@ -125,6 +125,33 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         }
 
         /// <summary>
+        /// Tests Adoption the form filter is valid true share user identifier.
+        /// </summary>
+        [Test]
+        public void AdoptionFormFilter_IsValid_True_SharedUserId()
+        {
+            this.Setup();
+
+            var filter = new AdoptionFormFilterModel();
+            filter.SharedToUserId = 1;
+
+            Assert.IsTrue(filter.IsValid(1, this.contentService.Object, false));
+        }
+
+        /// <summary>
+        /// Adoptions the form filter is valid false shared user identifier.
+        /// </summary>
+        [Test]
+        public void AdoptionFormFilter_IsValid_False_SharedUserId()
+        {
+            var filter = new AdoptionFormFilterModel();
+            filter.SharedToUserId = 2;
+
+            Assert.IsFalse(filter.IsValid(1, this.contentService.Object, false));
+            Assert.AreEqual("SharedToUserId", filter.Errors[0].Target);
+        }
+
+        /// <summary>
         /// Tests Adoption the form filter is valid true shelter.
         /// </summary>
         [Test]

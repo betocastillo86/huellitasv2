@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AdoptionFormUsersControllerTest.cs" company="Dasigno">
+// <copyright file="SendAdoptionFormsControllerTest.cs" company="Dasigno">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -10,6 +10,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     using System.Threading.Tasks;
     using Huellitas.Business.Services.AdoptionForms;
     using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Services.Notifications;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Controllers.Api.AdoptionForms;
     using Huellitas.Web.Models.Api.AdoptionForms;
@@ -18,11 +19,11 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     using NUnit.Framework;
 
     /// <summary>
-    /// Adoption Form Users Controller Test
+    /// Send Adoption Form Controller Test
     /// </summary>
     /// <seealso cref="Huellitas.Tests.BaseTest" />
     [TestFixture]
-    public class AdoptionFormUsersControllerTest : BaseTest
+    public class SendAdoptionFormsControllerTest : BaseTest
     {
         /// <summary>
         /// The adoption form service
@@ -35,93 +36,103 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         private Mock<IContentService> contentService = new Mock<IContentService>();
 
         /// <summary>
-        /// Posts the adoption form user bad request.
+        /// The notification service
+        /// </summary>
+        private Mock<INotificationService> notificationService = new Mock<INotificationService>();
+
+        /// <summary>
+        /// Tests Post the send adoption form ok.
         /// </summary>
         /// <returns>the task</returns>
         [Test]
-        public async Task PostAdoptionFormUser_BadRequest()
+        public async Task PostSendAdoptionForm_Ok()
         {
+            int formId = 1;
+
             this.Setup();
 
-            AdoptionFormUserModel model = null;
+            var model = this.GetModel();
+            var entity = this.GetAdoptionForm();
+
+            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
+                .Returns(entity);
 
             var controller = this.GetController();
 
-            var response = await controller.Post(1, model) as ObjectResult;
+            var response = await controller.Post(formId, model) as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Posts the send adoption form bad request.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task PostSendAdoptionForm_BadRequest()
+        {
+            int formId = 1;
+
+            this.Setup();
+
+            SendAdoptionFormModel model = null;
+
+            var controller = this.GetController();
+
+            var response = await controller.Post(formId, model) as ObjectResult;
 
             Assert.AreEqual(400, response.StatusCode);
         }
 
         /// <summary>
-        /// Tests Post the adoption form user forbid.
+        /// Posts the send adoption form not found.
         /// </summary>
         /// <returns>the task</returns>
         [Test]
-        public async Task PostAdoptionFormUser_Forbid()
+        public async Task PostSendAdoptionForm_NotFound()
         {
-            this.Setup();
-            this.SetupPublicUser(55);
+            int formId = 1;
 
-            var model = this.GetModel();
-
-            this.adoptionFormService.Setup(c => c.GetById(1))
-                .Returns(this.GetAdoptionForm());
-
-            this.adoptionFormService.Setup(c => c.InsertUser(It.IsAny<AdoptionFormUser>()))
-                .Callback((AdoptionFormUser c) => { c.Id = 1; })
-                .Returns(Task.FromResult(0));
-
-            var controller = this.GetController();
-
-            var response = await controller.Post(1, model);
-
-            Assert.IsAssignableFrom(typeof(ForbidResult), response);
-        }
-
-        /// <summary>
-        /// Posts the adoption form user not found.
-        /// </summary>
-        /// <returns>the task</returns>
-        [Test]
-        public async Task PostAdoptionFormUser_NotFound()
-        {
             this.Setup();
 
             var model = this.GetModel();
 
-            this.adoptionFormService.Setup(c => c.GetById(1))
-                .Returns((AdoptionForm)null);
+            var entity = this.GetAdoptionForm();
+            entity = null;
+
+            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
+                .Returns(entity);
 
             var controller = this.GetController();
 
-            var response = await controller.Post(1, model) as NotFoundResult;
+            var response = await controller.Post(formId, model) as NotFoundResult;
 
             Assert.AreEqual(404, response.StatusCode);
         }
 
         /// <summary>
-        /// Posts the adoption form user ok.
+        /// Posts the send adoption form forbid.
         /// </summary>
         /// <returns>the task</returns>
         [Test]
-        public async Task PostAdoptionFormUser_Ok()
+        public async Task PostSendAdoptionForm_Forbid()
         {
+            int formId = 1;
+
             this.Setup();
+            this.SetupPublicUser(55);
 
             var model = this.GetModel();
+            var entity = this.GetAdoptionForm();
 
-            this.adoptionFormService.Setup(c => c.GetById(1))
-                .Returns(this.GetAdoptionForm());
-
-            this.adoptionFormService.Setup(c => c.InsertUser(It.IsAny<AdoptionFormUser>()))
-                .Callback((AdoptionFormUser c) => { c.Id = 1; })
-                .Returns(Task.FromResult(0));
+            this.adoptionFormService.Setup(c => c.GetById(It.IsAny<int>()))
+                .Returns(entity);
 
             var controller = this.GetController();
 
-            var response = await controller.Post(1, model) as ObjectResult;
+            var response = await controller.Post(formId, model);
 
-            Assert.AreEqual(200, response.StatusCode);
+            Assert.IsAssignableFrom(typeof(ForbidResult), response);
         }
 
         /// <summary>
@@ -129,16 +140,16 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         /// </summary>
         protected override void Setup()
         {
-            this.contentService = new Mock<IContentService>();
             this.adoptionFormService = new Mock<IAdoptionFormService>();
-
+            this.notificationService = new Mock<INotificationService>();
+            this.contentService = new Mock<IContentService>();
             base.Setup();
         }
 
         /// <summary>
         /// Gets the adoption form.
         /// </summary>
-        /// <returns>the model</returns>
+        /// <returns>the form</returns>
         private AdoptionForm GetAdoptionForm()
         {
             return new AdoptionForm()
@@ -166,23 +177,24 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         /// Gets the controller.
         /// </summary>
         /// <returns>the controller</returns>
-        private AdoptionFormUsersController GetController()
+        private SendAdoptionFormsController GetController()
         {
-            return new AdoptionFormUsersController(
+            return new SendAdoptionFormsController(
+                this.adoptionFormService.Object,
+                this.notificationService.Object,
                 this.workContext.Object,
-                this.contentService.Object,
-                this.adoptionFormService.Object);
+                this.contentService.Object);
         }
 
         /// <summary>
         /// Gets the model.
         /// </summary>
         /// <returns>the model</returns>
-        private AdoptionFormUserModel GetModel()
+        private SendAdoptionFormModel GetModel()
         {
-            return new AdoptionFormUserModel()
+            return new SendAdoptionFormModel()
             {
-                UserId = 55
+                Email = "email@email.com"
             };
         }
     }

@@ -32,7 +32,6 @@ namespace Huellitas.Business.Notifications
         /// <param name="value">The value.</param>
         public static void AddOrReplace(this IList<NotificationParameter> list, string key, string value)
         {
-            ////TODO:Test
             var parameter = list.FirstOrDefault(n => n.Key.Equals(key));
             if (parameter == null)
             {

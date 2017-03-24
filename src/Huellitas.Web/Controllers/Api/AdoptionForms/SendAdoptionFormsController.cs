@@ -68,7 +68,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         [HttpPost]
         public async Task<IActionResult> Post(int formId, [FromBody] SendAdoptionFormModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model))
             {
                 var form = this.adoptionFormService.GetById(formId);
@@ -79,7 +78,6 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
                     {
                         var user = new User() { Name = model.Email, Email = model.Email };
 
-                        ////TODO:Agregar todos los parameteros
                         var parameters = new List<NotificationParameter>();
                         parameters.Add("%Pet.Name%", form.Content.Name);
                         parameters.Add("%Pet.Url%", form.Content.Name);

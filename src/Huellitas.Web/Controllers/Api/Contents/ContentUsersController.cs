@@ -61,7 +61,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [HttpGet]
         public IActionResult Get(int contentId, [FromQuery] ContentUserFilterModel filter)
         {
-            ////TODO:Test
             filter = filter ?? new ContentUserFilterModel();
 
             if (filter.IsValid())
@@ -92,7 +91,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Authorize]
         public async Task<IActionResult> Post(int contentId, [FromBody] ContentUserModel model)
         {
-            ////TODO:Test
             if (this.IsValidModel(model))
             {
                 var content = this.contentService.GetById(contentId);
@@ -146,7 +144,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         [Route("{userId:int}")]
         public async Task<IActionResult> Delete(int contentId, int userId)
         {
-            ////TODO:Test
             var contentUser = this.contentService.GetContentUserById(contentId, userId);
 
             if (contentUser != null)
@@ -154,7 +151,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 if (this.CanAddOrRemoveUserToContent(contentUser.Content))
                 {
                     await this.contentService.DeleteContentUser(contentUser);
-                    return this.Ok();
+                    return this.Ok(new { result = true });
                 }
                 else
                 {
@@ -176,7 +173,6 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// </returns>
         public bool CanAddOrRemoveUserToContent(Content content)
         {
-            ////TODO:Test
             if (this.workContext.CurrentUserId == content.UserId)
             {
                 return true;
@@ -197,7 +193,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -208,9 +204,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
         /// <returns>
         ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsValidModel(ContentUserModel model)
+        public bool IsValidModel(ContentUserModel model)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
