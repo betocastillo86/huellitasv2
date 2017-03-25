@@ -11,12 +11,15 @@ namespace Huellitas.Web.Controllers.Api.Users
     using System.Security.Principal;
     using System.Threading.Tasks;
     using Business.Security;
+    using Business.Services.Notifications;
     using Business.Services.Users;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
+    using Models.Extensions;
 
     /// <summary>
     /// Authentication Controller
@@ -41,19 +44,52 @@ namespace Huellitas.Web.Controllers.Api.Users
         private readonly IUserService userService;
 
         /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
+        /// The notification service
+        /// </summary>
+        private readonly INotificationService notificationService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
         /// </summary>
         /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="securityHelpers">The security helpers.</param>
+        /// <param name="workContext">the work Context</param>
+        /// <param name="notificationService">the notification service</param>
         public AuthenticationController(
             IAuthenticationTokenGenerator authenticationTokenGenerator,
             IUserService userService,
-            ISecurityHelpers securityHelpers)
+            ISecurityHelpers securityHelpers,
+            IWorkContext workContext,
+            INotificationService notificationService)
         {
             this.authenticationTokenGenerator = authenticationTokenGenerator;
             this.userService = userService;
             this.securityHelpers = securityHelpers;
+            this.workContext = workContext;
+            this.notificationService = notificationService;
+        }
+
+        /// <summary>
+        /// Gets this instance.
+        /// </summary>
+        /// <returns>the action</returns>
+        [HttpGet]
+        [Authorize]
+        public IActionResult Get()
+        {
+            ////TODO:Test
+            var user = this.workContext.CurrentUser;
+            var model = user.ToModel(true);
+
+            model.UnseenNotifications = this.notificationService.CountUnseenNotificationsByUserId(this.workContext.CurrentUserId);
+
+            return this.Ok(model);
         }
 
         /// <summary>

@@ -18,6 +18,13 @@ namespace Huellitas.Business.Services.Notifications
     public interface INotificationService
     {
         /// <summary>
+        /// Counts the unseen notifications by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>the number of unseen notifications</returns>
+        int CountUnseenNotificationsByUserId(int userId);
+
+        /// <summary>
         /// Gets all.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -51,10 +58,9 @@ namespace Huellitas.Business.Services.Notifications
         /// </summary>
         /// <param name="userID">The user identifier.</param>
         /// <param name="page">The page.</param>
-        /// <param name="size">The size.</param>
+        /// <param name="pageSize">The size.</param>
         /// <returns>the value</returns>
-        IPagedList<SystemNotification> GetUserNotifications(int userID, int page, int size);
-
+        IPagedList<SystemNotification> GetUserNotifications(int userID, int page = 0, int pageSize = int.MaxValue);
         /// <summary>
         /// Inserts the specified user.
         /// </summary>
@@ -118,17 +124,17 @@ namespace Huellitas.Business.Services.Notifications
             string to);
 
         /// <summary>
-        /// Get the seen notifications.
-        /// </summary>
-        /// <param name="notifications">The notifications.</param>
-        /// <returns>the value</returns>
-        Task SeenNotifications(int[] notifications);
-
-        /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns>the task</returns>
         Task Update(Notification entity);
+
+        /// <summary>
+        /// Updates the notifications to seen.
+        /// </summary>
+        /// <param name="notifications">The notifications.</param>
+        /// <returns>the task</returns>
+        Task UpdateNotificationsToSeen(int[] notifications);
     }
 }
