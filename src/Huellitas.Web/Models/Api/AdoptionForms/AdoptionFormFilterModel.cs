@@ -136,7 +136,6 @@ namespace Huellitas.Web.Models.Api.AdoptionForms
         /// </returns>
         public bool IsValid(int userId, IContentService contentService, bool canSeeAll)
         {
-            ////TODO:Test again with shared userid
             var orderByEnum = AdoptionFormOrderBy.CreationDate;
             Enum.TryParse(this.OrderBy, out orderByEnum);
             this.OrderByEnum = orderByEnum;

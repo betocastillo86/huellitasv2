@@ -246,6 +246,48 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         }
 
         /// <summary>
+        /// Determines whether this instance [can see form true user in adoption form].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_UserInAdoptionForm()
+        {
+            var userId = 55;
+
+            this.Setup();
+            this.SetupPublicUser(userId);
+
+            var form = this.GetEntity();
+
+            this.adoptionFormService.Setup(c => c.IsUserInAdoptionForm(userId, form.Id))
+                .Returns(true);
+            
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can see form true user is parent].
+        /// </summary>
+        [Test]
+        public void CanSeeForm_True_UserIsParent()
+        {
+            var userId = 55;
+
+            this.Setup();
+            this.SetupPublicUser(userId);
+
+            var form = this.GetEntity();
+
+            this.contentService.Setup(c => c.IsUserInContent(userId, form.ContentId, Data.Entities.Enums.ContentUserRelationType.Parent))
+                .Returns(true);
+
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
+        /// <summary>
         /// Determines whether this instance [can see form true form user].
         /// </summary>
         [Test]
@@ -282,6 +324,22 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.IsTrue(controller.CanSeeForm(form));
         }
 
+        [Test]
+        public void CanSeeForm_True_AdoptionFormUser()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            var form = this.GetEntity();
+
+            this.adoptionFormService.Setup(c => c.IsUserInAdoptionForm(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(true);
+
+            var controller = this.GetController();
+
+            Assert.IsTrue(controller.CanSeeForm(form));
+        }
+
         /// <summary>
         /// Gets the adoption forms bad request invalid user.
         /// </summary>
@@ -291,7 +349,20 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.Setup();
             this.SetupNotAuthenticated();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+            this.adoptionFormService.Setup(c => c.GetAll(
+                It.IsAny<string>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(), 
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<AdoptionFormAnswerStatus>(),
+                It.IsAny<AdoptionFormOrderBy>(), 
+                It.IsAny<int>(), 
+                It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 
             var controller = this.GetController();
@@ -314,7 +385,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), null, It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<AdoptionFormAnswerStatus?>(), It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 
             var controller = this.GetController();

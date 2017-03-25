@@ -6,6 +6,7 @@
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Data.Entities;
     using Data.Entities.Enums;
@@ -299,8 +300,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var validUserId = 1;
             var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter))
-                .Returns(new List<ContentUser> { new ContentUser { UserId = validUserId } });
+
+            var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = validUserId } }).AsQueryable(), 0, 5);
+
+            mockContentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter, false, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(contentUsers);
 
             var controller = this.MockController(mockContentService);
             var content = new Content();
@@ -576,9 +580,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
+            var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 5 }, new ContentUser() { UserId = 1 } }).AsQueryable(), 0, 5);
+
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
-                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(contentUsers);
 
             var filter = new PetsFilterModel();
             filter.Shelter = "1";
@@ -598,9 +604,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
+            var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 5 }, new ContentUser() { UserId = 1 } }).AsQueryable(), 0, 5);
+
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
-                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 }, new ContentUser { UserId = 1 } });
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(contentUsers);
 
             var filter = new PetsFilterModel();
             filter.Shelter = "1,2,3";
@@ -620,9 +628,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.workContext.SetupGet(c => c.CurrentUser)
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
+            var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 5 } }).AsQueryable(), 0, 5);
+
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
-                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(contentUsers);
 
             var filter = new PetsFilterModel();
             filter.Shelter = "1";
@@ -643,8 +653,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new User() { Id = 1, RoleEnum = RoleEnum.Public });
 
             var contentService = new Mock<IContentService>();
-            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter))
-                .Returns(new List<ContentUser> { new ContentUser { UserId = 5 } });
+
+            var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 5 } }).AsQueryable(), 0, 5);
+
+            contentService.Setup(c => c.GetUsersByContentId(1, ContentUserRelationType.Shelter, false, It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(contentUsers);
 
             var filter = new PetsFilterModel();
             filter.Shelter = null;

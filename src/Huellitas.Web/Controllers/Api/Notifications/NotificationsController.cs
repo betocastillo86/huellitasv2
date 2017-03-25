@@ -48,9 +48,10 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         [Authorize]
         public IActionResult Get([FromQuery] NotificationFilterModel filter)
         {
+            filter = filter ?? new NotificationFilterModel();
+
             if (filter.IsValid())
             {
-                ////TODO:Test
                 if (!this.workContext.CurrentUser.IsSuperAdmin())
                 {
                     return this.Forbid();
@@ -78,7 +79,6 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         [Route("{id:int}")]
         public IActionResult Get(int id)
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();
@@ -101,7 +101,6 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         [Route("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody] NotificationModel model)
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();
@@ -143,9 +142,8 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         /// <returns>
         ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsValidModel(NotificationModel model)
+        public bool IsValidModel(NotificationModel model)
         {
-            ////TODO:Test
             if (model == null)
             {
                 return false;
