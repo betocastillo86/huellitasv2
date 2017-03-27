@@ -59,5 +59,13 @@ namespace Huellitas.Web.Models.Api.Users
         /// </value>
         [StringLength(50, MinimumLength = 6)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unseen notifications.
+        /// </summary>
+        /// <value>
+        /// The unseen notifications.
+        /// </value>
+        public int UnseenNotifications { get; set; }
     }
 }

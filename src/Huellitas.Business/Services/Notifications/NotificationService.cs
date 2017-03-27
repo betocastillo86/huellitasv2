@@ -166,17 +166,17 @@ namespace Huellitas.Business.Services.Notifications
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="page">The page.</param>
-        /// <param name="size">The size.</param>
+        /// <param name="pageSize">The size.</param>
         /// <returns>
         /// the value
         /// </returns>
-        public IPagedList<SystemNotification> GetUserNotifications(int userId, int page, int size)
+        public IPagedList<SystemNotification> GetUserNotifications(int userId, int page = 0, int pageSize = int.MaxValue)
         {
             var query = this.systemNotificationRepository.Table
                 .Where(sn => sn.UserId.Equals(userId))
                 .OrderByDescending(sn => sn.CreationDate);
 
-            return new PagedList<SystemNotification>(query, page, size);
+            return new PagedList<SystemNotification>(query, page, pageSize);
         }
 
         /// <summary>
@@ -386,13 +386,13 @@ namespace Huellitas.Business.Services.Notifications
         }
 
         /// <summary>
-        /// Get the seen notifications.
+        /// Updates the notifications to seen.
         /// </summary>
         /// <param name="notifications">The notifications.</param>
         /// <returns>
-        /// the value
+        /// the task
         /// </returns>
-        public async Task SeenNotifications(int[] notifications)
+        public async Task UpdateNotificationsToSeen(int[] notifications)
         {
             var toUpdate = this.systemNotificationRepository.Table
                 .Where(s => notifications.Contains(s.Id))
@@ -503,6 +503,16 @@ namespace Huellitas.Business.Services.Notifications
             }
 
             return strValue.ToString();
+        }
+
+        /// <summary>
+        /// Counts the unseen notifications by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>the number of unseen notifications</returns>
+        public int CountUnseenNotificationsByUserId(int userId)
+        {
+            return this.systemNotificationRepository.Table.Count(c => c.UserId == userId && !c.Seen);
         }
     }
 }
