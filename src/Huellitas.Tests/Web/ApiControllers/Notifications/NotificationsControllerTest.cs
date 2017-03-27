@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Tests.Web.ApiControllers.Notifications
+﻿//-----------------------------------------------------------------------
+// <copyright file="NotificationsControllerTest.cs" company="Huellitas Sin Hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Tests.Web.ApiControllers.Notifications
 {
     using System;
     using System.Collections.Generic;
@@ -117,6 +122,89 @@
             Assert.AreEqual(200, response.StatusCode);
         }
 
+        /// <summary>
+        /// Notifications the controller is valid model email false.
+        /// </summary>
+        [Test]
+        public void NotificationsController_IsValidModel_Email_False()
+        {
+            var model = this.GetModel();
+            model.EmailSubject = null;
+            var controller = this.GetController();
+
+            Assert.IsFalse(controller.IsValidModel(model));
+        }
+
+        /// <summary>
+        /// Notifications the controller is valid model system false.
+        /// </summary>
+        [Test]
+        public void NotificationsController_IsValidModel_System_False()
+        {
+            var model = this.GetModel();
+            model.SystemText = null;
+            var controller = this.GetController();
+
+            Assert.IsFalse(controller.IsValidModel(model));
+        }
+
+        /// <summary>
+        /// Notifications the controller is valid model true.
+        /// </summary>
+        [Test]
+        public void NotificationsController_IsValidModel_True()
+        {
+            var model = this.GetModel();
+            var controller = this.GetController();
+            Assert.IsTrue(controller.IsValidModel(model));
+        }
+
+        /// <summary>
+        /// Notifications the controller put bad request.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task NotificationsController_Put_BadRequest()
+        {
+            this.Setup();
+
+            int notificationId = 1;
+
+            var controller = this.GetController();
+
+            var model = this.GetModel();
+            model.EmailSubject = null;
+
+            var response = await controller.Put(notificationId, model) as ObjectResult;
+
+            Assert.AreEqual(400, response.StatusCode);
+        }
+
+        /// <summary>
+        /// Notifications the controller put forbid.
+        /// </summary>
+        /// <returns>the task</returns>
+        [Test]
+        public async Task NotificationsController_Put_Forbid()
+        {
+            this.Setup();
+            this.SetupPublicUser(55);
+
+            int notificationId = 1;
+
+            var controller = this.GetController();
+
+            var model = this.GetModel();
+
+            var response = await controller.Put(notificationId, model);
+
+            Assert.IsAssignableFrom(typeof(ForbidResult), response);
+        }
+
+        /// <summary>
+        /// Notifications the controller put ok.
+        /// </summary>
+        /// <returns>the task</returns>
         [Test]
         public async Task NotificationsController_Put_Ok()
         {
@@ -137,68 +225,6 @@
             var response = await controller.Put(notificationId, model) as ObjectResult;
 
             Assert.AreEqual(200, response.StatusCode);
-        }
-
-        [Test]
-        public async Task NotificationsController_Put_BadRequest()
-        {
-            this.Setup();
-
-            int notificationId = 1;
-
-            var controller = this.GetController();
-
-            var model = this.GetModel();
-            model.EmailSubject = null;
-
-            var response = await controller.Put(notificationId, model) as ObjectResult;
-
-            Assert.AreEqual(400, response.StatusCode);
-        }
-
-        [Test]
-        public async Task NotificationsController_Put_Forbid()
-        {
-            this.Setup();
-            this.SetupPublicUser(55);
-
-            int notificationId = 1;
-
-            var controller = this.GetController();
-
-            var model = this.GetModel();
-
-            var response = await controller.Put(notificationId, model);
-
-            Assert.IsAssignableFrom(typeof(ForbidResult), response);
-        }
-
-        [Test]
-        public void NotificationsController_IsValidModel_Email_False()
-        {
-            var model = this.GetModel();
-            model.EmailSubject = null;
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.IsValidModel(model));
-        }
-
-        [Test]
-        public void NotificationsController_IsValidModel_System_False()
-        {
-            var model = this.GetModel();
-            model.SystemText = null;
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.IsValidModel(model));
-        }
-
-        [Test]
-        public void NotificationsController_IsValidModel_True()
-        {
-            var model = this.GetModel();
-            var controller = this.GetController();
-            Assert.IsTrue(controller.IsValidModel(model));
         }
 
         /// <summary>

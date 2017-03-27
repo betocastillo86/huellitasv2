@@ -69,7 +69,6 @@ namespace Huellitas.Web.Models.Extensions.Contents
             entity.LocationId = model.Location.Id;
             entity.Email = model.Email;
 
-            ////TODO:Test again
             if (model.Users?.Count > 0)
             {
                 foreach (var parent in model.Users)

@@ -23,7 +23,6 @@ namespace Huellitas.Business.Extensions.Entities
         /// <returns>list of questions</returns>
         public static IList<AdoptionFormQuestionModel> GetAdoptionFormQuestions(this ICustomTableService customTableRowService)
         {
-            ////TODO:Test
             var rows = customTableRowService.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm));
 
             var models = new List<AdoptionFormQuestionModel>();
@@ -42,7 +41,11 @@ namespace Huellitas.Business.Extensions.Entities
 
                 if (!string.IsNullOrEmpty(additionalInfo[1]))
                 {
-                    model.Options = additionalInfo[1].Split(new char[',']);
+                    model.Options = additionalInfo[1].Split(new char[] { ',' });
+                }
+                else
+                {
+                    model.Options = new string[0];
                 }
 
                 model.Required = Convert.ToBoolean(additionalInfo[2]);

@@ -42,7 +42,7 @@ namespace Huellitas.Business.Subscribers.Notifications
         private readonly INotificationService notificationService;
 
         /// <summary>
-        /// The seo service
+        /// The SEO service
         /// </summary>
         private readonly ISeoService seoService;
 

@@ -324,6 +324,9 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             Assert.IsTrue(controller.CanSeeForm(form));
         }
 
+        /// <summary>
+        /// Determines whether this instance [can see form true adoption form user].
+        /// </summary>
         [Test]
         public void CanSeeForm_True_AdoptionFormUser()
         {

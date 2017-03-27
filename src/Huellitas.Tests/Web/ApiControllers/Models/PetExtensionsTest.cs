@@ -89,6 +89,27 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(model.Genre.Value.ToString(), entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Genre).Value);
             Assert.AreEqual(model.Size.Value.ToString(), entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Size).Value);
             Assert.AreEqual(model.Castrated.ToString(), entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Castrated).Value);
+            Assert.Zero(entity.Users.Count);
+        }
+
+        /// <summary>
+        /// To the pet entity valid parents.
+        /// </summary>
+        [Test]
+        public void ToPetEntityValid_Parents()
+        {
+            var locationId = 5;
+            var shelterId = 2;
+
+            var mockContentService = new Mock<IContentService>();
+            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
+
+            var model = new PetModel().MockNew();
+            model.Parents = new List<ContentUserModel>() { new ContentUserModel { Id = 1, UserId = 1 }, new ContentUserModel { Id = 2, UserId = 2 } };
+            model.Shelter = new ShelterModel() { Id = 1 };
+            var entity = model.ToEntity(mockContentService.Object);
+
+            Assert.AreEqual(model.Parents.Count, entity.Users.Count);
         }
 
         /// <summary>
