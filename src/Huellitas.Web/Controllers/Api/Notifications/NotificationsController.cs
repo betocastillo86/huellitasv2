@@ -32,6 +32,11 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         /// </summary>
         private readonly IWorkContext workContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationsController"/> class.
+        /// </summary>
+        /// <param name="notificationService">The notification service.</param>
+        /// <param name="workContext">The work context.</param>
         public NotificationsController(
             INotificationService notificationService,
             IWorkContext workContext)
@@ -43,6 +48,7 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         /// <summary>
         /// Gets this instance.
         /// </summary>
+        /// <param name="filter">the filter</param>
         /// <returns>the action</returns>
         [HttpGet]
         [Authorize]

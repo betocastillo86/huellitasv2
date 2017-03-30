@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Huellitas.Data.Entities;
-using Huellitas.Web.Models.Api.Notifications;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="NotificationExtensions.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions.Notifications
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Models.Api.Notifications;
+
+    /// <summary>
+    /// Notification Extensions
+    /// </summary>
     public static class NotificationExtensions
     {
         /// <summary>
         /// To the model.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns></returns>
+        /// <returns>the model</returns>
         public static NotificationModel ToModel(this Notification entity)
         {
             return new Api.Notifications.NotificationModel

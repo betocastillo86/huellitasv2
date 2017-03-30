@@ -83,6 +83,33 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         }
 
         /// <summary>
+        /// To the shelter entity users null valid.
+        /// </summary>
+        [Test]
+        public void ToShelterEntity_Users_Null_Valid()
+        {
+            var model = new ShelterModel().MockNew();
+
+            var entity = model.ToEntity(this.contentService.Object, null, null);
+
+            Assert.Zero(entity.Users.Count);
+        }
+
+        /// <summary>
+        /// To the shelter entity users not null valid.
+        /// </summary>
+        [Test]
+        public void ToShelterEntity_Users_NotNull_Valid()
+        {
+            var model = new ShelterModel().MockNew();
+            model.Users = new List<ContentUserModel>() { new ContentUserModel { Id = 1, UserId = 1 }, new ContentUserModel { Id = 2, UserId = 1 } };
+
+            var entity = model.ToEntity(this.contentService.Object, null, null);
+
+            Assert.AreEqual(2, entity.Users.Count);
+        }
+
+        /// <summary>
         /// To the shelter entity content not null valid.
         /// </summary>
         [Test]

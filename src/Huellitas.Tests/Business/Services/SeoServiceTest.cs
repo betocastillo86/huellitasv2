@@ -19,13 +19,10 @@ namespace Huellitas.Tests.Business.Services
     [TestFixture]
     public class SeoServiceTest : BaseTest
     {
+        /// <summary>
+        /// The general settings
+        /// </summary>
         private Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
-
-        protected override void Setup()
-        {
-            this.generalSettings = new Mock<IGeneralSettings>();
-            base.Setup();
-        }
 
         /// <summary>
         /// Generates the name of the correct friendly.
@@ -124,6 +121,15 @@ namespace Huellitas.Tests.Business.Services
 
             generatedUrl = service.GenerateFriendlyName("El tercer contenido", contents.AsQueryable());
             Assert.AreEqual("el-tercer-contenido", generatedUrl);
+        }
+
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
+        protected override void Setup()
+        {
+            this.generalSettings = new Mock<IGeneralSettings>();
+            base.Setup();
         }
     }
 }

@@ -104,7 +104,6 @@ namespace Huellitas.Web.Models.Extensions
                 }
             }
 
-            ////TODO:Test again
             if (model.Parents?.Count > 0)
             {
                 foreach (var parent in model.Parents)

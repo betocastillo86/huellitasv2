@@ -24,7 +24,6 @@ namespace Huellitas.Business.Extensions.Services
         /// <returns>the shelter</returns>
         public static Content GetShelterByPet(this IContentService service, int petId)
         {
-            ////TODO:Test
             var shelterId = service.GetContentAttribute<int?>(petId, ContentAttributeType.Shelter);
 
             if (shelterId.HasValue)

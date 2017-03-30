@@ -79,6 +79,25 @@ namespace Huellitas.Tests.Business
         }
 
         /// <summary>
+        /// Inserts the content with invalid content user.
+        /// </summary>
+        [Test]
+        public void InsertContent_With_Invalid_ContentUser()
+        {
+            var mockException = SqlExceptionHelper.GetDbUpdateExceptionWithSqlException(547, "FK_ContentUser_User");
+
+            var mockContentRepository = new Mock<IRepository<Content>>();
+            mockContentRepository.Setup(c => c.InsertAsync(It.IsAny<Content>()))
+                .Throws(mockException);
+
+            var contentService = this.MockContentService(contentRepository: mockContentRepository.Object);
+
+            var ex = Assert.ThrowsAsync<HuellitasException>(async () => await contentService.InsertAsync(new Content()));
+            Assert.AreEqual("ContentUser", ex.Target);
+            Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey, ex.Code);
+        }
+
+        /// <summary>
         /// Updates the content with invalid file.
         /// </summary>
         [Test]
