@@ -8,9 +8,10 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20170328010420_AddColumn_ClosingDate_Table_Content")]
+    partial class AddColumn_ClosingDate_Table_Content
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

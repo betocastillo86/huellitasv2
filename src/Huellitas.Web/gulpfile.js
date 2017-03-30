@@ -49,7 +49,10 @@ paths.libs = [
     paths.external + 'underscore/underscore.js',
     paths.external + 'textAngular/dist/textAngular-rangy.min.js',
     paths.external + 'textAngular/dist/textAngular-sanitize.min.js',
-    paths.external + 'textAngular/dist/textAngular.min.js'
+    paths.external + 'textAngular/dist/textAngular.min.js',
+    paths.external + 'moment/moment.js',
+    paths.external + 'moment/locale/es.js',
+    paths.external + 'pikaday/pikaday.js'
 ];
 
 paths.css = [
@@ -57,6 +60,7 @@ paths.css = [
     paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
     paths.external + 'gentelella/build/css/custom.min.css',
     paths.external + 'textAngular/dist/textAngular.css',
+    paths.external + 'pikaday/css/pikaday.css',
     paths.webroot + 'css/huellitas.css'
 ];
 

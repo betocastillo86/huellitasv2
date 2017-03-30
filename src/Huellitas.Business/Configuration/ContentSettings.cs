@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using Huellitas.Business.Services.Configuration;
 
@@ -60,5 +61,13 @@ namespace Huellitas.Business.Configuration
         /// The picture size height list.
         /// </value>
         public int PictureSizeHeightList { get { return this.settingService.GetCachedSetting<int>("ContentSettings.PictureSizeHeightList"); } }
+
+        /// <summary>
+        /// Gets the days to automatic closing pet.
+        /// </summary>
+        /// <value>
+        /// The days to automatic closing pet.
+        /// </value>
+        public int DaysToAutoClosingPet { get { return this.settingService.GetCachedSetting<int>("ContentSettings.DaysToAutoClosingPet"); } }
     }
 }

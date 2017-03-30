@@ -8,7 +8,8 @@
     function authenticationService($http, $q, sessionService)
     {
         return {
-            post : post
+            post: post,
+            get : get
         };
 
         function post(model)
@@ -35,6 +36,11 @@
             {
                 deferred.reject(response);
             }
+        }
+
+        function get()
+        {
+            return $http.get('/api/auth');
         }
     }
 })();

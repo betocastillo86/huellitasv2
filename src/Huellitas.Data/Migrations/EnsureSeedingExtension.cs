@@ -450,6 +450,7 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightDetail", Value = "800" });
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthList", Value = "500" });
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "500" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.DaysToAutoClosingPet", Value = "30" });
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.SiteUrl", Value = "http://localhost:23178/" });
 

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Contents
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -141,6 +142,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
             if (filter.IsValid(canGetUnplublished, out filterData))
             {
+                DateTime? closingDateFilter = filter.WithinClosingDate.HasValue && filter.WithinClosingDate.Value ? DateTime.Now : (DateTime?)null;
+
                 var contentList = this.contentService.Search(
                     filter.Keyword,
                     Data.Entities.ContentType.Pet,
@@ -149,7 +152,8 @@ namespace Huellitas.Web.Controllers.Api.Contents
                     filter.Page,
                     filter.OrderByEnum,
                     filter.LocationId,
-                    filter.Status);
+                    filter.Status,
+                    closingDateFrom: closingDateFilter);
 
                 var models = contentList.ToPetModels(
                     this.contentService, 
@@ -233,7 +237,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                 try
                 {
-                    content = model.ToEntity(this.contentService, files: model.Files);
+                    content = model.ToEntity(this.contentSettings, this.contentService, files: model.Files);
 
                     content.UserId = this.workContext.CurrentUserId;
 
@@ -309,7 +313,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                         content.StatusType = model.Status;
                     }
 
-                    content = model.ToEntity(this.contentService, content);
+                    content = model.ToEntity(this.contentSettings, this.contentService, content);
 
                     try
                     {

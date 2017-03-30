@@ -93,6 +93,14 @@ namespace Huellitas.Web.Models.Api.Contents
         public int? LocationId { get; set; }
 
         /// <summary>
+        /// Gets or sets the within closing date.
+        /// </summary>
+        /// <value>
+        /// The within closing date.
+        /// </value>
+        public bool? WithinClosingDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>

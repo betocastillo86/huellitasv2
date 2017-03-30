@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Notifications
 {
+    using System;
     using Huellitas.Web.Models.Api.Common;
 
     /// <summary>
@@ -36,5 +37,13 @@ namespace Huellitas.Web.Models.Api.Notifications
         ///   <c>true</c> if seen; otherwise, <c>false</c>.
         /// </value>
         public bool Seen { get; set; }
+
+        /// <summary>
+        /// Gets or sets the creation date.
+        /// </summary>
+        /// <value>
+        /// The creation date.
+        /// </value>
+        public DateTime CreationDate { get; set; }
     }
 }

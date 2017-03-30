@@ -3,7 +3,7 @@
 
 
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="app" ng-controller="RootController as root">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -44,7 +44,7 @@
                         <ul class="nav navbar-nav navbar-right" ng-controller="HeaderController as header">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">{{header.model.user.name}}
+                                    <img src="images/img.jpg" alt="">{{root.currentUser.name}}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -52,64 +52,27 @@
                                 </ul>
                             </li>
 
-                            <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <li role="presentation" class="dropdown" >
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false" ng-click="header.toogleNotifications()">
                                     <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
+                                    <span class="badge bg-green" ng-if="root.currentUser.unseenNotifications > 0">{{root.currentUser.unseenNotifications}}</span>
                                 </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                    <li>
+                                <ul id="menu1" class="dropdown-menu msg_list" role="menu" >
+                                    <li ng-repeat="notification in header.notifications">
                                         <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
                                             <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
+                                                <span>&nbsp;</span>
+                                                <span class="time">{{notification.creationDateString}}</span>
                                             </span>
                                             <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                {{notification.value}}
                                             </span>
                                         </a>
                                     </li>
                                     <li>
                                         <div class="text-center">
-                                            <a>
-                                                <strong>See All Alerts</strong>
+                                            <a href="/admin/notifications/mine">
+                                                <strong>Ver todas</strong>
                                                 <i class="fa fa-angle-right"></i>
                                             </a>
                                         </div>

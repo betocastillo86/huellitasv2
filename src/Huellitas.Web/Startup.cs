@@ -81,7 +81,10 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddJsonOptions(c => c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat);
+            }).AddJsonOptions(c => {
+                c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+                c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
+            });
 
             ////Register all policies required
             services.ConfigurePolicies();

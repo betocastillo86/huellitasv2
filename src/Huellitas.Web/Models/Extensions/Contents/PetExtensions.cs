@@ -11,6 +11,7 @@ namespace Huellitas.Web.Models.Extensions
     using Api.Files;
     using Api.Users;
     using Business.Caching;
+    using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions.Entities;
     using Business.Extensions.Services;
@@ -33,6 +34,7 @@ namespace Huellitas.Web.Models.Extensions
         /// To the entity.
         /// </summary>
         /// <param name="model">The model.</param>
+        /// <param name="contentSettings">content settings</param>
         /// <param name="contentService">The content service.</param>
         /// <param name="entity">entity to assign the data</param>
         /// <param name="files">The files</param>
@@ -40,6 +42,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <exception cref="HuellitasException">the exceptions</exception>
         public static Content ToEntity(
             this PetModel model, 
+            IContentSettings contentSettings,
             IContentService contentService, 
             Content entity = null, 
             IList<FileModel> files = null)
@@ -73,11 +76,19 @@ namespace Huellitas.Web.Models.Extensions
             entity.Body = model.Body;
             entity.DisplayOrder = model.DisplayOrder;
             entity.Email = model.Email;
+            entity.ClosingDate = model.ClosingDate;
 
             if (model.Shelter == null || model.Shelter.Id == 0)
             {
                 entity.LocationId = model.Location.Id;
                 entity.ContentAttributes.Remove(ContentAttributeType.Shelter);
+
+                //// Cuando no tiene shelter le da solo unos días de publicacion
+                if (entity == null)
+                {
+                    ////TODO:Test again
+                    entity.ClosingDate = DateTime.Now.AddDays(contentSettings.DaysToAutoClosingPet);
+                }
             }
             else
             {
@@ -153,7 +164,8 @@ namespace Huellitas.Web.Models.Extensions
                 TypeId = entity.Type,
                 Views = entity.Views,
                 CreatedDate = entity.CreatedDate,
-                Featured = entity.Featured
+                Featured = entity.Featured,
+                ClosingDate = entity.ClosingDate
             };
 
             if (entity.LocationId.HasValue && entity.Location != null)

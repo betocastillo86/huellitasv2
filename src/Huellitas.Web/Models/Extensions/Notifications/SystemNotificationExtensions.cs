@@ -27,7 +27,8 @@ namespace Huellitas.Web.Models.Extensions.Notifications
                 Id = entity.Id,
                 Seen = entity.Seen,
                 TargetUrl = entity.TargetURL,
-                Value = entity.Value
+                Value = entity.Value,
+                CreationDate = entity.CreationDate
             };
         }
 

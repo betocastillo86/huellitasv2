@@ -385,6 +385,8 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="orderBy">The order by.</param>
         /// <param name="locationId">the location</param>
         /// <param name="status">the status</param>
+        /// <param name="closingDateFrom">filter of closing date from</param>
+        /// <param name="closingDateTo">filter of closing date to</param>
         /// <returns>
         /// the value
         /// </returns>
@@ -396,7 +398,9 @@ namespace Huellitas.Business.Services.Contents
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
             int? locationId = null,
-            StatusType? status = null)
+            StatusType? status = null,
+            DateTime? closingDateFrom = null,
+            DateTime? closingDateTo = null)
         {
             var query = this.contentRepository.TableNoTracking
                 .Include(c => c.ContentAttributes)
@@ -424,6 +428,16 @@ namespace Huellitas.Business.Services.Contents
             {
                 var statusId = Convert.ToInt16(status.Value);
                 query = query.Where(c => c.Status == statusId);
+            }
+
+            if (closingDateFrom.HasValue)
+            {
+                query = query.Where(c => c.ClosingDate == null || c.ClosingDate > closingDateFrom.Value);
+            }
+
+            if (closingDateTo.HasValue)
+            {
+                query = query.Where(c => c.ClosingDate == null || c.ClosingDate > closingDateFrom.Value);
             }
 
             #region Attributes

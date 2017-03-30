@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api.Contents
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Huellitas.Web.Models.Api.Files;
@@ -109,5 +110,13 @@ namespace Huellitas.Web.Models.Api.Contents
         /// </value>
         [Required]
         public ContentAttributeModel<int> Subtype { get; set; }
+
+        /// <summary>
+        /// Gets or sets the closing date.
+        /// </summary>
+        /// <value>
+        /// The closing date.
+        /// </value>
+        public DateTime? ClosingDate { get; set; }
     }
 }

@@ -70,6 +70,8 @@
                 vm.years = Math.floor(model.months / 12);
                 vm.months = model.months % 12;
                 vm.showPicturesActive = true;
+                //vm.model.closingDate = moment(vm.model.closingDate, 'YYYY/MM/DD HH:mm:ss').format('YYYY/MM/DD');
+                
             }
 
             function getError() {

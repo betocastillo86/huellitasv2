@@ -11,6 +11,14 @@ namespace Huellitas.Business.Configuration
     public interface IContentSettings
     {
         /// <summary>
+        /// Gets the days to automatic closing pet.
+        /// </summary>
+        /// <value>
+        /// The days to automatic closing pet.
+        /// </value>
+        int DaysToAutoClosingPet { get; }
+
+        /// <summary>
         /// Gets the picture size width detail.
         /// </summary>
         /// <value>

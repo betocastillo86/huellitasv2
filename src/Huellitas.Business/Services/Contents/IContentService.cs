@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Contents
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Data.Entities.Enums;
@@ -116,7 +117,9 @@ namespace Huellitas.Business.Services.Contents
             int page = 0,
             ContentOrderBy orderBy = ContentOrderBy.DisplayOrder,
             int? locationId = null,
-            StatusType? status = null);
+            StatusType? status = null,
+            DateTime? closingDateFrom = null,
+            DateTime? closingDateTo = null);
 
         /// <summary>
         /// Updates the asynchronous.

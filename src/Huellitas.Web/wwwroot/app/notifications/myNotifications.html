@@ -1,0 +1,28 @@
+﻿<div class="page-title">
+    <div class="title_left">
+        <h3>Mis Notificaciones</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <table class="table">
+                    <tbody>
+                        <tr ng-repeat="notification in main.notifications">
+                            <td>{{notification.value}} <b>{{notification.creationDateString}}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button class="btn btn-info" ng-click="main.showMore()" ng-if="main.showPager">Ver más</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row col-md-offset-3">
+    
+</div>
