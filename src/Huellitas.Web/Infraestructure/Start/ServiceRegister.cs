@@ -64,6 +64,7 @@ namespace Huellitas.Web.Infraestructure.Start
 
             ////Helpers
             services.AddScoped<ISecurityHelpers, SecurityHelpers>();
+            services.AddSingleton<IStringHelpers, StringHelpers>();
 
             ////Services
             services.AddScoped<IContentService, ContentService>();

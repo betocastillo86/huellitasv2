@@ -237,7 +237,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
 
                 try
                 {
-                    content = model.ToEntity(this.contentSettings, this.contentService, files: model.Files);
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), files: model.Files);
 
                     content.UserId = this.workContext.CurrentUserId;
 
@@ -313,7 +313,7 @@ namespace Huellitas.Web.Controllers.Api.Contents
                         content.StatusType = model.Status;
                     }
 
-                    content = model.ToEntity(this.contentSettings, this.contentService, content);
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
 
                     try
                     {
@@ -415,8 +415,34 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
                 this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
             }
+            else if (model.Shelter != null)
+            {
+                if (!this.CanUserCreatePetsOnShelter(model.Shelter.Id))
+                {
+                    this.ModelState.AddModelError("Shelter", "No tiene acceso a este refugio");
+                }
+            }
 
             return this.ModelState.IsValid;
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can user create pets on shelter] the specified shelter identifier.
+        /// </summary>
+        /// <param name="shelterId">The shelter identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can user create pets on shelter] the specified shelter identifier; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanUserCreatePetsOnShelter(int shelterId)
+        {
+            if (this.workContext.CurrentUser.IsSuperAdmin())
+            {
+                return true;
+            }
+            else
+            {
+                return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelterId, ContentUserRelationType.Shelter);
+            }
         }
     }
 }

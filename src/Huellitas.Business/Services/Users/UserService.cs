@@ -15,6 +15,7 @@ namespace Huellitas.Business.Services.Users
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Security;
 
     /// <summary>
     /// User Service
@@ -33,16 +34,23 @@ namespace Huellitas.Business.Services.Users
         private readonly IPublisher publisher;
 
         /// <summary>
+        /// The security helpers
+        /// </summary>
+        private readonly ISecurityHelpers securityHelpers;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="publisher">The publisher.</param>
         public UserService(
             IRepository<User> userRepository,
-            IPublisher publisher)
+            IPublisher publisher,
+            ISecurityHelpers securityHelpers)
         {
             this.userRepository = userRepository;
             this.publisher = publisher;
+            this.securityHelpers = securityHelpers;
         }
 
         /// <summary>
@@ -187,9 +195,18 @@ namespace Huellitas.Business.Services.Users
         /// </returns>
         public async Task<User> ValidateAuthentication(string email, string password)
         {
-            return await this.userRepository.Table
+            var user = await this.userRepository.Table
                 .Include(c => c.Role)
-                .FirstOrDefaultAsync(c => c.Email.Equals(email) && c.Password.Equals(password) && !c.Deleted);
+                .FirstOrDefaultAsync(c => c.Email.Equals(email) && !c.Deleted);
+
+            if (user != null)
+            {
+                return this.securityHelpers.ToSha1(password, user.Salt).Equals(user.Password) ? user : null;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

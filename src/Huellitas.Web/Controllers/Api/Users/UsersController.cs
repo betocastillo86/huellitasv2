@@ -11,6 +11,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using System.Threading.Tasks;
     using Business.Exceptions;
     using Business.Extensions.Entities;
+    using Business.Helpers;
     using Business.Security;
     using Business.Services.Users;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -50,22 +51,30 @@ namespace Huellitas.Web.Controllers.Api.Users
         private readonly IWorkContext workContext;
 
         /// <summary>
+        /// The string helpers
+        /// </summary>
+        private readonly IStringHelpers stringHelpers;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="authenticationTokenGenerator">token generator</param>
         /// <param name="securityHelpers">security helpers</param>
+        /// <param name="stringHelpers">string helpers</param>
         public UsersController(
             IWorkContext workContext,
             IUserService userService,
             IAuthenticationTokenGenerator authenticationTokenGenerator,
-            ISecurityHelpers securityHelpers)
+            ISecurityHelpers securityHelpers,
+            IStringHelpers stringHelpers)
         {
             this.workContext = workContext;
             this.userService = userService;
             this.authenticationTokenGenerator = authenticationTokenGenerator;
             this.securityHelpers = securityHelpers;
+            this.stringHelpers = stringHelpers;
         }
 
         /// <summary>
@@ -216,8 +225,9 @@ namespace Huellitas.Web.Controllers.Api.Users
             if (this.IsValidModel(model, true, canSeeWholeUser))
             {
                 var user = model.ToEntity();
+                user.Salt = this.stringHelpers.GetRandomString();
 
-                user.Password = this.securityHelpers.ToSha1(model.Password, this.securityHelpers.ToSha1(model.Password));
+                user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
 
                 try
                 {
@@ -281,7 +291,7 @@ namespace Huellitas.Web.Controllers.Api.Users
 
                     if (!string.IsNullOrEmpty(model.Password))
                     {
-                        user.Password = this.securityHelpers.ToSha1(model.Password, this.securityHelpers.ToSha1(model.Password));
+                        user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
                     }
 
                     if (model.Role.HasValue)

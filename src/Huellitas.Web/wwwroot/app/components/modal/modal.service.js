@@ -185,7 +185,7 @@
                     message = 'El campo ' + error.target + ' que intenta relacionar no existe';
                 }
 
-                options.message = error.message;
+                options.message = message;
             }
 
             return show(options);

@@ -206,6 +206,11 @@
         }
 
         function save(isValid) {
+            if (!vm.model.files || vm.model.files.length == 0) {
+                modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
+                return false;
+            }
+
             if (isValid) {
                 if (vm.model.id > 0) {
                     shelterService.put(vm.model)

@@ -97,6 +97,14 @@ namespace Huellitas.Data.Entities
         public bool Deleted { get; set; }
 
         /// <summary>
+        /// Gets or sets the salt.
+        /// </summary>
+        /// <value>
+        /// The salt.
+        /// </value>
+        public string Salt { get; set; }
+
+        /// <summary>
         /// Gets or sets the adoption form answer.
         /// </summary>
         /// <value>

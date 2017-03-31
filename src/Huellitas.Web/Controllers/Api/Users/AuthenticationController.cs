@@ -34,11 +34,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
         /// <summary>
-        /// The security helpers
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
-
-        /// <summary>
         /// The user service
         /// </summary>
         private readonly IUserService userService;
@@ -64,13 +59,11 @@ namespace Huellitas.Web.Controllers.Api.Users
         public AuthenticationController(
             IAuthenticationTokenGenerator authenticationTokenGenerator,
             IUserService userService,
-            ISecurityHelpers securityHelpers,
             IWorkContext workContext,
             INotificationService notificationService)
         {
             this.authenticationTokenGenerator = authenticationTokenGenerator;
             this.userService = userService;
-            this.securityHelpers = securityHelpers;
             this.workContext = workContext;
             this.notificationService = notificationService;
         }
@@ -102,8 +95,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         {
             if (model != null && this.ModelState.IsValid)
             {
-                var password = this.securityHelpers.ToSha1(model.Password, this.securityHelpers.ToSha1(model.Password));
-                var user = await this.userService.ValidateAuthentication(model.Email, password);
+                var user = await this.userService.ValidateAuthentication(model.Email, model.Password);
 
                 if (user != null)
                 {

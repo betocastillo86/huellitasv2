@@ -71,7 +71,7 @@
                 vm.months = model.months % 12;
                 vm.showPicturesActive = true;
                 //vm.model.closingDate = moment(vm.model.closingDate, 'YYYY/MM/DD HH:mm:ss').format('YYYY/MM/DD');
-                
+
             }
 
             function getError() {
@@ -104,7 +104,7 @@
                 var contentUser = { userId: user.id, relationType: user.relationType };
 
                 if (vm.id) {
-                    
+
 
                     contentService.postUser(vm.id, contentUser)
                         .then(postCompleted)
@@ -127,12 +127,10 @@
             }
         }
 
-        function deleteParent(user)
-        {
+        function deleteParent(user) {
             if (vm.id) {
 
-                if (confirm('¿Seguro deseas eliminar este usuario?'))
-                {
+                if (confirm('¿Seguro deseas eliminar este usuario?')) {
                     contentService.deleteUser(vm.id, user.id)
                         .then(deleteCompleted)
                         .catch(deleteError);
@@ -291,6 +289,12 @@
 
         function save(isValid) {
             if (isValid) {
+
+                if (!vm.model.files || vm.model.files.length == 0) {
+                    modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
+                    return false;
+                }
+
                 if (vm.model.id > 0) {
                     petService.put(vm.model)
                     .then(saveCompleted)

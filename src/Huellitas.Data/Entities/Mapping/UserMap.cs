@@ -39,8 +39,11 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(150)");
 
-            entity.Property(e => e.Password)
+            entity.Property(c => c.Salt)
                 .IsRequired()
+                .HasColumnType("varchar(6)");
+
+            entity.Property(e => e.Password)
                 .HasColumnType("varchar(50)");
 
             entity.Ignore(e => e.RoleEnum);

@@ -44,6 +44,7 @@ namespace Huellitas.Web.Models.Extensions
             this PetModel model, 
             IContentSettings contentSettings,
             IContentService contentService, 
+            bool isAdmin,
             Content entity = null, 
             IList<FileModel> files = null)
         {
@@ -84,7 +85,7 @@ namespace Huellitas.Web.Models.Extensions
                 entity.ContentAttributes.Remove(ContentAttributeType.Shelter);
 
                 //// Cuando no tiene shelter le da solo unos días de publicacion
-                if (entity == null)
+                if (entity.Id == 0 && !isAdmin)
                 {
                     ////TODO:Test again
                     entity.ClosingDate = DateTime.Now.AddDays(contentSettings.DaysToAutoClosingPet);
