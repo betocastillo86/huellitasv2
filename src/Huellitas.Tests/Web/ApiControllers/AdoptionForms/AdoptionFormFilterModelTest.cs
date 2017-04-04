@@ -18,11 +18,6 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     public class AdoptionFormFilterModelTest : BaseTest
     {
         /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
-        /// <summary>
         /// Tests Adoption the form filter is valid false content user identifier.
         /// </summary>
         [Test]

@@ -12,6 +12,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using System.Threading.Tasks;
     using Data.Entities;
     using Huellitas.Business.Security;
+    using Huellitas.Business.Services.Notifications;
     using Huellitas.Business.Services.Users;
     using Huellitas.Web.Controllers.Api.Users;
     using Huellitas.Web.Infraestructure.Security;
@@ -27,12 +28,17 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     /// Authentication Controller Test
     /// </summary>
     [TestFixture]
-    public class AuthenticationControllerTest
+    public class AuthenticationControllerTest : BaseTest
     {
         /// <summary>
         /// The authentication token generator
         /// </summary>
         private Mock<IAuthenticationTokenGenerator> authenticationTokenGenerator;
+
+        /// <summary>
+        /// The string helpers
+        /// </summary>
+        private Mock<INotificationService> notificationService = new Mock<INotificationService>();
 
         /// <summary>
         /// The security helpers
@@ -43,7 +49,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// The user service
         /// </summary>
         private Mock<IUserService> userService;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationControllerTest"/> class.
         /// </summary>
@@ -52,15 +57,37 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
             this.userService = new Mock<IUserService>();
             this.securityHelpers = new Mock<ISecurityHelpers>();
+            this.notificationService = new Mock<INotificationService>();
+        }
+
+        /// <summary>
+        /// Gets the authentication ok.
+        /// </summary>
+        [Test]
+        public void GetAuthentication_Ok()
+        {
+            this.Setup();
+            this.notificationService.Setup(c => c.CountUnseenNotificationsByUserId(1))
+                .Returns(5);
+
+            var controller = this.GetController();
+
+            var response = controller.Get() as ObjectResult;
+
+            Assert.AreEqual(200, response.StatusCode);
         }
 
         /// <summary>
         /// Mocks the authentication controller.
         /// </summary>
         /// <returns>the mock</returns>
-        public AuthenticationController MockAuthenticationController()
+        public AuthenticationController GetController()
         {
-            return new AuthenticationController(this.authenticationTokenGenerator.Object, this.userService.Object, this.securityHelpers.Object);
+            return new AuthenticationController(
+                this.authenticationTokenGenerator.Object,
+                this.userService.Object,
+                this.workContext.Object,
+                this.notificationService.Object);
         }
 
         /// <summary>
@@ -70,7 +97,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         [Test]
         public async Task PostAuthentication_InvalidModel_BadPassword()
         {
-            var controller = this.MockAuthenticationController();
+            var controller = this.GetController();
             AuthenticationUserModel model = new AuthenticationUserModel();
             model.Email = "aa@aa.com";
 
@@ -85,7 +112,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         [Test]
         public async Task PostAuthentication_InvalidModel_Null()
         {
-            var controller = this.MockAuthenticationController();
+            var controller = this.GetController();
 
             AuthenticationUserModel model = null;
             var response = await controller.Post(model) as ObjectResult;
@@ -118,7 +145,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 .Setup(c => c.ValidateAuthentication(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(userAuthenticated);
 
-            var controller = this.MockAuthenticationController();
+            var controller = this.GetController();
 
             var response = await controller.Post(model) as ObjectResult;
             var user = response.Value as AuthenticatedUserModel;
@@ -145,8 +172,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 .Setup(c => c.ValidateAuthentication(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(null);
 
-            var controller = this.MockAuthenticationController();
-            
+            var controller = this.GetController();
+
             var response = await controller.Post(model) as UnauthorizedResult;
 
             Assert.AreEqual(401, response.StatusCode);

@@ -26,11 +26,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     public class ContentUsersControllerTest : BaseTest
     {
         /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
-        /// <summary>
         /// Test Content the users controller can add or remove user to content false.
         /// </summary>
         [Test]

@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Controllers.Api.Notifications
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services.Notifications;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -51,9 +52,8 @@ namespace Huellitas.Web.Controllers.Api.Notifications
         /// <returns>the list</returns>
         [HttpGet]
         [Authorize]
-        public IActionResult Get([FromQuery] UserNotificationFilterModel filter)
+        public async Task<IActionResult> Get([FromQuery] UserNotificationFilterModel filter)
         {
-            ////TODO:Test
             filter = filter ?? new UserNotificationFilterModel();
 
             if (filter.IsValid())
@@ -64,7 +64,7 @@ namespace Huellitas.Web.Controllers.Api.Notifications
 
                 if (filter.UpdateSeen)
                 {
-                    this.notificationService.UpdateNotificationsToSeen(notifications.Select(c => c.Id).ToArray());
+                    await this.notificationService.UpdateNotificationsToSeen(notifications.Select(c => c.Id).ToArray());
                 }
 
                 return this.Ok(models, notifications.HasNextPage, notifications.TotalCount);

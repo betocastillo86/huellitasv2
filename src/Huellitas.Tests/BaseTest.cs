@@ -8,7 +8,9 @@ namespace Huellitas.Tests
     using System.Diagnostics.CodeAnalysis;
     using Data.Entities.Enums;
     using Huellitas.Business.Caching;
+    using Huellitas.Business.Configuration;
     using Huellitas.Business.Security;
+    using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Moq;
@@ -24,6 +26,16 @@ namespace Huellitas.Tests
         /// The cache manager
         /// </summary>
         protected Mock<ICacheManager> cacheManager = new Mock<ICacheManager>();
+
+        /// <summary>
+        /// The content service
+        /// </summary>
+        protected Mock<IContentService> contentService = new Mock<IContentService>();
+
+        /// <summary>
+        /// The content settings
+        /// </summary>
+        protected Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseTest"/> class.
@@ -47,6 +59,8 @@ namespace Huellitas.Tests
         protected virtual void Setup()
         {
             this.workContext = new Mock<IWorkContext>();
+            this.contentService = new Mock<IContentService>();
+            this.contentSettings = new Mock<IContentSettings>();
             this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
             this.workContext.SetupGet(c => c.CurrentUserId).Returns(1);
             this.workContext.SetupGet(c => c.IsAuthenticated).Returns(true);

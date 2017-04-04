@@ -76,7 +76,6 @@ namespace Huellitas.Web.Controllers.Api.Users
         [Authorize]
         public IActionResult Get()
         {
-            ////TODO:Test
             var user = this.workContext.CurrentUser;
             var model = user.ToModel(true);
 

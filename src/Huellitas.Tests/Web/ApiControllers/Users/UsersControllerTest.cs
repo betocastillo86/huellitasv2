@@ -7,6 +7,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 {
     using System.Threading.Tasks;
     using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Helpers;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services.Users;
     using Huellitas.Data.Entities;
@@ -45,6 +46,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// The user service
         /// </summary>
         private Mock<IUserService> userService = new Mock<IUserService>();
+
+        /// <summary>
+        /// The string helpers
+        /// </summary>
+        private Mock<IStringHelpers> stringHelpers = new Mock<IStringHelpers>();
 
         /// <summary>
         /// Deletes the user forbid.
@@ -664,6 +670,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
             this.securityHelpers = new Mock<ISecurityHelpers>();
             this.userService = new Mock<IUserService>();
+            this.stringHelpers = new Mock<IStringHelpers>();
             base.Setup();
         }
 
@@ -677,7 +684,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 this.workContext.Object,
                 this.userService.Object,
                 this.authenticationTokenGenerator.Object,
-                this.securityHelpers.Object);
+                this.securityHelpers.Object,
+                this.stringHelpers.Object);
         }
 
         /// <summary>

@@ -30,11 +30,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     public class SheltersControllerTest : BaseTest
     {
         /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
-        /// <summary>
         /// The content settings
         /// </summary>
         private Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();

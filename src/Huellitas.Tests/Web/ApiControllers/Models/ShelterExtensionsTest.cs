@@ -26,11 +26,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     public class ShelterExtensionsTest : BaseTest
     {
         /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
-        /// <summary>
         /// The files helper
         /// </summary>
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
