@@ -5,9 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Configuration
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
+    using EventPublisher;
     using Huellitas.Business.Caching;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
@@ -25,6 +28,11 @@ namespace Huellitas.Business.Services.Configuration
         private readonly ICacheManager cacheManager;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// The system setting repository
         /// </summary>
         private readonly IRepository<SystemSetting> systemSettingRepository;
@@ -36,10 +44,12 @@ namespace Huellitas.Business.Services.Configuration
         /// <param name="cacheManager">The cache manager.</param>
         public SystemSettingService(
             IRepository<SystemSetting> systemSettingRepository,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            IPublisher publisher)
         {
             this.systemSettingRepository = systemSettingRepository;
             this.cacheManager = cacheManager;
+            this.publisher = publisher;
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace Huellitas.Business.Services.Configuration
 
             if (!string.IsNullOrEmpty(key))
             {
-                query = query.Where(c => c.Name.Equals(key));
+                query = query.Where(c => c.Name.Contains(key));
             }
 
             if (!string.IsNullOrEmpty(value))
@@ -67,6 +77,16 @@ namespace Huellitas.Business.Services.Configuration
             }
 
             return new PagedList<SystemSetting>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <returns>the setting</returns>
+        public SystemSetting GetByKey(string keyword)
+        {
+            return this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(keyword));
         }
 
         /// <summary>
@@ -89,6 +109,20 @@ namespace Huellitas.Business.Services.Configuration
             {
                 return default(T);
             }
+        }
+
+        /// <summary>
+        /// Updates the specified setting.
+        /// </summary>
+        /// <param name="setting">The setting.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Update(SystemSetting setting)
+        {
+            await this.systemSettingRepository.UpdateAsync(setting);
+
+            await this.publisher.EntityUpdated(setting);
         }
 
         /// <summary>

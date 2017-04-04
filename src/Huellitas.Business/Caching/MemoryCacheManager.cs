@@ -132,7 +132,7 @@ namespace Huellitas.Business.Caching
         {
             ////Due to the keys of Memory Cache are private it's necessary to access through reflection
             ////http://stackoverflow.com/questions/37452962/get-all-cache-in-asp-net-core-1
-            return (IDictionary<object, ICacheEntry>)this.memoryCache.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(c => c.Name.Equals("_entries")).GetValue(this.memoryCache);
+            return (Dictionary<object, ICacheEntry>)this.memoryCache.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(c => c.Name.Equals("_entries")).GetValue(this.memoryCache);
         }
     }
 }

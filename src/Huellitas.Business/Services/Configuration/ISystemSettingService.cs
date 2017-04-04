@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services.Configuration
 {
+    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
 
@@ -22,6 +23,20 @@ namespace Huellitas.Business.Services.Configuration
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>the list of settings</returns>
         IPagedList<SystemSetting> Get(string key = null, string value = null, int page = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <returns></returns>
+        SystemSetting GetByKey(string keyword);
+
+        /// <summary>
+        /// Updates the specified setting.
+        /// </summary>
+        /// <param name="setting">The setting.</param>
+        /// <returns>the task</returns>
+        Task Update(SystemSetting setting);
 
         /// <summary>
         /// Gets the cached setting.
