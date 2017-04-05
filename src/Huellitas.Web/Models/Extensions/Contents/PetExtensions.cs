@@ -34,12 +34,13 @@ namespace Huellitas.Web.Models.Extensions
         /// To the entity.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="contentSettings">content settings</param>
+        /// <param name="contentSettings">The content settings.</param>
         /// <param name="contentService">The content service.</param>
-        /// <param name="entity">entity to assign the data</param>
-        /// <param name="files">The files</param>
+        /// <param name="isAdmin">if set to <c>true</c> [is admin].</param>
+        /// <param name="entity">The entity.</param>
+        /// <param name="files">The files.</param>
         /// <returns>the value</returns>
-        /// <exception cref="HuellitasException">the exceptions</exception>
+        /// <exception cref="HuellitasException">the exception</exception>
         public static Content ToEntity(
             this PetModel model, 
             IContentSettings contentSettings,

@@ -53,9 +53,8 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// </summary>
         /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="securityHelpers">The security helpers.</param>
-        /// <param name="workContext">the work Context</param>
-        /// <param name="notificationService">the notification service</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="notificationService">The notification service.</param>
         public AuthenticationController(
             IAuthenticationTokenGenerator authenticationTokenGenerator,
             IUserService userService,

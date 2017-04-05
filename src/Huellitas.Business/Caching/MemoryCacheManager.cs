@@ -7,8 +7,6 @@ namespace Huellitas.Business.Caching
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System.Text.RegularExpressions;
     using Microsoft.Extensions.Caching.Memory;
 
@@ -18,6 +16,11 @@ namespace Huellitas.Business.Caching
     /// <seealso cref="Huellitas.Business.Caching.ICacheManager" />
     public class MemoryCacheManager : ICacheManager
     {
+        /// <summary>
+        /// The current keys
+        /// </summary>
+        private static HashSet<string> currentKeys = new HashSet<string>();
+
         /// <summary>
         /// The memory cache
         /// </summary>
@@ -37,8 +40,7 @@ namespace Huellitas.Business.Caching
         /// </summary>
         public void Clear()
         {
-            var keys = this.GetAllKeys().Select(c => c.Key).ToList();
-            foreach (var key in keys)
+            foreach (var key in currentKeys)
             {
                 this.memoryCache.Remove(key);
             }
@@ -85,6 +87,7 @@ namespace Huellitas.Business.Caching
         public void Remove(string key)
         {
             this.memoryCache.Remove(key);
+            currentKeys.Remove(key);
         }
 
         /// <summary>
@@ -94,13 +97,11 @@ namespace Huellitas.Business.Caching
         public void RemoveByPattern(string pattern)
         {
             var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var keys = this.GetAllKeys();
 
             var keysToRemove = new List<string>();
 
-            foreach (var cacheEntry in keys)
+            foreach (var key in currentKeys)
             {
-                var key = cacheEntry.Value.Key.ToString();
                 if (regex.IsMatch(key))
                 {
                     keysToRemove.Add(key);
@@ -122,17 +123,7 @@ namespace Huellitas.Business.Caching
         public void Set(string key, object data, int cacheTime)
         {
             this.memoryCache.Set(key, data, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(cacheTime)));
-        }
-
-        /// <summary>
-        /// Gets all keys.
-        /// </summary>
-        /// <returns>the existent keys</returns>
-        private IDictionary<object, ICacheEntry> GetAllKeys()
-        {
-            ////Due to the keys of Memory Cache are private it's necessary to access through reflection
-            ////http://stackoverflow.com/questions/37452962/get-all-cache-in-asp-net-core-1
-            return (Dictionary<object, ICacheEntry>)this.memoryCache.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(c => c.Name.Equals("_entries")).GetValue(this.memoryCache);
+            currentKeys.Add(key);
         }
     }
 }

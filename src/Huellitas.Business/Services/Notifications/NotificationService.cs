@@ -99,6 +99,16 @@ namespace Huellitas.Business.Services.Notifications
         }
 
         /// <summary>
+        /// Counts the unseen notifications by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>the number of unseen notifications</returns>
+        public int CountUnseenNotificationsByUserId(int userId)
+        {
+            return this.systemNotificationRepository.Table.Count(c => c.UserId == userId && !c.Seen);
+        }
+
+        /// <summary>
         /// Gets all.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -386,6 +396,22 @@ namespace Huellitas.Business.Services.Notifications
         }
 
         /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Update(Notification entity)
+        {
+            entity.UpdateDate = DateTime.Now;
+
+            await this.notificationRepository.UpdateAsync(entity);
+
+            await this.publisher.EntityUpdated(entity);
+        }
+
+        /// <summary>
         /// Updates the notifications to seen.
         /// </summary>
         /// <param name="notifications">The notifications.</param>
@@ -404,22 +430,6 @@ namespace Huellitas.Business.Services.Notifications
             }
 
             await this.systemNotificationRepository.UpdateAsync(toUpdate);
-        }
-
-        /// <summary>
-        /// Updates the specified entity.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        /// the task
-        /// </returns>
-        public async Task Update(Notification entity)
-        {
-            entity.UpdateDate = DateTime.Now;
-
-            await this.notificationRepository.UpdateAsync(entity);
-
-            await this.publisher.EntityUpdated(entity);
         }
 
         /// <summary>
@@ -503,16 +513,6 @@ namespace Huellitas.Business.Services.Notifications
             }
 
             return strValue.ToString();
-        }
-
-        /// <summary>
-        /// Counts the unseen notifications by user identifier.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>the number of unseen notifications</returns>
-        public int CountUnseenNotificationsByUserId(int userId)
-        {
-            return this.systemNotificationRepository.Table.Count(c => c.UserId == userId && !c.Seen);
         }
     }
 }

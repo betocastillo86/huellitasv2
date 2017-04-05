@@ -28,7 +28,7 @@ namespace Huellitas.Business.Services.Configuration
         /// Gets the by key.
         /// </summary>
         /// <param name="keyword">The keyword.</param>
-        /// <returns></returns>
+        /// <returns>the setting</returns>
         SystemSetting GetByKey(string keyword);
 
         /// <summary>

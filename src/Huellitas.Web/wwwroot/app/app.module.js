@@ -91,6 +91,11 @@
             controller: 'EditFormController',
             controllerAs: 'main'
         })
+        .when('/systemsettings', {
+            templateUrl: '/app/systemsettings/listSystemSetting.html',
+            controller: 'ListSystemSettingController',
+            controllerAs: 'main'
+        })
         .when('/notifications', {
             templateUrl: '/app/notifications/listNotifications.html',
             controller: 'ListNotificationsController',
