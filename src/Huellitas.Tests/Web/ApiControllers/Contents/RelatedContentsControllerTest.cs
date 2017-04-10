@@ -27,11 +27,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     public class RelatedContentsControllerTest : BaseTest
     {
         /// <summary>
-        /// The content settings
-        /// </summary>
-        private Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
-
-        /// <summary>
         /// The custom table service
         /// </summary>
         private Mock<ICustomTableService> customTableService = new Mock<ICustomTableService>();

@@ -9,6 +9,7 @@ namespace Huellitas.Tests
     using Data.Entities.Enums;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
+    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
@@ -38,6 +39,11 @@ namespace Huellitas.Tests
         protected Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        protected Mock<IPublisher> publisher = new Mock<IPublisher>();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BaseTest"/> class.
         /// </summary>
         public BaseTest()
@@ -61,6 +67,7 @@ namespace Huellitas.Tests
             this.workContext = new Mock<IWorkContext>();
             this.contentService = new Mock<IContentService>();
             this.contentSettings = new Mock<IContentSettings>();
+            this.publisher = new Mock<IPublisher>();
             this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
             this.workContext.SetupGet(c => c.CurrentUserId).Returns(1);
             this.workContext.SetupGet(c => c.IsAuthenticated).Returns(true);
