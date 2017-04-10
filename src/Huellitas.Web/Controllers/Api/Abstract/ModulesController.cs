@@ -31,7 +31,8 @@ namespace Huellitas.Web.Controllers.Api.Abstract
             modules.Add(new ModuleModel() { Id = 2, Name = "Usuarios", Key = "Users", Url = "/users" });
             modules.Add(new ModuleModel() { Id = 3, Name = "Fundaciones", Key = "Shelters", Url = "/shelters" });
             modules.Add(new ModuleModel() { Id = 4, Name = "Formularios", Key = "Forms", Url = "/adoptionforms" });
-            modules.Add(new ModuleModel() { Id = 5, Name = "Notificaciones", Key = "Forms", Url = "/notifications" });
+            modules.Add(new ModuleModel() { Id = 5, Name = "Notificaciones", Key = "Notifications", Url = "/notifications" });
+            modules.Add(new ModuleModel() { Id = 6, Name = "Ajustes", Key = "Settings", Url = "/systemsettings" });
             return this.Ok(modules);
         }
     }

@@ -61,6 +61,7 @@ namespace Huellitas.Business.Services.Notifications
         /// <param name="pageSize">The size.</param>
         /// <returns>the value</returns>
         IPagedList<SystemNotification> GetUserNotifications(int userID, int page = 0, int pageSize = int.MaxValue);
+
         /// <summary>
         /// Inserts the specified user.
         /// </summary>

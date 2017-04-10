@@ -42,6 +42,7 @@ namespace Huellitas.Business.Services.Configuration
         /// </summary>
         /// <param name="systemSettingRepository">The system setting repository.</param>
         /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="publisher">The publisher.</param>
         public SystemSettingService(
             IRepository<SystemSetting> systemSettingRepository,
             ICacheManager cacheManager,

@@ -108,6 +108,8 @@ namespace Huellitas.Business.Services.Contents
         /// <param name="orderBy">The order by.</param>
         /// <param name="locationId">The location identifier.</param>
         /// <param name="status">The status.</param>
+        /// <param name="closingDateFrom">The closing date from.</param>
+        /// <param name="closingDateTo">The closing date to.</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
