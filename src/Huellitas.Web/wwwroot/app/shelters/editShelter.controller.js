@@ -10,6 +10,7 @@
         vm.id = $routeParams.id
         vm.model = {};
         vm.users = [];
+        vm.isSending = false;
 
         vm.usersFilter = {
             page: 0,
@@ -211,7 +212,8 @@
                 return false;
             }
 
-            if (isValid) {
+            if (isValid && !vm.isSending) {
+                vm.isSending = true;
                 if (vm.model.id > 0) {
                     shelterService.put(vm.model)
                     .then(saveCompleted)
@@ -225,6 +227,7 @@
             }
 
             function saveCompleted(response) {
+                vm.isSending = false;
                 response = response.data;
                 var message = 'El refugio fue actualizado correctamente';
                 var isNew = !vm.model.id;
@@ -256,6 +259,7 @@
 
 
             function saveError(response) {
+                vm.isSending = false;
                 modalService.showError({
                     error: response.data.error
                 });

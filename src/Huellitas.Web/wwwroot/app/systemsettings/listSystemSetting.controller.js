@@ -7,6 +7,7 @@
     function ListSystemSettingController(systemSettingService, modalService) {
         var vm = this;
         vm.settings = [];
+        vm.isSending = false;
 
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
@@ -52,17 +53,20 @@
                 .catch(putError);
 
             function putCompleted(response) {
+                vm.isSending = false;
                 modalService.show({ message: 'Llave guardada correctamente' });
             }
 
             function putError(response) {
+                vm.isSending = false;
                 modalService.showError({ error: response.data.error });
             }
         }
 
         function toggleEdit(setting) {
             if (setting.isEditing) {
-                if (setting.value && setting.value.length) {
+                if (setting.value && setting.value.length && !vm.isSending) {
+                    vm.isSending = true;
                     updateSetting(setting);
                 }
                 else {

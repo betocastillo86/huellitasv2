@@ -7,6 +7,7 @@
     function EditUserController($routeParams, $location, userService, roleService, modalService) {
         var vm = this;
         vm.id = $routeParams.id;
+        vm.isSending = false;
         vm.model = {};
         vm.roles = [];
         vm.continueAfterSaving = false;
@@ -57,8 +58,9 @@
 
         function save(isValid) {
 
-            if (isValid)
+            if (isValid && !vm.isSending)
             {
+                vm.isSending = true;
                 var defer;
                 if (vm.id) {
                     defer = userService.put(vm.model);
@@ -73,6 +75,7 @@
 
             function saveCompleted(response)
             {
+                vm.isSending = false;
                 response = response.data;
 
                 var message = 'El usuario fue actualizado con exito';
@@ -107,6 +110,7 @@
             }
 
             function saveError(response) {
+                vm.isSending = false;
                 modalService.showError({ error: response.data.error });
             }
         }

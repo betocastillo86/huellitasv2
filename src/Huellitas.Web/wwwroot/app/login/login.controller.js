@@ -9,13 +9,15 @@
         var vm = this;
         vm.model = {};
         vm.validateAuthentication = validateAuthentication;
+        vm.isSending = false;
         
         function validateAuthentication(isValid)
         {
             vm.errorAuthentication = undefined;
 
-            if (isValid)
+            if (isValid && !vm.isSending)
             {
+                vm.isSending = true;
                 authenticationService.post(vm.model)
                 .then(authenticationValid)
                 .catch(authenticationInvalid);
@@ -24,11 +26,13 @@
 
         function authenticationValid(response)
         {
+            vm.isSending = false;
             document.location = '/admin';
         }
 
         function authenticationInvalid()
         {
+            vm.isSending = false;
             vm.errorAuthentication = 'Los datos son invalidos';
         }
     }

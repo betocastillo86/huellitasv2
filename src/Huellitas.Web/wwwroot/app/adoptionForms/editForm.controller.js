@@ -11,6 +11,7 @@
         vm.answer = {};
         vm.showAttributes = false;
         vm.showForm = false;
+        vm.isSending = false;
         vm.showAnswers = false;
 
         vm.showAddUser = showAddUser;
@@ -77,19 +78,22 @@
         }
 
         function saveResponse(isValid) {
-            if (isValid) {
+            if (isValid && !vm.isSending) {
+                vm.isSending = true;
                 vm.answer.adoptionFormId = vm.id;
                 adoptionFormAnswerService.post(vm.answer)
                     .then(postCompleted)
                     .catch(postError);
 
                 function postCompleted(response) {
+                    vm.isSending = false;
                     vm.answer = {};
                     getAnswers();
                     modalService.show({ message: 'Mensaje enviado correctamente' });
                 }
 
                 function postError(response) {
+                    vm.isSending = false;
                     modalService.showError({error:response.data.error});
                 }
             }

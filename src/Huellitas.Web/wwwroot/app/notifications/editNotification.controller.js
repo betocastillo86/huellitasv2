@@ -10,6 +10,7 @@
         vm.model = {};
         vm.id = $routeParams.id;
         vm.continueAfterSaving = false;
+        vm.isSending = false;
         vm.tags = [];
 
         vm.save = save;
@@ -46,14 +47,16 @@
 
         function save(isValid)
         {
-            if (isValid)
+            if (isValid && !vm.isSending)
             {
+                vm.isSending = true;
                 notificationService.put(vm.id, vm.model)
                     .then(putCompleted)
                     .catch(putError);
 
                 function putCompleted(response)
                 {
+                    vm.isSending = false;
                     modalService.show({message: 'Notificación actualizada correctamente'})
                         .then(messageShowed);
 
@@ -75,6 +78,7 @@
 
                 function putError(response)
                 {
+                    vm.isSending = false;
                     modalService.showError({ error: response.data.error });
                 }
             }

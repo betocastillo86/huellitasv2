@@ -7,6 +7,7 @@
     function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService) {
         var vm = this;
         vm.id = $routeParams.id;
+        vm.isSending = false;
 
         vm.model = {};
         vm.parents = [];
@@ -288,12 +289,14 @@
         }
 
         function save(isValid) {
-            if (isValid) {
+            if (isValid && !vm.isSending) {
 
                 if (!vm.model.files || vm.model.files.length == 0) {
                     modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
                     return false;
                 }
+
+                vm.isSending = true;
 
                 if (vm.model.id > 0) {
                     petService.put(vm.model)
@@ -308,6 +311,9 @@
             }
 
             function saveCompleted(response) {
+
+                vm.isSending = false;
+
                 response = response.data;
                 var message = 'La mascota fue actualizada correctamente';
                 var isNew = !vm.model.id;
@@ -338,6 +344,7 @@
             }
 
             function saveError(response) {
+                vm.isSending = false;
                 modalService.showError({
                     error: response.data.error
                 });
