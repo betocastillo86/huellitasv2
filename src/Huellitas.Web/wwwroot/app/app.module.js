@@ -96,6 +96,11 @@
             controller: 'ListSystemSettingController',
             controllerAs: 'main'
         })
+        .when('/textresources', {
+            templateUrl: '/app/textresources/listTextResources.html',
+            controller: 'ListTextResourceController',
+            controllerAs: 'main'
+        })
         .when('/notifications', {
             templateUrl: '/app/notifications/listNotifications.html',
             controller: 'ListNotificationsController',
@@ -110,9 +115,17 @@
             templateUrl: '/app/notifications/editNotification.html',
             controller: 'EditNotificationController',
             controllerAs: 'main'
+        })
+        .when('/emailnotifications', {
+            templateUrl: '/app/emailnotifications/listEmailNotifications.html',
+            controller: 'ListEmailNotificationsController',
+            controllerAs: 'main'
+        })
+        .when('/emailnotifications/:id/edit', {
+            templateUrl: '/app/emailnotifications/editEmailNotification.html',
+            controller: 'EditEmailNotificationController',
+            controllerAs: 'main'
         });
-
-
 
         String.prototype.getIntervalTime = function () {
             if (this !== '') {

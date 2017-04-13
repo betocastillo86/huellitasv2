@@ -86,6 +86,24 @@ namespace Huellitas.Web.Infraestructure.WebApi
         }
 
         /// <summary>
+        /// Bads the request.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="error">The error.</param>
+        /// <returns>the action</returns>
+        public IActionResult BadRequest(HuellitasExceptionCode code, string error)
+        {
+            var apiError = new ApiError()
+            {
+                Code = code.ToString(),
+                Message = ExceptionMessages.GetMessage(code),
+                Target = null
+            };
+
+            return this.StatusCode(400, new BaseApiError() { Error = apiError });
+        }
+
+        /// <summary>
         /// Sends a Bad request.
         /// </summary>
         /// <param name="errors">The errors.</param>

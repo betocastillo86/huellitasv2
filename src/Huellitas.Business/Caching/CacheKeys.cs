@@ -29,6 +29,11 @@ namespace Huellitas.Business.Caching
         public const string SETTINGS_GET_ALL = "cache.settings.all";
 
         /// <summary>
+        /// All the resources
+        /// </summary>
+        public const string RESOURCES_GET_ALL = "cache.resources.all";
+
+        /// <summary>
         /// all the shelters
         /// </summary>
         public const string SHELTERS_ALL = "cache.shelters.all";

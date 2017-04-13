@@ -208,6 +208,14 @@ namespace Huellitas.Data.Core
         public virtual DbSet<Notification> Notifications { get; set; }
 
         /// <summary>
+        /// Gets or sets the text resources.
+        /// </summary>
+        /// <value>
+        /// The text resources.
+        /// </value>
+        public virtual DbSet<TextResource> TextResources { get; set; }
+
+        /// <summary>
         /// Override this method to further configure the model that was discovered by convention from the entity types
         /// exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on your derived context. The resulting model may be cached
         /// and re-used for subsequent instances of your derived context.
@@ -245,6 +253,7 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<SystemNotification>().Map();
             modelBuilder.Entity<Notification>().Map();
             modelBuilder.Entity<AdoptionFormUser>().Map();
+            modelBuilder.Entity<TextResource>().Map();
         }
     }
 }

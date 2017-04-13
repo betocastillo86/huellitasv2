@@ -80,6 +80,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAdoptionFormService, AdoptionFormService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ITextResourceService, TextResourceService>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();

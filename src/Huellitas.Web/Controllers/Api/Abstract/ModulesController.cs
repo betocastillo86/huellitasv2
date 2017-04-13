@@ -33,6 +33,8 @@ namespace Huellitas.Web.Controllers.Api.Abstract
             modules.Add(new ModuleModel() { Id = 4, Name = "Formularios", Key = "Forms", Url = "/adoptionforms" });
             modules.Add(new ModuleModel() { Id = 5, Name = "Notificaciones", Key = "Notifications", Url = "/notifications" });
             modules.Add(new ModuleModel() { Id = 6, Name = "Ajustes", Key = "Settings", Url = "/systemsettings" });
+            modules.Add(new ModuleModel() { Id = 7, Name = "Recursos", Key = "TextResources", Url = "/textresources" });
+            modules.Add(new ModuleModel() { Id = 8, Name = "Notificaciones Correo", Key = "EmailNotifications", Url = "/emailnotifications" });
             return this.Ok(modules);
         }
     }
