@@ -23,10 +23,13 @@
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section active">
-                <h3>General</h3>
+                <h3>Menú</h3>
                 <ul class="nav side-menu" style="">
-                    <li ng-repeat="module in sidebar.modules">
-                        <a ng-href="/admin{{module.url}}"><i class="fa fa-home"></i> {{module.name}} <span class="fa fa-chevron-down"></span></a>
+                    <li ng-repeat="module in sidebar.modules" ng-class="{'active' : sidebar.currentMenuOption == module.key }">
+                        <a ng-href="{{module.url}}" ng-click="sidebar.changeCurrentMenuOption(module)"><i class="fa {{module.icon}}"></i> {{module.name}} <span class="fa fa-chevron-down" ng-if="module.children"></span></a>
+                        <ul class="nav child_menu" ng-if="module.children" ng-style="{display:(sidebar.currentMenuOption == module.key ? 'block' : 'none')}">
+                            <li ng-repeat="child in module.children" ng-class="{'current-page' : sidebar.currentChild == child.key }"><a ng-href="{{child.url}}" ng-click="sidebar.changeCurrentChild(child)">{{child.name}}</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
