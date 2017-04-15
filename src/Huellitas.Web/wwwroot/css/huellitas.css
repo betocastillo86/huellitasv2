@@ -2,10 +2,6 @@
     opacity:0.4;
 }
 
-.autocomplete {
-    z-index:3;
-}
-
 .fileInvisible {
     position:absolute;
     top:0px;
@@ -14,6 +10,14 @@
     height:100%;
     opacity: 0.0;
     filter: alpha(opacity=0);
+}
+
+.angucomplete-bootstrap {
+    float:none;
+}
+
+.highlight {
+	color:cornflowerblue;
 }
 
 input.ng-invalid-parsley-error {

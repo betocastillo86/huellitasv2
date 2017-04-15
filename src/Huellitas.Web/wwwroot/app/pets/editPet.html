@@ -96,7 +96,8 @@
                                                       title-field="name"
                                                       selected-object="main.changeShelter"
                                                       initial-value="main.model.shelter.name"
-                                                      input-class="form-control col-md-9 col-xs-12" />
+                                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
+                                                      match-class="highlight" />
                                 </div>
                             </div>
 
@@ -112,11 +113,12 @@
                                                       title-field="name"
                                                       selected-object="main.changeLocation"
                                                       initial-value="main.model.location.name"
-                                                      input-class="form-control col-md-9 col-xs-12"
+                                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
                                                       field-required="main.isLocationRequired()"
                                                       input-name="location"
                                                       field-required-class="parsley-error"
-                                                      remote-url-data-field="results" />
+                                                      remote-url-data-field="results"
+                                                      match-class="highlight" />
                                 </div>
                                 <validation-message form="formPet" field="formPet.location" name="ubicación"></validation-message>
                             </div>
@@ -220,7 +222,8 @@
                                       remote-url-data-field="results"
                                       title-field="name"
                                       selected-object="main.addParent"
-                                      input-class="form-control col-md-9 col-xs-12" />
+                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
+                                      match-class="highlight" />
 
                     <table class="table jambo_table">
                         <thead>

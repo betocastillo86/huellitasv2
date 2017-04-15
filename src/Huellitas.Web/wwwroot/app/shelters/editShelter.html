@@ -46,11 +46,12 @@
                                                       title-field="name"
                                                       selected-object="main.changeLocation"
                                                       initial-value="main.model.location.name"
-                                                      input-class="form-control col-md-9 col-xs-12"
+                                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
                                                       field-required="true"
                                                       input-name="location"
                                                       field-required-class="parsley-error"
-                                                      remote-url-data-field="results" />
+                                                      remote-url-data-field="results"
+                                                      match-class="highlight" />
                                 </div>
                                 <validation-message form="formShelter" field="formShelter.location" name="ubicación"></validation-message>
                             </div>
@@ -202,7 +203,8 @@
                                       remote-url-data-field="results"
                                       title-field="name"
                                       selected-object="main.addUser"
-                                      input-class="form-control col-md-9 col-xs-12" />
+                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
+                                      match-class="highlight" />
 
                     <table class="table jambo_table">
                         <thead>

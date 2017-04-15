@@ -60,6 +60,7 @@ paths.css = [
     paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
     paths.external + 'gentelella/build/css/custom.min.css',
     paths.external + 'textAngular/dist/textAngular.css',
+    paths.external + 'angucomplete-alt/angucomplete-alt.css',
     paths.external + 'pikaday/css/pikaday.css',
     paths.webroot + 'css/huellitas.css'
 ];
