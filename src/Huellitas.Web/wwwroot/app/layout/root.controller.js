@@ -8,6 +8,9 @@
     {
         var vm = this;
         vm.currentUser = undefined;
+        vm.isShowingMobileMenu = false;
+
+        vm.showMobileMenu = showMobileMenu;
 
         return activate();
 
@@ -34,6 +37,11 @@
             {
                 console.log('Usuario no autenticado');
             }
+        }
+
+        function showMobileMenu()
+        {
+            vm.isShowingMobileMenu = !vm.isShowingMobileMenu;
         }
     }
 

@@ -8,7 +8,7 @@
     function SideBarController(moduleService, $location)
     {
         var vm = this;
-        vm.title = "Huellitas sin hogar";
+        vm.title = "Huellitas Admin";
         vm.currentMenuOption = undefined;
         vm.currentChild = undefined;
 
