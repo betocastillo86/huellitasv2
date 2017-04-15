@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Configuration
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Linq;
@@ -20,7 +20,7 @@ namespace Huellitas.Business.Services.Configuration
     /// <summary>
     /// Text resources service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Configuration.ITextResourceService" />
+    /// <seealso cref="Huellitas.Business.Services.ITextResourceService" />
     public class TextResourceService : ITextResourceService
     {
         /// <summary>
@@ -36,7 +36,6 @@ namespace Huellitas.Business.Services.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="TextResourceService"/> class.
         /// </summary>
-        /// <param name="generalSettings">The general settings.</param>
         /// <param name="textResourceRepository">The text resource repository.</param>
         /// <param name="publisher">The publisher.</param>
         public TextResourceService(
@@ -51,6 +50,7 @@ namespace Huellitas.Business.Services.Configuration
         /// Gets all by language.
         /// </summary>
         /// <param name="language">The language.</param>
+        /// <param name="keyword">the keyword</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>

@@ -10,20 +10,20 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     using System.Linq;
     using System.Threading.Tasks;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services.AdoptionForms;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Huellitas.Tests.Web.Mocks;
-    using Huellitas.Web.Controllers.Api.AdoptionForms;
-    using Huellitas.Web.Controllers.Api.Common;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.AdoptionForms;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Extensions.AdoptionForms;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
@@ -643,10 +643,10 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 FamilyMembersAge = "20",
                 Job = new ContentAttributeModel<int> { Text = "Job", Value = 1 },
                 Status = AdoptionFormAnswerStatus.None,
-                Location = new Huellitas.Web.Models.Api.Common.LocationModel { Id = 1, Name = "location" },
+                Location = new Huellitas.Web.Models.Api.LocationModel { Id = 1, Name = "location" },
                 Name = "Username del usuario",
                 Town = "Barrio",
-                User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "user" },
+                User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "user" },
                 PhoneNumber = "3669223"
             };
         }

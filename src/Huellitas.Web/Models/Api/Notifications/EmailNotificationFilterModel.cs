@@ -3,16 +3,16 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Notifications
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Email Notification Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
     public class EmailNotificationFilterModel : BaseFilterModel
     {
         /// <summary>

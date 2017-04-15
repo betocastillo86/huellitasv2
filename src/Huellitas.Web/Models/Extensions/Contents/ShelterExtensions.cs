@@ -8,15 +8,12 @@ namespace Huellitas.Web.Models.Extensions.Contents
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Api.Files;
+    using Api;
     using Data.Entities.Enums;
     using Data.Extensions;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Users;
-    using Huellitas.Web.Models.Extensions.Common;
+    using Huellitas.Web.Models.Extensions;
 
     /// <summary>
     /// Shelter Extensions
@@ -138,7 +135,7 @@ namespace Huellitas.Web.Models.Extensions.Contents
 
             if (entity.LocationId.HasValue && entity.Location != null)
             {
-                model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+                model.Location = new Api.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
             }
 
             if (entity.User != null)

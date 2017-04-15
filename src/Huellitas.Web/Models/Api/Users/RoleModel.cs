@@ -3,18 +3,18 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Users
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using Huellitas.Data.Entities.Enums;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Role Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class RoleModel : BaseModel
     {
         /// <summary>

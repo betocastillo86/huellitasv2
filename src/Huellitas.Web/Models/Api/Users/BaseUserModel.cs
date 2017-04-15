@@ -3,15 +3,15 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Users
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Base User Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class BaseUserModel : BaseModel
     {
         /// <summary>

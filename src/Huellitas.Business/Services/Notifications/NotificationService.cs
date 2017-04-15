@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Notifications
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -19,12 +19,11 @@ namespace Huellitas.Business.Services.Notifications
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
-    using Users;
 
     /// <summary>
     /// Notification Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Notifications.INotificationService" />
+    /// <seealso cref="Huellitas.Business.Services.INotificationService" />
     public class NotificationService : INotificationService
     {
         /// <summary>
@@ -175,7 +174,7 @@ namespace Huellitas.Business.Services.Notifications
         /// Gets the email notifications.
         /// </summary>
         /// <param name="sent">The sent.</param>
-        /// <param name="to">To.</param>
+        /// <param name="to">the To.</param>
         /// <param name="subject">The subject.</param>
         /// <param name="body">The body.</param>
         /// <param name="page">The page.</param>
@@ -184,11 +183,11 @@ namespace Huellitas.Business.Services.Notifications
         /// the notifications
         /// </returns>
         public IPagedList<EmailNotification> GetEmailNotifications(
-            bool? sent = default(bool?), 
-            string to = null, 
-            string subject = null, 
-            string body = null, 
-            int page = 0, 
+            bool? sent = default(bool?),
+            string to = null,
+            string subject = null,
+            string body = null,
+            int page = 0,
             int pageSize = int.MaxValue)
         {
             var query = this.emailNotificationRepository.Table;
@@ -198,7 +197,7 @@ namespace Huellitas.Business.Services.Notifications
                 query = sent.Value ? query.Where(c => c.SentDate != null) : query.Where(c => c.SentDate == null);
             }
 
-            if(!string.IsNullOrEmpty(to))
+            if (!string.IsNullOrEmpty(to))
             {
                 query = query.Where(c => c.To.Contains(to));
             }
@@ -478,7 +477,6 @@ namespace Huellitas.Business.Services.Notifications
         /// <returns>
         /// the task
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         public async Task UpdateEmailNotification(EmailNotification notification)
         {
             await this.emailNotificationRepository.UpdateAsync(notification);

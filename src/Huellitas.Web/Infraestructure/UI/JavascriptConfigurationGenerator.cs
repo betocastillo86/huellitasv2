@@ -11,8 +11,8 @@ namespace Huellitas.Web.Infraestructure.UI
     using System.Linq;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services.Configuration;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
@@ -20,7 +20,7 @@ namespace Huellitas.Web.Infraestructure.UI
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Javascript Configuration Generator
+    /// The <c>javascript</c> Configuration Generator
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.UI.IJavascriptConfigurationGenerator" />
     public class JavascriptConfigurationGenerator : IJavascriptConfigurationGenerator
@@ -73,7 +73,7 @@ namespace Huellitas.Web.Infraestructure.UI
         }
 
         /// <summary>
-        /// Creates the javascript configuration file.
+        /// Creates the <c>javascript</c> configuration file.
         /// </summary>
         public void CreateJavascriptConfigurationFile()
         {

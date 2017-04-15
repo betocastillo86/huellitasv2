@@ -3,20 +3,20 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using System.Collections.Generic;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Pet Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
     public class PetsFilterModel : BaseFilterModel
     {
         /// <summary>

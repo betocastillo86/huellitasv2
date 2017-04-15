@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Notifications
+namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -142,7 +142,7 @@ namespace Huellitas.Business.Services.Notifications
         /// Gets the email notifications.
         /// </summary>
         /// <param name="sent">The sent.</param>
-        /// <param name="to">To.</param>
+        /// <param name="to">the To.</param>
         /// <param name="subject">The subject.</param>
         /// <param name="body">The body.</param>
         /// <param name="page">The page.</param>

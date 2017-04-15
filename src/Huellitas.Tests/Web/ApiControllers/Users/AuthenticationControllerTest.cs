@@ -12,12 +12,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using System.Threading.Tasks;
     using Data.Entities;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Users;
-    using Huellitas.Web.Controllers.Api.Users;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api.Users;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;

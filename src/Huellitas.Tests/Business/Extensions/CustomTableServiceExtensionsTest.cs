@@ -6,8 +6,8 @@
 namespace Huellitas.Tests.Business.Extensions
 {
     using System.Collections.Generic;
-    using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services.Common;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Moq;
     using NUnit.Framework;

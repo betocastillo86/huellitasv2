@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Contents
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -19,12 +19,11 @@ namespace Huellitas.Business.Services.Contents
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
-    using Seo;
 
     /// <summary>
     /// Content Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Contents.IContentService" />
+    /// <seealso cref="Huellitas.Business.Services.IContentService" />
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]
     public class ContentService : IContentService
     {

@@ -3,10 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.AdoptionForms
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
-    using Huellitas.Web.Models.Api.Users;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Adoption Form User Model

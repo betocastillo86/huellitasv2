@@ -6,12 +6,12 @@
 namespace Huellitas.Web.Infraestructure.UI
 {
     /// <summary>
-    /// Interface of javascript generator
+    /// Interface of <c>javascript</c> generator
     /// </summary>
     public interface IJavascriptConfigurationGenerator
     {
         /// <summary>
-        /// Creates the javascript configuration file.
+        /// Creates the <c>javascript</c> configuration file.
         /// </summary>
         void CreateJavascriptConfigurationFile();
     }

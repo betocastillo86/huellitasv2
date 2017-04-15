@@ -3,19 +3,15 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Subscribers.Notifications
+namespace Huellitas.Business.Subscribers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
-    using Huellitas.Business.Extensions.Entities;
+    using Huellitas.Business.Extensions;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Notifications;
-    using Huellitas.Business.Services.Seo;
-    using Huellitas.Business.Services.Users;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Extensions;

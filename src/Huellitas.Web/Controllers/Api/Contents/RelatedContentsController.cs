@@ -3,18 +3,16 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Contents
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Business.Caching;
     using Business.Configuration;
     using Business.Exceptions;
-    using Business.Services.Common;
-    using Business.Services.Files;
-    using Huellitas.Business.Services.Contents;
+    using Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
 

@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Users
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
 

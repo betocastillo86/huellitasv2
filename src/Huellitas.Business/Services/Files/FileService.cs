@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Files
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Huellitas.Business.Services.Files
     /// <summary>
     /// File Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Files.IFileService" />
+    /// <seealso cref="Huellitas.Business.Services.IFileService" />
     public class FileService : IFileService
     {
         /// <summary>

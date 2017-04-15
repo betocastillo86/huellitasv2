@@ -6,7 +6,7 @@
 namespace Huellitas.Web
 {
     using System;
-    using Huellitas.Web.Infraestructure.Filters.Exceptions;
+    using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
     using Infraestructure.UI;
     using Microsoft.AspNetCore.Builder;
@@ -85,7 +85,8 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddJsonOptions(c => {
+            }).AddJsonOptions(c => 
+            {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
@@ -100,7 +101,7 @@ namespace Huellitas.Web
         }
 
         /// <summary>
-        /// Creates the javascript file.
+        /// Creates the <c>javascript</c> file.
         /// </summary>
         /// <param name="builder">The builder.</param>
         private void CreateJavascriptFile(IApplicationBuilder builder)

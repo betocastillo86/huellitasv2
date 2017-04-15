@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Subscribers.Notifications
+namespace Huellitas.Business.Subscribers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -13,17 +13,11 @@ namespace Huellitas.Business.Subscribers.Notifications
     using Data.Entities.Enums;
     using Data.Extensions;
     using Exceptions;
-    using Extensions.Entities;
-    using Extensions.Services;
+    using Extensions;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
     using Security;
-    using Services.AdoptionForms;
-    using Services.Common;
-    using Services.Contents;
-    using Services.Notifications;
-    using Services.Seo;
-    using Services.Users;
+    using Services;
 
     /// <summary>
     /// Adoption Form Notifications

@@ -5,12 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.Mocks
 {
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
     
     /// <summary>
     /// Mock to test BaseFilterModel
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
     public class MockBaseFilterModel : BaseFilterModel
     {
         /// <summary>

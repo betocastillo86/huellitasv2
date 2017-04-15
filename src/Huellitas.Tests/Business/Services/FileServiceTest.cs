@@ -6,7 +6,7 @@
 namespace Huellitas.Tests.Business.Services
 {
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Helpers;

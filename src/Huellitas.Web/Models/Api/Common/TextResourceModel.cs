@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Common
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities.Enums;
@@ -13,7 +13,7 @@ namespace Huellitas.Web.Models.Api.Common
     /// <summary>
     /// Text Resource Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class TextResourceModel : BaseModel
     {
         /// <summary>

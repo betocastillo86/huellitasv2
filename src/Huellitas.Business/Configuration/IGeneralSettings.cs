@@ -11,7 +11,7 @@ namespace Huellitas.Business.Configuration
     public interface IGeneralSettings
     {
         /// <summary>
-        /// Gets or sets the default size of the page.
+        /// Gets the default size of the page.
         /// </summary>
         /// <value>
         /// The default size of the page.

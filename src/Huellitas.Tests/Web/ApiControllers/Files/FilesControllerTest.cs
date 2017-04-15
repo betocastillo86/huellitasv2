@@ -7,11 +7,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Huellitas.Business.Services.Files;
-    using Huellitas.Business.Services.Seo;
-    using Huellitas.Web.Controllers.Api.Files;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

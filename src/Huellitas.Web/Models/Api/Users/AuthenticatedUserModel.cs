@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
-    using Huellitas.Web.Models.Api.Users;
+    using Huellitas.Web.Models.Api;
     using Infraestructure.Security;
 
     /// <summary>
     /// Authenticated User Modal
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Users.BaseUserModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseUserModel" />
     public class AuthenticatedUserModel : BaseUserModel
     {
         /// <summary>

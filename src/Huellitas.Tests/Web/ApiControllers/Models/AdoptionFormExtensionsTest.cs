@@ -8,10 +8,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using System;
     using System.Collections.Generic;
     using Data.Entities;
-    using Huellitas.Business.Services.Files;
-    using Huellitas.Web.Models.Api.AdoptionForms;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Extensions.AdoptionForms;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
     using Moq;
     using NUnit.Framework;
 
@@ -163,12 +163,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 FamilyMembersAge = "20",
                 Job = new ContentAttributeModel<int> { Text = "Job", Value = 1 },
                 Status = AdoptionFormAnswerStatus.None,
-                Location = new Huellitas.Web.Models.Api.Common.LocationModel { Id = 1, Name = "location" },
+                Location = new Huellitas.Web.Models.Api.LocationModel { Id = 1, Name = "location" },
                 Name = "Username del usuario",
                 Town = "Barrio",
-                User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "user" },
+                User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "user" },
                 PhoneNumber = "3669223",
-                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id = 1, AdditionalInfo = "a", CreationDate = DateTime.Now, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.Users.BaseUserModel { Id = 1, Name = "b" } } }
+                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id = 1, AdditionalInfo = "a", CreationDate = DateTime.Now, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "b" } } }
             };
         }
     }

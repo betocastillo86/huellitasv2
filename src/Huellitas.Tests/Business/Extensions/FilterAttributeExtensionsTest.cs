@@ -8,8 +8,8 @@ namespace Huellitas.Tests.Business
     using System.Collections.Generic;
     using Data.Entities;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using NUnit.Framework;
 
     /// <summary>

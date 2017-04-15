@@ -3,11 +3,11 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Extensions.Services
+namespace Huellitas.Business.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Business.Services.Contents;
+    using Business.Services;
     using Caching;
     using Huellitas.Data.Entities;
 

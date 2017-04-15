@@ -13,11 +13,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Mocks;
     using Moq;

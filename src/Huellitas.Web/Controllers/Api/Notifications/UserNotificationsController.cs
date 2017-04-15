@@ -3,14 +3,14 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Notifications
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Linq;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Notifications;
-    using Huellitas.Web.Models.Extensions.Notifications;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

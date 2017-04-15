@@ -3,10 +3,8 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Abstract
+namespace Huellitas.Web.Models.Api
 {
-    using Huellitas.Web.Models.Api.Common;
-
     /// <summary>
     /// Module model
     /// </summary>

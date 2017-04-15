@@ -6,7 +6,7 @@
 namespace Huellitas.Tests.Business.Services
 {
     using System;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Hosting;
     using Moq;

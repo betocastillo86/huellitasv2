@@ -3,12 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.Notifications
+namespace Huellitas.Web.Models.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Notifications;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Notification Extensions
@@ -22,7 +22,7 @@ namespace Huellitas.Web.Models.Extensions.Notifications
         /// <returns>the model</returns>
         public static NotificationModel ToModel(this Notification entity)
         {
-            return new Api.Notifications.NotificationModel
+            return new Api.NotificationModel
             {
                 Active = entity.Active,
                 EmailHtml = entity.EmailHtml,

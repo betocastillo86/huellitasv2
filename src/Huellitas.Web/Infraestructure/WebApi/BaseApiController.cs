@@ -6,7 +6,7 @@
 namespace Huellitas.Web.Infraestructure.WebApi
 {
     using System.Collections.Generic;
-    using Controllers.Api.Common;
+    using Controllers.Api;
     using Huellitas.Business.Exceptions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -86,12 +86,12 @@ namespace Huellitas.Web.Infraestructure.WebApi
         }
 
         /// <summary>
-        /// Bads the request.
+        /// Sends a Bad the request.
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="error">The error.</param>
         /// <returns>the action</returns>
-        public IActionResult BadRequest(HuellitasExceptionCode code, string error)
+        protected IActionResult BadRequest(HuellitasExceptionCode code, string error)
         {
             var apiError = new ApiError()
             {

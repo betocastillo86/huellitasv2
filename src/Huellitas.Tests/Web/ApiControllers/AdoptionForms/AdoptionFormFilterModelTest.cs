@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Models.Api;
     using Moq;
     using NUnit.Framework;
 

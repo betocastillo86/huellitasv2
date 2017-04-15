@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.AdoptionForms
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Huellitas.Business.Services.AdoptionForms
     /// <summary>
     /// Adoption Form Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.AdoptionForms.IAdoptionFormService" />
+    /// <seealso cref="Huellitas.Business.Services.IAdoptionFormService" />
     public class AdoptionFormService : IAdoptionFormService
     {
         /// <summary>

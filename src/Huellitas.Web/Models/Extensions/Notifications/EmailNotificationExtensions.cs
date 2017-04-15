@@ -3,17 +3,17 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.Notifications
+namespace Huellitas.Web.Models.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Api.Notifications;
+    using Api;
     using Data.Entities;
 
     /// <summary>
     /// Email Notification Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public static class EmailNotificationExtensions
     {
         /// <summary>

@@ -3,13 +3,13 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Abstract
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Api.Abstract;
+    using Models.Api;
 
     /// <summary>
     /// Modules Controller

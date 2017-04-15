@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Files
+namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

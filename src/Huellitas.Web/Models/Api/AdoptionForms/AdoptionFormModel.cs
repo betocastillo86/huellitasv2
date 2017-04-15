@@ -3,22 +3,20 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.AdoptionForms
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Users;
+    using Huellitas.Web.Models.Api;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Adoption Form Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class AdoptionFormModel : BaseModel
     {
         /// <summary>

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Users
 {
-    using Huellitas.Web.Models.Api.Users;
+    using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
     /// <summary>

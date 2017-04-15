@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Contents
+namespace Huellitas.Web.Controllers.Api
 {
     using System;
     using System.Collections.Generic;
@@ -11,23 +11,20 @@ namespace Huellitas.Web.Controllers.Api.Contents
     using System.Threading.Tasks;
     using Business.Caching;
     using Business.Configuration;
-    using Business.Extensions.Entities;
+    using Business.Extensions;
     using Business.Security;
-    using Business.Services.Common;
-    using Business.Services.Files;
+    using Business.Services;
     using Business.Utilities.Extensions;
     using Data.Entities;
     using Data.Entities.Enums;
     using Data.Extensions;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services.Contents;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Api.Common;
 
     /// <summary>
     /// Pets Controller

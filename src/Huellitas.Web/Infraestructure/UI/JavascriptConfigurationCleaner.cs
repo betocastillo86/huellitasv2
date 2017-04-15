@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Infraestructure.UI
+﻿//-----------------------------------------------------------------------
+// <copyright file="JavascriptConfigurationCleaner.cs" company="Huellitas sin hogar">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Infraestructure.UI
 {
     using System;
     using System.Threading.Tasks;
@@ -6,12 +11,14 @@
     using Huellitas.Data.Entities;
 
     /// <summary>
-    /// Javascript configuration Cleaner
+    /// The <c>javascript</c> Cleaner
     /// </summary>
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.SystemSetting}}" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.SystemSetting}}" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityDeletedMessage{Huellitas.Data.Entities.SystemSetting}}" />
-    public class JavascriptConfigurationCleaner : ISubscriber<EntityInsertedMessage<SystemSetting>>,
+    /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityUpdatedMessage{Huellitas.Data.Entities.TextResource}}" />
+    public class JavascriptConfigurationCleaner : 
+        ISubscriber<EntityInsertedMessage<SystemSetting>>,
         ISubscriber<EntityUpdatedMessage<SystemSetting>>,
         ISubscriber<EntityDeletedMessage<SystemSetting>>,
         ISubscriber<EntityUpdatedMessage<TextResource>>
@@ -46,6 +53,7 @@
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>the task</returns>
         public async Task HandleEvent(EntityInsertedMessage<SystemSetting> message)
         {
             await this.Clean();
@@ -55,6 +63,7 @@
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>the task</returns>
         public async Task HandleEvent(EntityDeletedMessage<SystemSetting> message)
         {
             await this.Clean();
@@ -64,6 +73,7 @@
         /// Handles the event.
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>the task</returns>
         public async Task HandleEvent(EntityUpdatedMessage<SystemSetting> message)
         {
             await this.Clean();
@@ -72,6 +82,7 @@
         /// <summary>
         /// Cleans this instance.
         /// </summary>
+        /// <returns>the task</returns>
         private async Task Clean()
         {
             this.javascriptConfigurationGenerator.CreateJavascriptConfigurationFile();

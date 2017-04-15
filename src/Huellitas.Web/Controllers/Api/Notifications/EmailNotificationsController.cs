@@ -3,18 +3,17 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Notifications
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
     using Data.Entities;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Extensions.Entities;
+    using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Notifications;
-    using Huellitas.Web.Models.Extensions.Notifications;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -77,7 +76,6 @@ namespace Huellitas.Web.Controllers.Api.Notifications
             }
         }
 
-
         /// <summary>
         /// Gets the specified filter.
         /// </summary>
@@ -131,7 +129,6 @@ namespace Huellitas.Web.Controllers.Api.Notifications
 
             if (this.IsValidModel(model))
             {
-
                 var entity = new EmailNotification();
                 entity.To = model.To;
                 entity.Subject = model.Subject;

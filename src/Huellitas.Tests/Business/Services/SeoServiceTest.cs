@@ -8,7 +8,7 @@ namespace Huellitas.Tests.Business.Services
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.Services.Seo;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Moq;
     using NUnit.Framework;

@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Configuration
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Huellitas.Business.Services.Configuration
     /// <summary>
     /// System Setting Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Configuration.ISystemSettingService" />
+    /// <seealso cref="Huellitas.Business.Services.ISystemSettingService" />
     public class SystemSettingService : ISystemSettingService
     {
         /// <summary>

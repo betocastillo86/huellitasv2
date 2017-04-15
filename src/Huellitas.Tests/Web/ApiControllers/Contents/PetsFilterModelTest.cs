@@ -8,9 +8,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
     /// <summary>

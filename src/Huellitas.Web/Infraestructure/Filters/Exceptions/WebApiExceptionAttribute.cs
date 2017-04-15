@@ -3,12 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Infraestructure.Filters.Exceptions
+namespace Huellitas.Web.Infraestructure.Filters
 {
     using System.Collections.Generic;
     using Business.Security;
-    using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services.Common;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;

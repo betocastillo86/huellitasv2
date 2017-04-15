@@ -9,11 +9,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
-    using Huellitas.Web.Controllers.Api.Notifications;
-    using Huellitas.Web.Models.Api.Notifications;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;

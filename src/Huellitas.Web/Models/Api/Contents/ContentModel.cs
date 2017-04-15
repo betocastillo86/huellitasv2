@@ -3,14 +3,14 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models.Api
 {
     using System.Collections.Generic;
 
     /// <summary>
     /// Content Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Contents.ContentBaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.ContentBaseModel" />
     public class ContentModel : ContentBaseModel
     {
         /// <summary>
