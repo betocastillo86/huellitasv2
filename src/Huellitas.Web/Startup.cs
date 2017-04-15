@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
+    using System;
     using Huellitas.Web.Infraestructure.Filters.Exceptions;
     using Huellitas.Web.Infraestructure.Start;
+    using Infraestructure.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -53,6 +55,8 @@ namespace Huellitas.Web
                     template: "{controller=Home}/{action=Index}");
             });
 
+            this.CreateJavascriptFile(app);
+
             ////loggerFactory.AddConsole();
 
             ////if (env.IsDevelopment())
@@ -93,6 +97,16 @@ namespace Huellitas.Web
             services.RegisterHuellitasServices();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+
+        /// <summary>
+        /// Creates the javascript file.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        private void CreateJavascriptFile(IApplicationBuilder builder)
+        {
+            var javascriptGenerator = (IJavascriptConfigurationGenerator)builder.ApplicationServices.GetService(typeof(IJavascriptConfigurationGenerator));
+            javascriptGenerator.CreateJavascriptConfigurationFile();
         }
     }
 }

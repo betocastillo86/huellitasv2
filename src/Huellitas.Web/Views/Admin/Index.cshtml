@@ -17,11 +17,14 @@
 
 
     <environment names="Development">
-        <script src="/js/site.min.js"></script>
+
+        <script src="~/js/configuration.js"></script><script src="/js/site.min.js"></script>
         <jsresources></jsresources>
+
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
+        <script src="~/js/configuration.js"></script>
         <script src="/js/site.min.js"></script>
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
@@ -52,12 +55,12 @@
                                 </ul>
                             </li>
 
-                            <li role="presentation" class="dropdown" >
+                            <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false" ng-click="header.toogleNotifications()">
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="badge bg-green" ng-if="root.currentUser.unseenNotifications > 0">{{root.currentUser.unseenNotifications}}</span>
                                 </a>
-                                <ul id="menu1" class="dropdown-menu msg_list" role="menu" >
+                                <ul id="menu1" class="dropdown-menu msg_list" role="menu">
                                     <li ng-repeat="notification in header.notifications">
                                         <a>
                                             <span>

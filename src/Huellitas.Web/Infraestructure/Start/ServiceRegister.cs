@@ -26,6 +26,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
+    using UI;
 
     /// <summary>
     /// Helper for register services
@@ -81,6 +82,9 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IAdoptionFormService, AdoptionFormService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ITextResourceService, TextResourceService>();
+
+            ////UI
+            services.AddScoped<IJavascriptConfigurationGenerator, JavascriptConfigurationGenerator>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();
