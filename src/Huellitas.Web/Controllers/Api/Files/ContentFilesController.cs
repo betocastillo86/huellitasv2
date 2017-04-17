@@ -3,22 +3,20 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Files
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
-    using Business.Services.Contents;
-    using Business.Services.Files;
+    using Business.Services;
     using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using Models.Extensions.Common;
 
     /// <summary>
     /// Content Files Controller

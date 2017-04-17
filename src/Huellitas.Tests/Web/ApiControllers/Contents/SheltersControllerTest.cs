@@ -10,13 +10,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Data.Entities;
     using Data.Entities.Enums;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
-    using Huellitas.Web.Controllers.Api.Contents;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions.Contents;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -341,7 +341,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
             var model = new ShelterModel();
             model.Files = new List<FileModel>() { new FileModel() };
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, true));
         }
 
@@ -373,15 +373,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
             var model = new ShelterModel();
             model.Files = new List<FileModel>() { new FileModel() };
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
 
             model.Files = new List<FileModel>();
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
 
             model.Files = null;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
         }
 

@@ -12,13 +12,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using System.Threading.Tasks;
     using Data.Entities;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Notifications;
-    using Huellitas.Business.Services.Users;
-    using Huellitas.Web.Controllers.Api.Users;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api.Users;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
@@ -49,6 +47,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// The user service
         /// </summary>
         private Mock<IUserService> userService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationControllerTest"/> class.
         /// </summary>

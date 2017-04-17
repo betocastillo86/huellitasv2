@@ -3,22 +3,20 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.AdoptionForms
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
     using Business.Exceptions;
-    using Business.Extensions.Entities;
+    using Business.Extensions;
     using Business.Security;
-    using Business.Services.AdoptionForms;
-    using Business.Services.Contents;
+    using Business.Services;
     using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Api.AdoptionForms;
-    using Models.Api.Common;
-    using Models.Extensions.AdoptionForms;
+    using Models.Api;
+    using Models.Extensions;
 
     /// <summary>
     /// Adoption Form Answers Controller

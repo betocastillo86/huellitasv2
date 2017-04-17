@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('app')
+    angular.module('huellitasServices')
     .factory('statusTypeService', statusTypeService);
 
     statusTypeService.$inject = ['$http'];

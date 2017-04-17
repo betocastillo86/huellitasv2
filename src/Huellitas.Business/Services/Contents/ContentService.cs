@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Contents
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Collections.Generic;
@@ -19,12 +19,11 @@ namespace Huellitas.Business.Services.Contents
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
-    using Seo;
 
     /// <summary>
     /// Content Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Contents.IContentService" />
+    /// <seealso cref="Huellitas.Business.Services.IContentService" />
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]
     public class ContentService : IContentService
     {
@@ -160,7 +159,7 @@ namespace Huellitas.Business.Services.Contents
         /// </returns>
         public IList<ContentFile> GetFiles(int contentId)
         {
-            return this.contentFileRepository.TableNoTracking
+            return this.contentFileRepository.Table
                 .Include(c => c.File)
                 .Where(c => c.ContentId == contentId)
                 .ToList();
@@ -248,7 +247,7 @@ namespace Huellitas.Business.Services.Contents
         public async Task InsertAsync(Content content)
         {
             content.CreatedDate = DateTime.Now;
-            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.TableNoTracking);
+            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.Table);
 
             try
             {
@@ -401,7 +400,7 @@ namespace Huellitas.Business.Services.Contents
             DateTime? closingDateFrom = null,
             DateTime? closingDateTo = null)
         {
-            var query = this.contentRepository.TableNoTracking
+            var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
                 .Include(c => c.Location)
                 .Include(c => c.File)

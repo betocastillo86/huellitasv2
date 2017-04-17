@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('adoptionFormStatusService', adoptionFormStatusService);
 
     adoptionFormStatusService.$inject = ['$http'];

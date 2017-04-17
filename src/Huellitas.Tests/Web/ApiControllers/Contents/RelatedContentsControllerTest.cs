@@ -6,15 +6,15 @@
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Huellitas.Tests.Web.Mocks;
-    using Huellitas.Web.Controllers.Api.Common;
-    using Huellitas.Web.Controllers.Api.Contents;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;

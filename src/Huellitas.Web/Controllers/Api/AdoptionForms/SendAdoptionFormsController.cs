@@ -3,25 +3,23 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.AdoptionForms
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.AdoptionForms;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
-    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// Send Adoption Forms Controller
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Controllers.Api.AdoptionForms.AdoptionFormsBaseController" />
+    /// <seealso cref="Huellitas.Web.Controllers.ApiBaseController" />
     [Route("api/adoptionforms/{formId:int}/send")]
     public class SendAdoptionFormsController : AdoptionFormsBaseController
     {

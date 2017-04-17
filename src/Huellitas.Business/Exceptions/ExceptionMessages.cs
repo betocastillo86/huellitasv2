@@ -29,6 +29,8 @@ namespace Huellitas.Business.Exceptions
                     return "El registro que se desea relacionar no existe";
                 case HuellitasExceptionCode.UserEmailAlreadyUsed:
                     return "El correo electrónico ya se encuentra registrado";
+                case HuellitasExceptionCode.InvalidIndex:
+                    return "Esta llave se encuentra duplicada";
                 default:
                     return null;
             }

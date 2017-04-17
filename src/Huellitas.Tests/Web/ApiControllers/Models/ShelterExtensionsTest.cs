@@ -8,11 +8,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions.Contents;
     using Mocks;
     using Moq;

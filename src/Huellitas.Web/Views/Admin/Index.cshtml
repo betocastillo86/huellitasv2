@@ -3,7 +3,7 @@
 
 
 <!DOCTYPE html>
-<html ng-app="app" ng-controller="RootController as root">
+<html ng-app="huellitasAdmin" ng-controller="RootController as root">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -17,34 +17,37 @@
 
 
     <environment names="Development">
-        <script src="/js/site.min.js"></script>
-        <jsresources></jsresources>
+
+        <script src="~/js/configuration.js"></script><script src="/js/site.min.js"></script>
+        <jsresources type="admin"></jsresources>
+
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
+        <script src="~/js/configuration.js"></script>
         <script src="/js/site.min.js"></script>
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
 
 </head>
 
-<body class="nav-md">
+<body ng-class="{'nav-md': !root.isShowingMobileMenu, 'nav-sm':root.isShowingMobileMenu}">
     <div class="container body">
         <div class="main_container">
             <!-- sidebar menu -->
-            <div ng-include="'/app/layout/sidebar.html'"></div>
+            <div ng-include="'/app/admin/layout/sidebar.html'"></div>
             <!-- top navigation -->
             <div class="top_nav">
                 <div class="nav_menu">
                     <nav class="" role="navigation">
                         <div class="nav toggle">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            <a id="menu_toggle" ng-click="root.showMobileMenu()"><i class="fa fa-bars"></i></a>
                         </div>
 
                         <ul class="nav navbar-nav navbar-right" ng-controller="HeaderController as header">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">{{root.currentUser.name}}
+                                    {{root.currentUser.name}}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -52,12 +55,12 @@
                                 </ul>
                             </li>
 
-                            <li role="presentation" class="dropdown" >
+                            <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false" ng-click="header.toogleNotifications()">
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="badge bg-green" ng-if="root.currentUser.unseenNotifications > 0">{{root.currentUser.unseenNotifications}}</span>
                                 </a>
-                                <ul id="menu1" class="dropdown-menu msg_list" role="menu" >
+                                <ul id="menu1" class="dropdown-menu msg_list" role="menu">
                                     <li ng-repeat="notification in header.notifications">
                                         <a>
                                             <span>

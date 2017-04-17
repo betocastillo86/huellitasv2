@@ -9,7 +9,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Huellitas.Tests.Web.Mocks;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using NUnit.Framework;
 

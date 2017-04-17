@@ -12,20 +12,14 @@ namespace Huellitas.Web.Infraestructure.Start
     using Business.Configuration;
     using Business.EventPublisher;
     using Business.Security;
-    using Business.Services.AdoptionForms;
-    using Business.Services.Configuration;
-    using Business.Services.Files;
-    using Business.Services.Notifications;
-    using Business.Services.Seo;
-    using Business.Services.Users;
+    using Business.Services;
     using Huellitas.Business.Helpers;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
+    using UI;
 
     /// <summary>
     /// Helper for register services
@@ -80,6 +74,10 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAdoptionFormService, AdoptionFormService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ITextResourceService, TextResourceService>();
+
+            ////UI
+            services.AddScoped<IJavascriptConfigurationGenerator, JavascriptConfigurationGenerator>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();

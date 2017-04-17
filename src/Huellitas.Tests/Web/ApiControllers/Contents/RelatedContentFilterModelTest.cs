@@ -7,7 +7,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System;
     using System.Linq;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
     /// <summary>

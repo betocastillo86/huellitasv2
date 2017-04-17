@@ -3,19 +3,19 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Content User Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class ContentUserModel : BaseModel
     {
         /// <summary>

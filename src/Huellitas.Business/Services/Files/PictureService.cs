@@ -3,10 +3,9 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Files
+namespace Huellitas.Business.Services
 {
-    using Common;
-    using Extensions.Services;
+    using Extensions;
     using Huellitas.Data.Entities;
     using ImageSharp;
     using ImageSharp.Processing;
@@ -14,7 +13,7 @@ namespace Huellitas.Business.Services.Files
     /// <summary>
     /// Picture Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Files.IPictureService" />
+    /// <seealso cref="Huellitas.Business.Services.IPictureService" />
     public class PictureService : IPictureService
     {
         /// <summary>

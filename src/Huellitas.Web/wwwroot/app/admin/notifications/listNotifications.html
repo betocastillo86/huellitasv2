@@ -1,0 +1,62 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Notificaciones</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Nombre
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.name" ng-change="main.getNotifications()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Nombre</th>
+                                    <th class="column-title">Correo</th>
+                                    <th class="column-title">Sistema</th>
+                                    <th class="column-title no-link last">
+                                        <span class="nobr">Opciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="notification in main.notifications" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td>{{notification.name}}</td>
+                                    <td>{{notification.isSystem ? 'SI' : 'NO'}}</td>
+                                    <td>{{notification.isEmail ? 'SI' : 'NO'}}</td>
+                                    <td class="last">
+                                            <a href="/admin/notifications/{{notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!main.notifications.length">
+                                    <td colspan="5"  class="last">
+                                     No hay registros
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <list-pager class="pagerDirective"></list-pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

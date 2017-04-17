@@ -39,7 +39,7 @@ paths.js = [
 ]
 
 paths.libs = [
-    paths.external + 'gentelella/vendors/jquery/dist/jquery.min.js',
+    paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
     paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
     paths.external + 'angular/angular.js',
     paths.external + 'ngstorage/ngStorage.js',
@@ -60,6 +60,7 @@ paths.css = [
     paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
     paths.external + 'gentelella/build/css/custom.min.css',
     paths.external + 'textAngular/dist/textAngular.css',
+    paths.external + 'angucomplete-alt/angucomplete-alt.css',
     paths.external + 'pikaday/css/pikaday.css',
     paths.webroot + 'css/huellitas.css'
 ];

@@ -8,21 +8,15 @@ namespace Huellitas.Web.Models.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Api.Files;
-    using Api.Users;
+    using Api;
     using Business.Caching;
     using Business.Configuration;
     using Business.Exceptions;
-    using Business.Extensions.Entities;
-    using Business.Extensions.Services;
-    using Business.Services.Common;
-    using Business.Services.Contents;
-    using Business.Services.Files;
-    using Common;
+    using Business.Extensions;
+    using Business.Services;
     using Data.Entities.Enums;
     using Data.Extensions;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Contents;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     /// <summary>
@@ -170,7 +164,7 @@ namespace Huellitas.Web.Models.Extensions
 
             if (entity.LocationId.HasValue && entity.Location != null)
             {
-                model.Location = new Api.Common.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+                model.Location = new Api.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
             }
 
             if (entity.FileId.HasValue && entity.File != null)

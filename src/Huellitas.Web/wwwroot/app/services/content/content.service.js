@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('contentService', contentService);
 
     contentService.$http = ['$http'];

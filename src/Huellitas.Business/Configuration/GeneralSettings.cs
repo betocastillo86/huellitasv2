@@ -6,7 +6,7 @@
 namespace Huellitas.Business.Configuration
 {
     using System.Diagnostics.CodeAnalysis;
-    using Services.Configuration;
+    using Services;
 
     /// <summary>
     /// General Settings
@@ -52,5 +52,13 @@ namespace Huellitas.Business.Configuration
         /// The <c>instagram</c> URL.
         /// </value>
         public string InstagramUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.InstagramUrl"); } }
+
+        /// <summary>
+        /// Gets the default size of the page.
+        /// </summary>
+        /// <value>
+        /// The default size of the page.
+        /// </value>
+        public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.DefaultPageSize"); } }
     }
 }

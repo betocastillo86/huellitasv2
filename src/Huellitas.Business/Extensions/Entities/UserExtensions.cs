@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Extensions.Entities
+namespace Huellitas.Business.Extensions
 {
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;

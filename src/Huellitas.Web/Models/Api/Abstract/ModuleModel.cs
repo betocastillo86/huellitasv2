@@ -3,10 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Abstract
-{
-    using Huellitas.Web.Models.Api.Common;
+using System.Collections.Generic;
 
+namespace Huellitas.Web.Models.Api
+{
     /// <summary>
     /// Module model
     /// </summary>
@@ -35,5 +35,21 @@ namespace Huellitas.Web.Models.Api.Abstract
         /// The URL.
         /// </value>
         public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets the icon.
+        /// </summary>
+        /// <value>
+        /// The icon.
+        /// </value>
+        public string Icon { get; set; }
+
+        /// <summary>
+        /// Gets or sets the children.
+        /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
+        public IList<ModuleModel> Children { get; set; }
     }
 }

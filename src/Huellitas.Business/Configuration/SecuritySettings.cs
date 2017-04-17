@@ -6,7 +6,7 @@
 namespace Huellitas.Business.Configuration
 {
     using System.Diagnostics.CodeAnalysis;
-    using Huellitas.Business.Services.Configuration;
+    using Huellitas.Business.Services;
 
     /// <summary>
     /// Security Settings

@@ -45,6 +45,7 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedSettings(context);
             EnsureSeedingExtension.SeedAdoptionForms(context);
             EnsureSeedingExtension.SeedNotifications(context);
+            EnsureSeedingExtension.SeedResources(context);
         }
 
         /// <summary>
@@ -457,11 +458,37 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "NotificationSettings.BodyBaseHtml", Value = "<html><body><h1>Huellitas sin Hogar</h2>%%Body%%</body></html>" });
             list.Add(new SystemSetting() { Name = "NotificationSettings.EmailSenderName", Value = "Huellitas sin hogar" });
 
+            list.Add(new SystemSetting() { Name = "GeneralSettings.DefaultPageSize", Value = "10" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
                 {
                     context.SystemSettings.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region REsources        
+        /// <summary>
+        /// Seeds the resources.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private static void SeedResources(HuellitasContext context)
+        {
+            var list = new List<TextResource>();
+
+            list.Add(new TextResource() { Name = "UserRole.Public", Value = "Público", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "UserRole.SuperAdmin", Value = "Super administrador", Language = LanguageEnum.Spanish });
+
+            foreach (var item in list)
+            {
+                if (!context.TextResources.Any(c => c.Name.Equals(item.Name)))
+                {
+                    context.TextResources.Add(item);
                 }
             }
 

@@ -3,16 +3,16 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using Data.Entities;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Shelter Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
     public class ShelterFilterModel : BaseFilterModel
     {
         /// <summary>

@@ -1,0 +1,85 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Notificaciones por correo</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form class="form-horizontal form-label-left">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >
+                                Para
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.to" ng-change="main.getNotifications()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Asunto
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.subject" ng-change="main.getNotifications()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Enviado</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                    <label ng-click="main.changeSent(true)" class="btn" ng-class="[{'btn-primary' : main.filter.sent === true}, {'btn-default' : main.filter.sent !== true}]">
+                                        &nbsp; Si &nbsp;
+                                    </label>
+                                    <label ng-click="main.changeSent(false)" class="btn" ng-class="[{'btn-primary' : main.filter.sent === false}, {'btn-default' : main.filter.sent !== false}]">
+                                        &nbsp; No &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Correo</th>
+                                    <th class="column-title">Asunto</th>
+                                    <th class="column-title">Fecha Creación</th>
+                                    <th class="column-title">Fecha Envío</th>
+                                    <th class="column-title no-link last">
+                                        <span class="nobr">Opciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="notification in main.notifications" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td>{{notification.to}}</td>
+                                    <td>{{notification.subject}}</td>
+                                    <td>{{notification.createdDate}}</td>
+                                    <td>{{notification.sentDate}}</td>
+                                    <td class="last">
+                                            <a href="/admin/emailnotifications/{{notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Ver</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!main.notifications.length">
+                                    <td colspan="5"  class="last">
+                                     No hay registros
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <list-pager class="pagerDirective"></list-pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

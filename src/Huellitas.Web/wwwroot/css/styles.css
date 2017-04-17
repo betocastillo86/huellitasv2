@@ -16667,6 +16667,73 @@ ul.notifications {
   border-top-width: 0;
   border-bottom-color: #fff;
 }
+.angucomplete-holder {
+  position: relative;
+}
+
+.angucomplete-dropdown {
+  border-color: #ececec;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  width: 250px;
+  padding: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  position: absolute;
+  /*top: 32px;
+    left: 0px;
+    */
+  margin-top: -6px;
+  background-color: #ffffff;
+}
+
+.angucomplete-searching {
+  color: #acacac;
+  font-size: 14px;
+}
+
+.angucomplete-description {
+  font-size: 14px;
+}
+
+.angucomplete-row {
+  padding: 5px;
+  color: #000000;
+  margin-bottom: 4px;
+  clear: both;
+}
+
+.angucomplete-selected-row {
+  background-color: lightblue;
+  color: #ffffff;
+}
+
+.angucomplete-image-holder {
+  padding-top: 2px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.angucomplete-image {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border-color: #ececec;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.angucomplete-image-default {
+  /* Add your own default image here
+     background-image: url('/assets/default.png');
+    */
+  background-position: center;
+  background-size: contain;
+  height: 34px;
+  width: 34px;
+}
 @charset "UTF-8";
 
 /*!
@@ -16901,10 +16968,6 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   opacity: 0.4;
 }
 
-.autocomplete {
-  z-index: 3;
-}
-
 .fileInvisible {
   position: absolute;
   top: 0px;
@@ -16913,6 +16976,14 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   height: 100%;
   opacity: 0.0;
   filter: alpha(opacity=0);
+}
+
+.angucomplete-bootstrap {
+  float: none;
+}
+
+.highlight {
+  color: cornflowerblue;
 }
 
 input.ng-invalid-parsley-error {

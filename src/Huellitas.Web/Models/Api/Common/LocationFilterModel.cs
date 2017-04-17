@@ -3,12 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Common
+namespace Huellitas.Web.Models.Api
 {
     /// <summary>
     /// Location Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseFilterModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
     public class LocationFilterModel : BaseFilterModel
     {
         /// <summary>

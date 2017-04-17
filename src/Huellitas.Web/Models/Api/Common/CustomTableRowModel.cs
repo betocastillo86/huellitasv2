@@ -3,12 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Common
+namespace Huellitas.Web.Models.Api
 {
     /// <summary>
     /// Custom table row model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class CustomTableRowModel : BaseModel
     {
         /// <summary>

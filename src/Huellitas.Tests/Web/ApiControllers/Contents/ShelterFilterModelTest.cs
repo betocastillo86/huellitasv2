@@ -6,7 +6,7 @@
 namespace Huellitas.Tests.Web.ApiControllers
 {
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
     /// <summary>

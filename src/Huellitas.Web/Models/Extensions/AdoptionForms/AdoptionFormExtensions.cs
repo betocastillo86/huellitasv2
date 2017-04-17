@@ -3,16 +3,14 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.AdoptionForms
+namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.AdoptionForms;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Contents;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Adoption Forms Extensions

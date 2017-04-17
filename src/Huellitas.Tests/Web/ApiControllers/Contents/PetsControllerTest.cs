@@ -13,15 +13,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.Services.Common;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Files;
-    using Huellitas.Web.Controllers.Api.Common;
-    using Huellitas.Web.Controllers.Api.Contents;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -205,7 +200,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             Assert.IsTrue(controller.IsValidModel(model, true));
 
             model.Shelter = null;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, true));
         }
 
@@ -225,12 +220,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             model.Files = new List<FileModel>();
             model.Shelter = null;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
 
             model.Files = null;
             model.Shelter = null;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel();
+            model.Location = new Huellitas.Web.Models.Api.LocationModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
         }
 

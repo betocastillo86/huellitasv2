@@ -1,0 +1,58 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Recursos</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Nombre
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getResources()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Llave</th>
+                                    <th class="column-title">Valor</th>
+                                    <th class="column-title no-link last">
+                                        <span class="nobr">Opciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="resource in main.resources" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td>{{resource.name}}</td>
+                                    <td><span ng-if="!resource.isEditing">{{resource.value}}</span> <input type="text" class="form-control" ng-model="resource.value" ng-if="resource.isEditing" /> </td>
+                                    <td class="last">
+                                        <button  type="button" class="btn btn-primary btn-xs" ng-click="main.toggleEdit(resource)">{{resource.isEditing ? 'Guardar' : 'Editar'}}</button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!main.resources.length">
+                                    <td colspan="5" class="last">
+                                        No hay registros
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <list-pager class="pagerDirective"></list-pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

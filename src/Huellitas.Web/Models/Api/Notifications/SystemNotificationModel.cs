@@ -3,15 +3,15 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Notifications
+namespace Huellitas.Web.Models.Api
 {
     using System;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// System Notification Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Common.BaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseModel" />
     public class SystemNotificationModel : BaseModel
     {
         /// <summary>

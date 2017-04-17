@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('authenticationService', authenticationService);
 
     authenticationService.$inject = ['$http', '$q', 'sessionService'];

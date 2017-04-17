@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
-    using Huellitas.Business.Services.Files;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Extensions.Common;
+    using Huellitas.Web.Models.Extensions;
     using Moq;
     using NUnit.Framework;
 

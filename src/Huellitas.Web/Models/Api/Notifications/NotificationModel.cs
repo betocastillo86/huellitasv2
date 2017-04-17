@@ -3,10 +3,9 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Notifications
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
-    using Common;
 
     /// <summary>
     /// Notification Model

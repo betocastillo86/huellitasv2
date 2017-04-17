@@ -1,0 +1,65 @@
+﻿<div class="">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Editar notificación por correo
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form name="formNotification" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formNotification.$valid)">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Fecha de envío
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                {{main.model.sentDate}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Asunto
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="emailSubject" ng-model="main.model.subject" class="form-control" required />
+                                <validation-message form="formNotification" field="formNotification.emailSubject" name="asunto"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Para
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="email" name="to" ng-model="main.model.to" class="form-control" required />
+                                <validation-message form="formNotification" field="formNotification.to" name="para"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Contenido Correo
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <text-angular ng-model="main.model.body" name="body"></text-angular>
+                                <validation-message form="formNotification" field="formNotification.body" name="contenido del correo"></validation-message>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a type="submit" class="btn btn-default" href="/admin/emailnotifications">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="main.markQueue()">Encolar de nuevo</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

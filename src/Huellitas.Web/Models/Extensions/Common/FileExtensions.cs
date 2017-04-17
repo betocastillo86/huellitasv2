@@ -3,13 +3,13 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.Common
+namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using Business.Services.Files;
+    using Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// File Extensions
@@ -42,7 +42,7 @@ namespace Huellitas.Web.Models.Extensions.Common
                 thumbnail = fileHelper.GetFullPath(file, contentUrlFunction, thumbnailWidth, thumbnailHeight);
             }
 
-            return new Api.Files.FileModel()
+            return new Api.FileModel()
             {
                 Id = file.Id,
                 FileName = fileHelper.GetFullPath(file, contentUrlFunction, width, height),

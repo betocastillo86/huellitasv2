@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Seo
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Linq;
@@ -16,7 +16,7 @@ namespace Huellitas.Business.Services.Seo
     /// <summary>
     /// <c>Seo</c> Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Seo.ISeoService" />
+    /// <seealso cref="Huellitas.Business.Services.ISeoService" />
     public class SeoService : ISeoService
     {
         /// <summary>

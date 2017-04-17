@@ -8,12 +8,12 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Huellitas.Business.Services.AdoptionForms;
-    using Huellitas.Business.Services.Contents;
-    using Huellitas.Business.Services.Notifications;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Controllers.Api.AdoptionForms;
-    using Huellitas.Web.Models.Api.AdoptionForms;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;

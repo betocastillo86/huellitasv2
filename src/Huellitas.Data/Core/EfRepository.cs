@@ -50,17 +50,6 @@ namespace Huellitas.Data.Core
         }
 
         /// <summary>
-        /// Gets a table with "no tracking" enabled (EF feature) Use it only when you load record(s) only for read-only operations
-        /// </summary>
-        public virtual IQueryable<T> TableNoTracking
-        {
-            get
-            {
-                return this.Entities.AsNoTracking();
-            }
-        }
-
-        /// <summary>
         /// Gets the entities.
         /// </summary>
         /// <value>

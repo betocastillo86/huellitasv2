@@ -651,6 +651,25 @@ namespace Huellitas.Data.Migrations
                     b.ToTable("SystemSettings");
                 });
 
+            modelBuilder.Entity("Huellitas.Data.Entities.TextResource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<short>("LanguageId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id")
+                        .HasName("PK_TextResource");
+
+                    b.ToTable("TextResources");
+                });
+
             modelBuilder.Entity("Huellitas.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")

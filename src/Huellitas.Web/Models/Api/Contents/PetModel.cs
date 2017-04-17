@@ -3,17 +3,17 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Contents
+namespace Huellitas.Web.Models.Api
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Pet Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Contents.ContentBaseModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.ContentBaseModel" />
     public class PetModel : ContentBaseModel
     {
         /// <summary>

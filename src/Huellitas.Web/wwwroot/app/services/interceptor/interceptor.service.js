@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('interceptorService', interceptorService);
 
     interceptorService.$inject = ['$q','$window'];

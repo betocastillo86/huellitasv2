@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Abstract
+namespace Huellitas.Web.Controllers.Api
 {
     using System;
     using System.Collections.Generic;

@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
-    using Huellitas.Web.Infraestructure.Filters.Exceptions;
+    using System;
+    using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
+    using Infraestructure.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -53,6 +55,8 @@ namespace Huellitas.Web
                     template: "{controller=Home}/{action=Index}");
             });
 
+            this.CreateJavascriptFile(app);
+
             ////loggerFactory.AddConsole();
 
             ////if (env.IsDevelopment())
@@ -81,7 +85,8 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddJsonOptions(c => {
+            }).AddJsonOptions(c => 
+            {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
@@ -93,6 +98,16 @@ namespace Huellitas.Web
             services.RegisterHuellitasServices();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+
+        /// <summary>
+        /// Creates the <c>javascript</c> file.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        private void CreateJavascriptFile(IApplicationBuilder builder)
+        {
+            var javascriptGenerator = (IJavascriptConfigurationGenerator)builder.ApplicationServices.GetService(typeof(IJavascriptConfigurationGenerator));
+            javascriptGenerator.CreateJavascriptConfigurationFile();
         }
     }
 }

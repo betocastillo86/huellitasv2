@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Seo
+namespace Huellitas.Business.Services
 {
     using System.Linq;
     using Data.Entities;

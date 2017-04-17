@@ -23,9 +23,19 @@ namespace Huellitas.Business.Exceptions
         UserEmailAlreadyUsed = 150,
 
         /// <summary>
+        /// The cant update email notification
+        /// </summary>
+        CantUpdateEmailNotification = 200,
+
+        /// <summary>
         /// The invalid foreign key
         /// </summary>
         InvalidForeignKey = 500,
+
+        /// <summary>
+        /// The invalid index
+        /// </summary>
+        InvalidIndex = 501,
 
         /// <summary>
         /// The row not found

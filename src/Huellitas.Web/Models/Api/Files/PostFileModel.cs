@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Files
+namespace Huellitas.Web.Models.Api
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Http;
@@ -11,7 +11,7 @@ namespace Huellitas.Web.Models.Api.Files
     /// <summary>
     /// File Model for posting from http
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.Files.FileModel" />
+    /// <seealso cref="Huellitas.Web.Models.Api.FileModel" />
     public class PostFileModel
     {
         /// <summary>

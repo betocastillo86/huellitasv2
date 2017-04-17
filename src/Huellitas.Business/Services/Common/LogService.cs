@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Common
+namespace Huellitas.Business.Services
 {
     using System;
     using Huellitas.Business.Helpers;
@@ -14,7 +14,7 @@ namespace Huellitas.Business.Services.Common
     /// <summary>
     /// Log Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Common.ILogService" />
+    /// <seealso cref="Huellitas.Business.Services.ILogService" />
     public class LogService : ILogService
     {
         #region props

@@ -8,12 +8,11 @@ namespace Huellitas.Web.Models.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Api.Contents;
-    using Business.Extensions.Entities;
-    using Business.Services.Files;
-    using Common;
+    using Api;
+    using Business.Extensions;
+    using Business.Services;
+    
     using Data.Extensions;
-    using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
 
     /// <summary>

@@ -3,15 +3,15 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.Common
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
-    using Business.Services.Common;
+    using Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Api.Common;
-    using Models.Extensions.Common;
+    using Models.Api;
+    using Models.Extensions;
 
     /// <summary>
     /// Locations Controller

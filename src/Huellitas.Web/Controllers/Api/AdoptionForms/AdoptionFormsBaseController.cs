@@ -3,12 +3,11 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Controllers.Api.AdoptionForms
+namespace Huellitas.Web.Controllers.Api
 {
-    using Business.Services.AdoptionForms;
-    using Huellitas.Business.Extensions.Entities;
+    using Business.Services;
+    using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Contents;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
     using Huellitas.Web.Infraestructure.WebApi;

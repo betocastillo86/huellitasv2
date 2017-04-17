@@ -4,15 +4,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Huellitas.Web.Controllers.Api.Common
+namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
-    using Huellitas.Business.Extensions.Entities;
+    using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Configuration;
+    using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api.Common;
-    using Huellitas.Web.Models.Extensions.Common;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

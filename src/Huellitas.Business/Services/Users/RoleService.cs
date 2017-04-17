@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Business.Services.Users
+namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace Huellitas.Business.Services.Users
     /// <summary>
     /// Role Service
     /// </summary>
-    /// <seealso cref="Huellitas.Business.Services.Users.IRoleService" />
+    /// <seealso cref="Huellitas.Business.Services.IRoleService" />
     public class RoleService : IRoleService
     {
         /// <summary>

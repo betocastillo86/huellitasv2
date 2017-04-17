@@ -3,12 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.Notifications
+namespace Huellitas.Web.Models.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api.Notifications;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// System Notification Extensions

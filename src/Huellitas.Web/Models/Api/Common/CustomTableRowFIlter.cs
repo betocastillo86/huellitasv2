@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Api.Common
+namespace Huellitas.Web.Models.Api
 {
     /// <summary>
     /// Custom table Filter

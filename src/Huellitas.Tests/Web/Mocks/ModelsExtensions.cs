@@ -6,8 +6,8 @@
 namespace Huellitas.Tests.Web.Mocks
 {
     using System.Collections.Generic;
-    using Huellitas.Web.Models.Api.Contents;
-    using Huellitas.Web.Models.Api.Files;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Model extension for testing
@@ -28,7 +28,7 @@ namespace Huellitas.Tests.Web.Mocks
             model.Size = new ContentAttributeModel<int>() { Value = 1 };
             model.Months = 5;
             model.Files = new List<FileModel>() { new FileModel() { FileName = "a" } };
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
+            model.Location = new Huellitas.Web.Models.Api.LocationModel() { Id = 1 };
             return model;
         }
 
@@ -54,7 +54,7 @@ namespace Huellitas.Tests.Web.Mocks
             model.Twitter = "twitter.com";
             model.Video = "youtube.com";
             model.AutoReply = true;
-            model.Location = new Huellitas.Web.Models.Api.Common.LocationModel() { Id = 1 };
+            model.Location = new Huellitas.Web.Models.Api.LocationModel() { Id = 1 };
             return model;
         }
     }
