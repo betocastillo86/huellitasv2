@@ -65,7 +65,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public IPagedList<SystemSetting> Get(string key = null, string value = null, int page = 0, int pageSize = int.MaxValue)
         {
-            var query = this.systemSettingRepository.TableNoTracking;
+            var query = this.systemSettingRepository.Table;
 
             if (!string.IsNullOrEmpty(key))
             {

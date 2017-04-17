@@ -3,7 +3,7 @@
 
 
 <!DOCTYPE html>
-<html ng-app="app" ng-controller="RootController as root">
+<html ng-app="huellitasAdmin" ng-controller="RootController as root">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -19,7 +19,7 @@
     <environment names="Development">
 
         <script src="~/js/configuration.js"></script><script src="/js/site.min.js"></script>
-        <jsresources></jsresources>
+        <jsresources type="admin"></jsresources>
 
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
@@ -35,7 +35,7 @@
     <div class="container body">
         <div class="main_container">
             <!-- sidebar menu -->
-            <div ng-include="'/app/layout/sidebar.html'"></div>
+            <div ng-include="'/app/admin/layout/sidebar.html'"></div>
             <!-- top navigation -->
             <div class="top_nav">
                 <div class="nav_menu">

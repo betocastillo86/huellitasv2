@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('textResourceService', textResourceService);
 
     textResourceService.$inject = ['$http'];

@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('roleService', roleService);
 
     roleService.$inject = ['$http'];

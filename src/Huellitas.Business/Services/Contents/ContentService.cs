@@ -159,7 +159,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public IList<ContentFile> GetFiles(int contentId)
         {
-            return this.contentFileRepository.TableNoTracking
+            return this.contentFileRepository.Table
                 .Include(c => c.File)
                 .Where(c => c.ContentId == contentId)
                 .ToList();
@@ -247,7 +247,7 @@ namespace Huellitas.Business.Services
         public async Task InsertAsync(Content content)
         {
             content.CreatedDate = DateTime.Now;
-            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.TableNoTracking);
+            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.Table);
 
             try
             {
@@ -400,7 +400,7 @@ namespace Huellitas.Business.Services
             DateTime? closingDateFrom = null,
             DateTime? closingDateTo = null)
         {
-            var query = this.contentRepository.TableNoTracking
+            var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
                 .Include(c => c.Location)
                 .Include(c => c.File)

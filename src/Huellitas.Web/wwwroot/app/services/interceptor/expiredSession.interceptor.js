@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('app')
+    angular.module('huellitasServices')
         .factory('expiredSessionInterceptor', expiredSessionInterceptor);
 
     expiredSessionInterceptor.$inject = ['$q', 'sessionService'];

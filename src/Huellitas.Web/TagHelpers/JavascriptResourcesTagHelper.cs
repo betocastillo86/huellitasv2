@@ -43,8 +43,9 @@ namespace Huellitas.Web.TagHelpers
         {
             var rootPath = _appEnvironment.ContentRootPath + "\\wwwroot";
             var strHtml = new StringBuilder();
+            var mainFolder = context.AllAttributes["type"].Value.ToString();
 
-            SearchJsInPath(rootPath + "\\app", true)
+            SearchJsInPath(rootPath + "\\app", true, mainFolder)
                 .ToList()
                 .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 
@@ -58,24 +59,33 @@ namespace Huellitas.Web.TagHelpers
         /// <param name="path">The path.</param>
         /// <param name="root">if set to <c>true</c> [root].</param>
         /// <returns>the value</returns>
-        private IList<string> SearchJsInPath(string path, bool root)
+        private IList<string> SearchJsInPath(string path, bool root, string mainFolder)
         {
             var foundFiles = new List<string>();
 
             if (root)
+            {
                 foreach (var file in System.IO.Directory.GetFiles(path))
                 {
                     foundFiles.Add(file);
                 }
-
+            }
+                
             foreach (var directory in System.IO.Directory.GetDirectories(path).OrderBy(c => c))
             {
+                var directoryName = new System.IO.DirectoryInfo(directory).Name;
+
+                if (root && !directoryName.Equals("services") && !directoryName.Equals(mainFolder))
+                {
+                    continue;
+                }
+                
                 foreach (var file in System.IO.Directory.GetFiles(directory).Where(f => f.EndsWith(".js")).OrderBy(c => c))
                 {
                     foundFiles.Add(file);
                 }
 
-                foundFiles.AddRange(SearchJsInPath(directory, false));
+                foundFiles.AddRange(SearchJsInPath(directory, false, null));
             }
 
             return foundFiles;

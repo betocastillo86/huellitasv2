@@ -50,7 +50,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public IList<CustomTableRow> GetRowsByTableId(int tableId)
         {
-            return this.customTableRowRepository.TableNoTracking.Where(c => c.CustomTableId == tableId).ToList();
+            return this.customTableRowRepository.Table.Where(c => c.CustomTableId == tableId).ToList();
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ paths.js = [
 ]
 
 paths.libs = [
-    paths.external + 'gentelella/vendors/jquery/dist/jquery.min.js',
+    paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
     paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
     paths.external + 'angular/angular.js',
     paths.external + 'ngstorage/ngStorage.js',
