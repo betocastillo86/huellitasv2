@@ -34,7 +34,7 @@
                 .catch(getError);
 
             function getCompleted(response) {
-                vm.model = response.data;
+                vm.model = response;
             }
 
             function getError() {
@@ -48,7 +48,7 @@
                 .catch(getError);
 
             function getCompleted(response) {
-                vm.model.answers = response.data;
+                vm.model.answers = response;
             }
 
             function getError() {

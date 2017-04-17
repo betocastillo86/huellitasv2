@@ -76,7 +76,7 @@
                 .catch(getError);
 
                 function getCompleted(response) {
-                    vm.users = response.data.results;
+                    vm.users = response.results;
                 }
 
                 function getError() {
@@ -148,7 +148,7 @@
 
             function getCompleted(model)
             {
-                vm.model = model.data;
+                vm.model = model;
                 vm.showPicturesActive = true;
             }
 
@@ -228,7 +228,7 @@
 
             function saveCompleted(response) {
                 vm.isSending = false;
-                response = response.data;
+                response = response;
                 var message = 'El refugio fue actualizado correctamente';
                 var isNew = !vm.model.id;
 

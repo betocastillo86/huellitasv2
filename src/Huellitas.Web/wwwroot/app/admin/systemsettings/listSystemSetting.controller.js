@@ -31,8 +31,8 @@
                 .catch(getError);
 
             function getCompleted(response) {
-                vm.settings = response.data.results;
-                vm.pager = response.data.meta;
+                vm.settings = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
             }

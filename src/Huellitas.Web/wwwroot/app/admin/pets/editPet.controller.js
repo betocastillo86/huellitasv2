@@ -87,7 +87,7 @@
                 .catch(getError);
 
                 function getCompleted(response) {
-                    vm.parents = response.data.results;
+                    vm.parents = response.results;
                 }
 
                 function getError() {
@@ -314,7 +314,7 @@
 
                 vm.isSending = false;
 
-                response = response.data;
+                response = response;
                 var message = 'La mascota fue actualizada correctamente';
                 var isNew = !vm.model.id;
 

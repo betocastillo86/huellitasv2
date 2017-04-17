@@ -35,8 +35,8 @@
 
             function getCompleted(response)
             {
-                vm.notifications = response.data.results;
-                vm.pager = response.data.meta;
+                vm.notifications = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
                 return vm.notifications;

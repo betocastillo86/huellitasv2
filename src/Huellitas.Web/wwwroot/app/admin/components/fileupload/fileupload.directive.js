@@ -33,7 +33,7 @@
                 //if it has a callback method for added then call it
                 if (scope.onadded)
                 {
-                    scope.onadded(response.data, scope.callbackParam);
+                    scope.onadded(response, scope.callbackParam);
                 }
             }
         }

@@ -6,9 +6,9 @@
       .module('huellitasServices')
       .factory('helperService', helperService);
 
-    ///helperService.$inject = [''];
+    helperService.$inject = ['$window'];
 
-    function helperService() {
+    function helperService($window) {
         var service = {
             configServiceUrl: configServiceUrl
         };
@@ -19,10 +19,10 @@
         {
             if ($window.isIE) {
                 var rdn = Math.floor(Math.random() * 600) + 1;
-                var url = nosune.Settings.authorityDomain + localUrl;
+                var url = localUrl;
                 return url.indexOf('?') > -1 ? url + '&rdn=' + rdn : url + '?rdn=' + rdn;
             } else {
-                return nosune.Settings.authorityDomain + localUrl;
+                return localUrl;
             }
         }
     }

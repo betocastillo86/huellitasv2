@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
     .factory('customTableRowService', customTableRowService);
 
-    customTableRowService.$inject = ['$http'];
+    customTableRowService.$inject = ['httpService'];
 
-    function customTableRowService($http)
+    function customTableRowService(http)
     {
         return {
             getByTable: getByTable,
@@ -15,20 +15,7 @@
 
         function getByTable(tableId)
         {
-            return $http.get('/api/customtables/' + tableId + '/rows')
-            .then(getByTableCompleted)
-            .catch(getByTableError);
-
-            function getByTableCompleted(response)
-            {
-                return response.data;
-            }
-
-            function getByTableError(error)
-            {
-                console.log('Error al obtener');
-                return error;
-            }
+            return http.get('/api/customtables/' + tableId + '/rows');
         }
 
         function getSizes()

@@ -30,7 +30,7 @@
 
             function getCompleted(response)
             {
-                vm.currentUser = response.data;
+                vm.currentUser = response;
             }
 
             function getError()

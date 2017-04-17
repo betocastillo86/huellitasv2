@@ -35,7 +35,7 @@
 
             function getCompleted(response)
             {
-                vm.model = response.data;
+                vm.model = response;
                 vm.tags = JSON.parse(vm.model.tags);
             }
 

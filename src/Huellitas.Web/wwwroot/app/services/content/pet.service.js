@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('petService', petService);
 
-    petService.$inject = ['$http'];
+    petService.$inject = ['httpService'];
 
-    function petService($http) {
+    function petService(http) {
         return {
             getAll: getAll,
             getById: getById,
@@ -13,40 +13,19 @@
         };
 
         function getAll(filter) {
-            return $http.get('/api/pets', { params: filter })
-            .then(getAllComplete)
-            .catch(getAllError);
-
-            function getAllComplete(response) {
-                return response.data;
-            }
-
-            function getAllError() {
-                console.log('Get all error');
-            }
+            return http.get('/api/pets', { params: filter });
         }
 
         function getById(id) {
-            return $http.get('/api/pets/' + id)
-            .then(getByIdCompleted)
-            .catch(getByIdError);
-
-            function getByIdCompleted(response) {
-                return response.data;
-            }
-
-            function getByIdError(response) {
-                console.log('Get by id error');
-                return response;
-            }
+            return http.get('/api/pets/' + id);
         }
 
         function post(model) {
-            return $http.post('/api/pets', model);
+            return http.post('/api/pets', model);
         }
 
         function put(model) {
-            return $http.put('/api/pets/' + model.id, model);
+            return http.put('/api/pets/' + model.id, model);
         }
     }
 })();

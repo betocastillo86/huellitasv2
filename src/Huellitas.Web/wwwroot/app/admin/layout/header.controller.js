@@ -36,7 +36,7 @@
 
             function getCompleted(response)
             {
-                var notifications = response.data.results;
+                var notifications = response.results;
                 for (var i = 0; i < notifications.length; i++) {
                     var notification = notifications[i];
                     notification['creationDateString'] = notification.creationDate.getIntervalTime();

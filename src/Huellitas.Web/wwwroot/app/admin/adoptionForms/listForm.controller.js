@@ -36,8 +36,8 @@
 
             function getAllCompleted(response)
             {
-                vm.forms = response.data.results;
-                vm.pager = response.data.meta;
+                vm.forms = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
             }
@@ -56,7 +56,7 @@
 
             function getAllCompleted(response)
             {
-                vm.listStatus = response.data;
+                vm.listStatus = response;
             }
 
             function getAllError()

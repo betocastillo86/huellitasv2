@@ -28,8 +28,8 @@
 
             function getCompleted(response)
             {
-                vm.notifications = _.union(vm.notifications, response.data.results);
-                vm.showPager = response.data.meta.hasNextPage;
+                vm.notifications = _.union(vm.notifications, response.results);
+                vm.showPager = response.meta.hasNextPage;
             }
 
             function getError()

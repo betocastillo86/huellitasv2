@@ -36,8 +36,8 @@
 
             function getUsersCompleted(response)
             {
-                vm.users = response.data.results;
-                vm.pager = response.data.meta;
+                vm.users = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
             }
@@ -56,7 +56,7 @@
 
             function getAllCompleted(response)
             {
-                vm.roles = response.data;
+                vm.roles = response;
             }
 
             function getAllError()

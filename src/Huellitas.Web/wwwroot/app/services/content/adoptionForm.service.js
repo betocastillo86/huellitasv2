@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('adoptionFormService', adoptionFormService);
 
-    adoptionFormService.$inject = ['$http'];
+    adoptionFormService.$inject = ['httpService'];
 
-    function adoptionFormService($http) {
+    function adoptionFormService(http) {
 
         return {
             getAll: getAll,
@@ -15,22 +15,22 @@
 
         function getAll(filter)
         {
-            return $http.get('/api/adoptionforms', { params: filter });
+            return http.get('/api/adoptionforms', { params: filter });
         }
 
         function getById(id)
         {
-            return $http.get('/api/adoptionforms/' + id);
+            return http.get('/api/adoptionforms/' + id);
         }
 
         function postUser(formId, userId)
         {
-            return $http.post('/api/adoptionforms/' + formId + '/users', { userId : userId })
+            return http.post('/api/adoptionforms/' + formId + '/users', { userId : userId })
         }
 
         function sendByEmail(formId, email)
         {
-            return $http.post('/api/adoptionforms/' + formId + '/send', { email: email })
+            return http.post('/api/adoptionforms/' + formId + '/send', { email: email })
         }
     }
 

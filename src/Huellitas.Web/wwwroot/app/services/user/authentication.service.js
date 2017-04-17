@@ -3,9 +3,9 @@
     angular.module('huellitasServices')
         .factory('authenticationService', authenticationService);
 
-    authenticationService.$inject = ['$http', '$q', 'sessionService'];
+    authenticationService.$inject = ['$http', '$q', 'httpService', 'sessionService'];
 
-    function authenticationService($http, $q, sessionService)
+    function authenticationService($http, $q, http, sessionService)
     {
         return {
             post: post,
@@ -16,7 +16,7 @@
         {
             var deferred = $q.defer();
 
-            $http.post('/api/auth', model)
+            http.post('/api/auth', model)
                 .then(postCompleted)
                 .catch(postError);
 
@@ -24,7 +24,7 @@
 
             function postCompleted(response)
             {
-                response = response.data;
+                response = response;
                 var user = { email: response.email, id: response.id, name: response.name, token: response.token.accessToken };
                 sessionService.setCurrentUser(user);
 
@@ -40,7 +40,7 @@
 
         function get()
         {
-            return $http.get('/api/auth');
+            return http.get('/api/auth');
         }
     }
 })();

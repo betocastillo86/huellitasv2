@@ -34,8 +34,8 @@
 
             function getSheltersCompleted(response)
             {
-                vm.shelters = response.data.results;
-                vm.pager = response.data.meta;
+                vm.shelters = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
             }

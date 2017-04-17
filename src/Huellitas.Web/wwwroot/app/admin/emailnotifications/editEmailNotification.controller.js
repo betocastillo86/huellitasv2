@@ -32,7 +32,7 @@
 
             function getCompleted(response)
             {
-                vm.model = response.data;
+                vm.model = response;
             }
 
             function getError()

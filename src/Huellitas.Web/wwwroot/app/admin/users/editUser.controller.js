@@ -34,7 +34,7 @@
                 .catch(getUserError);
 
             function getUserCompleted(response) {
-                vm.model = response.data;
+                vm.model = response;
             }
 
             function getUserError() {
@@ -48,7 +48,7 @@
             .catch(getRolesError);
 
             function getRolesCompleted(result) {
-                vm.roles = result.data;
+                vm.roles = result;
             }
 
             function getRolesError() {
@@ -76,7 +76,7 @@
             function saveCompleted(response)
             {
                 vm.isSending = false;
-                response = response.data;
+                response = response;
 
                 var message = 'El usuario fue actualizado con exito';
                 var isNew = !vm.model.id;
