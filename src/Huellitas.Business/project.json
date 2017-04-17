@@ -2,13 +2,14 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
     "Microsoft.Extensions.Caching.Memory": "1.0.0",
     "Huellitas.Data": "*",
     "System.ComponentModel.TypeConverter": "4.1.0",
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
-    "Microsoft.Extensions.DependencyModel": "1.0.0-*"
+    "Microsoft.Extensions.DependencyModel": "1.0.0-*",
+    "ImageSharp": "1.0.0-alpha5-00054"
   },
 
   "frameworks": {

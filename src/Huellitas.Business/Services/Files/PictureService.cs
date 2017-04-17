@@ -8,6 +8,8 @@ namespace Huellitas.Business.Services.Files
     using Common;
     using Extensions.Services;
     using Huellitas.Data.Entities;
+    using ImageSharp;
+    using ImageSharp.Processing;
 
     /// <summary>
     /// Picture Service
@@ -73,14 +75,80 @@ namespace Huellitas.Business.Services.Files
             var pathOriginalFile = this.fileHelper.GetPhysicalPath(file);
             try
             {
-                using (System.IO.FileStream stream = System.IO.File.OpenRead(pathOriginalFile))
+                using (var image = Image.Load(pathOriginalFile))
                 {
-                    using (System.IO.FileStream output = System.IO.File.OpenWrite(resizedPath))
+                    var resizeOptions = new ResizeOptions()
                     {
-                        ////TODO:Implementar
-                        stream.CopyTo(output);
-                    }
+                        Size = new Size { Width = width, Height = height },
+                        Mode = ResizeMode.Crop
+                    };
+
+                    image.Resize(resizeOptions)
+                       .Save(resizedPath);
                 }
+
+                ////using (var image = Image.Load(pathOriginalFile))
+                ////{
+                ////    var resizeOptions = new ResizeOptions()
+                ////    {
+                ////        Size = new Size { Width = width, Height = height },
+                ////        Mode = ResizeMode.Max
+                ////    };
+
+                ////    image.Resize(resizeOptions)
+                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_max{System.IO.Path.GetExtension(resizedPath)}");
+
+                ////}
+
+                ////using (var image = Image.Load(pathOriginalFile))
+                ////{
+                ////    var resizeOptions = new ResizeOptions()
+                ////    {
+                ////        Size = new Size { Width = width, Height = height },
+                ////        Mode = ResizeMode.Min
+                ////    };
+
+                ////    image.Resize(resizeOptions)
+                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_min{System.IO.Path.GetExtension(resizedPath)}");
+                ////}
+
+                ////using (var image = Image.Load(pathOriginalFile))
+                ////{
+                ////    var resizeOptions = new ResizeOptions()
+                ////    {
+                ////        Size = new Size { Width = width, Height = height },
+                ////        Mode = ResizeMode.Pad
+                ////    };
+
+                ////    image.Resize(resizeOptions)
+                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_pad{System.IO.Path.GetExtension(resizedPath)}");
+                ////}
+
+                ////using (var image = Image.Load(pathOriginalFile))
+                ////{
+                ////    var resizeOptions = new ResizeOptions()
+                ////    {
+                ////        Size = new Size { Width = width, Height = height },
+                ////        Mode = ResizeMode.Stretch
+                ////    };
+
+                ////    image.Resize(resizeOptions)
+                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_Stretch{System.IO.Path.GetExtension(resizedPath)}");
+                ////}
+
+
+
+                ////using (var image = Image.Load(pathOriginalFile))
+                ////{
+                ////    var resizeOptions = new ResizeOptions()
+                ////    {
+                ////        Size = new Size { Width = width, Height = height },
+                ////        Mode = ResizeMode.BoxPad
+                ////    };
+
+                ////    image.Resize(resizeOptions)
+                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_BoxPad{System.IO.Path.GetExtension(resizedPath)}");
+                ////}
             }
             catch (System.Exception e)
             {
