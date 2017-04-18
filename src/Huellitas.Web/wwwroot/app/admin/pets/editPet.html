@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Tamaño *</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <select name="size" class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in main.sizes" ng-class="main.isInvalidClass(formPet, formPet.size)" required></select>
+                                <select name="size" class="form-control" ng-model="main.model.size.value" ng-options="size.id as size.value for size in ::main.sizes" ng-class="main.isInvalidClass(formPet, formPet.size)" required></select>
                                 <validation-message form="formPet" field="formPet.size" name="tamaño"></validation-message>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in main.statusTypes"></select>
+                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in ::main.statusTypes"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -236,9 +236,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="parent in main.parents">
-                                <td>{{parent.name}}</td>
-                                <td>{{parent.email}}</td>
-                                <td>{{parent.phone}}</td>
+                                <td>{{::parent.name}}</td>
+                                <td>{{::parent.email}}</td>
+                                <td>{{::parent.phone}}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" ng-click="main.deleteParent(parent)">Eliminar</button></td>
                             </tr>
                             <tr ng-if="!main.parents.length">

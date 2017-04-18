@@ -4,7 +4,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>
-                        Editar <small>{{main.model.name}}</small>
+                        Editar <small>{{::main.model.name}}</small>
                     </h2>
                     <div class="clearfix"></div>
                 </div>
@@ -17,7 +17,7 @@
                                 Nombre
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                {{main.model.name}}
+                                {{::main.model.name}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -81,7 +81,7 @@
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <div ng-repeat="tag in main.tags">
-                                    <b>{{tag.key}}:</b> {{tag.value}}
+                                    <b>{{::tag.key}}:</b> {{::tag.value}}
                                 </div>
                             </div>
                         </div>

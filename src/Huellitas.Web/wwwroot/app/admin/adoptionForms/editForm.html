@@ -15,10 +15,10 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <a class="btn btn-app" href="/pets/{{main.model.content.id}}/edit">
+                    <a class="btn btn-app" href="/pets/{{::main.model.content.id}}/edit">
                         <i class="fa fa-edit"></i> Editar
                     </a>
-                    <a class="btn btn-app" href="/pets/{{main.model.content.id}}/edit">
+                    <a class="btn btn-app" href="/pets/{{::main.model.content.id}}/edit">
                         <i class="fa fa-eye"></i> Ver
                     </a>
                     <button class="btn btn-app" ng-click="main.showAddUser()">
@@ -32,7 +32,7 @@
                 <div class="x_content">
                     <br>
                     <div class="form-group">
-                        <img ng-src="{{main.model.content.image.fileName}}" width="200" height="200" />
+                        <img ng-src="{{::main.model.content.image.fileName}}" width="200" height="200" />
                     </div>
                     <form class="form-horizontal">
                         <div class="col-md-6 col-xs-12">
@@ -46,7 +46,7 @@
                                     No.
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.id}}
+                                    {{::main.model.id}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -54,7 +54,7 @@
                                     Fecha
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.creationDate}}
+                                    {{::main.model.creationDate}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -62,7 +62,7 @@
                                     Correo
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.email}}
+                                    {{::main.model.email}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -70,7 +70,7 @@
                                     Teléfono
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.phoneNumber}}
+                                    {{::main.model.phoneNumber}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -78,7 +78,7 @@
                                     Nombre
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.name}}
+                                    {{::main.model.name}}
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                     Ubicación
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.location.name}} - {{main.model.town}}
+                                    {{::main.model.location.name}} - {{::main.model.town}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -96,7 +96,7 @@
                                     Dirección
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.address}}
+                                    {{::main.model.address}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -104,7 +104,7 @@
                                     Fecha de nacimiento
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.birthDate}}
+                                    {{::main.model.birthDate}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -112,7 +112,7 @@
                                     Miembros de la familia
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.familyMembers}} - Edades:{{main.model.familyMembersAge}}
+                                    {{::main.model.familyMembers}} - Edades:{{::main.model.familyMembersAge}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -120,7 +120,7 @@
                                     Ocupación
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{main.model.job.text}}
+                                    {{::main.model.job.text}}
                                 </div>
                             </div>
                         </div>
@@ -138,12 +138,12 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content" ng-if="main.showAttributes">
-                            <div class="form-group" ng-repeat="attribute in main.model.attributes" >
+                            <div class="form-group" ng-repeat="attribute in ::main.model.attributes" >
                                 <label class="control-label col-md-9 col-sm-9 col-xs-12 force-left">
-                                    {{attribute.question}}
+                                    {{::attribute.question}}
                                 </label>
                                 <div>
-                                    {{attribute.value}}
+                                    {{::attribute.value}}
                                 </div>
                             </div>
                             </div>
@@ -169,15 +169,15 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="answer in main.model.answers">
-                                            <td>{{answer.creationDate}}</td>
-                                            <td>{{answer.user.name}}</td>
+                                            <td>{{::answer.creationDate}}</td>
+                                            <td>{{::answer.user.name}}</td>
                                             <td>
-                                                <span class="label" ng-class="[
+                                                <span class="label" ng-class="::[
                                                 {'label-default' : answer.status == 'None'},
                                                 {'label-danger' : answer.status == 'Denied'},
                                                 {'label-warning' : answer.status == 'AlreadyAdopted'},
                                                 {'label-success' : answer.status == 'Approved'}
-                                                ]">{{answer.status}}</span>
+                                                ]">{{::answer.status}}</span>
                                             </td>
                                             <td><button type="button" class="btn btn-default btn-xs" ng-click="main.showDetailAnswer(answer)">Ver Respuesta</button></td>
                                         </tr>

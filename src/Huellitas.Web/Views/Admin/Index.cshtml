@@ -47,7 +47,7 @@
                         <ul class="nav navbar-nav navbar-right" ng-controller="HeaderController as header">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    {{root.currentUser.name}}
+                                    {{::root.currentUser.name}}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -65,10 +65,10 @@
                                         <a>
                                             <span>
                                                 <span>&nbsp;</span>
-                                                <span class="time">{{notification.creationDateString}}</span>
+                                                <span class="time">{{::notification.creationDateString}}</span>
                                             </span>
                                             <span class="message">
-                                                {{notification.value}}
+                                                {{::notification.value}}
                                             </span>
                                         </a>
                                     </li>
