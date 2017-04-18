@@ -3,9 +3,9 @@
         .module('huellitasAdmin')
         .controller('SideBarController', SideBarController);
 
-    SideBarController.$inject = ['moduleService', '$location'];
+    SideBarController.$inject = ['moduleService', '$location', 'helperService'];
 
-    function SideBarController(moduleService, $location)
+    function SideBarController(moduleService, $location, helperService)
     {
         var vm = this;
         vm.title = "Huellitas Admin";
@@ -25,7 +25,8 @@
         function getModules()
         {
             moduleService.getAll()
-                .then(modulesCompleted);
+                .then(modulesCompleted)
+                .catch(helperService.handleException);
 
             function modulesCompleted(data)
             {

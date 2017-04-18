@@ -74,21 +74,21 @@ namespace Huellitas.Web.Infraestructure.Filters
             }
 
             var error = new ApiError();
+            error.Code = "ServerError";
 
             if (this.hostingEnvironment.IsDevelopment())
             {
-                error.Code = "ServerError";
-                error.Message = context.Exception.Message;
-                error.Details.Add(new ApiError() { Message = context.Exception.ToString() });
+                
+                error.Message = context.Exception.ToString();
             }
             else
             {
-                error.Code = "ServerError";
                 error.Message = "Ocurrió un error inesperado";
             }
 
             this.logService.Error(context.Exception, this.workContext.CurrentUser);
-            context.Result = new ObjectResult(new { Error = error });
+            context.Result = new ObjectResult(error);
+            context.HttpContext.Response.StatusCode = 500;
         }
     }
 }

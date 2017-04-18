@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListTextResourceController', ListTextResourceController);
 
-    ListTextResourceController.$inject = ['textResourceService', 'modalService'];
+    ListTextResourceController.$inject = ['textResourceService', 'modalService', 'helperService'];
 
-    function ListTextResourceController(textResourceService, modalService) {
+    function ListTextResourceController(textResourceService, modalService, helperService) {
         var vm = this;
         vm.resources = [];
         vm.isSending = false;
@@ -28,17 +28,13 @@
         function getResources() {
             textResourceService.get(vm.filter)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response) {
                 vm.resources = response.results;
                 vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
-            }
-
-            function getError(response) {
-                console.log('Error cargando');
             }
         }
 
@@ -59,7 +55,7 @@
 
             function putError(response) {
                 vm.isSending = false;
-                modalService.showError({ error: response.data.error });
+                helperService.handleException(response);
             }
         }
 

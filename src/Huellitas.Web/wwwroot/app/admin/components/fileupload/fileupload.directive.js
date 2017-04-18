@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .directive('fileuploadHuellitas', fileuploadHuellitas);
 
-    fileuploadHuellitas.$inject = ['fileService'];
+    fileuploadHuellitas.$inject = ['fileService', 'helperService'];
 
-    function fileuploadHuellitas(fileService) {
+    function fileuploadHuellitas(fileService, helperService) {
         return {
             restrict: 'EA',
             link: link,
@@ -24,7 +24,8 @@
                 var fileUpload = element[0];
                 for (var i = 0; i < fileUpload.files.length; i++) {
                     fileService.post(fileUpload.files[i])
-                     .then(postCompleted);
+                     .then(postCompleted)
+                     .catch(helperService.handleException);
                 }
             }
 

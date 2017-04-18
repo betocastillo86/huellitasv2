@@ -3,9 +3,9 @@
     angular.module('huellitasAdmin')
         .controller('ListEmailNotificationsController', ListEmailNotificationsController);
 
-    ListEmailNotificationsController.$inject = ['emailNotificationService'];
+    ListEmailNotificationsController.$inject = ['emailNotificationService', 'helperService'];
 
-    function ListEmailNotificationsController(emailNotificationService)
+    function ListEmailNotificationsController(emailNotificationService, helperService)
     {
         var vm = this;
         
@@ -32,7 +32,7 @@
         {
             emailNotificationService.getAll(vm.filter)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {
@@ -41,11 +41,6 @@
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
                 return vm.notifications;
-            }
-
-            function getError()
-            {
-                console.log('Error mostrando notifications');
             }
         }
 

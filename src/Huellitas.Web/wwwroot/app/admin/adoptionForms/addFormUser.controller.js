@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('AddFormUserController', AddFormUserController);
 
-    AddFormUserController.$inject = ['$routeParams', 'adoptionFormService', 'modalService'];
+    AddFormUserController.$inject = ['$routeParams', 'adoptionFormService', 'modalService', 'helperService'];
 
-    function AddFormUserController($routeParams, adoptionFormService, modalService) {
+    function AddFormUserController($routeParams, adoptionFormService, modalService, helperService) {
         var vm = this;
         vm.model = {};
         vm.model.id = $routeParams.id;
@@ -36,7 +36,7 @@
 
                     function postUserError(response) {
                         vm.isSending = false;
-                        modalService.showError({ error: response.data.error });
+                        helperService.handleException(response);
                     }
                 }
             }

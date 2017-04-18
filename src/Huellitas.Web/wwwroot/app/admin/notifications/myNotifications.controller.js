@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('MyNotificationsController', MyNotificationsController);
 
-    MyNotificationsController.$inject = ['notificationService'];
+    MyNotificationsController.$inject = ['notificationService', 'helperService'];
 
-    function MyNotificationsController(notificationService)
+    function MyNotificationsController(notificationService, helperService)
     {
         var vm = this;
         vm.currentPage = 0;
@@ -24,17 +24,12 @@
         {
             notificationService.getMyNotifications({ page : vm.currentPage, pageSize : app.Settings.general.pageSize })
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {
                 vm.notifications = _.union(vm.notifications, response.results);
                 vm.showPager = response.meta.hasNextPage;
-            }
-
-            function getError()
-            {
-                console.log('Error cargando');
             }
         }
 

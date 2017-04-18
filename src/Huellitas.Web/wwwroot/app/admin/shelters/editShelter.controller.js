@@ -2,10 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditShelterController', EditShelterController);
 
-    EditShelterController.$inject = ['$routeParams', '$location', 'shelterService', 'statusTypeService', 'modalService', 'contentService'];
+    EditShelterController.$inject = ['$routeParams', '$location', 'shelterService', 'statusTypeService', 'modalService', 'contentService', 'fileService', 'helperService'];
 
-    function EditShelterController($routeParams, $location, shelterService, statusTypeService, modalService, contentService)
-    {
+    function EditShelterController($routeParams, $location, shelterService, statusTypeService, modalService, contentService, fileService, helperService) {
         var vm = this;
         vm.id = $routeParams.id
         vm.model = {};
@@ -58,14 +57,11 @@
 
         function getStatusTypes() {
             statusTypeService.getAll()
-                .then(statusTypesCompleted);
+                .then(statusTypesCompleted)
+                .catch(helperService.handleException);
 
             function statusTypesCompleted(rows) {
                 vm.statusTypes = rows;
-            }
-
-            function statusTypesError() {
-                console.log(error, arguments);
             }
         }
 
@@ -73,14 +69,10 @@
             if (vm.id) {
                 contentService.getUsers(vm.id, vm.usersFilter)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
                 function getCompleted(response) {
                     vm.users = response.results;
-                }
-
-                function getError() {
-                    console.log('Error trayendo usuarios');
                 }
             }
         }
@@ -91,14 +83,10 @@
                 if (confirm('¿Seguro deseas eliminar este usuario?')) {
                     contentService.deleteUser(vm.id, user.id)
                         .then(deleteCompleted)
-                        .catch(deleteError);
+                        .catch(helperService.handleException);
 
                     function deleteCompleted() {
                         vm.users = _.reject(vm.users, function (parent) { return parent.id === user.id; });
-                    }
-
-                    function deleteError(response) {
-                        modalService.showError({ error: response.data.error });
                     }
                 }
             }
@@ -121,14 +109,10 @@
 
                     contentService.postUser(vm.id, contentUser)
                         .then(postCompleted)
-                        .catch(postError);
+                        .catch(helperService.handleException);
 
                     function postCompleted() {
                         vm.users.push(user);
-                    }
-
-                    function postError(response) {
-                        modalService.showError({ error: response.data.error });
                     }
                 }
                 else {
@@ -140,21 +124,14 @@
             }
         }
 
-        function getShelterById(id)
-        {
+        function getShelterById(id) {
             shelterService.getById(id)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
-            function getCompleted(model)
-            {
+            function getCompleted(model) {
                 vm.model = model;
                 vm.showPicturesActive = true;
-            }
-
-            function getError()
-            {
-                debugger;
             }
         }
 
@@ -260,9 +237,7 @@
 
             function saveError(response) {
                 vm.isSending = false;
-                modalService.showError({
-                    error: response.data.error
-                });
+                helperService.handleException(response);
             }
         }
 

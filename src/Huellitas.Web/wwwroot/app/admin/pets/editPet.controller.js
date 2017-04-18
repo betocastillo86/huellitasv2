@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService'];
+    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService', 'helperService'];
 
-    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService) {
+    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.isSending = false;
@@ -64,7 +64,7 @@
         function getPetById(id) {
             petService.getById(id)
                     .then(getCompleted)
-                    .catch(getError);
+                    .catch(helperService.handleException);
 
             function getCompleted(model) {
                 vm.model = model;
@@ -74,24 +74,16 @@
                 //vm.model.closingDate = moment(vm.model.closingDate, 'YYYY/MM/DD HH:mm:ss').format('YYYY/MM/DD');
 
             }
-
-            function getError() {
-                debugger;
-            }
         }
 
         function getParents() {
             if (vm.id) {
                 contentService.getUsers(vm.id, vm.usersFilter)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
                 function getCompleted(response) {
                     vm.parents = response.results;
-                }
-
-                function getError() {
-                    console.log('Error trayendo usuarios');
                 }
             }
         }
@@ -109,14 +101,10 @@
 
                     contentService.postUser(vm.id, contentUser)
                         .then(postCompleted)
-                        .catch(postError);
+                        .catch(helperService.handleException);
 
                     function postCompleted() {
                         vm.parents.push(user);
-                    }
-
-                    function postError(response) {
-                        modalService.showError({ error: response.data.error });
                     }
                 }
                 else {
@@ -134,14 +122,10 @@
                 if (confirm('¿Seguro deseas eliminar este usuario?')) {
                     contentService.deleteUser(vm.id, user.id)
                         .then(deleteCompleted)
-                        .catch(deleteError);
+                        .catch(helperService.handleException);
 
                     function deleteCompleted() {
                         vm.parents = _.reject(vm.parents, function (parent) { return parent.id === user.id; });
-                    }
-
-                    function deleteError(response) {
-                        modalService.showError({ error: response.data.error });
                     }
                 }
             }
@@ -153,53 +137,41 @@
 
         function getSizes() {
             customTableRowService.getSizes()
-                .then(getSizesCompleted);
+                .then(getSizesCompleted)
+                .catch(helperService.handleException);
 
             function getSizesCompleted(rows) {
                 vm.sizes = rows;
-            }
-
-            function getSizesError() {
-                console.log(error, arguments);
             }
         }
 
         function getSubtypes() {
             customTableRowService.getSubtypes()
-                .then(getSubtypesCompleted);
+                .then(getSubtypesCompleted)
+                .catch(helperService.handleException);
 
             function getSubtypesCompleted(rows) {
                 vm.subtypes = rows;
-            }
-
-            function getSubtypesError() {
-                console.log(error, arguments);
             }
         }
 
         function getGenres() {
             customTableRowService.getGenres()
-                .then(getGenresCompleted);
+                .then(getGenresCompleted)
+                .catch(helperService.handleException);
 
             function getGenresCompleted(rows) {
                 vm.genres = rows;
-            }
-
-            function getGenresError() {
-                console.log(error, arguments);
             }
         }
 
         function getStatusTypes() {
             statusTypeService.getAll()
-                .then(statusTypesCompleted);
+                .then(statusTypesCompleted)
+                .catch(helperService.handleException);;
 
             function statusTypesCompleted(rows) {
                 vm.statusTypes = rows;
-            }
-
-            function statusTypesError() {
-                console.log(error, arguments);
             }
         }
 
@@ -345,9 +317,7 @@
 
             function saveError(response) {
                 vm.isSending = false;
-                modalService.showError({
-                    error: response.data.error
-                });
+                helperService.handleException(response);
             }
         }
     }
