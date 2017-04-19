@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>    
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="moq" Version="4.7.8" />
+    <PackageReference Include="NUnit" Version="3.6.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.11" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
+    <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
+    <ProjectReference Include="..\Huellitas.Web\Huellitas.Web.csproj" />
+  </ItemGroup>
+
+</Project>

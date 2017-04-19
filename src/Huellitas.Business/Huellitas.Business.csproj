@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImageSharp" Version="1.0.0-alpha5-00054" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Subscribers\Content\" />
+  </ItemGroup>
+
+</Project>

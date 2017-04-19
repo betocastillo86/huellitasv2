@@ -66,10 +66,10 @@ paths.css = [
 ];
 
 paths.concatJsDest = paths.webroot + "js/site.min.js";
-paths.concatJsTemplatesDest = paths.webroot + "js/templates.min.js";
+//paths.concatJsTemplatesDest = paths.webroot + "js/templates.min.js";
 paths.concatCssDest = paths.webroot + "css/styles.css";
 
-var finalPaths = [];
+var finalPaths = []; 
 finalPaths = finalPaths.concat(paths.libs);
 finalPaths = finalPaths.concat(paths.js);
 

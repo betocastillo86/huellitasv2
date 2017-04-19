@@ -1,0 +1,113 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\app\admin\admin.app.js" />
+    <Content Include="wwwroot\app\admin\admin.configuration.js" />
+    <Content Include="wwwroot\app\admin\admin.routes.js" />
+    <Content Include="wwwroot\app\admin\admin.run.js" />
+    <Content Include="wwwroot\app\admin\adoptionForms\addFormUser.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionForms\addFormUser.html" />
+    <Content Include="wwwroot\app\admin\adoptionForms\editForm.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionForms\editForm.html" />
+    <Content Include="wwwroot\app\admin\adoptionForms\listForm.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionForms\listForms.html" />
+    <Content Include="wwwroot\app\admin\adoptionForms\sendFormByEmail.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionForms\sendFormByEmail.html" />
+    <Content Include="wwwroot\app\admin\components\datepicker\datepicker.directive.js" />
+    <Content Include="wwwroot\app\admin\components\fileupload\fileupload.directive.js" />
+    <Content Include="wwwroot\app\admin\components\forms\compareTo.directive.js" />
+    <Content Include="wwwroot\app\admin\components\forms\validationMessage.directive.js" />
+    <Content Include="wwwroot\app\admin\components\gallery\gallery.controller.js" />
+    <Content Include="wwwroot\app\admin\components\gallery\gallery.directive.js" />
+    <Content Include="wwwroot\app\admin\components\gallery\gallery.html" />
+    <Content Include="wwwroot\app\admin\components\modal\modal-default.html" />
+    <Content Include="wwwroot\app\admin\components\modal\modal-error.html" />
+    <Content Include="wwwroot\app\admin\components\modal\modal.default.controller.js" />
+    <Content Include="wwwroot\app\admin\components\modal\modal.service.js" />
+    <Content Include="wwwroot\app\admin\components\pager\listPager.controller.js" />
+    <Content Include="wwwroot\app\admin\components\pager\listPager.directive.js" />
+    <Content Include="wwwroot\app\admin\components\pager\listPager.html" />
+    <Content Include="wwwroot\app\admin\emailnotifications\editEmailNotification.controller.js" />
+    <Content Include="wwwroot\app\admin\emailnotifications\editEmailNotification.html" />
+    <Content Include="wwwroot\app\admin\emailnotifications\listEmailNotifications.controller.js" />
+    <Content Include="wwwroot\app\admin\emailnotifications\listEmailNotifications.html" />
+    <Content Include="wwwroot\app\admin\layout\header.controller.js" />
+    <Content Include="wwwroot\app\admin\layout\mainMenu.directive.js" />
+    <Content Include="wwwroot\app\admin\layout\root.controller.js" />
+    <Content Include="wwwroot\app\admin\layout\sidebar.controller.js" />
+    <Content Include="wwwroot\app\admin\layout\sidebar.html" />
+    <Content Include="wwwroot\app\admin\layout\welcome.controller.js" />
+    <Content Include="wwwroot\app\admin\layout\welcome.html" />
+    <Content Include="wwwroot\app\admin\login\login.controller.js" />
+    <Content Include="wwwroot\app\admin\notifications\editNotification.controller.js" />
+    <Content Include="wwwroot\app\admin\notifications\editNotification.html" />
+    <Content Include="wwwroot\app\admin\notifications\listNotifications.controller.js" />
+    <Content Include="wwwroot\app\admin\notifications\listNotifications.html" />
+    <Content Include="wwwroot\app\admin\notifications\myNotifications.controller.js" />
+    <Content Include="wwwroot\app\admin\notifications\myNotifications.html" />
+    <Content Include="wwwroot\app\admin\pets\editPet.controller.js" />
+    <Content Include="wwwroot\app\admin\pets\editPet.html" />
+    <Content Include="wwwroot\app\admin\pets\listPets.controller.js" />
+    <Content Include="wwwroot\app\admin\pets\listPets.html" />
+    <Content Include="wwwroot\app\admin\shelters\editShelter.controller.js" />
+    <Content Include="wwwroot\app\admin\shelters\editShelter.html" />
+    <Content Include="wwwroot\app\admin\shelters\listShelters.controller.js" />
+    <Content Include="wwwroot\app\admin\shelters\listShelters.html" />
+    <Content Include="wwwroot\app\admin\systemsettings\listSystemSetting.controller.js" />
+    <Content Include="wwwroot\app\admin\systemsettings\listSystemSetting.html" />
+    <Content Include="wwwroot\app\admin\textresources\listTextResources.controller.js" />
+    <Content Include="wwwroot\app\admin\textresources\listTextResources.html" />
+    <Content Include="wwwroot\app\admin\users\editUser.controller.js" />
+    <Content Include="wwwroot\app\admin\users\editUser.html" />
+    <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
+    <Content Include="wwwroot\app\admin\users\listUsers.html" />
+    <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
+    <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
+    <Content Include="wwwroot\app\services\common\helper.service.js" />
+    <Content Include="wwwroot\app\services\common\http.service.js" />
+    <Content Include="wwwroot\app\services\common\module.service.js" />
+    <Content Include="wwwroot\app\services\common\session.service.js" />
+    <Content Include="wwwroot\app\services\common\statusType.service.js" />
+    <Content Include="wwwroot\app\services\common\systemSetting.service.js" />
+    <Content Include="wwwroot\app\services\common\textResource.service.js" />
+    <Content Include="wwwroot\app\services\common\underscore.service.js" />
+    <Content Include="wwwroot\app\services\content\adoptionForm.service.js" />
+    <Content Include="wwwroot\app\services\content\adoptionFormAnswer.service.js" />
+    <Content Include="wwwroot\app\services\content\content.service.js" />
+    <Content Include="wwwroot\app\services\content\pet.service.js" />
+    <Content Include="wwwroot\app\services\content\shelter.service.js" />
+    <Content Include="wwwroot\app\services\file\file.service.js" />
+    <Content Include="wwwroot\app\services\interceptor\expiredSession.interceptor.js" />
+    <Content Include="wwwroot\app\services\interceptor\interceptor.service.js" />
+    <Content Include="wwwroot\app\services\notifications\emailNotification.service.js" />
+    <Content Include="wwwroot\app\services\notifications\notification.service.js" />
+    <Content Include="wwwroot\app\services\services.app.js" />
+    <Content Include="wwwroot\app\services\user\authentication.service.js" />
+    <Content Include="wwwroot\app\services\user\role.service.js" />
+    <Content Include="wwwroot\app\services\user\user.service.js" />
+    <Content Include="wwwroot\css\huellitas.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
+    <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
+  </ItemGroup>
+
+</Project>
