@@ -30,7 +30,7 @@ namespace Huellitas.Business.Extensions
             foreach (var row in rows)
             {
                 var model = new AdoptionFormQuestionModel()
-                {
+                { 
                     Id = row.Id,
                     Question = row.Value,
                     QuestionParentId = row.ParentCustomTableRowId

@@ -8,6 +8,7 @@ namespace Huellitas.Web
     using System;
     using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
+    using Infraestructure.Middleware;
     using Infraestructure.UI;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,8 @@ namespace Huellitas.Web
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseMiddleware<HuellitasExceptionMiddleware>();
+
             app.InitDatabase(env);
 
             ////app.UseDeveloperExceptionPage();

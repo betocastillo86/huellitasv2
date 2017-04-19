@@ -447,10 +447,10 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "SecuritySettings.AuthenticationSecretKey", Value = "TheSecretKey132456789" });
             list.Add(new SystemSetting() { Name = "SecuritySettings.ExpirationTokenMinutes", Value = "60" });
 
-            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthDetail", Value = "800" });
-            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightDetail", Value = "800" });
-            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthList", Value = "500" });
-            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "500" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthDetail", Value = "1000" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightDetail", Value = "666" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeWidthList", Value = "345" });
+            list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "230" });
             list.Add(new SystemSetting() { Name = "ContentSettings.DaysToAutoClosingPet", Value = "30" });
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.SiteUrl", Value = "http://localhost:23178/" });

@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('HeaderController', HeaderController);
 
-    HeaderController.$inject = ['sessionService', 'notificationService'];
+    HeaderController.$inject = ['sessionService', 'notificationService', 'helperService'];
 
-    function HeaderController(sessionService, notificationService)
+    function HeaderController(sessionService, notificationService, helperService)
     {
         var vm = this;
         vm.model = {};
@@ -32,21 +32,16 @@
         {
             notificationService.getMyNotifications()
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {
-                var notifications = response.data.results;
+                var notifications = response.results;
                 for (var i = 0; i < notifications.length; i++) {
                     var notification = notifications[i];
                     notification['creationDateString'] = notification.creationDate.getIntervalTime();
                 }
                 vm.notifications = notifications;
-            }
-
-            function getError()
-            {
-                console.log('Error cargando notifications');
             }
         }
 

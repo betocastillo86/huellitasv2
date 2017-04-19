@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="setting in main.settings" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td>{{setting.name}}</td>
+                                    <td>{{::setting.name}}</td>
                                     <td><span ng-if="!setting.isEditing">{{setting.value}}</span> <input type="text" class="form-control" ng-model="setting.value" ng-if="setting.isEditing" /> </td>
                                     <td class="last">
                                         <button  type="button" class="btn btn-primary btn-xs" ng-click="main.toggleEdit(setting)">{{setting.isEditing ? 'Guardar' : 'Editar'}}</button>

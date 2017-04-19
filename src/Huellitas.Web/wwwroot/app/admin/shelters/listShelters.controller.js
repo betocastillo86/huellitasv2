@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListSheltersController', ListSheltersController);
 
-    ListSheltersController.$inject = ['shelterService'];
+    ListSheltersController.$inject = ['shelterService', 'helperService'];
 
-    function ListSheltersController(shelterService)
+    function ListSheltersController(shelterService, helperService)
     {
         var vm = this;
         vm.shelters = [];
@@ -30,19 +30,14 @@
         {
             shelterService.getAll(vm.filter)
                 .then(getSheltersCompleted)
-                .catch(getSheltersError);
+                .catch(helperService.handleException);
 
             function getSheltersCompleted(response)
             {
-                vm.shelters = response.data.results;
-                vm.pager = response.data.meta;
+                vm.shelters = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
-            }
-
-            function getSheltersError()
-            {
-                console.log('Error cargando los contenidos');
             }
         }
 

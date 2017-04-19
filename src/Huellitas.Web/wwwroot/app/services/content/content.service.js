@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('contentService', contentService);
 
-    contentService.$http = ['$http'];
+    contentService.$inject = ['httpService'];
 
-    function contentService($http) {
+    function contentService(http) {
         return {
             postUser: postUser,
             getUsers: getUsers,
@@ -12,15 +12,15 @@
         };
 
         function deleteUser(contentId, userId) {
-            return $http.delete('/api/contents/' + contentId + '/users/' + userId);
+            return http.delete('/api/contents/' + contentId + '/users/' + userId);
         }
 
         function postUser(contentId, contentUser) {
-            return $http.post('/api/contents/' + contentId + '/users', contentUser);
+            return http.post('/api/contents/' + contentId + '/users', contentUser);
         }
 
         function getUsers(contentId, filter) {
-            return $http.get('/api/contents/' + contentId + '/users', { params: filter });
+            return http.get('/api/contents/' + contentId + '/users', { params: filter });
         }
     }
 })();

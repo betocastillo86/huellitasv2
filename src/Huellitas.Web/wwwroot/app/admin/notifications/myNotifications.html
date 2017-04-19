@@ -11,7 +11,7 @@
                 <table class="table">
                     <tbody>
                         <tr ng-repeat="notification in main.notifications">
-                            <td>{{notification.value}} <b>{{notification.creationDateString}}</b></td>
+                            <td>{{::notification.value}} <b>{{::notification.creationDateString}}</b></td>
                         </tr>
                     </tbody>
                 </table>

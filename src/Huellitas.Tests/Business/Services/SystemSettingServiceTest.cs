@@ -18,7 +18,7 @@ namespace Huellitas.Tests.Business.Services
     /// System Setting Service Test
     /// </summary>
     [TestFixture]
-    public class SystemSettingServiceTest
+    public class SystemSettingServiceTest : BaseTest
     {
         /// <summary>
         /// Gets the cached setting typed.
@@ -49,7 +49,7 @@ namespace Huellitas.Tests.Business.Services
             systemRepositoryMock.Setup(c => c.TableNoTracking)
                 .Returns(listKeys.AsQueryable());
 
-            return new SystemSettingService(systemRepositoryMock.Object, cacheManagerMock.Object);
+            return new SystemSettingService(systemRepositoryMock.Object, cacheManagerMock.Object, this.publisher.Object);
         }
     }
 }

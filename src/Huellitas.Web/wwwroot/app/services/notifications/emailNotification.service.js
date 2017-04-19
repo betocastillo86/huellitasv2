@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('emailNotificationService', emailNotificationService);
 
-    emailNotificationService.$inject = ['$http'];
+    emailNotificationService.$inject = ['httpService'];
 
-    function emailNotificationService($http) {
+    function emailNotificationService(http) {
         return {
             getAll: getAll,
             put: put,
@@ -13,19 +13,19 @@
         };
 
         function getAll(filter) {
-            return $http.get('/api/emailnotifications', { params: filter });
+            return http.get('/api/emailnotifications', { params: filter });
         }
 
         function getById(id) {
-            return $http.get('/api/emailnotifications/' + id);
+            return http.get('/api/emailnotifications/' + id);
         }
 
         function put(id, model) {
-            return $http.put('/api/emailnotifications/' + id, model);
+            return http.put('/api/emailnotifications/' + id, model);
         }
 
         function post(model) {
-            return $http.post('/api/emailnotifications/', model);
+            return http.post('/api/emailnotifications/', model);
         }
 
     }

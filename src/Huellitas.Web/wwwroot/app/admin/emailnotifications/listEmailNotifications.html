@@ -60,12 +60,12 @@
 
                             <tbody>
                                 <tr ng-repeat="notification in main.notifications" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td>{{notification.to}}</td>
-                                    <td>{{notification.subject}}</td>
-                                    <td>{{notification.createdDate}}</td>
-                                    <td>{{notification.sentDate}}</td>
+                                    <td>{{::notification.to}}</td>
+                                    <td>{{::notification.subject}}</td>
+                                    <td>{{::notification.createdDate}}</td>
+                                    <td>{{::notification.sentDate}}</td>
                                     <td class="last">
-                                            <a href="/admin/emailnotifications/{{notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Ver</a>
+                                            <a href="/admin/emailnotifications/{{::notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Ver</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.notifications.length">

@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
             .factory('adoptionFormAnswerService', adoptionFormAnswerService);
 
-    adoptionFormAnswerService.$inject = ['$http'];
+    adoptionFormAnswerService.$inject = ['httpService'];
 
-    function adoptionFormAnswerService($http)
+    function adoptionFormAnswerService(http)
     {
         return {
             post: post,
@@ -13,11 +13,11 @@
 
         function post(model)
         {
-            return $http.post('/api/adoptionforms/' + model.adoptionFormId + '/answers', model);
+            return http.post('/api/adoptionforms/' + model.adoptionFormId + '/answers', model);
         }
 
         function getByFormId(id) {
-            return $http.get('/api/adoptionforms/' + id + '/answers');
+            return http.get('/api/adoptionforms/' + id + '/answers');
         }
     }
 })();

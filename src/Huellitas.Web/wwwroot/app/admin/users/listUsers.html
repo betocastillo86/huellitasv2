@@ -46,11 +46,11 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="user in main.users" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td>{{user.name}}</td>
-                                    <td>{{user.email}}</td>
-                                    <td>{{main.resources['UserRole.'+user.role]}}</td>
+                                    <td>{{::user.name}}</td>
+                                    <td>{{::user.email}}</td>
+                                    <td>{{::main.resources['UserRole.'+user.role]}}</td>
                                     <td class="last">
-                                        <a href="/admin/users/{{user.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="/admin/users/{{::user.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                         <button type="button" class="btn btn-info btn-xs">Ver</button>
                                     </td>
                                 </tr>

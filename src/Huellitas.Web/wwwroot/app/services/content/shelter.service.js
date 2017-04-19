@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('shelterService', shelterService);
 
-    shelterService.$inject = ['$http'];
+    shelterService.$inject = ['httpService'];
 
-    function shelterService($http) {
+    function shelterService(http) {
         return {
             getAll: getAll,
             getById: getById,
@@ -13,30 +13,20 @@
         };
 
         function getAll(filter) {
-            return $http.get('/api/shelters', { params: filter })
-            .then(getAllComplete)
-            .catch(getAllError);
-
-            function getAllComplete(response) {
-                return response;
-            }
-
-            function getAllError() {
-                console.log('Un error');
-            }
+            return http.get('/api/shelters', { params: filter });
         }
 
         function getById(id)
         {
-            return $http.get('/api/shelters/' + id);
+            return http.get('/api/shelters/' + id);
         }
 
         function post(model) {
-            return $http.post('/api/shelters', model);
+            return http.post('/api/shelters', model);
         }
 
         function put(model) {
-            return $http.put('/api/shelters/' + model.id, model);
+            return http.put('/api/shelters/' + model.id, model);
         }
     }
 

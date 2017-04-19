@@ -71,7 +71,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
                 mockContentService.Object, 
@@ -158,7 +158,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             int newId = 1;
 
-            var content = model.ToEntity(mockContentService.Object);
+            var content = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
             mockContentService.Setup(c => c.InsertAsync(It.IsAny<Content>()))
                 .Callback((Content content1) =>
                 {

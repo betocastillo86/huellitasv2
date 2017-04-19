@@ -141,7 +141,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Estado</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in main.statusTypes"></select>
+                                    <select class="form-control" ng-model="main.model.status" ng-options="status.enum as status.name for status in ::main.statusTypes"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -217,9 +217,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="user in main.users">
-                                <td>{{user.name}}</td>
-                                <td>{{user.email}}</td>
-                                <td>{{user.phone}}</td>
+                                <td>{{::user.name}}</td>
+                                <td>{{::user.email}}</td>
+                                <td>{{::user.phone}}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" ng-click="main.deleteUser(user)">Eliminar</button></td>
                             </tr>
                             <tr ng-if="!main.users.length">

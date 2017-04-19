@@ -24,38 +24,43 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     /// Pet Extensions Test
     /// </summary>
     [TestFixture]
-    public class PetExtensionsTest
+    public class PetExtensionsTest : BaseTest
     {
+        protected override void Setup()
+        {
+            base.Setup();
+        }
+
         /// <summary>
         /// To the pet entity invalid.
         /// </summary>
         [Test]
         public void ToPetEntityInvalid()
         {
-            var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns((Content)null);
+            this.Setup();
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns((Content)null);
 
             var model = new PetModel().MockNew();
             model.Shelter = null;
             model.Location = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(mockContentService.Object));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
 
             model = new PetModel().MockNew();
             model.Shelter = new ShelterModel() { Id = 1 };
-            var ex = Assert.Throws<HuellitasException>(() => model.ToEntity(mockContentService.Object));
+            var ex = Assert.Throws<HuellitasException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
             Assert.AreEqual(HuellitasExceptionCode.ShelterNotFound, ex.Code);
 
             model = new PetModel().MockNew();
             model.Subtype = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(mockContentService.Object));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
 
             model = new PetModel().MockNew();
             model.Genre = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(mockContentService.Object));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
 
             model = new PetModel().MockNew();
             model.Size = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(mockContentService.Object));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
         }
 
         /// <summary>
@@ -64,15 +69,16 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void ToPetEntityValid()
         {
+            this.Setup();
             var locationId = 5;
             var shelterId = 2;
 
-            var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
 
             var model = new PetModel().MockNew();
             model.Shelter = new ShelterModel() { Id = 1 };
-            var entity = model.ToEntity(mockContentService.Object);
+            
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
 
             Assert.AreEqual(locationId, entity.LocationId);
 
@@ -89,6 +95,62 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.Zero(entity.Users.Count);
         }
 
+        [Test]
+        public void ToPetEntity_ClosingDate_Config()
+        {
+            this.Setup();
+            var model = new PetModel().MockNew();
+
+            var timeToClose = 5;
+            this.contentSettings.SetupGet(c => c.DaysToAutoClosingPet)
+                .Returns(timeToClose);
+
+            var dateTimeClose = DateTime.Now.AddDays(timeToClose);
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false);
+
+            Assert.AreEqual(dateTimeClose.Date, entity.ClosingDate.Value.Date);
+        }
+
+        [Test]
+        public void ToPetEntity_ClosingDate_NoConfig_Admin()
+        {
+            this.Setup();
+            var model = new PetModel().MockNew();
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+
+            Assert.AreEqual(date, entity.ClosingDate);
+        }
+
+        [Test]
+        public void ToPetEntity_ClosingDate_NoConfig_NoAdmin()
+        {
+            this.Setup();
+            var model = new PetModel().MockNew();
+            model.Shelter = new ContentBaseModel { Id = 1, Name = "Name" };
+
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = 1, LocationId = 2 });
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+
+            Assert.AreEqual(date, entity.ClosingDate);
+        }
+
+
+
         /// <summary>
         /// To the pet entity valid parents.
         /// </summary>
@@ -98,13 +160,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var locationId = 5;
             var shelterId = 2;
 
-            var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
+            this.Setup();
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = shelterId, LocationId = locationId });
 
             var model = new PetModel().MockNew();
             model.Parents = new List<ContentUserModel>() { new ContentUserModel { Id = 1, UserId = 1 }, new ContentUserModel { Id = 2, UserId = 2 } };
             model.Shelter = new ShelterModel() { Id = 1 };
-            var entity = model.ToEntity(mockContentService.Object);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
 
             Assert.AreEqual(model.Parents.Count, entity.Users.Count);
         }
@@ -115,14 +177,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void ToPetModel_NotExistentShelter()
         {
+            this.Setup();
             var mockCustomTableService = this.MockCustomTableService();
-            var mockContentService = this.MockContentService();
+            this.MockContentService();
 
             var mockCacheManager = new Mock<ICacheManager>();
 
             var entity = this.MockEntity();
             entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Shelter).Value = "55";
-            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, true);
+            var model = entity.ToPetModel(this.contentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, true);
 
             Assert.IsEmpty(model.Shelter.Name);
             Assert.AreEqual(55, model.Shelter.Id);
@@ -134,13 +197,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void ToPetModel_NullFileHelpers()
         {
+            this.Setup();
             var mockCustomTableService = this.MockCustomTableService();
-            var mockContentService = this.MockContentService();
+            this.MockContentService();
 
             var mockCacheManager = new Mock<ICacheManager>();
 
             var entity = this.MockEntity();
-            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, true);
+            var model = entity.ToPetModel(this.contentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, true);
 
             Assert.IsNull(model.Files);
         }
@@ -151,13 +215,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void ToPetModel_WithRelatedPets()
         {
+            this.Setup();
             var mockCustomTableService = this.MockCustomTableService();
-            var mockContentService = this.MockContentService();
+            this.MockContentService();
 
             var mockCacheManager = new Mock<ICacheManager>();
 
             var entity = this.MockEntity();
-            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, false, true);
+            var model = entity.ToPetModel(this.contentService.Object, mockCustomTableService.Object, mockCacheManager.Object, null, null, false, true);
 
             Assert.AreEqual(2, model.RelatedPets.Count);
         }
@@ -168,8 +233,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void ToPetModelValid()
         {
+            this.Setup();
             var mockCustomTableService = this.MockCustomTableService();
-            var mockContentService = this.MockContentService();
+            this.MockContentService();
 
             var mockFilesHelper = new Mock<IFilesHelper>();
             mockFilesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0)).Returns("filename.jpg");
@@ -177,7 +243,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var mockCacheManager = new Mock<ICacheManager>();
 
             var entity = this.MockEntity();
-            var model = entity.ToPetModel(mockContentService.Object, mockCustomTableService.Object, mockCacheManager.Object, mockFilesHelper.Object, null, true, withRelated: false);
+            var model = entity.ToPetModel(this.contentService.Object, mockCustomTableService.Object, mockCacheManager.Object, mockFilesHelper.Object, null, true, withRelated: false);
 
             Assert.AreEqual(entity.Id, model.Id);
             Assert.AreEqual(entity.Name, model.Name);
@@ -204,13 +270,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         /// Mocks the content service.
         /// </summary>
         /// <returns>the mock</returns>
-        private Mock<IContentService> MockContentService()
+        private void MockContentService()
         {
-            var mockContentService = new Mock<IContentService>();
-            mockContentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
-            mockContentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder, null, null)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
-            mockContentService.Setup(c => c.GetRelated(It.IsAny<int>(), It.IsAny<RelationType>(), 0, int.MaxValue)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "Content1" }, new Content { Id = 1, Name = "Content2" } });
-            return mockContentService;
+            this.contentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
+            this.contentService.Setup(c => c.Search(null, It.IsAny<ContentType>(), null, int.MaxValue, 0, ContentOrderBy.DisplayOrder, null, null, null, null)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "ContentName" } });
+            this.contentService.Setup(c => c.GetRelated(It.IsAny<int>(), It.IsAny<RelationType>(), 0, int.MaxValue)).Returns(new PagedList<Content> { new Content { Id = 1, Name = "Content1" }, new Content { Id = 1, Name = "Content2" } });
         }
 
         /// <summary>

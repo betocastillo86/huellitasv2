@@ -20,13 +20,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     /// Content Extensions Test
     /// </summary>
     [TestFixture]
-    public class ContentExtensionsTest
+    public class ContentExtensionsTest : BaseTest
     {
-        /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
         /// <summary>
         /// The mock of cache
         /// </summary>

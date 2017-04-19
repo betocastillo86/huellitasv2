@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('RootController', RootController);
 
-    RootController.$inject = ['authenticationService', 'sessionService'];
+    RootController.$inject = ['authenticationService', 'sessionService', 'helperService'];
 
-    function RootController(authenticationService, sessionService)
+    function RootController(authenticationService, sessionService, helperService)
     {
         var vm = this;
         vm.currentUser = undefined;
@@ -25,17 +25,12 @@
             {
                 authenticationService.get()
                    .then(getCompleted)
-                   .catch(getError);
+                   .catch(helperService.handleException);
             }
 
             function getCompleted(response)
             {
-                vm.currentUser = response.data;
-            }
-
-            function getError()
-            {
-                console.log('Usuario no autenticado');
+                vm.currentUser = response;
             }
         }
 

@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditUserController', EditUserController);
 
-    EditUserController.$inject = ['$routeParams', '$location', 'userService', 'roleService', 'modalService'];
+    EditUserController.$inject = ['$routeParams', '$location', 'userService', 'roleService', 'modalService', 'helperService'];
 
-    function EditUserController($routeParams, $location, userService, roleService, modalService) {
+    function EditUserController($routeParams, $location, userService, roleService, modalService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.isSending = false;
@@ -31,28 +31,20 @@
         function getUserById(id) {
             userService.getById(id)
                 .then(getUserCompleted)
-                .catch(getUserError);
+                .catch(helperService.handleException);
 
             function getUserCompleted(response) {
-                vm.model = response.data;
-            }
-
-            function getUserError() {
-                console.log('get user error');
+                vm.model = response;
             }
         }
 
         function getRoles() {
             roleService.getAll()
             .then(getRolesCompleted)
-            .catch(getRolesError);
+            .catch(helperService.handleException);
 
             function getRolesCompleted(result) {
-                vm.roles = result.data;
-            }
-
-            function getRolesError() {
-                console.log('get roles error');
+                vm.roles = result;
             }
         }
 
@@ -76,7 +68,7 @@
             function saveCompleted(response)
             {
                 vm.isSending = false;
-                response = response.data;
+                response = response;
 
                 var message = 'El usuario fue actualizado con exito';
                 var isNew = !vm.model.id;
@@ -111,7 +103,7 @@
 
             function saveError(response) {
                 vm.isSending = false;
-                modalService.showError({ error: response.data.error });
+                helperService.handleException(response);
             }
         }
 

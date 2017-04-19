@@ -57,23 +57,23 @@
 
                             <tbody>
                                 <tr ng-repeat="pet in main.pets" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td><img ng-src="{{pet.image.thumbnail}}" title="{{pet.name}}" width="40" height="40" /></td>
-                                    <td>{{pet.name}}</td>
-                                    <td>{{pet.subtype.text}}</td>
-                                    <td>{{pet.genre.text}}</td>
-                                    <td>{{pet.shelter ? pet.shelter.name : ''}}</td>
+                                    <td><img ng-src="{{::pet.image.thumbnail}}" title="{{::pet.name}}" width="40" height="40" /></td>
+                                    <td>{{::pet.name}}</td>
+                                    <td>{{::pet.subtype.text}}</td>
+                                    <td>{{::pet.genre.text}}</td>
+                                    <td>{{::pet.shelter ? pet.shelter.name : ''}}</td>
                                     <td>
-                                        <span class="label" ng-class="[
+                                        <span class="label" ng-class="::[
                                               {'label-default' : pet.status == 'Created'},
                                               {'label-danger' : pet.status == 'Closed'},
                                               {'label-warning' : pet.status == 'Hidden'},
                                               {'label-success' : pet.status == 'Published'}
-                                              ]">{{pet.status}}</span>
+                                              ]">{{::pet.status}}</span>
                                     </td>
                                     <td class="last">
                                         <a type="button" class="btn btn-xs">
                                             Ver</button>
-                                            <a href="/admin/pets/{{pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                            <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.pets.length">

@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditFormController', EditFormController);
 
-    EditFormController.$inject = ['$routeParams', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService']
+    EditFormController.$inject = ['$routeParams', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
 
-    function EditFormController($routeParams, adoptionFormService, adoptionFormAnswerService, modalService) {
+    function EditFormController($routeParams, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.model = {};
@@ -31,28 +31,20 @@
         function getForm() {
             adoptionFormService.getById(vm.id)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response) {
-                vm.model = response.data;
-            }
-
-            function getError() {
-                console.log('Error get form by id');
+                vm.model = response;
             }
         }
 
         function getAnswers() {
             adoptionFormAnswerService.getByFormId(vm.id)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response) {
-                vm.model.answers = response.data;
-            }
-
-            function getError() {
-                console.log('Error con respuestas');
+                vm.model.answers = response;
             }
         }
 
@@ -94,7 +86,7 @@
 
                 function postError(response) {
                     vm.isSending = false;
-                    modalService.showError({error:response.data.error});
+                    helperService.handleException(response);
                 }
             }
         }

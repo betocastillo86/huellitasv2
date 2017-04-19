@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('userService', userService);
 
-    userService.$inject = ['$http'];
+    userService.$inject = ['httpService'];
 
-    function userService($http)
+    function userService(http)
     {
         return {
             getAll: getAll,
@@ -15,20 +15,20 @@
 
         function getAll(filter)
         {
-            return $http.get('/api/users', { params: filter });
+            return http.get('/api/users', { params: filter });
         }
 
         function getById(id)
         {
-            return $http.get('/api/users/' + id);
+            return http.get('/api/users/' + id);
         }
 
         function post(model) {
-            return $http.post('/api/users' , model);
+            return http.post('/api/users' , model);
         }
 
         function put(model) {
-            return $http.put('/api/users/' + model.id, model);
+            return http.put('/api/users/' + model.id, model);
         }
     }
 })();

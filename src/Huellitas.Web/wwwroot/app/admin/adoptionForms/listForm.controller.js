@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListFormController', ListFormController);
 
-    ListFormController.$inject = ['adoptionFormService', 'adoptionFormStatusService'];
+    ListFormController.$inject = ['adoptionFormService', 'adoptionFormStatusService', 'helperService'];
 
-    function ListFormController(adoptionFormService, adoptionFormStatusService) {
+    function ListFormController(adoptionFormService, adoptionFormStatusService, helperService) {
         var vm = this;
         vm.forms = [];
         vm.listStatus = [];
@@ -32,19 +32,14 @@
         {
             adoptionFormService.getAll(vm.filter)
             .then(getAllCompleted)
-            .catch(getAllError);
+            .catch(helperService.handleException);
 
             function getAllCompleted(response)
             {
-                vm.forms = response.data.results;
-                vm.pager = response.data.meta;
+                vm.forms = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
-            }
-
-            function getAllError()
-            {
-                console.log('Error con formularios');
             }
         }
 
@@ -52,16 +47,11 @@
         {
             adoptionFormStatusService.getAll()
                 .then(getAllCompleted)
-                .catch(getAllError);
+                .catch(helperService.handleException);
 
             function getAllCompleted(response)
             {
-                vm.listStatus = response.data;
-            }
-
-            function getAllError()
-            {
-                console.log('Error en los estados');
+                vm.listStatus = response;
             }
         }
 

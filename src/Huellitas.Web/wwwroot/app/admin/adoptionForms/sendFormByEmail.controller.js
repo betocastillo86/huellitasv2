@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
             .controller('SendFormByEmailController', SendFormByEmailController);
 
-    SendFormByEmailController.$inject = ['$routeParams', 'adoptionFormService', 'modalService'];
+    SendFormByEmailController.$inject = ['$routeParams', 'adoptionFormService', 'modalService', 'helperService'];
 
-    function SendFormByEmailController($routeParams, adoptionFormService, modalService) {
+    function SendFormByEmailController($routeParams, adoptionFormService, modalService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.isSending = false;
@@ -28,7 +28,7 @@
 
             function postError(response) {
                 vm.isSending = false;
-                modalService.showError({ error: response.data.error });
+                helperService.handleException(response);
             }
         }
     }

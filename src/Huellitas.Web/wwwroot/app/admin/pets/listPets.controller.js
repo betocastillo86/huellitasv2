@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListPetsController', ListPetsController);
 
-    ListPetsController.$inject = ['petService', 'shelterService'];
+    ListPetsController.$inject = ['petService', 'shelterService', 'helperService'];
 
-    function ListPetsController(petService, shelterService)
+    function ListPetsController(petService, shelterService, helperService)
     {
         var vm = this;
         vm.filter = {
@@ -27,7 +27,8 @@
 
         function getPets() {
             return petService.getAll(vm.filter)
-                .then(getPetsCompleted);
+                .then(getPetsCompleted)
+                .catch(helperService.handleException);
 
             function getPetsCompleted(data) {
                 vm.pets = data.results;

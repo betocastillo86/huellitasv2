@@ -38,6 +38,11 @@ namespace Huellitas.Business.Exceptions
         InvalidIndex = 501,
 
         /// <summary>
+        /// The unhandled exception
+        /// </summary>
+        ServerError = 1000,
+
+        /// <summary>
         /// The row not found
         /// </summary>
         RowNotFound = 2000,

@@ -31,11 +31,6 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         private Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
 
         /// <summary>
-        /// The content service
-        /// </summary>
-        private Mock<IContentService> contentService = new Mock<IContentService>();
-
-        /// <summary>
         /// The notification service
         /// </summary>
         private Mock<INotificationService> notificationService = new Mock<INotificationService>();

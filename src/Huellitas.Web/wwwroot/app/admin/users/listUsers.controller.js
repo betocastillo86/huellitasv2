@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListUsersController', ListUsersController);
 
-    ListUsersController.$inject = ['userService', 'roleService'];
+    ListUsersController.$inject = ['userService', 'roleService', 'helperService'];
 
-    function ListUsersController(userService, roleService) {
+    function ListUsersController(userService, roleService, helperService) {
         var vm = this;
         vm.users = [];
         vm.roles = [];
@@ -32,19 +32,14 @@
         {
             userService.getAll(vm.filter)
             .then(getUsersCompleted)
-            .catch(getUsersError);
+            .catch(helperService.handleException);
 
             function getUsersCompleted(response)
             {
-                vm.users = response.data.results;
-                vm.pager = response.data.meta;
+                vm.users = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
-            }
-
-            function getUsersError()
-            {
-                console.log('Error al obtener');
             }
         }
 
@@ -52,16 +47,11 @@
         {
             roleService.getAll()
                 .then(getAllCompleted)
-                .catch(getAllError);
+                .catch(helperService.handleException);
 
             function getAllCompleted(response)
             {
-                vm.roles = response.data;
-            }
-
-            function getAllError()
-            {
-                console.log('Error al cargar');
+                vm.roles = response;
             }
         }
 

@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="resource in main.resources" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td>{{resource.name}}</td>
+                                    <td>{{::resource.name}}</td>
                                     <td><span ng-if="!resource.isEditing">{{resource.value}}</span> <input type="text" class="form-control" ng-model="resource.value" ng-if="resource.isEditing" /> </td>
                                     <td class="last">
                                         <button  type="button" class="btn btn-primary btn-xs" ng-click="main.toggleEdit(resource)">{{resource.isEditing ? 'Guardar' : 'Editar'}}</button>

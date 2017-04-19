@@ -82,7 +82,6 @@ namespace Huellitas.Web.Models.Extensions
                 //// Cuando no tiene shelter le da solo unos días de publicacion
                 if (entity.Id == 0 && !isAdmin)
                 {
-                    ////TODO:Test again
                     entity.ClosingDate = DateTime.Now.AddDays(contentSettings.DaysToAutoClosingPet);
                 }
             }

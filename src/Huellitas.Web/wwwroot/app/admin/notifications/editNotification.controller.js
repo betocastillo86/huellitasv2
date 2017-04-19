@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditNotificationController', EditNotificationController);
 
-    EditNotificationController.$inject = ['$routeParams', '$location', 'notificationService', 'modalService'];
+    EditNotificationController.$inject = ['$routeParams', '$location', 'notificationService', 'modalService', 'helperService'];
 
-    function EditNotificationController($routeParams, $location, notificationService, modalService)
+    function EditNotificationController($routeParams, $location, notificationService, modalService, helperService)
     {
         var vm = this;
         vm.model = {};
@@ -31,17 +31,12 @@
         {
             notificationService.getById(vm.id)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {
-                vm.model = response.data;
+                vm.model = response;
                 vm.tags = JSON.parse(vm.model.tags);
-            }
-
-            function getError()
-            {
-                console.log('Error cargando notificacion');
             }
         }
 
@@ -79,7 +74,7 @@
                 function putError(response)
                 {
                     vm.isSending = false;
-                    modalService.showError({ error: response.data.error });
+                    helperService.handleException(response);
                 }
             }
         }

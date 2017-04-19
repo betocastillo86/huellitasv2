@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('ListSystemSettingController', ListSystemSettingController);
 
-    ListSystemSettingController.$inject = ['systemSettingService', 'modalService'];
+    ListSystemSettingController.$inject = ['systemSettingService', 'modalService', 'helperService'];
 
-    function ListSystemSettingController(systemSettingService, modalService) {
+    function ListSystemSettingController(systemSettingService, modalService, helperService) {
         var vm = this;
         vm.settings = [];
         vm.isSending = false;
@@ -28,17 +28,13 @@
         function getSettings() {
             systemSettingService.get(vm.filter)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response) {
-                vm.settings = response.data.results;
-                vm.pager = response.data.meta;
+                vm.settings = response.results;
+                vm.pager = response.meta;
                 vm.pager['pageSize'] = vm.filter.pageSize;
                 vm.pager['page'] = vm.filter.page;
-            }
-
-            function getError(response) {
-                console.log('Error cargando');
             }
         }
 
@@ -59,7 +55,7 @@
 
             function putError(response) {
                 vm.isSending = false;
-                modalService.showError({ error: response.data.error });
+                helperService.handleException(response);
             }
         }
 

@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('EditEmailNotificationController', EditEmailNotificationController);
 
-    EditEmailNotificationController.$inject = ['$routeParams', '$location', 'emailNotificationService', 'modalService'];
+    EditEmailNotificationController.$inject = ['$routeParams', '$location', 'emailNotificationService', 'modalService', 'helperService'];
 
-    function EditEmailNotificationController($routeParams, $location, emailNotificationService, modalService)
+    function EditEmailNotificationController($routeParams, $location, emailNotificationService, modalService, helperService)
     {
         var vm = this;
         vm.model = {};
@@ -28,16 +28,11 @@
         {
             emailNotificationService.getById(vm.id)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {
-                vm.model = response.data;
-            }
-
-            function getError()
-            {
-                console.log('Error cargando notificacion');
+                vm.model = response;
             }
         }
 
@@ -73,7 +68,9 @@
                     
                     var message = vm.requeue ? 'Notificación en cola nuevamente' : 'Notificación actualizada';
                     modalService.show({ message: message })
-                        .then(messageShowed);
+                        .then(messageShowed)
+                        .catch(helperService.handleException);
+
                     vm.requeue = false;
 
                     function messageShowed(modal)
@@ -91,7 +88,7 @@
                 {
                     vm.isSending = false;
                     vm.requeue = false;
-                    modalService.showError({ error: response.data.error });
+                    helperService.handleException(response);
                 }
             }
         }

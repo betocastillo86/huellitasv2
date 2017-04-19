@@ -28,19 +28,20 @@
             //var templateUrl = '/app/components/modal/modal-' + modalType + '.html';
 
             $templateRequest(templateUrl, true)
-                .then(templateCompleted, templateError);
+                .then(templateCompleted)
+                .catch(consoleError);
 
             return deferred.promise;
 
             function templateCompleted(template) {
                 deferred.resolve(template);
             }
-
-            function templateError(error) {
-                deferred.reject(error);
-            }
         }
 
+        function consoleError()
+        {
+
+        }
 
         function show(options) {
 
@@ -52,12 +53,12 @@
             if (options.template) {
                 getTemplate(options.template)
                     .then(templateLoaded)
-                    .catch(templateError);
+                    .catch(consoleError);
             }
             else {
                 getTemplate('/app/admin/components/modal/modal-' + options.modalType + '.html')
                     .then(templateLoaded)
-                    .catch(templateError);
+                    .catch(consoleError);
             }
 
             return deferred.promise;
@@ -150,10 +151,6 @@
                         }
                     }
                 }
-            }
-
-            function templateError() {
-                console.log('template error', arguments);
             }
         }
 

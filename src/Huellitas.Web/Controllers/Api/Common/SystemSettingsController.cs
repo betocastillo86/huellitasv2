@@ -55,7 +55,6 @@ namespace Huellitas.Web.Controllers.Api
         [Authorize]
         public IActionResult Get([FromQuery] SystemSettingFilterModel filter)
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();
@@ -82,9 +81,8 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
-        public async Task<IActionResult> Post(int id, [FromBody] SystemSettingModel model)
+        public async Task<IActionResult> Put(int id, [FromBody] SystemSettingModel model)
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();

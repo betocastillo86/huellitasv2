@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
     .factory('fileService', fileService);
 
-    fileService.$inject = ['$http'];
+    fileService.$inject = ['httpService'];
 
-    function fileService($http) {
+    function fileService(http) {
         return {
             post: post,
             deleteContentFile: deleteContentFile,
@@ -15,18 +15,18 @@
             var fd = new FormData();
             fd.append('files', file);
             fd.append('name', name);
-            return $http.post('/api/files', fd, {
+            return http.post('/api/files', fd, {
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
             });
         }
 
         function deleteContentFile(contentId, fileId) {
-            return $http.delete('/api/contents/' + contentId + '/files/' + fileId);
+            return http.delete('/api/contents/' + contentId + '/files/' + fileId);
         }
 
         function postContentFile(contentId, file) {
-            return $http.post('/api/contents/' + contentId + '/files', file);
+            return http.post('/api/contents/' + contentId + '/files', file);
         }
     }
 })();

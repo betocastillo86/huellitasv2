@@ -58,20 +58,20 @@
 
                             <tbody>
                                 <tr ng-repeat="shelter in main.shelters" class="pointer" ng-class-odd="odd" ng-class-even="even">
-                                    <td><img ng-src="{{shelter.image.thumbnail}}" title="{{shelter.name}}" width="40" height="40" /></td>
-                                    <td>{{shelter.name}}</td>
-                                    <td>{{shelter.location.name}}</td>
-                                    <td>{{shelter.owner}}</td>
+                                    <td><img ng-src="{{::shelter.image.thumbnail}}" title="{{::shelter.name}}" width="40" height="40" /></td>
+                                    <td>{{::shelter.name}}</td>
+                                    <td>{{::shelter.location.name}}</td>
+                                    <td>{{::shelter.owner}}</td>
                                     <td>
-                                        <span class="label" ng-class="[
+                                        <span class="label" ng-class="::[
                                               {'label-default' : shelter.status == 'Created'},
                                               {'label-danger' : shelter.status == 'Closed'},
                                               {'label-warning' : shelter.status == 'Hidden'},
                                               {'label-success' : shelter.status == 'Published'}
-                                              ]">{{shelter.status}}</span>
+                                              ]">{{::shelter.status}}</span>
                                     </td>
                                     <td class="last">
-                                        <a href="/admin/shelters/{{shelter.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="/admin/shelters/{{::shelter.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                         <button type="button" class="btn btn-info btn-xs">Ver</button>
                                     </td>
                                 </tr>
