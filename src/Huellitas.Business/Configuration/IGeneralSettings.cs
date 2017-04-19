@@ -41,5 +41,21 @@ namespace Huellitas.Business.Configuration
         /// The <c>instagram</c> URL.
         /// </value>
         string InstagramUrl { get; }
+
+        /// <summary>
+        /// Gets the width of the banner picture size.
+        /// </summary>
+        /// <value>
+        /// The width of the banner picture size.
+        /// </value>
+        int BannerPictureSizeWidth { get; }
+
+        /// <summary>
+        /// Gets the height of the banner picture size.
+        /// </summary>
+        /// <value>
+        /// The height of the banner picture size.
+        /// </value>
+        int BannerPictureSizeHeight { get; }
     }
 }

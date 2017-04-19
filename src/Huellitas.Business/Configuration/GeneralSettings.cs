@@ -60,5 +60,21 @@ namespace Huellitas.Business.Configuration
         /// The default size of the page.
         /// </value>
         public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.DefaultPageSize"); } }
+
+        /// <summary>
+        /// Gets the width of the banner picture size.
+        /// </summary>
+        /// <value>
+        /// The width of the banner picture size.
+        /// </value>
+        public int BannerPictureSizeWidth { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeWidth"); } }
+
+        /// <summary>
+        /// Gets the height of the banner picture size.
+        /// </summary>
+        /// <value>
+        /// The height of the banner picture size.
+        /// </value>
+        public int BannerPictureSizeHeight { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeHeight"); } }
     }
 }

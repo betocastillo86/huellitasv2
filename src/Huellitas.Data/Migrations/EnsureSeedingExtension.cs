@@ -460,6 +460,9 @@ namespace Huellitas.Data.Migrations
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.DefaultPageSize", Value = "10" });
 
+            list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeWidth", Value = "1500" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeHeight", Value = "1159" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
