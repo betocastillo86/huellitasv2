@@ -2,18 +2,34 @@
     angular.module('huellitasAdmin')
         .controller('GalleryController', GalleryController);
 
-    GalleryController.$inject = ['$scope', 'fileService'];
+    GalleryController.$inject = ['$scope', '$attrs', 'fileService'];
 
-    function GalleryController($scope, fileService)
+    function GalleryController($scope, $attrs, fileService)
     {
         var vm = this;
         vm.model = {};
         vm.model.images = $scope.images;
         vm.model.title = $scope.title;
+        vm.model.width = $scope.width || '100%';
+        vm.model.height = $scope.height || '100%';
+
+        vm.defaultName = $scope.defaultname;
         vm.removeImageCallback = $scope.ondelete;
         vm.removeImage = removeImage;
         vm.imageAdded = imageAdded;
         vm.getImageByIndex = getImageByIndex;
+
+        return activate();
+
+        function activate()
+        {
+            $attrs.$observe('defaultname', updateDefaultName);
+        }
+
+        function updateDefaultName(newValue)
+        {
+            vm.defaultName = newValue;
+        }
 
         function removeImage(file)
         {

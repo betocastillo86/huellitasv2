@@ -26,7 +26,6 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.Property(c => c.ShortMessage)
                 .HasColumnName("ShortMessage")
-                .HasMaxLength(4000)
                 .IsRequired();
 
             entity.Property(c => c.IpAddress)
@@ -36,8 +35,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasMaxLength(500);
 
             entity.Property(c => c.FullMessage)
-                .HasColumnName("FullMessage")
-                .HasMaxLength(4000);
+                .HasColumnName("FullMessage");
 
             entity.HasOne(d => d.User)
                 .WithMany()

@@ -25,6 +25,7 @@
         vm.regexInstagram = 'http(?:s)?:\/\/(?:www\.)?instagram\.com\/([a-zA-Z0-9_\?\=\/]+)';
         vm.continueAfterSaving = false;
         vm.showPicturesActive = false;
+        vm.defaultNameImage = '';
 
         vm.changeFeatured = changeFeatured;
         vm.changeAutoReply = changeAutoReply;
@@ -38,6 +39,8 @@
         vm.save = save;
         vm.addUser = addUser;
         vm.deleteUser = deleteUser;
+        vm.getFullNameImage = getFullNameImage;
+        vm.canShowGallery = canShowGallery;
 
         activate();
 
@@ -132,6 +135,7 @@
             function getCompleted(model) {
                 vm.model = model;
                 vm.showPicturesActive = true;
+                vm.getFullNameImage();
             }
         }
 
@@ -153,7 +157,8 @@
 
         function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
-            vm.model.location.id = selectedLocation ? selectedLocation.originalObject.id : undefined;
+            vm.model.location = selectedLocation ? { id: selectedLocation.originalObject.id, name: selectedLocation.originalObject.name } : undefined;
+            vm.getFullNameImage();
         }
 
         function removeImage(image) {
@@ -181,6 +186,20 @@
                 vm.model.files = vm.model.files || [];
                 vm.model.files.push(image);
             }
+        }
+
+        function getFullNameImage() {
+            if (canShowGallery()) {
+                return vm.defaultNameImage = vm.model.name + ' ' + vm.model.location.name;
+            }
+            else {
+                return '';
+            }
+        }
+
+        function canShowGallery()
+        {
+            return vm.model.name && vm.model.location;
         }
 
         function save(isValid) {

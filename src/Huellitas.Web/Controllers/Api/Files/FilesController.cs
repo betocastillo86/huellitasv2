@@ -95,7 +95,7 @@ namespace Huellitas.Web.Controllers.Api
 
                 foreach (var dataFile in model.Files)
                 {
-                    file.Name = model.Name ?? System.IO.Path.GetFileNameWithoutExtension(dataFile.Name);
+                    file.Name = model.Name ?? System.IO.Path.GetFileNameWithoutExtension(dataFile.FileName);
                     file.FileName = string.Concat(this.seoService.GenerateFriendlyName(file.Name), System.IO.Path.GetExtension(dataFile.FileName));
                     file.MimeType = this.filesHelper.GetContentTypeByFileName(file.FileName);
 

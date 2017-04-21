@@ -11,7 +11,7 @@
                 <div>
                     <div>
                         <div style="position:relative">
-                            <img style="width: 100%; display: block;" ng-src="{{image.thumbnail}}" alt="image">
+                            <img ng-src="{{image.thumbnail}}" alt="image" width="{{::gallery.model.width}}" height="{{::gallery.model.height}}">
                             <input type="file" fileupload-huellitas onadded="gallery.imageAdded" callback-param="{{image}}" class="fileInvisible"  />
                         </div>
                         
@@ -27,7 +27,8 @@
         </div>
         <div style="position:relative">
             <button type="button" class="btn btn-default btn-lg"><i class="fa fa-plus"></i> Agregar</button>
-            <input type="file" class="fileInvisible" fileupload-huellitas onadded="gallery.imageAdded" multiple />
+            <input type="file" class="fileInvisible" fileupload-huellitas onadded="gallery.imageAdded" data-defaultname="{{gallery.defaultName}}"  multiple />
+            
         </div>
     </div>
 </div>

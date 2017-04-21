@@ -32,7 +32,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(10)");
 
-            entity.Property(e => e.Name).HasColumnType("varchar(50)");
+            entity.Property(e => e.Name).HasColumnType("varchar(150)");
         }
     }
 }

@@ -20,9 +20,11 @@
         vm.model.autoReply = true;
         vm.model.featured = false;
         vm.model.status = app.Settings.statusTypes.published;
+        vm.defaultNameImage = '';
 
         vm.showMoreActive = false;
         vm.showPicturesActive = false;
+
 
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
@@ -43,6 +45,8 @@
         vm.saveAndContinue = saveAndContinue;
         vm.addParent = addParent;
         vm.deleteParent = deleteParent;
+        vm.getFullNameImage = getFullNameImage;
+        vm.canShowGallery = canShowGallery;
 
         activate();
 
@@ -63,14 +67,16 @@
 
         function getPetById(id) {
             petService.getById(id)
-                    .then(getCompleted)
-                    .catch(helperService.handleException);
+                .then(getCompleted)
+                .catch(helperService.handleException);
 
             function getCompleted(model) {
                 vm.model = model;
                 vm.years = Math.floor(model.months / 12);
                 vm.months = model.months % 12;
                 vm.showPicturesActive = true;
+                vm.model.relatedPets = [];
+                vm.getFullNameImage();
                 //vm.model.closingDate = moment(vm.model.closingDate, 'YYYY/MM/DD HH:mm:ss').format('YYYY/MM/DD');
 
             }
@@ -79,8 +85,8 @@
         function getParents() {
             if (vm.id) {
                 contentService.getUsers(vm.id, vm.usersFilter)
-                .then(getCompleted)
-                .catch(helperService.handleException);
+                    .then(getCompleted)
+                    .catch(helperService.handleException);
 
                 function getCompleted(response) {
                     vm.parents = response.results;
@@ -142,6 +148,7 @@
 
             function getSizesCompleted(rows) {
                 vm.sizes = rows;
+                vm.getFullNameImage();
             }
         }
 
@@ -179,14 +186,16 @@
             return indexValue === actualValue ? 'btn-primary' : 'btn-default';
         }
 
-        function changeGenre(genre) {
-            vm.model.genre = vm.model.genre || {};
-            vm.model.genre.value = genre;
+        function changeGenre(genreId) {
+            var genre = _.findWhere(vm.genres, { id: genreId })
+            vm.model.genre = { value: genre.id, text: genre.value };
+            vm.getFullNameImage();
         }
 
-        function changeSubtype(subtype) {
-            vm.model.subtype = vm.model.subtype || {};
-            vm.model.subtype.value = subtype;
+        function changeSubtype(subtypeId) {
+            var subtype = _.findWhere(vm.subtypes, { id: subtypeId })
+            vm.model.subtype = { value: subtype.id, text: subtype.value };
+            vm.getFullNameImage();
         }
 
         function changeShelter(selectedShelter) {
@@ -242,6 +251,20 @@
             return form.$submitted && !field.$valid ? 'parsley-error' : undefined;
         }
 
+        function getFullNameImage() {
+            if (canShowGallery() && vm.sizes) {
+                var size = _.findWhere(vm.sizes, { id: vm.model.size.value });
+                return vm.defaultNameImage = vm.model.subtype.text + ' ' + vm.model.genre.text + ' ' + size.value + ' ' + vm.model.name;
+            }
+            else {
+                return '';
+            }
+        }
+
+        function canShowGallery() {
+            return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name;
+        }
+
         function changeMonths() {
             if (!vm.years || vm.years === '') {
                 vm.years = 0;
@@ -272,13 +295,13 @@
 
                 if (vm.model.id > 0) {
                     petService.put(vm.model)
-                    .then(saveCompleted)
-                    .catch(saveError);
+                        .then(saveCompleted)
+                        .catch(saveError);
                 }
                 else {
                     petService.post(vm.model)
-                    .then(saveCompleted)
-                    .catch(saveError);
+                        .then(saveCompleted)
+                        .catch(saveError);
                 }
             }
 
@@ -298,21 +321,21 @@
                 modalService.show({
                     message: message
                 })
-                .then(function (modal) {
-                    modal.closed.then(function () {
-                        if (vm.continueAfterSaving) {
-                            //if it is new and want to continue updates the location
-                            if (isNew) {
-                                $location.path('/pets/' + vm.model.id + '/edit');
+                    .then(function (modal) {
+                        modal.closed.then(function () {
+                            if (vm.continueAfterSaving) {
+                                //if it is new and want to continue updates the location
+                                if (isNew) {
+                                    $location.path('/pets/' + vm.model.id + '/edit');
+                                }
                             }
-                        }
-                        else {
-                            $location.path('/pets');
-                        }
+                            else {
+                                $location.path('/pets');
+                            }
 
-                        vm.continueAfterSaving = false;
+                            vm.continueAfterSaving = false;
+                        });
                     });
-                });
             }
 
             function saveError(response) {

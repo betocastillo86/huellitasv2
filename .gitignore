@@ -28,7 +28,7 @@ _UpgradeReport_Files/
 **/wwwroot/tempfiles/*
 **/wwwroot/img/content
 **/wwwroot/js/*
-**/wwwroot/css/*
+**/wwwroot/css/styles.css
 **/wwwroot/fonts/*
 */bin/
 **/obj/

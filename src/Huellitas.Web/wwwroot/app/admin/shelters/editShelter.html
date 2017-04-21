@@ -22,7 +22,7 @@
                                 Nombre <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formShelter, formShelter.name)" required ng-maxlength="150" ng-minlength="7"  />
+                                <input name="name" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.name" ng-class="main.isInvalidClass(formShelter, formShelter.name)" ng-change="main.getFullNameImage()" required ng-maxlength="150" ng-minlength="7"  />
                                 <validation-message form="formShelter" field="formShelter.name" ng-maxlength="150" ng-minlength="7" name="nombre"></validation-message>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
-            <gallery-huellitas images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded"></gallery-huellitas>
+            <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80"></gallery-huellitas>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="x_panel">

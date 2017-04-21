@@ -82,8 +82,10 @@ namespace Huellitas.Business.Services
                         Mode = ResizeMode.Crop
                     };
 
-                    image.Resize(resizeOptions)
-                       .Save(resizedPath);
+                    image
+                        .AutoOrient()
+                        .Resize(resizeOptions)
+                        .Save(resizedPath);
                 }
 
                 ////using (var image = Image.Load(pathOriginalFile))

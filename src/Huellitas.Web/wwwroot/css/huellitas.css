@@ -1,0 +1,34 @@
+﻿.opacity {
+    opacity: 0.4;
+}
+
+.fileInvisible {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.0;
+    filter: alpha(opacity=0);
+}
+
+.angucomplete-bootstrap {
+    float: none;
+}
+
+.highlight {
+    color: cornflowerblue;
+}
+
+input.ng-invalid-parsley-error {
+    background: #FAEDEC;
+    border: 1px solid #E85445;
+}
+
+.nav-md .container.body .col-md-3.left_col {
+    z-index: 1000 !important;
+}
+
+.force-left {
+    text-align: left !important;
+}

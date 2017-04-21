@@ -12,7 +12,10 @@
                 images: '=',
                 title: '@',
                 ondelete: '=',
-                onadded: '='
+                onadded: '=',
+                defaultname: '@',
+                width : '@',
+                height : '@'
             }
         };
     }

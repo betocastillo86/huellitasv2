@@ -11,7 +11,6 @@
         vm.id = $routeParams.id;
         vm.continueAfterSaving = false;
         vm.isSending = false;
-        vm.tags = [];
 
         vm.save = save;
         vm.saveAndContinue = saveAndContinue;
@@ -39,7 +38,6 @@
             function getCompleted(response)
             {
                 vm.model = response;
-                vm.tags = JSON.parse(vm.model.tags);
             }
         }
 

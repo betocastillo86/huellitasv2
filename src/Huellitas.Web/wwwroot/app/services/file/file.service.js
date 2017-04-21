@@ -14,7 +14,7 @@
         function post(file, name) {
             var fd = new FormData();
             fd.append('files', file);
-            fd.append('name', name);
+            fd.append('name', name ? name : file.name);
             return http.post('/api/files', fd, {
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
