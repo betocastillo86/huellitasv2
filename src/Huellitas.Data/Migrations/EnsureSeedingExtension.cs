@@ -39,9 +39,9 @@ namespace Huellitas.Data.Migrations
             EnsureSeedingExtension.SeedUsers(context);
             EnsureSeedingExtension.SeedCustomTables(context);
             EnsureSeedingExtension.SeedCustomTablesRows(context);
-            EnsureSeedingExtension.SeedContents(context);
             EnsureSeedingExtension.SeedFiles(context);
             EnsureSeedingExtension.SeedLocations(context);
+            EnsureSeedingExtension.SeedContents(context);
             EnsureSeedingExtension.SeedSettings(context);
             EnsureSeedingExtension.SeedAdoptionForms(context);
             EnsureSeedingExtension.SeedNotifications(context);
@@ -92,13 +92,18 @@ namespace Huellitas.Data.Migrations
         /// <param name="context">The context.</param>
         private static void SeedAdoptionForms(HuellitasContext context)
         {
+            var contentId1 = context.Contents.FirstOrDefault().Id;
+            var contentId2 = context.Contents.Skip(1).FirstOrDefault().Id;
+            var contentId3 = context.Contents.Skip(2).FirstOrDefault().Id;
+            var userId = context.Users.Skip(1).FirstOrDefault().Id;
+
             var list = new List<AdoptionForm>();
 
             var jobId = context.CustomTableRows.FirstOrDefault(c => c.CustomTableId == Convert.ToInt32(CustomTableType.Jobs)).Id;
 
-            list.Add(new AdoptionForm() { ContentId = 1, Name = "Nombre formulario 1", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
-            list.Add(new AdoptionForm() { ContentId = 2, Name = "Nombre formulario 2", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
-            list.Add(new AdoptionForm() { ContentId = 3, Name = "Nombre formulario 3", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = 2 });
+            list.Add(new AdoptionForm() { ContentId = contentId1, Name = "Nombre formulario 1", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
+            list.Add(new AdoptionForm() { ContentId = contentId2, Name = "Nombre formulario 2", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
+            list.Add(new AdoptionForm() { ContentId = contentId3, Name = "Nombre formulario 3", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
 
             var questions = context.CustomTableRows.Where(c => c.CustomTableId == Convert.ToInt32(CustomTableType.QuestionAdoptionForm)).ToList();
 
@@ -165,9 +170,9 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<User>();
 
-            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "210c1680b957c6ed6df5d9afd17f205cd9a01dbb"/*123.admin@admin.com*/, RoleId = 1, CreatedDate = DateTime.Now });
-            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "55d81fa21753c11353fcb3a4721a5d8ab59e5813"/*123456.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now });
-            list.Add(new Entities.User() { Name = "Fundación", Email = "fundacion@fundacion.com", Password = "614c39951f7372fcad450958b43e6fe9edd34923"/*123456.fundacion@fundacion.com*/, RoleId = 2, CreatedDate = DateTime.Now });
+            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "12a80b33b30a82e27e46634b44679a7946e0c6e9"/*123.123456*/, RoleId = 1, CreatedDate = DateTime.Now, Salt = "123" });
+            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "55d81fa21753c11353fcb3a4721a5d8ab59e5813"/*123456.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
+            list.Add(new Entities.User() { Name = "Fundación", Email = "fundacion@fundacion.com", Password = "614c39951f7372fcad450958b43e6fe9edd34923"/*123456.fundacion@fundacion.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
 
             foreach (var item in list)
             {
@@ -277,6 +282,9 @@ namespace Huellitas.Data.Migrations
         /// <param name="context">The context.</param>
         private static void SeedContents(HuellitasContext context)
         {
+            var userid = context.Users.FirstOrDefault().Id;
+
+
             var list = new List<Content>();
 
             list.Add(new Entities.Content()
@@ -286,7 +294,7 @@ namespace Huellitas.Data.Migrations
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
-                UserId = 1,
+                UserId = userid,
                 FileId = 1,
                 LocationId = 1,
                 FriendlyName = "pet-uno",
@@ -304,7 +312,7 @@ namespace Huellitas.Data.Migrations
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
-                UserId = 1,
+                UserId = userid,
                 FileId = 2,
                 LocationId = 1,
                 FriendlyName = "pet-dos",
@@ -322,7 +330,7 @@ namespace Huellitas.Data.Migrations
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
                 CreatedDate = DateTime.Now,
-                UserId = 1,
+                UserId = userid,
                 FileId = 1,
                 LocationId = 1,
                 FriendlyName = "pet-tres",
@@ -333,8 +341,8 @@ namespace Huellitas.Data.Migrations
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
                     }
             });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = 1, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });
 
             foreach (var item in list)
             {
@@ -396,7 +404,7 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<Location>();
 
-            var parent = new Location() { Id = 1, Name = "Colombia" };
+            var parent = new Location() { Name = "Colombia" };
             list.Add(parent);
             list.Add(new Location() { Name = "Bogotá", ParentLocationId = 1 });
             var cundinamarca = new Location() { Name = "Cundinamarca", ParentLocationId = 1 };

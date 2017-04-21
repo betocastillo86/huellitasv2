@@ -17,6 +17,9 @@ var bower = require('gulp-bower'),
     declare = require('gulp-declare'),
     handlebars = require('gulp-handlebars'),
     cssConcat = require('gulp-concat-css'),
+    cssmin = require("gulp-cssmin"),
+    replace = require("gulp-replace"),
+    flatten = require("gulp-flatten"),
     concat = require('gulp-concat');
 
 var paths = {
@@ -33,9 +36,7 @@ gulp.task('externallibs', function () {
 
 
 paths.js = [
-    paths.approot + 'admin.module.js'
-    //paths.webroot + 'huellitas/config/**/*.js',
-    //paths.webroot + 'huellitas/entities/**/*.js',
+    paths.approot + '**/*.js'
 ]
 
 paths.libs = [
@@ -86,16 +87,18 @@ finalPaths = finalPaths.concat(paths.js);
 
 //});
 
+gulp.task("release", ['scriptsRelease', 'css']);
+
 gulp.task('scriptsRelease', function () {
-    console.log('Inicia tarea scripts');
+    console.log('Inicia tarea scripts', finalPaths);
 
     return gulp.src(finalPaths, { base: '.' })
     .pipe(concat(paths.concatJsDest))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('css', function () {
+gulp.task('css', ['moveResources'], function () {
     console.log('Inicia tarea de css con ');
 
     for (var i = 0; i < paths.css.length; i++) {
@@ -103,9 +106,24 @@ gulp.task('css', function () {
     }
 
     return gulp.src(paths.css, { base: '.' })
-    .pipe(cssConcat(paths.concatCssDest))
-    .pipe(gulp.dest('.'));
+        .pipe(cssConcat(paths.concatCssDest))
+        //.pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
+        .pipe(gulp.dest('.'));
 });
+
+gulp.task('moveResources', function () {
+    var filesToMove = [
+        paths.external + 'gentelella/vendors/bootstrap/dist/fonts/*.*',
+        paths.external + 'gentelella/vendors/font-awesome/fonts/*.*'
+    ];
+    return gulp.src(filesToMove, { base: '.' })
+        .pipe(flatten())
+        .pipe(gulp.dest(paths.webroot+'fonts'));
+})
+
+
 
 gulp.task('scriptsDev', function () {
     return gulp.src(paths.libs, { base: '.' })
