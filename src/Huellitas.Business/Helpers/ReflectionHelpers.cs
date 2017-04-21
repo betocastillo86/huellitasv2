@@ -27,7 +27,7 @@ namespace Huellitas.Business.Helpers
 
             var assemblies = new List<Assembly>();
 
-            foreach (var library in deps.RuntimeLibraries.Where(c => c.Name.Contains("Huellitas")))
+            foreach (var library in deps.RuntimeLibraries.Where(c => c.Name.ToLower().Contains("huellitas")))
             {
                 var assembly = Assembly.Load(new AssemblyName(library.Name));
                 assemblies.Add(assembly);

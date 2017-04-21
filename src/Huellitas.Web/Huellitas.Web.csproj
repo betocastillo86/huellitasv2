@@ -57,6 +57,13 @@
     <Content Include="wwwroot\app\admin\shelters\editShelter.html" />
     <Content Include="wwwroot\app\admin\shelters\listShelters.controller.js" />
     <Content Include="wwwroot\app\admin\shelters\listShelters.html" />
+    <Content Include="wwwroot\app\admin\sliders\editBanner.html" />
+    <Content Include="wwwroot\app\admin\sliders\editBanner.controller.js" />
+    <Content Include="wwwroot\app\admin\sliders\editNotification.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\admin\sliders\listBanners.controller.js" />
+    <Content Include="wwwroot\app\admin\sliders\listBanners.html" />
     <Content Include="wwwroot\app\admin\systemsettings\listSystemSetting.controller.js" />
     <Content Include="wwwroot\app\admin\systemsettings\listSystemSetting.html" />
     <Content Include="wwwroot\app\admin\textresources\listTextResources.controller.js" />
@@ -66,6 +73,7 @@
     <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
     <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
+    <Content Include="wwwroot\app\services\common\banner.service.js" />
     <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
     <Content Include="wwwroot\app\services\common\helper.service.js" />
     <Content Include="wwwroot\app\services\common\http.service.js" />

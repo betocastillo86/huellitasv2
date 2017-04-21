@@ -32,7 +32,7 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         ///   <c>true</c> if active; otherwise, <c>false</c>.
         /// </value>
-        public bool Active { get; set; } = true;
+        public bool? Active { get; set; }
 
         /// <summary>
         /// Gets or sets the keyword.
@@ -68,7 +68,8 @@ namespace Huellitas.Web.Models.Api
         /// </returns>
         public bool IsValid(bool canSelectInactive)
         {
-            if (!this.Active && !canSelectInactive)
+            ////TODO:Test
+            if ((!this.Active.HasValue || !this.Active.Value) && !canSelectInactive)
             {
                 this.AddError(HuellitasExceptionCode.BadArgument, "No tiene permisos para seleccionar inactivos", "Active");
             }

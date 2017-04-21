@@ -39,6 +39,8 @@ namespace Huellitas.Web.Controllers.Api
             settings.Children.Add(new ModuleModel() { Id = 8, Name = "Recursos", Key = "TextResources", Url = "/textresources", Icon = "fa-font" });
             settings.Children.Add(new ModuleModel() { Id = 9, Name = "Notificaciones Correo", Key = "EmailNotifications", Url = "/emailnotifications", Icon = "fa-send" });
 
+            modules.Add(new ModuleModel() { Id = 10, Name = "Banners", Key = "Banners", Url = "/banners", Icon = "fa-image" });
+
             return this.Ok(modules);
         }
     }
