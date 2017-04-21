@@ -217,6 +217,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [HttpPut]
         [Authorize]
+        [Route("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody]BannerModel model)
         {
             ////TODO:Test
@@ -227,7 +228,7 @@ namespace Huellitas.Web.Controllers.Api
 
             if (this.IsValidModel(model))
             {
-                var banner = this.bannerService.GetById(id, false);
+                var banner = this.bannerService.GetById(id, true);
 
                 if (banner != null)
                 {
@@ -250,7 +251,13 @@ namespace Huellitas.Web.Controllers.Api
 
                     if (banner.FileId.HasValue)
                     {
-                        var image = this.pictureService.GetPicturePath(banner.File, this.generalSettings.BannerPictureSizeWidth, this.generalSettings.BannerPictureSizeHeight);
+                        var file = banner.File;
+                        if (file == null)
+                        {
+                            file = this.fileService.GetById(banner.FileId.Value);
+                        }
+
+                        var image = this.pictureService.GetPicturePath(file, this.generalSettings.BannerPictureSizeWidth, this.generalSettings.BannerPictureSizeHeight, true);
                         model.FileUrl = Url.Content(image);
                     }
 

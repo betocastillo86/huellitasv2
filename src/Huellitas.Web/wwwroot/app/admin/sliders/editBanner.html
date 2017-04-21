@@ -1,0 +1,104 @@
+﻿<div class="">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Editar <small>{{::main.model.name}}</small>
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form name="formBanner" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formBanner.$valid)">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Nombre
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                               <input class="form-control" type="text" name="name" ng-model="main.model.name" ng-minlength="5" ng-maxlength="150" required />
+                               <validation-message form="formBanner" field="formBanner.name" name="nombre" ng-minlength="5" ng-maxlength="150"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Contenido Html
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <text-angular ng-model="main.model.body" name="body" ng-required="main.model.body" required></text-angular>
+                                <validation-message form="formBanner" field="formBanner.body" name="contenido html"></validation-message>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Activo</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="isEmail" class="btn-group" data-toggle="buttons">
+                                    <label ng-click="main.changeActive(true)" class="btn" ng-class="[{'btn-primary' : main.model.active}, {'btn-default' : !main.model.active}]">
+                                        &nbsp; Si &nbsp;
+                                    </label>
+                                    <label ng-click="main.changeActive(false)" class="btn" ng-class="[{'btn-primary' : !main.model.active}, {'btn-default' : main.model.active}]">
+                                        &nbsp; No &nbsp;
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Imagen
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12" >
+                                <div style="position:relative">
+                                    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-plus"></i> {{main.model.fileId ? 'Cambiar' : 'Agregar'}}</button>
+                                    <input type="file" class="fileInvisible" fileupload-huellitas onadded="main.imageAdded" multiple />
+                                </div>
+                                <img ng-if="main.model.fileId" ng-src="{{main.model.fileUrl}}" width="260" height="200" />
+                                <input type="hidden" ng-model="main.model.fileId" name="fileId" required />
+                                <validation-message form="formBanner" field="formBanner.fileId" name="archivo"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Orden
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="number" class="form-control" name="displayOrder" ng-model="main.model.displayOrder" />
+                                <validation-message form="formBanner" field="formBanner.displayOrder" name="orden"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Sección
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <select class="form-control" name="section" ng-model="main.model.section" required>
+                                    <option>Home</option>
+                                </select>
+                                <validation-message form="formBanner" field="formBanner.section" name="sección"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="main.model.creationDate">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">
+                                Fecha de creación
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                {{::main.model.creationDate}}
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a type="submit" class="btn btn-default" href="/admin/banners">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="main.saveAndContinue()">Guardar y continuar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

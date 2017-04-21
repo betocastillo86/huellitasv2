@@ -1,0 +1,64 @@
+﻿<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Banners <a class="btn btn-success" href="/admin/banners/new" ><i class="fa fa-plus"></i> Nuevo Banner</a></h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <br>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Nombre
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getBanners()" ng-model-options="{ debounce : 300 }">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Imagen</th>
+                                    <th class="column-title">Nombre</th>
+                                    <th class="column-title">Estado</th>
+                                    <th class="column-title no-link last">
+                                        <span class="nobr">Opciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="banner in main.banners" class="pointer" ng-class-odd="odd" ng-class-even="even">
+                                    <td><img ng-src="{{::banner.fileUrl}}" width="78" height="60" /></td>
+                                    <td>{{::banner.name}}</td>
+                                    <td><span class="label" ng-class="::[
+                                              {'label-success' : banner.active },
+                                              {'label-danger' : !banner.active }]">{{::banner.active ? 'Activo' : 'Inactivo'}}</span></td>
+                                    <td class="last">
+                                        <a href="/admin/banners/{{::banner.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!main.banners.length">
+                                    <td colspan="5" class="last">
+                                        No hay registros
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <list-pager class="pagerDirective"></list-pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
