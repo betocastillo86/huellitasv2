@@ -9,14 +9,14 @@
     <Content Include="wwwroot\app\admin\admin.configuration.js" />
     <Content Include="wwwroot\app\admin\admin.routes.js" />
     <Content Include="wwwroot\app\admin\admin.run.js" />
-    <Content Include="wwwroot\app\admin\adoptionForms\addFormUser.controller.js" />
-    <Content Include="wwwroot\app\admin\adoptionForms\addFormUser.html" />
-    <Content Include="wwwroot\app\admin\adoptionForms\editForm.controller.js" />
-    <Content Include="wwwroot\app\admin\adoptionForms\editForm.html" />
-    <Content Include="wwwroot\app\admin\adoptionForms\listForm.controller.js" />
-    <Content Include="wwwroot\app\admin\adoptionForms\listForms.html" />
-    <Content Include="wwwroot\app\admin\adoptionForms\sendFormByEmail.controller.js" />
-    <Content Include="wwwroot\app\admin\adoptionForms\sendFormByEmail.html" />
+    <Content Include="wwwroot\app\admin\adoptionforms\addFormUser.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionforms\addFormUser.html" />
+    <Content Include="wwwroot\app\admin\adoptionforms\editForm.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionforms\editForm.html" />
+    <Content Include="wwwroot\app\admin\adoptionforms\listForm.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionforms\listForms.html" />
+    <Content Include="wwwroot\app\admin\adoptionforms\sendFormByEmail.controller.js" />
+    <Content Include="wwwroot\app\admin\adoptionforms\sendFormByEmail.html" />
     <Content Include="wwwroot\app\admin\components\datepicker\datepicker.directive.js" />
     <Content Include="wwwroot\app\admin\components\fileupload\fileupload.directive.js" />
     <Content Include="wwwroot\app\admin\components\forms\compareTo.directive.js" />
@@ -43,6 +43,8 @@
     <Content Include="wwwroot\app\admin\layout\welcome.controller.js" />
     <Content Include="wwwroot\app\admin\layout\welcome.html" />
     <Content Include="wwwroot\app\admin\login\login.controller.js" />
+    <Content Include="wwwroot\app\admin\logs\listLogs.html" />
+    <Content Include="wwwroot\app\admin\logs\logs.controller.js" />
     <Content Include="wwwroot\app\admin\notifications\editNotification.controller.js" />
     <Content Include="wwwroot\app\admin\notifications\editNotification.html" />
     <Content Include="wwwroot\app\admin\notifications\listNotifications.controller.js" />
@@ -59,9 +61,6 @@
     <Content Include="wwwroot\app\admin\shelters\listShelters.html" />
     <Content Include="wwwroot\app\admin\sliders\editBanner.html" />
     <Content Include="wwwroot\app\admin\sliders\editBanner.controller.js" />
-    <Content Include="wwwroot\app\admin\sliders\editNotification.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\app\admin\sliders\listBanners.controller.js" />
     <Content Include="wwwroot\app\admin\sliders\listBanners.html" />
     <Content Include="wwwroot\app\admin\systemsettings\listSystemSetting.controller.js" />
@@ -77,6 +76,7 @@
     <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
     <Content Include="wwwroot\app\services\common\helper.service.js" />
     <Content Include="wwwroot\app\services\common\http.service.js" />
+    <Content Include="wwwroot\app\services\common\log.service.js" />
     <Content Include="wwwroot\app\services\common\module.service.js" />
     <Content Include="wwwroot\app\services\common\session.service.js" />
     <Content Include="wwwroot\app\services\common\statusType.service.js" />

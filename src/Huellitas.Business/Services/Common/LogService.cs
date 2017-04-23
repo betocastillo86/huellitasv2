@@ -10,6 +10,9 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Infraestructure;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Log Service
@@ -45,7 +48,6 @@ namespace Huellitas.Business.Services
             this.logRepository = logRepository;
             this.contextHelpers = contextHelpers;
         }
-
         #endregion ctor
 
         /// <summary>
@@ -77,6 +79,22 @@ namespace Huellitas.Business.Services
             this.logRepository.Insert(log);
 
             return log;
+        }
+
+        public IPagedList<Log> GetAll(string keyword, int page = 0, int pageSize = int.MaxValue)
+        {
+            var query = this.logRepository.Table
+                .Include(c => c.User)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(c => c.FullMessage.Contains(keyword) || c.ShortMessage.Contains(keyword));
+            }
+
+            query = query.OrderByDescending(c => c.CreationDate);
+
+            return new PagedList<Log>(query, page, pageSize);
         }
     }
 }

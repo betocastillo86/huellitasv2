@@ -65,12 +65,12 @@
                 controllerAs: 'main'
             })
             .when('/adoptionforms', {
-                templateUrl: '/app/admin/adoptionforms/listforms.html',
+                templateUrl: '/app/admin/adoptionforms/listForms.html',
                 controller: 'ListFormController',
                 controllerAs: 'main'
             })
             .when('/adoptionforms/:id/edit', {
-                templateUrl: '/app/admin/adoptionforms/editform.html',
+                templateUrl: '/app/admin/adoptionforms/editForm.html',
                 controller: 'EditFormController',
                 controllerAs: 'main'
             })
@@ -122,6 +122,11 @@
             .when('/banners/:id/edit', {
                 templateUrl: '/app/admin/sliders/editBanner.html',
                 controller: 'EditBannerController',
+                controllerAs: 'main'
+            })
+            .when('/logs', {
+                templateUrl: '/app/admin/logs/listLogs.html',
+                controller: 'ListLogsController',
                 controllerAs: 'main'
             });
     }

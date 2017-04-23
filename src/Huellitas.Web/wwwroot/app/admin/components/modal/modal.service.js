@@ -79,6 +79,7 @@
                 scope.close = close;
                 scope.message = options.message;
                 scope.title = options.title;
+                scope.large = options.large;
 
                 //injected properties of the new controller
                 var inputs = {

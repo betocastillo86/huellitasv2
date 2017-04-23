@@ -7,6 +7,7 @@ namespace Huellitas.Business.Services
 {
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Interface for logging
@@ -22,5 +23,7 @@ namespace Huellitas.Business.Services
         /// <param name="user">The user.</param>
         /// <returns>the value</returns>
         Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", User user = null);
+
+        IPagedList<Log> GetAll(string keyword, int page = 0, int pageSize = int.MaxValue);
     }
 }
