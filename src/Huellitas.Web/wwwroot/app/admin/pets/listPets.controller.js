@@ -9,7 +9,8 @@
         var vm = this;
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
-            page : 0
+            page: 0,
+            orderBy: 'CreatedDate'
         };
         vm.getPets = getPets;
         vm.pets = [];

@@ -14,6 +14,7 @@
 
         vm.currentUser = undefined;
         vm.showingUserInfo = false;
+        vm.resources = app.Settings.resources;
         
         vm.showUserInfo = showUserInfo;
 

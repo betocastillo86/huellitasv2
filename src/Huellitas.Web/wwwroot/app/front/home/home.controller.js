@@ -5,17 +5,24 @@
         .module('huellitas')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval','bannerService', 'helperService'];
+    HomeController.$inject = ['$interval','bannerService', 'helperService', 'shelterService'];
 
-    function HomeController($interval, bannerService, helperService) {
+    function HomeController($interval, bannerService, helperService, shelterService) {
         var vm = this;
         vm.banners = [];
+        vm.shelters = [];
         vm.currentBanner = undefined;
+        vm.filterPets = {
+            pageSize: 9,
+            orderBy: 'CreatedDate',
+            status: 'Published'
+        };
 
         activate();
 
         function activate() {
             getBanners();
+            getShelters();
         }
 
         function getBanners(response)
@@ -53,6 +60,24 @@
                         }, 5000);
                     }
                 }
+            }
+        }
+
+        function getShelters()
+        {
+            var filter = {
+                pageSize: 4,
+                orderBy: 'DisplayOrder',
+                status: 'Published'
+            };
+
+            shelterService.getAll(filter)
+                .then(getCompleted)
+                .catch(helperService.handleException);
+
+            function getCompleted(response)
+            {
+                vm.shelters = response.results;
             }
         }
     }

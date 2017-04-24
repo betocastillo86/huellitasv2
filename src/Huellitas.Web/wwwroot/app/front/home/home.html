@@ -23,14 +23,97 @@
                     <br/>
                 </div>
             </li>-->
-            
+
             <li ng-animate-swap="main.currentBanner">
                 <div class="event-desta">
                     <div ng-bind-html="main.currentBanner.body">
                     </div>
                 </div>
-                <img class="img-banner" ng-src="{{main.currentBanner.fileUrl}}" >
+                <img class="img-banner" ng-src="{{main.currentBanner.fileUrl}}">
             </li>
         </ul>
     </div>
+    <section>
+        <article class="content-all" list-pets data-filter="main.filterPets"></article>
+    </section>
+    <section class="h-funda">
+        <article class="content-all col-md-12">
+            <h2 class="tit-section col-md-12">FUNDACIONES</h2>
+            <div class="sub-title col-md-12">Estas son algunas de las fundaciones que puedes encontrar con nosotros</div>
+            <ul>
+                <li ng-repeat="shelter in main.shelters"><img ng-src="{{::shelter.image.thumbnail}}" title="{{::shelter.name}}"></li>
+                <br>
+            </ul>
+            <button type="button" class="btn btn-lg">Ver todas</button>
+        </article>
+    </section>
+
+    <section>
+        <article class="content-all col-md-12">
+            <ul class="apoyo">
+                <li>
+                    <span class="icon-cayuda"></span>
+                    <div class="box-txt">
+                        <h3>{{::root.resources['Home.HowTo.Help.Title']}}</h3>
+                        <p ng-bind-html="::root.resources['Home.HowTo.Help.Content']"></p>
+                        <a class="btn btn-lg" href="">Conocer más</a>
+                    </div>
+                    <br />
+                </li>
+                <li>
+                    <span class="icon-mperdida"></span>
+                    <div class="box-txt">
+                        <h3>{{::root.resources['Home.HowTo.Parent.Title']}}</h3>
+                        <p ng-bind-html="::root.resources['Home.HowTo.Parent.Content']"></p>
+                        <a class="btn btn-lg" href="">Conocer más</a>
+                    </div>
+                    <br />
+                </li>
+                <li>
+                    <span class="icon-huella"></span>
+                    <div class="box-txt">
+                        <h3>{{::root.resources['Home.HowTo.Adopt.Title']}}</h3>
+                        <p ng-bind-html="::root.resources['Home.HowTo.Adopt.Content']"></p>
+                        <a class="btn btn-lg" href="">Conocer más</a>
+                    </div>
+                    <br />
+                </li>
+                <br />
+            </ul>
+        </article>
+    </section>
+
+
+    <section class="bkg-gray">
+        <article class="content-all">
+            <h2 class="tit-section col-md-12">{{::root.resources['Home.Who.Title']}}</h2>
+            <div class="us col-md-12" ng-bind-html="::root.resources['Home.Who.Content']"></div>
+            <ul class="team">
+                <li class="col-xs-12 col-sm-4">
+                    <img src="/img/front/foto-erica-prado.jpg" title="Erica Prado">
+                    <h4>ERICA PRADO</h4>
+                    <p>La cultura de un pueblo se mide por la forma en la que trata a sus animales (Gandhi)</p>
+                </li>
+                <li class="col-xs-12 col-sm-4">
+                    <img src="/img/front/foto-gabriel-castillo-prada.jpg" title="Gabriel Castillo">
+                    <h4>GABRIEL CASTILLO</h4>
+                    <p>Unicamente quiero ayudar a los animales</p>
+                </li>
+                <li class="col-xs-12 col-sm-4">
+                    <img src="/img/front/foto-julian-castillo-prada.jpg" title="Julian Castillo">
+                    <h4>JULIAN CASTILLO</h4>
+                    <p>Solo busco aportar para que se vea con otra cara la desprotección animal</p>
+                </li>
+                <br />
+            </ul>
+        </article>
+
+    </section>
+    <footer>
+        <div class="redes">
+            <a href="https://www.facebook.com/huellitas.social/" title="Facebook Huellitas sin hogar" target="_blank"><span class="icon-face"></span></a>
+            <a href="https://www.instagram.com/huellitas.social/" title="Instagram Huellitas sin hogar" target="_blank"><span class="icon-insta"></span></a>
+        </div>
+        <p>© 2017 Huellitas sin hogar. All rights reserved.</p>
+    </footer>
 </div>

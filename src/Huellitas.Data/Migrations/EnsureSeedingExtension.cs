@@ -495,6 +495,17 @@ namespace Huellitas.Data.Migrations
             list.Add(new TextResource() { Name = "UserRole.Public", Value = "Público", Language = LanguageEnum.Spanish });
             list.Add(new TextResource() { Name = "UserRole.SuperAdmin", Value = "Super administrador", Language = LanguageEnum.Spanish });
 
+
+            list.Add(new TextResource() { Name = "Home.HowTo.Help.Title", Value = "COMO AYUDAR", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.HowTo.Help.Content", Value = "Cada dia se ven miles de animales abandonados en la calle que no tienen quién se responsabilice por ellos. Maneras de ayudar hay muchas, entre ellas: Puedes ser voluntario, ser hogar temporar o apadrinar uno de estos animalitos en algún albergue.", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.HowTo.Parent.Title", Value = "APADRINAR", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.HowTo.Parent.Content", Value = "Si no puedes adoptar y deseas ayudar a un animal lo puedes apadrinar. Consiste en ofrecer un aporte voluntario mensual para su sustento hasta el día en que sea adoptado. Con esto, el animal que escojas, ya sea de la calle o de alguna fundación existente tendrá una buena calidad de vida mientras encuentra un verdadero hogar.", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.HowTo.Adopt.Title", Value = "ADOPTAR", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.HowTo.Adopt.Content", Value = "No compres, ADOPTA. Adoptando salvas la vida de dos animales, la de tu nuevo amigo y la del que ocupará su lugar, tan solo escoge la mascota de la cual quieres recibir todo su amor y compañia, diligencia el formulario y en poco tiempo nos comunicaremos contigo.", Language = LanguageEnum.Spanish });
+
+            list.Add(new TextResource() { Name = "Home.Who.Title", Value = "QUIENES SOMOS", Language = LanguageEnum.Spanish });
+            list.Add(new TextResource() { Name = "Home.Who.Content", Value = "<p>Huellitas sin hogar es el esfuerzo de un grupo de amigos por ayudar a los miles de animales que se encuentran desprotegidos y en las calles colombianas. Uno de los principales objetivos es por medio de la pagina promover la adopción y apadrinamiento de mascotas en las fundaciones que se dedican al cuidado de estos animales.</p><p>No contamos con sede física ya que solo somos un medio de conexión entre las personas que buscan una mascota y los hogares de paso. Además de esto no recibimos , ni pedimos ningún tipo de ayuda económica, ya que es ayudar a los animales lo que nos mueve.</p><p>Está es la primera versión de la pagina y esperamos poder seguir evolucionando para mejorar en algo esta problematica tan grande de nuestro pais.</p><p>Por último, el equipo de huellitas sin hogar el cual ha donado su tiempo y conocimiento para la realización de este proyecto es el siguiente:</p>", Language = LanguageEnum.Spanish });
+
             foreach (var item in list)
             {
                 if (!context.TextResources.Any(c => c.Name.Equals(item.Name)))

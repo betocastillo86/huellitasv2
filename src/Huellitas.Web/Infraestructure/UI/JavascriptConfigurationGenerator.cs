@@ -83,6 +83,32 @@ namespace Huellitas.Web.Infraestructure.UI
             isDebug = true;
 #endif
 
+
+            this.SaveFile(true, this.GetAdminJson(isDebug));
+            this.SaveFile(false, this.GetFrontJson(isDebug));
+
+
+
+
+            ////Actualiza la llave de cache del javascript
+            var key = "GeneralSettings.ConfigJavascriptCacheKey";
+            var value = this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(key));
+            if (value == null)
+            {
+                this.systemSettingRepository.Insert(new SystemSetting() { Name = key, Value = Guid.NewGuid().ToString() });
+            }
+            else
+            {
+                value.Value = Guid.NewGuid().ToString();
+                this.systemSettingRepository.Update(value);
+            }
+
+            ////Clears cache after creating file because of the javascript cache key
+            this.cacheManager.Clear();
+        }
+
+        private string GetAdminJson(bool isDebug)
+        {
             var config = new
             {
                 general = new
@@ -107,14 +133,28 @@ namespace Huellitas.Web.Infraestructure.UI
                     parent = ContentUserRelationType.Parent.ToString(),
                     shelter = ContentUserRelationType.Shelter.ToString()
                 },
-                resources = this.GetResources(),
+                resources = this.GetAdminResources(),
                 isDebug = isDebug
             };
 
-            var jsonString = JsonConvert.SerializeObject(config);
+            return JsonConvert.SerializeObject(config);
+        }
 
+        private string GetFrontJson(bool isDebug)
+        {
+            var config = new
+            {
+                resources = this.GetFrontResources(),
+                isDebug = isDebug
+            };
+
+            return JsonConvert.SerializeObject(config);
+        }
+
+        private void SaveFile(bool isAdmin, string jsonString)
+        {
             ////If does not exist the directory. It creates it.
-            var filename = $"{env.ContentRootPath}/wwwroot/js/configuration.js";
+            var filename = $"{env.ContentRootPath}/wwwroot/js/{(isAdmin ? "admin" : "front")}.configuration.js";
             var directory = System.IO.Path.GetDirectoryName(filename);
 
             if (!System.IO.Directory.Exists(directory))
@@ -129,22 +169,6 @@ namespace Huellitas.Web.Infraestructure.UI
                     sw.Write($"var app = app || {{}}; app.Settings = {jsonString.ToString()}");
                 }
             }
-
-            ////Actualiza la llave de cache del javascript
-            var key = "GeneralSettings.ConfigJavascriptCacheKey";
-            var value = this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(key));
-            if (value == null)
-            {
-                this.systemSettingRepository.Insert(new SystemSetting() { Name = key, Value = Guid.NewGuid().ToString() });
-            }
-            else
-            {
-                value.Value = Guid.NewGuid().ToString();
-                this.systemSettingRepository.Update(value);
-            }
-
-            ////Clears cache after creating file because of the javascript cache key
-            this.cacheManager.Clear();
         }
 
         /// <summary>
@@ -161,11 +185,25 @@ namespace Huellitas.Web.Infraestructure.UI
         /// Gets the resources.
         /// </summary>
         /// <returns>the resources</returns>
-        private IDictionary<string, string> GetResources()
+        private IDictionary<string, string> GetAdminResources()
         {
             var resources = new Dictionary<string, string>();
             this.AddResources(resources, "UserRole.Public");
             this.AddResources(resources, "UserRole.SuperAdmin");
+            return resources;
+        }
+
+        private IDictionary<string, string> GetFrontResources()
+        {
+            var resources = new Dictionary<string, string>();
+            this.AddResources(resources, "Home.HowTo.Help.Title");
+            this.AddResources(resources, "Home.HowTo.Help.Content");
+            this.AddResources(resources, "Home.HowTo.Parent.Title");
+            this.AddResources(resources, "Home.HowTo.Parent.Content");
+            this.AddResources(resources, "Home.HowTo.Adopt.Title");
+            this.AddResources(resources, "Home.HowTo.Adopt.Content");
+            this.AddResources(resources, "Home.Who.Title");
+            this.AddResources(resources, "Home.Who.Content");
             return resources;
         }
     }
