@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('huellitasAdmin')
+    angular.module('huellitasComponents')
         .factory('modalService', modalService);
 
     modalService.$inject = ['$q', '$templateRequest', '$rootScope', '$compile', '$controller', '$document'];
@@ -56,7 +56,7 @@
                     .catch(consoleError);
             }
             else {
-                getTemplate('/app/admin/components/modal/modal-' + options.modalType + '.html')
+                getTemplate('/app/components/modal/modal-' + options.modalType + '.html')
                     .then(templateLoaded)
                     .catch(consoleError);
             }

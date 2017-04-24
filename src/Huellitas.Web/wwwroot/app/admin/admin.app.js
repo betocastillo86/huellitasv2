@@ -6,6 +6,7 @@
         'ngSanitize',
 
         // Custom modules
+        'huellitasComponents',
         'huellitasServices',
 
         // 3rd Party Modules

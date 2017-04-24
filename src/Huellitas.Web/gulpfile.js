@@ -51,7 +51,20 @@ paths.libsAdmin = [
     paths.external + 'pikaday/pikaday.js'
 ];
 
+paths.libsFront = [
+    paths.external + 'angular/angular.js',
+    paths.external + 'ngstorage/ngStorage.js',
+    paths.external + 'angular-route/angular-route.js',
+    paths.external + 'angular-sanitize/angular-sanitize.js',
+    paths.external + 'angular-animate/angular-animate.js',
+    paths.external + 'underscore/underscore.js',
+    paths.external + 'moment/moment.js',
+    paths.external + 'moment/locale/es.js',
+    paths.external + 'pikaday/pikaday.js'
+];
+
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
+paths.concatJsDestFront = paths.webroot + "js/front.site.min.js";
 
 gulp.task("release", ['scriptsReleaseAdmin', 'cssAdmin']);
 
@@ -122,11 +135,21 @@ gulp.task('scriptsDevAdmin', function () {
 //        .pipe(gulp.dest('./content/css/'));
 //});
 
+
+gulp.task('scriptsDevFront', function () {
+    console.log('Se generan los archivos', paths.libsFront);
+    return gulp.src(paths.libsFront, { base: '.' })
+        .pipe(concat(paths.concatJsDestFront))
+        //.pipe(uglify())
+        .pipe(gulp.dest('.'));
+});
+
 gulp.task('cssFront',['sassFront'], function () {
     var files = [
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
-        paths.webroot + 'css/front/styles.css'
+        paths.webroot + 'css/front/styles.css',
+        paths.webroot + 'css/front.huellitas.css'
     ];
 
     console.log('Inicia tarea de css con ', files);

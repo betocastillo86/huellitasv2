@@ -24,10 +24,6 @@
     <Content Include="wwwroot\app\admin\components\gallery\gallery.controller.js" />
     <Content Include="wwwroot\app\admin\components\gallery\gallery.directive.js" />
     <Content Include="wwwroot\app\admin\components\gallery\gallery.html" />
-    <Content Include="wwwroot\app\admin\components\modal\modal-default.html" />
-    <Content Include="wwwroot\app\admin\components\modal\modal-error.html" />
-    <Content Include="wwwroot\app\admin\components\modal\modal.default.controller.js" />
-    <Content Include="wwwroot\app\admin\components\modal\modal.service.js" />
     <Content Include="wwwroot\app\admin\components\pager\listPager.controller.js" />
     <Content Include="wwwroot\app\admin\components\pager\listPager.directive.js" />
     <Content Include="wwwroot\app\admin\components\pager\listPager.html" />
@@ -71,10 +67,18 @@
     <Content Include="wwwroot\app\admin\users\editUser.html" />
     <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
+    <Content Include="wwwroot\app\components\components.app.js" />
+    <Content Include="wwwroot\app\components\modal\modal-default.html" />
+    <Content Include="wwwroot\app\components\modal\modal-error.html" />
+    <Content Include="wwwroot\app\components\modal\modal.default.controller.js" />
+    <Content Include="wwwroot\app\components\modal\modal.service.js" />
     <Content Include="wwwroot\app\front\front.app.js" />
     <Content Include="wwwroot\app\front\front.configuration.js" />
     <Content Include="wwwroot\app\front\front.routes.js" />
+    <Content Include="wwwroot\app\front\front.run.js" />
     <Content Include="wwwroot\app\front\home\home.controller.js" />
+    <Content Include="wwwroot\app\front\home\home.html" />
+    <Content Include="wwwroot\app\front\home\home.js" />
     <Content Include="wwwroot\app\front\layout\root.controller.js" />
     <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
     <Content Include="wwwroot\app\services\common\banner.service.js" />
@@ -103,6 +107,7 @@
     <Content Include="wwwroot\app\services\user\role.service.js" />
     <Content Include="wwwroot\app\services\user\user.service.js" />
     <Content Include="wwwroot\css\huellitas.css" />
+    <Content Include="wwwroot\img\front\logo.svg" />
     <Content Include="wwwroot\sass\animate.scss" />
     <Content Include="wwwroot\sass\icons.scss" />
     <Content Include="wwwroot\sass\mixins.scss" />

@@ -1,0 +1,36 @@
+﻿<div>
+    <div class="home-banner">
+        <ul>
+            <!--<li class="banner-desta">
+                <div class="pet-desta content-all">
+                    <div class="txt-pet">
+                        <a href="">
+                            <h3>DANNA</h3>
+                            <h4>Hembra - 3 meses</h4>
+                            <p>Danna es una perrita cruce con Pitbull que ha sido maltratada por su anterior familia y que hoy busca hogar. Llena el formulario de adopción.</p>
+                            <button type="button" class="btn btn-lg">Conocer más</button>
+                        </a>
+                    </div>
+                    <div class="box-pet-img">
+                        <a class="pet-img">
+                            <img class="img-responsive" src="http://huellitas.social/img/18865/big">
+                            <span class="priority">
+                                <i class="icon-star"></i>
+                                <span>Caso prioritario</span>
+                            </span>
+                        </a>
+                    </div>
+                    <br/>
+                </div>
+            </li>-->
+            
+            <li ng-animate-swap="main.currentBanner">
+                <div class="event-desta">
+                    <div ng-bind-html="main.currentBanner.body">
+                    </div>
+                </div>
+                <img class="img-banner" ng-src="{{main.currentBanner.fileUrl}}" >
+            </li>
+        </ul>
+    </div>
+</div>

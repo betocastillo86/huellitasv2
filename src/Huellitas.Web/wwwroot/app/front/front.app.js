@@ -4,8 +4,10 @@
         'ngRoute',
         'ngStorage',
         'ngSanitize',
+        'ngAnimate',
 
         // Custom modules
+        'huellitasComponents',
         'huellitasServices',
 
         // 3rd Party Modules

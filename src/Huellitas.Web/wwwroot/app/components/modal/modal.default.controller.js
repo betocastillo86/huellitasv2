@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('huellitasAdmin')
+    angular.module('huellitasComponents')
         .controller('ModalDefaultController', ModalDefaultController);
 
     angular.$inject = ['$scope'];

@@ -75,7 +75,7 @@ namespace Huellitas.Web.TagHelpers
             {
                 var directoryName = new System.IO.DirectoryInfo(directory).Name;
 
-                if (root && !directoryName.Equals("services") && !directoryName.Equals(mainFolder))
+                if (root && !directoryName.Equals("services") && !directoryName.Equals("components") && !directoryName.Equals(mainFolder))
                 {
                     continue;
                 }

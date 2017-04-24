@@ -48,7 +48,7 @@
                 vm.isSending = true;
 
                 if (vm.model.id > 0) {
-                    bannerService.put(vm.model)
+                    bannerService.put(vm.id, vm.model)
                         .then(saveCompleted)
                         .catch(saveError);
                 }
