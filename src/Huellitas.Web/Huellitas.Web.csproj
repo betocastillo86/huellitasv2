@@ -71,6 +71,11 @@
     <Content Include="wwwroot\app\admin\users\editUser.html" />
     <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
+    <Content Include="wwwroot\app\front\front.app.js" />
+    <Content Include="wwwroot\app\front\front.configuration.js" />
+    <Content Include="wwwroot\app\front\front.routes.js" />
+    <Content Include="wwwroot\app\front\home\home.controller.js" />
+    <Content Include="wwwroot\app\front\layout\root.controller.js" />
     <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
     <Content Include="wwwroot\app\services\common\banner.service.js" />
     <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
@@ -98,6 +103,11 @@
     <Content Include="wwwroot\app\services\user\role.service.js" />
     <Content Include="wwwroot\app\services\user\user.service.js" />
     <Content Include="wwwroot\css\huellitas.css" />
+    <Content Include="wwwroot\sass\animate.scss" />
+    <Content Include="wwwroot\sass\icons.scss" />
+    <Content Include="wwwroot\sass\mixins.scss" />
+    <Content Include="wwwroot\sass\normalize.scss" />
+    <Content Include="wwwroot\sass\styles.scss" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

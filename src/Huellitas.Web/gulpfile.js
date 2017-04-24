@@ -18,28 +18,23 @@ var bower = require('gulp-bower'),
     handlebars = require('gulp-handlebars'),
     cssConcat = require('gulp-concat-css'),
     cssmin = require("gulp-cssmin"),
+    sass = require("gulp-sass"),
     replace = require("gulp-replace"),
     flatten = require("gulp-flatten"),
     concat = require('gulp-concat');
 
 var paths = {
     webroot: './wwwroot/',
-    approot: './wwwroot/app/',
-    external: './node_modules/externalHuellitas/'
+    approotAdmin: './wwwroot/app/admin',
+    approotFront: './wwwroot/app/front',
+    approotServices: './wwwroot/app/services',
+    external: './node_modules/externalHuellitas/',
+    sassFront : './wwwroot/sass/'
 };
 
-gulp.task('externallibs', function () {
-    return bower()
-        .pipe(gulp.dest(paths.external));
-});
+/********************ADMINISTRADOR*******************************/
 
-
-
-paths.js = [
-    paths.approot + '**/*.js'
-]
-
-paths.libs = [
+paths.libsAdmin = [
     paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
     paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
     paths.external + 'angular/angular.js',
@@ -56,57 +51,42 @@ paths.libs = [
     paths.external + 'pikaday/pikaday.js'
 ];
 
-paths.css = [
-    paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
-    paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
-    paths.external + 'gentelella/build/css/custom.min.css',
-    paths.external + 'textAngular/dist/textAngular.css',
-    paths.external + 'angucomplete-alt/angucomplete-alt.css',
-    paths.external + 'pikaday/css/pikaday.css',
-    paths.webroot + 'css/huellitas.css'
-];
+paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
 
-paths.concatJsDest = paths.webroot + "js/site.min.js";
-//paths.concatJsTemplatesDest = paths.webroot + "js/templates.min.js";
-paths.concatCssDest = paths.webroot + "css/styles.css";
+gulp.task("release", ['scriptsReleaseAdmin', 'cssAdmin']);
 
-var finalPaths = []; 
-finalPaths = finalPaths.concat(paths.libs);
-finalPaths = finalPaths.concat(paths.js);
+gulp.task('scriptsReleaseAdmin', function () {
 
+    var files = [
+        paths.approotAdmin + '**/*.js'
+    ];
 
-//gulp.task('watcher', function () {
-//    console.log('Inicia tarea watcher');
-//    //return gulp.watch(paths.webroot + 'huellitas/**/*.js', function () {
-//    //    console.log('Concatena en desarrollo el main');
-//    //    gulp.src(finalPaths, { base: '.' })
-//    //            .pipe(concat(paths.concatJsDest))
-//    //            .pipe(gulp.dest('.'));
-//    //});
-//    return gulp.watch(paths.webroot + 'huellitas/**/*.html', {}, ['templatesHandlebars']);
+    files.concat(paths.libsAdmin);
 
-//});
+    console.log('Inicia tarea scripts', files);
 
-gulp.task("release", ['scriptsRelease', 'css']);
-
-gulp.task('scriptsRelease', function () {
-    console.log('Inicia tarea scripts', finalPaths);
-
-    return gulp.src(finalPaths, { base: '.' })
-    .pipe(concat(paths.concatJsDest))
-    .pipe(uglify())
+    return gulp.src(files, { base: '.' })
+    .pipe(concat(paths.concatJsDestAdmin))
+    //.pipe(uglify())
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('css', ['moveResources'], function () {
-    console.log('Inicia tarea de css con ');
+gulp.task('cssAdmin', ['moveResources'], function () {
+    
+    var files = [
+        paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
+        paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
+        paths.external + 'gentelella/build/css/custom.min.css',
+        paths.external + 'textAngular/dist/textAngular.css',
+        paths.external + 'angucomplete-alt/angucomplete-alt.css',
+        paths.external + 'pikaday/css/pikaday.css',
+        paths.webroot + 'css/huellitas.css'
+    ];
 
-    for (var i = 0; i < paths.css.length; i++) {
-        console.log(paths.css[i]);
-    }
+    console.log('Inicia tarea de css con ', files);
 
-    return gulp.src(paths.css, { base: '.' })
-        .pipe(cssConcat(paths.concatCssDest))
+    return gulp.src(files, { base: '.' })
+        .pipe(cssConcat(paths.webroot + "css/styles.css"))
         //.pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
@@ -123,32 +103,44 @@ gulp.task('moveResources', function () {
         .pipe(gulp.dest(paths.webroot+'fonts'));
 })
 
-
-
-gulp.task('scriptsDev', function () {
-    return gulp.src(paths.libs, { base: '.' })
-            .pipe(concat(paths.concatJsDest))
+gulp.task('scriptsDevAdmin', function () {
+    console.log('Se generan los archivos', paths.libsAdmin);
+    return gulp.src(paths.libsAdmin, { base: '.' })
+            .pipe(concat(paths.concatJsDestAdmin))
             //.pipe(uglify())
             .pipe(gulp.dest('.'));
 });
 
-//gulp.task('templatesHandlebars', function () {
-//    console.log('Ejecutando tarea templatesHandlebars');
-//    var path = [paths.webroot + 'huellitas/apps/**/*.html', paths.webroot + 'huellitas/components/**/*.html'];
-//    console.log(path);
-//    return gulp.src(path)
-//        .pipe(handlebars({ handlebars: require('handlebars') }))
-//        .pipe(wrap('Handlebars.template(<%= contents %>)'))
-//        .pipe(declare({
-//            namespace: 'HTempl',
-//            noRedeclare: true,
-//            //processName: declare.processNameByPath
-//            processName: function (path) {
-//                path = path.split(/(wwwroot\\huellitas\\apps\\|wwwroot\\huellitas\\components\\)/)[2];
-//                var finalPath = path.replace('templates\\', '').replace(/\\/g, '/').replace('.js', '');
-//                return finalPath;
-//            }
-//        }))
-//        .pipe(concat(paths.concatJsTemplatesDest))
-//        .pipe(gulp.dest('.'));
+/*************************FIN ADMINISTRADOR*************************/
+
+/*************************FRONT*************************/
+
+//gulp.task('sassFront', function () {
+//    return gulp.src(paths.sassFront + 'styles.scss')
+//        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+//        .pipe(cssmin({ keepSpecialComments: 0 }))
+//        .pipe(gulp.dest('./content/css/'));
 //});
+
+gulp.task('cssFront',['sassFront'], function () {
+    var files = [
+        paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
+        paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
+        paths.webroot + 'css/front/styles.css'
+    ];
+
+    console.log('Inicia tarea de css con ', files);
+
+    return gulp.src(files, { base: '.' })
+        .pipe(cssConcat(paths.webroot + "css/front.styles.css"))
+        //.pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('sassFront', function () {
+    console.log(paths.sassFront + 'styles.scss')
+    return gulp.src(paths.sassFront + 'styles.scss')
+        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+        .pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(gulp.dest(paths.webroot + 'css/front/'));
+});

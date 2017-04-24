@@ -5,9 +5,9 @@
     angular.module('huellitasAdmin')
         .config(huellitasAdminConfiguration);
 
-    huellitasAdminConfiguration.$inject = ['$routeProvider', '$locationProvider', '$httpProvider'];
+    huellitasAdminConfiguration.$inject = ['$locationProvider', '$httpProvider'];
 
-    function huellitasAdminConfiguration($routeProvider, $locationProvider, $httpProvider)
+    function huellitasAdminConfiguration($locationProvider, $httpProvider)
     {
         $httpProvider.interceptors.push('expiredSessionInterceptor');
         $httpProvider.interceptors.push('interceptorService');
