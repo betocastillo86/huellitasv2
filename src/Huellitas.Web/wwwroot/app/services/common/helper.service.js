@@ -10,7 +10,8 @@
     function helperService($window, modalService) {
         var service = {
             configServiceUrl: configServiceUrl,
-            handleException: handleException
+            handleException: handleException,
+            isMobileWidth: isMobileWidth
         };
 
         return service;
@@ -38,6 +39,11 @@
             else {
                 modalService.showError({ error: data.data.error });
             }
+        }
+
+        function isMobileWidth()
+        {
+            return $window.innerWidth <= 600;
         }
     }
 })();

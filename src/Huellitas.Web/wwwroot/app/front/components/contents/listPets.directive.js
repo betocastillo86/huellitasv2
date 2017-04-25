@@ -26,10 +26,13 @@
         vm.filter = {};
         vm.pets = [];
 
+        vm.petsLoadedCallback = undefined;
+
         activate();
 
         function activate() {
             vm.filter = $attrs.filter ? $scope.$eval($attrs.filter) : {};
+            vm.petsLoadedCallback = $attrs.petsloaded ? $scope.$eval($attrs.petsloaded) : undefined;
 
             getPets();
         }
@@ -43,6 +46,11 @@
             function getCompleted(response)
             {
                 vm.pets = response.results;
+
+                if (vm.petsLoadedCallback)
+                {
+                    vm.petsLoadedCallback(response);
+                }
             }
         }
 
