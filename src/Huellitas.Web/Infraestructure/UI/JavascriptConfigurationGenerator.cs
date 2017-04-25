@@ -18,6 +18,7 @@ namespace Huellitas.Web.Infraestructure.UI
     using Huellitas.Data.Entities.Enums;
     using Microsoft.AspNetCore.Hosting;
     using Newtonsoft.Json;
+    using Huellitas.Web.Models.Extensions;
 
     /// <summary>
     /// The <c>javascript</c> Configuration Generator
@@ -51,6 +52,11 @@ namespace Huellitas.Web.Infraestructure.UI
         private readonly ITextResourceService textResourceService;
 
         /// <summary>
+        /// Custom table service
+        /// </summary>
+        private readonly ICustomTableService customTableService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JavascriptConfigurationGenerator"/> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
@@ -63,13 +69,15 @@ namespace Huellitas.Web.Infraestructure.UI
             ITextResourceService textResourceService,
             ICacheManager cacheManager,
             IHostingEnvironment env,
-            IRepository<SystemSetting> systemSettingRepository)
+            IRepository<SystemSetting> systemSettingRepository,
+            ICustomTableService customTableService)
         {
             this.generalSettings = generalSettings;
             this.textResourceService = textResourceService;
             this.cacheManager = cacheManager;
             this.env = env;
             this.systemSettingRepository = systemSettingRepository;
+            this.customTableService = customTableService;
         }
 
         /// <summary>
@@ -145,7 +153,10 @@ namespace Huellitas.Web.Infraestructure.UI
             var config = new
             {
                 resources = this.GetFrontResources(),
-                isDebug = isDebug
+                isDebug = isDebug,
+                subtypes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSubtype).Select(c => new { id = c.Id, value = c.Value }),
+                sizes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSize).Select(c => new { id = c.Id, value = c.Value }),
+                genres = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).Select(c => new { id = c.Id, value = c.Value })
             };
 
             return JsonConvert.SerializeObject(config);

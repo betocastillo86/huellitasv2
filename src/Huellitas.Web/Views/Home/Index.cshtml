@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app="huellitas" ng-controller="RootController as root">
 <head>
     <title ng-bind="root.seo.title"></title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <meta name="description" content="{{root.seo.description}}" />
@@ -24,20 +24,20 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700" rel="stylesheet" />
+
     <environment names="Development">
         <script src="~/js/front.configuration.js"></script>
         <script src="~/js/front.site.min.js"></script>
         <jsresources type="front"></jsresources>
-        <link href="~/css/front.styles.css" rel="stylesheet">
+        <link href="~/css/front.styles.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/front.configuration.js"></script>
         <script src="/js/front.site.min.js"></script>
-        <link href="/css/front.styles.css" rel="stylesheet">
+        <link href="/css/front.styles.css" rel="stylesheet" />
     </environment>
 </head>
 <body>
@@ -46,14 +46,14 @@
             <div class="main-menu"><span class="icon-menu"></span></div>
             <h1 class="logo">
                 <a href="/">
-                    <img src="/img/front/logo.svg" title="Logo Huellitas sin hogar" alt="Logo Huellitas sin hogar">
+                    <img src="/img/front/logo.svg" title="Logo Huellitas sin hogar" alt="Logo Huellitas sin hogar" />
                     <span>Huellitas sin hogar - Adopción de perros en Bogotá y Colombia</span>
                 </a>
             </h1>
             <nav class="menu">
-                <h2><a class="active" href="index.html">Inicio</a></h2>
-                <h2><a href="huellitas.html">En adopción</a></h2>
-                <h2><a href="perdidos.html">Perdidos</a></h2>
+                <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}">Inicio</a></h2>
+                <h2><a href="/sinhogar" ng-class="{'active': root.currentMenu == '/sinhogar'}">En adopción</a></h2>
+                <h2><a href="perdidos.html" >Perdidos</a></h2>
                 <h2><a href="fundaciones.html">Fundaciones</a></h2>
                 <h2><a href="porque.html">¿Por qué adoptar?</a></h2>
                 <br />
@@ -66,7 +66,7 @@
                 </a>
                 <div class="user-img" ng-if="root.currentUser" ng-click="root.showUserInfo()">
                     <div class="no-img">U</div>
-                    <img src="https://scontent.fbog2-1.fna.fbcdn.net/v/t1.0-1/p56x56/14368897_1083015501806273_3197812012577248045_n.jpg?oh=e0ba28e2d93f5a799ac2d262b2ff862c&oe=5959FBE8">
+                    <img src="https://scontent.fbog2-1.fna.fbcdn.net/v/t1.0-1/p56x56/14368897_1083015501806273_3197812012577248045_n.jpg?oh=e0ba28e2d93f5a799ac2d262b2ff862c&oe=5959FBE8" />
                 </div>
                 <br />
                 <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo">
@@ -81,7 +81,15 @@
         </div>
     </header>
 
-    <div ng-cloak ng-view></div>
-    
+    <div ng-cloak=ng-cloak ng-view=ng-view></div>
+
+    <footer>
+        <div class="redes">
+            <a href="https://www.facebook.com/huellitas.social/" title="Facebook Huellitas sin hogar" target="_blank"><span class="icon-face"></span></a>
+            <a href="https://www.instagram.com/huellitas.social/" title="Instagram Huellitas sin hogar" target="_blank"><span class="icon-insta"></span></a>
+        </div>
+        <p>© 2017 Huellitas sin hogar. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>

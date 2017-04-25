@@ -7,41 +7,46 @@
         .controller('RootController', RootController);
 
 
-    RootController.$inject = ['sessionService', 'authenticationService', 'helperService']
+    RootController.$inject = ['$location', '$scope', 'sessionService', 'authenticationService', 'helperService', 'routingService']
 
-    function RootController(sessionService, authenticationService, helperService) {
+    function RootController($location, $scope, sessionService, authenticationService, helperService, routingService) {
         var vm = this;
 
         vm.currentUser = undefined;
         vm.showingUserInfo = false;
         vm.resources = app.Settings.resources;
-        
+        vm.currentMenu = '/';
+
         vm.showUserInfo = showUserInfo;
+        vm.getRoute = routingService.getRoute;
 
         activate();
 
         function activate() {
-            if (sessionService.isAuthenticated())
-            {
+
+            $scope.$on("$routeChangeStart", locationChanged);
+
+            if (sessionService.isAuthenticated()) {
                 getCurrentUser();
             }
         }
 
-        function getCurrentUser()
-        {
+        function getCurrentUser() {
             authenticationService.get()
                 .then(getCompleted)
                 .catch(helperService.handleException);
 
-            function getCompleted(response)
-            {
+            function getCompleted(response) {
                 vm.currentUser = response;
             }
         }
 
-        function showUserInfo()
-        {
+        function showUserInfo() {
             vm.showingUserInfo = !vm.showingUserInfo;
+        }
+        
+        function locationChanged(event, next, current) {
+            vm.currentMenu = next.$$route.originalPath;
         }
     }
 })();

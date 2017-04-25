@@ -55,7 +55,8 @@ namespace Huellitas.Web
 
                 routes.MapRoute(
                     name: "defaultRoute",
-                    template: "{controller=Home}/{action=Index}");
+                    template: "{*url}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
 
             this.CreateJavascriptFile(app);

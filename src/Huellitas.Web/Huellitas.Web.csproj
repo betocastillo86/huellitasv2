@@ -74,6 +74,8 @@
     <Content Include="wwwroot\app\components\modal\modal.service.js" />
     <Content Include="wwwroot\app\front\components\contents\listPets.directive.js" />
     <Content Include="wwwroot\app\front\components\contents\listPets.html" />
+    <Content Include="wwwroot\app\front\contents\pets.controller.js" />
+    <Content Include="wwwroot\app\front\contents\pets.html" />
     <Content Include="wwwroot\app\front\filters\age.filter.js" />
     <Content Include="wwwroot\app\front\front.app.js" />
     <Content Include="wwwroot\app\front\front.configuration.js" />
@@ -86,7 +88,6 @@
     <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
     <Content Include="wwwroot\app\services\common\banner.service.js" />
     <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
-    <Content Include="wwwroot\app\services\common\helper.service.js" />
     <Content Include="wwwroot\app\services\common\http.service.js" />
     <Content Include="wwwroot\app\services\common\log.service.js" />
     <Content Include="wwwroot\app\services\common\module.service.js" />
@@ -101,6 +102,9 @@
     <Content Include="wwwroot\app\services\content\pet.service.js" />
     <Content Include="wwwroot\app\services\content\shelter.service.js" />
     <Content Include="wwwroot\app\services\file\file.service.js" />
+    <Content Include="wwwroot\app\services\helpers\helper.service.js" />
+    <Content Include="wwwroot\app\services\helpers\http.service.js" />
+    <Content Include="wwwroot\app\services\helpers\routing.service.js" />
     <Content Include="wwwroot\app\services\interceptor\expiredSession.interceptor.js" />
     <Content Include="wwwroot\app\services\interceptor\interceptor.service.js" />
     <Content Include="wwwroot\app\services\notifications\emailNotification.service.js" />
