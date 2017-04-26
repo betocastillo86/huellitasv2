@@ -48,7 +48,7 @@ namespace Huellitas.Web.Models.Extensions
                 entity = new Content();
                 entity.StatusType = StatusType.Created;
                 entity.Type = ContentType.Pet;
-
+                
                 for (int i = 0; i < model.Files.Count; i++)
                 {
                     if (i == 0)
@@ -97,6 +97,12 @@ namespace Huellitas.Web.Models.Extensions
                 {
                     throw new HuellitasException(HuellitasExceptionCode.ShelterNotFound);
                 }
+            }
+
+            if (isAdmin)
+            {
+                ////TODO:retest
+                entity.Featured = model.Featured;
             }
 
             if (model.Parents?.Count > 0)
@@ -159,7 +165,8 @@ namespace Huellitas.Web.Models.Extensions
                 Views = entity.Views,
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
-                ClosingDate = entity.ClosingDate
+                ClosingDate = entity.ClosingDate,
+                FriendlyName = entity.FriendlyName
             };
 
             if (entity.LocationId.HasValue && entity.Location != null)

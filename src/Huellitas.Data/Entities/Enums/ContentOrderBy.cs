@@ -23,6 +23,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The created date
         /// </summary>
-        CreatedDate
+        CreatedDate,
+
+        /// <summary>
+        /// Featured and after created date
+        /// </summary>
+        Featured
     }
 }

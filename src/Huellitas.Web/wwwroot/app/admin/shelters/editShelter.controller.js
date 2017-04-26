@@ -41,6 +41,7 @@
         vm.deleteUser = deleteUser;
         vm.getFullNameImage = getFullNameImage;
         vm.canShowGallery = canShowGallery;
+        vm.logoAdded = logoAdded;
 
         activate();
 
@@ -135,6 +136,10 @@
             function getCompleted(model) {
                 vm.model = model;
                 vm.showPicturesActive = true;
+
+                ////Quita el primer archivo para dejarlo como logo
+                vm.model.files = _.rest(vm.model.files);
+
                 vm.getFullNameImage();
             }
         }
@@ -207,9 +212,18 @@
                 modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
                 return false;
             }
+            else if (!vm.model.image)
+            {
+                modalService.showError({ message: 'El logo es obligatorio' });
+                return false;
+            }
 
             if (isValid && !vm.isSending) {
                 vm.isSending = true;
+
+                //agrega nuevamente el logo
+                vm.model.files = _.union([vm.model.image], vm.model.files);
+
                 if (vm.model.id > 0) {
                     shelterService.put(vm.model)
                     .then(saveCompleted)
@@ -223,6 +237,10 @@
             }
 
             function saveCompleted(response) {
+
+                ////Vuelve a quitar el logo
+                vm.model.files = _.rest(vm.model.files);
+
                 vm.isSending = false;
                 response = response;
                 var message = 'El refugio fue actualizado correctamente';
@@ -258,6 +276,10 @@
                 vm.isSending = false;
                 helperService.handleException(response);
             }
+        }
+
+        function logoAdded(file) {
+            vm.model.image = file;
         }
 
     }

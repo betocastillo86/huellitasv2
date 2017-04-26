@@ -185,6 +185,24 @@
             </div>
         </div>
 
+
+        <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2 class="ng-binding">Logo</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <img ng-if="main.model.image" ng-src="{{main.model.image.thumbnail}}" width="120" height="80">
+                    <div style="position:relative">
+                        <button type="button" class="btn btn-default btn-lg"><i class="fa fa-plus"></i> {{main.model.image ? 'Cambiar Logo' : 'Agregar Logo'}}</button>
+                        <input type="file" class="fileInvisible" fileupload-huellitas onadded="main.logoAdded" data-defaultname="{{'logo '+ main.defaultNameImage}}" multiple="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
             <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80"></gallery-huellitas>
         </div>

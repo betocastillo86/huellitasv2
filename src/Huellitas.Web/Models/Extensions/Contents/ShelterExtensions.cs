@@ -125,7 +125,8 @@ namespace Huellitas.Web.Models.Extensions.Contents
                 Views = entity.Views,
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
-                Email = entity.Email
+                Email = entity.Email,
+                FriendlyName = entity.FriendlyName
             };
 
             if (entity.FileId.HasValue && entity.File != null && filesHelper != null)

@@ -14,7 +14,7 @@
             pageSize: 9,
             page: 0,
             status: 'Published',
-            orderBy: 'CreatedDate',
+            orderBy: 'Featured',
             size: $location.search().size ? parseInt($location.search().size) : undefined,
             genre: $location.search().genre ? parseInt($location.search().genre) : undefined,
             age: $location.search().age,

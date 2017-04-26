@@ -10,7 +10,8 @@
         vm.shelters = [];
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
-            page: 0
+            page: 0,
+            orderBy: 'CreatedDate'
         };
         vm.pager = {};
         vm.changePage = changePage;

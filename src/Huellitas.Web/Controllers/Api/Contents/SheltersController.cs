@@ -20,6 +20,8 @@ namespace Huellitas.Web.Controllers.Api
     using Models.Api;
     using Models.Extensions;
     using Models.Extensions.Contents;
+    using System;
+    using Huellitas.Data.Core;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller
@@ -59,6 +61,21 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IPictureService pictureService;
 
         /// <summary>
+        /// The location service
+        /// </summary>
+        private readonly ILocationService locationService;
+
+        /// <summary>
+        /// The seo service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SheltersController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
@@ -67,13 +84,18 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="workContext">The work context.</param>
         /// <param name="fileService">The file service.</param>
         /// <param name="pictureService">The picture service.</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="locationService">The location service.</param>
         public SheltersController(
             IContentService contentService,
             IFilesHelper filesHelper,
             IContentSettings contentSettings,
             IWorkContext workContext,
             IFileService fileService,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            ILocationService locationService,
+            ISeoService seoService,
+            IRepository<Content> contentRepository)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -81,6 +103,9 @@ namespace Huellitas.Web.Controllers.Api
             this.workContext = workContext;
             this.fileService = fileService;
             this.pictureService = pictureService;
+            this.locationService = locationService;
+            this.seoService = seoService;
+            this.contentRepository = contentRepository;
         }
 
         /// <summary>
@@ -128,10 +153,19 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="id">The identifier.</param>
         /// <returns>the content</returns>
         [HttpGet]
-        [Route("{id:int}", Name = "Api_Shelters_GetById")]
-        public IActionResult Get(int id)
+        [Route("{friendlyName}", Name = "Api_Shelters_GetById")]
+        public IActionResult Get(string friendlyName)
         {
-            var content = this.contentService.GetById(id, true);
+            int id = 0;
+            Content content;
+            if (int.TryParse(friendlyName, out id))
+            {
+                content = this.contentService.GetById(id, true);
+            }
+            else
+            {
+                content = this.contentService.GetByFriendlyName(friendlyName, true);
+            }
 
             if (content != null)
             {
@@ -157,8 +191,9 @@ namespace Huellitas.Web.Controllers.Api
                 }
                 else
                 {
-                    this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
-                    return this.BadRequest(this.ModelState);
+                    //this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
+                    //return this.BadRequest(this.ModelState);
+                    return this.NotFound();
                 }
             }
             else
@@ -183,6 +218,8 @@ namespace Huellitas.Web.Controllers.Api
                 try
                 {
                     content = model.ToEntity(this.contentService, files: model.Files);
+
+                    content.FriendlyName = this.GenerateFriendlyName(content);
 
                     content.UserId = this.workContext.CurrentUserId;
 
@@ -216,8 +253,8 @@ namespace Huellitas.Web.Controllers.Api
                     return this.BadRequest(e);
                 }
 
-                var createdUri = this.Url.Link("Api_Shelters_GetById", new BaseModel { Id = content.Id });
-                return this.Created(createdUri, new BaseModel { Id = content.Id });
+                var createdUri = this.Url.Link("Api_Shelters_GetById", new { friendlyName = content.Id });
+                return this.Created(createdUri, new { friendlyName = content.Id });
             }
             else
             {
@@ -266,6 +303,14 @@ namespace Huellitas.Web.Controllers.Api
                     try
                     {
                         await this.contentService.UpdateAsync(content);
+
+                        if (content.FileId.HasValue)
+                        {
+                            var logo = this.fileService.GetById(content.FileId.Value);
+                            this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
+                            this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                        }
+
                         return this.Ok(new { result = true });
                     }
                     catch (HuellitasException e)
@@ -293,6 +338,25 @@ namespace Huellitas.Web.Controllers.Api
         public bool CanGetUnpublished()
         {
             return this.workContext.CurrentUser.IsSuperAdmin();
+        }
+
+        /// <summary>
+        /// Generates the name of the friendly.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>the friendly name</returns>
+        /// <exception cref="HuellitasException">the location</exception>
+        private string GenerateFriendlyName(Content content)
+        {
+            try
+            {
+                var location = this.locationService.GetCachedLocationById(content.LocationId.Value);
+                return this.seoService.GenerateFriendlyName($"{content.Name} {location.Name}", this.contentRepository.Table);
+            }
+            catch (NullReferenceException)
+            {
+                throw new HuellitasException("Location", HuellitasExceptionCode.InvalidForeignKey);
+            }
         }
 
         /// <summary>

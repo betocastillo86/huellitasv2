@@ -25,6 +25,7 @@ namespace Huellitas.Web.Controllers.Api
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Huellitas.Data.Core;
 
     /// <summary>
     /// Pets Controller
@@ -75,6 +76,21 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IFileService fileService;
 
+        /// <summary>
+        /// The seo service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
+        /// The location service
+        /// </summary>
+        private readonly ILocationService locationService;
+
+        /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
         #endregion props
 
         #region ctor
@@ -98,7 +114,10 @@ namespace Huellitas.Web.Controllers.Api
             IWorkContext workContext,
             IPictureService pictureService,
             IContentSettings contentSettings,
-            IFileService fileService)
+            IFileService fileService,
+            ISeoService seoService,
+            ILocationService locationService,
+            IRepository<Content> contentRepository)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -108,6 +127,9 @@ namespace Huellitas.Web.Controllers.Api
             this.pictureService = pictureService;
             this.contentSettings = contentSettings;
             this.fileService = fileService;
+            this.seoService = seoService;
+            this.locationService = locationService;
+            this.contentRepository = contentRepository;
         }
 
         #endregion ctor
@@ -177,10 +199,19 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="id">The identifier.</param>
         /// <returns>the value</returns>
         [HttpGet]
-        [Route("{id:int}", Name = "Api_Pets_GetById")]
-        public IActionResult Get(int id)
+        [Route("{friendlyName}", Name = "Api_Pets_GetById")]
+        public IActionResult Get(string friendlyName)
         {
-            var content = this.contentService.GetById(id, true);
+            int id = 0;
+            Content content;
+            if (int.TryParse(friendlyName, out id))
+            {
+                content = this.contentService.GetById(id, true);
+            }
+            else
+            {
+                content = this.contentService.GetByFriendlyName(friendlyName, true);
+            }
 
             if (content != null)
             {
@@ -209,8 +240,9 @@ namespace Huellitas.Web.Controllers.Api
                 }
                 else
                 {
-                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
-                    return this.BadRequest(this.ModelState);
+                    //this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                    //return this.BadRequest(this.ModelState);
+                    return this.NotFound();
                 }
             }
             else
@@ -235,6 +267,8 @@ namespace Huellitas.Web.Controllers.Api
                 try
                 {
                     content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), files: model.Files);
+
+                    content.FriendlyName = this.GenerateFriendlyName(model, content);
 
                     content.UserId = this.workContext.CurrentUserId;
 
@@ -266,8 +300,8 @@ namespace Huellitas.Web.Controllers.Api
                     return this.BadRequest(e);
                 }
 
-                var createdUri = this.Url.Link("Api_Pets_GetById", new BaseModel { Id = content.Id });
-                return this.Created(createdUri, new BaseModel { Id = content.Id });
+                var createdUri = this.Url.Link("Api_Pets_GetById", new { friendlyName = content.Id });
+                return this.Created(createdUri, new  { friendlyName = content.Id });
             }
             else
             {
@@ -421,6 +455,28 @@ namespace Huellitas.Web.Controllers.Api
             }
 
             return this.ModelState.IsValid;
+        }
+
+        /// <summary>
+        /// Generates the friendly name
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>the friendle name</returns>
+        private string GenerateFriendlyName(PetModel model, Content content)
+        {
+            try
+            {
+                ////TODO:Test
+                var subtype = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSubtype).FirstOrDefault(c => c.Id == model.Subtype.Value);
+                var genre = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).FirstOrDefault(c => c.Id == model.Genre.Value);
+                var size = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSize).FirstOrDefault(c => c.Id == model.Size.Value);
+                var location = this.locationService.GetCachedLocationById(content.LocationId.Value);
+                return this.seoService.GenerateFriendlyName($"{model.Name} {subtype.Value} {genre.Value} {size.Value} {location.Name}", this.contentRepository.Table);
+            }
+            catch (NullReferenceException)
+            {
+                throw new HuellitasException(HuellitasExceptionCode.InvalidForeignKey);
+            }
         }
 
         /// <summary>

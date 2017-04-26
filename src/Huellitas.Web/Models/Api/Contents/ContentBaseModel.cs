@@ -137,5 +137,13 @@ namespace Huellitas.Web.Models.Api
         ///   <c>true</c> if featured; otherwise, <c>false</c>.
         /// </value>
         public bool Featured { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the friendly.
+        /// </summary>
+        /// <value>
+        /// The name of the friendly.
+        /// </value>
+        public string FriendlyName { get; set; }
     }
 }

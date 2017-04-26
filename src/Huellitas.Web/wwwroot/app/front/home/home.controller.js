@@ -17,7 +17,7 @@
         vm.currentBanner = undefined;
         vm.filterPets = {
             pageSize: 9,
-            orderBy: 'CreatedDate',
+            orderBy: 'Featured',
             status: 'Published'
         };
 

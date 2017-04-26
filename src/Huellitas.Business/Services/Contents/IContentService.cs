@@ -26,6 +26,14 @@ namespace Huellitas.Business.Services
         Content GetById(int id, bool includeLocation = false);
 
         /// <summary>
+        /// Get by friendly name
+        /// </summary>
+        /// <param name="friendlyName">friendly name</param>
+        /// <param name="includeLocation">includes location</param>
+        /// <returns>the content</returns>
+        Content GetByFriendlyName(string friendlyName, bool includeLocation = false);
+
+        /// <summary>
         /// Gets the files of a content
         /// </summary>
         /// <param name="contentId">The content identifier.</param>

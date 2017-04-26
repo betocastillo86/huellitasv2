@@ -5,13 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Data.Entities.Enums;
     using EventPublisher;
     using Exceptions;
@@ -19,6 +12,13 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Service
@@ -113,6 +113,22 @@ namespace Huellitas.Business.Services
                 .Include(c => c.File)
                 .Include(c => c.User)
                 .Where(c => c.Id == id && !c.Deleted);
+
+            if (includeLocation)
+            {
+                query = query.Include(c => c.Location);
+            }
+
+            return query.FirstOrDefault();
+        }
+
+        public Content GetByFriendlyName(string friendlyName, bool includeLocation = false)
+        {
+            var query = this.contentRepository.Table
+                .Include(c => c.ContentAttributes)
+                .Include(c => c.File)
+                .Include(c => c.User)
+                .Where(c => c.FriendlyName.Equals(friendlyName) && !c.Deleted);
 
             if (includeLocation)
             {
@@ -224,7 +240,7 @@ namespace Huellitas.Business.Services
             {
                 query = query.Include(c => c.User);
             }
-                
+
             query = query.Where(c => c.ContentId == contentId);
 
             if (relation.HasValue)
@@ -247,7 +263,10 @@ namespace Huellitas.Business.Services
         public async Task InsertAsync(Content content)
         {
             content.CreatedDate = DateTime.Now;
-            content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.Table);
+            if (string.IsNullOrEmpty(content.FriendlyName))
+            {
+                content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.Table);
+            }
 
             try
             {
@@ -346,7 +365,7 @@ namespace Huellitas.Business.Services
                     throw;
                 }
             }
-            
+
             await this.publisher.EntityInserted(contentUser);
         }
 
@@ -527,6 +546,11 @@ namespace Huellitas.Business.Services
 
                 case ContentOrderBy.CreatedDate:
                     query = query.OrderByDescending(c => c.CreatedDate);
+                    break;
+
+                case ContentOrderBy.Featured:
+                    query = query.OrderByDescending(c => c.Featured)
+                                 .ThenByDescending(c => c.CreatedDate);
                     break;
 
                 case ContentOrderBy.DisplayOrder:
