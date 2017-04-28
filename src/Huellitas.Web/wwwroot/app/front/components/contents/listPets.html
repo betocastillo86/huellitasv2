@@ -1,24 +1,28 @@
-﻿<div class="content-card col-md-12">
-    <div class="card" ng-repeat="pet in listPet.pets">
-        <div class="img-pet">
+﻿<div ng-class="{'content-all col-md-12' : listPet.displayType == 'small'}">
+    <h2 class="tit-section" ng-if="listPet.title" ng-bind="listPet.title"></h2>
+    <div class="col-md-12" ng-class="{'content-card' : listPet.displayType == 'medium', 'content-lost' : listPet.displayType == 'small'}">
+        <div class="card" ng-repeat="pet in listPet.pets">
+            <div class="img-pet">
+                <a ng-href="{{::root.getRoute('pet', { friendlyName : pet.friendlyName })}}">
+                    <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}">
+                </a>
+            </div>
             <a ng-href="{{::root.getRoute('pet', { friendlyName : pet.friendlyName })}}">
-                <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}">
+                <h3>{{::pet.name}}</h3>
+                <p>{{::pet.genre.text}} - {{::pet.months | age}} </p>
+                <p style="display:none">{{::pet.body}}</p>
+                <button class="btn btn-lg">Conocer más</button>
+                <span class="priority">
+                    <i ng-if="::pet.featured" class="icon-star"></i>
+                    <span ng-if="::pet.featured">Caso prioritario</span>
+                </span>
             </a>
         </div>
-        <a ng-href="{{::root.getRoute('pet', { friendlyName : pet.friendlyName })}}">
-        <h3>{{::pet.name}}</h3>
-        <p>{{::pet.genre.text}} - {{::pet.months | age}} </p>
-        <p style="display:none">{{::pet.body}}</p>
-        <button class="btn btn-lg">Conocer más</button>
-        <span class="priority">
-        <i ng-if="::pet.featured" class="icon-star"></i>
-        <span ng-if="::pet.featured">Caso prioritario</span>
-        </span>
-        </a>
+        <div ng-if="!listPet.pets.length">
+            No hay resultados que coincidan con tu busqueda
+        </div>
+        <br />
+        <button type="button" class="btn btn-lg btn-more" ng-if="listPet.showPager" ng-click="listPet.nextPage()">Ver más</button>
     </div>
-    <div ng-if="!listPet.pets.length">
-        No hay resultados que coincidan con tu busqueda
-    </div>
-    <br />
-    <button type="button" class="btn btn-lg btn-more" ng-if="listPet.showPager" ng-click="listPet.nextPage()">Ver más</button>
+
 </div>

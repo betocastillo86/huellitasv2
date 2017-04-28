@@ -5,9 +5,9 @@
         .module('huellitas')
         .run(runHuellitas);
 
-    runHuellitas.$inject = ['$rootScope', '$http', '$location', 'sessionService'];
+    runHuellitas.$inject = ['$rootScope', '$http', '$location', '$window', 'sessionService'];
 
-    function runHuellitas($rootScope, $http, $location, sessionService) {
+    function runHuellitas($rootScope, $http, $location, $window, sessionService) {
         // keep user logged in after page refresh
         if (sessionService.getCurrentUser()) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionService.getToken();
@@ -23,6 +23,8 @@
             else if (!restrictedPage && sessionService.isAuthenticated()) {
                 console.log('Sacar el login');
             }
+
+            $window.document.body.scrollTop = 0;
         });
     }
 })();

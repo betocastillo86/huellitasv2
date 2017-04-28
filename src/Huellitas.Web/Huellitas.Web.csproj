@@ -74,9 +74,15 @@
     <Content Include="wwwroot\app\components\modal\modal.service.js" />
     <Content Include="wwwroot\app\front\components\contents\listPets.directive.js" />
     <Content Include="wwwroot\app\front\components\contents\listPets.html" />
+    <Content Include="wwwroot\app\front\components\gallery\gallery.controller.js" />
+    <Content Include="wwwroot\app\front\components\gallery\gallery.directive.js" />
+    <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
+    <Content Include="wwwroot\app\front\contents\petDetail.controller.js" />
+    <Content Include="wwwroot\app\front\contents\petDetail.html" />
     <Content Include="wwwroot\app\front\contents\pets.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets.html" />
     <Content Include="wwwroot\app\front\filters\age.filter.js" />
+    <Content Include="wwwroot\app\front\filters\applyEnter.filter.js" />
     <Content Include="wwwroot\app\front\front.app.js" />
     <Content Include="wwwroot\app\front\front.configuration.js" />
     <Content Include="wwwroot\app\front\front.routes.js" />

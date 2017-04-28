@@ -54,8 +54,13 @@ namespace Huellitas.Web
                     defaults: new { controller = "Admin", action = "Index" });
 
                 routes.MapRoute(
+                    name: "HomeRoute",
+                    template: "",
+                    defaults: new { controller = "Home", action = "Index" });
+
+                routes.MapRoute(
                     name: "defaultRoute",
-                    template: "{*url}",
+                    template: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });
             });
 

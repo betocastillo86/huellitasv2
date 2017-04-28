@@ -966,6 +966,13 @@ section{
         }
     }
 }
+
+.content-lost{
+    .btn, .priority{
+        display:none !important;
+    }
+}
+
 .img-pet{
     width: 100%;
     overflow: hidden;

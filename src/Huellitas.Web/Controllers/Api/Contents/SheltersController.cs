@@ -19,7 +19,6 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
-    using Models.Extensions.Contents;
     using System;
     using Huellitas.Data.Core;
 

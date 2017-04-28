@@ -12,6 +12,11 @@
 
         function ageFilter(months)
         {
+            if (!months)
+            {
+                return;
+            }
+
             if (months < 12) {
                 return months + ' mes' + (months > 1 ? 'es' : '');
             }
