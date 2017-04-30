@@ -10,19 +10,19 @@ namespace Huellitas.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            /*migrationBuilder.AlterColumn<int>(
                 name: "Id",
                 table: "SystemSetting",
                 nullable: false)
-                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);*/
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            /*migrationBuilder.AlterColumn<int>(
                 name: "Id",
                 table: "SystemSetting",
-                nullable: false);
+                nullable: false);*/
         }
     }
 }

@@ -301,7 +301,7 @@ namespace Huellitas.Web.Controllers.Api
                 }
 
                 var createdUri = this.Url.Link("Api_Pets_GetById", new { friendlyName = content.Id });
-                return this.Created(createdUri, new  { friendlyName = content.Id });
+                return this.Created(createdUri, new BaseModel { Id = content.Id });
             }
             else
             {

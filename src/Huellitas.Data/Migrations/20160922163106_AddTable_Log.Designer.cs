@@ -482,7 +482,8 @@ namespace Huellitas.Data.Migrations
 
             modelBuilder.Entity("Huellitas.Data.Entities.SystemSetting", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                    .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
