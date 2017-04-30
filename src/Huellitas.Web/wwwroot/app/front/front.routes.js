@@ -12,6 +12,11 @@
                 controller: 'HomeController',
                 controllerAs: 'main'
             })
+            .when('/sinhogar/:friendlyName', {
+                templateUrl: '/app/front/contents/petDetail.html',
+                controller: 'PetDetailController',
+                controllerAs: 'main'
+            })
             .when('/sinhogar', {
                 templateUrl: '/app/front/contents/pets.html',
                 controller: 'PetsController',

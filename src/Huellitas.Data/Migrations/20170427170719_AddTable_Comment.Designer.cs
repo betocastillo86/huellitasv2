@@ -9,8 +9,8 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    [Migration("20170421165722_AlterColumn_Name_Table_File")]
-    partial class AlterColumn_Name_Table_File
+    [Migration("20170427170719_AddTable_Comment")]
+    partial class AddTable_Comment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -206,6 +206,44 @@ namespace Huellitas.Data.Migrations
                         .HasName("PK_Category");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ContentId");
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<int>("NumComments");
+
+                    b.Property<int?>("ParentCommentId");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1500)");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Comment");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("ParentCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Content", b =>
@@ -818,6 +856,24 @@ namespace Huellitas.Data.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .HasConstraintName("FK_Banner_File");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Comment", b =>
+                {
+                    b.HasOne("Huellitas.Data.Entities.Content", "Content")
+                        .WithMany("Comments")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("FK_Comment_Content");
+
+                    b.HasOne("Huellitas.Data.Entities.Comment", "ParentComment")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentCommentId")
+                        .HasConstraintName("FK_Comment_ParentComment");
+
+                    b.HasOne("Huellitas.Data.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Comment_User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Content", b =>

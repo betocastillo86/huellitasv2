@@ -15,6 +15,8 @@ namespace Huellitas.Data.Entities
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
     public partial class User : BaseEntity
     {
+        private ICollection<Comment> comments;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
@@ -136,6 +138,25 @@ namespace Huellitas.Data.Entities
             set
             {
                 this.RoleId = Convert.ToInt32(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public virtual ICollection<Comment> Comments
+        {
+            get
+            {
+                return this.comments ?? (this.comments = new List<Comment>());
+            }
+
+            set
+            {
+                this.comments = value;
             }
         }
     }

@@ -1,0 +1,116 @@
+﻿<div class="pg-body col-md-12">
+    <div class="box-edit">
+        <a class="btn btn-lg" href=""><span class="icon-edit"></span> Editar</a>
+    </div>
+    <section class="bkg-gray">
+        <article class="content-all">
+            <h1 class="tit-section name-pet col-md-12">
+                {{main.model.name}}
+                <a class="btn btn-sm" href="">Compartir</a>
+            </h1>
+            
+            <gallery-huellitas class="bkg-gray" ng-if="main.model.files"  data-images="main.model.files" ></gallery-huellitas>
+            
+            <ul class="data-list col-md-12">
+                <li>
+                    Genero
+                    <b>{{::main.model.genre.text}}</b>
+                </li>
+                <li>
+                    Tamaño
+                    <b>{{::main.model.size.text}}</b>
+                </li>
+                <li>
+                    Edad
+                    <b>{{::main.model.months | age}}</b>
+                </li>
+                <li>
+                    Esterilizada/Castrado
+                    <b>{{main.model.castrated ? 'SI' : 'NO'}}</b>
+                </li>
+                <li>
+                    Ubicación
+                    <b>{{::main.model.location.name}}</b>
+                </li>
+                <br />
+            </ul>
+            <div class="col-md-12">
+                <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
+            </div>
+            <div class="box-btn">
+                <a class="btn btn-lg btn-fixed" href="form-adopcion.html">Quiero adoptarl@</a>
+                <a class="btn btn-lg" href="">Apadriname</a>
+            </div>
+            <div class="box-contact col-md-12">
+                <h5>Contacto:</h5>
+                
+                <div ng-if="::main.model.shelter" class="funda-img">
+                    <img ng-src="{{::main.model.shelter.image.thumbnail}}">
+                </div>
+                <div class="funda-txt" ng-if="::main.model.shelter">
+                    <h3>{{::main.model.shelter.name}}</h3>
+                    <h4>
+                        {{::main.model.location.name}} / Encargado: {{::main.model.shelter.owner}} <br>
+                        <span>Correo electrónico: {{::main.model.shelter.email}}</span> <br />
+                        <span>Teléfono 1: {{::main.model.shelter.phone}}</span> <br />
+                        <span ng-if="::main.model.shelter.phone2">Teléfono 2: {{::main.model.shelter.phone2}}</span>
+                    </h4>
+                </div>
+
+                <div ng-repeat="parent in main.model.parents" class="funda-txt">
+                    <h3>{{::parent.name}}</h3>
+                    <h4>
+                        {{::main.model.location.name}}<br>
+                        <span>Correo electrónico: {{::parent.email}}</span> <br />
+                        <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
+                        <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
+                    </h4>
+                </div>
+
+                <br>
+            </div>
+        </article>
+    </section>
+    <section style="padding: 40px 0 15px;">
+        <div ng-if="main.model.id" list-pets data-filter="main.filterSimilar" data-displaytype="small" data-title="main.titleSimilar"></div>
+    </section>
+    <section class="bkg-gray">
+        <article class="content-all">
+            <h1 class="tit-section col-md-12">COMENTARIOS</h1>
+            <div class="sub-title col-md-12">Deja tus comentarios que son muy importatenes para nosotros</div>
+            <form class="coment-form col-md-12">
+                <textarea placeholder="Dejanos tu comentario"></textarea>
+                <a class="btn btn-lg" href="">Comentar</a>
+            </form>
+            <ul class="content-coment col-md-12">
+                <li>
+                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
+                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
+                </li>
+                <li>
+                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
+                    <p>Hola me gusataria como llegar a la fundación vivo en la ciudad de bogota, ósea se que queda en tenjo pero como me dirijo hasta aya y si al ser aprobada la adopción hay que dar algo.</p>
+                    <div class="sub-coment">
+                        <span class="icon-coment"></span>
+                        <p>Claro que si Daniel ósea se que queda en tenjo pero como me dirijo hasta aya y si al ser aprobada la adopción hay que dar algo.</p>
+                        <br />
+                    </div>
+                </li>
+                <li>
+                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
+                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
+                    <a href=""><span class="icon-coment"></span> Responder</a>
+                </li>
+                <li>
+                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
+                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
+                    <form class="coment-form">
+                        <textarea placeholder="Dejanos tu comentario"></textarea>
+                        <a class="btn btn-lg" href="">Comentar</a>
+                    </form>
+                </li>
+            </ul>
+            <button type="button" class="btn-more btn btn-lg">Ver más</button>
+        </article>
+    </section>
+</div>

@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Models.Extensions.Contents
+namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -206,6 +206,90 @@ namespace Huellitas.Web.Models.Extensions.Contents
                         model.AutoReply = Convert.ToBoolean(value);
                         break;
 
+                    default:
+                        break;
+                }
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// To the shelter base model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="contentUrlFunction">The content URL function.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="thumbnailWidth">Width of the thumbnail.</param>
+        /// <param name="thumbnailHeight">Height of the thumbnail.</param>
+        /// <returns>the model</returns>
+        public static BaseShelterModel ToShelterBaseModel(
+            this Content entity,
+            IFilesHelper filesHelper = null,
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
+        {
+            var model = new BaseShelterModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Body = entity.Body,
+                CommentsCount = entity.CommentsCount,
+                DisplayOrder = entity.DisplayOrder,
+                Status = entity.StatusType,
+                TypeId = entity.Type,
+                Views = entity.Views,
+                CreatedDate = entity.CreatedDate,
+                Featured = entity.Featured,
+                Email = entity.Email,
+                FriendlyName = entity.FriendlyName
+            };
+
+            if (entity.FileId.HasValue && entity.File != null && filesHelper != null)
+            {
+                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
+            }
+
+            if (entity.LocationId.HasValue && entity.Location != null)
+            {
+                model.Location = new Api.LocationModel() { Id = entity.LocationId.Value, Name = entity.Location.Name };
+            }
+
+            if (entity.User != null)
+            {
+                model.User = new BaseUserModel
+                {
+                    Id = entity.UserId,
+                    Name = entity.User.Name
+                };
+            }
+
+            foreach (var attribute in entity.ContentAttributes)
+            {
+                var value = attribute.Value;
+
+                switch (attribute.AttributeType)
+                {
+                    case ContentAttributeType.Phone1:
+                        model.Phone = value;
+                        break;
+
+                    case ContentAttributeType.Phone2:
+                        model.Phone2 = value;
+                        break;
+
+                    case ContentAttributeType.Owner:
+                        model.Owner = value;
+                        break;
+
+                    case ContentAttributeType.Address:
+                        model.Address = value;
+                        break;
                     default:
                         break;
                 }

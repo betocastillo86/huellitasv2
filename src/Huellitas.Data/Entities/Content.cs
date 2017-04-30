@@ -22,6 +22,11 @@ namespace Huellitas.Data.Entities
         private ICollection<ContentUser> users;
 
         /// <summary>
+        /// the comments
+        /// </summary>
+        private ICollection<Comment> comments;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Content"/> class.
         /// </summary>
         public Content()
@@ -194,6 +199,25 @@ namespace Huellitas.Data.Entities
             set
             {
                 this.users = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public virtual ICollection<Comment> Comments
+        {
+            get
+            {
+                return this.comments ?? (this.comments = new List<Comment>());
+            }
+
+            set
+            {
+                this.comments = value;
             }
         }
 
