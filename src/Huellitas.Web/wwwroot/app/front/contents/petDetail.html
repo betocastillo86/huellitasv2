@@ -1,6 +1,6 @@
 ﻿<div class="pg-body col-md-12">
-    <div class="box-edit">
-        <a class="btn btn-lg" href=""><span class="icon-edit"></span> Editar</a>
+    <div class="box-edit" ng-if="main.model.canEdit">
+        <a class="btn btn-lg" ng-href="{{root.getRoute('editpet', main.model)}}"><span class="icon-edit"></span> Editar</a>
     </div>
     <section class="bkg-gray">
         <article class="content-all">
@@ -75,42 +75,6 @@
         <div ng-if="main.model.id" list-pets data-filter="main.filterSimilar" data-displaytype="small" data-title="main.titleSimilar"></div>
     </section>
     <section class="bkg-gray">
-        <article class="content-all">
-            <h1 class="tit-section col-md-12">COMENTARIOS</h1>
-            <div class="sub-title col-md-12">Deja tus comentarios que son muy importatenes para nosotros</div>
-            <form class="coment-form col-md-12">
-                <textarea placeholder="Dejanos tu comentario"></textarea>
-                <a class="btn btn-lg" href="">Comentar</a>
-            </form>
-            <ul class="content-coment col-md-12">
-                <li>
-                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
-                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
-                </li>
-                <li>
-                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
-                    <p>Hola me gusataria como llegar a la fundación vivo en la ciudad de bogota, ósea se que queda en tenjo pero como me dirijo hasta aya y si al ser aprobada la adopción hay que dar algo.</p>
-                    <div class="sub-coment">
-                        <span class="icon-coment"></span>
-                        <p>Claro que si Daniel ósea se que queda en tenjo pero como me dirijo hasta aya y si al ser aprobada la adopción hay que dar algo.</p>
-                        <br />
-                    </div>
-                </li>
-                <li>
-                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
-                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
-                    <a href=""><span class="icon-coment"></span> Responder</a>
-                </li>
-                <li>
-                    <h4>Danilo sabogal - 2015-09-27T12:31:24.417</h4>
-                    <p>Buenas tardes estoy en busca de un perrito en adopcion para mi hijo me gustaria mucho una raza pequeña. Agradezco su colaboración.</p>
-                    <form class="coment-form">
-                        <textarea placeholder="Dejanos tu comentario"></textarea>
-                        <a class="btn btn-lg" href="">Comentar</a>
-                    </form>
-                </li>
-            </ul>
-            <button type="button" class="btn-more btn btn-lg">Ver más</button>
-        </article>
+        <div ng-if="main.model.id" list-comments data-contentid="main.model.id"></div>
     </section>
 </div>

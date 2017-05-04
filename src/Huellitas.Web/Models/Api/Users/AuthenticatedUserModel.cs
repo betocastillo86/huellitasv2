@@ -23,6 +23,30 @@ namespace Huellitas.Web.Models.Api
         public string Email { get; set; }
 
         /// <summary>
+        /// Gets or sets the phone.
+        /// </summary>
+        /// <value>
+        /// The phone.
+        /// </value>
+        public string Phone1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the second phone.
+        /// </summary>
+        /// <value>
+        /// The phone2.
+        /// </value>
+        public string Phone2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
+        public LocationModel Location { get; set; }
+
+        /// <summary>
         /// Gets or sets the token.
         /// </summary>
         /// <value>

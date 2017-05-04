@@ -11,6 +11,7 @@
         'huellitasServices',
 
         // 3rd Party Modules
-        'underscore'
+        'underscore',
+        'angucomplete-alt',
     ]);
 })();

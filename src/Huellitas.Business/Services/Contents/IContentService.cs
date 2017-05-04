@@ -146,5 +146,8 @@ namespace Huellitas.Business.Services
         /// <param name="attribute">The attribute.</param>
         /// <returns>the value</returns>
         T GetContentAttribute<T>(int contentId, ContentAttributeType attribute);
+
+
+        Task SortFiles(int contentId, int fileIdFrom, int fileIdTo);
     }
 }

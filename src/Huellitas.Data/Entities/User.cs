@@ -106,6 +106,10 @@ namespace Huellitas.Data.Entities
         /// </value>
         public string Salt { get; set; }
 
+        public int? LocationId { get; set; }
+       
+        public virtual Location Location { get; set; }
+
         /// <summary>
         /// Gets or sets the adoption form answer.
         /// </summary>

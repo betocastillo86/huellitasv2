@@ -99,7 +99,17 @@ namespace Huellitas.Web.Controllers.Api
 
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
                     var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
-                    var userModel = new AuthenticatedUserModel() { Email = model.Email, Name = user.Name, Id = user.Id, Token = token };
+                    var userModel = new AuthenticatedUserModel()
+                    {
+                        Email = model.Email,
+                        Name = user.Name,
+                        Id = user.Id,
+                        Token = token,
+                        Phone1 = user.PhoneNumber,
+                        Phone2 = user.PhoneNumber2,
+                        Location = user.Location != null ? user.Location.ToModel() : null
+                    };
+
                     return this.Ok(userModel);
                 }
                 else

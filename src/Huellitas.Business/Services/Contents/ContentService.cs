@@ -178,6 +178,7 @@ namespace Huellitas.Business.Services
             return this.contentFileRepository.Table
                 .Include(c => c.File)
                 .Where(c => c.ContentId == contentId)
+                .OrderByDescending(c => c.DisplayOrder)
                 .ToList();
         }
 
@@ -610,6 +611,55 @@ namespace Huellitas.Business.Services
                         throw;
                     }
                 }
+            }
+        }
+
+        public async Task SortFiles(int contentId, int fileIdFrom, int fileIdTo)
+        {
+            var files = this.contentFileRepository.Table.Where(c => c.ContentId == contentId)
+                .ToList();
+
+            var fileFrom = files.FirstOrDefault(c => c.FileId == fileIdFrom);
+            var fileTo = files.FirstOrDefault(c => c.FileId == fileIdTo);
+            var newDisplayOrder = fileTo.DisplayOrder;
+
+            ////if the old position is lower than new's substracts 1
+            if (fileFrom.DisplayOrder < fileTo.DisplayOrder)
+            {
+                var filesToUpdate = files
+                    .Where(c => c.DisplayOrder <= fileTo.DisplayOrder && c.DisplayOrder > fileFrom.DisplayOrder)
+                    .ToList();
+
+                foreach (var file in filesToUpdate)
+                {
+                    file.DisplayOrder--;
+                }
+
+                await this.contentFileRepository.UpdateAsync(filesToUpdate);
+            }
+            else
+            {
+                var filesToUpdate = files.Where(c => c.DisplayOrder >= fileTo.DisplayOrder && c.DisplayOrder < fileFrom.DisplayOrder)
+                    .ToList();
+
+                foreach (var file in filesToUpdate)
+                {
+                    file.DisplayOrder++;
+                }
+
+                await this.contentFileRepository.UpdateAsync(filesToUpdate);
+            }
+
+            ////Actualiza la nueva posición
+            fileFrom.DisplayOrder = newDisplayOrder;
+            await this.contentFileRepository.UpdateAsync(fileFrom);
+
+            ////Actualiza la imagen principal
+            if (newDisplayOrder == files.Count)
+            {
+                var content = this.contentRepository.Table.FirstOrDefault(c => c.Id == contentId);
+                content.FileId = fileFrom.FileId;
+                await this.contentRepository.UpdateAsync(content);
             }
         }
     }

@@ -115,7 +115,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpGet]
         public IActionResult Get(int contentId, [FromQuery]FilterSizeModel sizes)
         {
-            var models = this.fileService.GetByContentId(contentId)
+            var models = this.contentService.GetFiles(contentId)
                 .ToModels(this.fileHelper, Url.Content, sizes.Width, sizes.Height);
 
             return this.Ok(models);

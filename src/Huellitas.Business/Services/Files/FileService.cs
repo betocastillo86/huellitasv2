@@ -83,20 +83,6 @@ namespace Huellitas.Business.Services
             }
         }
 
-        /// <summary>
-        /// Gets the files by content identifier.
-        /// </summary>
-        /// <param name="contentId">The content identifier.</param>
-        /// <returns>
-        /// the list of files
-        /// </returns>
-        public IList<File> GetByContentId(int contentId)
-        {
-            return this.contentFileRepository.Table
-                .Where(c => c.ContentId == contentId)
-                .Select(c => c.File)
-                .ToList();
-        }
 
         /// <summary>
         /// Gets the by identifier.

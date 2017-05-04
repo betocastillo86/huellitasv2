@@ -22,11 +22,11 @@
             }
             else
             {
-                var years = months / 12;
+                var years = Math.floor(months / 12);
                 var otherMonths = months % 12;
 
                 if (otherMonths) {
-                    return years + ' año'+ (years > 1 ? 's' : '')+', ' + otherMonths + ' mes' + (months > 1 ? 'es' : '');
+                    return years + ' año' + (years > 1 ? 's' : '') + ' y ' + otherMonths + ' mes' + (otherMonths > 1 ? 'es' : '');
                 }
                 else
                 {

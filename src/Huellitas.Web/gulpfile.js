@@ -60,7 +60,8 @@ paths.libsFront = [
     paths.external + 'underscore/underscore.js',
     paths.external + 'moment/moment.js',
     paths.external + 'moment/locale/es.js',
-    paths.external + 'pikaday/pikaday.js'
+    paths.external + 'pikaday/pikaday.js',
+    paths.external + 'angucomplete-alt/angucomplete-alt.js',
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
@@ -149,6 +150,7 @@ gulp.task('cssFront',['sassFront'], function () {
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'css/front/styles.css',
+        paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.webroot + 'css/front.huellitas.css'
     ];
 

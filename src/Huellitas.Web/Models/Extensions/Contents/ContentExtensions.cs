@@ -121,26 +121,34 @@ namespace Huellitas.Web.Models.Extensions
         /// </returns>
         public static bool CanUserEditPet(this User user, Content content, IContentService contentService)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             if (!user.CanEditAnyContent())
             {
-                var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
-
                 if (content.UserId == user.Id)
                 {
                     return true;
                 }
-                else if (shelterId > 0)
-                {
-                    ////Searches the user in shelter's users to validate if can change the pet
-                    var shelterUsers = contentService.GetUsersByContentId(shelterId, Data.Entities.Enums.ContentUserRelationType.Shelter)
-                                                .Select(c => c.UserId)
-                                                .ToList();
-
-                    return shelterUsers.Contains(user.Id);
-                }
                 else
                 {
-                    return false;
+                    ////TODO:Test again
+                    var shelterId = content.GetAttribute<int>(ContentAttributeType.Shelter);
+                    if (shelterId > 0)
+                    {
+                        ////Searches the user in shelter's users to validate if can change the pet
+                        var shelterUsers = contentService.GetUsersByContentId(shelterId, Data.Entities.Enums.ContentUserRelationType.Shelter)
+                                                    .Select(c => c.UserId)
+                                                    .ToList();
+
+                        return shelterUsers.Contains(user.Id);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             else
@@ -160,6 +168,11 @@ namespace Huellitas.Web.Models.Extensions
         /// </returns>
         public static bool CanUserEditShelter(this User user, Content content, IContentService contentService)
         {
+            if (user == null)
+            {
+                return false;
+            }
+
             ////Only can edit content if the user is admin or content's owner
             return user.CanEditAnyContent() || content.UserId == user.Id;
         }

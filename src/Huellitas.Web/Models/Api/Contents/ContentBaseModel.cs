@@ -145,5 +145,13 @@ namespace Huellitas.Web.Models.Api
         /// The name of the friendly.
         /// </value>
         public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance can edit.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance can edit; otherwise, <c>false</c>.
+        /// </value>
+        public bool CanEdit { get; set; }
     }
 }

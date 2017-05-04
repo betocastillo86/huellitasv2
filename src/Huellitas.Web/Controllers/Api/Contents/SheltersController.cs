@@ -130,7 +130,8 @@ namespace Huellitas.Web.Controllers.Api
 
                 var models = contents.ToShelterModels(
                     this.contentService, 
-                    this.filesHelper, 
+                    this.workContext,
+                    this.filesHelper,
                     Url.Content, 
                     withFiles: false,
                     width: this.contentSettings.PictureSizeWidthDetail,
@@ -178,6 +179,7 @@ namespace Huellitas.Web.Controllers.Api
                 {
                     var model = content.ToShelterModel(
                     this.contentService,
+                    this.workContext,
                     this.filesHelper,
                     Url.Content,
                     true,
