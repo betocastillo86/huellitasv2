@@ -125,6 +125,7 @@ namespace Huellitas.Business.Services
         public User GetById(int id)
         {
             return this.userRepository.Table
+                .Include(c => c.Location)
                 .FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
 

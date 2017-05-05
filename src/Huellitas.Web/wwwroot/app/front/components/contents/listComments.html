@@ -1,0 +1,39 @@
+﻿<section class="bkg-gray">
+    <article class="content-all">
+        <h1 class="tit-section col-md-12">COMENTARIOS</h1>
+        <div class="sub-title col-md-12">Deja tus comentarios que son muy importatenes para nosotros</div>
+        <form name="listComments.form" class="coment-form col-md-12" novalidate ng-submit="listComments.saveComment()">
+            <textarea name="body" ng-model="listComments.newComment" required placeholder="Dejanos tu comentario" maxlength="200"></textarea>
+            <div ng-if="listComments.form.$invalid && listComments.form.$submitted">
+                <span ng-show="listComments.form.$error.required" class="error">El comentario es obligatorio</span>
+                <span ng-show="listComments.form.$error.maxlength" class="error">Máximo puedes ingresar 200 caracteres</span>
+            </div>
+            <button type="submit" class="btn btn-lg">Comentar</button>
+        </form>
+        <ul class="content-coment col-md-12">
+            <li ng-repeat="comment in listComments.comments">
+                <h4>{{::comment.user.name}} - {{::comment.creationDate | timeago}}</h4>
+                <p>{{::comment.value}}</p>
+                <a ng-if="!comment.isAnswering" href="#" ng-click="listComments.enableResponse(comment)"><span class="icon-coment"></span> Responder</a>
+
+                <form ng-if="comment.isAnswering" name="listComments.formChildren" class="coment-form col-md-12" novalidate ng-submit="listComments.saveChild(comment)">
+                    <textarea name="body" ng-model="listComments.newChild" required placeholder="Dejanos tu respuesta" maxlength="200"></textarea>
+                    <div ng-if="listComments.formChildren.$invalid && listComments.formChildren.$submitted">
+                        <span ng-show="listComments.formChildren.$error.required" class="error">El comentario es obligatorio</span>
+                        <span ng-show="listComments.formChildren.$error.maxlength" class="error">Máximo puedes ingresar 200 caracteres</span>
+                    </div>
+                    <button type="submit" class="btn btn-lg">Responder</button>
+                </form>
+
+                <div ng-repeat="subcomment in comment.firstComments" class="sub-coment">
+                    <span class="icon-coment"></span>
+                    <h5>{{::subcomment.user.name}} {{::subcomment.creationDate | timeago}}</h5>
+                    <p>{{::subcomment.value}}</p>
+                    <br />
+                </div>
+                <a ng-if="comment.firstComments && comment.countComments > 2 && !comment.allCommentsLoaded" href="#" ng-click="listComments.showMoreChildren(comment)">Ver más</a>
+            </li>
+        </ul>
+        <button ng-if="listComments.hasNextPage" type="button" class="btn-more btn btn-lg" ng-click="listComments.showMore()">Ver más</button>
+    </article>
+</section>

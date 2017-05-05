@@ -14,6 +14,7 @@ namespace Huellitas.Web.Models.Extensions
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Extensions;
+    using Huellitas.Business.Security;
 
     /// <summary>
     /// Shelter Extensions
@@ -105,6 +106,7 @@ namespace Huellitas.Web.Models.Extensions
         public static ShelterModel ToShelterModel(
             this Content entity,
             IContentService contentService,
+            IWorkContext workContext,
             IFilesHelper filesHelper = null,
             Func<string, string> contentUrlFunction = null,
             bool withFiles = false,
@@ -126,7 +128,8 @@ namespace Huellitas.Web.Models.Extensions
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
                 Email = entity.Email,
-                FriendlyName = entity.FriendlyName
+                FriendlyName = entity.FriendlyName,
+                CanEdit = workContext.CurrentUser.CanUserEditShelter(entity, contentService)
             };
 
             if (entity.FileId.HasValue && entity.File != null && filesHelper != null)
@@ -151,8 +154,6 @@ namespace Huellitas.Web.Models.Extensions
             if (withFiles && filesHelper != null)
             {
                 model.Files = contentService.GetFiles(entity.Id)
-                    .Select(c => c.File)
-                    .ToList()
                     .ToModels(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
 
@@ -227,6 +228,8 @@ namespace Huellitas.Web.Models.Extensions
         /// <returns>the model</returns>
         public static BaseShelterModel ToShelterBaseModel(
             this Content entity,
+            IContentService contentService,
+            IWorkContext workContext,
             IFilesHelper filesHelper = null,
             Func<string, string> contentUrlFunction = null,
             int width = 0,
@@ -247,7 +250,8 @@ namespace Huellitas.Web.Models.Extensions
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
                 Email = entity.Email,
-                FriendlyName = entity.FriendlyName
+                FriendlyName = entity.FriendlyName,
+                CanEdit = workContext.CurrentUser.CanUserEditShelter(entity, contentService)
             };
 
             if (entity.FileId.HasValue && entity.File != null && filesHelper != null)
@@ -314,6 +318,7 @@ namespace Huellitas.Web.Models.Extensions
         public static IList<ShelterModel> ToShelterModels(
             this ICollection<Content> entities,
             IContentService contentService,
+            IWorkContext workContext,
             IFilesHelper filesHelper = null,
             Func<string, string> contentUrlFunction = null,
             bool withFiles = false,
@@ -325,6 +330,7 @@ namespace Huellitas.Web.Models.Extensions
             return entities
                 .Select(c => c.ToShelterModel(
                     contentService,
+                    workContext,
                     filesHelper,
                     contentUrlFunction,
                     withFiles,

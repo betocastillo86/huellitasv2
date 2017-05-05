@@ -1,0 +1,135 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <div class="content-form" ng-if="root.currentUser">
+                <h1 class="tit-form">¿TIENES UNA MASCOTA PARA DAR EN ADOPCIÓN?</h1>
+                <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a que le puedas conseguir hogar a los peludos que no lo tengan, pero antes de cualquier cosa ten en cuenta las siguientes recomendaciones:</div>
+                <form name="main.form" novalidate ng-submit="main.save()">
+                    <div class="central-pet">
+                        <div class="type-pet">
+                            <input type="radio" name="subtype" ng-model="main.model.subtype.value" value="{{main.subtypes[0].id}}" ng-checked="main.isSubtypeChecked(0)" ng-change="main.changeSubtype(0)" required>
+                            <span class="icon-perro"></span>
+                        </div>
+                        <div class="type-pet">
+                            <input type="radio" name="subtype" ng-model="main.model.subtype.value" value="{{main.subtypes[1].id}}" ng-checked="main.isSubtypeChecked(1)" ng-change="main.changeSubtype(1)" required>
+                            <span class="icon-cat"></span>
+                        </div>
+                        <br>
+                        <span class="error" ng-if="main.form.$submitted && main.form.subtype.$invalid">Selecciona si es perro ó gato</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.name.$invalid }">
+                        <input type="text" name="name" placeholder="Nombre de la mascota" ng-model="main.model.name" ng-maxlength="50" ng-change="main.getFullNameImage()" required>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">El nombre es obligatorio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.maxlength">El tamaño máximo del nombre son 50 caracteres</span>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.genre.$invalid }">
+                        <select name="genre" ng-model="main.model.genre.value" ng-options="genre.id as genre.value for genre in ::main.genres"  ng-change="main.getFullNameImage()" required>
+                            <option value="">Genero del animal</option>
+                        </select>
+                        <span class="error" ng-if="main.form.$submitted && main.form.genre.$error.required">El genero de la mascota es obligatorio</span>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.genre.$valid"></span>
+                    </div>
+                    <div class="col-sm-2 col-xs-3" ng-class="{ 'bad' : main.form.$submitted && main.form.years.$invalid }">
+                        <input type="number" name="years" ng-model="main.years" ng-required="!main.model.months" ng-change="main.changeMonths()" placeholder="Años">
+                        <span class="error"></span>
+                    </div>
+                    <div class="col-sm-1 col-xs-3">
+                        Años
+                    </div>
+                    <div class="col-sm-2 col-xs-3" ng-class="{ 'bad' : main.form.$submitted && main.form.months.$invalid }">
+                        <input type="number" placeholder="Meses" name="months" ng-model="main.months" ng-required="!main.model.months" ng-change="main.changeMonths()">
+                        <span class="error" ng-if="main.form.$submitted && (main.form.months.$invalid || main.form.years.$invalid)">No olvides la edad</span>
+                    </div>
+                    <div class="col-sm-1 col-xs-3">
+                        Meses
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.size.$invalid }">
+                        <select name="size" ng-model="main.model.size.value" ng-options="size.id as size.value for size in ::main.sizes"  ng-change="main.getFullNameImage()" required>
+                            <option value="">Tamaño</option>
+                        </select>
+                        <span class="error" ng-if="main.form.$submitted && main.form.size.$invalid">Ingresa el tamaño</span>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.size.$valid"></span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.username.$invalid }">
+                        <input type="text" name="username" ng-model="root.currentUser.name" placeholder="Nombre del contacto" maxlength="100" required disabled>
+                        <!--<span class="error" ng-if="main.form.$submitted && main.form.username.$invalid">Ingresa tu nombre</span>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.username.$valid"></span>-->
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.userphone.$invalid }">
+                        <input type="text" name="userphone" ng-model="root.currentUser.phone" placeholder="Teléfono de contacto" maxlength="15" ng-minlength="7" pattern="[0-9 ]{7,}" ng-disabled="!main.canChangePhone" required>
+                        <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.required">Ingresa tu número telefónico</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.pattern">Ingresa tu número telefónico válido</span>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.userphone.$valid"></span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }">
+                        <div>
+                            <angucomplete-alt id="location"
+                                              placeholder="Ciudad"
+                                              pause="400"
+                                              remote-url="/api/locations?pagesize=8&name="
+                                              title-field="name"
+                                              selected-object="main.changeLocation"
+                                              initial-value="main.model.location.name"
+                                              field-required="true"
+                                              input-name="location"
+                                              field-required-class="parsley-error"
+                                              remote-url-data-field="results"
+                                              match-class="highlight" />
+                        </div>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>
+                    </div>
+                    <div class="col-sm-1 col-xs-2">
+                        <input type="checkbox" name="castrated" ng-model="main.model.castrated" /> 
+                        <span class="error"></span>
+                    </div>
+                    <div class="col-sm-5 col-xs-10">
+                        Castrado / Esterilizado
+                        <span class="error"></span>
+                    </div>
+                    <br>
+                    <div class="col-md-12"  ng-class="{ 'bad' : main.form.$submitted && main.form.body.$invalid }">
+                        <textarea placeholder="Descripción" name="body" ng-model="main.model.body" required  maxlength="500" ng-minlength="100"></textarea>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.body.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.body.$error.required">Ingresa una descripción de la mascota</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.body.$error.minlength">La descripción debe tener al menos 100 caracteres</span>
+                    </div>
+                    <div class="col-md-12" ng-if="main.canShowGallery()">
+                        <label>Fotos</label>
+                        <div class="images-dropzone">
+                            <div class="file-upload-drop-text">
+                                <p>
+                                    <i class="icon-photo"></i>
+                                </p>
+                            </div>
+                            <div class="file-upload-button">
+                                <button class="btn btn-white btn-block btn-lg" type="button">Carga tus fotos</button>
+                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" fileupload-huellitas accept="image/*">
+                            </div>
+                            <br>
+                        </div>
+                        <div class="alert alert-info" ng-if="main.model.files.length" role="alert">Estas son miniaturas de tus imágenes y puedes reordenarlas según tu preferencia. La primera imagen será considerada la imagen principal de tu publicación.</div>
+                    </div>
+                    <ul class="all-preview" ng-if="main.canShowGallery()">
+                        <li ng-repeat="file in main.model.files" draggable="true" data-id="file.id" draggable-content-file callback="main.reorder" saveonchange="{{main.friendlyName !== undefined}}" contentid="main.model.id" >
+                            <div class="preview-img">
+                                <div class="delete-img" ng-click="main.removeFile(file)">
+                                    <span class="icon-close"></span>
+                                </div>
+                                <div class="principal" ng-if="$index == 0">Principal</div>
+                                <img ng-src="{{file.thumbnail}}">
+                            </div>
+                        </li>
+                        <br>
+                    </ul>
+                    <div class="btn-content">
+                        <a href="/sinhogar" class="btn btn-cancel btn-lg">Cancelar</a>
+                        <button type="submit" class="btn btn-save btn-lg">{{main.friendlyName ? 'Actualizar' : 'Guardar'}}</button>
+                        <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Revisa que todos los campos estén correctamente diligenciados</span>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </section>
+</div>

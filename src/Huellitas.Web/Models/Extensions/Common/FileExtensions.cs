@@ -80,5 +80,26 @@ namespace Huellitas.Web.Models.Extensions
 
             return list;
         }
+
+        public static IList<FileModel> ToModels(
+            this IList<ContentFile> files,
+            IFilesHelper fileHelper,
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0,
+            int thumbnailWidth = 0,
+            int thumbnailHeight = 0)
+        {
+            var list = new List<FileModel>();
+
+            foreach (var file in files)
+            {
+                var model = file.File.ToModel(fileHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
+                model.DisplayOrder = file.DisplayOrder;
+                list.Add(model);
+            }
+
+            return list;
+        }
     }
 }

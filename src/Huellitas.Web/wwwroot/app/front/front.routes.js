@@ -12,6 +12,11 @@
                 controller: 'HomeController',
                 controllerAs: 'main'
             })
+            .when('/sinhogar/:friendlyName/editar', {
+                templateUrl: '/app/front/contents/editPet.html',
+                controller: 'EditPetController',
+                controllerAs: 'main'
+            })
             .when('/sinhogar/:friendlyName', {
                 templateUrl: '/app/front/contents/petDetail.html',
                 controller: 'PetDetailController',
@@ -21,6 +26,14 @@
                 templateUrl: '/app/front/contents/pets.html',
                 controller: 'PetsController',
                 controllerAs: 'main'
+            })
+            .when('/dar-en-adopcion/crear', {
+                templateUrl: '/app/front/contents/editPet.html',
+                controller: 'EditPetController',
+                controllerAs: 'main'
+            })
+            .when('/dar-en-adopcion', {
+                templateUrl: '/app/front/contents/newPet.html'
             });
     }
 })();

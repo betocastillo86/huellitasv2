@@ -1,6 +1,6 @@
 ﻿(function () {
     angular.module('huellitasServices')
-    .factory('fileService', fileService);
+        .factory('fileService', fileService);
 
     fileService.$inject = ['httpService'];
 
@@ -8,7 +8,8 @@
         return {
             post: post,
             deleteContentFile: deleteContentFile,
-            postContentFile: postContentFile
+            postContentFile: postContentFile,
+            sortContentFile: sortContentFile
         };
 
         function post(file, name) {
@@ -27,6 +28,10 @@
 
         function postContentFile(contentId, file) {
             return http.post('/api/contents/' + contentId + '/files', file);
+        }
+
+        function sortContentFile(contentId, fileIdFrom, fileIdTo) {
+            return http.post('/api/contents/' + contentId + '/files/' + fileIdFrom + '/sort/' + fileIdTo);
         }
     }
 })();

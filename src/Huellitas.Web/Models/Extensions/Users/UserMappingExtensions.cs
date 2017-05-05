@@ -73,7 +73,8 @@ namespace Huellitas.Web.Models.Extensions
                 Email = entity.Email,
                 Phone = entity.PhoneNumber,
                 Phone2 = entity.PhoneNumber2,
-                Role = canSeeSensitiveInfo ? entity.RoleEnum : (RoleEnum?)null
+                Role = canSeeSensitiveInfo ? entity.RoleEnum : (RoleEnum?)null,
+                Location = entity.Location != null ? entity.Location.ToModel() : null
             };
         }
 

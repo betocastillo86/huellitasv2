@@ -18,6 +18,7 @@ namespace Huellitas.Web.Models.Extensions
     using Data.Extensions;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Huellitas.Business.Security;
 
     /// <summary>
     /// Pet Extensions
@@ -59,7 +60,7 @@ namespace Huellitas.Web.Models.Extensions
                     entity.ContentFiles.Add(new ContentFile()
                     {
                         FileId = model.Files[i].Id,
-                        DisplayOrder = i
+                        DisplayOrder = model.Files.Count - i
                     });
                 }
             }
@@ -143,7 +144,8 @@ namespace Huellitas.Web.Models.Extensions
             this Content entity, 
             IContentService contentService, 
             ICustomTableService customTableService, 
-            ICacheManager cacheManager, 
+            ICacheManager cacheManager,
+            IWorkContext workContext,
             IFilesHelper filesHelper = null, 
             Func<string, string> contentUrlFunction = null, 
             bool withFiles = false, 
@@ -166,7 +168,8 @@ namespace Huellitas.Web.Models.Extensions
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
                 ClosingDate = entity.ClosingDate,
-                FriendlyName = entity.FriendlyName
+                FriendlyName = entity.FriendlyName,
+                CanEdit = workContext.CurrentUser.CanUserEditPet(entity, contentService)
             };
 
             if (entity.LocationId.HasValue && entity.Location != null)
@@ -191,15 +194,13 @@ namespace Huellitas.Web.Models.Extensions
             if (withFiles && filesHelper != null)
             {
                 model.Files = contentService.GetFiles(entity.Id)
-                    .Select(c => c.File)
-                    .ToList()
                     .ToModels(filesHelper, contentUrlFunction, width, height, thumbnailWidth, thumbnailHeight);
             }
 
             if (withRelated)
             {
                 model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.Enums.RelationType.SimilarPets)
-                    .ToPetModels(contentService, customTableService, cacheManager, filesHelper, contentUrlFunction, false);
+                    .ToPetModels(contentService, customTableService, cacheManager, workContext, filesHelper, contentUrlFunction, false);
             }
 
             foreach (var attribute in entity.ContentAttributes)
@@ -235,7 +236,7 @@ namespace Huellitas.Web.Models.Extensions
 
                     case ContentAttributeType.Shelter:
                         var shelterContent = contentService.GetCachedShelter(cacheManager, attributeId);
-                        model.Shelter = shelterContent.ToShelterBaseModel(filesHelper, contentUrlFunction, width, height, 200, 200);
+                        model.Shelter = shelterContent.ToShelterBaseModel(contentService, workContext, filesHelper, contentUrlFunction, width, height, 200, 200);
                         break;
 
                     default:
@@ -262,10 +263,11 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
         /// <returns>the models</returns>
         public static IList<PetModel> ToPetModels(
-            this IList<Content> entities, 
-            IContentService contentService, 
+            this IList<Content> entities,
+            IContentService contentService,
             ICustomTableService customTableService, 
-            ICacheManager cacheManager, 
+            ICacheManager cacheManager,
+            IWorkContext workContext,
             IFilesHelper filesHelper = null, 
             Func<string, string> contentUrlFunction = null, 
             bool withFiles = false,
@@ -280,7 +282,8 @@ namespace Huellitas.Web.Models.Extensions
                 models.Add(entity.ToPetModel(
                     contentService, 
                     customTableService, 
-                    cacheManager, 
+                    cacheManager,
+                    workContext,
                     filesHelper, 
                     contentUrlFunction, 
                     withFiles,

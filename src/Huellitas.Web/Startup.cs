@@ -33,6 +33,8 @@ namespace Huellitas.Web
         {
             app.UseMiddleware<HuellitasExceptionMiddleware>();
 
+            app.UseMiddleware<CurrentDateMiddleware>();
+
             app.InitDatabase(env);
 
             ////app.UseDeveloperExceptionPage();

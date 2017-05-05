@@ -15,6 +15,7 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
+    using Huellitas.Business.Security;
 
     /// <summary>
     /// Related Contents Controller
@@ -48,6 +49,11 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IContentSettings contentSettings;
 
         /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RelatedContentsController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
@@ -60,13 +66,15 @@ namespace Huellitas.Web.Controllers.Api
             ICustomTableService customTableService,
             ICacheManager cacheManager,
             IFilesHelper filesHelper,
-            IContentSettings contentSettings)
+            IContentSettings contentSettings,
+            IWorkContext workContext)
         {
             this.contentService = contentService;
             this.customTableService = customTableService;
             this.cacheManager = cacheManager;
             this.filesHelper = filesHelper;
             this.contentSettings = contentSettings;
+            this.workContext = workContext;
         }
 
         /// <summary>
@@ -93,7 +101,8 @@ namespace Huellitas.Web.Controllers.Api
                             var models = related.ToPetModels(
                                 this.contentService, 
                                 this.customTableService, 
-                                this.cacheManager, 
+                                this.cacheManager,
+                                this.workContext,
                                 this.filesHelper, 
                                 Url.Content,
                                 width: this.contentSettings.PictureSizeWidthDetail,

@@ -158,8 +158,8 @@ namespace Huellitas.Web.Controllers.Api
 
             if (model.Id == 0 && !model.ParentCommentId.HasValue && !model.ContentId.HasValue)
             {
-                this.ModelState.AddModelError("ContentID", "Campo opcional no ingresado. Debe tener ContentID o ParentCommentID");
-                this.ModelState.AddModelError("ParentCommentID", "Campo opcional no ingresado. Debe tener ContentID o ParentCommentID");
+                this.ModelState.AddModelError("ContentId", "Campo opcional no ingresado. Debe tener ContentID o ParentCommentID");
+                this.ModelState.AddModelError("ParentCommentId", "Campo opcional no ingresado. Debe tener ContentID o ParentCommentID");
             }
 
             return this.ModelState.IsValid;

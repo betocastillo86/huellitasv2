@@ -175,9 +175,10 @@ namespace Huellitas.Web.Controllers.Api
                     closingDateFrom: closingDateFilter);
 
                 var models = contentList.ToPetModels(
-                    this.contentService, 
+                    this.contentService,
                     this.customTableService, 
-                    this.cacheManager, 
+                    this.cacheManager,
+                    this.workContext,
                     contentUrlFunction: Url.Content,
                     filesHelper: this.filesHelper,
                     width: this.contentSettings.PictureSizeWidthDetail,
@@ -227,6 +228,7 @@ namespace Huellitas.Web.Controllers.Api
                     this.contentService,
                     this.customTableService,
                     this.cacheManager,
+                    this.workContext,
                     this.filesHelper,
                     Url.Content,
                     true,

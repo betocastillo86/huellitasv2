@@ -67,5 +67,13 @@ namespace Huellitas.Web.Models.Api
         /// The unseen notifications.
         /// </value>
         public int UnseenNotifications { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
+        public LocationModel Location { get; set; }
     }
 }

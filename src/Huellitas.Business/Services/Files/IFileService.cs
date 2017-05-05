@@ -24,13 +24,6 @@ namespace Huellitas.Business.Services
         Task DeleteContentFile(int contentId, int fileId, bool removeFileIfDoesnotHaveRelationship = false);
 
         /// <summary>
-        /// Gets the files by content identifier.
-        /// </summary>
-        /// <param name="contentId">The content identifier.</param>
-        /// <returns>the list of files</returns>
-        IList<File> GetByContentId(int contentId);
-
-        /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
