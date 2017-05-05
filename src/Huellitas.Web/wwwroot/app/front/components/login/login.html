@@ -1,0 +1,43 @@
+﻿<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog login" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="tit-modal">INICIA SESIÓN</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close" aria-hidden="true"></span>
+                </button>
+            </div>
+            <form name="login.form" novalidate ng-submit="login.authenticate()">
+                <div class="login_redes">
+                    <button>
+                        <span class="icon-face"></span>
+                    </button>
+                    <button>
+                        <span class="icon-google-plus"></span>
+                    </button>
+                    <button>
+                        <span class="icon-twt"></span>
+                    </button>
+                    <p>o con</p>
+                </div>
+                <div>
+                    <input type="email" placeholder="email:" name="email" ng-model="login.model.email" required>
+                    <span class="error" ng-if="!login.form.$submitted || login.form.email.$valid"></span>
+                    <span class="error" ng-if="login.form.$submitted && login.form.email.$error.required">Ingresa tu correo electrónico</span>
+                    <span class="error" ng-if="login.form.$submitted && login.form.email.$error.email">Ingresa un correo electrónico válido</span>
+                </div>
+                <div>
+                    <input type="password" placeholder="Contraseña:" name="password" ng-model="login.model.password" ng-minlength="6" required>
+                    <span class="error" ng-if="!login.form.$submitted || login.form.password.$valid"></span>
+                    <span class="error" ng-if="login.form.$submitted && login.form.password.$error.required">Ingresa tu clave</span>
+                    <span class="error" ng-if="login.form.$submitted && login.form.password.$error.email">Tu clave debe ser de mínimo 6 caracteres</span>
+                </div>
+                <div class="box-log">
+                    ¿Eres nuevo? <a href="">Regístrate</a><br>
+                    <a href="">Recuperar contraseña</a>
+                </div>
+                <button type="submit" class="btn btn-lg btn-save">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>

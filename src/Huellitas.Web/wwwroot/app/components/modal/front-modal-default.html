@@ -1,0 +1,16 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog login" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="tit-modal">{{modal.title}}</h4>
+                <button type="button" class="close" aria-label="Close" ng-click="modal.close()">
+                    <span class="icon-close" aria-hidden="true"></span>
+                </button>
+            </div>
+            <form>
+                <div class="box-log" ng-bind-html="modal.message"></div>
+                <button type="button" class="btn btn-lg btn-save" ng-click="modal.close()">Aceptar</button>
+            </form>
+        </div>
+    </div>
+</div>

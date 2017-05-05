@@ -59,7 +59,7 @@
                 <br />
             </nav>
             <div class="user-wraper">
-                <a class="login" href="" ng-if="!root.currentUser">Iniciar sesión</a>
+                <a class="login" href="" ng-if="!root.currentUser" ng-click="root.showLogin()">Iniciar sesión</a>
                 <a class="btn-noti" href="notificaciones.html" ng-if="root.currentUser">
                     <i class="icon-noti"></i>
                     <span ng-if="root.currentUser.unseenNotifications">{{root.currentUser.unseenNotifications}}</span>

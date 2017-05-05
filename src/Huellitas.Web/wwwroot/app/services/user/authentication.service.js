@@ -3,13 +3,21 @@
     angular.module('huellitasServices')
         .factory('authenticationService', authenticationService);
 
-    authenticationService.$inject = ['$http', '$q', 'httpService', 'sessionService'];
+    authenticationService.$inject = [
+        '$http',
+        '$q',
+        '$window',
+        'httpService',
+        'sessionService',
+        'helperService'];
 
-    function authenticationService($http, $q, http, sessionService)
+    function authenticationService($http, $q, $window, http, sessionService, helperService)
     {
         return {
+            promiseAuth: null,
             post: post,
-            get : get
+            get: get,
+            showLogin : showLogin
         };
 
         function post(model)
@@ -41,6 +49,19 @@
         function get()
         {
             return http.get('/api/auth');
+        }
+
+        function showLogin(scope)
+        {
+            this.promiseAuth = $q.defer();
+
+            if (scope.root.currentUser) {
+                this.promiseAuth.resolve(scope.root.currentUser);
+            }
+            else
+            {
+                helperService.compile($window.document.body, '<login-huellitas></login-huellitas>', scope);
+            }
         }
     }
 })();

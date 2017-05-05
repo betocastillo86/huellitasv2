@@ -68,7 +68,11 @@
     <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
     <Content Include="wwwroot\app\components\components.app.js" />
+    <Content Include="wwwroot\app\components\modal\front-modal-default.html" />
+    <Content Include="wwwroot\app\components\modal\front-modal-error.html" />
+    <Content Include="wwwroot\app\components\modal\modal-default - Copy.html" />
     <Content Include="wwwroot\app\components\modal\modal-default.html" />
+    <Content Include="wwwroot\app\components\modal\modal-error - Copy.html" />
     <Content Include="wwwroot\app\components\modal\modal-error.html" />
     <Content Include="wwwroot\app\components\modal\modal.default.controller.js" />
     <Content Include="wwwroot\app\components\modal\modal.service.js" />
@@ -77,6 +81,8 @@
     <Content Include="wwwroot\app\front\components\gallery\gallery.controller.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.directive.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
+    <Content Include="wwwroot\app\front\components\login\login.directive.js" />
+    <Content Include="wwwroot\app\front\components\login\login.html" />
     <Content Include="wwwroot\app\front\contents\petDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\petDetail.html" />
     <Content Include="wwwroot\app\front\contents\pets.controller.js" />
@@ -142,6 +148,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

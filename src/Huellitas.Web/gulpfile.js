@@ -60,7 +60,9 @@ paths.libsFront = [
     paths.external + 'underscore/underscore.js',
     paths.external + 'moment/moment.js',
     paths.external + 'moment/locale/es.js',
-    paths.external + 'pikaday/pikaday.js'
+    paths.external + 'pikaday/pikaday.js',
+    paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
+    paths.external + 'gentelella/vendors/bootstrap/js/modal.js'
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";

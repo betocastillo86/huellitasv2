@@ -5,13 +5,17 @@
       .module('huellitasServices')
       .factory('helperService', helperService);
 
-    helperService.$inject = ['$window', 'modalService'];
+    helperService.$inject = [
+        '$window',
+        '$compile',
+        'modalService'];
 
-    function helperService($window, modalService) {
+    function helperService($window, $compile, modalService) {
         var service = {
             configServiceUrl: configServiceUrl,
             handleException: handleException,
-            isMobileWidth: isMobileWidth
+            isMobileWidth: isMobileWidth,
+            compile: compile
         };
 
         return service;
@@ -45,5 +49,10 @@
         {
             return $window.innerWidth <= 600;
         }
+
+        function compile(element, html, scope) {
+            angular.element(element).append($compile(html)(scope));
+        }
+
     }
 })();

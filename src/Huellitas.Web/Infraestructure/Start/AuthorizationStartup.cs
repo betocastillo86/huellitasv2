@@ -51,6 +51,24 @@ namespace Huellitas.Web.Infraestructure.Start
         }
 
         /// <summary>
+        /// Adds the facebook authorization.
+        /// </summary>
+        /// <param name="app">The application.</param>
+        public static void AddFacebookAuthorization(this IApplicationBuilder app)
+        {
+            var generalSettings = (IGeneralSettings)app.ApplicationServices.GetService(typeof(IGeneralSettings));
+
+            if (!string.IsNullOrEmpty(generalSettings.FacebookPublicToken))
+            {
+                app.UseFacebookAuthentication(new FacebookOptions()
+                {
+                    AppId = generalSettings.FacebookPublicToken,
+                    AppSecret = generalSettings.FacebookSecretToken
+                });
+            }
+        }
+
+        /// <summary>
         /// Configures the policies.
         /// </summary>
         /// <param name="services">The services.</param>
