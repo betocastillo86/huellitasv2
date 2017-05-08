@@ -16,7 +16,7 @@
             handleException: handleException,
             isMobileWidth: isMobileWidth,
             goToFocus: goToFocus,
-            goToFocusError: goToFocusError
+            goToFocusError: goToFocusError,
             compile: compile
         };
 
