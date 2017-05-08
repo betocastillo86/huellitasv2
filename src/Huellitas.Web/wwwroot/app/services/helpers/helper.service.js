@@ -2,18 +2,22 @@
     'use strict';
 
     angular
-      .module('huellitasServices')
-      .factory('helperService', helperService);
+        .module('huellitasServices')
+        .factory('helperService', helperService);
 
-    helperService.$inject = ['$window', 'modalService'];
+    helperService.$inject = [
+        '$window',
+        '$compile',
+        'modalService'];
 
-    function helperService($window, modalService) {
+    function helperService($window, $compile, modalService) {
         var service = {
             configServiceUrl: configServiceUrl,
             handleException: handleException,
             isMobileWidth: isMobileWidth,
             goToFocus: goToFocus,
             goToFocusError: goToFocusError
+            compile: compile
         };
 
         return service;
@@ -43,13 +47,11 @@
             }
         }
 
-        function isMobileWidth()
-        {
+        function isMobileWidth() {
             return $window.innerWidth <= 600;
         }
 
-        function goToFocus(selector, addPixels)
-        {
+        function goToFocus(selector, addPixels) {
             selector = selector || '.error';
 
             var obj = $(selector);
@@ -66,9 +68,12 @@
             }, 500);
         }
 
-        function goToFocusError()
-        {
+        function goToFocusError() {
             goToFocus('.error', -100);
+        }
+
+        function compile(element, html, scope) {
+            angular.element(element).append($compile(html)(scope));
         }
     }
 })();

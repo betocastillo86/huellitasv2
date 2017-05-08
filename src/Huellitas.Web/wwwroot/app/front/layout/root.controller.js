@@ -19,6 +19,7 @@
 
         vm.showUserInfo = showUserInfo;
         vm.getRoute = routingService.getRoute;
+        vm.showLogin = showLogin;
 
         activate();
 
@@ -47,6 +48,11 @@
         
         function locationChanged(event, next, current) {
             vm.currentMenu = next.$$route.originalPath;
+        }
+
+        function showLogin()
+        {
+            authenticationService.showLogin($scope);
         }
     }
 })();

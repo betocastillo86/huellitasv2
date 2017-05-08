@@ -67,10 +67,14 @@
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
     <Content Include="wwwroot\app\components\components.app.js" />
     <Content Include="wwwroot\app\components\datepicker\datepicker.directive.js" />
+    <Content Include="wwwroot\app\components\modal\front-modal-default.html" />
+    <Content Include="wwwroot\app\components\modal\front-modal-error.html" />
+    <Content Include="wwwroot\app\components\modal\modal-default - Copy.html" />
     <Content Include="wwwroot\app\components\draggable\draggableContentFile.directive.js" />
     <Content Include="wwwroot\app\components\fileupload\fileupload.directive.js" />
     <Content Include="wwwroot\app\components\fileupload\fileupload\fileupload.directive.js" />
     <Content Include="wwwroot\app\components\modal\modal-default.html" />
+    <Content Include="wwwroot\app\components\modal\modal-error - Copy.html" />
     <Content Include="wwwroot\app\components\modal\modal-error.html" />
     <Content Include="wwwroot\app\components\modal\modal.default.controller.js" />
     <Content Include="wwwroot\app\components\modal\modal.service.js" />
@@ -86,6 +90,8 @@
     <Content Include="wwwroot\app\front\contents\adopt.html" />
     <Content Include="wwwroot\app\front\contents\adoptTerms.controller.js" />
     <Content Include="wwwroot\app\front\contents\adoptTerms.html" />
+    <Content Include="wwwroot\app\front\components\login\login.directive.js" />
+    <Content Include="wwwroot\app\front\components\login\login.html" />
     <Content Include="wwwroot\app\front\contents\editPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\editPet.html" />
     <Content Include="wwwroot\app\front\contents\newPet.html" />
@@ -155,6 +161,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

@@ -471,6 +471,9 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeWidth", Value = "1500" });
             list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeHeight", Value = "1159" });
 
+            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookPublicToken", Value = "" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookSecretToken", Value = "" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

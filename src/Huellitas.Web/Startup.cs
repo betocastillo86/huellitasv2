@@ -41,6 +41,8 @@ namespace Huellitas.Web
 
             app.AddJWTAuthorization(env, loggerFactory);
 
+            app.AddFacebookAuthorization();
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

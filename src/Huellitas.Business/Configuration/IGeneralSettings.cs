@@ -57,5 +57,21 @@ namespace Huellitas.Business.Configuration
         /// The height of the banner picture size.
         /// </value>
         int BannerPictureSizeHeight { get; }
+
+        /// <summary>
+        /// Gets the facebook public token.
+        /// </summary>
+        /// <value>
+        /// The facebook public token.
+        /// </value>
+        string FacebookPublicToken { get; }
+
+        /// <summary>
+        /// Gets the facebook secret token.
+        /// </summary>
+        /// <value>
+        /// The facebook secret token.
+        /// </value>
+        string FacebookSecretToken { get; }
     }
 }

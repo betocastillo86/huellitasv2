@@ -14,7 +14,8 @@
             modalType: 'default',
             scope: $rootScope,
             controllerAs: 'modal',
-            title: 'Mensaje'
+            title: 'Mensaje',
+            isFront : false
         };
 
         return vm;
@@ -56,7 +57,7 @@
                     .catch(consoleError);
             }
             else {
-                getTemplate('/app/components/modal/modal-' + options.modalType + '.html')
+                getTemplate('/app/components/modal/' + (options.isFront ? 'front-' : '') +'modal-' + options.modalType + '.html')
                     .then(templateLoaded)
                     .catch(consoleError);
             }
@@ -111,7 +112,14 @@
                     close({previousClosed : true});
                 })
                 //calls the modal before resolving promise
+                if (!modal.element.modal) {
+                    modal.element = $(modal.element)
+                }
+
                 modal.element.modal();
+
+
+                
 
                 deferred.resolve(modal);
 
@@ -130,13 +138,14 @@
                 }
 
                 function appendElement(parent, child) {
-                    var children = parent.children();
-                    if (children.length > 0) {
-                        return children[children.length - 1].append(child);
-                    }
-                    else {
-                        return parent.append(child);
-                    }
+                    //var children = parent.children();
+                    //if (children.length > 0) {
+                    //    return children[children.length - 1].append(child);
+                    //}
+                    //else {
+                    //    return parent.append(child);
+                    //}
+                    return parent.append(child);
                 }
 
                 function getControllerName() {

@@ -76,5 +76,21 @@ namespace Huellitas.Business.Configuration
         /// The height of the banner picture size.
         /// </value>
         public int BannerPictureSizeHeight { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeHeight"); } }
+
+        /// <summary>
+        /// Gets the facebook public token.
+        /// </summary>
+        /// <value>
+        /// The facebook public token.
+        /// </value>
+        public string FacebookPublicToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookPublicToken"); } }
+
+        /// <summary>
+        /// Gets the facebook secret token.
+        /// </summary>
+        /// <value>
+        /// The facebook secret token.
+        /// </value>
+        public string FacebookSecretToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookSecretToken"); } }
     }
 }

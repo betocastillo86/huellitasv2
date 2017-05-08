@@ -63,6 +63,8 @@ paths.libsFront = [
     paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
     paths.external + 'angucomplete-alt/angucomplete-alt.js'
+    paths.external + 'gentelella/vendors/bootstrap/js/modal.js'
+    paths.external + 'angucomplete-alt/angucomplete-alt.js',
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";

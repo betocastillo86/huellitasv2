@@ -119,7 +119,8 @@ namespace Huellitas.Data.Migrations
                 name: "SystemSetting",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     Value = table.Column<string>(nullable: false)
                 },
