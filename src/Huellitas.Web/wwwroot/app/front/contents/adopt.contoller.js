@@ -14,9 +14,20 @@
         'helperService',
         'adoptionFormService',
         'petService',
-        'routingService'];
+        'routingService',
+        'modalService'];
 
-    function AdoptController($routeParams, $scope, $location, customTableRowService, helperService, adoptionFormService, petService, routingService) {
+    function AdoptController(
+        $routeParams,
+        $scope,
+        $location,
+        customTableRowService,
+        helperService,
+        adoptionFormService,
+        petService,
+        routingService,
+        modalService) {
+
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.currentStep = 0;
@@ -140,49 +151,58 @@
                     return;
                 }
 
-                ////TODO:Alert
-                if (confirm('Despues de este paso toda la información será enviada. ¿Confirmas todos los datos ingresados?'))
-                {
-                    vm.form.isBusy = true;
+                modalService.showDialog({
+                    message: 'Despues de este paso toda la información será enviada. ¿Confirmas todos los datos ingresados?',
+                    closed: confirmClosed
+                });
 
-                    vm.model.attributes = new Array();
-                    for (var i = 0; i < vm.questions.length; i++) {
-                        var question = vm.questions[i];
+                function confirmClosed(response) {
+                    if (response.accept)
+                    {
+                        vm.form.isBusy = true;
 
-                        if (!question.questionParentId) {
-                            vm.model.attributes.push({
-                                attributeId: question.id,
-                                value: question.answer,
-                                question: question.question
-                            });
+                        vm.model.attributes = new Array();
+                        for (var i = 0; i < vm.questions.length; i++) {
+                            var question = vm.questions[i];
 
-                            if (question.children) {
-                                for (var j = 0; j < question.children.length; j++) {
-                                    vm.model.attributes.push({
-                                        attributeId: question.children[j].id,
-                                        value: question.children[j].answer,
-                                        question: question.children[j].question
-                                    });
+                            if (!question.questionParentId) {
+                                vm.model.attributes.push({
+                                    attributeId: question.id,
+                                    value: question.answer,
+                                    question: question.question
+                                });
+
+                                if (question.children) {
+                                    for (var j = 0; j < question.children.length; j++) {
+                                        vm.model.attributes.push({
+                                            attributeId: question.children[j].id,
+                                            value: question.children[j].answer,
+                                            question: question.children[j].question
+                                        });
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    adoptionFormService.post(vm.model)
-                        .then(postCompleted)
-                        .catch(postError);
+                        adoptionFormService.post(vm.model)
+                            .then(postCompleted)
+                            .catch(postError);
 
-                    function postCompleted() {
-                        vm.form.isBusy = false;
-                        ////TODO:Alert
-                        alert("Muchas gracias por llenar el formulario. Debes estar pendiente de tu correo donde enviarémos la respuesta.");
-                        $location.path(routingService.getRoute('pet', { friendlyName: vm.friendlyName }));
-                    }
+                        function postCompleted() {
+                            vm.form.isBusy = false;
 
-                    function postError() {
-                        vm.form.isBusy = false;
-                        ////TODO:Alert
-                        alert("Ocurrió un error al envíar la información. Intenta de nuevo o escribenos a nuestro fan page");
+                            modalService.show({
+                                message: "Muchas gracias por llenar el formulario. Debes estar pendiente de tu correo donde enviarémos la respuesta.",
+                                redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.friendlyName })
+                            });
+                        }
+
+                        function postError() {
+                            vm.form.isBusy = false;
+                            modalService.showError({
+                                message: "Ocurrió un error al envíar la información. Intenta de nuevo o escribenos a nuestro fan page"
+                            });
+                        }
                     }
                 }
             }
@@ -197,9 +217,14 @@
                 vm.currentStep--;
             }
             else {
-                ////TODO:Alert
-                if (confirm('¿Seguro deseas salir del formulario?')) {
-                    $location.path(routingService.getRoute('pet', { friendlyName: vm.friendlyName }));
+                modalService.showDialog({
+                    message: '¿Seguro deseas salir del formulario?', closed: confirmClosed
+                });
+
+                function confirmClosed(response) {
+                    if (response.accept) {
+                        $location.path(routingService.getRoute('pet', { friendlyName: vm.friendlyName }));
+                    }
                 }
             }
         }

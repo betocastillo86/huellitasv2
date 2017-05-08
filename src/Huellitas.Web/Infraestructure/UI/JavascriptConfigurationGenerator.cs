@@ -142,7 +142,8 @@ namespace Huellitas.Web.Infraestructure.UI
                     shelter = ContentUserRelationType.Shelter.ToString()
                 },
                 resources = this.GetAdminResources(),
-                isDebug = isDebug
+                isDebug = isDebug,
+                isFront = false
             };
 
             return JsonConvert.SerializeObject(config);
@@ -161,7 +162,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 {
                     questionAdoptionForm = Convert.ToInt32(CustomTableType.QuestionAdoptionForm),
                     jobs = Convert.ToInt32(CustomTableType.Jobs)
-                }
+                },
+                isFront = true
             };
 
             return JsonConvert.SerializeObject(config);

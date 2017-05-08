@@ -5,9 +5,26 @@
         .module('huellitas')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', '$scope', '$location', 'helperService', 'petService', 'userService', 'routingService'];
+    EditPetController.$inject = [
+        '$routeParams',
+        '$scope',
+        '$location',
+        'helperService',
+        'petService',
+        'userService',
+        'routingService',
+        'modalService'];
 
-    function EditPetController($routeParams, $scope, $location, helperService, petService, userService, routingService) {
+    function EditPetController(
+        $routeParams,
+        $scope,
+        $location,
+        helperService,
+        petService,
+        userService,
+        routingService,
+        modalService) {
+
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.model = {};
@@ -35,6 +52,7 @@
         activate();
 
         function activate() {
+
             if (vm.friendlyName) {
                 getPet();
             }
@@ -63,9 +81,7 @@
         function save() {
             if (vm.form.$valid && !vm.form.isBusy) {
                 if (vm.model.files.length < 3) {
-                    alert('Debes cargar al menos tres imagenes');
-                    //TODO:agregar modalservice
-                    //modalService.showError({ message: 'Debes cargar al menos tres imagenes' });
+                    modalService.showError({ message: 'Debes cargar al menos tres imagenes' });
                     return;
                 }
 
@@ -84,37 +100,40 @@
                         .catch(helperService.handleException);
                 }
 
-                function updateUserPhone()
-                {
+                function updateUserPhone() {
                     if (vm.originalPhone !== $scope.root.currentUser.phone) {
                         userService.put($scope.root.currentUser)
                             .then(confirmSaved)
                             .catch(putUserError);
                     }
-                    else
-                    {
+                    else {
                         confirmSaved();
                     }
 
                     function putUserError() {
-                        ////TODO:agregar modal
-                        alert('La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales');
-                        $location.path(routingService.getRoute('myaccount'));
+
+                        modalService.showError({
+                            message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
+                            redirectAfterClose: routingService.getRoute('myaccount')
+                        });
                     }
                 }
 
-                function confirmSaved()
-                {
+                function confirmSaved() {
                     if (vm.friendlyName) {
-                        ////TODO: agregar modal
-                        alert('Los datos de ' + vm.model.name + ' fueron actualizados correctamente');
-                        $location.path(routingService.getRoute('pet', { friendlyName: vm.model.friendlyName }));
+                        modalService.show({
+                            title: 'Mascota actualizada',
+                            message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
+                            redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.model.friendlyName })
+                        });
                     }
                     else {
-                        ////TODO: agregar modal
-                        alert('Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.');
-                        $location.path(routingService.getRoute('pets'));
-                    }                    
+                        modalService.show({
+                            title: 'Mascota guardada',
+                            message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.',
+                            redirectAfterClose: routingService.getRoute('pets')
+                        });
+                    }
                 }
             }
         }
@@ -170,8 +189,7 @@
             vm.model.files = _.reject(vm.model.files, function (el) { return el.id == file.id });
         }
 
-        function reorder(newFiles)
-        {
+        function reorder(newFiles) {
             console.log('entra de nuevo', newFiles);
             vm.model.files = newFiles;
         }
