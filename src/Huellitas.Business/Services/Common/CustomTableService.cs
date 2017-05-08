@@ -48,17 +48,33 @@ namespace Huellitas.Business.Services
         /// <returns>
         /// the rows
         /// </returns>
-        public IList<CustomTableRow> GetRowsByTableId(int tableId)
+        public IList<CustomTableRow> GetRowsByTableId(int tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder)
         {
-            return this.customTableRowRepository.Table.Where(c => c.CustomTableId == tableId).ToList();
+            var query = this.customTableRowRepository.Table.Where(c => c.CustomTableId == tableId);
+
+            switch (orderBy)
+            {
+                case OrderByTableRow.Value:
+                    query = query.OrderBy(c => c.Id);
+                    break;
+                default:
+                case OrderByTableRow.DisplayOrder:
+                    query = query.OrderByDescending(c => c.DisplayOrder);
+                    break;
+            }
+
+            return query.ToList();
         }
 
         /// <summary>
         /// Gets the rows cached by table identifier.
         /// </summary>
         /// <param name="tableId">The table identifier.</param>
-        /// <returns>the rows</returns>
-        public IList<CustomTableRow> GetRowsByTableIdCached(CustomTableType tableId)
+        /// <param name="orderBy">order by</param>
+        /// <returns>
+        /// the rows
+        /// </returns>
+        public IList<CustomTableRow> GetRowsByTableIdCached(CustomTableType tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder)
         {
             var key = string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, tableId);
             return this.cacheManager.Get(

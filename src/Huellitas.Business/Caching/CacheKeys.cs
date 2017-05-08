@@ -19,6 +19,11 @@ namespace Huellitas.Business.Caching
         public const string CUSTOMTABLEROWS_BY_TABLE = "cache.customtablerows.bytable.{0}";
 
         /// <summary>
+        /// The adoption form questions
+        /// </summary>
+        public const string CUSTOMTABLEROWS_ADOPTIONFORM_QUESTIONS = "cache.customtablerows.adoptionforms";
+
+        /// <summary>
         /// The custom table rows pattern
         /// </summary>
         public const string CUSTOMTABLEROWS_PATTERN = "cache.customtablerows";

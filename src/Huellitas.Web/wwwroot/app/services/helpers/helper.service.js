@@ -11,7 +11,9 @@
         var service = {
             configServiceUrl: configServiceUrl,
             handleException: handleException,
-            isMobileWidth: isMobileWidth
+            isMobileWidth: isMobileWidth,
+            goToFocus: goToFocus,
+            goToFocusError: goToFocusError
         };
 
         return service;
@@ -44,6 +46,29 @@
         function isMobileWidth()
         {
             return $window.innerWidth <= 600;
+        }
+
+        function goToFocus(selector, addPixels)
+        {
+            selector = selector || '.error';
+
+            var obj = $(selector);
+            if (!obj.length)
+                return;
+            if (addPixels == undefined)
+                addPixels = 0;
+
+            var position = 0;
+            if (obj.offset() != undefined)
+                position = obj.offset().top;
+            $('html, body').animate({
+                scrollTop: position + addPixels
+            }, 500);
+        }
+
+        function goToFocusError()
+        {
+            goToFocus('.error', -100);
         }
     }
 })();

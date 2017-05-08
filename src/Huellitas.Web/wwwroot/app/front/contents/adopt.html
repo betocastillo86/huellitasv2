@@ -1,0 +1,242 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <div class="content-form">
+                <h1 class="tit-form">PROCESO DE ADOPCIÓN</h1>
+                <div class="sub-title col-md-12">A continuación encontrarás un formulario con el cual buscamos medir que tan apto eres para adoptar una mascota con nosotros. Este es el primer paso en el proceso de adopción, si lo pasas nos estaremos comunicando directamente contigo.*</div>
+                <ul class="wizard_steps">
+                    <li>
+                        <a href="#" ng-class="{ 'selected' : main.currentStep == 0, 'disabled': main.currentStep != 0}" isdone="1" rel="1">
+                            <span class="step_no">1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" ng-class="{ 'selected' : main.currentStep == 1, 'disabled': main.currentStep != 1}" isdone="0" rel="2">
+                            <span class="step_no">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" ng-class="{ 'selected' : main.currentStep == 2, 'disabled': main.currentStep != 2}" isdone="0" rel="3">
+                            <span class="step_no">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" ng-class="{ 'selected' : main.currentStep == 3, 'disabled': main.currentStep != 3}" isdone="0" rel="4">
+                            <span class="step_no">4</span>
+                        </a>
+                    </li>
+                </ul>
+                <form name="main.form" ng-submit="main.save()" novalidate>
+                    <div ng-if="main.currentStep === 0">
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.name.$invalid}">
+                            <input type="text" name="name" placeholder="Nombre" ng-model="main.model.name" maxlength="90" required />
+                            <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa tu nombre</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.phoneNumber.$invalid}">
+                            <input type="text" name="phoneNumber" placeholder="Teléfono de contacto" ng-model="main.model.phoneNumber" ng-minlength="7" maxlength="20" required />
+                            <span class="error" ng-if="!main.form.$submitted || main.form.phoneNumber.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.phoneNumber.$error.required">Ingresa tu número de contacto</span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.phoneNumber.$error.minlength">Ingresa un número de contacto válido</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.email.$invalid}">
+                            <input type="email" name="email" ng-model="main.model.email" placeholder="Correo electrónico" required>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.email.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.email.$error.required">Ingresa tu correo electrónico</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.jobId.$invalid}">
+                            <select name="jobId" ng-model="main.model.job.value" ng-options="job.id as job.value for job in main.jobs" required>
+                                <option value="">Ocupación</option>
+                            </select>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.jobId.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.jobId.$error.required">Selecciona tu ocupación</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.location.$invalid}">
+                            <div>
+                                <angucomplete-alt id="location"
+                                                  placeholder="Ciudad"
+                                                  pause="400"
+                                                  remote-url="/api/locations?pagesize=8&name="
+                                                  title-field="name"
+                                                  selected-object="main.changeLocation"
+                                                  initial-value="main.model.location.name"
+                                                  field-required="true"
+                                                  input-name="location"
+                                                  field-required-class="parsley-error"
+                                                  remote-url-data-field="results"
+                                                  match-class="highlight" />
+                            </div>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.address.$invalid}">
+                            <input type="text" name="address" placeholder="Dirección" ng-model="main.model.address" ng-minlength="6" maxlength="100" required>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.address.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.address.$error.required">Ingresa la dirección donde vives</span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.address.$error.minlength">Ingresa una dirección valida</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.town.$invalid}">
+                            <input type="text" name="town" placeholder="Barrio" ng-model="main.model.town" maxlength="100" required>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.town.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.town.$invalid">Ingresa el barrio donde vives</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
+                            <input type="text" name="birthDate" ng-model="main.model.birthDate" datepicker-huellitas required />
+                            <span class="error" ng-if="!main.form.$submitted || main.form.birthDate.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid">Ingresa tu fecha de nacimiento</span>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.familyMembers.$invalid}">
+                            <input type="number" name="familyMembers" placeholder="¿Cuantas personas viven en tu casa?" ng-model="main.model.familyMembers" maxlength="2" min="1" max="99" ng-change="main.familyMembersChanged()" required>
+                            <span class="error" ng-if="!main.form.$submitted || main.form.familyMembers.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.familyMembers.$invalid">Ingresa el número de integrantes de tu familia</span>
+                        </div>
+                        <br>
+                        <div class="f-n-family" ng-if="main.model.familyMembers > 0" ng-class="{'bad':main.form.$submitted && main.form.familyMembersAge.$invalid}">
+                            <p>Ingresa las edades de los miembros de tu familia</p>
+                            <div class="col-xs-4" ng-repeat="member in main.ageFamilyMembers track by $index">
+                                <input type="text" ng-model="main.ageFamilyMembers[$index]" maxlength="10" ng-change="main.ageChanged()">
+                                <span class="error"></span>
+                            </div>
+                            <br>
+                            <input type="hidden" ng-model="main.model.familyMembersAge" ng-required="{{main.model.familyMembers > 0}}" name="familyMembersAge" />
+                            <span class="error" ng-if="!main.form.$submitted || main.form.familyMembersAge.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.familyMembersAge.$invalid">Ingresa las edades</span>
+                        </div>
+                    </div>
+                    <div ng-repeat="question in main.questions" ng-class="{'colmd-12':question.questionType === 'Text'}">
+                        <div class="ask-f" ng-include="question.template" ng-if="!question.questionParentId && question.step == main.currentStep" ng-class="{'bad': main.form.$submitted && main.form[('question'+question.id)].$invalid}">
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <script id="templateText" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <textarea name="{{(child || question).key}}" ng-required="(child || question).required" ng-model="(child || question).answer"></textarea>
+                        <span class="error" ng-if="main.form.$submitted && main.form[('question'+(child || question).id)].$invalid">Responde la pregunta</span>
+                    </script>
+
+                    <script id="templateSingle" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <div class="radio col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
+                            <label>
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="{{::option}}" ng-required="(child || question).required" >
+                                {{::option}}
+                            </label>
+                        </div>
+                        <span class="error" ng-if="main.form.$submitted && main.form[('question'+(child || question).id)].$invalid">Responde la pregunta</span>
+                        <br>
+                    </script>
+                    <script id="templateBoolean" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <div class="radio col-sm-6 col-xs-12">
+                            <label>
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="true" ng-required="(child || question).required">
+                                Si
+                            </label>
+                        </div>
+                        <div class="radio col-sm-6 col-xs-12">
+                            <label>
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="false" ng-required="(child || question).required">
+                                No
+                            </label>
+                        </div>
+                        <span class="error" ng-if="main.form.$submitted && main.form[('question'+(child || question).id)].$invalid">Responde la pregunta</span>
+                        <br>
+                        <div ng-if="question.children && (child || question).answer == 'true'">
+                            <div ng-repeat="child in question.children" ng-include="child.template" ng-class="{'bad': main.form[('question'+child.id)].$invalid}">
+                                
+                            </div>
+                        </div>
+                    </script>
+                    <script id="templateSingleWithOther" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <div class="radio col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
+                            <label>
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="{{::option}}" ng-required="(child || question).required">
+                                {{::option}}
+                            </label>
+                        </div>
+                        <div class="radio col-sm-6 col-xs-12">
+                            <label>
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answerOther" value="Otro" >
+                                Otro
+                            </label>
+                        </div>
+                        <div class="col-sm-6 col-xs-12" ng-if="(child || question).answerOther == 'Otro'">
+                            <input type="text" placeholder="¿Cúal?" name="{{(child || question).key}}" ng-model="(child || question).answer" required>
+                        </div>
+                        <span class="error" ng-if="main.form.$submitted && main.form[('question'+(child || question).id)].$invalid">Responde la pregunta</span>
+                        <br>
+                    </script>
+                    <script id="templateChecksWithText" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <div class="radio col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
+                            <label>
+                                <input type="checkbox" name="{{(child || question).key}}[]" value="{{::option}}" ng-model="(child || question).checks[option].checked" ng-change="main.changeCheckboxType((child || question), option)" >
+                                {{::option}}
+                            </label>
+                            <div class="col-sm-6 col-xs-12" ng-if="(child || question).checks[option].checked">
+                                <input type="text" name="{{(child || question).key}}" ng-model="(child || question).checks[option].text" ng-change="main.changeCheckboxType((child || question), option)" required>
+                            </div>
+                        </div>
+                        <span class="error" ng-if="main.form.$submitted && main.form[(child || question).key].$invalid">Responde la pregunta</span>
+                        <input type="hidden" ng-model="(child || question).answer" ng-required="(child || question).required" name="{{(child || question).key}}" ng-minlength="1" />
+                        <br>
+                    </script>
+                    <script id="templateOptionsWithText" type="text/ng-template">
+                        <label class="col-md-12">{{::(child || question).question}}</label>
+                        <div class="col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
+                            <input type="text" placeholder="{{::option}}" ng-model="(child || question).checks[option].text" name="{{(child || question).key + '_option' + $index}}"  ng-required="(child || question).required" ng-change="main.changeOptionsWithTextType((child || question), option)">
+                            <span class="error" ng-if="main.form.$submitted && main.form[((child || question).key + '_option' + $index)].$invalid">Responde la pregunta</span>
+                            <span class="error" ng-if="!main.form.$submitted || !main.form[((child || question).key + '_option' + $index)].$invalid"></span>
+                        </div>
+                        <input type="hidden" ng-model="(child || question).answer" ng-required="(child || question).required" name="{{(child || question).key}}" />
+                        <br>
+                    </script>
+
+
+
+
+
+                    
+
+
+                    <br>
+                    <div class="res-pet">
+                        <img class="img-responsive" src="http://huellitas.social/img/18865/big">
+                        <div class="txt-pet">
+                            <h3>{{::main.pet.name}}</h3>
+                            <div>
+                                <span>Genero: {{::main.pet.genre.text}}</span>
+                                <span>Edad: {{::main.pet.months | age}}</span>
+                                <span>Localización: {{::main.pet.location.name}}</span>
+                            </div>
+                            <div ng-if="::main.pet.shelter">
+                                <span>Hogar de paso: <a ng-href="{{::root.getRoute('shelter', { friendlyName: main.pet.shelter.friendlyName})}}">{{::main.pet.shelter.name}}</a></span>
+                                <span>Contacto: {{::main.pet.shelter.owner}}</span>
+                                <span>Celular: {{::main.pet.shelter.phone}}</span>
+                                <span>Telefono: {{::main.pet.shelter.phone2}}</span>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <span class="legal">*El llenar el formulario o ser contactado no garantiza la adopción de la mascota</span>
+                    <div class="btn-content">
+                        <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Valida que todos los campos estén correctamente diligenciados</span>
+                        <a href="" class="btn btn-cancel btn-lg" ng-click="main.back()">{{main.currentStep > 0 ? 'Atrás' : 'Cancelar'}}</a>
+                        <button type="submit" class="btn btn-save btn-lg">{{main.currentStep < 3 ? 'Siguiente' : 'Terminar'}}</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+        </article>
+    </section>
+</div>

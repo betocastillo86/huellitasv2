@@ -8,9 +8,10 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20170504161100_AddColumn_DisplayOrder_Table_CustomTableRow")]
+    partial class AddColumn_DisplayOrder_Table_CustomTableRow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

@@ -6,6 +6,8 @@
 namespace Huellitas.Business.Models
 {
     using Huellitas.Data.Entities;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Adoption Form Question Model
@@ -27,6 +29,7 @@ namespace Huellitas.Business.Models
         /// <value>
         /// The type of the question.
         /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
         public AdoptionFormQuestionType QuestionType { get; set; }
 
         /// <summary>
@@ -52,5 +55,13 @@ namespace Huellitas.Business.Models
         ///   <c>true</c> if required; otherwise, <c>false</c>.
         /// </value>
         public bool Required { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display order.
+        /// </summary>
+        /// <value>
+        /// The display order.
+        /// </value>
+        public int DisplayOrder { get; set; }
     }
 }

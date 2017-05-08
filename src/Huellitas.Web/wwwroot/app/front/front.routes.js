@@ -17,6 +17,16 @@
                 controller: 'EditPetController',
                 controllerAs: 'main'
             })
+            .when('/sinhogar/:friendlyName/adoptar/formulario', {
+                templateUrl: '/app/front/contents/adopt.html',
+                controller: 'AdoptController',
+                controllerAs: 'main'
+            })
+            .when('/sinhogar/:friendlyName/adoptar', {
+                templateUrl:    '/app/front/contents/adoptTerms.html',
+                controller:     'AdoptTermsController',
+                controllerAs:   'main'
+            })
             .when('/sinhogar/:friendlyName', {
                 templateUrl: '/app/front/contents/petDetail.html',
                 controller: 'PetDetailController',

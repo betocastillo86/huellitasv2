@@ -1,5 +1,5 @@
 ﻿<div class="pg-body col-md-12">
-    <div class="box-edit" ng-if="main.model.canEdit">
+    <div class="box-edit" ng-if="::main.model.canEdit">
         <a class="btn btn-lg" ng-href="{{root.getRoute('editpet', main.model)}}"><span class="icon-edit"></span> Editar</a>
     </div>
     <section class="bkg-gray">
@@ -8,9 +8,12 @@
                 {{main.model.name}}
                 <a class="btn btn-sm" href="">Compartir</a>
             </h1>
-            
-            <gallery-huellitas class="bkg-gray" ng-if="main.model.files"  data-images="main.model.files" ></gallery-huellitas>
-            
+            <div class="box-btn" >
+                <a class="btn btn-lg btn-fixed" ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" title="Llenar formulario de adopción de {{::main.model.name}}">Adoptar</a>
+                <!--<a class="btn btn-lg" href="">Apadriname</a>-->
+            </div>
+            <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files"></gallery-huellitas>
+
             <ul class="data-list col-md-12">
                 <li>
                     Genero
@@ -37,13 +40,10 @@
             <div class="col-md-12">
                 <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
             </div>
-            <div class="box-btn">
-                <a class="btn btn-lg btn-fixed" href="form-adopcion.html">Quiero adoptarl@</a>
-                <a class="btn btn-lg" href="">Apadriname</a>
-            </div>
+            
             <div class="box-contact col-md-12">
                 <h5>Contacto:</h5>
-                
+
                 <div ng-if="::main.model.shelter" class="funda-img">
                     <img ng-src="{{::main.model.shelter.image.thumbnail}}">
                 </div>

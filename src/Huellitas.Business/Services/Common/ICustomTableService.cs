@@ -17,14 +17,16 @@ namespace Huellitas.Business.Services
         /// Gets the rows by table identifier.
         /// </summary>
         /// <param name="tableId">The table identifier.</param>
+        /// <param name="orderBy">order by</param>
         /// <returns>the rows</returns>
-        IList<CustomTableRow> GetRowsByTableId(int tableId);
+        IList<CustomTableRow> GetRowsByTableId(int tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder);
 
         /// <summary>
         /// Gets the rows cached by table identifier.
         /// </summary>
         /// <param name="tableId">The table identifier.</param>
+        /// <param name="orderBy">order by</param>
         /// <returns>the rows</returns>
-        IList<CustomTableRow> GetRowsByTableIdCached(CustomTableType tableId);
+        IList<CustomTableRow> GetRowsByTableIdCached(CustomTableType tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder);
     }
 }

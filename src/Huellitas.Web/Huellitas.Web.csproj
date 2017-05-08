@@ -17,7 +17,6 @@
     <Content Include="wwwroot\app\admin\adoptionforms\listForms.html" />
     <Content Include="wwwroot\app\admin\adoptionforms\sendFormByEmail.controller.js" />
     <Content Include="wwwroot\app\admin\adoptionforms\sendFormByEmail.html" />
-    <Content Include="wwwroot\app\admin\components\datepicker\datepicker.directive.js" />
     <Content Include="wwwroot\app\admin\components\forms\compareTo.directive.js" />
     <Content Include="wwwroot\app\admin\components\forms\validationMessage.directive.js" />
     <Content Include="wwwroot\app\admin\components\gallery\gallery.controller.js" />
@@ -67,6 +66,7 @@
     <Content Include="wwwroot\app\admin\users\listUsers.controller.js" />
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
     <Content Include="wwwroot\app\components\components.app.js" />
+    <Content Include="wwwroot\app\components\datepicker\datepicker.directive.js" />
     <Content Include="wwwroot\app\components\draggable\draggableContentFile.directive.js" />
     <Content Include="wwwroot\app\components\fileupload\fileupload.directive.js" />
     <Content Include="wwwroot\app\components\fileupload\fileupload\fileupload.directive.js" />
@@ -82,6 +82,10 @@
     <Content Include="wwwroot\app\front\components\gallery\gallery.controller.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.directive.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
+    <Content Include="wwwroot\app\front\contents\adopt.contoller.js" />
+    <Content Include="wwwroot\app\front\contents\adopt.html" />
+    <Content Include="wwwroot\app\front\contents\adoptTerms.controller.js" />
+    <Content Include="wwwroot\app\front\contents\adoptTerms.html" />
     <Content Include="wwwroot\app\front\contents\editPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\editPet.html" />
     <Content Include="wwwroot\app\front\contents\newPet.html" />

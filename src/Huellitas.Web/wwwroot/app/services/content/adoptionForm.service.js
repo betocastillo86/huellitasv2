@@ -9,6 +9,7 @@
         return {
             getAll: getAll,
             getById: getById,
+            post: post,
             postUser: postUser,
             sendByEmail : sendByEmail
         };
@@ -31,6 +32,11 @@
         function sendByEmail(formId, email)
         {
             return http.post('/api/adoptionforms/' + formId + '/send', { email: email })
+        }
+
+        function post(model)
+        {
+            return http.post('/api/adoptionforms', model);
         }
     }
 

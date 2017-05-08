@@ -156,7 +156,12 @@ namespace Huellitas.Web.Infraestructure.UI
                 isDebug = isDebug,
                 subtypes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSubtype).Select(c => new { id = c.Id, value = c.Value }),
                 sizes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSize).Select(c => new { id = c.Id, value = c.Value }),
-                genres = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).Select(c => new { id = c.Id, value = c.Value })
+                genres = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).Select(c => new { id = c.Id, value = c.Value }),
+                customTables = new
+                {
+                    questionAdoptionForm = Convert.ToInt32(CustomTableType.QuestionAdoptionForm),
+                    jobs = Convert.ToInt32(CustomTableType.Jobs)
+                }
             };
 
             return JsonConvert.SerializeObject(config);

@@ -20,6 +20,7 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
+    using Huellitas.Business.Caching;
 
     /// <summary>
     /// Adoption Forms Controller
@@ -54,6 +55,11 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IWorkContext workContext;
 
         /// <summary>
+        /// The cache manager
+        /// </summary>
+        private readonly ICacheManager cacheManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormsController"/> class.
         /// </summary>
         /// <param name="adoptionFormService">The adoption form service.</param>
@@ -66,13 +72,15 @@ namespace Huellitas.Web.Controllers.Api
             IWorkContext workContext,
             IContentService contentService,
             IFilesHelper filesHelper,
-            ICustomTableService customTableService) : base(workContext, contentService, adoptionFormService)
+            ICustomTableService customTableService,
+            ICacheManager cacheManager) : base(workContext, contentService, adoptionFormService)
         {
             this.adoptionFormService = adoptionFormService;
             this.workContext = workContext;
             this.contentService = contentService;
             this.filesHelper = filesHelper;
             this.customTableService = customTableService;
+            this.cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -217,7 +225,7 @@ namespace Huellitas.Web.Controllers.Api
         [NonAction]
         public void ValidateQuestions(IList<AdoptionFormAttributeModel> attributes)
         {
-            var questions = this.customTableService.GetAdoptionFormQuestions();
+            var questions = this.customTableService.GetAdoptionFormQuestions(this.cacheManager);
 
             foreach (var question in questions)
             {
@@ -226,7 +234,22 @@ namespace Huellitas.Web.Controllers.Api
                 ////If it's required and it'snot fill marks error
                 if (question.Required && string.IsNullOrEmpty(attribute?.Value))
                 {
-                    this.ModelState.AddModelError("Attributes", $"La pregunta '{question.Question}' es obligatoria");
+                    if (question.QuestionParentId.HasValue)
+                    {
+                        var attributeParent = attributes.FirstOrDefault(c => c.AttributeId == question.QuestionParentId.Value);
+                        if (attributeParent.Value != null && attributeParent.Value.ToLower().Equals("true"))
+                        {
+                            this.ModelState.AddModelError("Attributes", $"La pregunta '{question.Question}' es obligatoria");
+                        }
+                        else
+                        {
+                            attributes.Remove(attributes.FirstOrDefault(c => c.AttributeId == question.Id));
+                        }
+                    }
+                    else
+                    {
+                        this.ModelState.AddModelError("Attributes", $"La pregunta '{question.Question}' es obligatoria");
+                    }
                 }
             }
         }
