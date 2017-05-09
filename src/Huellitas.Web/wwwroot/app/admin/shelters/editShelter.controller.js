@@ -138,7 +138,7 @@
                 vm.showPicturesActive = true;
 
                 ////Quita el primer archivo para dejarlo como logo
-                vm.model.files = _.rest(vm.model.files);
+                vm.model.files = _.rest(vm.model.files, 1);
 
                 vm.getFullNameImage();
             }

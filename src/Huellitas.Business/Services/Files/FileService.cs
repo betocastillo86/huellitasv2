@@ -136,6 +136,20 @@ namespace Huellitas.Business.Services
         {
             try
             {
+                ////Actualiza los display order de todos los contenidos
+                var existentFiles = this.contentFileRepository.Table
+                    .Where(c => c.ContentId == contentFile.ContentId)
+                    .OrderByDescending(c => c.DisplayOrder)
+                    .ToList();
+
+                for (int i = 0; i < existentFiles.Count; i++)
+                {
+                    var existentFile = existentFiles[i];
+                    existentFile.DisplayOrder = (existentFiles.Count - i) + 1;
+                }
+
+                contentFile.DisplayOrder = 1;
+
                 await this.contentFileRepository.InsertAsync(contentFile);
             }
             catch (DbUpdateException e)

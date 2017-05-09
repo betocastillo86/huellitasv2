@@ -1606,10 +1606,10 @@ section{
         font-size: 20px;
     }
 }
-.bad{
-    input[type="text"], [type="password"], [type="number"], [type="email"], select, textarea{
+.bad {
+    input[type="text"], [type="password"], [type="url"], [type="number"], [type="email"], select, textarea {
         background: #FFEBEB;
-    } 
+    }
 }
 .error{
     color: #FF0047;
@@ -1661,15 +1661,16 @@ section{
     }
 }
 
-form{
-    input[type="text"], [type="password"], [type="number"], [type="email"], select{
+form {
+    input[type="text"], input[type="url"], [type="password"], [type="number"], [type="email"], select {
         background: $gray4;
         width: 100%;
         font-size: 16px;
         padding: 10px;
         @include border-radius(6px);
     }
-    textarea{
+
+    textarea {
         background: $gray4;
         width: 100%;
         font-size: 16px;
@@ -1677,24 +1678,28 @@ form{
         @include border-radius(6px);
         height: 100px;
     }
-    label{
+
+    label {
         font-size: 16px;
         font-weight: bold;
         color: $blue;
         display: block;
     }
-    fieldset{
+
+    fieldset {
         border: none;
         margin: 0;
         padding: 0;
     }
-    .checkbox+.checkbox, .radio+.radio{
+
+    .checkbox + .checkbox, .radio + .radio {
         margin-top: inherit;
     }
-    .radio, .checkbox{
+
+    .radio, .checkbox {
         margin: 10px 0 !important;
 
-        label{
+        label {
             font-size: 14px;
             color: $text-color;
         }
@@ -1966,14 +1971,15 @@ ul.wizard_steps {
         }
     }
 }
-.redes-inp{
+.redes-inp {
 
-    input[type="text"]{
+    input[type="text"], input[type="url"] {
         width: calc(100% - 50px);
         float: left;
         margin: 0 0 0 6px;
     }
-    [class^="icon-"]{
+
+    [class^="icon-"] {
         font-size: 25px;
         text-align: center;
         line-height: 44px;

@@ -1,0 +1,54 @@
+﻿<div class="pg-body col-md-12">
+    <section class="inter-add">
+        <h3>¿Tienes una fundación?</h3>
+        <a ng-href="{{root.getRoute('newshelter')}}" class="btn btn-lg">Registrate aquí</a>
+    </section>
+    <section>
+        <article class="content-all">
+            <h1 class="tit-section col-md-12">ENCUENTRA FUNDACIONES</h1>
+            <div class="sub-title col-md-12">Busca la fundación que mejor te parezca</div>
+            <form class="search-box">
+                <div class="col-md-4 col-sm-6">
+                    <angucomplete-alt id="location"
+                                      placeholder="Ciudad"
+                                      pause="400"
+                                      remote-url="/api/locations?pagesize=8&name="
+                                      title-field="name"
+                                      selected-object="main.changeLocation"
+                                      initial-value="main.filter.locationName"
+                                      field-required="true"
+                                      input-name="location"
+                                      field-required-class="parsley-error"
+                                      remote-url-data-field="results"
+                                      match-class="highlight" />
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <input type="text" name="name" ng-model="main.filter.keyword" placeholder="Busca por nombre" />
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <button type="button" class="btn btn-lg	" ng-click="main.search()">Buscar</button>
+                </div>
+                <br>
+            </form>
+            <ul class="content-funda col-md-12">
+                <li ng-repeat="shelter in main.shelters" class="card">
+                    <div class="funda-img">
+                        <a ng-href="{{root.getRoute('shelter', {friendlyName : shelter.friendlyName})}}"><img ng-src="{{::shelter.image.thumbnail}}" alt="Logo {{::shelter.name}}"></a>
+                    </div>
+                    <a class="funda-txt" ng-href="{{root.getRoute('shelter', {friendlyName : shelter.friendlyName})}}">
+                        <h3>{{::shelter.name}}</h3>
+                        <h4>
+                            {{::shelter.location.name}} / Encargado: {{::shelter.location.owner}} <br>
+                            Telefono: {{::shelter.phone}} <text ng-if="::shelter.phone2">Telefóno 2: {{::shelter.phone2}}</text>
+                        </h4>
+                        <p>{{::shelter.body}}</p>
+                        <button type="button" class="btn btn-lg buttonmore">Conocer más</button>
+                    </a>
+                    <br>
+                </li>
+
+                <button type="button" class="btn btn-lg btn-more" ng-if="main.hasNextPage" ng-click="main.more()">Ver más</button>
+            </ul>
+        </article>
+    </section>
+</div>

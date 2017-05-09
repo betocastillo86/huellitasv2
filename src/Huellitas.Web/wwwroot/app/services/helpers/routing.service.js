@@ -22,6 +22,8 @@
                     return '/sinhogar/' + params.friendlyName + '/adoptar';
                 case 'adopt1':
                     return '/sinhogar/' + params.friendlyName + '/adoptar/formulario';
+                case 'shelters':
+                    return '/fundaciones';
                 case 'shelter':
                     return '/fundaciones/' + params.friendlyName;
                 case 'newpet0':
@@ -32,9 +34,10 @@
                     return '/sinhogar/' + params.friendlyName + '/editar';
                 case 'myaccount':
                     return '/mis-datos';
-
                 case 'home':
                     return '/';
+                case 'newshelter':
+                    return '/fundaciones/crear';
                 default:
             }
         }

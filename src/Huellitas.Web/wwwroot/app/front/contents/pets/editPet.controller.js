@@ -190,7 +190,6 @@
         }
 
         function reorder(newFiles) {
-            console.log('entra de nuevo', newFiles);
             vm.model.files = newFiles;
         }
     }

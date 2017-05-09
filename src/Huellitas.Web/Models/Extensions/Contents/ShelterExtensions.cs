@@ -52,7 +52,7 @@ namespace Huellitas.Web.Models.Extensions
                     entity.ContentFiles.Add(new ContentFile()
                     {
                         FileId = model.Files[i].Id,
-                        DisplayOrder = i
+                        DisplayOrder = model.Files.Count - i
                     });
                 }
             }
