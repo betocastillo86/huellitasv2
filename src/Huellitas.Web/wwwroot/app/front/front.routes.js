@@ -47,6 +47,11 @@
                 controller: 'EditShelterController',
                 controllerAs: 'main'
             })
+            .when('/fundaciones/:friendlyName', {
+                templateUrl: '/app/front/contents/shelters/shelterDetail.html',
+                controller: 'ShelterDetailController',
+                controllerAs: 'main'
+            })
             .when('/fundaciones', {
                 templateUrl: '/app/front/contents/shelters/shelters.html',
                 controller: 'SheltersController',

@@ -45,10 +45,12 @@
                 <h5>Contacto:</h5>
 
                 <div ng-if="::main.model.shelter" class="funda-img">
-                    <img ng-src="{{::main.model.shelter.image.thumbnail}}">
+                    <a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">
+                        <img ng-src="{{::main.model.shelter.image.thumbnail}}" alt="Logo {{::main.model.shelter.name}}" title="Ir a {{::main.model.shelter.name}}">
+                    </a>
                 </div>
                 <div class="funda-txt" ng-if="::main.model.shelter">
-                    <h3>{{::main.model.shelter.name}}</h3>
+                    <h3><a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">{{::main.model.shelter.name}}</a></h3>
                     <h4>
                         {{::main.model.location.name}} / Encargado: {{::main.model.shelter.owner}} <br>
                         <span>Correo electrónico: {{::main.model.shelter.email}}</span> <br />

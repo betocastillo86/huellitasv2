@@ -15,7 +15,7 @@
         {
             switch (routeName) {
                 case 'pets':
-                    return '/sinhogar';
+                    return '/sinhogar' + (params ?  '?'+$.param(params) : '');
                 case 'pet':
                     return '/sinhogar/' + params.friendlyName;
                 case 'adopt0':
