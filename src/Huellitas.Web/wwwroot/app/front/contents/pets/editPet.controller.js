@@ -13,7 +13,8 @@
         'petService',
         'userService',
         'routingService',
-        'modalService'];
+        'modalService',
+        'fileService'];
 
     function EditPetController(
         $routeParams,
@@ -23,7 +24,8 @@
         petService,
         userService,
         routingService,
-        modalService) {
+        modalService,
+        fileService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -181,13 +183,38 @@
             return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && vm.model.location;
         }
 
-        function imageAdded(file) {
-            vm.model.files.push(file);
+        
+        function removeFile(image) {
+            if (vm.model.id) {
+                fileService.deleteContentFile(vm.model.id, image.id)
+                    .then(confirmRemoved);
+            }
+            else {
+                confirmRemoved();
+            }
+
+            function confirmRemoved()
+            {
+                vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
+            }
         }
 
-        function removeFile(file) {
-            vm.model.files = _.reject(vm.model.files, function (el) { return el.id == file.id });
+        function imageAdded(image) {
+            if (vm.model.id) {
+                fileService.postContentFile(vm.model.id, image)
+                    .then(postCompleted);
+
+                function postCompleted(response)
+                {
+                    vm.model.files.push(image);
+                }
+            }
+            else {
+                vm.model.files = vm.model.files || [];
+                vm.model.files.push(image);
+            }
         }
+
 
         function reorder(newFiles) {
             vm.model.files = newFiles;

@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('EditShelterController', EditShelterController);
 
-    EditShelterController.$inject = ['$location', '$routeParams', 'shelterService', 'helperService', 'modalService', 'routingService'];
+    EditShelterController.$inject = ['$location', '$routeParams', 'shelterService', 'helperService', 'modalService', 'routingService', 'fileService'];
 
-    function EditShelterController($location, $routeParams, shelterService, helperService, modalService, routingService) {
+    function EditShelterController($location, $routeParams, shelterService, helperService, modalService, routingService, fileService) {
         var vm = this;
         vm.model = {};
         vm.model.files = [];
@@ -24,7 +24,25 @@
 
         activate();
 
-        function activate() { }
+        function activate()
+        {
+            if (vm.friendlyName)
+            {
+                getShelter();
+            }
+        }
+
+        function getShelter()
+        {
+            shelterService.getById(vm.friendlyName)
+                .then(getCompleted)
+                .catch(helperService.handleError);
+
+            function getCompleted(response)
+            {
+                vm.model = response;
+            }
+        }
 
         function changeLocation(selectedLocation)
         {
@@ -46,12 +64,33 @@
             return vm.model.name && vm.model.location;
         }
 
-        function imageAdded(file) {
-            vm.model.files.push(file);
+        function removeFile(image) {
+            if (vm.model.id) {
+                fileService.deleteContentFile(vm.model.id, image.id)
+                    .then(confirmRemoved);
+            }
+            else {
+                confirmRemoved();
+            }
+
+            function confirmRemoved() {
+                vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
+            }
         }
 
-        function removeFile(file) {
-            vm.model.files = _.reject(vm.model.files, function (el) { return el.id == file.id });
+        function imageAdded(image) {
+            if (vm.model.id) {
+                fileService.postContentFile(vm.model.id, image)
+                    .then(postCompleted);
+
+                function postCompleted(response) {
+                    vm.model.files.push(image);
+                }
+            }
+            else {
+                vm.model.files = vm.model.files || [];
+                vm.model.files.push(image);
+            }
         }
 
         function reorder(newFiles)
@@ -72,7 +111,9 @@
                 vm.form.isBusy = true;
 
                 if (vm.friendlyName) {
-
+                    shelterService.put(vm.model)
+                        .then(postCompleted)
+                        .catch(postError);
                 }
                 else
                 {
@@ -85,7 +126,10 @@
                 {
                     vm.form.isBusy = false;
                     if (vm.friendlyName) {
-                        
+                        modalService.show({
+                            message: 'La fundación fue correctamente actualizada',
+                            redirectAfterClose: routingService.getRoute('shelter', { friendlyName: vm.friendlyName })
+                        });
                     }
                     else
                     {

@@ -38,6 +38,8 @@
                     return '/';
                 case 'newshelter':
                     return '/fundaciones/crear';
+                case 'editshelter':
+                    return '/fundaciones/' + params.friendlyName + '/editar';
                 default:
             }
         }

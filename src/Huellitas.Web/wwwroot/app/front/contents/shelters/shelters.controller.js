@@ -16,6 +16,7 @@
             page: 0,
             pageSize: 5,
             status: 'Published',
+            orderby: 'CreatedDate',
             locationId: $location.search().locationId ? $location.search().locationId : undefined,
             keyword: $location.search().keyword ? $location.search().keyword : undefined,
             locationName: $location.search().locationName ? $location.search().locationName : undefined,
