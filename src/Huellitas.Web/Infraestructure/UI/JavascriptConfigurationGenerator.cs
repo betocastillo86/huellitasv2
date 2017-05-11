@@ -152,6 +152,10 @@ namespace Huellitas.Web.Infraestructure.UI
         {
             var config = new
             {
+                general = new {
+                    facebookPublicToken = generalSettings.FacebookPublicToken,
+                    siteUrl= generalSettings.SiteUrl
+                },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,
                 subtypes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSubtype).Select(c => new { id = c.Id, value = c.Value }),

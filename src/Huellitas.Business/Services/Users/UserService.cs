@@ -16,6 +16,7 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
     using Security;
+    using Huellitas.Business.Helpers;
 
     /// <summary>
     /// User Service
@@ -39,6 +40,11 @@ namespace Huellitas.Business.Services
         private readonly ISecurityHelpers securityHelpers;
 
         /// <summary>
+        /// The HTTP context helpers
+        /// </summary>
+        private readonly IHttpContextHelpers httpContextHelpers;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
@@ -47,11 +53,13 @@ namespace Huellitas.Business.Services
         public UserService(
             IRepository<User> userRepository,
             IPublisher publisher,
-            ISecurityHelpers securityHelpers)
+            ISecurityHelpers securityHelpers,
+            IHttpContextHelpers httpContextHelpers)
         {
             this.userRepository = userRepository;
             this.publisher = publisher;
             this.securityHelpers = securityHelpers;
+            this.httpContextHelpers = httpContextHelpers;
         }
 
         /// <summary>
@@ -139,6 +147,7 @@ namespace Huellitas.Business.Services
         public async Task Insert(User user)
         {
             user.CreatedDate = DateTime.Now;
+            user.IpAddress = this.httpContextHelpers.GetCurrentIpAddress();
 
             try
             {

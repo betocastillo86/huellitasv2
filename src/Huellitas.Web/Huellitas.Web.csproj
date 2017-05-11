@@ -102,6 +102,7 @@
     <Content Include="wwwroot\app\front\front.configuration.js" />
     <Content Include="wwwroot\app\front\front.routes.js" />
     <Content Include="wwwroot\app\front\front.run.js" />
+    <Content Include="wwwroot\app\front\home\externalAuth.controller.js" />
     <Content Include="wwwroot\app\front\home\home.controller.js" />
     <Content Include="wwwroot\app\front\home\home.html" />
     <Content Include="wwwroot\app\front\home\home.js" />

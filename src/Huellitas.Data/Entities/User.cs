@@ -83,6 +83,15 @@ namespace Huellitas.Data.Entities
         public int RoleId { get; set; }
 
         /// <summary>
+        /// Gets or sets the facebook identifier.
+        /// </summary>
+        /// <value>
+        /// The facebook identifier.
+        /// </value>
+        public string FacebookId { get; set; }
+
+        
+        /// <summary>
         /// Gets or sets the created date.
         /// </summary>
         /// <value>
@@ -99,6 +108,14 @@ namespace Huellitas.Data.Entities
         public bool Deleted { get; set; }
 
         /// <summary>
+        /// Gets or sets the ip address.
+        /// </summary>
+        /// <value>
+        /// The ip address.
+        /// </value>
+        public string IpAddress { get; set; }
+
+        /// <summary>
         /// Gets or sets the salt.
         /// </summary>
         /// <value>
@@ -106,8 +123,20 @@ namespace Huellitas.Data.Entities
         /// </value>
         public string Salt { get; set; }
 
+        /// <summary>
+        /// Gets or sets the location identifier.
+        /// </summary>
+        /// <value>
+        /// The location identifier.
+        /// </value>
         public int? LocationId { get; set; }
-       
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         public virtual Location Location { get; set; }
 
         /// <summary>

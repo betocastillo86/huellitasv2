@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Exceptions
 {
-    using System.ComponentModel;
-
     /// <summary>
     /// Exceptions codes
     /// </summary>
@@ -21,6 +19,16 @@ namespace Huellitas.Business.Exceptions
         /// The user email was already used
         /// </summary>
         UserEmailAlreadyUsed = 150,
+
+        /// <summary>
+        /// When has an error trying to access to social login
+        /// </summary>
+        ErrorTryingExternalLogin = 151,
+
+        /// <summary>
+        /// The invalid external authentication provider
+        /// </summary>
+        InvalidExternalAuthenticationProvider = 152,
 
         /// <summary>
         /// The cant update email notification

@@ -62,13 +62,13 @@ paths.libsFront = [
     paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
     paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
-    paths.external + 'gentelella/vendors/bootstrap/js/modal.js'
-    paths.external + 'angucomplete-alt/angucomplete-alt.js',
+    paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
+    paths.external + 'angucomplete-alt/angucomplete-alt.js'
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
 paths.concatJsDestFront = paths.webroot + "js/front.site.min.js";
-
+ 
 gulp.task("release", ['scriptsReleaseAdmin', 'cssAdmin']);
 
 gulp.task('scriptsReleaseAdmin', function () {

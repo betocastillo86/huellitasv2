@@ -77,6 +77,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ITextResourceService, TextResourceService>();
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IExternalAuthenticationService, ExternalAuthenticationService>();
 
             ////UI
             services.AddScoped<IJavascriptConfigurationGenerator, JavascriptConfigurationGenerator>();

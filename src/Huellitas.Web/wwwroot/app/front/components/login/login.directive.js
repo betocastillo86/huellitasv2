@@ -29,6 +29,7 @@
 
 
         vm.authenticate = authenticate;
+        vm.facebookLogin = facebookLogin;
 
         activate();
 
@@ -59,6 +60,18 @@
                 }
 
                 console.log(response.error);
+            }
+        }
+
+        function facebookLogin()
+        {
+            authenticationService.external('facebook')
+                .then(externalCompleted);
+
+            function externalCompleted(response)
+            {
+                $scope.root.currentUser = response;
+                vm.modal.modal('toggle');
             }
         }
     }
