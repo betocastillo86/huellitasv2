@@ -1,0 +1,141 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <div class="content-form">
+                <h1 class="tit-form">¿TIENES UNA FUNDACIÓN O REFUGIO?</h1>
+                <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a que le puedas conseguir hogar a los peludos de tu fundación, danos tus datos y pronto nos pondrémos en contacto contigo:</div>
+                <br>
+                <form name="main.form" novalidate ng-submit="main.save()">
+                    <label class="col-md-12">Datos</label>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.name.$invalid }">
+                        <input type="text" placeholder="Nombre" name="name" ng-model="main.model.name" ng-minlength="5" maxlength="100" required ng-change="main.getFullNameImage()">
+                        <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa el nombre de tu refugio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">Ingresa el nombre de al menos 5 caracteres</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.owner.$invalid }">
+                        <input type="text" placeholder="Encargado del refugio" name="owner" ng-model="main.model.owner" ng-minlength="7" maxlength="100" required>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.owner.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.owner.$error.required">Ingresa el encargado de tu refugio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.owner.$error.minlength">Ingresa el nombre de al menos 7 caracteres</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.email.$invalid }">
+                        <input type="email" placeholder="Correo electrónico" name="email" ng-model="main.model.email" required>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.email.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.email.$invalid">Ingresa un correo electrónico  válido</span>
+                    </div>
+
+
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.location.$invalid }">
+                        
+                        <angucomplete-alt id="location"
+                                          placeholder="Ciudad"
+                                          pause="400"
+                                          remote-url="/api/locations?pagesize=8&name="
+                                          title-field="name"
+                                          selected-object="main.changeLocation"
+                                          initial-value="main.model.location.name"
+                                          field-required="true"
+                                          input-name="location"
+                                          field-required-class="parsley-error"
+                                          remote-url-data-field="results"
+                                          match-class="highlight" />
+
+                        <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación del refugio</span>
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.address.$invalid }">
+                        <input type="text" placeholder="Dirección" name="address" ng-model="main.model.address" ng-minlength="5" maxlength="100" required>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.address.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.address.$error.required">Ingresa la dirección del refugio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.address.$error.minlength">Ingresa una dirección válida</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.phone.$invalid }">
+                        <input type="text" placeholder="Teléfono" name="phone" ng-model="main.model.phone" ng-minlength="7" maxlength="15" required>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.phone.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.phone.$error.required">Ingresa el número telefónico</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.phone.$error.minlength">Ingresa una número telefónico válido</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.phone2.$invalid }">
+                        <input type="text" placeholder="Teléfono 2" name="phone2" ng-model="main.model.phone2" ng-minlength="7" maxlength="15">
+                        <span class="error" ng-if="!main.form.$submitted || main.form.phone2.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.phone2.$error.minlength">Ingresa una número telefónico válido</span>
+                    </div>
+                    <br>
+                    <div class="col-md-12" ng-class="{'bad' : main.form.$submitted && main.form.body.$invalid }">
+                        <textarea placeholder="Descripción" name="body" ng-model="main.model.body" ng-minlength="100" maxlength="2500" required></textarea>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.body.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.body.$error.required">Ingresa una descripción de tu fundación</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.body.$error.minlength">Al menos debes ingresar 100 caracteres en la descripción</span>
+                    </div>
+                    <label class="col-md-12">Tus redes sociales</label>
+                    <div class="redes-inp col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.facebook.$invalid }">
+                        <span class="icon-face"></span>
+                        <input type="url" name="facebook" ng-model="main.model.facebook" />
+                        <br>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.facebook.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.facebook.$invalid">Ingresa la ruta de Facebook válida</span>
+                    </div>
+                    <div class="redes-inp col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.twitter.$invalid }">
+                        <span class="icon-twt"></span>
+                        <input type="url" name="twitter" ng-model="main.model.twitter" />
+                        <br>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.twitter.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.twitter.$invalid">Ingresa la ruta de Twitter válida</span>
+                    </div>
+                    <div class="redes-inp col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.instagram.$invalid }">
+                        <span class="icon-insta"></span>
+                        <input type="url" name="instagram" ng-model="main.model.instagram" />
+                        <br>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.instagram.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.instagram.$invalid">Ingresa la ruta de Instagram válida</span>
+                    </div>
+                    <br>
+                    <label class="col-md-12">Video de Youtube</label>
+                    <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.video.$invalid }">
+                        <input type="url" placeholder="Si tienes video en youtube ingresa la ruta" name="video" ng-model="main.model.video" pattern="^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$">
+                        <span class="error" ng-if="!main.form.$submitted || main.form.video.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.video.$invalid">Ingresa la ruta del video válida</span><span class="error"></span>
+                    </div>
+                    <br>
+
+                    <div class="col-md-12" ng-if="main.canShowGallery()">
+                        <label>Fotos</label>
+                        <div class="images-dropzone">
+                            <div class="file-upload-drop-text">
+                                <p>
+                                    <i class="icon-photo"></i>
+                                </p>
+                            </div>
+                            <div class="file-upload-button">
+                                <button class="btn btn-white btn-block btn-lg" type="button">Carga tu logo y fotos</button>
+                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" fileupload-huellitas accept="image/*">
+                            </div>
+                            <br>
+                        </div>
+                        <div class="alert alert-info" ng-if="main.model.files.length" role="alert">Estas son miniaturas de tus imágenes y puedes reordenarlas según tu preferencia. La primera imagen será considerada como el logo de tu refugio.</div>
+                    </div>
+                    
+                    <ul class="all-preview" ng-if="main.canShowGallery()">
+                        <li ng-repeat="file in main.model.files" draggable="true" data-id="file.id" draggable-content-file callback="main.reorder" saveonchange="{{main.friendlyName !== undefined}}" contentid="main.model.id">
+                            <div class="preview-img">
+                                <div class="delete-img" ng-click="main.removeFile(file)">
+                                    <span class="icon-close"></span>
+                                </div>
+                                <div class="principal" ng-if="$index == 0">Logo</div>
+                                <img ng-src="{{file.thumbnail}}">
+                            </div>
+                        </li>
+                        <br />
+                    </ul>
+                    <div class="btn-content">
+                        <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Valida los campos que no han sido diligenciados correctamente</span>
+                        <a href="" class="btn btn-cancel btn-lg">Cancelar</a>
+                        <button type="submit" class="btn btn-save btn-lg">{{main.friendlyName ? 'Guardar' : 'Enviar solicitud'}}</button>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </section>
+</div>

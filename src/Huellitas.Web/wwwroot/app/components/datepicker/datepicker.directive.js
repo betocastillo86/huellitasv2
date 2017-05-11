@@ -1,5 +1,5 @@
 ﻿(function () {
-    angular.module('huellitasAdmin')
+    angular.module('huellitasComponents')
         .directive('datepickerHuellitas', DatepickerHuellitas);
 
     function DatepickerHuellitas()

@@ -52,6 +52,7 @@ paths.libsAdmin = [
 ];
 
 paths.libsFront = [
+    paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
     paths.external + 'angular/angular.js',
     paths.external + 'ngstorage/ngStorage.js',
     paths.external + 'angular-route/angular-route.js',
@@ -61,7 +62,6 @@ paths.libsFront = [
     paths.external + 'moment/moment.js',
     paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
-    paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
     paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
     paths.external + 'angucomplete-alt/angucomplete-alt.js'
 ];
@@ -153,6 +153,7 @@ gulp.task('cssFront',['sassFront'], function () {
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'css/front/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
+        paths.external + 'pikaday/css/pikaday.css',
         paths.webroot + 'css/front.huellitas.css'
     ];
 

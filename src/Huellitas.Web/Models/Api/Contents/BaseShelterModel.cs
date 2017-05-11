@@ -25,7 +25,7 @@
         /// The phone.
         /// </value>
         [Required]
-        [StringLength(11, MinimumLength = 7)]
+        [StringLength(15, MinimumLength = 7)]
         public string Phone { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@
         /// <value>
         /// The phone2.
         /// </value>
-        [StringLength(11, MinimumLength = 7)]
+        [StringLength(15, MinimumLength = 7)]
         public string Phone2 { get; set; }
 
         /// <summary>

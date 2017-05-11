@@ -142,7 +142,8 @@ namespace Huellitas.Web.Infraestructure.UI
                     shelter = ContentUserRelationType.Shelter.ToString()
                 },
                 resources = this.GetAdminResources(),
-                isDebug = isDebug
+                isDebug = isDebug,
+                isFront = false
             };
 
             return JsonConvert.SerializeObject(config);
@@ -160,7 +161,13 @@ namespace Huellitas.Web.Infraestructure.UI
                 isDebug = isDebug,
                 subtypes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSubtype).Select(c => new { id = c.Id, value = c.Value }),
                 sizes = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSize).Select(c => new { id = c.Id, value = c.Value }),
-                genres = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).Select(c => new { id = c.Id, value = c.Value })
+                genres = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).Select(c => new { id = c.Id, value = c.Value }),
+                customTables = new
+                {
+                    questionAdoptionForm = Convert.ToInt32(CustomTableType.QuestionAdoptionForm),
+                    jobs = Convert.ToInt32(CustomTableType.Jobs)
+                },
+                isFront = true
             };
 
             return JsonConvert.SerializeObject(config);

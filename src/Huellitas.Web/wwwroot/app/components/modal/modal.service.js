@@ -2,25 +2,25 @@
     angular.module('huellitasComponents')
         .factory('modalService', modalService);
 
-    modalService.$inject = ['$q', '$templateRequest', '$rootScope', '$compile', '$controller', '$document'];
+    modalService.$inject = ['$q', '$templateRequest', '$rootScope', '$compile', '$controller', '$document', '$location'];
 
     //based on https://github.com/dwmkerr/angular-modal-service
-    function modalService($q, $templateRequest, $rootScope, $compile, $controller, $document) {
+    function modalService($q, $templateRequest, $rootScope, $compile, $controller, $document, $location) {
         var vm = this;
         vm.show = show;
         vm.showError = showError;
+        vm.showDialog = showDialog;
 
         var defaultOptions = {
             modalType: 'default',
             scope: $rootScope,
             controllerAs: 'modal',
             title: 'Mensaje',
-            isFront : false
+            redirectAfterClose: undefined,
+            closed: undefined
         };
 
         return vm;
-
-
 
         //searches the template by the modal type
         function getTemplate(templateUrl) {
@@ -57,7 +57,7 @@
                     .catch(consoleError);
             }
             else {
-                getTemplate('/app/components/modal/' + (options.isFront ? 'front-' : '') +'modal-' + options.modalType + '.html')
+                getTemplate('/app/components/modal/' + (app.Settings.isFront ? 'front-' : '') +'modal-' + options.modalType + '.html')
                     .then(templateLoaded)
                     .catch(consoleError);
             }
@@ -118,9 +118,6 @@
 
                 modal.element.modal();
 
-
-                
-
                 deferred.resolve(modal);
 
                 function close(result) {
@@ -128,13 +125,25 @@
 
                     if (!result.previousClosed)
                     {
+                        modal.element.off('hidden.bs.modal');
                         modal.element.modal('toggle');
                     }
                     
                     scope.$destroy();
                     closedDeferred.resolve(result);
+
+                    if (options.closed)
+                    {
+                        options.closed(result);
+                    }
+
                     // remove event watcher
                     rootScopeOnClose && rootScopeOnClose();
+
+                    if (options.redirectAfterClose)
+                    {
+                        $location.path(options.redirectAfterClose);
+                    }
                 }
 
                 function appendElement(parent, child) {
@@ -155,6 +164,8 @@
                     else {
                         var modalType = options.modalType.toLowerCase();
                         switch (modalType) {
+                            case 'dialog':
+                                return 'ModalDialogController';
                             case 'default':
                             default:
                                 return 'ModalDefaultController';
@@ -195,6 +206,14 @@
                 options.message = message;
             }
 
+            return show(options);
+        }
+
+        function showDialog(options)
+        {
+            var options = options || {};
+            options.modalType = 'dialog';
+            options.title = options.title || 'Importante';
             return show(options);
         }
     }

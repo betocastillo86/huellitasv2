@@ -104,7 +104,7 @@
                                 </p>
                             </div>
                             <div class="file-upload-button">
-                                <button class="btn btn-white btn-block btn-lg" type="button">Carga tus fotos</button>
+                                <button class="btn btn-white btn-block btn-lg" type="button">Carga {{main.model.files.length ? 'más' : 'tus'}} fotos</button>
                                 <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" fileupload-huellitas accept="image/*">
                             </div>
                             <br>

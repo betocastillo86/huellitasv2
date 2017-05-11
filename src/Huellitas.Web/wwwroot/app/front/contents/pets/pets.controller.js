@@ -19,6 +19,7 @@
             genre: $location.search().genre ? parseInt($location.search().genre) : undefined,
             age: $location.search().age,
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
+            shelter: $location.search().shelter ? parseInt($location.search().shelter) : undefined,
             keyword: $location.search().keyword
         };
 
@@ -47,7 +48,8 @@
                 genre: vm.filter.genre,
                 age: vm.filter.age,
                 subtype: vm.filter.subtype,
-                keyword: vm.filter.keyword
+                keyword: vm.filter.keyword,
+                shelter: vm.filter.shelter
             });
         }
 

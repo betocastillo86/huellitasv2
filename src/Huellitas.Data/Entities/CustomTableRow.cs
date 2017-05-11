@@ -47,6 +47,14 @@ namespace Huellitas.Data.Entities
         public int CustomTableId { get; set; }
 
         /// <summary>
+        /// Gets or sets the display order.
+        /// </summary>
+        /// <value>
+        /// The display order.
+        /// </value>
+        public int DisplayOrder { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this <see cref="CustomTableRow"/> is deleted.
         /// </summary>
         /// <value>

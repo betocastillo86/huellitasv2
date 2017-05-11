@@ -10,7 +10,9 @@
             getByTable: getByTable,
             getSizes: getSizes,
             getSubtypes: getSubtypes,
-            getGenres: getGenres
+            getGenres: getGenres,
+            getAdoptionFormQuestions: getAdoptionFormQuestions,
+            getJobs: getJobs
         };
 
         function getByTable(tableId)
@@ -31,6 +33,16 @@
         function getGenres() {
             return getByTable(app.Settings.customTables.animalGenre);
         }
+
+        function getJobs()
+        {
+            return getByTable(app.Settings.customTables.jobs);
+        }
+
+        function getAdoptionFormQuestions(tableId) {
+            return http.get('/api/adoptionforms/questions');
+        }
+
     }
 
 })();
