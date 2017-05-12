@@ -72,7 +72,7 @@
                 <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo">
                     <h6>{{root.currentUser.name}}</h6>
                     <p>{{root.currentUser.email}}</p>
-                    <a href="mishuellitas.html">Mis huellitas</a>
+                    <a ng-href="{{::root.getRoute('mypets')}}">Mis huellitas</a>
                     <a href="misdatos.html">Mis datos</a>
                     <a href="javascript:;" data-toggle="modal" data-target="#myModal">Cerrar sesión</a>
                 </div>

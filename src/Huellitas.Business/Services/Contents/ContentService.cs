@@ -256,6 +256,39 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
+        /// Gets the contents by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="includeContent">if set to <c>true</c> [include content].</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>
+        /// the contents
+        /// </returns>
+        public IPagedList<ContentUser> GetContentsByUserId(int userId, ContentUserRelationType? relation = null, bool includeContent = false, int page = 0, int pageSize = int.MaxValue)
+        {
+            var query = this.contentUserRepository.Table;
+
+            if (includeContent)
+            {
+                query = query.Include(c => c.Content);
+            }
+
+            query = query.Where(c => c.UserId == userId);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToDecimal(relation.Value);
+                query = query.Where(c => c.RelationTypeId == relationId);
+            }
+
+            query = query.OrderBy(c => c.Id);
+
+            return new PagedList<ContentUser>(query, page, pageSize);
+        }
+
+        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -418,7 +451,8 @@ namespace Huellitas.Business.Services
             int? locationId = null,
             StatusType? status = null,
             DateTime? closingDateFrom = null,
-            DateTime? closingDateTo = null)
+            DateTime? closingDateTo = null,
+            int? belongsToUserId = null)
         {
             var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
@@ -435,6 +469,72 @@ namespace Huellitas.Business.Services
             {
                 var typeId = Convert.ToInt16(contentType);
                 query = query.Where(c => c.TypeId == typeId);
+            }
+
+            if (belongsToUserId.HasValue)
+            {
+                if (contentType.HasValue)
+                {
+                    switch (contentType.Value)
+                    {
+                        /***
+                         * Para determinar cuales son los pets de un usuario es necesario:
+                         *  - Todos los tipo pet que tengan en userid = a belongstouserid
+                         *  - Todos los pets que pertenezcan a los shelters a los que pertenece el usuario
+                         *  - Todos los pets de los que el usuario sea padrino
+                         * ***/
+                        case ContentType.Pet:
+
+                            ////Consulta los contenidos de donde es padrino
+                            var parentRelation = Convert.ToInt16(ContentUserRelationType.Parent);
+                            var parentsQuery = this.contentUserRepository.Table
+                                .Where(c => c.UserId == belongsToUserId && c.RelationTypeId == parentRelation)
+                                .Select(c => c.ContentId);
+
+                            if (attributesFilter == null || !attributesFilter.Any(c => c.Attribute == ContentAttributeType.Shelter))
+                            {
+                                var shelterRelation = Convert.ToInt16(ContentUserRelationType.Shelter);
+                                var shelterContentType = Convert.ToInt16(ContentType.Shelter);
+
+                                //// Consulta los shelters a los que puede pertenecer el usuario
+                                ////var myShelters = (from c in this.contentRepository.Table
+                                ////          from cu in this.contentUserRepository.Table.Where(x => x.ContentId == c.Id).DefaultIfEmpty()
+                                ////          where (c.UserId == belongsToUserId && c.TypeId == shelterContentType) || (cu.UserId == belongsToUserId && cu.RelationTypeId == shelterRelation)
+                                ////          select c.Id.ToString()).ToList();
+
+                                var myShelters = this.contentUserRepository.Table
+                                    .Where(c => c.UserId == belongsToUserId && c.RelationTypeId == shelterRelation)
+                                    .Select(c => c.ContentId.ToString())
+                                    .ToList();
+
+                                //// Consulta los pets de ese shelter
+                                var attribute = ContentAttributeType.Shelter.ToString();
+                                var sheltersQuery = this.contentAttributeRepository.Table
+                                    .Where(c => myShelters.Contains(c.Value) && c.Attribute.Equals(attribute))
+                                    .Select(c => c.ContentId)
+                                    .ToList();
+
+                                //// Saca el listado de todos los pets que le pertenecen
+                                var contentsOfUserInShelter = sheltersQuery.Union(parentsQuery).ToList();
+
+                                query = query.Where(c => contentsOfUserInShelter.Contains(c.Id) || c.UserId == belongsToUserId.Value);
+                            }
+                            else
+                            {
+                                query = query.Where(c => parentsQuery.Contains(c.Id) || c.UserId == belongsToUserId.Value);
+                            }
+
+                            break;
+                        case ContentType.Shelter:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new HuellitasException(HuellitasExceptionCode.BadArgument, "No se puede filtrar por usuario ya que el filtro tipo de contenido es obligatorio");
+                }
             }
 
             if (locationId.HasValue)
@@ -457,6 +557,8 @@ namespace Huellitas.Business.Services
             {
                 query = query.Where(c => c.ClosingDate == null || c.ClosingDate > closingDateFrom.Value);
             }
+
+            
 
             #region Attributes
 

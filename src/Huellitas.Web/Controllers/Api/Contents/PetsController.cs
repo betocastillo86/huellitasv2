@@ -26,6 +26,8 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Huellitas.Data.Core;
+    using Microsoft.AspNetCore.JsonPatch;
+    using Microsoft.AspNetCore.JsonPatch.Exceptions;
 
     /// <summary>
     /// Pets Controller
@@ -87,6 +89,16 @@ namespace Huellitas.Web.Controllers.Api
         private readonly ILocationService locationService;
 
         /// <summary>
+        /// The log service
+        /// </summary>
+        private readonly ILogService logService;
+
+        /// <summary>
+        /// The adoption form service
+        /// </summary>
+        private readonly IAdoptionFormService adoptionFormService;
+
+        /// <summary>
         /// The content repository
         /// </summary>
         private readonly IRepository<Content> contentRepository;
@@ -117,7 +129,9 @@ namespace Huellitas.Web.Controllers.Api
             IFileService fileService,
             ISeoService seoService,
             ILocationService locationService,
-            IRepository<Content> contentRepository)
+            IRepository<Content> contentRepository,
+            ILogService logService,
+            IAdoptionFormService adoptionFormService)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -130,6 +144,8 @@ namespace Huellitas.Web.Controllers.Api
             this.seoService = seoService;
             this.locationService = locationService;
             this.contentRepository = contentRepository;
+            this.logService = logService;
+            this.adoptionFormService = adoptionFormService;
         }
 
         #endregion ctor
@@ -159,7 +175,7 @@ namespace Huellitas.Web.Controllers.Api
 
             var canGetUnplublished = this.CanGetUnpublished(filter);
 
-            if (filter.IsValid(canGetUnplublished, out filterData))
+            if (filter.IsValid(canGetUnplublished, this.workContext, out filterData))
             {
                 DateTime? closingDateFilter = filter.WithinClosingDate.HasValue && filter.WithinClosingDate.Value ? DateTime.Now : (DateTime?)null;
 
@@ -172,7 +188,16 @@ namespace Huellitas.Web.Controllers.Api
                     filter.OrderByEnum,
                     filter.LocationId,
                     filter.Status,
-                    closingDateFrom: closingDateFilter);
+                    closingDateFrom: closingDateFilter,
+                    belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null);
+
+
+                IDictionary<int, int> formsByContent = null;
+                if (filter.CountForms)
+                {
+                    formsByContent = this.adoptionFormService.CountAdoptionFormsByContents(contentList.Select(c => c.Id).ToArray(), AdoptionFormAnswerStatus.None);
+                }
+                
 
                 var models = contentList.ToPetModels(
                     this.contentService,
@@ -184,7 +209,8 @@ namespace Huellitas.Web.Controllers.Api
                     width: this.contentSettings.PictureSizeWidthDetail,
                     height: this.contentSettings.PictureSizeHeightDetail,
                     thumbnailWidth: this.contentSettings.PictureSizeWidthList,
-                    thumbnailHeight: this.contentSettings.PictureSizeHeightList);
+                    thumbnailHeight: this.contentSettings.PictureSizeHeightList,
+                    pendingForms: formsByContent);
 
                 return this.Ok(models, contentList.HasNextPage, contentList.TotalCount);
             }
@@ -369,6 +395,64 @@ namespace Huellitas.Web.Controllers.Api
             }
         }
 
+        [Authorize]
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<PetModel> patchDocument)
+        {
+            ////TODO:Test
+            var content = this.contentService.GetById(id, true);
+
+            if (content != null)
+            {
+                if (content.Type != ContentType.Pet)
+                {
+                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                    return this.BadRequest(this.ModelState);
+                }
+
+                if (!this.CanUserEditPet(content))
+                {
+                    return this.Forbid();
+                }
+
+                var model = content.ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.workContext, this.filesHelper);
+
+                try
+                {
+                    patchDocument.ApplyTo(model);
+                }
+                catch (JsonPatchException e)
+                {
+                    this.logService.Error(e, this.workContext.CurrentUser);
+                    return this.BadRequest(HuellitasExceptionCode.BadArgument, "Argumento invalido");
+                }
+
+                ////Un usuario sin permisos no puede cambiar un contenido de creado a publicado
+                ////Si el estado no es creado si lo puede actualizar
+                if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && content.StatusType != StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
+                {
+                    content.StatusType = model.Status;
+                }
+
+                content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
+
+                try
+                {
+                    await this.contentService.UpdateAsync(content);
+                    return this.Ok(new { result = true });
+                }
+                catch (HuellitasException e)
+                {
+                    return this.BadRequest(e);
+                }
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
+
         /// <summary>
         /// Determines whether this instance [can user edit pet] the specified content.
         /// </summary>
@@ -437,6 +521,9 @@ namespace Huellitas.Web.Controllers.Api
             ////Removes shelter validation to avoid validate body and name properties
             this.ModelState.Remove("Shelter.Body");
             this.ModelState.Remove("Shelter.Name");
+            this.ModelState.Remove("Shelter.Phone");
+            this.ModelState.Remove("Shelter.Owner");
+            this.ModelState.Remove("Shelter.Address");
 
             if (isNew && (model.Files == null || model.Files.Count == 0))
             {

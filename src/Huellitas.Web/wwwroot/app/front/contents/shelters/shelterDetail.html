@@ -1,7 +1,7 @@
 ﻿<div class="pg-body col-md-12">
     <div class="box-edit">
         <a ng-if="::main.model.canEdit" class="btn btn-lg" ng-href="{{root.getRoute('editshelter', {friendlyName:main.model.friendlyName})}}"><span class="icon-edit"></span> Editar</a>
-        <a class="btn btn-lg" href="mishuellitas.html">Mis huellitas</a>
+        <a class="btn btn-lg" ng-href="{{root.getRoute('mypets', { shelter: main.model.id})}}">Mis huellitas</a>
     </div>
     <section class="bkg-gray">
         <article class="content-all">
@@ -42,8 +42,8 @@
             </div>
             <div class="redes">
                 <a ng-if="::main.model.facebook" ng-href="{{::main.model.facebook}}" title="Visita el Facebook de {{::main.model.name}}" target="_blank"><span class="icon-face"></span></a>
-                <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}"  target="_blank"><span class="icon-insta"></span></a>
-                <a ng-if="::main.model.twitter" ng-href="{{::main.model.twitter}}" title="Visita el Twitter de {{::main.model.name}}"  target="_blank"><span class="icon-twt"></span></a>
+                <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}" target="_blank"><span class="icon-insta"></span></a>
+                <a ng-if="::main.model.twitter" ng-href="{{::main.model.twitter}}" title="Visita el Twitter de {{::main.model.name}}" target="_blank"><span class="icon-twt"></span></a>
             </div>
         </article>
     </section>
@@ -52,9 +52,9 @@
             <h2 class="tit-section col-md-12">NUESTRAS HUELLITAS</h2>
             <br>
             <div ng-if="main.filterMyPets" list-pets data-filter="main.filterMyPets" data-title="main.titleMyPets"></div>
-            <a ng-href="{{root.getRoute('pets', { shelter: main.model.id })}}" class="btn-more btn btn-lg" title="Ver todas las mascotas de {{::main.model.name}}" >Ver todos</a>
+            <a ng-href="{{root.getRoute('pets', { shelter: main.model.id })}}" class="btn-more btn btn-lg" title="Ver todas las mascotas de {{::main.model.name}}">Ver todos</a>
         </article>
-</section>
+    </section>
     <section class="bkg-gray">
         <div ng-if="main.model.id" list-comments data-contentid="main.model.id"></div>
     </section>

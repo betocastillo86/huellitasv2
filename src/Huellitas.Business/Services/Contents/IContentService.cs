@@ -66,6 +66,17 @@ namespace Huellitas.Business.Services
         IPagedList<ContentUser> GetUsersByContentId(int contentId, ContentUserRelationType? relation = null, bool includeUser = false, int page = 0, int pageSize = int.MaxValue);
 
         /// <summary>
+        /// Gets the contents by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="includeContent">if set to <c>true</c> [include content].</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>the contents</returns>
+        IPagedList<ContentUser> GetContentsByUserId(int userId, ContentUserRelationType? relation = null, bool includeContent = false, int page = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -118,6 +129,7 @@ namespace Huellitas.Business.Services
         /// <param name="status">The status.</param>
         /// <param name="closingDateFrom">The closing date from.</param>
         /// <param name="closingDateTo">The closing date to.</param>
+        /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -129,7 +141,8 @@ namespace Huellitas.Business.Services
             int? locationId = null,
             StatusType? status = null,
             DateTime? closingDateFrom = null,
-            DateTime? closingDateTo = null);
+            DateTime? closingDateTo = null,
+            int? belongsToUserId = null);
 
         /// <summary>
         /// Updates the asynchronous.

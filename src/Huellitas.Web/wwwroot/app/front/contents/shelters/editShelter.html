@@ -8,9 +8,9 @@
                 <form name="main.form" novalidate ng-submit="main.save()">
                     <label class="col-md-12">Datos</label>
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.name.$invalid }">
-                        <input type="text" placeholder="Nombre" name="name" ng-model="main.model.name" ng-minlength="5" maxlength="100" required ng-change="main.getFullNameImage()">
+                        <input type="text" placeholder="Nombre de tu fundación" name="name" ng-model="main.model.name" ng-minlength="5" maxlength="100" required ng-change="main.getFullNameImage()">
                         <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
-                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa el nombre de tu refugio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa el nombre de tu fundación</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">Ingresa el nombre de al menos 5 caracteres</span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.owner.$invalid }">

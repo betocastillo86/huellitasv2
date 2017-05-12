@@ -8,6 +8,7 @@
         return {
             postUser: postUser,
             getUsers: getUsers,
+            getContentsOfUser: getContentsOfUser,
             deleteUser: deleteUser
         };
 
@@ -21,6 +22,11 @@
 
         function getUsers(contentId, filter) {
             return http.get('/api/contents/' + contentId + '/users', { params: filter });
+        }
+
+        function getContentsOfUser(userId, filter)
+        {
+            return http.get('/api/users/' + userId + '/contents', { params: filter });
         }
     }
 })();

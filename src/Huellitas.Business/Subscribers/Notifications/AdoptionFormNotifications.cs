@@ -262,7 +262,7 @@ namespace Huellitas.Business.Subscribers
 
             if (shelter == null)
             {
-                users.Add(content.User);
+                users = new List<User>() { content.User };
             }
             else
             {

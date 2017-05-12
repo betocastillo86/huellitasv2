@@ -40,6 +40,8 @@
                     return '/fundaciones/crear';
                 case 'editshelter':
                     return '/fundaciones/' + params.friendlyName + '/editar';
+                case 'mypets':
+                    return '/mis-huellitas' + (params ? '?' + $.param(params) : '');
                 default:
             }
         }

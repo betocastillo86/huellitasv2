@@ -33,7 +33,8 @@
                 vm.filterMyPets = {
                     page: 0,
                     pageSize: 6,
-                    shelter: vm.model.id
+                    shelter: vm.model.id,
+                    status: 'Published'
                 };
             }
 

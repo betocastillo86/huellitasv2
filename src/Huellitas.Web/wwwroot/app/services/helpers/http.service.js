@@ -21,7 +21,8 @@
             post: post,
             get: get,
             put: put,
-            delete: del
+            delete: del,
+            patch: patch
         };
 
         return service;
@@ -54,6 +55,14 @@
             var defered = $q.defer();
             var promise = defered.promise;
             $http.delete(helperService.configServiceUrl(url), model)
+                .then(GetComplete.bind(null, defered), GetFailed.bind(null, defered));
+            return promise;
+        }
+
+        function patch(url, model, params) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+            $http.patch(helperService.configServiceUrl(url), model, params)
                 .then(GetComplete.bind(null, defered), GetFailed.bind(null, defered));
             return promise;
         }

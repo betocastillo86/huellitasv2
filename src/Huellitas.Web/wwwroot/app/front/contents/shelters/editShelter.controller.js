@@ -5,9 +5,17 @@
         .module('huellitas')
         .controller('EditShelterController', EditShelterController);
 
-    EditShelterController.$inject = ['$location', '$routeParams', 'shelterService', 'helperService', 'modalService', 'routingService', 'fileService'];
+    EditShelterController.$inject = [
+        '$location',
+        '$routeParams',
+        '$scope',
+        'shelterService',
+        'helperService',
+        'modalService',
+        'routingService',
+        'fileService'];
 
-    function EditShelterController($location, $routeParams, shelterService, helperService, modalService, routingService, fileService) {
+    function EditShelterController($location, $routeParams, $scope, shelterService, helperService, modalService, routingService, fileService) {
         var vm = this;
         vm.model = {};
         vm.model.files = [];
@@ -117,6 +125,9 @@
                 }
                 else
                 {
+                    vm.model.user = $scope.root.currentUser;
+                    vm.model.users = [{ userid: vm.model.user.id, relationType: 'Shelter' }];
+
                     shelterService.post(vm.model)
                         .then(postCompleted)
                         .catch(postError);

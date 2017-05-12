@@ -64,6 +64,11 @@
             })
             .when('/dar-en-adopcion', {
                 templateUrl: '/app/front/contents/pets/newPet.html'
+            })
+            .when('/mis-huellitas', {
+                templateUrl: '/app/front/contents/pets/myPets.html',
+                controller: 'MyPetsController',
+                controllerAs: 'main'
             });
             
     }

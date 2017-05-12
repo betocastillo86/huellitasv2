@@ -118,5 +118,13 @@ namespace Huellitas.Web.Models.Api
         /// The closing date.
         /// </value>
         public DateTime? ClosingDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pending forms.
+        /// </summary>
+        /// <value>
+        /// The pending forms.
+        /// </value>
+        public int PendingForms { get; set; }
     }
 }

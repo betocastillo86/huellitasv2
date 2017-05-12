@@ -66,7 +66,10 @@ namespace Huellitas.Web.Models.Extensions
             }
             else
             {
-                entity.FileId = model.Files.FirstOrDefault().Id;
+                if (model.Files?.Count > 0)
+                {
+                    entity.FileId = model.Files.FirstOrDefault().Id;
+                }                
             }
 
             entity.Name = model.Name;
@@ -153,7 +156,8 @@ namespace Huellitas.Web.Models.Extensions
             int width = 0,
             int height = 0,
             int thumbnailWidth = 0,
-            int thumbnailHeight = 0)
+            int thumbnailHeight = 0,
+            int pendingForms = 0)
         {
             var model = new PetModel()
             {
@@ -169,7 +173,8 @@ namespace Huellitas.Web.Models.Extensions
                 Featured = entity.Featured,
                 ClosingDate = entity.ClosingDate,
                 FriendlyName = entity.FriendlyName,
-                CanEdit = workContext.CurrentUser.CanUserEditPet(entity, contentService)
+                CanEdit = workContext.CurrentUser.CanUserEditPet(entity, contentService),
+                PendingForms = pendingForms
             };
 
             if (entity.LocationId.HasValue && entity.Location != null)
@@ -274,11 +279,18 @@ namespace Huellitas.Web.Models.Extensions
             int width = 0,
             int height = 0,
             int thumbnailWidth = 0,
-            int thumbnailHeight = 0)
+            int thumbnailHeight = 0,
+            IDictionary<int, int> pendingForms = null)
         {
             var models = new List<PetModel>();
             foreach (var entity in entities)
             {
+                int pendingFormByContent = 0;
+                if (pendingForms != null)
+                {
+                    pendingForms.TryGetValue(entity.Id, out pendingFormByContent);
+                }
+
                 models.Add(entity.ToPetModel(
                     contentService, 
                     customTableService, 
@@ -291,7 +303,8 @@ namespace Huellitas.Web.Models.Extensions
                     width,
                     height,
                     thumbnailWidth,
-                    thumbnailHeight));
+                    thumbnailHeight,
+                    pendingFormByContent));
             }
 
             return models;

@@ -12,6 +12,7 @@ namespace Huellitas.Web.Models.Api
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
+    using Huellitas.Business.Security;
 
     /// <summary>
     /// Pet Filter Model
@@ -101,12 +102,29 @@ namespace Huellitas.Web.Models.Api
         public bool? WithinClosingDate { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [count forms].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [count forms]; otherwise, <c>false</c>.
+        /// </value>
+        public bool CountForms { get; set; }
+
+        /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>
         /// The status.
         /// </value>
         public StatusType? Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mine.
+        /// </summary>
+        /// <value>
+        /// The mine.
+        /// </value>
+        public bool Mine { get; set; }
+
 
         /// <summary>
         /// Returns true if ... is valid.
@@ -116,7 +134,7 @@ namespace Huellitas.Web.Models.Api
         /// <returns>
         ///   <c>true</c> if the specified can get unpublished is valid; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsValid(bool canGetUnpublished, out IList<FilterAttribute> selectedFilters)
+        public bool IsValid(bool canGetUnpublished, IWorkContext workContext, out IList<FilterAttribute> selectedFilters)
         {
             if (this.IsValid())
             {
@@ -124,9 +142,14 @@ namespace Huellitas.Web.Models.Api
                 Enum.TryParse<ContentOrderBy>(this.OrderBy, true, out orderEnum);
                 this.OrderByEnum = orderEnum;
 
-                if (!canGetUnpublished && this.Status != StatusType.Published)
+                if (this.Status != StatusType.Published && !canGetUnpublished && !this.Mine)
                 {
                     this.AddError("Status", "No puede obtener contenidos sin publicar");
+                }
+
+                if (!workContext.IsAuthenticated && this.Mine)
+                {
+                    this.AddError("Mine", "No se pueden obtener contenidos ya que no está autenticado");
                 }
 
                 selectedFilters = new List<FilterAttribute>();

@@ -9,7 +9,9 @@
             getAll: getAll,
             getById: getById,
             post: post,
-            put: put
+            put: put,
+            patch: patch,
+            changeStatus: changeStatus
         };
 
         function getAll(filter) {
@@ -26,6 +28,16 @@
 
         function put(model) {
             return http.put('/api/pets/' + model.id, model);
+        }
+
+        function patch(id, jsonPatch)
+        {
+            return http.patch('/api/pets/' + id, jsonPatch);
+        }
+
+        function changeStatus(id, newStatus)
+        {
+            return patch(id, [{ op: 'replace', path: '/status', value: newStatus }]);
         }
     }
 })();

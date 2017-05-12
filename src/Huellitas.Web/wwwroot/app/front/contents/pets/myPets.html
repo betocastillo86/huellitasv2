@@ -1,0 +1,86 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <h1 class="tit-section col-md-12">MIS HUELLITAS</h1>
+            <div class="sub-title col-md-12">Puedes editar los datos de tus huellitas asociadas</div>
+            <div class="ft-mpet">
+                <form class="search-box">
+                    <div class="col-md-2 col-sm-6">
+                        <div class="type-pet">
+                            <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[0].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(0)">
+                            <span class="icon-perro"></span>
+                        </div>
+                        <div class="type-pet">
+                            <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[1].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(1)" />
+                            <span class="icon-cat"></span>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 300 }" ng-change="main.search()">
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">
+                            <option value="">Genero</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6" ng-if="main.shelters.length">
+                        <select ng-model="main.filter.shelter" ng-options="shelter.id as shelter.name for shelter in ::main.shelters" ng-change="main.search()">
+                            <option value="">Fundacion</option>
+                        </select>
+                    </div>
+                    <br>
+                </form>
+                <a href="solicitudes.html" class="btn btn-lg btn-more">Ver solicitudes</a>
+                <div class="stage-box">
+                    <span>Estado:</span>
+                    <span ng-class="{ 'st-on': main.filter.status == 'Created', 'st-off': main.filter.status != 'Created' }" ng-click="main.filterByStatus('Created')" ></span>
+                    <span>Sin aprobar</span>
+                    <span ng-class="{ 'st-on': main.filter.status == 'Published', 'st-off': main.filter.status != 'Published' }"  ng-click="main.filterByStatus('Published')"></span>
+                    <span>Activo</span>
+                    <span ng-class="{ 'st-on': main.filter.status == 'Hidden', 'st-off': main.filter.status != 'Hidden'  }" ng-click="main.filterByStatus('Hidden')"></span>
+                    <span>Inactivo</span>
+                    <br>
+                </div>
+                <br>
+            </div>
+            <div class="mask-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Genero</th>
+                            <th>Estado</th>
+                            <th>Solicitudes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pet in main.pets">
+                            <th scope="row" class="img-table">
+                                <img ng-src="{{::pet.image.thumbnail}}" title="Foto de {{::pet.name}}">
+                            </th>
+                            <td>{{::pet.name}}</td>
+                            <td>{{::pet.months | age}}</td>
+                            <td>{{::pet.genre.text}}</td>
+                            <td>
+                                <div class="onoffswitch" ng-if="::pet.status != 'Created'" ng-click="main.changeStatus(pet)">
+                                    <input type="checkbox" name="status{{::pet.id}}" class="onoffswitch-checkbox" ng-checked="pet.status == 'Published'">
+                                    <label class="onoffswitch-label" for="status{{::pet.id}}"></label>
+                                </div>
+                            </td>
+                            <td><a href="solicitudes.html">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
+                            <td><a class="btn btn-lg" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a></td>
+                        </tr>
+                        <tr ng-if="!main.pets.length">
+                            <td colspan="7" align="center">No hay huellitas relacionadas con la busqueda</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-lg btn-more" ng-if="main.hasNextPage" ng-click="main.more()">Ver más</button>
+        </article>
+    </section>
+</div>

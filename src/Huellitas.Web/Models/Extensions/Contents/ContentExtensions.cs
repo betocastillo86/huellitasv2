@@ -77,7 +77,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="height">The height.</param>
         /// <returns>the list</returns>
         public static IList<ContentModel> ToModels(
-            this ICollection<Content> entities,
+            this IEnumerable<Content> entities,
             IFilesHelper filesHelper,
             Func<string, string> contentUrlFunction = null,
             int width = 0,

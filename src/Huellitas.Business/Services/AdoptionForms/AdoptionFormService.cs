@@ -425,5 +425,21 @@ namespace Huellitas.Business.Services
                 }
             }
         }
+
+        public IDictionary<int, int> CountAdoptionFormsByContents(int[] contentIds, AdoptionFormAnswerStatus? status = null)
+        {
+            var query = this.adoptionFormRepository.Table
+                .Where(c => contentIds.Contains(c.ContentId));
+
+            if (status.HasValue)
+            {
+                var statusId = Convert.ToInt16(status);
+                query = query.Where(c => c.LastStatus == statusId);
+            }
+
+            return query.GroupBy(c => c.ContentId)
+                    .Select(c => new { Key = c.Key, Value = c.Count() })
+                    .ToDictionary(c => c.Key, c => c.Value);
+        }
     }
 }

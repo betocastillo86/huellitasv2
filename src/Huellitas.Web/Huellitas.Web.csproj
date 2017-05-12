@@ -86,25 +86,16 @@
     <Content Include="wwwroot\app\front\components\gallery\gallery.controller.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.directive.js" />
     <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
-    <Content Include="wwwroot\app\front\contents\adopt.contoller.js" />
-    <Content Include="wwwroot\app\front\contents\adopt.html" />
-    <Content Include="wwwroot\app\front\contents\adoptTerms.controller.js" />
-    <Content Include="wwwroot\app\front\contents\adoptTerms.html" />
     <Content Include="wwwroot\app\front\components\login\login.directive.js" />
     <Content Include="wwwroot\app\front\components\login\login.html" />
-    <Content Include="wwwroot\app\front\contents\editPet.controller.js" />
-    <Content Include="wwwroot\app\front\contents\editPet.html" />
-    <Content Include="wwwroot\app\front\contents\newPet.html" />
-    <Content Include="wwwroot\app\front\contents\petDetail.controller.js" />
-    <Content Include="wwwroot\app\front\contents\petDetail.html" />
-    <Content Include="wwwroot\app\front\contents\pets.controller.js" />
-    <Content Include="wwwroot\app\front\contents\pets.html" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.contoller.js" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.html" />
     <Content Include="wwwroot\app\front\contents\pets\adoptTerms.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\adoptTerms.html" />
     <Content Include="wwwroot\app\front\contents\pets\editPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\editPet.html" />
+    <Content Include="wwwroot\app\front\contents\pets\myPets.controller.js" />
+    <Content Include="wwwroot\app\front\contents\pets\myPets.html" />
     <Content Include="wwwroot\app\front\contents\pets\newPet.html" />
     <Content Include="wwwroot\app\front\contents\pets\petDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\petDetail.html" />
@@ -112,6 +103,8 @@
     <Content Include="wwwroot\app\front\contents\pets\pets.html" />
     <Content Include="wwwroot\app\front\contents\shelters\editShelter.controller.js" />
     <Content Include="wwwroot\app\front\contents\shelters\editShelter.html" />
+    <Content Include="wwwroot\app\front\contents\shelters\myPets.controller.js" />
+    <Content Include="wwwroot\app\front\contents\shelters\myPets.html" />
     <Content Include="wwwroot\app\front\contents\shelters\shelterDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\shelters\shelterDetail.html" />
     <Content Include="wwwroot\app\front\contents\shelters\shelters.controller.js" />
@@ -181,6 +174,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
+    <PackageReference Include="microsoft.aspnetcore.jsonpatch" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />

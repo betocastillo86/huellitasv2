@@ -31,7 +31,6 @@
         vm.pagingEnabled = true;
 
         vm.search = search;
-        vm.changeSubtype = changeSubtype;
         vm.isSubtypeChecked = isSubtypeChecked;
 
         activate();
@@ -51,11 +50,6 @@
                 keyword: vm.filter.keyword,
                 shelter: vm.filter.shelter
             });
-        }
-
-        function changeSubtype(index)
-        {
-            vm.filter.subtype = vm.subtypes[index].id;
         }
 
         function isSubtypeChecked(index)

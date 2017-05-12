@@ -14,7 +14,8 @@
         'userService',
         'routingService',
         'modalService',
-        'fileService'];
+        'fileService',
+        'sessionService'];
 
     function EditPetController(
         $routeParams,
@@ -25,7 +26,8 @@
         userService,
         routingService,
         modalService,
-        fileService) {
+        fileService,
+        sessionService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -50,6 +52,7 @@
         vm.removeFile = removeFile;
         vm.save = save;
         vm.reorder = reorder;
+        vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
 
         activate();
 
@@ -59,11 +62,11 @@
                 getPet();
             }
             else {
-                vm.model.location = $scope.root.currentUser.location;
+                vm.model.location = vm.currentUser.location;
                 vm.model.files = [];
             }
 
-            vm.originalPhone = $scope.root.currentUser.phone;
+            vm.originalPhone = vm.currentUser.phone;
         }
 
         function getPet() {
@@ -75,7 +78,7 @@
                 vm.model = response;
                 vm.years = Math.floor(vm.model.months / 12);
                 vm.months = vm.model.months % 12;
-                vm.canChangePhone = $scope.root.currentUser.id === vm.model.user.id;
+                vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
                 getFullNameImage();
             }
         }
@@ -94,7 +97,7 @@
                 }
                 else {
 
-                    vm.model.user = $scope.root.currentUser;
+                    vm.model.user = vm.currentUser;
                     vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
 
                     petService.post(vm.model)
@@ -103,7 +106,7 @@
                 }
 
                 function updateUserPhone() {
-                    if (vm.originalPhone !== $scope.root.currentUser.phone) {
+                    if (vm.originalPhone !== vm.currentUser.phone) {
                         userService.put($scope.root.currentUser)
                             .then(confirmSaved)
                             .catch(putUserError);

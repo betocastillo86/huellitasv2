@@ -105,5 +105,7 @@ namespace Huellitas.Business.Services
         /// <param name="form">The form.</param>
         /// <returns>the task</returns>
         Task Update(AdoptionForm form);
+
+        IDictionary<int, int> CountAdoptionFormsByContents(int[] contentIds, AdoptionFormAnswerStatus? status = null);
     }
 }
