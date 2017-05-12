@@ -41,5 +41,17 @@
                 return '';
             }
         };
+
+        String.prototype.queryStringToJson = function () {
+            var pairs = this.slice(1).split('&');
+
+            var result = {};
+            pairs.forEach(function (pair) {
+                pair = pair.split('=');
+                result[pair[0]] = decodeURIComponent(pair[1] || '');
+            });
+
+            return JSON.parse(JSON.stringify(result));
+        };
     }
 })();

@@ -46,6 +46,14 @@ namespace Huellitas.Data.Entities.Mapping
             entity.Property(e => e.Password)
                 .HasColumnType("varchar(50)");
 
+            entity.Property(e => e.FacebookId)
+                .HasColumnType("varchar(50)")
+                .IsRequired(false);
+
+            entity.Property(e => e.IpAddress)
+                .HasColumnType("varchar(50)")
+                .IsRequired(false);
+
             entity.Ignore(e => e.RoleEnum);
 
             entity.Property(e => e.PhoneNumber).HasColumnType("varchar(15)");

@@ -8,9 +8,10 @@ using Huellitas.Data.Core;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20170509014333_AddColumn_IpAddress_FacebookId_Table_User")]
+    partial class AddColumn_IpAddress_FacebookId_Table_User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -427,8 +428,6 @@ namespace Huellitas.Data.Migrations
                     b.Property<int>("CustomTableId");
 
                     b.Property<bool>("Deleted");
-
-                    b.Property<int>("DisplayOrder");
 
                     b.Property<int?>("ParentCustomTableRowId");
 

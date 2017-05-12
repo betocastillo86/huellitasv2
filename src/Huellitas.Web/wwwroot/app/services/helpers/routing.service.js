@@ -8,7 +8,8 @@
 
     function routingService() {
         return {
-            getRoute: getRoute    
+            getRoute: getRoute,
+            getFullRoute: getFullRoute
         };
 
         function getRoute(routeName, params)
@@ -34,6 +35,8 @@
                     return '/sinhogar/' + params.friendlyName + '/editar';
                 case 'myaccount':
                     return '/mis-datos';
+                case 'facebooklogin':
+                    return '/auth/external/facebook'
                 case 'home':
                     return '/';
                 case 'newshelter':
@@ -44,6 +47,11 @@
                     return '/mis-huellitas' + (params ? '?' + $.param(params) : '');
                 default:
             }
+        }
+
+        function getFullRoute(routeName, params)
+        {
+            return app.Settings.general.siteUrl + getRoute(routeName, params);
         }
     }
 })();
