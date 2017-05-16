@@ -90,10 +90,14 @@
     <Content Include="wwwroot\app\front\components\login\login.html" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.contoller.js" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.html" />
+    <Content Include="wwwroot\app\front\contents\pets\adoptFormDetail.controller.js" />
+    <Content Include="wwwroot\app\front\contents\pets\adoptionFormDetail.html" />
     <Content Include="wwwroot\app\front\contents\pets\adoptTerms.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\adoptTerms.html" />
     <Content Include="wwwroot\app\front\contents\pets\editPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\editPet.html" />
+    <Content Include="wwwroot\app\front\contents\pets\listAdoptionForms.controller.js" />
+    <Content Include="wwwroot\app\front\contents\pets\listAdoptionForms.html" />
     <Content Include="wwwroot\app\front\contents\pets\myPets.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\myPets.html" />
     <Content Include="wwwroot\app\front\contents\pets\newPet.html" />
@@ -103,8 +107,6 @@
     <Content Include="wwwroot\app\front\contents\pets\pets.html" />
     <Content Include="wwwroot\app\front\contents\shelters\editShelter.controller.js" />
     <Content Include="wwwroot\app\front\contents\shelters\editShelter.html" />
-    <Content Include="wwwroot\app\front\contents\shelters\myPets.controller.js" />
-    <Content Include="wwwroot\app\front\contents\shelters\myPets.html" />
     <Content Include="wwwroot\app\front\contents\shelters\shelterDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\shelters\shelterDetail.html" />
     <Content Include="wwwroot\app\front\contents\shelters\shelters.controller.js" />

@@ -1,5 +1,4 @@
-﻿
-(function () {
+﻿(function () {
     'use strict';
 
     angular
@@ -12,11 +11,10 @@
             getFullRoute: getFullRoute
         };
 
-        function getRoute(routeName, params)
-        {
+        function getRoute(routeName, params) {
             switch (routeName) {
                 case 'pets':
-                    return '/sinhogar' + (params ?  '?'+$.param(params) : '');
+                    return '/sinhogar' + (params ? '?' + $.param(params) : '');
                 case 'pet':
                     return '/sinhogar/' + params.friendlyName;
                 case 'adopt0':
@@ -45,12 +43,15 @@
                     return '/fundaciones/' + params.friendlyName + '/editar';
                 case 'mypets':
                     return '/mis-huellitas' + (params ? '?' + $.param(params) : '');
+                case 'forms':
+                    return '/formularios-adopcion' + (params ? '?' + $.param(params) : '');
+                case 'form':
+                    return '/formularios-adopcion/' + params.id;
                 default:
             }
         }
 
-        function getFullRoute(routeName, params)
-        {
+        function getFullRoute(routeName, params) {
             return app.Settings.general.siteUrl + getRoute(routeName, params);
         }
     }
