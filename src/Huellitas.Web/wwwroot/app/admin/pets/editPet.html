@@ -17,7 +17,6 @@
                     <div class="clearfix"></div>
 
                 </div>
-
                 <div class="x_content">
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
@@ -205,7 +204,7 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
-            <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80"></gallery-huellitas>
+            <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80" saveonreorder="main.saveonreorder" contentid="main.id"></gallery-huellitas>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="x_panel">

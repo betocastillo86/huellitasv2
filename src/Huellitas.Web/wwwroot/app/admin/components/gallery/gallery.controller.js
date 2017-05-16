@@ -9,15 +9,18 @@
         var vm = this;
         vm.model = {};
         vm.model.images = $scope.images;
+        vm.saveonreorder = $scope.saveonreorder;
         vm.model.title = $scope.title;
         vm.model.width = $scope.width || '100%';
         vm.model.height = $scope.height || '100%';
+        vm.contentid = $scope.contentid;
 
         vm.defaultName = $scope.defaultname;
         vm.removeImageCallback = $scope.ondelete;
         vm.removeImage = removeImage;
         vm.imageAdded = imageAdded;
         vm.getImageByIndex = getImageByIndex;
+        vm.reorder = reorder;
 
         return activate();
 
@@ -68,6 +71,11 @@
 
             //calls the method after adding it
             $scope.onadded(file, previousFile);
+        }
+
+        function reorder(files)
+        {
+            vm.model.images = files;
         }
     }
 })();

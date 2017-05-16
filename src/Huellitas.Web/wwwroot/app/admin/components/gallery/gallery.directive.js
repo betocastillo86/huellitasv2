@@ -15,7 +15,9 @@
                 onadded: '=',
                 defaultname: '@',
                 width : '@',
-                height : '@'
+                height: '@',
+                saveonreorder: '=',
+                contentid:'='
             }
         };
     }

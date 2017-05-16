@@ -6,13 +6,12 @@
     </div>
     <div class="x_content">
         <div class="row">
-            <div class="col-md-4 col-xs-6" ng-repeat="image in gallery.model.images">
+            <div class="col-md-4 col-xs-6" ng-repeat="image in gallery.model.images track by $index" >
                 
                 <div>
                     <div>
                         <div style="position:relative">
-                            <img ng-src="{{image.thumbnail}}" alt="image" width="{{::gallery.model.width}}" height="{{::gallery.model.height}}">
-                            <input type="file" fileupload-huellitas onadded="gallery.imageAdded" callback-param="{{image}}" class="fileInvisible"  />
+                            <img ng-src="{{image.thumbnail}}" alt="image" width="{{::gallery.model.width}}" height="{{::gallery.model.height}}" contentid="gallery.contentid" draggable="true" data-id="image.id" draggable-content-file callback="gallery.reorder" files="gallery.model.images" saveonchange="{{gallery.saveonreorder}}">
                         </div>
                         
                         <div class="mask">

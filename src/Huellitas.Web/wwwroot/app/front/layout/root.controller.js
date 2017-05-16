@@ -20,6 +20,7 @@
         vm.showUserInfo = showUserInfo;
         vm.getRoute = routingService.getRoute;
         vm.showLogin = showLogin;
+        vm.logout = logout;
 
         activate();
 
@@ -53,6 +54,13 @@
         function showLogin()
         {
             authenticationService.showLogin($scope);
+        }
+
+        function logout()
+        {
+            sessionService.removeCurrentUser();
+            vm.currentUser = undefined;
+            $location.path(routingService.getRoute('home'));
         }
     }
 })();

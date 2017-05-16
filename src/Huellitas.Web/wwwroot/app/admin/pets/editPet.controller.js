@@ -7,6 +7,7 @@
     function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
+        vm.saveonreorder = vm.id > 0;
         vm.isSending = false;
 
         vm.model = {};
@@ -199,13 +200,14 @@
         }
 
         function changeShelter(selectedShelter) {
-            vm.model.shelter = vm.model.shelter || {};
-            vm.model.shelter.id = selectedShelter ? selectedShelter.originalObject.id : undefined;
+            vm.model.shelter = selectedShelter ? { id: selectedShelter.originalObject.id, location: selectedShelter.originalObject.location } : undefined;
+            getFullNameImage();
         }
 
         function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
-            vm.model.location.id = selectedLocation ? selectedLocation.originalObject.id : undefined;
+            vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
+            getFullNameImage();
         }
 
         function toogleShowMore() {
@@ -254,7 +256,8 @@
         function getFullNameImage() {
             if (canShowGallery() && vm.sizes) {
                 var size = _.findWhere(vm.sizes, { id: vm.model.size.value });
-                return vm.defaultNameImage = vm.model.subtype.text + ' ' + vm.model.genre.text + ' ' + size.value + ' ' + vm.model.name;
+                var location = vm.model.shelter ? vm.model.shelter.location : vm.model.location;
+                return vm.defaultNameImage = vm.model.subtype.text + ' ' + vm.model.genre.text + ' ' + size.value + ' ' + vm.model.name + ' ' + location.name;
             }
             else {
                 return '';
@@ -262,7 +265,7 @@
         }
 
         function canShowGallery() {
-            return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name;
+            return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && (vm.model.shelter || vm.model.location);
         }
 
         function changeMonths() {

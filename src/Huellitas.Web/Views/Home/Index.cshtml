@@ -69,12 +69,12 @@
                     <img src="https://scontent.fbog2-1.fna.fbcdn.net/v/t1.0-1/p56x56/14368897_1083015501806273_3197812012577248045_n.jpg?oh=e0ba28e2d93f5a799ac2d262b2ff862c&oe=5959FBE8" />
                 </div>
                 <br />
-                <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo">
+                <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo" ng-click="root.showUserInfo()">
                     <h6>{{root.currentUser.name}}</h6>
                     <p>{{root.currentUser.email}}</p>
                     <a ng-href="{{::root.getRoute('mypets')}}">Mis huellitas</a>
                     <a href="misdatos.html">Mis datos</a>
-                    <a href="javascript:;" data-toggle="modal" data-target="#myModal">Cerrar sesión</a>
+                    <a href="javascript:;" ng-click="root.logout()" >Cerrar sesión</a>
                 </div>
             </div>
             <br />

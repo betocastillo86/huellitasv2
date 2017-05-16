@@ -112,7 +112,7 @@
                         <div class="alert alert-info" ng-if="main.model.files.length" role="alert">Estas son miniaturas de tus imágenes y puedes reordenarlas según tu preferencia. La primera imagen será considerada la imagen principal de tu publicación.</div>
                     </div>
                     <ul class="all-preview" ng-if="main.canShowGallery()">
-                        <li ng-repeat="file in main.model.files" draggable="true" data-id="file.id" draggable-content-file callback="main.reorder" saveonchange="{{main.friendlyName !== undefined}}" contentid="main.model.id" >
+                        <li ng-repeat="file in main.model.files" draggable="true" data-id="file.id" draggable-content-file callback="main.reorder" files="main.model.files" saveonchange="{{main.friendlyName !== undefined}}" contentid="main.model.id" >
                             <div class="preview-img">
                                 <div class="delete-img" ng-click="main.removeFile(file)">
                                     <span class="icon-close"></span>
