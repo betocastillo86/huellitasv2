@@ -15,9 +15,10 @@
             getJobs: getJobs
         };
 
-        function getByTable(tableId)
+        function getByTable(tableId, filter)
         {
-            return http.get('/api/customtables/' + tableId + '/rows');
+            filter = filter || { page:0, pageSize:500};
+            return http.get('/api/customtables/' + tableId + '/rows', {params:filter});
         }
 
         function getSizes()

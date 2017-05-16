@@ -8,14 +8,30 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Custom table Filter
     /// </summary>
-    public class CustomTableRowFilter
+    public class CustomTableRowFilter : BaseFilterModel
     {
+        public CustomTableRowFilter()
+        {
+            this.MaxPageSize = int.MaxValue;
+        }
+
         /// <summary>
-        /// Gets or sets the custom table identifier.
+        /// Gets or sets the keyword.
         /// </summary>
         /// <value>
-        /// The custom table identifier.
+        /// The keyword.
         /// </value>
-        public int TableId { get; set; }
+        public string Keyword { get; set; }
+
+        /// <summary>
+        /// Returns true if ... is valid.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool IsValid()
+        {
+            return base.IsValid();
+        }
     }
 }

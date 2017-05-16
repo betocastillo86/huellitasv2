@@ -181,7 +181,7 @@ namespace Huellitas.Web.Controllers.Api
 
                 var contentList = this.contentService.Search(
                     filter.Keyword,
-                    Data.Entities.ContentType.Pet,
+                    filter.ContentType,
                     filterData,
                     filter.PageSize,
                     filter.Page,
@@ -248,7 +248,7 @@ namespace Huellitas.Web.Controllers.Api
                     return this.NotFound();
                 }
 
-                if (content.Type == ContentType.Pet)
+                if (content.Type == ContentType.Pet || content.Type == ContentType.LostPet)
                 {
                     var model = content.ToPetModel(
                     this.contentService,
@@ -355,7 +355,7 @@ namespace Huellitas.Web.Controllers.Api
 
                 if (content != null)
                 {
-                    if (content.Type != ContentType.Pet)
+                    if (content.Type != ContentType.Pet && content.Type != ContentType.LostPet)
                     {
                         this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
                         return this.BadRequest(this.ModelState);
@@ -525,21 +525,46 @@ namespace Huellitas.Web.Controllers.Api
             this.ModelState.Remove("Shelter.Owner");
             this.ModelState.Remove("Shelter.Address");
 
+            if (model.Type != ContentType.LostPet && model.Type != ContentType.Pet)
+            {
+                this.ModelState.AddModelError("Type", "Solo son validos los tipos lostPet y Pet");
+            }
+
             if (isNew && (model.Files == null || model.Files.Count == 0))
             {
                 this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");
             }
 
-            if (model.Shelter == null && model.Location == null)
+            if (model.Type == ContentType.Pet)
             {
-                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
-                this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
-            }
-            else if (model.Shelter != null)
-            {
-                if (!this.CanUserCreatePetsOnShelter(model.Shelter.Id))
+                if (model.Shelter == null && model.Location == null)
                 {
-                    this.ModelState.AddModelError("Shelter", "No tiene acceso a este refugio");
+                    this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+                    this.ModelState.AddModelError("Shelter", "Si no ingresa la ubicación debe ingresar refugio");
+                }
+                else if (model.Shelter != null)
+                {
+                    if (!this.CanUserCreatePetsOnShelter(model.Shelter.Id))
+                    {
+                        this.ModelState.AddModelError("Shelter", "No tiene acceso a este refugio");
+                    }
+                }
+            }
+            else if (model.Type == ContentType.LostPet)
+            {
+                if (model.Location == null)
+                {
+                    this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+                }
+
+                if (!model.StartingDate.HasValue || model.StartingDate.Value > DateTime.Now)
+                {
+                    this.ModelState.AddModelError("StartingDate", "Debe ingresar la fecha en que se perdió la mascota");
+                }
+
+                if (model.Breed == null)
+                {
+                    this.ModelState.AddModelError("Breed", "Debe ingresar la raza del animal");
                 }
             }
 

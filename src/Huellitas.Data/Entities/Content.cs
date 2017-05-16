@@ -293,6 +293,8 @@ namespace Huellitas.Data.Entities
         /// </value>
         public DateTime? ClosingDate { get; set; }
 
+        public DateTime? StartingDate { get; set; }
+
         /// <summary>
         /// Gets or sets the user.
         /// </summary>

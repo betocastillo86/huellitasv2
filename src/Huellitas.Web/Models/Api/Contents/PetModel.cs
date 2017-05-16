@@ -26,7 +26,7 @@ namespace Huellitas.Web.Models.Api
         /// </summary>
         public PetModel()
         {
-            this.TypeId = Data.Entities.ContentType.Pet;
+            
         }
 
         /// <summary>
@@ -53,6 +53,23 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         [Required]
         public ContentAttributeModel<int> Genre { get; set; }
+
+        /// <summary>
+        /// Gets or sets the breed.
+        /// </summary>
+        /// <value>
+        /// The breed.
+        /// </value>
+        public ContentAttributeModel<int> Breed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the starting date.
+        /// </summary>
+        /// <value>
+        /// The starting date.
+        /// </value>
+        public DateTime? StartingDate { get; set; }
+
 
         /// <summary>
         /// Gets or sets the moths.

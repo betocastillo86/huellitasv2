@@ -1,14 +1,15 @@
 ﻿(function () {
     angular.module('huellitasAdmin')
-        .controller('EditPetController', EditPetController);
+        .controller('EditLostPetController', EditLostPetController);
 
-    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService', 'helperService'];
+    EditLostPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService', 'helperService'];
 
-    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
+    function EditLostPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.saveonreorder = vm.id > 0;
         vm.isSending = false;
+        vm.breedTable = app.Settings.customTables.breed;
 
         vm.model = {};
         vm.parents = [];
@@ -30,24 +31,21 @@
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
         vm.changeSubtype = changeSubtype;
-        vm.changeShelter = changeShelter;
         vm.changeLocation = changeLocation;
         vm.toogleShowMore = toogleShowMore;
         vm.toogleShowPictures = toogleShowPictures;
         vm.changeFeatured = changeFeatured;
-        vm.changeAutoReply = changeAutoReply;
-        vm.changeCastrated = changeCastrated;
         vm.removeImage = removeImage;
         vm.imageAdded = imageAdded;
         vm.save = save;
         vm.isInvalidClass = isInvalidClass;
         vm.changeMonths = changeMonths;
-        vm.isLocationRequired = isLocationRequired;
         vm.saveAndContinue = saveAndContinue;
         vm.addParent = addParent;
         vm.deleteParent = deleteParent;
         vm.getFullNameImage = getFullNameImage;
         vm.canShowGallery = canShowGallery;
+        vm.changeBreed = changeBreed;
 
         activate();
 
@@ -164,6 +162,11 @@
             }
         }
 
+        function changeBreed(selectedBreed)
+        {
+            vm.model.breed = selectedBreed ? { value: selectedBreed.originalObject.id, text: selectedBreed.originalObject.value } : undefined;
+        }
+
         function getGenres() {
             customTableRowService.getGenres()
                 .then(getGenresCompleted)
@@ -200,11 +203,6 @@
             vm.getFullNameImage();
         }
 
-        function changeShelter(selectedShelter) {
-            vm.model.shelter = selectedShelter ? { id: selectedShelter.originalObject.id, location: selectedShelter.originalObject.location } : undefined;
-            getFullNameImage();
-        }
-
         function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
             vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
@@ -221,14 +219,6 @@
 
         function changeFeatured(featured) {
             vm.model.featured = featured;
-        }
-
-        function changeAutoReply(autoReply) {
-            vm.model.autoReply = autoReply;
-        }
-
-        function changeCastrated(castrated) {
-            vm.model.castrated = castrated;
         }
 
         function removeImage(image) {
@@ -257,7 +247,7 @@
         function getFullNameImage() {
             if (canShowGallery() && vm.sizes) {
                 var size = _.findWhere(vm.sizes, { id: vm.model.size.value });
-                var location = vm.model.shelter ? vm.model.shelter.location : vm.model.location;
+                var location = vm.model.location;
                 return vm.defaultNameImage = vm.model.subtype.text + ' ' + vm.model.genre.text + ' ' + size.value + ' ' + vm.model.name + ' ' + location.name;
             }
             else {
@@ -266,7 +256,7 @@
         }
 
         function canShowGallery() {
-            return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && (vm.model.shelter || vm.model.location);
+            return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && vm.model.location;
         }
 
         function changeMonths() {
@@ -277,10 +267,6 @@
                 vm.months = 0;
             }
             vm.model.months = (vm.years * 12) + vm.months;
-        }
-
-        function isLocationRequired() {
-            return (!vm.model.location || !vm.model.location.id) && (!vm.model.shelter || !vm.model.shelter.id);
         }
 
         function saveAndContinue() {
@@ -330,11 +316,11 @@
                             if (vm.continueAfterSaving) {
                                 //if it is new and want to continue updates the location
                                 if (isNew) {
-                                    $location.path('/pets/' + vm.model.id + '/edit');
+                                    $location.path('/lostpets/' + vm.model.id + '/edit');
                                 }
                             }
                             else {
-                                $location.path('/pets');
+                                $location.path('/lostpets');
                             }
 
                             vm.continueAfterSaving = false;

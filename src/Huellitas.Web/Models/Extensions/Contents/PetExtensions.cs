@@ -48,7 +48,7 @@ namespace Huellitas.Web.Models.Extensions
             {
                 entity = new Content();
                 entity.StatusType = StatusType.Created;
-                entity.Type = ContentType.Pet;
+                entity.Type = model.Type;
                 
                 for (int i = 0; i < model.Files.Count; i++)
                 {
@@ -77,6 +77,7 @@ namespace Huellitas.Web.Models.Extensions
             entity.DisplayOrder = model.DisplayOrder;
             entity.Email = model.Email;
             entity.ClosingDate = model.ClosingDate;
+            entity.StartingDate = model.StartingDate;
 
             if (model.Shelter == null || model.Shelter.Id == 0)
             {
@@ -123,6 +124,7 @@ namespace Huellitas.Web.Models.Extensions
             entity.ContentAttributes.Add(ContentAttributeType.Genre, model.Genre.Value, true);
             entity.ContentAttributes.Add(ContentAttributeType.Size, model.Size.Value, true);
             entity.ContentAttributes.Add(ContentAttributeType.Castrated, model.Castrated, true);
+            entity.ContentAttributes.Add(ContentAttributeType.Breed, model.Breed?.Value, true);
 
             return entity;
         }
@@ -167,11 +169,12 @@ namespace Huellitas.Web.Models.Extensions
                 CommentsCount = entity.CommentsCount,
                 DisplayOrder = entity.DisplayOrder,
                 Status = entity.StatusType,
-                TypeId = entity.Type,
+                Type = entity.Type,
                 Views = entity.Views,
                 CreatedDate = entity.CreatedDate,
                 Featured = entity.Featured,
                 ClosingDate = entity.ClosingDate,
+                StartingDate = entity.StartingDate,
                 FriendlyName = entity.FriendlyName,
                 CanEdit = workContext.CurrentUser.CanUserEditPet(entity, contentService),
                 PendingForms = pendingForms
@@ -221,6 +224,10 @@ namespace Huellitas.Web.Models.Extensions
 
                     case ContentAttributeType.Genre:
                         model.Genre = new ContentAttributeModel<int>() { Text = customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalGenre, attributeId), Value = attributeId };
+                        break;
+
+                    case ContentAttributeType.Breed:
+                        model.Breed = new ContentAttributeModel<int>() { Text = customTableService.GetValueByCustomTableAndId(CustomTableType.Breed, attributeId), Value = attributeId };
                         break;
 
                     case ContentAttributeType.Age:

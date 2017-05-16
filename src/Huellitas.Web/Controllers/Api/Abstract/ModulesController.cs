@@ -31,6 +31,7 @@ namespace Huellitas.Web.Controllers.Api
             modules.Add(new ModuleModel() { Id = 2, Name = "Fundaciones", Key = "Shelters", Url = "/shelters", Icon = "fa-home" });
             modules.Add(new ModuleModel() { Id = 3, Name = "Formularios", Key = "Forms", Url = "/adoptionforms", Icon = "fa-newspaper-o" });
             modules.Add(new ModuleModel() { Id = 4, Name = "Usuarios", Key = "Users", Url = "/users", Icon = "fa-users" });
+            modules.Add(new ModuleModel() { Id = 1, Name = "Perdidos", Key = "Perdidos", Url = "/lostpets", Icon = "fa-search" });
 
             var settings = new ModuleModel() { Id = 5, Name = "Configuracion", Key = "SettingsParent", Icon = "fa-cogs", Children = new List<ModuleModel>(), Url = "#" };
             modules.Add(settings);
