@@ -27,7 +27,9 @@ namespace Huellitas.Web.Models.Extensions
         public static AdoptionFormModel ToModel(
             this AdoptionForm entity,
             IFilesHelper filesHelper,
-            Func<string, string> contentUrlFunction = null)
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
         {
             var model = new AdoptionFormModel
             {
@@ -59,7 +61,7 @@ namespace Huellitas.Web.Models.Extensions
 
             if (entity.Content != null)
             {
-                model.Content = entity.Content.ToModel(filesHelper, contentUrlFunction);
+                model.Content = entity.Content.ToModel(filesHelper, contentUrlFunction, width, height);
             }
 
             if (entity.UserId.HasValue && entity.User != null)
@@ -80,9 +82,11 @@ namespace Huellitas.Web.Models.Extensions
         public static IList<AdoptionFormModel> ToModels(
             this ICollection<AdoptionForm> entities,
             IFilesHelper filesHelper,
-            Func<string, string> contentUrlFunction = null)
+            Func<string, string> contentUrlFunction = null,
+            int width = 0,
+            int height = 0)
         {
-            return entities.Select(c => c.ToModel(filesHelper, contentUrlFunction)).ToList();
+            return entities.Select(c => c.ToModel(filesHelper, contentUrlFunction, width, height)).ToList();
         }
 
         /// <summary>

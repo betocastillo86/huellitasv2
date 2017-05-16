@@ -26,7 +26,7 @@ namespace Huellitas.Web.Controllers.Api
         {
             var list = new List<object>();
             list.Add(new { Id = Convert.ToInt32(AdoptionFormAnswerStatus.None), Name = "Sin revisar", Enum = AdoptionFormAnswerStatus.None.ToString() });
-            list.Add(new { Id = Convert.ToInt32(AdoptionFormAnswerStatus.Approved), Name = "Aprovado", Enum = AdoptionFormAnswerStatus.Approved.ToString() });
+            list.Add(new { Id = Convert.ToInt32(AdoptionFormAnswerStatus.Approved), Name = "Aprobado", Enum = AdoptionFormAnswerStatus.Approved.ToString() });
             list.Add(new { Id = Convert.ToInt32(AdoptionFormAnswerStatus.Denied), Name = "Negado", Enum = AdoptionFormAnswerStatus.Denied.ToString() });
             list.Add(new { Id = Convert.ToInt32(AdoptionFormAnswerStatus.AlreadyAdopted), Name = "Adoptado previamente", Enum = AdoptionFormAnswerStatus.AlreadyAdopted.ToString() });
 

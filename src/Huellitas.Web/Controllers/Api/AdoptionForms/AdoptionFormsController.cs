@@ -21,6 +21,7 @@ namespace Huellitas.Web.Controllers.Api
     using Models.Api;
     using Models.Extensions;
     using Huellitas.Business.Caching;
+    using Huellitas.Business.Configuration;
 
     /// <summary>
     /// Adoption Forms Controller
@@ -60,6 +61,11 @@ namespace Huellitas.Web.Controllers.Api
         private readonly ICacheManager cacheManager;
 
         /// <summary>
+        /// The content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormsController"/> class.
         /// </summary>
         /// <param name="adoptionFormService">The adoption form service.</param>
@@ -73,7 +79,8 @@ namespace Huellitas.Web.Controllers.Api
             IContentService contentService,
             IFilesHelper filesHelper,
             ICustomTableService customTableService,
-            ICacheManager cacheManager) : base(workContext, contentService, adoptionFormService)
+            ICacheManager cacheManager,
+            IContentSettings contentSettings) : base(workContext, contentService, adoptionFormService)
         {
             this.adoptionFormService = adoptionFormService;
             this.workContext = workContext;
@@ -81,6 +88,7 @@ namespace Huellitas.Web.Controllers.Api
             this.filesHelper = filesHelper;
             this.customTableService = customTableService;
             this.cacheManager = cacheManager;
+            this.contentSettings = contentSettings;
         }
 
         /// <summary>
@@ -110,7 +118,7 @@ namespace Huellitas.Web.Controllers.Api
                     filter.OrderByEnum,
                     filter.Page,
                     filter.PageSize);
-                var models = forms.ToModels(this.filesHelper, Url.Content);
+                var models = forms.ToModels(this.filesHelper, Url.Content, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList);
                 return this.Ok(models, forms.HasNextPage, forms.TotalCount);
             }
             else

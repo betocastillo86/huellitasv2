@@ -59,6 +59,11 @@ namespace Huellitas.Business.Services
         private readonly IPublisher publisher;
 
         /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormService"/> class.
         /// </summary>
         /// <param name="adoptionFormRepository">The adoption form repository.</param>
@@ -75,7 +80,8 @@ namespace Huellitas.Business.Services
             IRepository<AdoptionFormAnswer> adoptionFormAnswerRepository,
             IRepository<AdoptionFormUser> adoptionFormUserRepository,
             IPublisher publisher,
-            IRepository<ContentUser> contentUserRepository)
+            IRepository<ContentUser> contentUserRepository,
+            IContentService contentService)
         {
             this.adoptionFormRepository = adoptionFormRepository;
             this.contentAttributeRepository = contentAttributeRepository;
@@ -84,6 +90,7 @@ namespace Huellitas.Business.Services
             this.adoptionFormUserRepository = adoptionFormUserRepository;
             this.publisher = publisher;
             this.contentUserRepository = contentUserRepository;
+            this.contentService = contentService;
         }
 
         /// <summary>
@@ -152,24 +159,30 @@ namespace Huellitas.Business.Services
             //// Si debe traer los asociados a un usuario omite los demás filtros
             if (allRelatedToUserId.HasValue)
             {
-                var petsWhichIsParent = getPetsByParent(allRelatedToUserId.Value);
+                ////var petsWhichIsParent = getPetsByParent(allRelatedToUserId.Value);
 
-                ////Consulta los refugios del usuario para posteriormente traer los formularios de esos refugios
-                var relationId = Convert.ToInt16(ContentUserRelationType.Shelter);
-                var sheltersOfUser = this.contentUserRepository.Table.Where(c => c.UserId == allRelatedToUserId.Value && c.RelationTypeId == relationId)
-                    .Select(c => c.ContentId.ToString());
+                ////////Consulta los refugios del usuario para posteriormente traer los formularios de esos refugios
+                ////var relationId = Convert.ToInt16(ContentUserRelationType.Shelter);
+                ////var sheltersOfUser = this.contentUserRepository.Table.Where(c => c.UserId == allRelatedToUserId.Value && c.RelationTypeId == relationId)
+                ////    .Select(c => c.ContentId.ToString());
 
-                var attributeShelter = ContentAttributeType.Shelter.ToString();
-                var contentsOfShelter = this.contentAttributeRepository.Table
-                    .Where(c => c.Attribute.Equals(attributeShelter) && sheltersOfUser.Contains(c.Value))
-                    .Select(c => c.ContentId); 
+                ////var attributeShelter = ContentAttributeType.Shelter.ToString();
+                ////var contentsOfShelter = this.contentAttributeRepository.Table
+                ////    .Where(c => c.Attribute.Equals(attributeShelter) && sheltersOfUser.Contains(c.Value))
+                ////    .Select(c => c.ContentId); 
+
+                var myPets = this.contentService.Search(belongsToUserId: allRelatedToUserId.Value, contentType: ContentType.Pet).Select(c => c.Id).ToArray();
 
                 query = query.Where(
                     c => c.Users.Any(x => x.UserId == allRelatedToUserId.Value) ||
-                    petsWhichIsParent.Contains(c.ContentId) ||
-                    contentsOfShelter.Contains(c.ContentId) ||
-                    c.UserId == allRelatedToUserId.Value ||
-                    c.Content.UserId == allRelatedToUserId.Value);
+                    myPets.Contains(c.ContentId)
+
+
+                    //petsWhichIsParent.Contains(c.ContentId) ||
+                    //contentsOfShelter.Contains(c.ContentId) 
+                    //c.UserId == allRelatedToUserId.Value ||
+                    //c.Content.UserId == allRelatedToUserId.Value
+                    );
             }
             else
             {
@@ -272,6 +285,7 @@ namespace Huellitas.Business.Services
             return this.adoptionFormRepository.Table
                 .Include(c => c.User)
                 .Include(c => c.Content)
+                .Include(c => c.Content.User)
                 .Include(c => c.Content.File)
                 .Include(c => c.Job)
                 .Include(c => c.Location)

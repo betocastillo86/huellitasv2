@@ -51,7 +51,7 @@ namespace Huellitas.Web.Models.Extensions
 
             if (entity.FileId.HasValue && entity.File != null)
             {
-                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, width, height);
+                model.Image = entity.File.ToModel(filesHelper, contentUrlFunction, thumbnailWidth: width, thumbnailHeight: height);
             }
 
             if (entity.LocationId.HasValue && entity.Location != null)

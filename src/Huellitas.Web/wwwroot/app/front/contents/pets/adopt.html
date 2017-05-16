@@ -29,9 +29,10 @@
                 <form name="main.form" ng-submit="main.save()" novalidate>
                     <div ng-if="main.currentStep === 0">
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.name.$invalid}">
-                            <input type="text" name="name" placeholder="Nombre" ng-model="main.model.name" maxlength="90" required />
+                            <input type="text" name="name" placeholder="Nombre" ng-model="main.model.name" maxlength="90" ng-minlength="6" required />
                             <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa tu nombre</span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">Ingresa tu nombre de mínimo 6 caracteres</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.phoneNumber.$invalid}">
                             <input type="text" name="phoneNumber" placeholder="Teléfono de contacto" ng-model="main.model.phoneNumber" ng-minlength="7" maxlength="20" required />

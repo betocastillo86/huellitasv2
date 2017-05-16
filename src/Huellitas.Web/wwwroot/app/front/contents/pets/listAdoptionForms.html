@@ -1,0 +1,60 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <h1 class="tit-form">SOLICITUDES DE ADOPCIÓN</h1>
+            <form class="search-box">
+                <div class="col-md-4 col-sm-6">
+                    <input type="text" placeholder="Nombre Persona" ng-model="main.filter.username" ng-model-options="{debounce:300}" ng-change="main.search()">
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <select ng-options="status.enum as status.name for status in main.statuses" ng-model="main.filter.status" ng-change="main.search()">
+                        <option value="">Estado solicitud</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <angucomplete-alt id="petId"
+                                      placeholder="Nombre mascota"
+                                      pause="400"
+                                      remote-url="/api/pets?pagesize=8&mine=true&keyword="
+                                      title-field="name"
+                                      selected-object="main.changePet"
+                                      initial-value="main.filter.petName"
+                                      field-required="true"
+                                      input-name="petId"
+                                      field-required-class="parsley-error"
+                                      remote-url-data-field="results"
+                                      match-class="highlight" />
+                </div>
+                <br>
+            </form>
+            <div class="mask-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre mascota</th>
+                            <th>Nombre adoptante</th>
+                            <th>Estado</th>
+                            <th>Fecha solicitud</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="form in main.forms" ng-click="main.goToForm(form.id)">
+                            <th scope="row" class="img-table">
+                                <img ng-src="{{::form.content.image.thumbnail}}" alt="Ver a {{::form.content.name}}" >
+                            </th>
+                            <td>{{::form.content.name}}</td>
+                            <td>{{::form.name}}</td>
+                            <td><span class="label" ng-class="{'label-default': form.status == 'None', 'aprova': form.status == 'Approved', 'adopt': form.status == 'AlreadyAdopted', 'reject': form.status == 'Denied'}">{{::form.statusName}}</span></td>
+                            <td>{{::form.creationDate | timeago}}</td>
+                        </tr>
+                        <tr ng-if="!main.forms.length">
+                            <td colspan="5" align="center">No hay resultados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-lg btn-more" ng-if="main.hasNextPage" ng-click="main.more()">Ver más</button>
+        </article>
+    </section>
+</div>

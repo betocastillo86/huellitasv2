@@ -1,0 +1,109 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <div class="col-md-12">
+                <h1 class="tit-section">SOLICITUD DE ADOPCIÓN</h1>
+                <div class="sub-title">Formulario No. {{::main.model.id}}</div>
+                <br>
+                <div class="res-pet">
+                    <img class="img-responsive" src="http://huellitas.social/img/18865/big">
+                    <div class="txt-pet">
+                        <h3>{{::main.model.content.name}}</h3>
+                        <span>Genero: {{::main.model.content.genre.text}}</span>
+                        <span>Edad: {{::main.model.content.months | age}}</span>
+                        <span ng-if="::main.model.content.shelter">Fundación: {{::main.model.content.shelter.name}}</span>
+                        <span><a ng-href="{{::root.getRoute('pet', {friendlyName: main.model.friendlyName})}}">Ver huellita</a></span>
+                    </div>
+                    <br>
+                </div>
+                <h3 class="tit-sct">Datos adoptante</h3>
+                <ul class="data-list">
+                    <li>
+                        Nombre
+                        <b>{{::main.model.name}}</b>
+                    </li>
+                    <li>
+                        Correo
+                        <b>{{::main.model.email}}</b>
+                    </li>
+                    <li>
+                        Ciudad
+                        <b>{{::main.model.location.name}}</b>
+                    </li>
+                    <li>
+                        Dirección
+                        <b>{{::main.model.address}}</b>
+                    </li>
+                    <li>
+                        Barrio
+                        <b>{{::main.model.town}}</b>
+                    </li>
+                    <li>
+                        Celular
+                        <b>{{::main.model.phoneNumber}}</b>
+                    </li>
+                    <li>
+                        Fecha de Nacimiento
+                        <b>{{::main.model.birthDate}}</b>
+                    </li>
+                    <li>
+                        Miembros en la familia
+                        <b>{{::main.model.familyMembers}} persona{{::main.model.familyMembers > 1 ? 's' : ''}}</b>
+                    </li>
+                    <li>
+                        Edades Miembros Familia
+                        <b>{{::main.model.familyMembersAge}}</b>
+                    </li>
+                    <br>
+                </ul>
+                <h3 class="tit-sct">Respuestas del adoptante</h3>
+                <ul class="answer-list">
+                    <li ng-repeat="attribute in main.model.attributes">
+                        <b>{{::attribute.question}}</b>
+                        {{::attribute.value}}
+                    </li>
+                </ul>
+                <h3 class="tit-sct">Responder</h3>
+                <p>Para responder esta solicitud de adopción hay que dar clic en alguno de los botones inferiores. Si la contestación tiene información adicional por favor ingresarla aquí:</p>
+                <form name="main.form" class="ng-pristine ng-valid" novalidate ng-submit="main.send()">
+                    <textarea placeholder="Información adicional para el solicitante" ng-model="main.answer.additionalInfo" maxlength="500"></textarea>
+                    <div ng-class="{'bad': main.form.$submitted && main.form.status.$invalid}">
+                        <select name="status" ng-options="status.enum as status.name for status in main.statuses" ng-model="main.answer.status" required>
+                            <option value="Estado Solicitud">Estado Solicitud</option>
+                        </select>
+                        <span class="error" ng-if="main.form.$submitted && main.form.status.$invalid">Debes seleccionar la respuesta</span>
+                    </div>
+                    <br />
+                    <div ng-if="main.model.answers.length" class="alert alert-danger" role="alert">Esta solicitud de adopción ya fue respondida previamente. <a href="#" ng-click="main.seePreviousAnswers()">Ver respuestas anteriores</a></div>
+
+
+                    <div class="mask-table" ng-if="main.showAnswers">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha respuesta</th>
+                                    <th>Respuesta</th>
+                                    <th>Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="answer in main.model.answers">
+                                    <td>{{::answer.creationDate}}</td>
+                                    <td><span class="label" ng-class="{'label-default': answer.status == 'None', 'aprova': answer.status == 'Approved', 'adopt': answer.status == 'AlreadyAdopted', 'reject': answer.status == 'Denied'}">{{::answer.statusName}}</span></td>
+                                    <td>{{::answer.user.name}}</td>
+                                </tr>
+                                <tr ng-if="!main.model.answers.length">
+                                    <td colspan="2" align="center">No hay respuestas previas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    
+                    <button type="submit" class="btn btn-lg btn-save" style="margin: 10px 0;">Responder</button>
+                </form>
+            </div>
+        </article>
+    </section>
+</div>
