@@ -21,6 +21,8 @@
         vm.getRoute = routingService.getRoute;
         vm.showLogin = showLogin;
         vm.logout = logout;
+        vm.goToAdmin = goToAdmin;
+
 
         activate();
 
@@ -31,6 +33,11 @@
             if (sessionService.isAuthenticated()) {
                 getCurrentUser();
             }
+        }
+
+        function goToAdmin()
+        {
+            window.location.href = '/admin';
         }
 
         function getCurrentUser() {

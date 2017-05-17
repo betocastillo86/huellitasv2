@@ -72,6 +72,7 @@
                 <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo" ng-click="root.showUserInfo()">
                     <h6>{{root.currentUser.name}}</h6>
                     <p>{{root.currentUser.email}}</p>
+                    <a ng-if="root.currentUser.role == 'SuperAdmin'"  ng-click="root.goToAdmin()">Administrador</a>
                     <a ng-href="{{::root.getRoute('mypets')}}">Mis huellitas</a>
                     <a ng-href="{{::root.getRoute('forms')}}">Formularios por responder</a>
                     <a href="misdatos.html">Mis datos</a>
