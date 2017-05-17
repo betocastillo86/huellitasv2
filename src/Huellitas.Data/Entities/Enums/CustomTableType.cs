@@ -33,6 +33,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The jobs
         /// </summary>
-        Jobs = 5
+        Jobs = 5,
+
+        /// <summary>
+        /// The breed
+        /// </summary>
+        Breed = 6
     }
 }

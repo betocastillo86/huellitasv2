@@ -202,6 +202,7 @@ namespace Huellitas.Data.Migrations
             list.Add(new CustomTable() { Id = 3, Name = "Genero de los animales", Description = "Tamaño de los animales existentes" });
             list.Add(new CustomTable() { Id = 4, Name = "Preguntas Formularios", Description = "Preguntas hechas en los formularios de adopción" });
             list.Add(new CustomTable() { Id = Convert.ToInt32(CustomTableType.Jobs), Name = "Trabajos para formularios", Description = "Trabajos para formularios" });
+            list.Add(new CustomTable() { Id = Convert.ToInt32(CustomTableType.Breed), Name = "Razas", Description = "Razas de animales" });
 
             foreach (var item in list)
             {
@@ -260,6 +261,13 @@ namespace Huellitas.Data.Migrations
             list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Independiente" });
             list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Estudiante" });
             list.Add(new CustomTableRow() { CustomTableId = jobs, Value = "Hogar" });
+
+            var breed = Convert.ToInt32(CustomTableType.Breed);
+            list.Add(new CustomTableRow() { CustomTableId = breed, Value = "Labrador" });
+            list.Add(new CustomTableRow() { CustomTableId = breed, Value = "Bulldog" });
+            list.Add(new CustomTableRow() { CustomTableId = breed, Value = "Pug" });
+            list.Add(new CustomTableRow() { CustomTableId = breed, Value = "French Poodle" });
+            list.Add(new CustomTableRow() { CustomTableId = breed, Value = "Pastor Alemán" });
 
             foreach (var item in list)
             {

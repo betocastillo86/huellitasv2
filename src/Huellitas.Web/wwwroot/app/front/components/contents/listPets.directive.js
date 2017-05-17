@@ -19,7 +19,7 @@
     //angular.module('huellitas')
     //    .controller('ListPetsController');
 
-    ListPetsController.$inject = ['$attrs', '$scope', 'petService'];
+    ListPetsController.$inject = ['$attrs', '$scope', 'petService', 'helperService'];
 
     /**
      * Directive with properties
@@ -31,7 +31,7 @@
      * @param {any} $scope
      * @param {any} petService
      */
-    function ListPetsController($attrs, $scope, petService) {
+    function ListPetsController($attrs, $scope, petService, helperService) {
         var vm = this;
         vm.filter = {};
         vm.pets = [];
@@ -60,7 +60,7 @@
         {
             petService.getAll(vm.filter)
                 .then(getCompleted)
-                .catch(petService.handleException);
+                .catch(helperService.handleException);
 
             function getCompleted(response)
             {

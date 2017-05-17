@@ -5,22 +5,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Huellitas.Data.Migrations
 {
-    public partial class AddColumn_DisplayOrder_Table_CustomTableRow : Migration
+    public partial class AddColumn_ClosingDate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "DisplayOrder",
-                table: "CustomTableRows",
-                nullable: false,
-                defaultValue: 0);
+            migrationBuilder.AddColumn<DateTime>(
+                name: "StartingDate",
+                table: "Contents",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DisplayOrder",
-                table: "CustomTableRows");
+                name: "StartingDate",
+                table: "Contents");
         }
     }
 }

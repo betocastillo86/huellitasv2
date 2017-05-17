@@ -7,6 +7,7 @@ namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using Huellitas.Data.Entities;
+    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Interface of Custom Table Service
@@ -19,7 +20,7 @@ namespace Huellitas.Business.Services
         /// <param name="tableId">The table identifier.</param>
         /// <param name="orderBy">order by</param>
         /// <returns>the rows</returns>
-        IList<CustomTableRow> GetRowsByTableId(int tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder);
+        IPagedList<CustomTableRow> GetRowsByTableId(int tableId, string keyword = null, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder, int page = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Gets the rows cached by table identifier.

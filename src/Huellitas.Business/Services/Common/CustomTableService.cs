@@ -11,6 +11,7 @@ namespace Huellitas.Business.Services
     using Caching;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
+    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Custom table service
@@ -48,9 +49,14 @@ namespace Huellitas.Business.Services
         /// <returns>
         /// the rows
         /// </returns>
-        public IList<CustomTableRow> GetRowsByTableId(int tableId, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder)
+        public IPagedList<CustomTableRow> GetRowsByTableId(int tableId, string keyword = null, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder, int page = 0, int pageSize = int.MaxValue)
         {
             var query = this.customTableRowRepository.Table.Where(c => c.CustomTableId == tableId);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(c => c.Value.Contains(keyword));
+            }
 
             switch (orderBy)
             {
@@ -63,7 +69,7 @@ namespace Huellitas.Business.Services
                     break;
             }
 
-            return query.ToList();
+            return new PagedList<CustomTableRow>(query, page, pageSize);
         }
 
         /// <summary>

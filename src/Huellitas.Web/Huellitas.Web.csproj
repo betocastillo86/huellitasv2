@@ -39,6 +39,16 @@
     <Content Include="wwwroot\app\admin\login\login.controller.js" />
     <Content Include="wwwroot\app\admin\logs\listLogs.html" />
     <Content Include="wwwroot\app\admin\logs\logs.controller.js" />
+    <Content Include="wwwroot\app\admin\lostpets\editLostPet.controller.js" />
+    <Content Include="wwwroot\app\admin\lostpets\editLostPet.html" />
+    <Content Include="wwwroot\app\admin\lostpets\editPet.controller.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\admin\lostpets\editPet.html" />
+    <Content Include="wwwroot\app\admin\lostpets\listLostPets.controller.js" />
+    <Content Include="wwwroot\app\admin\lostpets\listLostPets.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\app\admin\notifications\editNotification.controller.js" />
     <Content Include="wwwroot\app\admin\notifications\editNotification.html" />
     <Content Include="wwwroot\app\admin\notifications\listNotifications.controller.js" />
@@ -160,11 +170,7 @@
     <Content Include="wwwroot\fonts\icomoon.woff" />
     <Content Include="wwwroot\img\front\foto-erica-prado.jpg" />
     <Content Include="wwwroot\img\front\foto-gabriel-castillo-prada.jpg" />
-    <Content Include="wwwroot\img\front\foto-gabriel-castillo.jpg" />
     <Content Include="wwwroot\img\front\foto-julian-castillo-prada.jpg" />
-    <Content Include="wwwroot\img\front\foto-julian-castillo.jpg" />
-    <Content Include="wwwroot\img\front\img_erica.jpg" />
-    <Content Include="wwwroot\img\front\img_julian.jpg" />
     <Content Include="wwwroot\img\front\logo.svg" />
     <Content Include="wwwroot\sass\animate.scss" />
     <Content Include="wwwroot\sass\icons.scss" />

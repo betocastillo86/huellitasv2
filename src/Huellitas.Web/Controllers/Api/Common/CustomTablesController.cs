@@ -7,6 +7,7 @@ namespace Huellitas.Web.Controllers.Api
 {
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
 
@@ -38,11 +39,20 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [HttpGet]
         [Route("{id}/rows")]
-        public IActionResult GetByTable(int id)
+        public IActionResult GetByTable(int id, [FromQuery] CustomTableRowFilter filter)
         {
-            var rows = this.customTableService.GetRowsByTableId(id);
-            var model = rows.ToModels();
-            return this.Ok(model);
+            filter = filter ?? new CustomTableRowFilter();
+
+            if (filter.IsValid())
+            {
+                var rows = this.customTableService.GetRowsByTableId(id, filter.Keyword, page: filter.Page, pageSize: filter.PageSize);
+                var model = rows.ToModels();
+                return this.Ok(model, rows.HasNextPage, rows.TotalCount);
+            }
+            else
+            {
+                return this.BadRequest(filter.Errors);
+            }
         }
     }
 }

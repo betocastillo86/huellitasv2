@@ -95,6 +95,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The video
         /// </summary>
-        Video
+        Video,
+
+        /// <summary>
+        /// the breed
+        /// </summary>
+        Breed
     }
 }

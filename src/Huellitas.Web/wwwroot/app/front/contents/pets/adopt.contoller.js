@@ -113,7 +113,7 @@
                 .catch(helperService.handleException);
 
             function getCompleted(response) {
-                vm.jobs = response;
+                vm.jobs = response.results;
             }
         }
 

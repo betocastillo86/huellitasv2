@@ -112,7 +112,8 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         /// The type identifier.
         /// </value>
-        public ContentType TypeId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ContentType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the views.

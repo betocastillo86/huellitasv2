@@ -1,23 +1,22 @@
 ﻿(function () {
     angular.module('huellitasAdmin')
-        .controller('ListPetsController', ListPetsController);
+        .controller('ListLostPetsController', ListLostPetsController);
 
-    ListPetsController.$inject = ['petService', 'shelterService', 'helperService'];
+    ListLostPetsController.$inject = ['petService', 'helperService'];
 
-    function ListPetsController(petService, shelterService, helperService)
+    function ListLostPetsController(petService, helperService)
     {
         var vm = this;
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
             page: 0,
             orderBy: 'CreatedDate',
-            contentType:'Pet'
+            contentType:'LostPet'
         };
         vm.getPets = getPets;
         vm.pets = [];
         vm.pager = {};
         vm.changePage = changePage;
-        vm.shelterChanged = shelterChanged;
 
         activate();
         
@@ -47,11 +46,6 @@
             return getPets();
         }
 
-        function shelterChanged(selected)
-        {
-            vm.filter.shelter = selected ? selected.originalObject.id : undefined;
-            changePage(0);
-        }
     }
 
 })();

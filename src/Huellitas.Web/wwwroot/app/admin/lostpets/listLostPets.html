@@ -3,7 +3,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Animales <a class="btn btn-success" href="/admin/pets/new" ><i class="fa fa-plus"></i> Nuevo Animal</a></h2>
+                    <h2>Perdidos</h2>
                     <div class="clearfix"></div>
                 </div>
 
@@ -19,22 +19,6 @@
                                 <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getPets()" ng-model-options="{ debounce : 300 }">
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                Fundación
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <angucomplete-alt id="shelter"
-                                                  placeholder="Ingresar refugio"
-                                                  pause="400"
-                                                  remote-url="/api/shelters?keyword="
-                                                  remote-url-data-field="results"
-                                                  title-field="name"
-                                                  selected-object="main.shelterChanged"
-                                                  input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
-                                                  match-class="highlight" />
-                            </div>
-                        </div>
                     </form>
                 </div>
 
@@ -47,7 +31,8 @@
                                     <th class="column-title">Nombre</th>
                                     <th class="column-title">Tipo</th>
                                     <th class="column-title">Genero</th>
-                                    <th class="column-title">Encargado</th>
+                                    <th class="column-title">Raza</th>
+                                    <th class="column-title">Ubicación</th>
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
@@ -61,7 +46,8 @@
                                     <td>{{::pet.name}}</td>
                                     <td>{{::pet.subtype.text}}</td>
                                     <td>{{::pet.genre.text}}</td>
-                                    <td>{{::pet.shelter ? pet.shelter.name : ''}}</td>
+                                    <td>{{::pet.breed.text}}</td>
+                                    <td>{{::pet.location.name}}</td>
                                     <td>
                                         <span class="label" ng-class="::[
                                               {'label-default' : pet.status == 'Created'},
@@ -71,7 +57,9 @@
                                               ]">{{::pet.status}}</span>
                                     </td>
                                     <td class="last">
-                                            <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a type="button" class="btn btn-xs">
+                                            Ver</button>
+                                            <a href="/admin/lostpets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.pets.length">

@@ -102,6 +102,7 @@ namespace Huellitas.Web.Models.Extensions
             switch (content.Type)
             {
                 case ContentType.Pet:
+                case ContentType.LostPet:
                     return user.CanUserEditPet(content, contentService);
                 case ContentType.Shelter:
                     return user.CanUserEditShelter(content, contentService);

@@ -34,6 +34,16 @@
                 controller: 'EditPetController',
                 controllerAs: 'main'
             })
+            .when('/lostpets', {
+                templateUrl: '/app/admin/lostpets/listLostPets.html',
+                controller: 'ListLostPetsController',
+                controllerAs: 'main'
+            })
+            .when('/lostpets/:id/edit', {
+                templateUrl: '/app/admin/lostpets/editLostPet.html',
+                controller: 'EditLostPetController',
+                controllerAs: 'main'
+            })
             .when('/shelters', {
                 templateUrl: '/app/admin/shelters/listShelters.html',
                 controller: 'ListSheltersController',

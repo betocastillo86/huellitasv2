@@ -13,6 +13,8 @@ namespace Huellitas.Web.Models.Api
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using Huellitas.Business.Security;
+    using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Pet Filter Model
@@ -78,6 +80,14 @@ namespace Huellitas.Web.Models.Api
         public string Size { get; set; }
 
         /// <summary>
+        /// Gets or sets the breed.
+        /// </summary>
+        /// <value>
+        /// The breed.
+        /// </value>
+        public string Breed { get; set; }
+
+        /// <summary>
         /// Gets or sets the type.
         /// </summary>
         /// <value>
@@ -125,7 +135,15 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         public bool Mine { get; set; }
 
-
+        /// <summary>
+        /// Gets or sets the type of the content.
+        /// </summary>
+        /// <value>
+        /// The type of the content.
+        /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ContentType ContentType { get; set; }
+        
         /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
@@ -152,6 +170,11 @@ namespace Huellitas.Web.Models.Api
                     this.AddError("Mine", "No se pueden obtener contenidos ya que no está autenticado");
                 }
 
+                if (this.ContentType != ContentType.Pet && this.ContentType != ContentType.LostPet)
+                {
+                    this.AddError("ContentType", "Solo se pueden filtrar los tipos LostPet o Pet");
+                }
+
                 selectedFilters = new List<FilterAttribute>();
 
                 string currentFilterToConvert = "Age";
@@ -161,6 +184,9 @@ namespace Huellitas.Web.Models.Api
 
                     currentFilterToConvert = "Genre";
                     selectedFilters.AddInt(ContentAttributeType.Genre, this.Genre);
+
+                    currentFilterToConvert = "Brred";
+                    selectedFilters.AddInt(ContentAttributeType.Breed, this.Breed);
 
                     currentFilterToConvert = "Size";
                     selectedFilters.AddIntList(ContentAttributeType.Size, this.Size);

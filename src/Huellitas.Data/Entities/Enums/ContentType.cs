@@ -18,6 +18,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The shelter
         /// </summary>
-        Shelter = 2
+        Shelter = 2,
+
+        /// <summary>
+        /// Lost pet
+        /// </summary>
+        LostPet = 3
     }
 }

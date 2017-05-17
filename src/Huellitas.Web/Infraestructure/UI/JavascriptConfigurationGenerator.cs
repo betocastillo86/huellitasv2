@@ -127,7 +127,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 {
                     animalSubtype = Convert.ToInt32(CustomTableType.AnimalSubtype),
                     animalSize = Convert.ToInt32(CustomTableType.AnimalSize),
-                    animalGenre = Convert.ToInt32(CustomTableType.AnimalGenre)
+                    animalGenre = Convert.ToInt32(CustomTableType.AnimalGenre),
+                    breed = Convert.ToInt32(CustomTableType.Breed)
                 },
                 statusTypes = new
                 {
@@ -165,7 +166,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 customTables = new
                 {
                     questionAdoptionForm = Convert.ToInt32(CustomTableType.QuestionAdoptionForm),
-                    jobs = Convert.ToInt32(CustomTableType.Jobs)
+                    jobs = Convert.ToInt32(CustomTableType.Jobs),
+                    breed = Convert.ToInt32(CustomTableType.Breed)
                 },
                 isFront = true
             };
