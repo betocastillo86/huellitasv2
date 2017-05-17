@@ -452,6 +452,8 @@ namespace Huellitas.Business.Services
             StatusType? status = null,
             DateTime? closingDateFrom = null,
             DateTime? closingDateTo = null,
+            DateTime? startingDateFrom = null,
+            DateTime? startingDateTo = null,
             int? belongsToUserId = null)
         {
             var query = this.contentRepository.Table
@@ -558,7 +560,15 @@ namespace Huellitas.Business.Services
                 query = query.Where(c => c.ClosingDate == null || c.ClosingDate > closingDateFrom.Value);
             }
 
-            
+            if (startingDateFrom.HasValue)
+            {
+                query = query.Where(c => c.StartingDate == null || c.StartingDate > startingDateFrom.Value);
+            }
+
+            if (startingDateTo.HasValue)
+            {
+                query = query.Where(c => c.StartingDate == null || c.StartingDate > startingDateTo.Value);
+            }
 
             #region Attributes
 

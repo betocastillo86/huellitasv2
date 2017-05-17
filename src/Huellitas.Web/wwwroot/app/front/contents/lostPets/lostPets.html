@@ -1,0 +1,63 @@
+﻿<div class="pg-body col-md-12">
+    <section class="inter-add">
+        <h3>¿Buscas o encontrasté una mascota perdida?</h3>
+        <p class="content-all">Este espacio está enfocado a todas las personas que necesiten encontrar su mascota extraviada y a aquellos que hayan encontrado una mascota perdida. El objetivo es agilizar el proceso de búsqueda a través del trabajo en red lo que muchas veces logra un final feliz. Registra los datos solicitados según el caso para que Huellitas sin Hogar publique la información.</p>
+        <a class="btn btn-lg" ng-href="{{::root.getRoute('newlostpet')}}">Publicala aquí</a>
+    </section>
+    <section>
+        <article class="content-all">
+            <h1 class="tit-section col-md-12">MASCOTAS REPORTADAS</h1>
+            <div class="sub-title col-md-12">Solo busca por las caracteristicas del que quieras fuera tu huellita</div>
+            <form class="search-box ng-pristine ng-valid">
+                <div class="col-md-3 col-sm-6">
+                    <div class="type-pet">
+                        <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[0].id}}" ng-checked="main.isSubtypeChecked(0)" ng-change="main.search()">
+                        <span class="icon-perro"></span>
+                    </div>
+                    <div class="type-pet">
+                        <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[1].id}}" ng-checked="main.isSubtypeChecked(1)" ng-change="main.search()" />
+                        <span class="icon-cat"></span>
+                    </div>
+                    <br />
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <input type="text" ng-model="main.filter.keyword" ng-model-options="{ debounce: 300 }" ng-change="main.search()" placeholder="Busca por nombre" />
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">
+                        <option value="">¿Macho o Hembra?</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <select ng-model="main.filter.size" ng-options="size.id as size.value for size in ::main.sizes" ng-change="main.search()">
+                        <option value="">¿Que Tamaño?</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <input type="text" onkeydown="return false"  placeholder="Perdido desde" name="fromStartingDate" ng-model="main.filter.fromStartingDate" ng-change="main.search()" datepicker-huellitas />
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <angucomplete-alt id="location"
+                                      placeholder="Ciudad"
+                                      pause="400"
+                                      remote-url="/api/locations?pagesize=8&name="
+                                      title-field="name"
+                                      selected-object="main.changeLocation"
+                                      initial-value="main.filter.locationName"
+                                      field-required="true"
+                                      input-name="location"
+                                      field-required-class="parsley-error"
+                                      remote-url-data-field="results"
+                                      match-class="highlight" />
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <button type="button" class="btn btn-lg	" ng-click="main.search()">Buscar</button>
+                </div>
+                <br>
+            </form>
+            <div class="content-lost col-md-12">
+                <div ng-if="main.filter" list-pets data-filter="main.filter" data-displaytype="small" data-pagingenabled="main.pagingEnabled" ></div>
+            </div>
+        </article>
+    </section>
+</div>

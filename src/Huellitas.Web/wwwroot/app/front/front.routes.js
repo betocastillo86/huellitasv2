@@ -52,6 +52,26 @@
                 controller: 'ShelterDetailController',
                 controllerAs: 'main'
             })
+            .when('/perdidos', {
+                templateUrl: '/app/front/contents/lostPets/lostPets.html',
+                controller: 'LostPetsController',
+                controllerAs: 'main'
+            })
+            .when('/perdidos/crear', {
+                templateUrl: '/app/front/contents/lostPets/editLostPet.html',
+                controller: 'EditLostPetController',
+                controllerAs: 'main'
+            })
+            .when('/perdidos/:friendlyName/editar', {
+                templateUrl: '/app/front/contents/lostPets/editLostPet.html',
+                controller: 'EditLostPetController',
+                controllerAs: 'main'
+            })
+            .when('/perdidos/:friendlyName', {
+                templateUrl: '/app/front/contents/lostPets/lostPetDetail.html',
+                controller: 'LostPetDetailController',
+                controllerAs: 'main'
+            })
             .when('/fundaciones', {
                 templateUrl: '/app/front/contents/shelters/shelters.html',
                 controller: 'SheltersController',

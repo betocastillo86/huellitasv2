@@ -19,7 +19,7 @@
     //angular.module('huellitas')
     //    .controller('ListPetsController');
 
-    ListPetsController.$inject = ['$attrs', '$scope', 'petService', 'helperService'];
+    ListPetsController.$inject = ['$attrs', '$scope', 'petService', 'helperService', 'routingService'];
 
     /**
      * Directive with properties
@@ -31,7 +31,7 @@
      * @param {any} $scope
      * @param {any} petService
      */
-    function ListPetsController($attrs, $scope, petService, helperService) {
+    function ListPetsController($attrs, $scope, petService, helperService, routingService) {
         var vm = this;
         vm.filter = {};
         vm.pets = [];
@@ -64,6 +64,11 @@
 
             function getCompleted(response)
             {
+                for (var i = 0; i < response.results.length; i++) {
+                    response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
+                }
+
+
                 if (vm.pets.length && vm.filter.page) {
                     vm.pets = vm.pets.concat(response.results);
                 }

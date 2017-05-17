@@ -3,13 +3,14 @@
     <div class="col-md-12" ng-class="{'content-card' : listPet.displayType == 'medium', 'content-lost' : listPet.displayType == 'small'}">
         <div class="card" ng-repeat="pet in listPet.pets">
             <div class="img-pet">
-                <a ng-href="{{::root.getRoute('pet', { friendlyName : pet.friendlyName })}}">
+                <a ng-href="{{::pet.url}}">
                     <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}">
                 </a>
             </div>
-            <a ng-href="{{::root.getRoute('pet', { friendlyName : pet.friendlyName })}}">
+            <a ng-href="{{::pet.url}}">
                 <h3>{{::pet.name}}</h3>
-                <p>{{::pet.genre.text}} - {{::pet.months | age}} </p>
+                <p ng-if="::pet.type == 'Pet'">{{::pet.genre.text}} - {{::pet.months | age}} </p>
+                <p ng-if="::pet.type == 'LostPet'">{{::pet.genre.text}} - {{::pet.startingDate | timeago}} </p>
                 <p style="display:none">{{::pet.body}}</p>
                 <button class="btn btn-lg">Conocer más</button>
                 <span class="priority">

@@ -31,6 +31,14 @@
                     return '/dar-en-adopcion/crear';
                 case 'editpet':
                     return '/sinhogar/' + params.friendlyName + '/editar';
+                case 'lostpets':
+                    return '/perdidos' + (params ? '?' + $.param(params) : '');
+                case 'lostpet':
+                    return '/perdidos/' + params.friendlyName;
+                case 'editlostpet':
+                    return '/perdidos/' + params.friendlyName + '/editar';
+                case 'newlostpet':
+                    return '/perdidos/crear';
                 case 'myaccount':
                     return '/mis-datos';
                 case 'facebooklogin':

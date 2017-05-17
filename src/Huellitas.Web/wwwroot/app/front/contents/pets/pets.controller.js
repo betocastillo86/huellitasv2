@@ -20,7 +20,8 @@
             age: $location.search().age,
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             shelter: $location.search().shelter ? parseInt($location.search().shelter) : undefined,
-            keyword: $location.search().keyword
+            keyword: $location.search().keyword,
+            contentType: 'Pet'
         };
 
         vm.genres = app.Settings.genres;

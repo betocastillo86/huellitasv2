@@ -189,6 +189,7 @@ namespace Huellitas.Web.Controllers.Api
                     filter.LocationId,
                     filter.Status,
                     closingDateFrom: closingDateFilter,
+                    startingDateFrom: filter.FromStartingDate,
                     belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null);
 
 
@@ -557,9 +558,13 @@ namespace Huellitas.Web.Controllers.Api
                     this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
                 }
 
-                if (!model.StartingDate.HasValue || model.StartingDate.Value > DateTime.Now)
+                if (!model.StartingDate.HasValue)
                 {
                     this.ModelState.AddModelError("StartingDate", "Debe ingresar la fecha en que se perdió la mascota");
+                }
+                else if (model.StartingDate.Value > DateTime.Now)
+                {
+                    this.ModelState.AddModelError("StartingDate", "La fecha no puede ser mayor a la fecha actual");
                 }
 
                 if (model.Breed == null)
@@ -585,7 +590,8 @@ namespace Huellitas.Web.Controllers.Api
                 var genre = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalGenre).FirstOrDefault(c => c.Id == model.Genre.Value);
                 var size = this.customTableService.GetRowsByTableIdCached(CustomTableType.AnimalSize).FirstOrDefault(c => c.Id == model.Size.Value);
                 var location = this.locationService.GetCachedLocationById(content.LocationId.Value);
-                return this.seoService.GenerateFriendlyName($"{model.Name} {subtype.Value} {genre.Value} {size.Value} {location.Name}", this.contentRepository.Table);
+                var breed = content.Type == ContentType.LostPet ? this.customTableService.GetRowsByTableIdCached(CustomTableType.Breed).FirstOrDefault(c => c.Id == model.Breed.Value).Value : null;
+                return this.seoService.GenerateFriendlyName($"{model.Name} {subtype.Value} {genre.Value} {size.Value} {location.Name} {breed}", this.contentRepository.Table);
             }
             catch (NullReferenceException)
             {

@@ -967,9 +967,12 @@ section{
     }
 }
 
-.content-lost{
-    .btn, .priority{
-        display:none !important;
+.content-lost {
+
+    .card {
+        .btn, .priority {
+            display: none !important;
+        }
     }
 }
 

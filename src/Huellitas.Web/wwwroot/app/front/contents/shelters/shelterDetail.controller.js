@@ -34,7 +34,8 @@
                     page: 0,
                     pageSize: 6,
                     shelter: vm.model.id,
-                    status: 'Published'
+                    status: 'Published',
+                    contentType: 'Pet'
                 };
             }
 

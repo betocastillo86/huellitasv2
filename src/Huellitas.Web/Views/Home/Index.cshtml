@@ -53,7 +53,7 @@
             <nav class="menu">
                 <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}">Inicio</a></h2>
                 <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu == '/sinhogar'}">En adopción</a></h2>
-                <h2><a href="perdidos.html" >Perdidos</a></h2>
+                <h2><a href="{{::root.getRoute('lostpets')}}" >Perdidos</a></h2>
                 <h2><a href="{{::root.getRoute('shelters')}}">Fundaciones</a></h2>
                 <h2><a href="porque.html">¿Por qué adoptar?</a></h2>
                 <br />

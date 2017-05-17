@@ -142,6 +142,8 @@ namespace Huellitas.Business.Services
             StatusType? status = null,
             DateTime? closingDateFrom = null,
             DateTime? closingDateTo = null,
+            DateTime? startingDateFrom = null,
+            DateTime? startingDateTo = null,
             int? belongsToUserId = null);
 
         /// <summary>

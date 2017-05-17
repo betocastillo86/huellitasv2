@@ -18,7 +18,8 @@
         vm.filterPets = {
             pageSize: 9,
             orderBy: 'Featured',
-            status: 'Published'
+            status: 'Published',
+            contentType: 'Pet'
         };
 
         activate();

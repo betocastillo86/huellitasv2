@@ -99,6 +99,13 @@
     <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
     <Content Include="wwwroot\app\front\components\login\login.directive.js" />
     <Content Include="wwwroot\app\front\components\login\login.html" />
+    <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.controller.js" />
+    <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.html" />
+    <Content Include="wwwroot\app\front\contents\lostPets\editPet.html" />
+    <Content Include="wwwroot\app\front\contents\lostPets\lostPetDetail.controller.js" />
+    <Content Include="wwwroot\app\front\contents\lostPets\lostPetDetail.html" />
+    <Content Include="wwwroot\app\front\contents\lostPets\lostPets.controller.js" />
+    <Content Include="wwwroot\app\front\contents\lostPets\lostPets.html" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.contoller.js" />
     <Content Include="wwwroot\app\front\contents\pets\adopt.html" />
     <Content Include="wwwroot\app\front\contents\pets\adoptFormDetail.controller.js" />

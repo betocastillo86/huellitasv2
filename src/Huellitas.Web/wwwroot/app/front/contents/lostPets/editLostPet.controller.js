@@ -3,9 +3,9 @@
 
     angular
         .module('huellitas')
-        .controller('EditPetController', EditPetController);
+        .controller('EditLostPetController', EditLostPetController);
 
-    EditPetController.$inject = [
+    EditLostPetController.$inject = [
         '$routeParams',
         '$scope',
         '$location',
@@ -17,7 +17,7 @@
         'fileService',
         'sessionService'];
 
-    function EditPetController(
+    function EditLostPetController(
         $routeParams,
         $scope,
         $location,
@@ -37,12 +37,13 @@
         vm.defaultNameImage = '';
         vm.originalPhone = undefined;
         vm.canChangePhone = true;
+        vm.breedTable = app.Settings.customTables.breed;
+        vm.maxdate = moment().toDate();
 
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
 
-        vm.changeMonths = changeMonths;
         vm.isSubtypeChecked = isSubtypeChecked;
         vm.changeLocation = changeLocation;
         vm.imageAdded = imageAdded;
@@ -52,6 +53,7 @@
         vm.removeFile = removeFile;
         vm.save = save;
         vm.reorder = reorder;
+        vm.changeBreed = changeBreed;
         vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
 
         activate();
@@ -76,8 +78,6 @@
 
             function getCompleted(response) {
                 vm.model = response;
-                vm.years = Math.floor(vm.model.months / 12);
-                vm.months = vm.model.months % 12;
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
                 getFullNameImage();
             }
@@ -85,8 +85,8 @@
 
         function save() {
             if (vm.form.$valid && !vm.form.isBusy) {
-                if (vm.model.files.length < 3) {
-                    modalService.showError({ message: 'Debes cargar al menos tres imagenes' });
+                if (vm.model.files.length < 2) {
+                    modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
                     return;
                 }
 
@@ -96,8 +96,9 @@
                         .catch(helperService.handleException);
                 }
                 else {
-                    vm.model.type = 'Pet';
+                    vm.model.type = 'LostPet';
                     vm.model.user = vm.currentUser;
+                    vm.model.months = 1;
                     vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
 
                     petService.post(vm.model)
@@ -129,14 +130,14 @@
                         modalService.show({
                             title: 'Mascota actualizada',
                             message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
-                            redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.model.friendlyName })
+                            redirectAfterClose: routingService.getRoute('lostpet', { friendlyName: vm.model.friendlyName })
                         });
                     }
                     else {
                         modalService.show({
                             title: 'Mascota guardada',
                             message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.',
-                            redirectAfterClose: routingService.getRoute('pets')
+                            redirectAfterClose: routingService.getRoute('lostpets')
                         });
                     }
                 }
@@ -152,6 +153,10 @@
             }
         }
 
+        function changeBreed(selectedBreed) {
+            vm.model.breed = selectedBreed ? { value: selectedBreed.originalObject.id, text: selectedBreed.originalObject.value } : undefined;
+        }
+
         function changeSubtype(index) {
             vm.model.subtype = {
                 value: vm.subtypes[index].id,
@@ -160,16 +165,11 @@
             getFullNameImage();
         }
 
-        function changeMonths() {
-            vm.model.months = ((vm.years ? vm.years : 0) * 12) + (vm.months ? vm.months : 0);
-        }
-
         function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
             vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
             getFullNameImage();
         }
-
 
         function getFullNameImage() {
             if (canShowGallery() && vm.sizes) {
@@ -186,7 +186,7 @@
             return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && vm.model.location;
         }
 
-        
+
         function removeFile(image) {
             if (vm.model.id) {
                 fileService.deleteContentFile(vm.model.id, image.id)
@@ -196,8 +196,7 @@
                 confirmRemoved();
             }
 
-            function confirmRemoved()
-            {
+            function confirmRemoved() {
                 vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
             }
         }
@@ -207,8 +206,7 @@
                 fileService.postContentFile(vm.model.id, image)
                     .then(postCompleted);
 
-                function postCompleted(response)
-                {
+                function postCompleted(response) {
                     vm.model.files.push(image);
                 }
             }

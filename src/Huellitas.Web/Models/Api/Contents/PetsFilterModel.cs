@@ -128,6 +128,14 @@ namespace Huellitas.Web.Models.Api
         public StatusType? Status { get; set; }
 
         /// <summary>
+        /// Gets or sets from starting date.
+        /// </summary>
+        /// <value>
+        /// From starting date.
+        /// </value>
+        public DateTime? FromStartingDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the mine.
         /// </summary>
         /// <value>
