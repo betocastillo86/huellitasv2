@@ -9,6 +9,7 @@ namespace Huellitas.Web.Models.Api
     using Huellitas.Data.Entities.Enums;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System;
 
     /// <summary>
     /// User Model
@@ -75,5 +76,7 @@ namespace Huellitas.Web.Models.Api
         /// The location.
         /// </value>
         public LocationModel Location { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }

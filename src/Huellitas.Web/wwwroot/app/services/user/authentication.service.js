@@ -21,7 +21,8 @@
             get: get,
             showLogin: showLogin,
             external: external,
-            postExternal: postExternal
+            postExternal: postExternal,
+            setSessionUser: setSessionUser
         };
 
         function post(model)
@@ -37,7 +38,7 @@
             function postCompleted(response)
             {
                 response = response;
-                setUser(response);
+                setSessionUser(response);
                 deferred.resolve(response);
             }
 
@@ -47,7 +48,7 @@
             }
         }
 
-        function setUser(response)
+        function setSessionUser(response)
         {
             var user = { email: response.email, id: response.id, name: response.name, token: response.token.accessToken };
             sessionService.setCurrentUser(user);
@@ -137,7 +138,7 @@
 
             function postCompleted(response) {
                 response = response;
-                setUser(response);
+                setSessionUser(response);
                 deferred.resolve(response);
             }
 

@@ -186,21 +186,20 @@
             {
                 var message = '';
                 var error = options.error;
-                if (error.code === 'BadArgument')
-                {
+                if (error.code === 'BadArgument') {
                     //validates the details to attatch to message
-                    if (error.details)
-                    {
+                    if (error.details) {
                         message = _.pluck(error.details, 'message').join('<br>');
                     }
-                    else
-                    {
+                    else {
                         message = error.message || 'Algunos datos son invalidos';
                     }
                 }
-                else if(error.code === 'InvalidForeignKey')
-                {
+                else if (error.code === 'InvalidForeignKey') {
                     message = 'El campo ' + error.target + ' que intenta relacionar no existe';
+                }
+                else {
+                    message = error.message;
                 }
 
                 options.message = message;

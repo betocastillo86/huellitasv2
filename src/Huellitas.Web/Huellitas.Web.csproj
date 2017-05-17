@@ -67,6 +67,7 @@
     <Content Include="wwwroot\app\admin\users\listUsers.html" />
     <Content Include="wwwroot\app\components\components.app.js" />
     <Content Include="wwwroot\app\components\datepicker\datepicker.directive.js" />
+    <Content Include="wwwroot\app\components\forms\compareTo.directive.js" />
     <Content Include="wwwroot\app\components\modal\front-modal-dialog.html" />
     <Content Include="wwwroot\app\components\modal\front-modal-default.html" />
     <Content Include="wwwroot\app\components\modal\front-modal-error.html" />

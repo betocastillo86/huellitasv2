@@ -20,30 +20,38 @@
         .module('huellitas')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', 'authenticationService', 'modalService'];
+    LoginController.$inject = ['$scope', 'authenticationService', 'modalService', 'userService', 'helperService'];
 
-    function LoginController($scope, authenticationService, modalService) {
+    function LoginController($scope, authenticationService, modalService, userService, helperService) {
         var vm = this;
         vm.model = {};
         vm.modal = undefined;
+        vm.modeLogin = true;
 
-
+        vm.register = register;
         vm.authenticate = authenticate;
         vm.facebookLogin = facebookLogin;
 
         activate();
 
         function activate() {
-           vm.modal = $('#loginModal').modal();
+            vm.modal = $('#loginModal').modal();
         }
 
         function authenticate() {
             if (vm.form.$valid && !vm.form.isBusy) {
                 vm.form.isBusy = true;
 
-                authenticationService.post(vm.model)
-                    .then(postCompleted)
-                    .catch(postError);
+                if (vm.modeLogin) {
+                    authenticationService.post(vm.model)
+                        .then(postCompleted)
+                        .catch(postError);
+                }
+                else {
+                    userService.post(vm.model)
+                        .then(registerCompleted)
+                        .catch(registerError);
+                }
             }
 
             function postCompleted(response) {
@@ -52,27 +60,44 @@
                 vm.modal.modal('toggle');
             }
 
+            function registerCompleted(response)
+            {
+                authenticationService.setSessionUser(response);
+                postCompleted(response);
+            }
+
             function postError(response) {
                 vm.form.isBusy = false;
 
                 if (response.status === 401) {
                     modalService.showError({ message: 'Usuario y clave invalidos', isFront: true });
                 }
+                else
+                {
+                    helperService.handleException(response);
+                }
 
                 console.log(response.error);
             }
+
+            function registerError(response) {
+                vm.form.isBusy = false;
+                helperService.handleException(response);
+            }
         }
 
-        function facebookLogin()
-        {
+        function facebookLogin() {
             authenticationService.external('facebook')
                 .then(externalCompleted);
 
-            function externalCompleted(response)
-            {
+            function externalCompleted(response) {
                 $scope.root.currentUser = response;
                 vm.modal.modal('toggle');
             }
+        }
+
+        function register(isRegister) {
+            vm.modeLogin = !isRegister;
         }
     }
 
