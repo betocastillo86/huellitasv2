@@ -55,12 +55,12 @@
                 <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu == '/sinhogar'}">En adopción</a></h2>
                 <h2><a href="{{::root.getRoute('lostpets')}}" >Perdidos</a></h2>
                 <h2><a href="{{::root.getRoute('shelters')}}">Fundaciones</a></h2>
-                <h2><a href="porque.html">¿Por qué adoptar?</a></h2>
+                <h2><a href="{{::root.getRoute('faq')}}">¿Por qué adoptar?</a></h2>
                 <br />
             </nav>
             <div class="user-wraper">
                 <a class="login" href="" ng-if="!root.currentUser" ng-click="root.showLogin()">Iniciar sesión</a>
-                <a class="btn-noti" href="notificaciones.html" ng-if="root.currentUser">
+                <a class="btn-noti" ng-href="{{root.getRoute('notifications')}}" ng-if="root.currentUser">
                     <i class="icon-noti"></i>
                     <span ng-if="root.currentUser.unseenNotifications">{{root.currentUser.unseenNotifications}}</span>
                 </a>

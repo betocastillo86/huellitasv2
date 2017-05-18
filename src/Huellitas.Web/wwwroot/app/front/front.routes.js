@@ -99,6 +99,16 @@
                 templateUrl: '/app/front/contents/pets/myPets.html',
                 controller: 'MyPetsController',
                 controllerAs: 'main'
+            })
+            .when('/notificaciones', {
+                templateUrl: '/app/front/home/notifications.html',
+                controller: 'NotificationsController',
+                controllerAs: 'main'
+            })
+            .when('/por-que-adoptar', {
+                templateUrl: '/app/front/home/faq.html',
+                controller: 'FaqController',
+                controllerAs: 'main'
             });
             
     }
