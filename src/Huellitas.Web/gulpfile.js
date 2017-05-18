@@ -149,7 +149,7 @@ gulp.task('scriptsDevFront', function () {
 
 gulp.task('cssFront',['sassFront'], function () {
     var files = [
-        paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
+        //paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'css/front/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
