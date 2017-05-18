@@ -15,7 +15,8 @@
         'routingService',
         'modalService',
         'fileService',
-        'sessionService'];
+        'sessionService',
+        'contentService'];
 
     function EditPetController(
         $routeParams,
@@ -27,7 +28,8 @@
         routingService,
         modalService,
         fileService,
-        sessionService) {
+        sessionService,
+        contentService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -37,6 +39,7 @@
         vm.defaultNameImage = '';
         vm.originalPhone = undefined;
         vm.canChangePhone = true;
+        vm.shelters = [];
 
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
@@ -67,6 +70,7 @@
             }
 
             vm.originalPhone = vm.currentUser.phone;
+            getShelters();
         }
 
         function getPet() {
@@ -80,6 +84,18 @@
                 vm.months = vm.model.months % 12;
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
                 getFullNameImage();
+            }
+        }
+
+        function getShelters() {
+            var userId = sessionService.getCurrentUser().id;
+
+            contentService.getContentsOfUser(userId, { relationType: 'Shelter', pageSize: 20 })
+                .then(getCompleted)
+                .catch(helperService.handleException);
+
+            function getCompleted(response) {
+                vm.shelters = response.results;
             }
         }
 

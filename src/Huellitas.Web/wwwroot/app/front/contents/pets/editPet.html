@@ -62,7 +62,7 @@
                         <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.pattern">Ingresa tu número telefónico válido</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.userphone.$valid"></span>
                     </div>
-                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }">
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }" ng-if="!main.shelters.length">
                         <div>
                             <angucomplete-alt id="location"
                                               placeholder="Ciudad"
@@ -79,6 +79,13 @@
                         </div>
                         <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-if="main.shelters.length" ng-class="{ 'bad' : main.form.$submitted && main.form.shelter.$invalid }">
+                        <select name="shelter" ng-model="main.model.shelter.id" ng-options="shelter.id as shelter.name for shelter in ::main.shelters" required>
+                            <option value="">Fundacion</option>
+                        </select>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.shelter.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.shelter.$invalid">Ingresa la ubicación</span>
                     </div>
                     <div class="col-sm-1 col-xs-2">
                         <input type="checkbox" name="castrated" ng-model="main.model.castrated" /> 

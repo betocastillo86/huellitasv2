@@ -17,7 +17,7 @@
             mine: true,
             countForms: true,
             orderBy: 'CreatedDate',
-            contentType: 'LostPet',
+            contentType: 'Pet',
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             genre: $location.search().genre ? parseInt($location.search().genre)  : undefined,
             keyword: $location.search().keyword ? $location.search().keyword : undefined,

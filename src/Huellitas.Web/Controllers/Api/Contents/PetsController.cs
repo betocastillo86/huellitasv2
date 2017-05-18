@@ -308,7 +308,7 @@ namespace Huellitas.Web.Controllers.Api
                     }
                     else
                     {
-                        content.StatusType = StatusType.Created;
+                        content.StatusType = model.Type == ContentType.Pet ? StatusType.Created : StatusType.Published;
                     }
 
                     await this.contentService.InsertAsync(content);
