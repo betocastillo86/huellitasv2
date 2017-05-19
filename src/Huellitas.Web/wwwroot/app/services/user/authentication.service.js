@@ -50,9 +50,18 @@
 
         function setSessionUser(response)
         {
-            var user = { email: response.email, id: response.id, name: response.name, token: response.token.accessToken };
+            var user = {
+                email: response.email,
+                id: response.id,
+                name: response.name,
+                phone: response.phone,
+                role: response.role,
+                token: response.token.accessToken,
+                location: response.location
+            };
             sessionService.setCurrentUser(user);
             $http.defaults.headers.common.Authorization = 'Bearer ' + response.token.accessToken;
+            return user;
         }
 
         function get()
@@ -65,12 +74,14 @@
             this.promiseAuth = $q.defer();
 
             if (scope.root.currentUser) {
-                this.promiseAuth.resolve(scope.root.currentUser);
+                this.promiseAuth.resolve(sessionService.getCurrentUser());
             }
             else
             {
                 helperService.compile($window.document.body, '<login-huellitas></login-huellitas>', scope);
             }
+
+            return this.promiseAuth.promise;
         }
 
         function external(provider)

@@ -5,8 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
+    using Huellitas.Data.Entities.Enums;
     using Huellitas.Web.Models.Api;
     using Infraestructure.Security;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Authenticated User Modal
@@ -28,7 +31,7 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         /// The phone.
         /// </value>
-        public string Phone1 { get; set; }
+        public string Phone { get; set; }
 
         /// <summary>
         /// Gets or sets the second phone.
@@ -45,6 +48,15 @@ namespace Huellitas.Web.Models.Api
         /// The location.
         /// </value>
         public LocationModel Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the role.
+        /// </summary>
+        /// <value>
+        /// The role.
+        /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public RoleEnum? Role { get; set; }
 
         /// <summary>
         /// Gets or sets the token.

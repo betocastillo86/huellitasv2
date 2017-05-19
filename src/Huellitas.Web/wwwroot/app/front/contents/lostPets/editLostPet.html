@@ -1,7 +1,7 @@
 ﻿<div class="pg-body col-md-12">
     <section>
         <article class="content-all">
-            <div class="content-form" ng-if="root.currentUser">
+            <div class="content-form" >
                 <h1 class="tit-form">¿BUSCAS O ENCONTRASTE UNA MASCOTA PERDIDA?</h1>
                 <div class="sub-title col-md-12">Este espacio está enfocado a todas las personas que necesiten encontrar su mascota extraviada y a aquellos que hayan encontrado una mascota perdida. El objetivo es agilizar el proceso de búsqueda a través del trabajo en red lo que muchas veces logra un final feliz. Registra los datos solicitados según el caso para que Huellitas sin Hogar publique la información.</div>
                 <form name="main.form" novalidate ng-submit="main.save()">
@@ -58,12 +58,12 @@
                         <span class="error" ng-if="!main.form.$submitted || main.form.size.$valid"></span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.username.$invalid }">
-                        <input type="text" name="username" ng-model="root.currentUser.name" placeholder="Nombre del contacto" maxlength="100" required disabled>
+                        <input type="text" name="username" ng-model="main.model.user.name" placeholder="Nombre del contacto" maxlength="100" required ng-disabled="{{main.currentUser.id}}">
                         <span class="error" ng-if="main.form.$submitted && main.form.username.$invalid">Ingresa tu nombre</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.username.$valid"></span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.userphone.$invalid }">
-                        <input type="text" name="userphone" ng-model="root.currentUser.phone" placeholder="Teléfono de contacto" maxlength="15" ng-minlength="7" pattern="[0-9 ]{7,}" ng-disabled="!main.canChangePhone" required>
+                        <input type="text" name="userphone" ng-model="main.model.user.phone" placeholder="Teléfono de contacto" maxlength="15" ng-minlength="7" pattern="[0-9 ]{7,}" ng-disabled="!main.canChangePhone" required>
                         <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.required">Ingresa tu número telefónico</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.pattern">Ingresa tu número telefónico válido</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.userphone.$valid"></span>

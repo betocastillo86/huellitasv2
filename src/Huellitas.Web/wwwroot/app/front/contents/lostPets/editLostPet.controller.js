@@ -15,7 +15,9 @@
         'routingService',
         'modalService',
         'fileService',
-        'sessionService'];
+        'sessionService',
+        'authenticationService',
+        'contentService'];
 
     function EditLostPetController(
         $routeParams,
@@ -27,7 +29,9 @@
         routingService,
         modalService,
         fileService,
-        sessionService) {
+        sessionService,
+        authenticationService,
+        contentService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -39,7 +43,7 @@
         vm.canChangePhone = true;
         vm.breedTable = app.Settings.customTables.breed;
         vm.maxdate = moment().toDate();
-
+        
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
@@ -54,21 +58,30 @@
         vm.save = save;
         vm.reorder = reorder;
         vm.changeBreed = changeBreed;
-        vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
 
         activate();
 
         function activate() {
 
+            vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
+
             if (vm.friendlyName) {
                 getPet();
             }
             else {
-                vm.model.location = vm.currentUser.location;
                 vm.model.files = [];
+                setUser(vm.currentUser);
             }
+        }
 
-            vm.originalPhone = vm.currentUser.phone;
+        function setUser(user)
+        {
+            if (user)
+            {
+                vm.model.user = user;
+                vm.model.location = vm.model.location ? vm.model.location : user.location;
+                vm.originalPhone = user.phone;
+            }
         }
 
         function getPet() {
@@ -80,66 +93,118 @@
                 vm.model = response;
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
                 getFullNameImage();
+
+                if (!vm.canChangePhone) {
+                    getParents();
+                }
+                else
+                {
+                    setUser(vm.currentUser)
+                }
+            }
+        }
+
+        function getParents() {
+            contentService.getUsers(vm.model.id, { relationType: 'Parent' })
+                .then(getCompleted)
+                .catch(helperService.handleException);
+
+            function getCompleted(response) {
+                setUser(response.results[0]);
             }
         }
 
         function save() {
             if (vm.form.$valid && !vm.form.isBusy) {
-                if (vm.model.files.length < 2) {
-                    modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
-                    return;
-                }
 
-                if (vm.friendlyName) {
-                    petService.put(vm.model)
-                        .then(updateUserPhone)
-                        .catch(helperService.handleException);
-                }
-                else {
-                    vm.model.type = 'LostPet';
-                    vm.model.user = vm.currentUser;
-                    vm.model.months = 1;
-                    vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
+                vm.form.isBusy = true;
 
-                    petService.post(vm.model)
-                        .then(updateUserPhone)
-                        .catch(helperService.handleException);
-                }
+                authenticationService.showLogin($scope)
+                    .then(authenticationCompleted)
+                    .catch(authenticationError);
 
-                function updateUserPhone() {
-                    if (vm.originalPhone !== vm.currentUser.phone) {
-                        userService.put($scope.root.currentUser)
-                            .then(confirmSaved)
-                            .catch(putUserError);
-                    }
-                    else {
-                        confirmSaved();
+                function authenticationCompleted(response)
+                {
+                    vm.currentUser = response;
+
+                    if (vm.model.files.length < 2) {
+                        modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
+                        return;
                     }
 
-                    function putUserError() {
-
-                        modalService.showError({
-                            message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
-                            redirectAfterClose: routingService.getRoute('myaccount')
-                        });
-                    }
-                }
-
-                function confirmSaved() {
                     if (vm.friendlyName) {
-                        modalService.show({
-                            title: 'Mascota actualizada',
-                            message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
-                            redirectAfterClose: routingService.getRoute('lostpet', { friendlyName: vm.model.friendlyName })
-                        });
+                        petService.put(vm.model)
+                            .then(updateUserPhone)
+                            .catch(errorSaving);
                     }
                     else {
-                        modalService.show({
-                            title: 'Mascota guardada',
-                            message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.',
-                            redirectAfterClose: routingService.getRoute('lostpets')
-                        });
+                        vm.model.type = 'LostPet';
+                        vm.model.months = 1;
+                        
+
+                        var newPhone = vm.model.user.phone;
+                        var newLocation = vm.model.location;
+                        vm.model.user = vm.currentUser;
+                        vm.model.user.phone = newPhone;
+                        vm.model.user.location = newLocation;
+                        vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
+
+                        petService.post(vm.model)
+                            .then(updateUserPhone)
+                            .catch(errorSaving);
                     }
+
+                    function updateUserPhone() {
+                        if (vm.canChangePhone && vm.currentUser.phone !== vm.originalPhone) {
+                            
+                            userService.put(vm.currentUser)
+                                .then(confirmSaved)
+                                .catch(putUserError);
+                        }
+                        else {
+                            confirmSaved();
+                        }
+
+                        function putUserError() {
+
+                            modalService.showError({
+                                message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
+                                redirectAfterClose: routingService.getRoute('myaccount')
+                            });
+                        }
+                    }
+
+                    function confirmSaved() {
+                        if (vm.friendlyName) {
+                            modalService.show({
+                                title: 'Mascota actualizada',
+                                message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
+                                redirectAfterClose: routingService.getRoute('lostpet', { friendlyName: vm.model.friendlyName })
+                            });
+                        }
+                        else {
+                            modalService.show({
+                                title: 'Mascota guardada',
+                                message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.',
+                                redirectAfterClose: routingService.getRoute('lostpets')
+                            });
+                        }
+
+                        vm.form.isBusy = false;
+                    }
+
+                    function errorSaving(response)
+                    {
+                        vm.form.isBusy = false;
+                        helperService.handleException(response);
+                    }
+
+                }
+
+                function authenticationError()
+                {
+                    vm.form.isBusy = false;
+                    console.log('No autenticado');
                 }
             }
         }

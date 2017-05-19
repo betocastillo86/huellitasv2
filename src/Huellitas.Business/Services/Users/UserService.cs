@@ -208,6 +208,7 @@ namespace Huellitas.Business.Services
         {
             var user = await this.userRepository.Table
                 .Include(c => c.Role)
+                .Include(c => c.Location)
                 .FirstOrDefaultAsync(c => c.Email.Equals(email) && !c.Deleted);
 
             if (user != null)

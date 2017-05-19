@@ -127,6 +127,8 @@
                     {
                         modal.element.off('hidden.bs.modal');
                         modal.element.modal('toggle');
+                        //modal.element.data('bs.modal', null);
+                        //modal.element.remove();
                     }
                     
                     scope.$destroy();

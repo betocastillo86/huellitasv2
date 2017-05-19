@@ -20,9 +20,9 @@
         .module('huellitas')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', 'authenticationService', 'modalService', 'userService', 'helperService'];
+    LoginController.$inject = ['$scope', '$element', 'authenticationService', 'modalService', 'userService', 'helperService'];
 
-    function LoginController($scope, authenticationService, modalService, userService, helperService) {
+    function LoginController($scope, $element, authenticationService, modalService, userService, helperService) {
         var vm = this;
         vm.model = {};
         vm.modal = undefined;
@@ -36,7 +36,18 @@
 
         function activate() {
             vm.modal = $('#loginModal').modal();
-        }
+            vm.modal.on('hidden.bs.modal', function () {
+                //$scope.$destroy();
+                $element.remove();
+                //$(this).data('bs.modal', null);
+                //$(this).remove();
+                //// Cuando se cierra sin autenticar rechaza la promesa de autenticación
+                if (authenticationService.promiseAuth)
+                {
+                    authenticationService.promiseAuth.reject({});
+                }
+            })
+        } 
 
         function authenticate() {
             if (vm.form.$valid && !vm.form.isBusy) {
@@ -44,7 +55,7 @@
 
                 if (vm.modeLogin) {
                     authenticationService.post(vm.model)
-                        .then(postCompleted)
+                        .then(authCompleted)
                         .catch(postError);
                 }
                 else {
@@ -54,16 +65,10 @@
                 }
             }
 
-            function postCompleted(response) {
-                vm.form.isBusy = false;
-                $scope.root.currentUser = response;
-                vm.modal.modal('toggle');
-            }
-
             function registerCompleted(response)
             {
-                authenticationService.setSessionUser(response);
-                postCompleted(response);
+                var user = authenticationService.setSessionUser(response);
+                authCompleted(user);
             }
 
             function postError(response) {
@@ -76,8 +81,6 @@
                 {
                     helperService.handleException(response);
                 }
-
-                console.log(response.error);
             }
 
             function registerError(response) {
@@ -91,9 +94,21 @@
                 .then(externalCompleted);
 
             function externalCompleted(response) {
-                $scope.root.currentUser = response;
-                vm.modal.modal('toggle');
+                authCompleted(response);
             }
+        }
+
+        function authCompleted(response) {
+
+            authenticationService.promiseAuth.resolve(response);
+
+            vm.form.isBusy = false;
+            $scope.root.currentUser = response;
+
+            vm.modal.off('hidden.bs.modal');
+            vm.modal.modal('toggle');
+            $(vm.modal).data('bs.modal', null);
+            $(vm.modal).remove();
         }
 
         function register(isRegister) {

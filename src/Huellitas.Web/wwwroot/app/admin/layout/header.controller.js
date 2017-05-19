@@ -9,6 +9,7 @@
         var vm = this;
         vm.model = {};
         vm.logout = logout;
+        vm.website = website;
         vm.notifications = [];
         vm.showNotifications = false;
 
@@ -26,6 +27,11 @@
         {
             sessionService.removeCurrentUser();
             document.location = '/admin/login';
+        }
+
+        function website()
+        {
+            document.location = '/';
         }
 
         function loadNotifications()

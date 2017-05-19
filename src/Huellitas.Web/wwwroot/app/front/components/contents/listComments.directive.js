@@ -24,9 +24,9 @@
         .module('huellitas')
         .controller('ListCommentsController', ListCommentsController);
 
-    ListCommentsController.$inject = ['$scope', '$attrs', 'helperService', 'commentService'];
+    ListCommentsController.$inject = ['$scope', '$attrs', 'helperService', 'commentService', 'authenticationService'];
 
-    function ListCommentsController($scope, $attrs, helperService, commentService)
+    function ListCommentsController($scope, $attrs, helperService, commentService, authenticationService)
     {
         var vm = this;
         vm.comments = [];
@@ -82,29 +82,43 @@
 
         function saveComment()
         {
-            if (vm.form.$valid && !vm.isBusy)
-            {
-                var comment = {
-                    value: vm.newComment,
-                    contentId: vm.filter.contentId
-                };
+            if (vm.form.$valid && !vm.isBusy) {
 
-                commentService.post(comment)
-                    .then(postCompleted)
-                    .catch(postError);
+                vm.isBusy = true;
 
-                function postCompleted(response)
-                {
-                    vm.filter.page = 0;
-                    vm.comments = [];
-                    vm.newComment = undefined;
-                    vm.form.$submitted = false;
-                    getComments();
+                authenticationService.showLogin($scope)
+                    .then(authenticationCompleted)
+                    .catch(authenticationError);
+
+                function authenticationCompleted() {
+
+                    var comment = {
+                        value: vm.newComment,
+                        contentId: vm.filter.contentId
+                    };
+
+                    commentService.post(comment)
+                        .then(postCompleted)
+                        .catch(postError);
+
+                    function postCompleted(response) {
+                        vm.filter.page = 0;
+                        vm.comments = [];
+                        vm.newComment = undefined;
+                        vm.form.$submitted = false;
+                        getComments();
+                        vm.isBusy = false;
+                    }
+
+                    function postError(response) {
+                        vm.isBusy = false;
+                        helperService.handleException(response);
+                    }
+
                 }
 
-                function postError()
-                {
-                    debugger;
+                function authenticationError() {
+                    vm.isBusy = false;
                 }
             }
         }
@@ -119,28 +133,45 @@
         function saveChild(parentComment)
         {
             if (vm.formChildren.$valid && !vm.isBusy) {
-                var comment = {
-                    value: vm.newChild,
-                    parentCommentId: parentComment.id
-                };
 
-                commentService.post(comment)
-                    .then(postCompleted)
-                    .catch(postError);
+                vm.isBusy = true;
 
-                function postCompleted(response) {
-                    vm.filter.page = 0;
-                    vm.newChild = undefined;
-                    parentComment.firstComments = [];
-                    parentComment.filter = undefined;
-                    parentComment.isAnswering = false;
-                    vm.formChildren.$submitted = false;
-                    showMoreChildren(parentComment);
+                authenticationService.showLogin($scope)
+                    .then(authenticationCompleted)
+                    .catch(authenticationError);
+
+                function authenticationCompleted()
+                {
+                    var comment = {
+                        value: vm.newChild,
+                        parentCommentId: parentComment.id
+                    };
+
+                    commentService.post(comment)
+                        .then(postCompleted)
+                        .catch(postError);
+
+                    function postCompleted(response) {
+                        vm.filter.page = 0;
+                        vm.newChild = undefined;
+                        parentComment.firstComments = [];
+                        parentComment.filter = undefined;
+                        parentComment.isAnswering = false;
+                        vm.formChildren.$submitted = false;
+                        showMoreChildren(parentComment);
+                        vm.isBusy = false;
+                    }
+
+                    function postError(response) {
+                        helperService.handleException(response);
+                        vm.isBusy = false;
+                    }
                 }
 
-                function postError() {
-                    debugger;
-                }
+                function authenticationError()
+                {
+                    vm.isBusy = false;
+                }               
             }
         }
 

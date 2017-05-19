@@ -1,6 +1,18 @@
 ﻿<div class="pg-body col-md-12">
     <section>
-        <article class="content-all">
+        <article class="content-all" ng-if="main.showNotLogged">
+            <div class="content-form">
+                <h1 class="tit-form">Para poder llenar un formulario de adopción debes estar registrado</h1>
+                <div class="sub-title col-md-12">Registrate o autenticate y empieza a llenar el formulario</div>
+                <div class="btn-content">
+                    <a ng-href="{{root.getRoute('pet', { friendlyName: main.friendlyName })}}" class="btn btn-cancel btn-lg">Cancelar</a>
+                    <button type="submit" class="btn btn-save btn-lg" ng-click="main.validateAuthentication()">Registrate</button>
+                </div>
+            </div>
+        </article>
+
+
+        <article class="content-all" ng-if="!main.showNotLogged">
             <div class="content-form">
                 <h1 class="tit-form">PROCESO DE ADOPCIÓN</h1>
                 <div class="sub-title col-md-12">A continuación encontrarás un formulario con el cual buscamos medir que tan apto eres para adoptar una mascota con nosotros. Este es el primer paso en el proceso de adopción, si lo pasas nos estaremos comunicando directamente contigo.*</div>

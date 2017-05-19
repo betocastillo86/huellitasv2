@@ -16,7 +16,8 @@
         'modalService',
         'fileService',
         'sessionService',
-        'contentService'];
+        'contentService',
+        'authenticationService'];
 
     function EditPetController(
         $routeParams,
@@ -29,7 +30,8 @@
         modalService,
         fileService,
         sessionService,
-        contentService) {
+        contentService,
+        authenticationService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -40,6 +42,7 @@
         vm.originalPhone = undefined;
         vm.canChangePhone = true;
         vm.shelters = [];
+        vm.showNotLogged = false;
 
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
@@ -55,11 +58,26 @@
         vm.removeFile = removeFile;
         vm.save = save;
         vm.reorder = reorder;
-        vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
+        vm.validateAuthentication = validateAuthentication;
 
         activate();
 
         function activate() {
+            vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
+            validateAuthentication();
+        }
+
+        function validateAuthentication()
+        {
+            authenticationService.showLogin($scope)
+                .then(authenticationCompleted)
+                .catch(authenticationError);
+        }
+
+        function authenticationCompleted(userAuthenticated) {
+
+            vm.currentUser = userAuthenticated;
+            setUser(userAuthenticated);
 
             if (vm.friendlyName) {
                 getPet();
@@ -68,9 +86,21 @@
                 vm.model.location = vm.currentUser.location;
                 vm.model.files = [];
             }
-
-            vm.originalPhone = vm.currentUser.phone;
+            
+            vm.showNotLogged = false;
             getShelters();
+        }
+
+        function setUser(user) {
+            if (user) {
+                vm.model.user = user;
+                vm.model.location = vm.model.location ? vm.model.location : user.location;
+                vm.originalPhone = user.phone;
+            }
+        }
+
+        function authenticationError() {
+            vm.showNotLogged = true;
         }
 
         function getPet() {
@@ -83,7 +113,25 @@
                 vm.years = Math.floor(vm.model.months / 12);
                 vm.months = vm.model.months % 12;
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
+
+                if (!vm.canChangePhone) {
+                    getParents();
+                }
+                else {
+                    setUser(vm.currentUser)
+                }
+
                 getFullNameImage();
+            }
+        }
+
+        function getParents() {
+            contentService.getUsers(vm.model.id, { relationType: 'Parent' })
+                .then(getCompleted)
+                .catch(helperService.handleException);
+
+            function getCompleted(response) {
+                setUser(response.results[0]);
             }
         }
 
@@ -106,24 +154,33 @@
                     return;
                 }
 
+                vm.form.isBusy = true;
+
+                var newPhone = vm.model.user.phone;
+                var newLocation = vm.model.location;
+                vm.model.user = vm.currentUser;
+                vm.model.user.phone = newPhone;
+                vm.model.user.location = newLocation;
+                
+
                 if (vm.friendlyName) {
                     petService.put(vm.model)
                         .then(updateUserPhone)
-                        .catch(helperService.handleException);
+                        .catch(updateError);
                 }
                 else {
                     vm.model.type = 'Pet';
-                    vm.model.user = vm.currentUser;
-                    vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
 
+                    vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
+                    
                     petService.post(vm.model)
                         .then(updateUserPhone)
-                        .catch(helperService.handleException);
+                        .catch(updateError);
                 }
 
                 function updateUserPhone() {
-                    if (vm.originalPhone !== vm.currentUser.phone) {
-                        userService.put($scope.root.currentUser)
+                    if (vm.canChangePhone && vm.originalPhone !== vm.currentUser.phone) {
+                        userService.put(vm.currentUser)
                             .then(confirmSaved)
                             .catch(putUserError);
                     }
@@ -155,6 +212,14 @@
                             redirectAfterClose: routingService.getRoute('pets')
                         });
                     }
+
+                    vm.form.isBusy = false;
+                }
+
+                function updateError(response)
+                {
+                    vm.form.isBusy = false;
+                    helperService.handleException(response);
                 }
             }
         }

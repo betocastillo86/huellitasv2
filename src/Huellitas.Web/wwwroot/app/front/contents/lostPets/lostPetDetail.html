@@ -1,6 +1,6 @@
 ﻿<div class="pg-body col-md-12">
     <div class="box-edit" ng-if="::main.model.canEdit">
-        <a class="btn btn-lg" ng-href="{{root.getRoute('editpet', main.model)}}"><span class="icon-edit"></span> Editar</a>
+        <a class="btn btn-lg" ng-href="{{root.getRoute('editlostpet', main.model)}}"><span class="icon-edit"></span> Editar</a>
     </div>
     <section >
         <article class="content-all">
@@ -11,6 +11,10 @@
             <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files"></gallery-huellitas>
 
             <ul class="data-list col-md-12">
+                <li>
+                    Raza
+                    <b>{{::main.model.breed.text}}</b>
+                </li>
                 <li>
                     Genero
                     <b>{{::main.model.genre.text}}</b>
