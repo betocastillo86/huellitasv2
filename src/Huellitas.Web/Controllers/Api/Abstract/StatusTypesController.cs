@@ -29,6 +29,7 @@ namespace Huellitas.Web.Controllers.Api
             list.Add(new { Id = Convert.ToInt32(StatusType.Published), Name = "Publicado", Enum = StatusType.Published.ToString() });
             list.Add(new { Id = Convert.ToInt32(StatusType.Hidden), Name = "Oculto", Enum = StatusType.Hidden.ToString() });
             list.Add(new { Id = Convert.ToInt32(StatusType.Closed), Name = "Cerrado", Enum = StatusType.Closed.ToString() });
+            list.Add(new { Id = Convert.ToInt32(StatusType.Rejected), Name = "Rechazado", Enum = StatusType.Rejected.ToString() });
             return this.Ok(list);
         }
     }

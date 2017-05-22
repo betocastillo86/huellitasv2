@@ -97,7 +97,7 @@ namespace Huellitas.Web.Controllers.Api
                     switch (filter.RelationType.Value)
                     {
                         ////when case is similar pets returns PetModel
-                        case Data.Entities.Enums.RelationType.SimilarPets:
+                        case Data.Entities.RelationType.SimilarPets:
                             var models = related.ToPetModels(
                                 this.contentService, 
                                 this.customTableService, 

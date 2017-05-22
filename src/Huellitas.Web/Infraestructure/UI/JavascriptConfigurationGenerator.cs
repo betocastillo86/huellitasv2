@@ -5,20 +5,18 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.UI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Microsoft.AspNetCore.Hosting;
     using Newtonsoft.Json;
-    using Huellitas.Web.Models.Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// The <c>javascript</c> Configuration Generator
@@ -91,12 +89,8 @@ namespace Huellitas.Web.Infraestructure.UI
             isDebug = true;
 #endif
 
-
             this.SaveFile(true, this.GetAdminJson(isDebug));
             this.SaveFile(false, this.GetFrontJson(isDebug));
-
-
-
 
             ////Actualiza la llave de cache del javascript
             var key = "GeneralSettings.ConfigJavascriptCacheKey";
@@ -154,9 +148,10 @@ namespace Huellitas.Web.Infraestructure.UI
         {
             var config = new
             {
-                general = new {
+                general = new
+                {
                     facebookPublicToken = generalSettings.FacebookPublicToken,
-                    siteUrl= generalSettings.SiteUrl
+                    siteUrl = generalSettings.SiteUrl
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,

@@ -9,7 +9,6 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
 

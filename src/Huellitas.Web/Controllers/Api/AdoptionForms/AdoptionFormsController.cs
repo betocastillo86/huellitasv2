@@ -5,23 +5,19 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Security;
     using Business.Services;
-    using Data.Entities;
-    using Data.Entities.Enums;
-    using Huellitas.Web.Infraestructure.WebApi;
-    using Infraestructure.Security;
+    using Huellitas.Business.Caching;
+    using Huellitas.Business.Configuration;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
-    using Huellitas.Business.Caching;
-    using Huellitas.Business.Configuration;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Forms Controller

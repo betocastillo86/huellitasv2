@@ -135,6 +135,11 @@
 
             function getCompleted(model) {
                 vm.model = model;
+
+                if (!vm.model.canEdit) {
+                    helperService.notFound();
+                }
+
                 vm.showPicturesActive = true;
 
                 ////Quita el primer archivo para dejarlo como logo

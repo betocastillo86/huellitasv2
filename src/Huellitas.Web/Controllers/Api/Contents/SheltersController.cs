@@ -21,6 +21,8 @@ namespace Huellitas.Web.Controllers.Api
     using Models.Extensions;
     using System;
     using Huellitas.Data.Core;
+    using Huellitas.Business.EventPublisher;
+    using Huellitas.Business.Subscribers;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller
@@ -75,6 +77,11 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IRepository<Content> contentRepository;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SheltersController"/> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
@@ -94,7 +101,8 @@ namespace Huellitas.Web.Controllers.Api
             IPictureService pictureService,
             ILocationService locationService,
             ISeoService seoService,
-            IRepository<Content> contentRepository)
+            IRepository<Content> contentRepository,
+            IPublisher publisher)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -105,6 +113,7 @@ namespace Huellitas.Web.Controllers.Api
             this.locationService = locationService;
             this.seoService = seoService;
             this.contentRepository = contentRepository;
+            this.publisher = publisher;
         }
 
         /// <summary>
@@ -281,6 +290,8 @@ namespace Huellitas.Web.Controllers.Api
 
                 if (content != null)
                 {
+                    var previousStatus = content.StatusType;
+
                     if (content.Type != ContentType.Shelter)
                     {
                         this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
@@ -310,6 +321,13 @@ namespace Huellitas.Web.Controllers.Api
                             var logo = this.fileService.GetById(content.FileId.Value);
                             this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
                             this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                        }
+
+                        //// Si el shelter fue aprobado o rechazado
+                        if ((previousStatus == StatusType.Created && content.StatusType == StatusType.Published) ||
+                            (previousStatus == StatusType.Created && content.StatusType == StatusType.Rejected))
+                        {
+                            await this.publisher.Publish(new ContentAprovedModel() { Content = content });
                         }
 
                         return this.Ok(new { result = true });

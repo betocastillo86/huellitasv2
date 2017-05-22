@@ -3,7 +3,6 @@ using Huellitas.Business.Helpers;
 using Huellitas.Business.Models;
 using Huellitas.Data.Core;
 using Huellitas.Data.Entities;
-using Huellitas.Data.Entities.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Linq;

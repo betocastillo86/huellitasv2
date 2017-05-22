@@ -5,20 +5,19 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Api;
     using Business.Caching;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Services;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Data.Extensions;
-    using Huellitas.Data.Entities;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Huellitas.Business.Security;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Pet Extensions
@@ -37,11 +36,11 @@ namespace Huellitas.Web.Models.Extensions
         /// <returns>the value</returns>
         /// <exception cref="HuellitasException">the exception</exception>
         public static Content ToEntity(
-            this PetModel model, 
+            this PetModel model,
             IContentSettings contentSettings,
-            IContentService contentService, 
+            IContentService contentService,
             bool isAdmin,
-            Content entity = null, 
+            Content entity = null,
             IList<FileModel> files = null)
         {
             if (entity == null)
@@ -49,7 +48,7 @@ namespace Huellitas.Web.Models.Extensions
                 entity = new Content();
                 entity.StatusType = StatusType.Created;
                 entity.Type = model.Type;
-                
+
                 for (int i = 0; i < model.Files.Count; i++)
                 {
                     if (i == 0)
@@ -69,7 +68,7 @@ namespace Huellitas.Web.Models.Extensions
                 if (model.Files?.Count > 0)
                 {
                     entity.FileId = model.Files.FirstOrDefault().Id;
-                }                
+                }
             }
 
             entity.Name = model.Name;
@@ -146,14 +145,14 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
         /// <returns>the model</returns>
         public static PetModel ToPetModel(
-            this Content entity, 
-            IContentService contentService, 
-            ICustomTableService customTableService, 
+            this Content entity,
+            IContentService contentService,
+            ICustomTableService customTableService,
             ICacheManager cacheManager,
             IWorkContext workContext,
-            IFilesHelper filesHelper = null, 
-            Func<string, string> contentUrlFunction = null, 
-            bool withFiles = false, 
+            IFilesHelper filesHelper = null,
+            Func<string, string> contentUrlFunction = null,
+            bool withFiles = false,
             bool withRelated = false,
             int width = 0,
             int height = 0,
@@ -207,7 +206,7 @@ namespace Huellitas.Web.Models.Extensions
 
             if (withRelated)
             {
-                model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.Enums.RelationType.SimilarPets)
+                model.RelatedPets = contentService.GetRelated(entity.Id, Data.Entities.RelationType.SimilarPets)
                     .ToPetModels(contentService, customTableService, cacheManager, workContext, filesHelper, contentUrlFunction, false);
             }
 
@@ -277,11 +276,11 @@ namespace Huellitas.Web.Models.Extensions
         public static IList<PetModel> ToPetModels(
             this IList<Content> entities,
             IContentService contentService,
-            ICustomTableService customTableService, 
+            ICustomTableService customTableService,
             ICacheManager cacheManager,
             IWorkContext workContext,
-            IFilesHelper filesHelper = null, 
-            Func<string, string> contentUrlFunction = null, 
+            IFilesHelper filesHelper = null,
+            Func<string, string> contentUrlFunction = null,
             bool withFiles = false,
             int width = 0,
             int height = 0,
@@ -299,12 +298,12 @@ namespace Huellitas.Web.Models.Extensions
                 }
 
                 models.Add(entity.ToPetModel(
-                    contentService, 
-                    customTableService, 
+                    contentService,
+                    customTableService,
                     cacheManager,
                     workContext,
-                    filesHelper, 
-                    contentUrlFunction, 
+                    filesHelper,
+                    contentUrlFunction,
                     withFiles,
                     false,
                     width,

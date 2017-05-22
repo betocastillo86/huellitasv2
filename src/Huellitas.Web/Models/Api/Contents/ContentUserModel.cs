@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
-    using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
-    using Huellitas.Web.Models.Api;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Content User Model

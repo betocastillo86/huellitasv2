@@ -6,10 +6,9 @@
 namespace Huellitas.Business.Services
 {
     using Huellitas.Business.Models;
-    using System.Threading.Tasks;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Entities;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface of external authentication service

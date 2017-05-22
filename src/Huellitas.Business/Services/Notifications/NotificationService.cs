@@ -5,11 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Business.Configuration;
     using Caching;
     using Data.Core;
@@ -17,8 +12,12 @@ namespace Huellitas.Business.Services
     using Exceptions;
     using Huellitas.Business.Notifications;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Notification Service

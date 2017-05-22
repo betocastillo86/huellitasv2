@@ -5,17 +5,16 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Data.Core;
+    using Data.Entities;
+    using EventPublisher;
+    using Exceptions;
+    using Huellitas.Data.Infraestructure;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Data.Core;
-    using Data.Entities.Enums;
-    using EventPublisher;
-    using Exceptions;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
-    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Adoption Form Service
@@ -169,7 +168,7 @@ namespace Huellitas.Business.Services
                 ////var attributeShelter = ContentAttributeType.Shelter.ToString();
                 ////var contentsOfShelter = this.contentAttributeRepository.Table
                 ////    .Where(c => c.Attribute.Equals(attributeShelter) && sheltersOfUser.Contains(c.Value))
-                ////    .Select(c => c.ContentId); 
+                ////    .Select(c => c.ContentId);
 
                 var myPets = this.contentService.Search(belongsToUserId: allRelatedToUserId.Value, contentType: ContentType.Pet).Select(c => c.Id).ToArray();
 
@@ -177,9 +176,8 @@ namespace Huellitas.Business.Services
                     c => c.Users.Any(x => x.UserId == allRelatedToUserId.Value) ||
                     myPets.Contains(c.ContentId)
 
-
                     //petsWhichIsParent.Contains(c.ContentId) ||
-                    //contentsOfShelter.Contains(c.ContentId) 
+                    //contentsOfShelter.Contains(c.ContentId)
                     //c.UserId == allRelatedToUserId.Value ||
                     //c.Content.UserId == allRelatedToUserId.Value
                     );

@@ -133,6 +133,7 @@
 
                     if (vm.model.files.length < 3) {
                         modalService.showError({ message: 'Debes seleccionar al menos tres imagenes', title: 'Faltan las imagenes' });
+                        vm.form.isBusy = false;
                         return;
                     }
 

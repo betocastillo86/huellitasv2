@@ -8,7 +8,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using System.Security.Claims;
     using System.Text;
     using Business.Configuration;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;

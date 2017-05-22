@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
-    using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Entities;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>

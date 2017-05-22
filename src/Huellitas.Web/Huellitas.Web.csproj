@@ -141,6 +141,8 @@
     <Content Include="wwwroot\app\front\home\home.controller.js" />
     <Content Include="wwwroot\app\front\home\home.html" />
     <Content Include="wwwroot\app\front\home\home.js" />
+    <Content Include="wwwroot\app\front\home\notfound.controller.js" />
+    <Content Include="wwwroot\app\front\home\notfound.html" />
     <Content Include="wwwroot\app\front\home\notifications.controller.js" />
     <Content Include="wwwroot\app\front\home\notifications.html" />
     <Content Include="wwwroot\app\front\layout\root.controller.js" />

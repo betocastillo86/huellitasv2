@@ -109,7 +109,15 @@
                 templateUrl: '/app/front/home/faq.html',
                 controller: 'FaqController',
                 controllerAs: 'main'
+            })
+            .when('/pagina-no-encontrada', {
+                templateUrl: '/app/front/home/notfound.html',
+                controller: 'NotFoundController',
+                controllerAs: 'main'
             });
+
+        $routeProvider.otherwise({ redirectTo: "/pagina-no-encontrada" });
+        $routeProvider.caseInsensitiveMatch = true;
             
     }
 })();

@@ -5,12 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Data.Entities;
+    using Huellitas.Data.Infraestructure;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Data.Entities.Enums;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Interface of Content Service
@@ -161,7 +160,6 @@ namespace Huellitas.Business.Services
         /// <param name="attribute">The attribute.</param>
         /// <returns>the value</returns>
         T GetContentAttribute<T>(int contentId, ContentAttributeType attribute);
-
 
         Task SortFiles(int contentId, int fileIdFrom, int fileIdTo);
     }

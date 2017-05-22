@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Extensions
 {
-    using System;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
+    using System;
 
     /// <summary>
     /// Log extensions
@@ -43,7 +42,7 @@ namespace Huellitas.Business.Extensions
             if (writeConsole)
             {
                 System.Console.WriteLine("{0} - {1}", DateTime.Now, shortMessage);
-            }       
+            }
         }
 
         /// <summary>

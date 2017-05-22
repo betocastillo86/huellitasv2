@@ -7,7 +7,6 @@ namespace Huellitas.Data.Entities
 {
     using System;
     using System.Collections.Generic;
-    using Enums;
 
     /// <summary>
     /// The class User
@@ -90,7 +89,6 @@ namespace Huellitas.Data.Entities
         /// </value>
         public string FacebookId { get; set; }
 
-        
         /// <summary>
         /// Gets or sets the created date.
         /// </summary>
@@ -165,7 +163,7 @@ namespace Huellitas.Data.Entities
         {
             get
             {
-                return (Enums.RoleEnum)this.RoleId;
+                return (RoleEnum)this.RoleId;
             }
 
             set

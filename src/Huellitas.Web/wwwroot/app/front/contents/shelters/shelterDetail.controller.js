@@ -6,9 +6,9 @@
         .module('huellitas')
         .controller('ShelterDetailController', ShelterDetailController);
 
-    ShelterDetailController.$inject = ['$routeParams','shelterService'];
+    ShelterDetailController.$inject = ['$routeParams','shelterService', 'helperService'];
 
-    function ShelterDetailController($routeParams, shelterService) {
+    function ShelterDetailController($routeParams, shelterService, helperService) {
         var vm = this;
         vm.model = {};
         vm.friendlyName = $routeParams.friendlyName;
@@ -24,7 +24,7 @@
         {
             shelterService.getById(vm.friendlyName)
                 .then(getCompleted)
-                .catch(getError);
+                .catch(helperService.notFound);
 
             function getCompleted(response)
             {
@@ -39,10 +39,6 @@
                 };
             }
 
-            function getError()
-            {
-                //validar not 
-            }
         }
     }
 })();

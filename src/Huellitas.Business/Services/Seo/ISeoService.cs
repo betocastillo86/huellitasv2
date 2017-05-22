@@ -5,9 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System.Linq;
     using Data.Entities;
     using Huellitas.Data.Entities.Abstract;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Interface to friendly
@@ -29,5 +30,26 @@ namespace Huellitas.Business.Services
         /// <param name="content">The content.</param>
         /// <returns>the url</returns>
         string GetContentUrl(Content content);
+
+        /// <summary>
+        /// Gets the full route of the element
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="parameters"></param>
+        /// <returns>the full route</returns>
+        string GetFullRoute(string key, params string[] parameters);
+
+        /// <summary>
+        /// Gets the route.
+        /// </summary>
+        /// <param name="key">The key of the route.</param>
+        /// <returns>the value of the route</returns>
+        string GetRoute(string key);
+
+        /// <summary>
+        /// Gets the routes.
+        /// </summary>
+        /// <returns>the routes existent on the web site</returns>
+        IDictionary<string, string> GetRoutes();
     }
 }

@@ -59,6 +59,8 @@
                     return '/notificaciones';
                 case 'faq':
                     return '/por-que-adoptar';
+                case 'notfound':
+                    return '/pagina-no-encontrada';
                 default:
             }
         }

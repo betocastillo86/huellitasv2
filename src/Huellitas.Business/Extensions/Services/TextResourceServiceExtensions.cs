@@ -8,7 +8,7 @@ namespace Huellitas.Business.Extensions
     using System.Collections.Generic;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Text resources service extensions

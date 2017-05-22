@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Data.Entities.Enums
+namespace Huellitas.Data.Entities
 {
     /// <summary>
     /// Notification Type
@@ -93,6 +93,11 @@ namespace Huellitas.Data.Entities.Enums
         /// <summary>
         /// The parent added to pet
         /// </summary>
-        ParentAddedToPet = 16
+        ParentAddedToPet = 16,
+
+        /// <summary>
+        /// The created lost pet confirmation
+        /// </summary>
+        CreatedLostPetConfirmation = 17
     }
 }

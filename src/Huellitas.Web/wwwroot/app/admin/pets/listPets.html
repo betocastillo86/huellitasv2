@@ -66,7 +66,8 @@
                                         <span class="label" ng-class="::[
                                               {'label-default' : pet.status == 'Created'},
                                               {'label-danger' : pet.status == 'Closed'},
-                                              {'label-warning' : pet.status == 'Hidden'},
+                                              {'label-info' : pet.status == 'Hidden'},
+                                              {'label-warning' : pet.status == 'Rejected'},
                                               {'label-success' : pet.status == 'Published'}
                                               ]">{{::pet.status}}</span>
                                     </td>

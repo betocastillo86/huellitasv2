@@ -91,6 +91,11 @@
 
             function getCompleted(response) {
                 vm.model = response;
+
+                if (!vm.model.canEdit) {
+                    helperService.notFound();
+                }
+
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;
                 getFullNameImage();
 
@@ -129,6 +134,7 @@
 
                     if (vm.model.files.length < 2) {
                         modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
+                        vm.form.isBusy = false;
                         return;
                     }
 

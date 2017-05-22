@@ -5,10 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Business.Caching;
     using Business.Configuration;
     using Business.Extensions;
@@ -16,18 +12,21 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Services;
     using Business.Utilities.Extensions;
     using Data.Entities;
-    using Data.Entities.Enums;
-    using Data.Extensions;
+    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Subscribers;
+    using Huellitas.Data.Core;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
-    using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Huellitas.Data.Core;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.JsonPatch.Exceptions;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Pets Controller
@@ -103,6 +102,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IRepository<Content> contentRepository;
 
+        /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
         #endregion props
 
         #region ctor
@@ -131,7 +135,8 @@ namespace Huellitas.Web.Controllers.Api
             ILocationService locationService,
             IRepository<Content> contentRepository,
             ILogService logService,
-            IAdoptionFormService adoptionFormService)
+            IAdoptionFormService adoptionFormService,
+            IPublisher publisher)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -146,6 +151,7 @@ namespace Huellitas.Web.Controllers.Api
             this.contentRepository = contentRepository;
             this.logService = logService;
             this.adoptionFormService = adoptionFormService;
+            this.publisher = publisher;
         }
 
         #endregion ctor
@@ -192,17 +198,15 @@ namespace Huellitas.Web.Controllers.Api
                     startingDateFrom: filter.FromStartingDate,
                     belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null);
 
-
                 IDictionary<int, int> formsByContent = null;
                 if (filter.CountForms)
                 {
                     formsByContent = this.adoptionFormService.CountAdoptionFormsByContents(contentList.Select(c => c.Id).ToArray(), AdoptionFormAnswerStatus.None);
                 }
-                
 
                 var models = contentList.ToPetModels(
                     this.contentService,
-                    this.customTableService, 
+                    this.customTableService,
                     this.cacheManager,
                     this.workContext,
                     contentUrlFunction: Url.Content,
@@ -356,6 +360,8 @@ namespace Huellitas.Web.Controllers.Api
 
                 if (content != null)
                 {
+                    var previousStatus = content.StatusType;
+
                     if (content.Type != ContentType.Pet && content.Type != ContentType.LostPet)
                     {
                         this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
@@ -372,12 +378,18 @@ namespace Huellitas.Web.Controllers.Api
                     {
                         content.StatusType = model.Status;
                     }
-
+                    
                     content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
 
                     try
                     {
                         await this.contentService.UpdateAsync(content);
+
+                        if (previousStatus == StatusType.Created && content.StatusType == StatusType.Published)
+                        {
+                            await this.publisher.Publish(new ContentAprovedModel() { Content = content });
+                        }
+
                         return this.Ok(new { result = true });
                     }
                     catch (HuellitasException e)
@@ -488,7 +500,7 @@ namespace Huellitas.Web.Controllers.Api
                 }
                 else
                 {
-                    ////Si no es super admin y pertenece a alguna de los refugios los puede traer todos                    
+                    ////Si no es super admin y pertenece a alguna de los refugios los puede traer todos
                     ////Si el filtro tiene más de un refugio no permite ver inactivos
                     if (filter.Shelter.ToIntList(false).Length == 1)
                     {

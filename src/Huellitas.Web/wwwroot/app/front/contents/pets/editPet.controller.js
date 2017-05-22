@@ -110,6 +110,11 @@
 
             function getCompleted(response) {
                 vm.model = response;
+
+                if (!vm.model.canEdit) {
+                    helperService.notFound();
+                }
+
                 vm.years = Math.floor(vm.model.months / 12);
                 vm.months = vm.model.months % 12;
                 vm.canChangePhone = vm.currentUser.id === vm.model.user.id;

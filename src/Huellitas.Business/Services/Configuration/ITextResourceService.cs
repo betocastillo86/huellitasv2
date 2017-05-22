@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface Text Resource Service

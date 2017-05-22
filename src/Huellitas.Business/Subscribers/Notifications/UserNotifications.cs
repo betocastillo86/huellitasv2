@@ -53,7 +53,7 @@ namespace Huellitas.Business.Subscribers.Notifications
             await this.notificationService.NewNotification(
                 message.Entity,
                 null,
-                Data.Entities.Enums.NotificationType.SignUp,
+                Data.Entities.NotificationType.SignUp,
                 this.generalSettings.SiteUrl,
                 new List<NotificationParameter>());
         }

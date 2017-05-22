@@ -5,11 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using Data.Entities;
+    using Huellitas.Web.Models.Api;
     using System.Collections.Generic;
     using System.Linq;
-    using Data.Entities.Enums;
-    using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// User Mapping Extensions

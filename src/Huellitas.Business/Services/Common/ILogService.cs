@@ -6,7 +6,6 @@
 namespace Huellitas.Business.Services
 {
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
 
     /// <summary>

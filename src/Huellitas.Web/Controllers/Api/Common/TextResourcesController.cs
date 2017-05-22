@@ -64,7 +64,7 @@ namespace Huellitas.Web.Controllers.Api
             if (filter.IsValid())
             {
                 var resources = this.textResourceService
-                    .GetAll(Data.Entities.Enums.LanguageEnum.Spanish, filter.Keyword, filter.Page, filter.PageSize);
+                    .GetAll(Data.Entities.LanguageEnum.Spanish, filter.Keyword, filter.Page, filter.PageSize);
 
                 var models = resources.ToModels();
 
@@ -94,7 +94,7 @@ namespace Huellitas.Web.Controllers.Api
             if (this.IsValidModel(model))
             {
                 var entity = model.ToEntity();
-                entity.Language = Data.Entities.Enums.LanguageEnum.Spanish;
+                entity.Language = Data.Entities.LanguageEnum.Spanish;
 
                 try
                 {
