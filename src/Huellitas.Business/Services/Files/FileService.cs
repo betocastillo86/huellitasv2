@@ -13,6 +13,7 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Huellitas.Business.EventPublisher;
 
     /// <summary>
     /// File Service
@@ -26,6 +27,11 @@ namespace Huellitas.Business.Services
         private readonly IRepository<ContentFile> contentFileRepository;
 
         /// <summary>
+        /// the content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
+        /// <summary>
         /// The file repository
         /// </summary>
         private readonly IRepository<File> fileRepository;
@@ -36,6 +42,11 @@ namespace Huellitas.Business.Services
         private readonly IFilesHelper filesHelper;
 
         /// <summary>
+        /// The publisher
+        /// </summary>
+        private readonly IPublisher publisher;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FileService"/> class.
         /// </summary>
         /// <param name="fileRepository">The file repository.</param>
@@ -44,11 +55,15 @@ namespace Huellitas.Business.Services
         public FileService(
             IRepository<File> fileRepository,
             IFilesHelper filesHelper,
-            IRepository<ContentFile> contentFileRepository)
+            IRepository<ContentFile> contentFileRepository,
+            IPublisher publisher,
+            IRepository<Content> contentRepository)
         {
             this.fileRepository = fileRepository;
             this.filesHelper = filesHelper;
             this.contentFileRepository = contentFileRepository;
+            this.publisher = publisher;
+            this.contentRepository = contentRepository;
         }
 
         /// <summary>
@@ -72,9 +87,12 @@ namespace Huellitas.Business.Services
                 await this.contentFileRepository.DeleteAsync(contentFile);
 
                 ////if does not have any relationship with contents deletes the file
-                if (removeFileIfDoesnotHaveRelationship && !this.contentFileRepository.Table.Any(c => c.FileId == fileId))
+                if (removeFileIfDoesnotHaveRelationship && 
+                    !this.contentFileRepository.Table.Any(c => c.FileId == fileId) &&
+                    !this.contentRepository.Table.Any(c => c.FileId == fileId))
                 {
                     await this.fileRepository.DeleteAsync(contentFile.File);
+                    await this.publisher.EntityDeleted(contentFile.File);
                 }
             }
             else

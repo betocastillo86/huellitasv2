@@ -96,8 +96,7 @@ namespace Huellitas.Web.Controllers.Api
             if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))
             {
                 await this.fileService.DeleteContentFile(contentId, fileId, true);
-
-                ////TODO:Eliminar los archivos fisicos que se redimensionaron previamente SOLO SI SE ELIMINÓ LA RAIZ
+                
                 return this.Ok(new { result = true });
             }
             else

@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Hosting;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Files Helper
@@ -78,6 +78,41 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
+        /// Gets the size of the file name with.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the file name</returns>
+        public string GetFileNameWithSize(File file, int width = 0, int height = 0)
+        {
+            var nameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+            var extension = System.IO.Path.GetExtension(file.FileName);
+
+            if (width != 0 && height != 0)
+            {
+                return $"{file.Id}_{nameWithoutExtension}_{width}x{height}{extension}";
+            }
+            else
+            {
+                return $"{file.Id}{extension}";
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the folder depending of file name or creation
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="filesByFolder">number of files the can host by folder</param>
+        /// <returns>the folder name</returns>
+        public string GetFolderName(File file, int filesByFolder = 50)
+        {
+            ////Every 50 files creates a new Folder
+            var folder = Math.Ceiling((decimal)file.Id / filesByFolder);
+            return folder.ToString("000000");
+        }
+
+        /// <summary>
         /// Gets the full path.
         /// </summary>
         /// <param name="file">The file.</param>
@@ -116,6 +151,30 @@ namespace Huellitas.Business.Services
             return string.Concat(this.hostingEnvironment.WebRootPath, relativePath);
         }
 
+        public bool IsImageExtension(string fileName)
+        {
+            var extension = System.IO.Path.GetExtension(fileName);
+
+            if (string.IsNullOrEmpty(extension))
+            {
+                extension = string.Empty;
+            }
+
+            extension = extension.ToLower();
+            bool result = false;
+            switch (extension)
+            {
+                case ".gif":
+                case ".jpeg":
+                case ".jpg":
+                case ".png":
+                    result = true;
+                    break;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Saves a file on the disk
         /// </summary>
@@ -148,41 +207,6 @@ namespace Huellitas.Business.Services
             {
                 await fileStream.WriteAsync(bytes, 0, bytes.Length);
             }
-        }
-
-        /// <summary>
-        /// Gets the size of the file name with.
-        /// </summary>
-        /// <param name="file">The file.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <returns>the file name</returns>
-        public string GetFileNameWithSize(File file, int width = 0, int height = 0)
-        {
-            var nameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
-            var extension = System.IO.Path.GetExtension(file.FileName);
-
-            if (width != 0 && height != 0)
-            {
-                return $"{file.Id}_{nameWithoutExtension}_{width}x{height}{extension}";
-            }
-            else
-            {
-                return $"{file.Id}{extension}";
-            }
-        }
-
-        /// <summary>
-        /// Gets the name of the folder depending of file name or creation
-        /// </summary>
-        /// <param name="file">The file.</param>
-        /// <param name="filesByFolder">number of files the can host by folder</param>
-        /// <returns>the folder name</returns>
-        public string GetFolderName(File file, int filesByFolder = 50)
-        {
-            ////Every 50 files creates a new Folder
-            var folder = Math.Ceiling((decimal)file.Id / filesByFolder);
-            return folder.ToString("000000");
         }
     }
 }

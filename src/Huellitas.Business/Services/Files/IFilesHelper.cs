@@ -5,15 +5,24 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Huellitas.Data.Entities;
     using System;
     using System.Threading.Tasks;
-    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface of file helpers
     /// </summary>
     public interface IFilesHelper
     {
+        /// <summary>
+        /// Gets the name of the content type by file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>the content type</returns>
+        string GetContentTypeByFileName(string fileName);
+
+        string GetFolderName(File file, int filesByFolder = 50);
+
         /// <summary>
         /// Gets the full path.
         /// </summary>
@@ -33,6 +42,8 @@ namespace Huellitas.Business.Services
         /// <returns>the physical path</returns>
         string GetPhysicalPath(File file, int width = 0, int height = 0);
 
+        bool IsImageExtension(string fileName);
+
         /// <summary>
         /// Saves the file asynchronous.
         /// </summary>
@@ -40,12 +51,5 @@ namespace Huellitas.Business.Services
         /// <param name="bytes">The bytes.</param>
         /// <returns>the asynchronous result</returns>
         Task SaveFileAsync(File file, byte[] bytes);
-
-        /// <summary>
-        /// Gets the name of the content type by file.
-        /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <returns>the content type</returns>
-        string GetContentTypeByFileName(string fileName);
     }
 }
