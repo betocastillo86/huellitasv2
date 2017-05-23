@@ -219,7 +219,7 @@
                         function postError() {
                             vm.form.isBusy = false;
                             modalService.showError({
-                                message: "Ocurrió un error al envíar la información. Intenta de nuevo o escribenos a nuestro fan page"
+                                message: 'Ocurrió un error al envíar la información. Intenta de nuevo o <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a nuestro fan page dando clic aquí<a>'
                             });
                         }
                     }

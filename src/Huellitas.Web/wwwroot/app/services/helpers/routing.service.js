@@ -39,6 +39,8 @@
                     return '/perdidos/' + params.friendlyName + '/editar';
                 case 'newlostpet':
                     return '/perdidos/crear';
+                case 'contact':
+                    return 'https://m.me/huellitas.social';
                 case 'myaccount':
                     return '/mis-datos';
                 case 'facebooklogin':

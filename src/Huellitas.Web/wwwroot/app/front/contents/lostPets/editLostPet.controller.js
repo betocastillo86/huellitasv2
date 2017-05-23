@@ -191,7 +191,7 @@
                         else {
                             modalService.show({
                                 title: 'Mascota guardada',
-                                message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas escribenos a Facebook.',
+                                message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a Facebook dando clic aquí</a>.',
                                 redirectAfterClose: routingService.getRoute('lostpets')
                             });
                         }
