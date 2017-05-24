@@ -151,7 +151,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 general = new
                 {
                     facebookPublicToken = generalSettings.FacebookPublicToken,
-                    siteUrl = generalSettings.SiteUrl
+                    siteUrl = generalSettings.SiteUrl,
+                    seoImage = generalSettings.SeoImage
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,
@@ -223,6 +224,40 @@ namespace Huellitas.Web.Infraestructure.UI
             this.AddResources(resources, "Home.HowTo.Adopt.Content");
             this.AddResources(resources, "Home.Who.Title");
             this.AddResources(resources, "Home.Who.Content");
+            this.AddResources(resources, "Seo.Home.Title");
+            this.AddResources(resources, "Seo.Home.Description");
+            this.AddResources(resources, "Seo.EditPet.Title");
+            this.AddResources(resources, "Seo.EditPet.Description");
+            this.AddResources(resources, "Seo.Adopt.Title");
+            this.AddResources(resources, "Seo.Adopt.Description");
+            this.AddResources(resources, "Seo.AdoptTerms.Title");
+            this.AddResources(resources, "Seo.AdoptTerms.Description");
+            this.AddResources(resources, "Seo.PetDetail.Title");
+            this.AddResources(resources, "Seo.Pets.Title");
+            this.AddResources(resources, "Seo.Pets.Description");
+            this.AddResources(resources, "Seo.EditShelter.Title");
+            this.AddResources(resources, "Seo.EditShelter.Description");
+            this.AddResources(resources, "Seo.ShelterDetail.Title");
+            this.AddResources(resources, "Seo.LostPets.Title");
+            this.AddResources(resources, "Seo.LostPets.Description");
+            this.AddResources(resources, "Seo.EditLostPet.Title");
+            this.AddResources(resources, "Seo.EditLostPet.Description");
+            this.AddResources(resources, "Seo.LostPetDetail.Title");
+            this.AddResources(resources, "Seo.Shelters.Title");
+            this.AddResources(resources, "Seo.Shelters.Description");
+            this.AddResources(resources, "Seo.NewPet.Title");
+            this.AddResources(resources, "Seo.NewPet.Description");
+            this.AddResources(resources, "Seo.AdoptionFormDetail.Title");
+            this.AddResources(resources, "Seo.AdoptionFormDetail.Description");
+            this.AddResources(resources, "Seo.AdoptionForms.Title");
+            this.AddResources(resources, "Seo.AdoptionForms.Description");
+            this.AddResources(resources, "Seo.MyPets.Title");
+            this.AddResources(resources, "Seo.MyPets.Description");
+            this.AddResources(resources, "Seo.MyNotifications.Title");
+            this.AddResources(resources, "Seo.MyNotifications.Description");
+            this.AddResources(resources, "Seo.Faq.Title");
+            this.AddResources(resources, "Seo.Faq.Description");
+
             return resources;
         }
     }

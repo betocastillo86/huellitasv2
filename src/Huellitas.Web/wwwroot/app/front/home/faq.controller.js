@@ -5,14 +5,17 @@
         .module('huellitas')
         .controller('FaqController', FaqController);
 
-    FaqController.$inject = ['$timeout'];
+    FaqController.$inject = ['$scope', '$timeout'];
 
-    function FaqController($timeout) {
+    function FaqController($scope, $timeout) {
         var vm = this;
 
         activate();
 
         function activate() {
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.Faq.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.Faq.Description'];
+
             $timeout(fullpage, 500);   
         }
 

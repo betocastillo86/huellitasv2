@@ -62,6 +62,27 @@
                                 <validation-message form="formUser" field="formUser.role" name="rol"></validation-message>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Ciudad</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div>
+                                    <angucomplete-alt id="location"
+                                                      placeholder="Ingresar Ubicación"
+                                                      pause="400"
+                                                      remote-url="/api/locations?pagesize=8&name="
+                                                      title-field="name"
+                                                      selected-object="main.changeLocation"
+                                                      initial-value="main.model.location.name"
+                                                      input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
+                                                      field-required="false"
+                                                      input-name="location"
+                                                      field-required-class="parsley-error"
+                                                      remote-url-data-field="results"
+                                                      match-class="highlight" />
+                                </div>
+                                <validation-message form="formUser" field="formUser.location" name="ubicación"></validation-message>
+                            </div>
+                        </div>
                         <div class="form-group" ng-if="main.id">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Cambiar clave

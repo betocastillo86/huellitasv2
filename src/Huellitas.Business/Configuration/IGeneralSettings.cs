@@ -73,5 +73,7 @@ namespace Huellitas.Business.Configuration
         /// The facebook secret token.
         /// </value>
         string FacebookSecretToken { get; }
+        
+        string SeoImage { get; }
     }
 }

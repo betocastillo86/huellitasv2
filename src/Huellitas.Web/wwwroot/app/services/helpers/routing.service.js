@@ -8,7 +8,8 @@
     function routingService() {
         return {
             getRoute: getRoute,
-            getFullRoute: getFullRoute
+            getFullRoute: getFullRoute,
+            getFullRouteOfFile: getFullRouteOfFile
         };
 
         function getRoute(routeName, params) {
@@ -69,6 +70,11 @@
 
         function getFullRoute(routeName, params) {
             return app.Settings.general.siteUrl + getRoute(routeName, params);
+        }
+
+        function getFullRouteOfFile(file)
+        {
+            return app.Settings.general.siteUrl + file;
         }
     }
 })();

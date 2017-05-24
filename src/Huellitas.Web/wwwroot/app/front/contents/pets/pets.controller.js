@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('PetsController', PetsController);
 
-    PetsController.$inject = ['$location', 'routingService'];
+    PetsController.$inject = ['$location', '$scope', 'routingService'];
 
-    function PetsController($location, routingService) {
+    function PetsController($location, $scope, routingService) {
         var vm = this;
 
         vm.filter = {
@@ -38,7 +38,8 @@
 
         function activate()
         {
-
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.Pets.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.Pets.Description'];
         }
 
         function search()

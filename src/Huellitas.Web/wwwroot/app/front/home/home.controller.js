@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', '$scope', '$window', '$document', 'bannerService', 'helperService', 'shelterService'];
+    HomeController.$inject = ['$interval', '$scope', '$window', '$document', 'bannerService', 'helperService', 'shelterService', 'routingService'];
 
-    function HomeController($interval,  $scope, $window, $document, bannerService, helperService, shelterService) {
+    function HomeController($interval, $scope, $window, $document, bannerService, helperService, shelterService, routingService) {
         var vm = this;
         vm.banners = [];
         vm.shelters = [];
@@ -26,6 +26,11 @@
 
         function activate() {
             $scope.$parent.root.transparentHeader = true;
+
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.Home.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.Home.Description'];
+            $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(app.Settings.general.seoImage);
+
             getShelters();
             getBanners();
             attachScrollEvent();

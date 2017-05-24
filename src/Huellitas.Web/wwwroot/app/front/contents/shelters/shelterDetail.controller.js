@@ -6,9 +6,9 @@
         .module('huellitas')
         .controller('ShelterDetailController', ShelterDetailController);
 
-    ShelterDetailController.$inject = ['$routeParams','shelterService', 'helperService'];
+    ShelterDetailController.$inject = ['$routeParams', '$scope', 'shelterService', 'helperService', 'routingService'];
 
-    function ShelterDetailController($routeParams, shelterService, helperService) {
+    function ShelterDetailController($routeParams, $scope, shelterService, helperService, routingService) {
         var vm = this;
         vm.model = {};
         vm.friendlyName = $routeParams.friendlyName;
@@ -37,6 +37,10 @@
                     status: 'Published',
                     contentType: 'Pet'
                 };
+
+                $scope.$parent.root.seo.title = helperService.replaceJson(app.Settings.resources['Seo.ShelterDetail.Title'], { shelterName: vm.model.name, shelterLocation: vm.model.location.name });
+                $scope.$parent.root.seo.description = vm.model.body;
+                $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(vm.model.image.fileName);
             }
 
         }

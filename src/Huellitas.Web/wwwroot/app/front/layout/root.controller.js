@@ -7,15 +7,23 @@
         .controller('RootController', RootController);
 
 
-    RootController.$inject = ['$location', '$scope', 'sessionService', 'authenticationService', 'helperService', 'routingService']
+    RootController.$inject = [
+        '$location',
+        '$scope',
+        '$window',
+        'sessionService',
+        'authenticationService',
+        'helperService',
+        'routingService']
 
-    function RootController($location, $scope, sessionService, authenticationService, helperService, routingService) {
+    function RootController($location, $scope, $window, sessionService, authenticationService, helperService, routingService) {
         var vm = this;
 
         vm.currentUser = undefined;
         vm.showingUserInfo = false;
         vm.resources = app.Settings.resources;
         vm.currentMenu = '/';
+        vm.seo = {};
 
         vm.showUserInfo = showUserInfo;
         vm.getRoute = routingService.getRoute;
@@ -29,6 +37,7 @@
         function activate() {
 
             $scope.$on("$routeChangeStart", locationChanged);
+            $scope.$on('$viewContentLoaded', contentLoaded);
 
             if (sessionService.isAuthenticated()) {
                 getCurrentUser();
@@ -56,6 +65,12 @@
         
         function locationChanged(event, next, current) {
             vm.currentMenu = next.$$route.originalPath;
+        }
+
+        function contentLoaded()
+        {
+            vm.seo.url = $window.location.href;
+            vm.seo.image = vm.seo.image ? vm.seo.image : routingService.getFullRouteOfFile(app.Settings.general.seoImage);
         }
 
         function showLogin()

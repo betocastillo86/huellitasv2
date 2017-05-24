@@ -83,7 +83,9 @@
                 controllerAs: 'main'
             })
             .when('/dar-en-adopcion', {
-                templateUrl: '/app/front/contents/pets/newPet.html'
+                templateUrl: '/app/front/contents/pets/newPet.html',
+                controller: 'NewPetController',
+                controllerAs: 'main'
             })
             .when('/formularios-adopcion/:id', {
                 templateUrl: '/app/front/contents/pets/adoptionFormDetail.html',

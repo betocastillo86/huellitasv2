@@ -15,6 +15,7 @@
 
         vm.save = save;
         vm.saveAndContinue = saveAndContinue;
+        vm.changeLocation = changeLocation;
 
         activate();
 
@@ -40,8 +41,8 @@
 
         function getRoles() {
             roleService.getAll()
-            .then(getRolesCompleted)
-            .catch(helperService.handleException);
+                .then(getRolesCompleted)
+                .catch(helperService.handleException);
 
             function getRolesCompleted(result) {
                 vm.roles = result;
@@ -50,8 +51,7 @@
 
         function save(isValid) {
 
-            if (isValid && !vm.isSending)
-            {
+            if (isValid && !vm.isSending) {
                 vm.isSending = true;
                 var defer;
                 if (vm.id) {
@@ -65,16 +65,14 @@
                     .catch(saveError);
             }
 
-            function saveCompleted(response)
-            {
+            function saveCompleted(response) {
                 vm.isSending = false;
                 response = response;
 
                 var message = 'El usuario fue actualizado con exito';
                 var isNew = !vm.model.id;
 
-                if (isNew)
-                {
+                if (isNew) {
                     message = 'El usuario fue creado con exito';
                     vm.model.id = response.id;
                 }
@@ -82,23 +80,20 @@
                 modalService.show({
                     message: message
                 })
-                .then(function (modal) {
-                    modal.closed.then(function () {
-                        if (vm.continueAfterSaving)
-                        {
-                            if (isNew)
-                            {
-                                $location.path('/users/'+vm.model.id+'/edit');
+                    .then(function (modal) {
+                        modal.closed.then(function () {
+                            if (vm.continueAfterSaving) {
+                                if (isNew) {
+                                    $location.path('/users/' + vm.model.id + '/edit');
+                                }
                             }
-                        }
-                        else
-                        {
-                            $location.path('/users');
-                        }
+                            else {
+                                $location.path('/users');
+                            }
 
-                        vm.continueAfterSaving = false;
+                            vm.continueAfterSaving = false;
+                        });
                     });
-                });
             }
 
             function saveError(response) {
@@ -109,6 +104,11 @@
 
         function saveAndContinue() {
             vm.continueAfterSaving = true;
+        }
+
+        function changeLocation(selectedLocation)
+        {
+            vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
         }
 
     }

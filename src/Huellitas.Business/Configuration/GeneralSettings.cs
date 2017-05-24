@@ -92,5 +92,7 @@ namespace Huellitas.Business.Configuration
         /// The facebook secret token.
         /// </value>
         public string FacebookSecretToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookSecretToken"); } }
+
+        public string SeoImage { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SeoImage"); } }
     }
 }

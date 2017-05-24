@@ -59,6 +59,9 @@
 
         function activate()
         {
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.MyPets.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.MyPets.Description'];
+
             authenticationService.showLogin($scope)
                 .then(authenticationCompleted)
                 .catch(authenticationError);

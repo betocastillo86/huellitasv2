@@ -1,5 +1,4 @@
-﻿
-(function () {
+﻿(function () {
     'use strict';
 
     angular
@@ -29,7 +28,6 @@
         routingService,
         modalService,
         authenticationService) {
-
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.currentStep = 0;
@@ -39,7 +37,7 @@
         vm.pet = {};
         vm.ageFamilyMembers = [];
         vm.showNotLogged = false;
-        
+
         vm.changeLocation = changeLocation;
         vm.ageChanged = ageChanged;
         vm.changeCheckboxType = changeCheckboxType;
@@ -61,16 +59,14 @@
                 .catch(authenticationError);
         }
 
-        function authenticationCompleted()
-        {
+        function authenticationCompleted() {
             vm.showNotLogged = false;
             getPet();
             getJobs();
             getQuestions();
         }
 
-        function authenticationError()
-        {
+        function authenticationError() {
             vm.showNotLogged = true;
         }
 
@@ -122,7 +118,6 @@
                 }
 
                 console.log(vm.questions);
-
             }
         }
 
@@ -144,6 +139,10 @@
             function getCompleted(response) {
                 vm.pet = response;
                 vm.model.contentId = response.id;
+
+                $scope.$parent.root.seo.title = helperService.replaceJson(app.Settings.resources['Seo.Adopt.Title'], { petName: vm.pet.name, petLocation: vm.pet.location.name });
+                $scope.$parent.root.seo.description = helperService.replaceJson(app.Settings.resources['Seo.Adopt.Description'], { petName: vm.pet.name, petLocation: vm.pet.location.name });
+                $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(vm.pet.image.fileName);
             }
         }
 
@@ -162,7 +161,6 @@
 
         function save() {
             if (vm.form.$valid && !vm.form.isBusy) {
-
                 if (vm.currentStep < 3) {
                     vm.currentStep++;
                     vm.form.$submitted = false;
@@ -176,8 +174,7 @@
                 });
 
                 function confirmClosed(response) {
-                    if (response.accept)
-                    {
+                    if (response.accept) {
                         vm.form.isBusy = true;
 
                         vm.model.attributes = new Array();
@@ -185,13 +182,11 @@
                             var question = vm.questions[i];
 
                             if (!question.questionParentId) {
-
                                 var answer = question.answer;
                                 if (question.answer == 'true') {
                                     answer = 'Si';
                                 }
-                                else if (question.answer == 'false')
-                                {
+                                else if (question.answer == 'false') {
                                     answer = 'No';
                                 }
 
@@ -258,13 +253,12 @@
             }
         }
 
-        function changeCheckboxType(question, option)
-        {
+        function changeCheckboxType(question, option) {
             question.answer = _.chain(question.checks)
                 .where({ checked: true })
                 .map(function (model) { return model.option + ' - ' + model.text })
                 .value()
-                .join(','); 
+                .join(',');
         }
 
         function changeOptionsWithTextType(question, option) {
@@ -278,8 +272,7 @@
                     .value()
                     .join(',');
             }
-            else
-            {
+            else {
                 question.answer = undefined;
             }
         }

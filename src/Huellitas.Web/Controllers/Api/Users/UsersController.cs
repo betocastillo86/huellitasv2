@@ -286,6 +286,7 @@ namespace Huellitas.Web.Controllers.Api
                     user.Email = model.Email;
                     user.PhoneNumber = model.Phone;
                     user.PhoneNumber2 = model.Phone2;
+                    user.LocationId = model.Location != null ? model.Location.Id : (int?)null;
 
                     if (!string.IsNullOrEmpty(model.Password))
                     {

@@ -41,6 +41,9 @@
         vm.reorder = reorder;
         vm.save = save;
 
+        $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditShelter.Title'];
+        $scope.$parent.root.seo.description = app.Settings.resources['Seo.EditShelter.Description'];
+
         activate();
 
         function activate()

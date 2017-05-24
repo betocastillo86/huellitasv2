@@ -121,6 +121,7 @@ namespace Huellitas.Business.Services
         public async Task<User> GetByIdAsync(int id)
         {
             return await this.userRepository.Table
+                .Include(c => c.Location)
                 .FirstOrDefaultAsync(c => c.Id == id && !c.Deleted);
         }
 

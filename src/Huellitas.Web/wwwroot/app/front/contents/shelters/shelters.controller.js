@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('SheltersController', SheltersController);
 
-    SheltersController.$inject = ['$location', 'helperService', 'routingService', 'shelterService'];
+    SheltersController.$inject = ['$location', '$scope', 'helperService', 'routingService', 'shelterService'];
 
-    function SheltersController($location, helperService, routingService, shelterService) {
+    function SheltersController($location, $scope, helperService, routingService, shelterService) {
         var vm = this;
 
         vm.shelters = [];
@@ -30,6 +30,9 @@
 
         function activate() {
             getShelters();
+
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.Shelters.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.Shelters.Description'];
         }
 
         function getShelters()

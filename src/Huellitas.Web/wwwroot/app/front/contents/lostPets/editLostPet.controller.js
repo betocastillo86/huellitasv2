@@ -40,6 +40,7 @@
         vm.years = undefined;
         vm.defaultNameImage = '';
         vm.originalPhone = undefined;
+        vm.originalLocation = undefined;
         vm.canChangePhone = true;
         vm.breedTable = app.Settings.customTables.breed;
         vm.maxdate = moment().toDate();
@@ -65,6 +66,9 @@
 
             vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
 
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditLostPet.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.EditLostPet.Description'];
+
             if (vm.friendlyName) {
                 getPet();
             }
@@ -81,6 +85,7 @@
                 vm.model.user = user;
                 vm.model.location = vm.model.location ? vm.model.location : user.location;
                 vm.originalPhone = user.phone;
+                vm.originalLocation = user.location ? user.location.id : undefined;
             }
         }
 
@@ -138,6 +143,12 @@
                         return;
                     }
 
+                    var newPhone = vm.model.user.phone;
+                    var newLocation = vm.model.location;
+                    vm.model.user = vm.currentUser;
+                    vm.model.user.phone = newPhone;
+                    vm.model.user.location = newLocation;
+
                     if (vm.friendlyName) {
                         petService.put(vm.model)
                             .then(updateUserPhone)
@@ -147,12 +158,6 @@
                         vm.model.type = 'LostPet';
                         vm.model.months = 1;
                         
-
-                        var newPhone = vm.model.user.phone;
-                        var newLocation = vm.model.location;
-                        vm.model.user = vm.currentUser;
-                        vm.model.user.phone = newPhone;
-                        vm.model.user.location = newLocation;
                         vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
 
                         petService.post(vm.model)
@@ -161,7 +166,7 @@
                     }
 
                     function updateUserPhone() {
-                        if (vm.canChangePhone && vm.currentUser.phone !== vm.originalPhone) {
+                        if (vm.canChangePhone && (vm.currentUser.phone !== vm.originalPhone || vm.originalLocation !== vm.currentUser.location.id)) {
                             
                             userService.put(vm.currentUser)
                                 .then(confirmSaved)

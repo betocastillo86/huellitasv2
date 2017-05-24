@@ -7,6 +7,7 @@
         .controller('AdoptionFormDetailController', AdoptionFormDetailController);
 
     AdoptionFormDetailController.$inject = [
+        '$scope',
         '$routeParams',
         'adoptionFormService',
         'helperService',
@@ -16,6 +17,7 @@
         'routingService'];
 
     function AdoptionFormDetailController(
+        $scope,
         $routeParams,
         adoptionFormService,
         helperService,
@@ -39,6 +41,9 @@
         function activate()
         {
             getStatus();
+
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptionFormDetail.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptionFormDetail.Description'];
         }
 
         function getStatus() {

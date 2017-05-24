@@ -53,7 +53,8 @@ namespace Huellitas.Web.Models.Extensions
                 Email = model.Email,
                 RoleEnum = model.Role.HasValue ? model.Role.Value : RoleEnum.Public,
                 PhoneNumber = model.Phone,
-                PhoneNumber2 = model.Phone2
+                PhoneNumber2 = model.Phone2,
+                LocationId = model.Location != null ? model.Location.Id : (int?)null
             };
         }
 

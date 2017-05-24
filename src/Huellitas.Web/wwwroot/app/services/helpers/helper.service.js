@@ -20,7 +20,8 @@
             goToFocus: goToFocus,
             goToFocusError: goToFocusError,
             compile: compile,
-            notFound: notFound
+            notFound: notFound,
+            replaceJson: replaceJson
         };
 
         return service;
@@ -82,6 +83,16 @@
 
         function compile(element, html, scope) {
             angular.element(element).append($compile(html)(scope));
+        }
+
+        function replaceJson(originalString, jsonReplace)
+        {
+            var keys = _.keys(jsonReplace);
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                originalString = originalString.replace(new RegExp('{' + key + '}', 'gi'), jsonReplace[key]);
+            }
+            return originalString;
         }
     }
 })();

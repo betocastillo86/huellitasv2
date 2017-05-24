@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('NotificationsController', NotificationsController);
 
-    NotificationsController.$inject = ['notificationService', 'helperService'];
+    NotificationsController.$inject = ['$scope', 'notificationService', 'helperService'];
 
-    function NotificationsController(notificationService, helperService) {
+    function NotificationsController($scope, notificationService, helperService) {
         var vm = this;
         vm.notifications = [];
         vm.hasNextPage = false;
@@ -21,6 +21,10 @@
         activate();
 
         function activate() {
+
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.MyNotifications.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.MyNotifications.Description'];
+
             getNotifications();
         }
 

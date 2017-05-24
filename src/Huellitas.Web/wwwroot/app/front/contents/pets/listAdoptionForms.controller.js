@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('ListAdoptionFormController', ListAdoptionFormController);
 
-    ListAdoptionFormController.$inject = ['$location', 'routingService', 'adoptionFormService', 'sessionService', 'helperService', 'adoptionFormStatusService'];
+    ListAdoptionFormController.$inject = ['$location', '$scope', 'routingService', 'adoptionFormService', 'sessionService', 'helperService', 'adoptionFormStatusService'];
 
-    function ListAdoptionFormController($location, routingService, adoptionFormService, sessionService, helperService, adoptionFormStatusService) {
+    function ListAdoptionFormController($location, $scope, routingService, adoptionFormService, sessionService, helperService, adoptionFormStatusService) {
         var vm = this;
         vm.forms = [];
         vm.statuses = [];
@@ -30,6 +30,10 @@
         activate();
 
         function activate() {
+
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptionForms.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptionForms.Description'];
+
             getStatus();
         }
 

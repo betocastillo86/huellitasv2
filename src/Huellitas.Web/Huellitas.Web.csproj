@@ -41,10 +41,6 @@
     <Content Include="wwwroot\app\admin\logs\logs.controller.js" />
     <Content Include="wwwroot\app\admin\lostpets\editLostPet.controller.js" />
     <Content Include="wwwroot\app\admin\lostpets\editLostPet.html" />
-    <Content Include="wwwroot\app\admin\lostpets\editPet.controller.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\admin\lostpets\editPet.html" />
     <Content Include="wwwroot\app\admin\lostpets\listLostPets.controller.js" />
     <Content Include="wwwroot\app\admin\lostpets\listLostPets.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -101,7 +97,6 @@
     <Content Include="wwwroot\app\front\components\login\login.html" />
     <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.html" />
-    <Content Include="wwwroot\app\front\contents\lostPets\editPet.html" />
     <Content Include="wwwroot\app\front\contents\lostPets\lostPetDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\lostPets\lostPetDetail.html" />
     <Content Include="wwwroot\app\front\contents\lostPets\lostPets.controller.js" />
@@ -118,6 +113,7 @@
     <Content Include="wwwroot\app\front\contents\pets\listAdoptionForms.html" />
     <Content Include="wwwroot\app\front\contents\pets\myPets.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\myPets.html" />
+    <Content Include="wwwroot\app\front\contents\pets\newpet.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\newPet.html" />
     <Content Include="wwwroot\app\front\contents\pets\petDetail.controller.js" />
     <Content Include="wwwroot\app\front\contents\pets\petDetail.html" />

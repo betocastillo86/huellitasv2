@@ -6,9 +6,9 @@
         .module('huellitas')
         .controller('LostPetsController', LostPetsController);
 
-    LostPetsController.$inject = ['$location', 'helperService',  'petService', 'routingService'];
+    LostPetsController.$inject = ['$location', '$scope', 'helperService',  'petService', 'routingService'];
 
-    function LostPetsController($location, helperService, petService, routingService) {
+    function LostPetsController($location, $scope, helperService, petService, routingService) {
         var vm = this;
         vm.pets = [];
         vm.filter = {
@@ -40,7 +40,8 @@
 
         function activate()
         {
-            
+            $scope.$parent.root.seo.title = app.Settings.resources['Seo.LostPets.Title'];
+            $scope.$parent.root.seo.description = app.Settings.resources['Seo.LostPets.Description'];
         }
 
         function search()
