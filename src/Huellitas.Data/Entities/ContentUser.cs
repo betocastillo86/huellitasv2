@@ -6,7 +6,7 @@
 namespace Huellitas.Data.Entities
 {
     using System;
-    using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Content User Relationship

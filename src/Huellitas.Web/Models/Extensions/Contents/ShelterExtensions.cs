@@ -5,16 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using Api;
+    using Data.Entities;
+    using Data.Extensions;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Api;
-    using Data.Entities.Enums;
-    using Data.Extensions;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Extensions;
-    using Huellitas.Business.Security;
 
     /// <summary>
     /// Shelter Extensions
@@ -294,6 +292,7 @@ namespace Huellitas.Web.Models.Extensions
                     case ContentAttributeType.Address:
                         model.Address = value;
                         break;
+
                     default:
                         break;
                 }

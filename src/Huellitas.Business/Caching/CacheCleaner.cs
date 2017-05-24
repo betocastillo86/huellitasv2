@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Caching
 {
+    using System;
     using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
@@ -33,7 +34,9 @@ namespace Huellitas.Business.Caching
         ////System Setting
         ISubscriber<EntityInsertedMessage<SystemSetting>>,
         ISubscriber<EntityUpdatedMessage<SystemSetting>>,
-        ISubscriber<EntityDeletedMessage<SystemSetting>>
+        ISubscriber<EntityDeletedMessage<SystemSetting>>,
+        ////Notifications
+        ISubscriber<EntityUpdatedMessage<Notification>>
     {
         /// <summary>
         /// The cache manager
@@ -158,7 +161,14 @@ namespace Huellitas.Business.Caching
             this.cacheManager.Remove(string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, message.Entity.CustomTableId));
             await Task.FromResult(0);
         }
-
         #endregion Custom Table Row
+
+        #region Notifications
+        public async Task HandleEvent(EntityUpdatedMessage<Notification> message)
+        {
+            this.cacheManager.Remove(CacheKeys.NOTIFICATIONS_ALL);
+            await Task.FromResult(0);
+        }
+        #endregion
     }
 }

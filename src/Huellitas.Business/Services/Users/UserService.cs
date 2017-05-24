@@ -5,18 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Data.Infraestructure;
     using EventPublisher;
     using Exceptions;
+    using Huellitas.Business.Helpers;
     using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
     using Security;
-    using Huellitas.Business.Helpers;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// User Service
@@ -208,6 +207,7 @@ namespace Huellitas.Business.Services
         {
             var user = await this.userRepository.Table
                 .Include(c => c.Role)
+                .Include(c => c.Location)
                 .FirstOrDefaultAsync(c => c.Email.Equals(email) && !c.Deleted);
 
             if (user != null)

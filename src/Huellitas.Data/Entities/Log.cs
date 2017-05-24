@@ -7,7 +7,7 @@ namespace Huellitas.Data.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Huellitas.Data.Entities.Enums;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// The class Log

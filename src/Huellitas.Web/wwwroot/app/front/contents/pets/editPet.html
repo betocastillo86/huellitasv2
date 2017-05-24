@@ -1,6 +1,17 @@
 ﻿<div class="pg-body col-md-12">
     <section>
-        <article class="content-all">
+        <article class="content-all" ng-if="main.showNotLogged">
+            <div class="content-form">
+                <h1 class="tit-form">Para poder dar una mascota en adopción debes estar registrado</h1>
+                <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a que le puedas conseguir hogar a los peludos que no lo tengan, pero antes de cualquier cosa ten en cuenta las siguientes recomendaciones:</div>
+                <div class="btn-content">
+                    <a href="/sinhogar" class="btn btn-cancel btn-lg">Cancelar</a>
+                    <button type="submit" class="btn btn-save btn-lg" ng-click="main.validateAuthentication()">Registrate</button>
+                </div>
+            </div>
+        </article>
+
+        <article class="content-all" ng-if="!main.showNotLogged">
             <div class="content-form" ng-if="root.currentUser">
                 <h1 class="tit-form">¿TIENES UNA MASCOTA PARA DAR EN ADOPCIÓN?</h1>
                 <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a que le puedas conseguir hogar a los peludos que no lo tengan, pero antes de cualquier cosa ten en cuenta las siguientes recomendaciones:</div>
@@ -52,17 +63,17 @@
                         <span class="error" ng-if="!main.form.$submitted || main.form.size.$valid"></span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.username.$invalid }">
-                        <input type="text" name="username" ng-model="root.currentUser.name" placeholder="Nombre del contacto" maxlength="100" required disabled>
+                        <input type="text" name="username" ng-model="main.model.user.name" placeholder="Nombre del contacto" maxlength="100" required disabled>
                         <!--<span class="error" ng-if="main.form.$submitted && main.form.username.$invalid">Ingresa tu nombre</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.username.$valid"></span>-->
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.userphone.$invalid }">
-                        <input type="text" name="userphone" ng-model="root.currentUser.phone" placeholder="Teléfono de contacto" maxlength="15" ng-minlength="7" pattern="[0-9 ]{7,}" ng-disabled="!main.canChangePhone" required>
+                        <input type="text" name="userphone" ng-model="main.model.user.phone" placeholder="Teléfono de contacto" maxlength="15" ng-minlength="7" pattern="[0-9 ]{7,}" ng-disabled="!main.canChangePhone" required>
                         <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.required">Ingresa tu número telefónico</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.userphone.$error.pattern">Ingresa tu número telefónico válido</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.userphone.$valid"></span>
                     </div>
-                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }">
+                    <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }" ng-if="!main.shelters.length">
                         <div>
                             <angucomplete-alt id="location"
                                               placeholder="Ciudad"
@@ -79,6 +90,13 @@
                         </div>
                         <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>
+                    </div>
+                    <div class="col-sm-6 col-xs-12" ng-if="main.shelters.length" ng-class="{ 'bad' : main.form.$submitted && main.form.shelter.$invalid }">
+                        <select name="shelter" ng-model="main.model.shelter.id" ng-options="shelter.id as shelter.name for shelter in ::main.shelters" required>
+                            <option value="">Fundacion</option>
+                        </select>
+                        <span class="error" ng-if="!main.form.$submitted || main.form.shelter.$valid"></span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.shelter.$invalid">Ingresa la ubicación</span>
                     </div>
                     <div class="col-sm-1 col-xs-2">
                         <input type="checkbox" name="castrated" ng-model="main.model.castrated" /> 

@@ -10,12 +10,11 @@ namespace Huellitas.Business.Subscribers
     using System.Threading.Tasks;
     using Business.Notifications;
     using Configuration;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Data.Extensions;
     using Exceptions;
     using Extensions;
     using Huellitas.Business.EventPublisher;
-    using Huellitas.Data.Entities;
     using Security;
     using Services;
 
@@ -266,7 +265,7 @@ namespace Huellitas.Business.Subscribers
             }
             else
             {
-                users = this.contentService.GetUsersByContentId(shelter.Id, Data.Entities.Enums.ContentUserRelationType.Shelter, true)
+                users = this.contentService.GetUsersByContentId(shelter.Id, Data.Entities.ContentUserRelationType.Shelter, true)
                     .Select(c => c.User)
                     .ToList();
             }
@@ -280,7 +279,7 @@ namespace Huellitas.Business.Subscribers
             await this.notificationService.NewNotification(
                 users,
                 this.workContext.CurrentUser,
-                Data.Entities.Enums.NotificationType.AdoptionFormReceived,
+                Data.Entities.NotificationType.AdoptionFormReceived,
                 ////TODO:URL para responder formulario
                 this.seoService.GetContentUrl(content),
                 parameters);
@@ -300,7 +299,7 @@ namespace Huellitas.Business.Subscribers
             await this.notificationService.NewNotification(
                 this.workContext.CurrentUser,
                 null,
-                Data.Entities.Enums.NotificationType.AdoptionFormConfirmation,
+                Data.Entities.NotificationType.AdoptionFormConfirmation,
                 this.seoService.GetContentUrl(content),
                 parameters);
         }
@@ -319,7 +318,7 @@ namespace Huellitas.Business.Subscribers
             await this.notificationService.NewNotification(
                 form.User,
                 null,
-                Data.Entities.Enums.NotificationType.AdoptionFormShared,
+                Data.Entities.NotificationType.AdoptionFormShared,
                 this.seoService.GetContentUrl(content),
                 parameters);
         }

@@ -9,7 +9,6 @@ namespace Huellitas.Business.Services
     using Huellitas.Business.Helpers;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;

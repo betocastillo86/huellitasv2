@@ -5,13 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
     using Business.Configuration;
     using Data.Entities;
     using Data.Entities.Abstract;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// <c>Seo</c> Service
@@ -102,19 +103,65 @@ namespace Huellitas.Business.Services
         public string GetContentUrl(Content content)
         {
             ////TODO:Test
-            var root = string.Empty;
-
             switch (content.Type)
             {
                 case ContentType.Pet:
-                    root = "animal";
-                    break;
+                    return this.GetFullRoute("pet", content.FriendlyName);
                 case ContentType.Shelter:
-                    root = "fundacion";
-                    break;
+                    return this.GetFullRoute("shelter", content.FriendlyName);
+                case ContentType.LostPet:
+                    return this.GetFullRoute("lostpet", content.FriendlyName);
+                default:
+                    return string.Empty;
             }
+        }
 
-            return $"{this.generalSettings.SiteUrl}/{root}/{content.FriendlyName}";
+        /// <summary>
+        /// Gets the full route of the element
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="parameters"></param>
+        /// <returns>the full route</returns>
+        public string GetFullRoute(string key, params string[] parameters)
+        {
+            var route = string.Format(this.GetRoute(key), parameters);
+            return $"{this.generalSettings.SiteUrl}{(this.generalSettings.SiteUrl.EndsWith("/") ? string.Empty : "/")}{route}";
+        }
+
+        /// <summary>
+        /// Gets the route.
+        /// </summary>
+        /// <param name="key">The key of the route.</param>
+        /// <returns>
+        /// the value of the route
+        /// </returns>
+        public string GetRoute(string key)
+        {
+            var route = string.Empty;
+            if (this.GetRoutes().TryGetValue(key, out route))
+            {
+                return route;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the routes.
+        /// </summary>
+        /// <returns>
+        /// the routes existent on the web site
+        /// </returns>
+        public IDictionary<string, string> GetRoutes()
+        {
+            var routes = new Dictionary<string, string>();
+            routes.Add("mypets", "mis-huellitas");
+            routes.Add("pet", "sinhogar/{0}");
+            routes.Add("lostpet", "perdidos/{0}");
+            routes.Add("shelter", "fundaciones/{0}");
+            return routes;
         }
     }
 }

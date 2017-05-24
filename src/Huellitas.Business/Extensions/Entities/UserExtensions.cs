@@ -6,7 +6,6 @@
 namespace Huellitas.Business.Extensions
 {
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
 
     /// <summary>
     /// User Extensions

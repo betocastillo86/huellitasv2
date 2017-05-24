@@ -7,7 +7,7 @@ namespace Huellitas.Web.Models.Api
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Huellitas.Web.Models.Api;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;

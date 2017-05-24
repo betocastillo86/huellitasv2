@@ -7,17 +7,20 @@
 
     helperService.$inject = [
         '$window',
+        '$location',
         '$compile',
-        'modalService'];
+        'modalService',
+        'routingService'];
 
-    function helperService($window, $compile, modalService) {
+    function helperService($window, $location, $compile, modalService, routingService) {
         var service = {
             configServiceUrl: configServiceUrl,
             handleException: handleException,
             isMobileWidth: isMobileWidth,
             goToFocus: goToFocus,
             goToFocusError: goToFocusError,
-            compile: compile
+            compile: compile,
+            notFound: notFound
         };
 
         return service;
@@ -66,6 +69,11 @@
             $('html, body').animate({
                 scrollTop: position + addPixels
             }, 500);
+        }
+
+        function notFound()
+        {
+            $location.path(routingService.getRoute('notfound'));
         }
 
         function goToFocusError() {

@@ -5,11 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Data.Entities.Enums;
+    using Data.Entities;
     using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -527,8 +526,10 @@ namespace Huellitas.Business.Services
                             }
 
                             break;
+
                         case ContentType.Shelter:
                             break;
+
                         default:
                             break;
                     }

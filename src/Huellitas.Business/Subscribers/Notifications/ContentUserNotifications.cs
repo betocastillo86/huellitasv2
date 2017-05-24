@@ -5,16 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Extensions;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Content User Notifications

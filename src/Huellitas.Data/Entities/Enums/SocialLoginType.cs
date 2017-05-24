@@ -3,7 +3,7 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Data.Entities.Enums
+namespace Huellitas.Data.Entities
 {
     /// <summary>
     /// The social login type

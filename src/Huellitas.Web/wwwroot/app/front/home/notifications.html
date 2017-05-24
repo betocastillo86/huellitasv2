@@ -1,0 +1,16 @@
+﻿<div class="pg-body col-md-12">
+    <section>
+        <article class="content-all">
+            <div class="content-form">
+                <h2 class="tit-form">NOTIFICACIONES</h2>
+                <ul class="notification">
+                    <li ng-repeat="notification in main.notifications">
+                        <p><div class="new" ng-if="!notification.seen"></div><a ng-href="{{notification.targetUrl}}">{{notification.value}}</a></p>
+                        <span>{{notification.creationDate | timeago}}</span>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-lg btn-more" ng-if="main.hasNextPage" ng-click="main.more()">Ver más</button>
+            </div>
+        </article>
+    </section>
+</div>

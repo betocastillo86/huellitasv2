@@ -5,17 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Huellitas.Business.Configuration;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Text resources service

@@ -105,7 +105,7 @@ namespace Huellitas.Web.Controllers.Api
                 ////Si es el dueño de la mascota puede responder
                 return true;
             }
-            else if (this.contentService.IsUserInContent(this.workContext.CurrentUserId, this.contentService.GetContentAttribute<int>(form.ContentId, ContentAttributeType.Shelter), Data.Entities.Enums.ContentUserRelationType.Shelter))
+            else if (this.contentService.IsUserInContent(this.workContext.CurrentUserId, this.contentService.GetContentAttribute<int>(form.ContentId, ContentAttributeType.Shelter), Data.Entities.ContentUserRelationType.Shelter))
             {
                 ////Si pertenece a la fundación puede responder
                 return true;

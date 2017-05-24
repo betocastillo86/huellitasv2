@@ -15,7 +15,8 @@
         'adoptionFormService',
         'petService',
         'routingService',
-        'modalService'];
+        'modalService',
+        'authenticationService'];
 
     function AdoptController(
         $routeParams,
@@ -26,7 +27,8 @@
         adoptionFormService,
         petService,
         routingService,
-        modalService) {
+        modalService,
+        authenticationService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -36,9 +38,8 @@
         vm.model = {};
         vm.pet = {};
         vm.ageFamilyMembers = [];
+        vm.showNotLogged = false;
         
-
-
         vm.changeLocation = changeLocation;
         vm.ageChanged = ageChanged;
         vm.changeCheckboxType = changeCheckboxType;
@@ -46,13 +47,31 @@
         vm.changeOptionsWithTextType = changeOptionsWithTextType;
         vm.save = save;
         vm.back = back;
+        vm.validateAuthentication = validateAuthentication;
 
         activate();
 
         function activate() {
+            validateAuthentication();
+        }
+
+        function validateAuthentication() {
+            authenticationService.showLogin($scope)
+                .then(authenticationCompleted)
+                .catch(authenticationError);
+        }
+
+        function authenticationCompleted()
+        {
+            vm.showNotLogged = false;
             getPet();
             getJobs();
             getQuestions();
+        }
+
+        function authenticationError()
+        {
+            vm.showNotLogged = true;
         }
 
         function getQuestions() {

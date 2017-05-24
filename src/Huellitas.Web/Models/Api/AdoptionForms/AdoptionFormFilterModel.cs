@@ -148,7 +148,7 @@ namespace Huellitas.Web.Models.Api
             {
                 if (this.ShelterId.HasValue)
                 {
-                    if (!contentService.IsUserInContent(userId, this.ShelterId.Value, Data.Entities.Enums.ContentUserRelationType.Shelter))
+                    if (!contentService.IsUserInContent(userId, this.ShelterId.Value, Data.Entities.ContentUserRelationType.Shelter))
                     {
                         this.AddError("ShelterId", "No puede acceder a los datos del id de refugio enviado");
                     }

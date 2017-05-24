@@ -55,6 +55,12 @@
                     return '/formularios-adopcion' + (params ? '?' + $.param(params) : '');
                 case 'form':
                     return '/formularios-adopcion/' + params.id;
+                case 'notifications':
+                    return '/notificaciones';
+                case 'faq':
+                    return '/por-que-adoptar';
+                case 'notfound':
+                    return '/pagina-no-encontrada';
                 default:
             }
         }

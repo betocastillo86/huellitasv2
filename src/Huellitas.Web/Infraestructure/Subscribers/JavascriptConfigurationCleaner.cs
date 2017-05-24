@@ -3,12 +3,13 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Huellitas.Web.Infraestructure.UI
+namespace Huellitas.Web.Infraestructure
 {
     using System;
     using System.Threading.Tasks;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Data.Entities;
+    using Huellitas.Web.Infraestructure.UI;
 
     /// <summary>
     /// The <c>javascript</c> Cleaner

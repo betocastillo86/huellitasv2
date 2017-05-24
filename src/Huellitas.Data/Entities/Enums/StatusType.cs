@@ -28,6 +28,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The closed
         /// </summary>
-        Closed
+        Closed,
+
+        /// <summary>
+        /// Rejected status
+        /// </summary>
+        Rejected,
     }
 }

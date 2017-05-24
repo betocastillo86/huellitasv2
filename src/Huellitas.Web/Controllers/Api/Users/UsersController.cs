@@ -178,7 +178,7 @@ namespace Huellitas.Web.Controllers.Api
                 return false;
             }
 
-            if (!canCreateAdmin && model.Role.HasValue && model.Role.Value != Data.Entities.Enums.RoleEnum.Public)
+            if (!canCreateAdmin && model.Role.HasValue && model.Role.Value != Data.Entities.RoleEnum.Public)
             {
                 this.ModelState.AddModelError("Role", "No tiene permisos suficientes para crear este tipo de usuario");
             }
@@ -198,7 +198,7 @@ namespace Huellitas.Web.Controllers.Api
                 ////By default on creation the rol is public
                 if (!model.Role.HasValue)
                 {
-                    model.Role = Data.Entities.Enums.RoleEnum.Public;
+                    model.Role = Data.Entities.RoleEnum.Public;
                 }
 
                 ////If the user is not admin and want to create a user. It cant.

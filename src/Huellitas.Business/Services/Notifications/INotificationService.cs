@@ -5,12 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Huellitas.Business.Notifications;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface of Notification Service
@@ -153,7 +152,7 @@ namespace Huellitas.Business.Services
             string to = null,
             string subject = null,
             string body = null,
-            int page = 0, 
+            int page = 0,
             int pageSize = int.MaxValue);
 
         /// <summary>

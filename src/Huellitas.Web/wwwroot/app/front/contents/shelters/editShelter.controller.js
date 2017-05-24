@@ -13,9 +13,20 @@
         'helperService',
         'modalService',
         'routingService',
-        'fileService'];
+        'fileService',
+        'authenticationService'];
 
-    function EditShelterController($location, $routeParams, $scope, shelterService, helperService, modalService, routingService, fileService) {
+    function EditShelterController(
+        $location,
+        $routeParams,
+        $scope,
+        shelterService,
+        helperService,
+        modalService,
+        routingService,
+        fileService,
+        authenticationService) {
+
         var vm = this;
         vm.model = {};
         vm.model.files = [];
@@ -108,53 +119,64 @@
 
         function save()
         {
-            if (vm.form.$submitted && vm.form.$valid) {
-                
-                if (vm.model.files.length < 3)
-                {
-                    modalService.showError({ message: 'Debes seleccionar al menos tres imagenes', title: 'Faltan las imagenes' });
-                    return;
-                }
+            if (vm.form.$submitted && vm.form.$valid && !vm.form.isBusy) {
 
                 vm.form.isBusy = true;
 
-                if (vm.friendlyName) {
-                    shelterService.put(vm.model)
-                        .then(postCompleted)
-                        .catch(postError);
-                }
-                else
-                {
-                    vm.model.user = $scope.root.currentUser;
-                    vm.model.users = [{ userid: vm.model.user.id, relationType: 'Shelter' }];
+                authenticationService.showLogin($scope)
+                    .then(authenticationCompleted)
+                    .catch(authenticationError);
 
-                    shelterService.post(vm.model)
-                        .then(postCompleted)
-                        .catch(postError);
-                }
-
-                function postCompleted(response)
+                function authenticationCompleted(responseAuth)
                 {
-                    vm.form.isBusy = false;
+                    var currentUser = responseAuth;
+
+                    if (vm.model.files.length < 3) {
+                        modalService.showError({ message: 'Debes seleccionar al menos tres imagenes', title: 'Faltan las imagenes' });
+                        vm.form.isBusy = false;
+                        return;
+                    }
+
                     if (vm.friendlyName) {
-                        modalService.show({
-                            message: 'La fundación fue correctamente actualizada',
-                            redirectAfterClose: routingService.getRoute('shelter', { friendlyName: vm.friendlyName })
-                        });
+                        shelterService.put(vm.model)
+                            .then(postCompleted)
+                            .catch(postError);
                     }
-                    else
-                    {
-                        modalService.show({
-                            message: 'Muchas gracias por registrar tu fundación en Huellitas sin Hogar. Pronto recibirás noticias de nosotros.',
-                            redirectAfterClose: routingService.getRoute('shelters')
-                        });
-                    }
-                }  
+                    else {
+                        vm.model.user = currentUser;
+                        vm.model.users = [{ userid: vm.model.user.id, relationType: 'Shelter' }];
 
-                function postError(response)
+                        shelterService.post(vm.model)
+                            .then(postCompleted)
+                            .catch(postError);
+                    }
+
+                    function postCompleted(response) {
+                        vm.form.isBusy = false;
+                        if (vm.friendlyName) {
+                            modalService.show({
+                                message: 'La fundación fue correctamente actualizada',
+                                redirectAfterClose: routingService.getRoute('shelter', { friendlyName: vm.friendlyName })
+                            });
+                        }
+                        else {
+                            modalService.show({
+                                message: 'Muchas gracias por registrar tu fundación en Huellitas sin Hogar. Pronto recibirás noticias de nosotros.',
+                                redirectAfterClose: routingService.getRoute('shelters')
+                            });
+                        }
+                    }
+
+                    function postError(response) {
+                        vm.form.isBusy = false;
+                        modalService.showError({ message: 'No pudimos guardar los datos. Intenta de nuevo o comunicate con nosotros por medio de Facebook' });
+                    }
+                }
+
+                function authenticationError()
                 {
+                    console.log('No autenticado');
                     vm.form.isBusy = false;
-                    modalService.showError({ message: 'No pudimos guardar los datos. Intenta de nuevo o comunicate con nosotros por medio de Facebook'});
                 }
             }
             else {

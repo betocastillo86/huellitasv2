@@ -26,7 +26,7 @@
         {
             petService.getById(vm.friendlyName)
                 .then(getCompleted)
-                .catch(helperService.handleException);
+                .catch(helperService.notFound);
 
             function getCompleted(response)
             {

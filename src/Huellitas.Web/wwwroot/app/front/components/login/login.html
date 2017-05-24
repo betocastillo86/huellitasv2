@@ -21,7 +21,7 @@
                     <p>o con</p>
                 </div>
                 <div ng-if="!login.modeLogin">
-                    <input type="text" placeholder="Tu nombre" name="name" ng-model="login.model.name" ng-required="!login.modeLogin" maxlength="100" min-lengt="8">
+                    <input type="text" placeholder="Tu nombre" name="name" ng-model="login.model.name" ng-required="!login.modeLogin" maxlength="100" ng-minlength="8">
                     <span class="error" ng-if="!login.form.$submitted || login.form.name.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.name.$error.required">Ingresa tu nombre</span>
                     <span class="error" ng-if="login.form.$submitted && login.form.name.$error.minlength">Ingresa un nombre válido</span>
@@ -50,7 +50,7 @@
                 <div class="box-log" ng-if="!login.modeLogin">
                     <a href="#" ng-click="login.register(false)">Ya estoy registrado</a>
                 </div>
-                <button type="submit" class="btn btn-lg btn-save">Entrar</button>
+                <button type="submit" class="btn btn-lg btn-save">{{login.modeLogin ? 'Entra' : 'Registrate'}}</button>
             </form>
         </div>
     </div>

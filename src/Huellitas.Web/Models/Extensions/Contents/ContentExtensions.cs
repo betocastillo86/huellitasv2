@@ -140,7 +140,7 @@ namespace Huellitas.Web.Models.Extensions
                     if (shelterId > 0)
                     {
                         ////Searches the user in shelter's users to validate if can change the pet
-                        var shelterUsers = contentService.GetUsersByContentId(shelterId, Data.Entities.Enums.ContentUserRelationType.Shelter)
+                        var shelterUsers = contentService.GetUsersByContentId(shelterId, Data.Entities.ContentUserRelationType.Shelter)
                                                     .Select(c => c.UserId)
                                                     .ToList();
 

@@ -105,9 +105,10 @@ namespace Huellitas.Web.Controllers.Api
                         Name = user.Name,
                         Id = user.Id,
                         Token = token,
-                        Phone1 = user.PhoneNumber,
+                        Phone = user.PhoneNumber,
                         Phone2 = user.PhoneNumber2,
-                        Location = user.Location != null ? user.Location.ToModel() : null
+                        Location = user.Location != null ? user.Location.ToModel() : null,
+                        Role = user.RoleEnum
                     };
 
                     return this.Ok(userModel);

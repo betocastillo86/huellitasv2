@@ -5,8 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
-    using Huellitas.Data.Entities.Enums;
-    using Huellitas.Web.Models.Api;
+    using Huellitas.Data.Entities;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 

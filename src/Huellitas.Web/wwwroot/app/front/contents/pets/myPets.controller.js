@@ -6,9 +6,28 @@
         .controller('MyPetsController', MyPetsController);
 
 
-    MyPetsController.$inject = ['$location', 'petService', 'helperService', 'routingService', 'contentService', 'sessionService', 'modalService'];
+    MyPetsController.$inject = [
+        '$scope',
+        '$location',
+        'petService',
+        'helperService',
+        'routingService',
+        'contentService',
+        'sessionService',
+        'modalService',
+        'authenticationService'];
 
-    function MyPetsController($location, petService, helperService, routingService, contentService, sessionService, modalService) {
+    function MyPetsController(
+        $scope,
+        $location,
+        petService,
+        helperService,
+        routingService,
+        contentService,
+        sessionService,
+        modalService,
+        authenticationService) {
+
         var vm = this;
         vm.pets = [];
         vm.filter = {
@@ -17,7 +36,7 @@
             mine: true,
             countForms: true,
             orderBy: 'CreatedDate',
-            contentType: 'LostPet',
+            contentType: 'Pet',
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             genre: $location.search().genre ? parseInt($location.search().genre)  : undefined,
             keyword: $location.search().keyword ? $location.search().keyword : undefined,
@@ -40,8 +59,19 @@
 
         function activate()
         {
-            getPets();
-            getShelters();
+            authenticationService.showLogin($scope)
+                .then(authenticationCompleted)
+                .catch(authenticationError);
+
+            function authenticationCompleted(response) {
+                getPets();
+                getShelters();
+            }
+
+            function authenticationError()
+            {
+                $location.path(routingService.getRoute('home'));
+            }
         }
 
         function getPets()

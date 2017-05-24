@@ -96,6 +96,7 @@ gulp.task('cssAdmin', ['moveResources'], function () {
         paths.external + 'textAngular/dist/textAngular.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
+        paths.external + 'fullpage.js/jquery.fullPage.css',
         paths.webroot + 'css/huellitas.css'
     ];
 
@@ -139,11 +140,18 @@ gulp.task('scriptsDevAdmin', function () {
 //});
 
 
-gulp.task('scriptsDevFront', function () {
+gulp.task('scriptsDevFront', ['fullpage'], function () {
     console.log('Se generan los archivos', paths.libsFront);
+    
     return gulp.src(paths.libsFront, { base: '.' })
         .pipe(concat(paths.concatJsDestFront))
         //.pipe(uglify())
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('fullpage', function () {
+    return gulp.src(paths.external + 'fullpage.js/jquery.fullPage.min.js', { base: '.' })
+        .pipe(concat(paths.webroot + "js/jquery.fullPage.min.js"))
         .pipe(gulp.dest('.'));
 });
 

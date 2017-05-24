@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System.Threading.Tasks;
-    using Data.Entities.Enums;
+    using Data.Entities;
     using Data.Infraestructure;
-    using Huellitas.Data.Entities;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface of user services
