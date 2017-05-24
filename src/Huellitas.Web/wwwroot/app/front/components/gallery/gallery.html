@@ -1,6 +1,6 @@
 ﻿<div class="gallery-content col-md-12">
     <div class="carousel-content">
-        <img ng-src="{{gallery.currentImage.fileName}}">
+        <img ng-src="{{gallery.currentImage.fileName}}" alt="{{gallery.currentImage.name}}" title="{{gallery.currentImage.name}}">
         <div class="btn-carousel">
             <a class="thumb-prev" href="" ng-click="gallery.back()"><span class="icon-prev"></span></a>
             <a class="thumb-next" href="" ng-click="gallery.next()"><span class="icon-next"></span></a>
@@ -8,7 +8,7 @@
     </div>
     <ul class="nav-thumbnail">
         <li>
-            <img ng-repeat="image in gallery.images" ng-class="{'active' : image.id == gallery.currentImage.id }" ng-src="{{::image.thumbnail}}" ng-click="gallery.select($index)" />
+            <img ng-repeat="image in gallery.images" ng-class="{'active' : image.id == gallery.currentImage.id }" ng-src="{{::image.thumbnail}}" ng-click="gallery.select($index)" alt="{{image.name}}" title="{{image.name}}" />
         </li>
     </ul>
 </div>

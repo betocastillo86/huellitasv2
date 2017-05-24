@@ -4,7 +4,7 @@
         <div class="card" ng-repeat="pet in listPet.pets">
             <div class="img-pet">
                 <a ng-href="{{::pet.url}}">
-                    <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}">
+                    <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}" alt="{{pet.name}} mascota en adopción" title="{{pet.name}} mascota en adopción">
                 </a>
             </div>
             <a ng-href="{{::pet.url}}">

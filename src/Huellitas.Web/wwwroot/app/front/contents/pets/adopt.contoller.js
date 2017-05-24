@@ -185,9 +185,19 @@
                             var question = vm.questions[i];
 
                             if (!question.questionParentId) {
+
+                                var answer = question.answer;
+                                if (question.answer == 'true') {
+                                    answer = 'Si';
+                                }
+                                else if (question.answer == 'false')
+                                {
+                                    answer = 'No';
+                                }
+
                                 vm.model.attributes.push({
                                     attributeId: question.id,
-                                    value: question.answer,
+                                    value: answer,
                                     question: question.question
                                 });
 

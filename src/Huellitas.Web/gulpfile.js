@@ -170,6 +170,8 @@ gulp.task('cssFront',['sassFront'], function () {
     return gulp.src(files, { base: '.' })
         .pipe(cssConcat(paths.webroot + "css/front.styles.css"))
         .pipe(replace(/\"fonts\//g, '\"/fonts/'))
+        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         //.pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest('.'));
 });

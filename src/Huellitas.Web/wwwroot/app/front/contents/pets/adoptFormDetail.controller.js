@@ -56,7 +56,7 @@
         {
             adoptionFormService.getById(vm.id)
                 .then(getCompleted)
-                .catch(helperService.handleException);
+                .catch(helperService.notFound);
 
             function getCompleted(response)
             {
