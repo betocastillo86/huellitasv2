@@ -6,7 +6,7 @@
                 <div class="sub-title">Formulario No. {{::main.model.id}}</div>
                 <br>
                 <div class="res-pet">
-                    <img class="img-responsive" src="http://huellitas.social/img/18865/big">
+                    <img class="img-responsive" ng-src="{{::main.model.content.image.fileName}}" alt="Formulario para {{main.model.content.name}}" title="Formulario para {{main.model.content.name}}">
                     <div class="txt-pet">
                         <h3>{{::main.model.content.name}}</h3>
                         <span>Genero: {{::main.model.content.genre.text}}</span>
