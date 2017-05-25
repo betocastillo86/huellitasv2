@@ -48,6 +48,7 @@ namespace Huellitas.Web.Models.Extensions
             model.DisplayOrder = entity.DisplayOrder;
             model.Email = entity.Email;
             model.Featured = entity.Featured;
+            model.FriendlyName = entity.FriendlyName;
 
             if (entity.FileId.HasValue && entity.File != null)
             {

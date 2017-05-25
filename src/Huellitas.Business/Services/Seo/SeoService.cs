@@ -157,10 +157,30 @@ namespace Huellitas.Business.Services
         public IDictionary<string, string> GetRoutes()
         {
             var routes = new Dictionary<string, string>();
-            routes.Add("mypets", "mis-huellitas");
+            routes.Add("pets", "sinhogar");
             routes.Add("pet", "sinhogar/{0}");
-            routes.Add("lostpet", "perdidos/{0}");
+            routes.Add("adopt0", "sinhogar/{0}/adoptar");
+            routes.Add("adopt1", "sinhogar/{0}/adoptar/formulario");
+            routes.Add("mypets", "mis-huellitas");
+            routes.Add("shelters", "fundaciones");
             routes.Add("shelter", "fundaciones/{0}");
+            routes.Add("newpet0", "dar-en-adopcion");
+            routes.Add("newpet1", "dar-en-adopcion/crear");
+            routes.Add("editpet", "sinhogar/{0}/editar");
+            routes.Add("lostpets", "perdidos");
+            routes.Add("lostpet", "perdidos/{0}");
+            routes.Add("editlostpet", "perdidos/{0}/editar");
+            routes.Add("newlostpet", "perdidos/crear");
+            routes.Add("myaccount", "mis-datos");
+            routes.Add("facebooklogin", "auth/external/facebook");
+            routes.Add("home", "");
+            routes.Add("newshelter", "fundaciones/crear");
+            routes.Add("editshelter", "fundaciones/{0}/editar");
+            routes.Add("forms", "formularios-adopcion");
+            routes.Add("form", "formularios-adopcion/{0}");
+            routes.Add("notifications", "notificaciones");
+            routes.Add("faq", "por-que-adoptar");
+            routes.Add("notfound", "pagina-no-encontrada");
             return routes;
         }
     }

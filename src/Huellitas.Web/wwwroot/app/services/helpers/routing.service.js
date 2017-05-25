@@ -13,57 +13,40 @@
         };
 
         function getRoute(routeName, params) {
+
+            var routeValue = '/'+app.Settings.routes[routeName];
+
             switch (routeName) {
                 case 'pets':
-                    return '/sinhogar' + (params ? '?' + $.param(params) : '');
-                case 'pet':
-                    return '/sinhogar/' + params.friendlyName;
-                case 'adopt0':
-                    return '/sinhogar/' + params.friendlyName + '/adoptar';
-                case 'adopt1':
-                    return '/sinhogar/' + params.friendlyName + '/adoptar/formulario';
-                case 'shelters':
-                    return '/fundaciones';
-                case 'shelter':
-                    return '/fundaciones/' + params.friendlyName;
-                case 'newpet0':
-                    return '/dar-en-adopcion';
-                case 'newpet1':
-                    return '/dar-en-adopcion/crear';
-                case 'editpet':
-                    return '/sinhogar/' + params.friendlyName + '/editar';
                 case 'lostpets':
-                    return '/perdidos' + (params ? '?' + $.param(params) : '');
-                case 'lostpet':
-                    return '/perdidos/' + params.friendlyName;
-                case 'editlostpet':
-                    return '/perdidos/' + params.friendlyName + '/editar';
-                case 'newlostpet':
-                    return '/perdidos/crear';
-                case 'contact':
-                    return 'https://m.me/huellitas.social';
-                case 'myaccount':
-                    return '/mis-datos';
-                case 'facebooklogin':
-                    return '/auth/external/facebook'
-                case 'home':
-                    return '/';
-                case 'newshelter':
-                    return '/fundaciones/crear';
-                case 'editshelter':
-                    return '/fundaciones/' + params.friendlyName + '/editar';
                 case 'mypets':
-                    return '/mis-huellitas' + (params ? '?' + $.param(params) : '');
                 case 'forms':
-                    return '/formularios-adopcion' + (params ? '?' + $.param(params) : '');
-                case 'form':
-                    return '/formularios-adopcion/' + params.id;
+                    return routeValue + (params ? '?' + $.param(params) : '');
+                case 'pet':
+                case 'shelter':
+                case 'lostpet':
+                case 'adopt0':
+                case 'adopt1':
+                case 'editpet':
+                case 'editlostpet':
+                case 'editshelter':
+                    return routeValue.format(params.friendlyName);
+                case 'shelters':
+                case 'home':
+                case 'newpet0':
+                case 'newpet1':
+                case 'newlostpet':
+                case 'myaccount':
+                case 'facebooklogin':
+                case 'newshelter':
                 case 'notifications':
-                    return '/notificaciones';
                 case 'faq':
-                    return '/por-que-adoptar';
                 case 'notfound':
-                    return '/pagina-no-encontrada';
+                    return routeValue;
+                case 'contact': //////////////<------------- no borrar
+                    return 'https://m.me/huellitas.social';
+                case 'form':
+                    return routeValue.format(params.id);
                 default:
             }
         }

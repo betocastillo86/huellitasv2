@@ -12,7 +12,7 @@
                         <span>Genero: {{::main.model.content.genre.text}}</span>
                         <span>Edad: {{::main.model.content.months | age}}</span>
                         <span ng-if="::main.model.content.shelter">Fundación: {{::main.model.content.shelter.name}}</span>
-                        <span><a ng-href="{{::root.getRoute('pet', {friendlyName: main.model.friendlyName})}}">Ver huellita</a></span>
+                        <span><a ng-href="{{root.getRoute('pet', {friendlyName: main.model.content.friendlyName})}}">Ver huellita</a></span>
                     </div>
                     <br>
                 </div>

@@ -55,6 +55,11 @@ namespace Huellitas.Web.Infraestructure.UI
         private readonly ICustomTableService customTableService;
 
         /// <summary>
+        /// The seo service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JavascriptConfigurationGenerator"/> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
@@ -68,7 +73,8 @@ namespace Huellitas.Web.Infraestructure.UI
             ICacheManager cacheManager,
             IHostingEnvironment env,
             IRepository<SystemSetting> systemSettingRepository,
-            ICustomTableService customTableService)
+            ICustomTableService customTableService,
+            ISeoService seoService)
         {
             this.generalSettings = generalSettings;
             this.textResourceService = textResourceService;
@@ -76,6 +82,7 @@ namespace Huellitas.Web.Infraestructure.UI
             this.env = env;
             this.systemSettingRepository = systemSettingRepository;
             this.customTableService = customTableService;
+            this.seoService = seoService;
         }
 
         /// <summary>
@@ -165,7 +172,8 @@ namespace Huellitas.Web.Infraestructure.UI
                     jobs = Convert.ToInt32(CustomTableType.Jobs),
                     breed = Convert.ToInt32(CustomTableType.Breed)
                 },
-                isFront = true
+                isFront = true,
+                routes = this.seoService.GetRoutes()
             };
 
             return JsonConvert.SerializeObject(config);
