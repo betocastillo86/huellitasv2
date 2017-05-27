@@ -43,7 +43,7 @@
 <body>
     <header class="inner-header">
         <div class="content-all">
-            <div class="main-menu"><span class="icon-menu"></span></div>
+            <div class="main-menu" ng-click="root.showMenu(true)"><span class="icon-menu"></span></div>
             <h1 class="logo">
                 <a href="/">
                     <img src="/img/front/logo.svg" title="Logo Huellitas sin hogar" alt="Logo Huellitas sin hogar" />
@@ -51,12 +51,12 @@
                 </a>
             </h1>
             <nav class="menu">
-                <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}">Inicio</a></h2>
-                <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu == '/sinhogar'}">En adopción</a></h2>
-                <h2><a href="{{::root.getRoute('lostpets')}}" >Perdidos</a></h2>
-                <h2><a href="{{::root.getRoute('shelters')}}">Fundaciones</a></h2>
-                <h2><a href="{{::root.getRoute('faq')}}">¿Por qué adoptar?</a></h2>
-                <h2><a href="{{::root.getRoute('contact')}}" target="_blank">Contactanos</a></h2>
+                <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}" ng-click="root.showMenu(false)">Inicio</a></h2>
+                <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu == '/sinhogar'}" ng-click="root.showMenu(false)">En adopción</a></h2>
+                <h2><a href="{{::root.getRoute('lostpets')}}"  ng-click="root.showMenu(false)">Perdidos</a></h2>
+                <h2><a href="{{::root.getRoute('shelters')}}" ng-click="root.showMenu(false)">Fundaciones</a></h2>
+                <h2><a href="{{::root.getRoute('faq')}}" ng-click="root.showMenu(false)">¿Por qué adoptar?</a></h2>
+                <h2><a href="{{::root.getRoute('contact')}}" target="_blank" ng-click="root.showMenu(false)">Contactanos</a></h2>
                 <br />
             </nav>
             <div class="user-wraper">

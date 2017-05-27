@@ -28,6 +28,7 @@ var paths = {
     approotAdmin: './wwwroot/app/admin',
     approotFront: './wwwroot/app/front',
     approotServices: './wwwroot/app/services',
+    approotComponents: './wwwroot/app/components',
     external: './node_modules/externalHuellitas/',
     sassFront : './wwwroot/sass/'
 };
@@ -36,19 +37,20 @@ var paths = {
 
 paths.libsAdmin = [
     paths.external + 'gentelella/vendors/jquery/dist/jquery.js',
-    paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
     paths.external + 'angular/angular.js',
+    paths.external + 'gentelella/vendors/bootstrap/dist/js/bootstrap.js',
     paths.external + 'ngstorage/ngStorage.js',
-    paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'angular-route/angular-route.js',
-    paths.external + 'angucomplete-alt/angucomplete-alt.js',
+    paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'underscore/underscore.js',
     paths.external + 'textAngular/dist/textAngular-rangy.min.js',
     paths.external + 'textAngular/dist/textAngular-sanitize.min.js',
     paths.external + 'textAngular/dist/textAngular.min.js',
     paths.external + 'moment/moment.js',
     paths.external + 'moment/locale/es.js',
-    paths.external + 'pikaday/pikaday.js'
+    paths.external + 'pikaday/pikaday.js',,
+    //paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
+    paths.external + 'angucomplete-alt/angucomplete-alt.js',
 ];
 
 paths.libsFront = [
@@ -69,15 +71,26 @@ paths.libsFront = [
 paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
 paths.concatJsDestFront = paths.webroot + "js/front.site.min.js";
  
-gulp.task("release", ['scriptsReleaseAdmin', 'cssAdmin']);
+gulp.task('resourcesAdmin', function () {
+    var files = paths.libsAdmin;
 
-gulp.task('scriptsReleaseAdmin', function () {
+    console.log('Inicia tarea resourcesAdmin ', files);
 
-    var files = [
-        paths.approotAdmin + '**/*.js'
-    ];
+    return gulp.src(files, { base: '.' })
+        .pipe(concat(paths.webroot + "js/admin.resources.min.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest('.'));
+});
 
-    files.concat(paths.libsAdmin);
+gulp.task('scriptsReleaseAdmin', ['resourcesAdmin'], function () {
+
+    var files = [];
+    //files = files.concat(paths.libsAdmin);
+    files = files.concat([
+        paths.approotAdmin + '/**/*.js',
+        paths.approotServices + '/**/*.js', 
+        paths.approotComponents + '/**/*.js'
+    ]);
 
     console.log('Inicia tarea scripts', files);
 
@@ -182,4 +195,26 @@ gulp.task('sassFront', function () {
         .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
         .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest(paths.webroot + 'css/front/'));
+});
+
+gulp.task('scriptsReleaseFront', function () {
+
+    var files = [];
+    files = files.concat(paths.libsFront);
+    files = files.concat([
+        paths.approotFront + '/**/*.js',
+        paths.approotServices + '/**/*.js',
+        paths.approotComponents + '/**/*.js'
+    ]);
+    
+    console.log('Inicia tarea scripts', files);
+
+    return gulp.src(files, { base: '.' })
+        .pipe(concat(paths.concatJsDestFront))
+        .pipe(uglify())
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('release', ['cssFront', 'cssAdmin', 'scriptsReleaseAdmin', 'scriptsReleaseFront'], function () {
+
 });
