@@ -27,10 +27,39 @@
             function sendFile(e) {
                 var fileUpload = element[0];
                 progressArray = new Array();
+
+                var errorSize = false;
+                var iFileSent = 0;
+
                 for (var i = 0; i < fileUpload.files.length; i++) {
-                    fileService.post(fileUpload.files[i], scope.defaultname, onProgress, i)
-                        .then(postCompleted)
-                        .catch(helperService.handleException);
+
+                    if (fileUpload.files[i].size <= app.Settings.security.maxRequestFileUploadMB * 1024 * 1024) {
+                        fileService.post(fileUpload.files[i], scope.defaultname, onProgress, iFileSent)
+                            .then(postCompleted)
+                            .catch(helperService.handleException);
+                        iFileSent++;
+                    }
+                    else
+                    {
+                        errorSize = true;
+                    }
+                }
+
+                if (errorSize) {
+                    var message = '';
+                    if (fileUpload.files.length == 1) {
+                        message = 'El archivo no puede exceder las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
+                    }
+                    else if (iFileSent == 0)
+                    {
+                        message = 'Los archivos no pueden exceder las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
+                    }
+                    else{
+                        message = 'Hay archivos que exceden las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
+                    }
+
+
+                    helperService.handleException({ data: { error: { message: message } } });
                 }
             }
 

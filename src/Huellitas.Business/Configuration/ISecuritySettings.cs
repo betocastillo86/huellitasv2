@@ -41,5 +41,7 @@ namespace Huellitas.Business.Configuration
         /// The expiration token minutes.
         /// </value>
         int ExpirationTokenMinutes { get; }
+
+        int MaxRequestFileUploadMB { get; }
     }
 }

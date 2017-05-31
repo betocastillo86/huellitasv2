@@ -60,6 +60,11 @@ namespace Huellitas.Web.Infraestructure.UI
         private readonly ISeoService seoService;
 
         /// <summary>
+        /// The security
+        /// </summary>
+        private readonly ISecuritySettings securitySettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JavascriptConfigurationGenerator"/> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
@@ -74,7 +79,8 @@ namespace Huellitas.Web.Infraestructure.UI
             IHostingEnvironment env,
             IRepository<SystemSetting> systemSettingRepository,
             ICustomTableService customTableService,
-            ISeoService seoService)
+            ISeoService seoService,
+            ISecuritySettings securitySettings)
         {
             this.generalSettings = generalSettings;
             this.textResourceService = textResourceService;
@@ -83,6 +89,7 @@ namespace Huellitas.Web.Infraestructure.UI
             this.systemSettingRepository = systemSettingRepository;
             this.customTableService = customTableService;
             this.seoService = seoService;
+            this.securitySettings = securitySettings;
         }
 
         /// <summary>
@@ -143,6 +150,10 @@ namespace Huellitas.Web.Infraestructure.UI
                     parent = ContentUserRelationType.Parent.ToString(),
                     shelter = ContentUserRelationType.Shelter.ToString()
                 },
+                security = new
+                {
+                    maxRequestFileUploadMB = securitySettings.MaxRequestFileUploadMB
+                },
                 resources = this.GetAdminResources(),
                 isDebug = isDebug,
                 isFront = false
@@ -171,6 +182,10 @@ namespace Huellitas.Web.Infraestructure.UI
                     questionAdoptionForm = Convert.ToInt32(CustomTableType.QuestionAdoptionForm),
                     jobs = Convert.ToInt32(CustomTableType.Jobs),
                     breed = Convert.ToInt32(CustomTableType.Breed)
+                },
+                security = new
+                {
+                    maxRequestFileUploadMB = securitySettings.MaxRequestFileUploadMB
                 },
                 isFront = true,
                 routes = this.seoService.GetRoutes()

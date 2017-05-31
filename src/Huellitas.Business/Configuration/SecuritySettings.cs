@@ -60,5 +60,7 @@ namespace Huellitas.Business.Configuration
         /// The expiration token minutes.
         /// </value>
         public int ExpirationTokenMinutes { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.ExpirationTokenMinutes"); } }
+
+        public int MaxRequestFileUploadMB { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.MaxRequestFileUploadMB"); } }
     }
 }

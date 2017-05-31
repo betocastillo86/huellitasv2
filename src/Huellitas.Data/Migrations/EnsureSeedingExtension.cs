@@ -489,7 +489,9 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookSecretToken", Value = "" });
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.SeoImage", Value = "/img/front/porque-adoptar-una-mascota.png" });
-            
+
+            list.Add(new SystemSetting() { Name = "SecuritySettings.MaxRequestFileUploadMB", Value = "5" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
