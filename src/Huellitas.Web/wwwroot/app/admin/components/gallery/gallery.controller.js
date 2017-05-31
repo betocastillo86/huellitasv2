@@ -14,6 +14,7 @@
         vm.model.width = $scope.width || '100%';
         vm.model.height = $scope.height || '100%';
         vm.contentid = $scope.contentid;
+        vm.progressFiles = [];
 
         vm.defaultName = $scope.defaultname;
         vm.removeImageCallback = $scope.ondelete;
@@ -21,6 +22,7 @@
         vm.imageAdded = imageAdded;
         vm.getImageByIndex = getImageByIndex;
         vm.reorder = reorder;
+        vm.onProgress = onProgress;
 
         return activate();
 
@@ -71,6 +73,12 @@
 
             //calls the method after adding it
             $scope.onadded(file, previousFile);
+        }
+
+        function onProgress(progressFiles)
+        {
+            console.log(progressFiles);
+            vm.progressFiles = progressFiles;
         }
 
         function reorder(files)

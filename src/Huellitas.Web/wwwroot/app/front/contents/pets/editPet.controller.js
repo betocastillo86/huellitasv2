@@ -44,6 +44,7 @@
         vm.canChangePhone = true;
         vm.shelters = [];
         vm.showNotLogged = false;
+        vm.progressFiles = [];
 
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
@@ -60,6 +61,7 @@
         vm.save = save;
         vm.reorder = reorder;
         vm.validateAuthentication = validateAuthentication;
+        vm.imageOnProgress = imageOnProgress;
 
         activate();
 
@@ -307,6 +309,10 @@
                 vm.model.files = vm.model.files || [];
                 vm.model.files.push(image);
             }
+        }
+
+        function imageOnProgress(progressFiles) {
+            vm.progressFiles = progressFiles;
         }
 
 

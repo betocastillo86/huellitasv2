@@ -68,7 +68,7 @@ paths.libsFront = [
     paths.external + 'angucomplete-alt/angucomplete-alt.js'
 ];
 
-paths.concatJsDestAdmin = paths.webroot + "js/site.min.js";
+paths.concatJsDestAdmin = paths.webroot + "js/admin.site.min.js";
 paths.concatJsDestFront = paths.webroot + "js/front.site.min.js";
  
 gulp.task('resourcesAdmin', function () {

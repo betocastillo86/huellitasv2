@@ -44,6 +44,7 @@
         vm.canChangePhone = true;
         vm.breedTable = app.Settings.customTables.breed;
         vm.maxdate = moment().toDate();
+        vm.progressFiles = [];
         
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
@@ -59,6 +60,7 @@
         vm.save = save;
         vm.reorder = reorder;
         vm.changeBreed = changeBreed;
+        vm.imageOnProgress = imageOnProgress;
 
         activate();
 
@@ -275,6 +277,11 @@
             function confirmRemoved() {
                 vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
             }
+        }
+
+        function imageOnProgress(progressFiles)
+        {
+            vm.progressFiles = progressFiles;
         }
 
         function imageAdded(image) {

@@ -30,6 +30,7 @@
         var vm = this;
         vm.model = {};
         vm.model.files = [];
+        vm.progressFiles = [];
 
         vm.friendlyName = $routeParams.friendlyName;
 
@@ -40,6 +41,7 @@
         vm.removeFile = removeFile;
         vm.reorder = reorder;
         vm.save = save;
+        vm.imageOnProgress = imageOnProgress;
 
         $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditShelter.Title'];
         $scope.$parent.root.seo.description = app.Settings.resources['Seo.EditShelter.Description'];
@@ -185,6 +187,10 @@
             else {
                 helperService.goToFocusError();
             }
+        }
+
+        function imageOnProgress(progressFiles) {
+            vm.progressFiles = progressFiles;
         }
     }
 })();

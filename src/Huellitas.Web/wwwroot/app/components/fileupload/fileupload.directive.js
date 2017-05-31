@@ -10,6 +10,7 @@
             link: link,
             scope: {
                 onadded: '=',
+                onprogress: '=',
                 callbackParam: '@',
                 defaultname: '@'
             }
@@ -21,12 +22,24 @@
 
             attrs.$observe('defaultname', updateDefaultName);
 
+            var progressArray = [];
+            
             function sendFile(e) {
                 var fileUpload = element[0];
+                progressArray = new Array();
                 for (var i = 0; i < fileUpload.files.length; i++) {
-                    fileService.post(fileUpload.files[i], scope.defaultname)
+                    fileService.post(fileUpload.files[i], scope.defaultname, onProgress, i)
                         .then(postCompleted)
                         .catch(helperService.handleException);
+                }
+            }
+
+            function onProgress(percentage, indexFile)
+            {
+                progressArray[indexFile] = percentage;
+                if (scope.onprogress)
+                {
+                    scope.onprogress(progressArray);
                 }
             }
 
@@ -35,6 +48,12 @@
             }
 
             function postCompleted(response) {
+
+                progressArray = _.rest(progressArray, 1);
+                if (scope.onprogress) {
+                    scope.onprogress(progressArray);
+                }
+
                 //if it has a callback method for added then call it
                 if (scope.onadded) {
                     scope.onadded(response, scope.callbackParam);
