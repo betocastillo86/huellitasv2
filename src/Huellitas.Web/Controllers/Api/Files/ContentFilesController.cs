@@ -17,6 +17,8 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
+    using Hangfire;
+    using Huellitas.Web.Infraestructure.Tasks;
 
     /// <summary>
     /// Content Files Controller
@@ -149,10 +151,7 @@ namespace Huellitas.Web.Controllers.Api
                         {
                             await this.fileService.InsertContentFileAsync(contentFile);
 
-                            var file = this.fileService.GetById(model.Id);
-
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                            BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImage(model.Id));
                         }
                         catch (HuellitasException e)
                         {

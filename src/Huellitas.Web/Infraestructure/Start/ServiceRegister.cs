@@ -20,6 +20,8 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.Extensions.DependencyInjection;
     using Security;
     using UI;
+    using Huellitas.Web.Infraestructure.Tasks;
+    using Huellitas.Business.Tasks;
 
     /// <summary>
     /// Helper for register services
@@ -30,15 +32,15 @@ namespace Huellitas.Web.Infraestructure.Start
         /// Registers the <![CDATA[huellitas]]> services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void RegisterHuellitasServices(this IServiceCollection services)
+        public static void RegisterHuellitasServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            ////Registra el contexto de base de datos
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("appsettings.json");
-
-            var connectionStringConfig = builder.Build();
-            services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(connectionStringConfig.GetConnectionString("DefaultConnection")));
+            ///////Registra el contexto de base de datos
+            ///var builder = new ConfigurationBuilder();
+            ///builder.SetBasePath(Directory.GetCurrentDirectory());
+            ///builder.AddJsonFile("appsettings.json");
+            ///
+            ///var connectionStringConfig = builder.Build();
+            services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             ////Registra los Repositorios genericos
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -85,6 +87,9 @@ namespace Huellitas.Web.Infraestructure.Start
             ////Events
             services.AddScoped<IPublisher, Publisher>();
 
+            ////Events
+            //services.AddScoped<ImageResizeTask, ImageResizeTask>();
+
             foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ISubscriber<>)))
             {
                 var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
@@ -97,6 +102,21 @@ namespace Huellitas.Web.Infraestructure.Start
                 foreach (var serviceFoundType in servicesTypeFound)
                 {
                     services.AddScoped(serviceFoundType, implementationType);
+                }
+            }
+
+            foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ITask)))
+            {
+                var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
+                    (type, criteria) =>
+                    {
+                        return true;
+                    },
+                    typeof(ITask));
+
+                foreach (var serviceFoundType in servicesTypeFound)
+                {
+                    services.AddScoped(implementationType, implementationType);
                 }
             }
         }

@@ -12,10 +12,12 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Services;
     using Business.Utilities.Extensions;
     using Data.Entities;
+    using Hangfire;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Subscribers;
     using Huellitas.Data.Core;
+    using Huellitas.Web.Infraestructure.Tasks;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
@@ -319,13 +321,8 @@ namespace Huellitas.Web.Controllers.Api
 
                     if (content.ContentFiles.Count > 0)
                     {
-                        var files = this.fileService.GetByIds(content.ContentFiles.Select(c => c.FileId).ToArray());
-
-                        foreach (var file in files)
-                        {
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
-                        }
+                        var contentFiles = content.ContentFiles.Select(c => c.FileId).ToArray();
+                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(contentFiles));
                     }
                 }
                 catch (HuellitasException e)

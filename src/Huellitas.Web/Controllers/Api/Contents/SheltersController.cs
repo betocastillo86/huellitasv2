@@ -23,6 +23,8 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Data.Core;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Subscribers;
+    using Hangfire;
+    using Huellitas.Web.Infraestructure.Tasks;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller
@@ -249,13 +251,8 @@ namespace Huellitas.Web.Controllers.Api
 
                     if (content.ContentFiles.Count > 0)
                     {
-                        var files = this.fileService.GetByIds(content.ContentFiles.Select(c => c.FileId).ToArray());
-
-                        foreach (var file in files)
-                        {
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
-                            this.pictureService.GetPicturePath(file, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
-                        }
+                        var fileContents = content.ContentFiles.Select(c => c.FileId).ToArray();
+                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(fileContents));
                     }
                 }
                 catch (HuellitasException e)
@@ -318,9 +315,7 @@ namespace Huellitas.Web.Controllers.Api
 
                         if (content.FileId.HasValue)
                         {
-                            var logo = this.fileService.GetById(content.FileId.Value);
-                            this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true);
-                            this.pictureService.GetPicturePath(logo, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
+                            BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImage(content.FileId.Value));
                         }
 
                         //// Si el shelter fue aprobado o rechazado

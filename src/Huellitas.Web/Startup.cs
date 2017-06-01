@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
-    using System;
     using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
     using Infraestructure.Middleware;
@@ -13,9 +12,11 @@ namespace Huellitas.Web
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
+    using System.IO;
 
     /// <summary>
     /// The startup
@@ -32,6 +33,8 @@ namespace Huellitas.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMiddleware<HuellitasExceptionMiddleware>();
+
+            app.AddHangFire(env, loggerFactory);
 
             app.UseMiddleware<CurrentDateMiddleware>();
 
@@ -89,6 +92,12 @@ namespace Huellitas.Web
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+
             ////Habilita configuraciones con inyecciond e dependencia
             services.AddOptions();
 
@@ -98,7 +107,7 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddJsonOptions(c => 
+            }).AddJsonOptions(c =>
             {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
@@ -108,7 +117,10 @@ namespace Huellitas.Web
             services.ConfigurePolicies();
 
             ////Registra los Repositorios genericos
-            services.RegisterHuellitasServices();
+            services.RegisterHuellitasServices(configuration);
+
+            //// External services
+            services.RegisterHangFireServices(configuration);
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
