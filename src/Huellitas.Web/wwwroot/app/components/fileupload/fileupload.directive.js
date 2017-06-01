@@ -78,7 +78,10 @@
 
             function postCompleted(response) {
 
-                progressArray = _.rest(progressArray, 1);
+                progressArray = _.reject(progressArray, function (el) {
+                    return el == 100;
+                });
+
                 if (scope.onprogress) {
                     scope.onprogress(progressArray);
                 }

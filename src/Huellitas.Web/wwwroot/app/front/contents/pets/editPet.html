@@ -64,6 +64,7 @@
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.username.$invalid }">
                         <input type="text" name="username" ng-model="main.model.user.name" placeholder="Nombre del contacto" maxlength="100" required disabled>
+                        <span class="error"></span>
                         <!--<span class="error" ng-if="main.form.$submitted && main.form.username.$invalid">Ingresa tu nombre</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.username.$valid"></span>-->
                     </div>

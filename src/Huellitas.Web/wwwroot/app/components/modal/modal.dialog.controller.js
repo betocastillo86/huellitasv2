@@ -2,7 +2,7 @@
     angular.module('huellitasComponents')
         .controller('ModalDialogController', ModalDialogController);
 
-    angular.$inject = ['$scope'];
+    ModalDialogController.$inject = ['$scope'];
 
     function ModalDialogController($scope) {
         var vm = this;

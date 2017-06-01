@@ -96,7 +96,7 @@ gulp.task('scriptsReleaseAdmin', ['resourcesAdmin'], function () {
 
     return gulp.src(files, { base: '.' })
     .pipe(concat(paths.concatJsDestAdmin))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('.'));
 });
 
@@ -117,7 +117,7 @@ gulp.task('cssAdmin', ['moveResources'], function () {
 
     return gulp.src(files, { base: '.' })
         .pipe(cssConcat(paths.webroot + "css/styles.css"))
-        //.pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         .pipe(gulp.dest('.'));
@@ -144,15 +144,6 @@ gulp.task('scriptsDevAdmin', function () {
 /*************************FIN ADMINISTRADOR*************************/
 
 /*************************FRONT*************************/
-
-//gulp.task('sassFront', function () {
-//    return gulp.src(paths.sassFront + 'styles.scss')
-//        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
-//        .pipe(cssmin({ keepSpecialComments: 0 }))
-//        .pipe(gulp.dest('./content/css/'));
-//});
-
-
 gulp.task('scriptsDevFront', ['fullpage'], function () {
     console.log('Se generan los archivos', paths.libsFront);
     
@@ -185,7 +176,7 @@ gulp.task('cssFront',['sassFront'], function () {
         .pipe(replace(/\"fonts\//g, '\"/fonts/'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
-        //.pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest('.'));
 });
 
@@ -193,7 +184,7 @@ gulp.task('sassFront', function () {
     console.log(paths.sassFront + 'styles.scss')
     return gulp.src(paths.sassFront + 'styles.scss')
         .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
-        .pipe(cssmin({ keepSpecialComments: 0 }))
+        //.pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest(paths.webroot + 'css/front/'));
 });
 

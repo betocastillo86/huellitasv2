@@ -88,6 +88,7 @@
                 };
 
                 var controllerObjBefore = scope[options.controllerAs];
+
                 var controller = $controller(getControllerName(options), inputs, false, options.controllerAs);
 
                 if (options.controllerAs && controllerObjBefore) {
@@ -113,7 +114,7 @@
                 })
                 //calls the modal before resolving promise
                 if (!modal.element.modal) {
-                    modal.element = $(modal.element)
+                    modal.element = angular.element(modal.element);
                 }
 
                 modal.element.modal();

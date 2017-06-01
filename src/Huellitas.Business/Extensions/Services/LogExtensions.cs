@@ -37,7 +37,7 @@ namespace Huellitas.Business.Extensions
         /// <param name="writeConsole">if set to <c>true</c> [write console].</param>
         public static void Debug(this ILogService log, string shortMessage, string fullMessage = null, User user = null, bool writeConsole = false)
         {
-            log.Insert(LogLevel.Debug, shortMessage, fullMessage, user);
+            log.Insert(LogLevel.Debug, shortMessage, fullMessage ?? shortMessage, user);
 
             if (writeConsole)
             {
