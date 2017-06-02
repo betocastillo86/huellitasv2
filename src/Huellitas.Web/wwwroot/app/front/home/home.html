@@ -38,7 +38,11 @@
             <h2 class="tit-section col-md-12">FUNDACIONES</h2>
             <div class="sub-title col-md-12">Estas son algunas de las fundaciones que puedes encontrar con nosotros</div>
             <ul>
-                <li ng-repeat="shelter in main.shelters"><img ng-src="{{::shelter.image.thumbnail}}" title="Conoce a la fundación {{::shelter.name}}" alt="Conoce a la fundación {{::shelter.name}}"></li>
+                <li ng-repeat="shelter in main.shelters">
+                    <a ng-href="{{::root.getRoute('shelter', {friendlyName: shelter.friendlyName})}}">
+                        <img ng-src="{{::shelter.image.thumbnail}}" title="Conoce a la fundación {{::shelter.name}}" alt="Conoce a la fundación {{::shelter.name}}">
+                    </a>
+                </li>
                 <br>
             </ul>
             <button type="button" class="btn btn-lg">Ver todas</button>

@@ -1,6 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Huellitas.Web
 
+@model Huellitas.Web.Models.HomeModel
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app="huellitas" ng-controller="RootController as root">
 <head>
@@ -85,13 +86,13 @@
     </footer>
 
     <environment names="Development">
-        <script src="~/js/front.configuration.js"></script>
-        <script src="~/js/front.site.min.js"></script>
+        <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
+        <script src="~/js/front.site.min.js?v=@Model.CacheKey"></script>
         <jsresources type="front"></jsresources>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/front.configuration.js"></script>
-        <script src="/js/front.site.min.js"></script>
+        <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
+        <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
     </environment>
 </body>
 </html>

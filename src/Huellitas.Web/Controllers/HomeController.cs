@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers
 {
+    using Huellitas.Business.Configuration;
+    using Huellitas.Web.Models;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -16,10 +18,17 @@ namespace Huellitas.Web.Controllers
         #region ctor
 
         /// <summary>
+        /// The general settings
+        /// </summary>
+        private IGeneralSettings generalSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
-        public HomeController()
+        public HomeController(
+            IGeneralSettings generalSettings)
         {
+            this.generalSettings = generalSettings;
         }
 
         #endregion ctor
@@ -30,7 +39,10 @@ namespace Huellitas.Web.Controllers
         /// <returns>the value</returns>
         public ActionResult Index()
         {
-            return this.View();
+            var model = new HomeModel();
+            model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
+
+            return this.View(model);
         }
     }
 }

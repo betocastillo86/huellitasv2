@@ -1,6 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Huellitas.Web
 
+@model Huellitas.Web.Models.AdminModel
 
 <!DOCTYPE html>
 <html ng-app="huellitasAdmin" ng-controller="RootController as root">
@@ -18,18 +19,18 @@
 
     <environment names="Development">
 
-        <script src="/js/admin.configuration.js"></script>
-        <script src="/js/admin.resources.min.js"></script>
-        <script src="/js/admin.site.min.js"></script>
+        <script src="/js/admin.configuration.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.resources.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
         <jsresources type="admin"></jsresources>
 
         <link href="~/css/styles.css" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
-        <script src="/js/admin.configuration.js"></script>
-        <script src="/js/admin.resources.min.js"></script>
-        <script src="/js/admin.site.min.js"></script>
-        <link href="~/css/styles.css" rel="stylesheet">
+        <script src="/js/admin.configuration.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.resources.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
+        <link href="~/css/styles.css?v=@Model.CacheKey" rel="stylesheet">
     </environment>
 
 </head>
@@ -54,6 +55,7 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a ng-click="root.clearCache()"><i class="fa fa-refresh pull-right"></i> Limpiar cache</a></li>
                                     <li><a ng-click="header.website()"><i class="fa fa-paw pull-right"></i> Ir al sitio</a></li>
                                     <li><a ng-click="header.logout()"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                                 </ul>

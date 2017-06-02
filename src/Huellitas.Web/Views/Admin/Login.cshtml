@@ -1,5 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Huellitas.Web
+
+@model Huellitas.Web.Models.AdminModel
 <!DOCTYPE html>
 <html ng-app="huellitasAdmin">
 <head>
@@ -16,18 +18,18 @@
 
     <environment names="Development">
 
-        <script src="/js/admin.configuration.js"></script>
-        <script src="/js/admin.resources.min.js"></script>
-        <script src="/js/admin.site.min.js"></script>
+        <script src="/js/admin.configuration.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.resources.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
         <jsresources type="admin"></jsresources>
 
-        <link href="~/css/styles.css" rel="stylesheet">
+        <link href="~/css/styles.css?v=@Model.CacheKey" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
-        <script src="/js/admin.configuration.js"></script>
-        <script src="/js/admin.resources.min.js"></script>
-        <script src="/js/admin.site.min.js"></script>
-        <link href="~/css/styles.css" rel="stylesheet">
+        <script src="/js/admin.configuration.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.resources.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
+        <link href="~/css/styles.css?v=@Model.CacheKey" rel="stylesheet">
     </environment>
 
 </head>

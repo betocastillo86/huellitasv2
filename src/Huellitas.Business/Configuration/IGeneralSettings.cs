@@ -73,7 +73,21 @@ namespace Huellitas.Business.Configuration
         /// The facebook secret token.
         /// </value>
         string FacebookSecretToken { get; }
-        
+
+        /// <summary>
+        /// Gets the SEO image.
+        /// </summary>
+        /// <value>
+        /// The SEO image.
+        /// </value>
         string SeoImage { get; }
+
+        /// <summary>
+        /// Gets the configuration JAVASCRIPT cache key.
+        /// </summary>
+        /// <value>
+        /// The configuration JAVASCRIPT cache key.
+        /// </value>
+        string ConfigJavascriptCacheKey { get; }
     }
 }
