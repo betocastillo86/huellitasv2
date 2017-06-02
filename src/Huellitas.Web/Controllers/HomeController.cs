@@ -3,7 +3,6 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Huellitas.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;

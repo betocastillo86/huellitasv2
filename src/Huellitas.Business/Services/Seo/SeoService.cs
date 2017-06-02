@@ -5,14 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Business.Configuration;
-    using Data.Entities;
-    using Data.Entities.Abstract;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Xml.Linq;
+    using Business.Configuration;
+    using Data.Entities;
+    using Data.Entities.Abstract;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Data.Core;
 
     /// <summary>
     /// <c>Seo</c> Service
@@ -21,17 +24,34 @@ namespace Huellitas.Business.Services
     public class SeoService : ISeoService
     {
         /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
+        /// <summary>
         /// The general settings
         /// </summary>
         private readonly IGeneralSettings generalSettings;
 
         /// <summary>
+        /// The log service
+        /// </summary>
+        private readonly ILogService logService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SeoService"/> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
-        public SeoService(IGeneralSettings generalSettings)
+        /// <param name="contentRepository">The content repository.</param>
+        /// <param name="logService">The log service.</param>
+        public SeoService(
+            IGeneralSettings generalSettings,
+            IRepository<Content> contentRepository,
+            ILogService logService)
         {
             this.generalSettings = generalSettings;
+            this.contentRepository = contentRepository;
+            this.logService = logService;
         }
 
         /// <summary>
@@ -81,16 +101,46 @@ namespace Huellitas.Business.Services
 
             if (query != null)
             {
-                var isAvailable = !query.Any(c => c.FriendlyName.Equals(friendlyname));
+                var available = !query.Any(c => c.FriendlyName.Equals(friendlyname));
 
                 ////Si el nombre no está disponible genera un numero aleatorio para completar la URL
-                if (!isAvailable)
+                if (!available)
                 {
                     friendlyname = $"{friendlyname}-{new Random().Next(1000000).ToString()}";
                 }
             }
 
             return friendlyname;
+        }
+
+        /// <summary>
+        /// Generates the site map XML.
+        /// </summary>
+        /// <returns>the complete site map</returns>
+        public string GenerateSiteMapXml()
+        {
+            var urls = this.GetUrlsForSiteMap();
+
+            var elements = new List<XElement>();
+
+            foreach (var url in urls)
+            {
+                var children = new List<XElement>();
+                children.Add(new XElement("loc", url.Key));
+                children.Add(new XElement("changefreq", "weekly"));
+
+                if (url.Value.HasValue)
+                {
+                    children.Add(new XElement("lastmod", url.Value));
+                }
+
+                var element = new XElement("url", children);
+                elements.Add(element);
+            }
+
+            var document = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement("urlset", elements));
+
+            return document.ToString();
         }
 
         /// <summary>
@@ -107,10 +157,13 @@ namespace Huellitas.Business.Services
             {
                 case ContentType.Pet:
                     return this.GetFullRoute("pet", content.FriendlyName);
+
                 case ContentType.Shelter:
                     return this.GetFullRoute("shelter", content.FriendlyName);
+
                 case ContentType.LostPet:
                     return this.GetFullRoute("lostpet", content.FriendlyName);
+
                 default:
                     return string.Empty;
             }
@@ -119,9 +172,11 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// Gets the full route of the element
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="parameters"></param>
-        /// <returns>the full route</returns>
+        /// <param name="key">the key</param>
+        /// <param name="parameters">the routes</param>
+        /// <returns>
+        /// the full route
+        /// </returns>
         public string GetFullRoute(string key, params string[] parameters)
         {
             var route = string.Format(this.GetRoute(key), parameters);
@@ -173,7 +228,7 @@ namespace Huellitas.Business.Services
             routes.Add("newlostpet", "perdidos/crear");
             routes.Add("myaccount", "mis-datos");
             routes.Add("facebooklogin", "auth/external/facebook");
-            routes.Add("home", "");
+            routes.Add("home", string.Empty);
             routes.Add("newshelter", "fundaciones/crear");
             routes.Add("editshelter", "fundaciones/{0}/editar");
             routes.Add("forms", "formularios-adopcion");
@@ -182,6 +237,62 @@ namespace Huellitas.Business.Services
             routes.Add("faq", "por-que-adoptar");
             routes.Add("notfound", "pagina-no-encontrada");
             return routes;
+        }
+
+        /// <summary>
+        /// Gets the content url.
+        /// </summary>
+        /// <returns>the list of url</returns>
+        private IDictionary<string, DateTime?> GetContentUrls()
+        {
+            var statusCreated = Convert.ToInt16(StatusType.Created);
+            var statusRejected = Convert.ToInt16(StatusType.Rejected);
+            var contents = this.contentRepository.Table
+                .Where(c => !c.Deleted && c.Status != statusCreated && c.Status != statusRejected)
+                .ToList();
+
+            var urls = new Dictionary<string, DateTime?>();
+
+            foreach (var content in contents)
+            {
+                if (!string.IsNullOrEmpty(content.FriendlyName))
+                {
+                    try
+                    {
+                        urls.Add(this.GetContentUrl(content), content.UpdatedDate ?? content.CreatedDate);
+                    }
+                    catch (Exception e)
+                    {
+                        this.logService.Error(e);
+                    }
+                }
+            }
+
+            return urls;
+        }
+
+        /// <summary>
+        /// Gets the url for site map.
+        /// </summary>
+        /// <returns>the url</returns>
+        private IDictionary<string, DateTime?> GetUrlsForSiteMap()
+        {
+            var urls = new Dictionary<string, DateTime?>();
+            urls.Add($"{this.generalSettings.SiteUrl}", null);
+            urls.Add(this.GetFullRoute("shelters"), null);
+            urls.Add(this.GetFullRoute("pets"), null);
+            urls.Add(this.GetFullRoute("lostpets"), null);
+            urls.Add(this.GetFullRoute("newshelter"), null);
+            urls.Add(this.GetFullRoute("newlostpet"), null);
+            urls.Add(this.GetFullRoute("faq"), null);
+            urls.Add(this.GetFullRoute("newpet0"), null);
+
+            foreach (var content in this.GetContentUrls())
+            {
+                urls.Add(content.Key, content.Value);
+            }
+
+            return urls;
         }
     }
 }

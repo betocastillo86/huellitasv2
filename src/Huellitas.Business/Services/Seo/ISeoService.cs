@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Data.Entities;
-    using Huellitas.Data.Entities.Abstract;
     using System.Collections.Generic;
     using System.Linq;
+    using Data.Entities;
+    using Huellitas.Data.Entities.Abstract;
 
     /// <summary>
     /// Interface to friendly
@@ -25,6 +25,12 @@ namespace Huellitas.Business.Services
         string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query = null, int maxLength = 280);
 
         /// <summary>
+        /// Generates the site map XML.
+        /// </summary>
+        /// <returns>the site map</returns>
+        string GenerateSiteMapXml();
+
+        /// <summary>
         /// Gets the content URL.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -34,8 +40,8 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// Gets the full route of the element
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="parameters"></param>
+        /// <param name="key">the key</param>
+        /// <param name="parameters">the routes</param>
         /// <returns>the full route</returns>
         string GetFullRoute(string key, params string[] parameters);
 
