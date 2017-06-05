@@ -73,6 +73,8 @@ namespace Huellitas.Web
 
             this.CreateJavascriptFile(app);
 
+            app.StartRecurringJobs();
+
             ////loggerFactory.AddConsole();
 
             ////if (env.IsDevelopment())

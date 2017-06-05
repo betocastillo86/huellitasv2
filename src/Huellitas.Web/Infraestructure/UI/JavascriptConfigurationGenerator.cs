@@ -156,7 +156,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 },
                 resources = this.GetAdminResources(),
                 isDebug = isDebug,
-                isFront = false
+                isFront = false,
+                routes = this.seoService.GetRoutes()
             };
 
             return JsonConvert.SerializeObject(config);

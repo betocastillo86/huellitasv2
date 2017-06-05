@@ -6,7 +6,9 @@
 namespace Huellitas.Web.Controllers
 {
     using Huellitas.Business.Configuration;
+    using Huellitas.Business.Tasks;
     using Huellitas.Web.Models;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -20,15 +22,19 @@ namespace Huellitas.Web.Controllers
         /// <summary>
         /// The general settings
         /// </summary>
-        private IGeneralSettings generalSettings;
+        private readonly IGeneralSettings generalSettings;
+
+        private readonly SendMailTask mail;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         public HomeController(
-            IGeneralSettings generalSettings)
+            IGeneralSettings generalSettings,
+            SendMailTask mail)
         {
             this.generalSettings = generalSettings;
+            this.mail = mail; ////TODO: quitar esta inyeccion
         }
 
         #endregion ctor

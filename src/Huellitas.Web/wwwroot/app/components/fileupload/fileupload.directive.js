@@ -12,7 +12,8 @@
                 onadded: '=',
                 onprogress: '=',
                 callbackParam: '@',
-                defaultname: '@'
+                defaultname: '@',
+                validextensions: '@'
             }
         };
 
@@ -23,25 +24,30 @@
             attrs.$observe('defaultname', updateDefaultName);
 
             var progressArray = [];
-            
+
             function sendFile(e) {
                 var fileUpload = element[0];
                 progressArray = new Array();
 
                 var errorSize = false;
+                var errorExtensions = false;
                 var iFileSent = 0;
 
-                for (var i = 0; i < fileUpload.files.length; i++) {
+                var validExtensionsRegex = scope.validextensions ? new RegExp(scope.validextensions, 'i') : null;
 
-                    if (fileUpload.files[i].size <= app.Settings.security.maxRequestFileUploadMB * 1024 * 1024) {
+                for (var i = 0; i < fileUpload.files.length; i++) {
+                    if (fileUpload.files[i].size > app.Settings.security.maxRequestFileUploadMB * 1024 * 1024) {
+                        errorSize = true;
+                    }
+                    else if (validExtensionsRegex && !validExtensionsRegex.test(fileUpload.files[i].name))
+                    {
+                        errorExtensions = true;
+                    }
+                    else {
                         fileService.post(fileUpload.files[i], scope.defaultname, onProgress, iFileSent)
                             .then(postCompleted)
                             .catch(helperService.handleException);
                         iFileSent++;
-                    }
-                    else
-                    {
-                        errorSize = true;
                     }
                 }
 
@@ -50,24 +56,37 @@
                     if (fileUpload.files.length == 1) {
                         message = 'El archivo no puede exceder las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
                     }
-                    else if (iFileSent == 0)
-                    {
+                    else if (iFileSent == 0) {
                         message = 'Los archivos no pueden exceder las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
                     }
-                    else{
+                    else {
                         message = 'Hay archivos que exceden las ' + app.Settings.security.maxRequestFileUploadMB + 'MB. Subir archivos de menor peso.';
                     }
 
+                    helperService.handleException({ data: { error: { message: message } } });
+                    element.val(null);
+                }
+                else if (errorExtensions) {
+                    var message = '';
+                    if (fileUpload.files.length == 1) {
+                        message = 'El archivo no tiene una extension válida';
+                    }
+                    else if (iFileSent == 0) {
+                        message = 'Los archivos no tienen extensiones válidas.';
+                    }
+                    else {
+                        message = 'Hay archivos no tienen extensiones válidas.';
+                    }
 
                     helperService.handleException({ data: { error: { message: message } } });
+                    element.val(null);
                 }
+
             }
 
-            function onProgress(percentage, indexFile)
-            {
+            function onProgress(percentage, indexFile) {
                 progressArray[indexFile] = percentage;
-                if (scope.onprogress)
-                {
+                if (scope.onprogress) {
                     scope.onprogress(progressArray);
                 }
             }
@@ -77,7 +96,6 @@
             }
 
             function postCompleted(response) {
-
                 progressArray = _.reject(progressArray, function (el) {
                     return el == 100;
                 });
@@ -90,8 +108,9 @@
                 if (scope.onadded) {
                     scope.onadded(response, scope.callbackParam);
                 }
+
+                element.val(null);
             }
         }
     }
-
 })();

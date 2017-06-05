@@ -24,9 +24,15 @@
         .module('huellitas')
         .controller('ListCommentsController', ListCommentsController);
 
-    ListCommentsController.$inject = ['$scope', '$attrs', 'helperService', 'commentService', 'authenticationService'];
+    ListCommentsController.$inject = [
+        '$scope',
+        '$attrs',
+        'helperService',
+        'commentService',
+        'authenticationService',
+        'modalService'];
 
-    function ListCommentsController($scope, $attrs, helperService, commentService, authenticationService)
+    function ListCommentsController($scope, $attrs, helperService, commentService, authenticationService, modalService)
     {
         var vm = this;
         vm.comments = [];
@@ -45,6 +51,7 @@
         vm.saveChild = saveChild;
         vm.showMoreChildren = showMoreChildren;
         vm.showMore = showMore;
+        vm.deleteComment = deleteComment;
 
         activate();
 
@@ -196,6 +203,38 @@
             {
                 comment.firstComments = (comment.filter.page > 0 ?  comment.firstComments : []).concat(response.results);
                 comment.allCommentsLoaded = !response.meta.hasNextPage;
+            }
+        }
+
+        function deleteComment(comment)
+        {
+            modalService.showDialog({
+                message: '¿Deseas eliminar este comentario?',
+                closed: confirmClosed
+            });
+
+            function confirmClosed(response)
+            {
+                if (response.accept)
+                {
+                    commentService.delete(comment.id)
+                        .then(deleteCompleted)
+                        .catch(helperService.handleException);
+                }
+
+                function deleteCompleted(response)
+                {
+                    if (comment.parentCommentId) {
+                        var parent = _.findWhere(vm.comments, { id: comment.parentCommentId });
+                        parent.firstComments = _.reject(parent.firstComments, function (el) { return el.id == comment.id });
+                    }
+                    else
+                    {
+                        vm.comments = _.reject(vm.comments, function (el) { return el.id == comment.id });
+                    }
+
+                    //modalService.show({ message: 'Comentario eliminado' });
+                }
             }
         }
 

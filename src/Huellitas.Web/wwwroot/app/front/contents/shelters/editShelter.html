@@ -110,7 +110,7 @@
                             </div>
                             <div class="file-upload-button">
                                 <button class="btn btn-white btn-block btn-lg" type="button">Carga tu logo y fotos</button>
-                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" onprogress="main.imageOnProgress" fileupload-huellitas accept="image/*">
+                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" data-defaultname="{{main.defaultNameImage}}" onprogress="main.imageOnProgress" fileupload-huellitas validextensions="\.(gif|jpg|jpeg|tiff|png|bmp)$" accept="image/*">
                             </div>
                             <br>
                         </div>

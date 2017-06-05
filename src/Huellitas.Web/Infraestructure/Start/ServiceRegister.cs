@@ -57,6 +57,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IGeneralSettings, GeneralSettings>();
             services.AddScoped<INotificationSettings, NotificationSettings>();
             services.AddScoped<ISecuritySettings, SecuritySettings>();
+            services.AddScoped<ITaskSettings, TaskSettings>();
 
             ////Helpers
             services.AddScoped<ISecurityHelpers, SecurityHelpers>();

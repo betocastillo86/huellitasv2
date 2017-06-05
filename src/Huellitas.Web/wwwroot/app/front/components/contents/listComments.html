@@ -15,6 +15,7 @@
                 <h4>{{::comment.user.name}} - {{::comment.creationDate | timeago}}</h4>
                 <p>{{::comment.value}}</p>
                 <a ng-if="!comment.isAnswering" href="#" ng-click="listComments.enableResponse(comment)"><span class="icon-coment"></span> Responder</a>
+                <a ng-if="comment.canDelete" ng-click="listComments.deleteComment(comment)">Borrar</a>
 
                 <form ng-if="comment.isAnswering" name="listComments.formChildren" class="coment-form col-md-12" novalidate ng-submit="listComments.saveChild(comment)">
                     <textarea name="body" ng-model="listComments.newChild" required placeholder="Dejanos tu respuesta" maxlength="200"></textarea>
@@ -27,8 +28,10 @@
 
                 <div ng-repeat="subcomment in comment.firstComments" class="sub-coment">
                     <span class="icon-coment"></span>
+                    <a ng-if="subcomment.canDelete" ng-click="listComments.deleteComment(subcomment)">Borrar</a>
                     <h5>{{::subcomment.user.name}} {{::subcomment.creationDate | timeago}}</h5>
                     <p>{{::subcomment.value}}</p>
+                    
                     <br />
                 </div>
                 <a ng-if="comment.firstComments && comment.countComments > 2 && !comment.allCommentsLoaded" href="#" ng-click="listComments.showMoreChildren(comment)">Ver más</a>
