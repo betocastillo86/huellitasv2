@@ -22,18 +22,22 @@
 
             attrs.$observe('defaultname', updateDefaultName);
 
+            //// Contiene el progreso de cada archivo
             var progressArray = [];
-            
+            //// Contiene el indice de los archivos ya cargados
+            var iFileSent = 0;
+
             function sendFile(e) {
                 var fileUpload = element[0];
-                progressArray = new Array();
+
+                //progressArray = new Array();
 
                 var errorSize = false;
-                var iFileSent = 0;
 
                 for (var i = 0; i < fileUpload.files.length; i++) {
 
                     if (fileUpload.files[i].size <= app.Settings.security.maxRequestFileUploadMB * 1024 * 1024) {
+                        console.log('Agrega archivo', iFileSent);
                         fileService.post(fileUpload.files[i], scope.defaultname, onProgress, iFileSent)
                             .then(postCompleted)
                             .catch(helperService.handleException);
@@ -76,11 +80,18 @@
                 scope.defaultname = newValue;
             }
 
-            function postCompleted(response) {
+            function postCompleted(response, percentage, indexFile) {
 
-                progressArray = _.reject(progressArray, function (el) {
-                    return el == 100;
+                var finishedLoad = _.reject(progressArray, function (el) {
+                    return el == 101;
                 });
+
+                if (!finishedLoad.length)
+                {
+                    console.log("Se resetea array", progressArray);
+                    progressArray = [];
+                    iFileSent = 0;
+                }
 
                 if (scope.onprogress) {
                     scope.onprogress(progressArray);

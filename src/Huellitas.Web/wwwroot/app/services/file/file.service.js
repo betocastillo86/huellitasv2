@@ -28,6 +28,7 @@
                     uploadEventHandlers: {
                         progress: function (object) {
                             try {
+                                //console.log("index " + indexFile + " loaded " + object.loaded + " total " + object.total);
                                 var prog = Math.ceil((object.loaded / object.total) * 100);
                                 if (callback) {
                                     callback.call(this, prog, indexFile);
@@ -42,6 +43,11 @@
                     .then(postCompleted.bind(null, defered), postError.bind(null, defered));
 
             function postCompleted(defered, response) {
+
+                if (callback) {
+                    callback.call(this, 101, indexFile);
+                }
+
                 defered.resolve(response.data);
             }
 

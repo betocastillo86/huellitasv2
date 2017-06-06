@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-xs-6" ng-repeat="imageWithProgress in gallery.progressFiles track by $index" >
+            <div class="col-md-4 col-xs-6" ng-repeat="imageWithProgress in gallery.progressFiles track by $index" ng-if="imageWithProgress < 101" >
                 <div class="progress right">
                     <div class="progress-bar progress-bar-danger" data-transitiongoal="{{imageWithProgress}}" style="width: {{imageWithProgress}}%;" aria-valuenow="{{imageWithProgress}}"></div>
                 </div>

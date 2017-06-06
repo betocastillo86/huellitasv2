@@ -14,6 +14,8 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
+    using System.Linq;
+    using Huellitas.Business.Configuration;
 
     /// <summary>
     /// File Controller
@@ -48,6 +50,11 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IPictureService pictureService;
 
         /// <summary>
+        /// The security settings
+        /// </summary>
+        private readonly ISecuritySettings securitySettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FilesController"/> class.
         /// </summary>
         /// <param name="hostingEnvironment">The hosting environment.</param>
@@ -60,13 +67,15 @@ namespace Huellitas.Web.Controllers.Api
             IFileService fileService,
             IFilesHelper filesHelper,
             ISeoService seoService,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            ISecuritySettings securitySettings)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.fileService = fileService;
             this.filesHelper = filesHelper;
             this.seoService = seoService;
             this.pictureService = pictureService;
+            this.securitySettings = securitySettings;
         }
 
         /// <summary>
@@ -140,6 +149,13 @@ namespace Huellitas.Web.Controllers.Api
                 else if (files.Count > 1)
                 {
                     this.ModelState.AddModelError("File", "No se permite más de un archivo");
+                }
+                else
+                {
+                    if (files.First().Length > this.securitySettings.MaxRequestFileUploadMB * 1024 * 1024)
+                    {
+                        this.ModelState.AddModelError("File", $"El archivo excede el tamaño máximo permitido de {this.securitySettings.MaxRequestFileUploadMB} Mb");
+                    }
                 }
             }
 
