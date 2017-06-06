@@ -18,6 +18,9 @@
 
                 </div>
                 <div class="x_content">
+                    <div ng-if="main.id">
+                        <a ng-href="{{root.getRoute('pet', {friendlyName : main.model.friendlyName})}}" class="btn btn-info" target="_blank">Ver Publicación</a>
+                    </div>
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
                         <div class="form-group" ng-if="main.id">

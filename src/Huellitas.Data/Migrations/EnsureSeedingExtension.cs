@@ -492,6 +492,18 @@ namespace Huellitas.Data.Migrations
 
             list.Add(new SystemSetting() { Name = "SecuritySettings.MaxRequestFileUploadMB", Value = "5" });
 
+            list.Add(new SystemSetting() { Name = "NotificationSettings.TakeEmailsToSend", Value = "30" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.MaxAttemtpsToSendEmail", Value = "5" });
+
+            list.Add(new SystemSetting() { Name = "NotificationSettings.EmailSenderEmail", Value = "elemail@elemail.com" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpUser", Value = "user@smtp.com" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpPassword", Value = "password@smtp.com" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpPort", Value = "587" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpUseSsl", Value = "True" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SendEmailEnabled", Value = "False" });
+            list.Add(new SystemSetting() { Name = "TaskSettings.SendEmailsInterval", Value = "30" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpHost", Value = "elhostemail" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

@@ -93,6 +93,20 @@ namespace Huellitas.Business.Configuration
         /// </value>
         public string FacebookSecretToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookSecretToken"); } }
 
+        /// <summary>
+        /// Gets the SEO image.
+        /// </summary>
+        /// <value>
+        /// The SEO image.
+        /// </value>
         public string SeoImage { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SeoImage"); } }
+
+        /// <summary>
+        /// Gets the configuration JAVASCRIPT cache key.
+        /// </summary>
+        /// <value>
+        /// The configuration JAVASCRIPT cache key.
+        /// </value>
+        public string ConfigJavascriptCacheKey { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
     }
 }

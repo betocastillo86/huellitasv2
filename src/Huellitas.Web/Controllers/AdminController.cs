@@ -5,7 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Web.Models;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -15,20 +16,39 @@ namespace Huellitas.Web.Controllers
     public class AdminController : Controller
     {
         /// <summary>
+        /// The general settings
+        /// </summary>
+        private IGeneralSettings generalSettings;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminController"/> class.
+        /// </summary>
+        /// <param name="generalSettings">The general settings.</param>
+        public AdminController(
+            IGeneralSettings generalSettings)
+        {
+            this.generalSettings = generalSettings;
+        }
+
+        /// <summary>
         /// the index method
         /// </summary>
         /// <returns>the view</returns>
-        public ActionResult Index()
-        {     
-            return this.View();
+        public IActionResult Index()
+        {
+            var model = new AdminModel();
+            model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
+            return this.View(model);
         }
 
         /// <summary>
         /// Logins this instance.
         /// </summary>
         /// <returns>the view</returns>
-        public ActionResult Login()
+        public IActionResult Login()
         {
+            var model = new AdminModel();
+            model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
             return this.View();
         }
     }

@@ -97,5 +97,11 @@ namespace Huellitas.Data.Core
         /// <param name="entities">The entities.</param>
         /// <returns>the value</returns>
         Task UpdateAsync(ICollection<T> entities);
+
+        /// <summary>
+        /// Updates the entities
+        /// </summary>
+        /// <param name="entities">the entities</param>
+        void Update(ICollection<T> entities);
     }
 }

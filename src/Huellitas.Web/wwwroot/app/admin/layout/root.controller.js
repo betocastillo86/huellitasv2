@@ -2,17 +2,19 @@
     angular.module('huellitasAdmin')
         .controller('RootController', RootController);
 
-    RootController.$inject = ['authenticationService', 'sessionService', 'helperService'];
+    RootController.$inject = ['authenticationService', 'sessionService', 'helperService', 'cacheService', 'modalService', 'routingService'];
 
-    function RootController(authenticationService, sessionService, helperService)
+    function RootController(authenticationService, sessionService, helperService, cacheService, modalService, routingService)
     {
         var vm = this;
         vm.currentUser = undefined;
         vm.isShowingMobileMenu = false;
-
+        
         vm.showMobileMenu = showMobileMenu;
+        vm.clearCache = clearCache;
+        vm.getRoute = routingService.getRoute;
 
-        return activate();
+        activate();
 
         function activate()
         {
@@ -37,6 +39,18 @@
         function showMobileMenu()
         {
             vm.isShowingMobileMenu = !vm.isShowingMobileMenu;
+        }
+
+        function clearCache()
+        {
+            cacheService.clear()
+                .then(clearCompleted)
+                .catch(helperService.handleException);
+
+            function clearCompleted()
+            {
+                modalService.show({ message: 'Cache borrado correctamente'});
+            }
         }
     }
 

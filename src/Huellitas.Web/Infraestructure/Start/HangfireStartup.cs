@@ -5,14 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Start
 {
+    using System;
+    using System.IO;
     using Hangfire;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Tasks;
     using Huellitas.Web.Infraestructure.Filters.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using System.IO;
 
     /// <summary>
     /// Initializes and registers hangfire
@@ -52,6 +55,19 @@ namespace Huellitas.Web.Infraestructure.Start
         public static void RegisterHangFireServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
             services.AddHangfire(c => c.UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
+        }
+
+        /// <summary>
+        /// Starts the recurring jobs.
+        /// </summary>
+        /// <param name="app">The application.</param>
+        public static void StartRecurringJobs(this IApplicationBuilder app)
+        {
+            var settings = (ITaskSettings)app.ApplicationServices.GetService(typeof(ITaskSettings));
+            if (settings.SendEmailsInterval > 0)
+            {
+                RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
+            }
         }
     }
 }

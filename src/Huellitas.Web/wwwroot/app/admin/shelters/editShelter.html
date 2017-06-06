@@ -4,6 +4,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Editar <small>{{main.model.name}}</small></h2>
+                    
                     <div class="nav navbar-right">
                         <span class="label" style="color:white" ng-class="[
                                               {'label-default' : main.model.status == 'Created'},
@@ -15,6 +16,9 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <div ng-if="main.id">
+                        <a ng-href="{{root.getRoute('shelter', { friendlyName : main.model.friendlyName })}}" class="btn btn-info" target="_blank">Ver Publicación</a>
+                    </div>
                     <br>
                     <form name="formShelter" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formShelter.$valid)">
                         <div class="form-group" ng-if="main.id">
@@ -213,7 +217,7 @@
                     <img ng-if="main.model.image" ng-src="{{main.model.image.thumbnail}}" width="120" height="80">
                     <div style="position:relative">
                         <button type="button" class="btn btn-default btn-lg"><i class="fa fa-plus"></i> {{main.model.image ? 'Cambiar Logo' : 'Agregar Logo'}}</button>
-                        <input type="file" class="fileInvisible" fileupload-huellitas onadded="main.logoAdded" data-defaultname="{{'logo '+ main.defaultNameImage}}" multiple="">
+                        <input type="file" class="fileInvisible" fileupload-huellitas onadded="main.logoAdded" data-defaultname="{{'logo '+ main.defaultNameImage}}" validextensions="\.(gif|jpg|jpeg|tiff|png|bmp)$" accept="image/*" multiple="">
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@
             </div>
         <div style="position:relative">
             <button type="button" class="btn btn-default btn-lg"><i class="fa fa-plus"></i> Agregar</button>
-            <input type="file" class="fileInvisible" fileupload-huellitas onadded="gallery.imageAdded" onprogress="gallery.onProgress" data-defaultname="{{gallery.defaultName}}"  multiple />
+            <input type="file" class="fileInvisible" fileupload-huellitas onadded="gallery.imageAdded" onprogress="gallery.onProgress" data-defaultname="{{gallery.defaultName}}" validextensions="\.(gif|jpg|jpeg|tiff|png|bmp)$" accept="image/*"  multiple />
             
         </div>
     </div>

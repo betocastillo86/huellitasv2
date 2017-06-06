@@ -8,7 +8,8 @@
     function commentService(httpService) {
         return {
             getAll: getAll,
-            post: post
+            post: post,
+            delete: del
         };
 
         function getAll(filter) {
@@ -17,6 +18,11 @@
 
         function post(model) {
             return httpService.post('/api/comments', model);
+        }
+
+        function del(id)
+        {
+            return httpService.delete('/api/comments/'+id);
         }
     }
 })();

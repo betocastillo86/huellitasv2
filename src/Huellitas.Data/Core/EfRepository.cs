@@ -267,5 +267,19 @@ namespace Huellitas.Data.Core
 
             await this.context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Updates the entities
+        /// </summary>
+        /// <param name="entities">the entities</param>
+        public virtual void Update(ICollection<T> entities)
+        {
+            if (entities == null)
+            {
+                throw new ArgumentNullException("entities");
+            }
+
+            this.context.SaveChangesAsync();
+        }
     }
 }

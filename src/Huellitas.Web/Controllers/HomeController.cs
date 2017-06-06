@@ -3,9 +3,12 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace Huellitas.Web.Controllers
 {
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Tasks;
+    using Huellitas.Web.Models;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -17,10 +20,21 @@ namespace Huellitas.Web.Controllers
         #region ctor
 
         /// <summary>
+        /// The general settings
+        /// </summary>
+        private readonly IGeneralSettings generalSettings;
+
+        private readonly SendMailTask mail;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
-        public HomeController()
+        public HomeController(
+            IGeneralSettings generalSettings,
+            SendMailTask mail)
         {
+            this.generalSettings = generalSettings;
+            this.mail = mail; ////TODO: quitar esta inyeccion
         }
 
         #endregion ctor
@@ -31,7 +45,10 @@ namespace Huellitas.Web.Controllers
         /// <returns>the value</returns>
         public ActionResult Index()
         {
-            return this.View();
+            var model = new HomeModel();
+            model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
+
+            return this.View(model);
         }
     }
 }

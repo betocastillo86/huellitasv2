@@ -144,6 +144,7 @@
     <Content Include="wwwroot\app\front\layout\root.controller.js" />
     <Content Include="wwwroot\app\services\common\adoptionFormStatus.service.js" />
     <Content Include="wwwroot\app\services\common\banner.service.js" />
+    <Content Include="wwwroot\app\services\common\cache.service.js" />
     <Content Include="wwwroot\app\services\common\customTableRow.service.js" />
     <Content Include="wwwroot\app\services\common\log.service.js" />
     <Content Include="wwwroot\app\services\common\module.service.js" />
@@ -186,6 +187,7 @@
     <Content Include="wwwroot\img\front\porque-adoptar-una-mascota.png" />
     <Content Include="wwwroot\img\front\puedes-adoptar-una-mascota.png" />
     <Content Include="wwwroot\img\front\tiempo-para-una-mascota.png" />
+    <Content Include="wwwroot\robots.txt" />
     <Content Include="wwwroot\sass\animate.scss" />
     <Content Include="wwwroot\sass\icons.scss" />
     <Content Include="wwwroot\sass\mixins.scss" />
