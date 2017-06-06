@@ -21,7 +21,8 @@
             goToFocusError: goToFocusError,
             compile: compile,
             notFound: notFound,
-            replaceJson: replaceJson
+            replaceJson: replaceJson,
+            enableLeavingPageMode: enableLeavingPageMode
         };
 
         return service;
@@ -50,6 +51,48 @@
                 modalService.showError({ error: data.data.error });
             }
         }
+
+        function enableLeavingPageMode($scope, $window)
+        {
+            if ($window.addEventListener) {
+                $window.addEventListener("beforeunload", handleUnloadEvent);
+            } else {
+                //For IE browsers
+                $window.attachEvent("onbeforeunload", handleUnloadEvent);
+            }
+
+            var offEvent = $scope.$on('$locationChangeStart', function (event) {
+                var answer = confirm("¿Seguro deseas dejar esta página sin terminar el proceso?");
+                if (!answer) {
+                    event.preventDefault();
+                }
+                else
+                {
+                    disableEvent();
+                }
+            });
+
+            var disableEvent = function()
+            {
+                if ($window.removeEventListener) {
+                    $window.removeEventListener("beforeunload", handleUnloadEvent);
+                } else {
+                    $window.detachEvent("onbeforeunload", handleUnloadEvent);
+                }
+
+                if (offEvent) {
+                    offEvent()
+                }
+            };
+
+            return disableEvent;
+        }
+
+        
+
+        function handleUnloadEvent(event) {
+            event.returnValue = "Your warning text";
+        };
 
         function isMobileWidth() {
             return $window.innerWidth <= 600;

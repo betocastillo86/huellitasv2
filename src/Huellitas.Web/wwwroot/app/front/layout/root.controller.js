@@ -16,7 +16,14 @@
         'helperService',
         'routingService']
 
-    function RootController($location, $scope, $window, sessionService, authenticationService, helperService, routingService) {
+    function RootController($location,
+        $scope,
+        $window,
+        sessionService,
+        authenticationService,
+        helperService,
+        routingService) {
+
         var vm = this;
 
         vm.currentUser = undefined;
@@ -45,27 +52,29 @@
             }
         }
 
-        function goToAdmin()
-        {
+        function goToAdmin() {
             window.location.href = '/admin';
         }
 
         function getCurrentUser() {
             authenticationService.get()
                 .then(getCompleted)
-                .catch(helperService.handleException);
+                .catch(getError);
 
             function getCompleted(response) {
                 vm.currentUser = response;
             }
+
+            function getError(response) {
+                sessionService.removeCurrentUser();
+                console.log('Token Vencido');
+            }
         }
 
-        function showMenu(openButton)
-        {
+        function showMenu(openButton) {
             //// Solo lo muestra si el clic viene del boton de abrir el menu
             //// o si previamente había abierto el menu
-            if (vm.isShowingMenu !== undefined || openButton)
-            {
+            if (vm.isShowingMenu !== undefined || openButton) {
                 vm.isShowingMenu = !vm.isShowingMenu;
                 angular.element('.menu').css('display', vm.isShowingMenu ? 'block' : 'none')
             }
@@ -74,24 +83,21 @@
         function showUserInfo() {
             vm.showingUserInfo = !vm.showingUserInfo;
         }
-        
+
         function locationChanged(event, next, current) {
             vm.currentMenu = next.$$route.originalPath;
         }
 
-        function contentLoaded()
-        {
+        function contentLoaded() {
             vm.seo.url = $window.location.href;
             vm.seo.image = vm.seo.image ? vm.seo.image : routingService.getFullRouteOfFile(app.Settings.general.seoImage);
         }
 
-        function showLogin()
-        {
+        function showLogin() {
             authenticationService.showLogin($scope);
         }
 
-        function logout()
-        {
+        function logout() {
             sessionService.removeCurrentUser();
             vm.currentUser = undefined;
             $location.path(routingService.getRoute('home'));

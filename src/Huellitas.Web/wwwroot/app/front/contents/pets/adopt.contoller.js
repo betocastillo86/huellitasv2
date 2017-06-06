@@ -9,6 +9,7 @@
         '$routeParams',
         '$scope',
         '$location',
+        '$window',
         'customTableRowService',
         'helperService',
         'adoptionFormService',
@@ -21,6 +22,7 @@
         $routeParams,
         $scope,
         $location,
+        $window,
         customTableRowService,
         helperService,
         adoptionFormService,
@@ -28,6 +30,7 @@
         routingService,
         modalService,
         authenticationService) {
+
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.currentStep = 0;
@@ -46,11 +49,13 @@
         vm.save = save;
         vm.back = back;
         vm.validateAuthentication = validateAuthentication;
+        vm.disableLeaving = undefined;
 
         activate();
 
         function activate() {
             validateAuthentication();
+            vm.disableLeaving = helperService.enableLeavingPageMode($scope, $window);
         }
 
         function validateAuthentication() {
@@ -214,6 +219,8 @@
 
                         function postCompleted() {
                             vm.form.isBusy = false;
+
+                            vm.disableLeaving();
 
                             modalService.show({
                                 message: "Muchas gracias por llenar el formulario. Debes estar pendiente de tu correo donde enviarémos la respuesta.",
