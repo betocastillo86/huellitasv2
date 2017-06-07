@@ -113,6 +113,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// New comment on someonelse's comment
         /// </summary>
-        NewSubcommentOnSomeoneElseComment = 20
+        NewSubcommentOnSomeoneElseComment = 20,
+
+        /// <summary>
+        /// When a form was not answered in a specific time
+        /// </summary>
+        AdoptionFormNotAnswered = 21
     }
 }

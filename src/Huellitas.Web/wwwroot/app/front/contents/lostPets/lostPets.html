@@ -48,7 +48,23 @@
                                       input-name="location"
                                       field-required-class="parsley-error"
                                       remote-url-data-field="results"
-                                      match-class="highlight" />
+                                      match-class="highlight"
+                                      minlength="1" />
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <angucomplete-alt id="breed"
+                                      placeholder="Ingresar Raza"
+                                      pause="400"
+                                      remote-url="/api/customtables/{{main.breedTable}}/rows?pagesize=8&keyword="
+                                      title-field="value"
+                                      selected-object="main.changeBreed"
+                                      initial-value="main.filter.breedName"
+                                      field-required="true"
+                                      input-name="breed"
+                                      field-required-class="parsley-error"
+                                      remote-url-data-field="results"
+                                      match-class="highlight"
+                                      minlength="1" />
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <button type="button" class="btn btn-lg	" ng-click="main.search()">Buscar</button>

@@ -193,7 +193,7 @@ namespace Huellitas.Web.Models.Api
                     currentFilterToConvert = "Genre";
                     selectedFilters.AddInt(ContentAttributeType.Genre, this.Genre);
 
-                    currentFilterToConvert = "Brred";
+                    currentFilterToConvert = "Breed";
                     selectedFilters.AddInt(ContentAttributeType.Breed, this.Breed);
 
                     currentFilterToConvert = "Size";

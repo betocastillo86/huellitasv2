@@ -51,5 +51,7 @@ namespace Huellitas.Data.Entities
         /// The parent location.
         /// </value>
         public virtual Location ParentLocation { get; set; }
+
+        public virtual IList<Location> ChildrenLocations { get; set; }
     }
 }

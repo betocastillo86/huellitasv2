@@ -43,7 +43,8 @@
                                           input-name="breed"
                                           field-required-class="parsley-error"
                                           remote-url-data-field="results"
-                                          match-class="highlight" />
+                                          match-class="highlight"
+                                          minlength="1" />
                         <span class="error" ng-if="main.form.$submitted && main.form.breed.$invalid">Ingresa la raza del animal</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.breed.$valid"></span>
                     </div>
@@ -81,7 +82,8 @@
                                               input-name="location"
                                               field-required-class="parsley-error"
                                               remote-url-data-field="results"
-                                              match-class="highlight" />
+                                              match-class="highlight"
+                                              minlength="1" />
                         </div>
                         <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>

@@ -32,7 +32,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired(false);
 
             entity.HasOne(c => c.ParentLocation)
-                .WithMany()
+                .WithMany(c => c.ChildrenLocations)
                 .HasForeignKey(c => c.ParentLocationId)
                 .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Location_Location_ParentLocationId");

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="hangfire" Version="1.6.12" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00109" />
     <PackageReference Include="MailKit" Version="1.16.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="1.1.1" />

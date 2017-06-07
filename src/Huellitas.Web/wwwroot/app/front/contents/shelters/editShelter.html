@@ -39,7 +39,8 @@
                                           input-name="location"
                                           field-required-class="parsley-error"
                                           remote-url-data-field="results"
-                                          match-class="highlight" />
+                                          match-class="highlight"
+                                          minlength="1"/>
 
                         <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación del refugio</span>

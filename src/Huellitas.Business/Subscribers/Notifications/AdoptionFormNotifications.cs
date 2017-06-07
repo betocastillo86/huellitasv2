@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace Huellitas.Business.Subscribers
     using Data.Extensions;
     using Exceptions;
     using Extensions;
+    using Hangfire;
     using Huellitas.Business.EventPublisher;
+    using Huellitas.Business.Tasks;
     using Security;
     using Services;
 
@@ -25,7 +28,8 @@ namespace Huellitas.Business.Subscribers
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionFormAnswer}}" />
     public class AdoptionFormNotifications : ISubscriber<EntityInsertedMessage<AdoptionForm>>,
         ISubscriber<EntityInsertedMessage<AdoptionFormAnswer>>,
-        ISubscriber<EntityInsertedMessage<AdoptionFormUser>>
+        ISubscriber<EntityInsertedMessage<AdoptionFormUser>>,
+        ITask
     {
         /// <summary>
         /// The adoption form service
@@ -111,6 +115,9 @@ namespace Huellitas.Business.Subscribers
             var content = this.GetContentByForm(form);
             var shelter = this.contentService.GetShelterByPet(content.Id);
 
+            BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(2));
+            BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(5));
+
             await this.NotifyUserOfFormCreated(form, content, shelter);
 
             await this.NotifyPetOwnersOfFormCreated(form, content, shelter);
@@ -149,6 +156,30 @@ namespace Huellitas.Business.Subscribers
             var user = form.User;
 
             await this.NotifyAdoptionFormAnswer(answer, user, content, shelter);
+        }
+
+
+        public async Task NotifyNoAnsweredForm(int formId)
+        {
+            var form = this.adoptionFormService.GetById(formId);
+
+            if (form.LastStatusEnum == AdoptionFormAnswerStatus.None)
+            {
+                var shelter = this.contentService.GetShelterByPet(form.ContentId);
+                var parameters = this.GetBasicParameters(form.Content, shelter);
+
+                parameters.Add("AdoptionForm.CreationDate", form.CreationDate.ToString());
+                parameters.Add("AdoptionForm.Days", (form.CreationDate - DateTime.Now).Days.ToString());
+
+                var users = this.GetPetOwners(form.Content, shelter);
+
+                await this.notificationService.NewNotification(
+                    users,
+                    null,
+                    Data.Entities.NotificationType.AdoptionFormNotAnswered,
+                    this.seoService.GetFullRoute("forms"),
+                    parameters);
+            }
         }
 
         /// <summary>
@@ -257,6 +288,19 @@ namespace Huellitas.Business.Subscribers
         {
             var parameters = this.GetBasicParameters(content, shelter);
 
+            var users = this.GetPetOwners(content, shelter);
+            
+            await this.notificationService.NewNotification(
+                users,
+                this.workContext.CurrentUser,
+                Data.Entities.NotificationType.AdoptionFormReceived,
+                ////TODO:URL para responder formulario
+                this.seoService.GetContentUrl(content),
+                parameters);
+        }
+
+        private IList<User> GetPetOwners(Content content, Content shelter)
+        {
             List<User> users = null;
 
             if (shelter == null)
@@ -276,13 +320,7 @@ namespace Huellitas.Business.Subscribers
 
             users.AddRange(parents);
 
-            await this.notificationService.NewNotification(
-                users,
-                this.workContext.CurrentUser,
-                Data.Entities.NotificationType.AdoptionFormReceived,
-                ////TODO:URL para responder formulario
-                this.seoService.GetContentUrl(content),
-                parameters);
+            return users;
         }
 
         /// <summary>

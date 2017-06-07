@@ -22,6 +22,8 @@
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             locationId: $location.search().locationId ? parseInt($location.search().locationId) : undefined,
             locationName: $location.search().locationName,
+            breed: $location.search().breed ? parseInt($location.search().breed) : undefined,
+            breedName: $location.search().breedName,
             keyword: $location.search().keyword,
             fromStartingDate: $location.search().fromStartingDate
         };
@@ -29,12 +31,14 @@
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
+        vm.breedTable = app.Settings.customTables.breed;
 
         vm.hasNextPage = false;
         vm.pagingEnabled = true;
         vm.changeLocation = changeLocation;
         vm.search = search;
         vm.isSubtypeChecked = isSubtypeChecked;
+        vm.changeBreed = changeBreed;
 
         activate();
 
@@ -53,7 +57,9 @@
                 locationId: vm.filter.locationId,
                 locationName: vm.filter.locationName,
                 keyword: vm.filter.keyword,
-                fromStartingDate: vm.filter.fromStartingDate
+                fromStartingDate: vm.filter.fromStartingDate,
+                breed: vm.filter.breed,
+                breedName: vm.filter.breedName
             });
         }
 
@@ -61,6 +67,11 @@
         {
             vm.filter.locationId = selectedLocation ? selectedLocation.originalObject.id : undefined;
             vm.filter.locationName = selectedLocation ? selectedLocation.originalObject.name : undefined;
+        }
+
+        function changeBreed(selected) {
+            vm.filter.breed = selected ? selected.originalObject.id : undefined;
+            vm.filter.breedName = selected ? selected.originalObject.value : undefined;
         }
 
         function isSubtypeChecked(index) {
