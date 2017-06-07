@@ -6,6 +6,8 @@
 namespace Huellitas.Web.Controllers
 {
     using Huellitas.Business.Configuration;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
     using Huellitas.Web.Models;
     using Microsoft.AspNetCore.Builder;
@@ -24,17 +26,27 @@ namespace Huellitas.Web.Controllers
         /// </summary>
         private readonly IGeneralSettings generalSettings;
 
-        private readonly SendMailTask mail;
+        /// <summary>
+        /// The security settings
+        /// </summary>
+        private readonly ISecuritySettings securitySettings;
+
+        /// <summary>
+        /// The log service
+        /// </summary>
+        private readonly ILogService logService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         public HomeController(
             IGeneralSettings generalSettings,
-            SendMailTask mail)
+            ISecuritySettings securitySettings,
+            ILogService logService)
         {
             this.generalSettings = generalSettings;
-            this.mail = mail; ////TODO: quitar esta inyeccion
+            this.securitySettings = securitySettings;
+            this.logService = logService;
         }
 
         #endregion ctor
@@ -45,6 +57,11 @@ namespace Huellitas.Web.Controllers
         /// <returns>the value</returns>
         public ActionResult Index()
         {
+            if (this.securitySettings.TrackHomeRequests)
+            {
+                this.logService.Information("Visita registrada en el home");
+            }
+
             var model = new HomeModel();
             model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
 

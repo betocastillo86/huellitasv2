@@ -54,51 +54,7 @@ namespace Huellitas.Business.Helpers
                 return string.Empty;
             }
 
-            var result = string.Empty;
-            if (this.accessor.HttpContext.Request.Headers != null)
-            {
-                ////The X-Forwarded-For (XFF) HTTP header field is a de facto standard
-                ////for identifying the originating <c>ip</c> address of a client
-                ////connecting to a web server through an HTTP proxy or load balancer.
-                var forwardedHttpHeader = "X-FORWARDED-FOR";
-
-                ////it's used for identifying the originating <c>ip</c> address of a client connecting to a web server
-                ////through an HTTP proxy or load balancer.
-                string xff = this.HttpContext.Request.Headers.Keys
-                    .Where(x => forwardedHttpHeader.Equals(x, StringComparison.CurrentCultureIgnoreCase))
-                    .Select(k => this.HttpContext.Request.Headers[k])
-                    .FirstOrDefault();
-
-                ////if you want to exclude private <c>ip</c> addresses, then see http://stackoverflow.com/questions/2577496/how-can-i-get-the-clients-ip-address-in-asp-net-mvc
-                if (!string.IsNullOrEmpty(xff))
-                {
-                    string lastIp = xff.Split(new[] { ',' }).FirstOrDefault();
-                    result = lastIp;
-                }
-            }
-
-            if (string.IsNullOrEmpty(result) && this.HttpContext.Request.Host.HasValue)
-            {
-                result = this.HttpContext.Request.Host.Value;
-            }
-
-            ////some validation
-            if (result == "::1")
-            {
-                result = "127.0.0.1";
-            }
-
-            ////remove port
-            if (!string.IsNullOrEmpty(result))
-            {
-                int index = result.IndexOf(":", StringComparison.CurrentCultureIgnoreCase);
-                if (index > 0)
-                {
-                    result = result.Substring(0, index);
-                }
-            }
-
-            return result;
+            return this.HttpContext.Connection.RemoteIpAddress.ToString();
         }
 
         /// <summary>

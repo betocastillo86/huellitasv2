@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using Huellitas.Business.Services;
 
@@ -62,5 +63,7 @@ namespace Huellitas.Business.Configuration
         public int ExpirationTokenMinutes { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.ExpirationTokenMinutes"); } }
 
         public int MaxRequestFileUploadMB { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.MaxRequestFileUploadMB"); } }
+
+        public bool TrackHomeRequests => this.settingService.GetCachedSetting<bool>("SecuritySettings.TrackHomeRequests");
     }
 }

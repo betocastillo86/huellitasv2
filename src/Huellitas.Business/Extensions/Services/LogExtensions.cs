@@ -23,7 +23,7 @@ namespace Huellitas.Business.Extensions
         /// <param name="user">The user.</param>
         public static void Console(this ILogService log, string shortMessage, string fullMessage = null, User user = null)
         {
-            log.Insert(LogLevel.Console, shortMessage, fullMessage, user);
+            log.Insert(LogLevel.Console, shortMessage, fullMessage ?? shortMessage, user);
             System.Console.WriteLine("{0} - {1}", DateTime.Now, shortMessage);
         }
 
@@ -54,7 +54,7 @@ namespace Huellitas.Business.Extensions
         /// <param name="user">The user.</param>
         public static void Error(this ILogService log, string shortMessage, string fullMessage = null, User user = null)
         {
-            log.Insert(LogLevel.Error, shortMessage, fullMessage, user);
+            log.Insert(LogLevel.Error, shortMessage, fullMessage ?? shortMessage, user);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Huellitas.Business.Extensions
         /// <param name="user">The user.</param>
         public static void Information(this ILogService log, string shortMessage, string fullMessage = null, User user = null)
         {
-            log.Insert(LogLevel.Information, shortMessage, fullMessage, user);
+            log.Insert(LogLevel.Information, shortMessage, fullMessage ?? shortMessage, user);
         }
     }
 }

@@ -79,7 +79,6 @@
     <Content Include="wwwroot\app\components\modal\front-modal-error.html" />
     <Content Include="wwwroot\app\components\draggable\draggableContentFile.directive.js" />
     <Content Include="wwwroot\app\components\fileupload\fileupload.directive.js" />
-    <Content Include="wwwroot\app\components\fileupload\fileupload\fileupload.directive.js" />
     <Content Include="wwwroot\app\components\modal\modal-default.html" />
     <Content Include="wwwroot\app\components\modal\modal-error.html" />
     <Content Include="wwwroot\app\components\modal\modal.default.controller.js" />
@@ -188,7 +187,6 @@
     <Content Include="wwwroot\img\front\porque-adoptar-una-mascota.png" />
     <Content Include="wwwroot\img\front\puedes-adoptar-una-mascota.png" />
     <Content Include="wwwroot\img\front\tiempo-para-una-mascota.png" />
-    <Content Include="wwwroot\robots.txt" />
     <Content Include="wwwroot\sass\animate.scss" />
     <Content Include="wwwroot\sass\icons.scss" />
     <Content Include="wwwroot\sass\mixins.scss" />
@@ -201,6 +199,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
     <PackageReference Include="microsoft.aspnetcore.jsonpatch" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

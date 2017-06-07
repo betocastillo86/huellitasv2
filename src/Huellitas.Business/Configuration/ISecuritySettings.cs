@@ -43,5 +43,7 @@ namespace Huellitas.Business.Configuration
         int ExpirationTokenMinutes { get; }
 
         int MaxRequestFileUploadMB { get; }
+
+        bool TrackHomeRequests { get; }
     }
 }

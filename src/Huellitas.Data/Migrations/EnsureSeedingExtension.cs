@@ -1949,7 +1949,8 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "NotificationSettings.SendEmailEnabled", Value = "False" });
             list.Add(new SystemSetting() { Name = "TaskSettings.SendEmailsInterval", Value = "30" });
             list.Add(new SystemSetting() { Name = "NotificationSettings.SmtpHost", Value = "elhostemail" });
-
+            list.Add(new SystemSetting() { Name = "SecuritySettings.TrackHomeRequests", Value = "False" });
+            
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
