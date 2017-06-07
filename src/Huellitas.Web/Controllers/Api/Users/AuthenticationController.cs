@@ -77,6 +77,7 @@ namespace Huellitas.Web.Controllers.Api
             var model = user.ToModel(true);
 
             model.UnseenNotifications = this.notificationService.CountUnseenNotificationsByUserId(this.workContext.CurrentUserId);
+            model.FacebookId = user.FacebookId;
 
             return this.Ok(model);
         }
@@ -108,7 +109,8 @@ namespace Huellitas.Web.Controllers.Api
                         Phone = user.PhoneNumber,
                         Phone2 = user.PhoneNumber2,
                         Location = user.Location != null ? user.Location.ToModel() : null,
-                        Role = user.RoleEnum
+                        Role = user.RoleEnum,
+                        FacebookId = user.FacebookId
                     };
 
                     return this.Ok(userModel);

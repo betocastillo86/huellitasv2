@@ -42,6 +42,14 @@ namespace Huellitas.Web.Models.Api
         public string Phone2 { get; set; }
 
         /// <summary>
+        /// Gets or sets the facebook identifier.
+        /// </summary>
+        /// <value>
+        /// The facebook identifier.
+        /// </value>
+        public string FacebookId { get; set; }
+
+        /// <summary>
         /// Gets or sets the location.
         /// </summary>
         /// <value>

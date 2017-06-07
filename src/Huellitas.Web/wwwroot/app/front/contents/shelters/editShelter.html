@@ -141,7 +141,7 @@
                     </ul>
                     <div class="btn-content">
                         <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Valida los campos que no han sido diligenciados correctamente</span>
-                        <a href="" class="btn btn-cancel btn-lg">Cancelar</a>
+                        <a ng-href="{{root.getRoute('shelters')}}" class="btn btn-cancel btn-lg">Cancelar</a>
                         <button type="submit" class="btn btn-save btn-lg">{{main.friendlyName ? 'Guardar' : 'Enviar solicitud'}}</button>
                     </div>
                 </form>

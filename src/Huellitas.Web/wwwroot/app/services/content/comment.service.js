@@ -5,6 +5,8 @@
         .module('huellitasServices')
         .factory('commentService', commentService);
 
+    commentService.$inject = ['httpService'];
+
     function commentService(httpService) {
         return {
             getAll: getAll,

@@ -44,7 +44,7 @@
             <nav class="menu">
                 <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}" ng-click="root.showMenu(false)">Inicio</a></h2>
                 <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu == '/sinhogar'}" ng-click="root.showMenu(false)">En adopción</a></h2>
-                <h2><a href="{{::root.getRoute('lostpets')}}"  ng-click="root.showMenu(false)">Perdidos</a></h2>
+                <h2><a href="{{::root.getRoute('lostpets')}}" ng-click="root.showMenu(false)">Perdidos</a></h2>
                 <h2><a href="{{::root.getRoute('shelters')}}" ng-click="root.showMenu(false)">Fundaciones</a></h2>
                 <h2><a href="{{::root.getRoute('faq')}}" ng-click="root.showMenu(false)">¿Por qué adoptar?</a></h2>
                 <h2><a href="{{::root.getRoute('contact')}}" target="_blank" ng-click="root.showMenu(false)">Contactanos</a></h2>
@@ -57,18 +57,18 @@
                     <span ng-if="root.currentUser.unseenNotifications">{{root.currentUser.unseenNotifications}}</span>
                 </a>
                 <div class="user-img" ng-if="root.currentUser" ng-click="root.showUserInfo()">
-                    <div class="no-img">U</div>
-                    <img src="https://scontent.fbog2-1.fna.fbcdn.net/v/t1.0-1/p56x56/14368897_1083015501806273_3197812012577248045_n.jpg?oh=e0ba28e2d93f5a799ac2d262b2ff862c&oe=5959FBE8" />
+                    <div ng-if="!root.currentUser.facebookId" class="no-img">{{root.getFirstLetters()}}</div>
+                    <img ng-if="root.currentUser.facebookId" ng-src="{{'https://graph.facebook.com/'+root.currentUser.facebookId+'/picture?width=100&height=100'}}" />
                 </div>
                 <br />
                 <div class="sub-wraper" ng-if="root.currentUser" ng-show="root.showingUserInfo" ng-click="root.showUserInfo()">
                     <h6>{{root.currentUser.name}}</h6>
                     <p>{{root.currentUser.email}}</p>
-                    <a ng-if="root.currentUser.role == 'SuperAdmin'"  ng-click="root.goToAdmin()">Administrador</a>
+                    <a ng-if="root.currentUser.role == 'SuperAdmin'" ng-click="root.goToAdmin()">Administrador</a>
                     <a ng-href="{{::root.getRoute('mypets')}}">Mis huellitas</a>
                     <a ng-href="{{::root.getRoute('forms')}}">Formularios por responder</a>
                     <a href="misdatos.html">Mis datos</a>
-                    <a href="javascript:;" ng-click="root.logout()" >Cerrar sesión</a>
+                    <a href="javascript:;" ng-click="root.logout()">Cerrar sesión</a>
                 </div>
             </div>
             <br />

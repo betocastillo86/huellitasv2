@@ -85,6 +85,7 @@
     <Content Include="wwwroot\app\components\modal\modal.default.controller.js" />
     <Content Include="wwwroot\app\components\modal\modal.dialog.controller.js" />
     <Content Include="wwwroot\app\components\modal\modal.service.js" />
+    <Content Include="wwwroot\app\front\components\contents\listComments.controller.js" />
     <Content Include="wwwroot\app\front\components\contents\listComments.directive.js" />
     <Content Include="wwwroot\app\front\components\contents\comments.html" />
     <Content Include="wwwroot\app\front\components\contents\listComments.html" />

@@ -77,6 +77,20 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         public LocationModel Location { get; set; }
 
+        /// <summary>
+        /// Gets or sets the created date.
+        /// </summary>
+        /// <value>
+        /// The created date.
+        /// </value>
         public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the facebook identifier.
+        /// </summary>
+        /// <value>
+        /// The facebook identifier.
+        /// </value>
+        public string FacebookId { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace Huellitas.Web.Controllers
         {
             var model = new AdminModel();
             model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
-            return this.View();
+            return this.View(model);
         }
     }
 }

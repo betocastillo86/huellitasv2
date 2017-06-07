@@ -39,6 +39,7 @@
         vm.logout = logout;
         vm.goToAdmin = goToAdmin;
         vm.showMenu = showMenu;
+        vm.getFirstLetters = getFirstLetters;
 
         activate();
 
@@ -95,6 +96,15 @@
 
         function showLogin() {
             authenticationService.showLogin($scope);
+        }
+
+        function getFirstLetters()
+        {
+            if (vm.currentUser)
+            {
+                var nameParts = vm.currentUser.name.split(/ /g);
+                return nameParts[0][0] + (nameParts.length > 1 ? nameParts[1][0] : '');
+            }
         }
 
         function logout() {
