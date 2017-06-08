@@ -223,6 +223,8 @@
                             message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a Facebook clic aquí<a>.',
                             redirectAfterClose: routingService.getRoute('pets')
                         });
+
+                        helperService.trackGoal('Pets', 'Request');
                     }
 
                     vm.form.isBusy = false;

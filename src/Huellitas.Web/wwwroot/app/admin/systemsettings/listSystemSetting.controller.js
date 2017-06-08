@@ -61,7 +61,7 @@
 
         function toggleEdit(setting) {
             if (setting.isEditing) {
-                if (setting.value && setting.value.length && !vm.isSending) {
+                if (!vm.isSending) {
                     vm.isSending = true;
                     updateSetting(setting);
                 }

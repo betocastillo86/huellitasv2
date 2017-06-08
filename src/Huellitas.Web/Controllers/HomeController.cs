@@ -64,6 +64,7 @@ namespace Huellitas.Web.Controllers
 
             var model = new HomeModel();
             model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
+            model.GoogleAnalyticsCode = this.generalSettings.GoogleAnalyticsCode;
 
             return this.View(model);
         }

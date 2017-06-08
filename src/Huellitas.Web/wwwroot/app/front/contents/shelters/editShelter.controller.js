@@ -157,6 +157,12 @@
                     }
 
                     function postCompleted(response) {
+
+                        if (!vm.friendlyName)
+                        {
+                            helperService.trackGoal('Shelters', 'Request');
+                        }
+                        
                         vm.form.isBusy = false;
                         if (vm.friendlyName) {
                             modalService.show({

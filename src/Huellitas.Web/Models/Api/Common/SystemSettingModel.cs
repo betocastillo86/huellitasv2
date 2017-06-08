@@ -28,7 +28,6 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         /// The value.
         /// </value>
-        [Required]
         public string Value { get; set; }
     }
 }

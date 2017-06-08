@@ -218,6 +218,9 @@
                             .catch(postError);
 
                         function postCompleted() {
+
+                            helperService.trackGoal('Pets', 'AdoptionForm');
+
                             vm.form.isBusy = false;
 
                             vm.disableLeaving();

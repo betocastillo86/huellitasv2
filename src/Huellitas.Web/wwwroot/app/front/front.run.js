@@ -5,14 +5,15 @@
         .module('huellitas')
         .run(runHuellitas);
 
-    runHuellitas.$inject = ['$rootScope', '$http', '$location', '$window', 'sessionService'];
+    runHuellitas.$inject = ['$rootScope', '$http', '$location', '$window', 'sessionService', 'helperService'];
 
-    function runHuellitas($rootScope, $http, $location, $window, sessionService) {
+    function runHuellitas($rootScope, $http, $location, $window, sessionService, helperService) {
         // keep user logged in after page refresh
         if (sessionService.getCurrentUser()) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionService.getToken();
         }
 
+        
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             var publicPages = ['/login', '/Login'];
             var restrictedPage = publicPages.indexOf($location.path()) === -1;

@@ -87,6 +87,7 @@
 
         function locationChanged(event, next, current) {
             vm.currentMenu = next.$$route.originalPath;
+            helperService.trackVisit($window, $location);
         }
 
         function contentLoaded() {

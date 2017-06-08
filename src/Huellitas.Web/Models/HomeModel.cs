@@ -17,5 +17,13 @@ namespace Huellitas.Web.Models
         /// The cache key.
         /// </value>
         public string CacheKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the google analytics code.
+        /// </summary>
+        /// <value>
+        /// The google analytics code.
+        /// </value>
+        public string GoogleAnalyticsCode { get; set; }
     }
 }
