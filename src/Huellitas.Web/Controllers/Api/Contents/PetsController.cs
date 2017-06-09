@@ -198,7 +198,8 @@ namespace Huellitas.Web.Controllers.Api
                     filter.Status,
                     closingDateFrom: closingDateFilter,
                     startingDateFrom: filter.FromStartingDate,
-                    belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null);
+                    belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null,
+                    excludeContentId: filter.ExcludeId);
 
                 IDictionary<int, int> formsByContent = null;
                 if (filter.CountForms)

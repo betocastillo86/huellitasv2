@@ -154,7 +154,7 @@
                         <br>
                     </ul>
                     <div class="btn-content">
-                        <a href="/sinhogar" class="btn btn-cancel btn-lg">Cancelar</a>
+                        <a ng-href="{{::main.backLink}}" class="btn btn-cancel btn-lg">Cancelar</a>
                         <button type="submit" class="btn btn-save btn-lg">{{main.friendlyName ? 'Actualizar' : 'Guardar'}}</button>
                         <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Revisa que todos los campos estén correctamente diligenciados</span>
                     </div>

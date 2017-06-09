@@ -151,6 +151,14 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         [JsonConverter(typeof(StringEnumConverter))]
         public ContentType ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exclude identifier.
+        /// </summary>
+        /// <value>
+        /// The exclude identifier.
+        /// </value>
+        public int? ExcludeId { get; set; }
         
         /// <summary>
         /// Returns true if ... is valid.

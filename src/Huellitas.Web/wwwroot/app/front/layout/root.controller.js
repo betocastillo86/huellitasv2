@@ -16,7 +16,8 @@
         'helperService',
         'routingService']
 
-    function RootController($location,
+    function RootController(
+        $location,
         $scope,
         $window,
         sessionService,
@@ -32,6 +33,7 @@
         vm.currentMenu = '/';
         vm.seo = {};
         vm.isShowingMenu = undefined;
+        vm.previousPages = [];
 
         vm.showUserInfo = showUserInfo;
         vm.getRoute = routingService.getRoute;
@@ -95,6 +97,7 @@
         function locationChanged(event, next, current) {
             vm.currentMenu = next.$$route.originalPath;
             helperService.trackVisit($window, $location);
+            vm.previousPages.push($location.$$path);
         }
 
         function contentLoaded() {

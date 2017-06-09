@@ -204,7 +204,7 @@
                         else {
                             modalService.show({
                                 title: 'Mascota guardada',
-                                message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a Facebook dando clic aquí</a>.',
+                                message: 'Tu mascota ha sido publicada. A tu cuenta de correo llegará cualquier comentario recibido así que debes estar pendiente. Si tienes alguna inquietud <a href="' + routingService.getRoute('contact') + '" target="_blank">escríbenos a Facebook haciendo clic aquí</a>.',
                                 redirectAfterClose: routingService.getRoute('lostpets')
                             });
 

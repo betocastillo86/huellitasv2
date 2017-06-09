@@ -5,12 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Data.Entities;
-    using EventPublisher;
-    using Exceptions;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Infraestructure;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -18,6 +12,12 @@ namespace Huellitas.Business.Services
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Data.Entities;
+    using EventPublisher;
+    using Exceptions;
+    using Huellitas.Data.Core;
+    using Huellitas.Data.Infraestructure;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Content Service
@@ -433,13 +433,15 @@ namespace Huellitas.Business.Services
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="page">The page.</param>
         /// <param name="orderBy">The order by.</param>
-        /// <param name="locationId">the location</param>
-        /// <param name="status">the status</param>
-        /// <param name="closingDateFrom">filter of closing date from</param>
-        /// <param name="closingDateTo">filter of closing date to</param>
-        /// <returns>
-        /// the value
-        /// </returns>
+        /// <param name="locationId">The location identifier.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="closingDateFrom">The closing date from.</param>
+        /// <param name="closingDateTo">The closing date to.</param>
+        /// <param name="startingDateFrom">filters starting date from this</param>
+        /// <param name="startingDateTo">filters starting date until this</param>
+        /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
+        /// <param name="excludeContentId">excludes the search of a content</param>
+        /// <returns>the list</returns>
         public IPagedList<Content> Search(
             string keyword = null,
             ContentType? contentType = null,
@@ -453,7 +455,8 @@ namespace Huellitas.Business.Services
             DateTime? closingDateTo = null,
             DateTime? startingDateFrom = null,
             DateTime? startingDateTo = null,
-            int? belongsToUserId = null)
+            int? belongsToUserId = null,
+            int? excludeContentId = null)
         {
             var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
@@ -569,6 +572,11 @@ namespace Huellitas.Business.Services
             if (startingDateTo.HasValue)
             {
                 query = query.Where(c => c.StartingDate == null || c.StartingDate > startingDateTo.Value);
+            }
+
+            if (excludeContentId.HasValue)
+            {
+                query = query.Where(c => c.Id != excludeContentId.Value);
             }
 
             #region Attributes
