@@ -128,7 +128,10 @@ namespace Huellitas.Business.Services
         /// <param name="status">The status.</param>
         /// <param name="closingDateFrom">The closing date from.</param>
         /// <param name="closingDateTo">The closing date to.</param>
+        /// <param name="startingDateFrom">filters starting date from this</param>
+        /// <param name="startingDateTo">filters starting date until this</param>
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
+        /// <param name="excludeContentId">excludes the search of a content</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -143,7 +146,8 @@ namespace Huellitas.Business.Services
             DateTime? closingDateTo = null,
             DateTime? startingDateFrom = null,
             DateTime? startingDateTo = null,
-            int? belongsToUserId = null);
+            int? belongsToUserId = null,
+            int? excludeContentId = null);
 
         /// <summary>
         /// Updates the asynchronous.

@@ -45,10 +45,13 @@
         vm.shelters = [];
         vm.showNotLogged = false;
         vm.progressFiles = [];
+        vm.previousPage = undefined;
+        vm.backLink = undefined;
 
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
+        
 
         vm.changeMonths = changeMonths;
         vm.isSubtypeChecked = isSubtypeChecked;
@@ -67,6 +70,18 @@
 
         function activate() {
             vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
+            vm.previousPage = $scope.$parent.root.previousPages[$scope.$parent.root.previousPages.length - 2];
+
+            if (vm.previousPage == routingService.getRoute('newpet0')) {
+                vm.backLink = routingService.getRoute('pets');
+            }
+            else if (vm.previousPage == routingService.getRoute('mypets')) {
+                vm.backLink = vm.previousPage;
+            }
+            else {
+                vm.backLink = vm.friendlyName ? routingService.getRoute('pet', { friendlyName: vm.friendlyName }) : routingService.getRoute('pets');
+            }
+
             validateAuthentication();
         }
 
