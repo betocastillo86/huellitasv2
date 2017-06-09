@@ -51,8 +51,8 @@
         <article class="content-all">
             <h2 class="tit-section col-md-12">NUESTRAS HUELLITAS</h2>
             <br>
-            <div ng-if="main.filterMyPets" list-pets data-filter="main.filterMyPets" data-title="main.titleMyPets"></div>
-            <a ng-href="{{root.getRoute('pets', { shelter: main.model.id })}}" class="btn-more btn btn-lg" title="Ver todas las mascotas de {{::main.model.name}}">Ver todos</a>
+            <div ng-if="main.filterMyPets" list-pets data-filter="main.filterMyPets" data-viewall="root.getRoute('pets', { shelter: main.model.id })" data-title="main.titleMyPets"></div>
+            <!--<a ng-href="{{root.getRoute('pets', { shelter: main.model.id })}}" class="btn-more btn btn-lg" title="Ver todas las mascotas de {{::main.model.name}}">Ver todos</a>-->
         </article>
     </section>
     <section class="bkg-gray">

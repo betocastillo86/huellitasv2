@@ -24,6 +24,7 @@
         </div>
         <br />
         <button type="button" class="btn btn-lg btn-more" ng-if="listPet.showPager" ng-click="listPet.nextPage()">Ver más</button>
+        <a class="btn btn-lg btn-more" ng-href="{{listPet.viewAll}}" ng-if="listPet.showViewAll">{{listPet.viewAllTitle}}</a>
     </div>
 
 </div>

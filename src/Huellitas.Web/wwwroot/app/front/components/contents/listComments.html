@@ -1,9 +1,9 @@
 ﻿<section class="bkg-gray">
     <article class="content-all">
         <h1 class="tit-section col-md-12">COMENTARIOS</h1>
-        <div class="sub-title col-md-12">Deja tus comentarios que son muy importatenes para nosotros</div>
+        <div class="sub-title col-md-12">{{::listComments.defaultDescription}}</div>
         <form name="listComments.form" class="coment-form col-md-12" novalidate ng-submit="listComments.saveComment()">
-            <textarea name="body" ng-model="listComments.newComment" required placeholder="Dejanos tu comentario" maxlength="200"></textarea>
+            <textarea name="body" ng-model="listComments.newComment" required placeholder="Déjanos tu comentario" maxlength="200"></textarea>
             <div ng-if="listComments.form.$invalid && listComments.form.$submitted">
                 <span ng-show="listComments.form.$error.required" class="error">El comentario es obligatorio</span>
                 <span ng-show="listComments.form.$error.maxlength" class="error">Máximo puedes ingresar 200 caracteres</span>
@@ -18,7 +18,7 @@
                 <a ng-if="comment.canDelete" ng-click="listComments.deleteComment(comment)">Borrar</a>
 
                 <form ng-if="comment.isAnswering" name="listComments.formChildren" class="coment-form col-md-12" novalidate ng-submit="listComments.saveChild(comment)">
-                    <textarea name="body" ng-model="listComments.newChild" required placeholder="Dejanos tu respuesta" maxlength="200"></textarea>
+                    <textarea name="body" ng-model="listComments.newChild" required placeholder="Déjanos tu respuesta" maxlength="200"></textarea>
                     <div ng-if="listComments.formChildren.$invalid && listComments.formChildren.$submitted">
                         <span ng-show="listComments.formChildren.$error.required" class="error">El comentario es obligatorio</span>
                         <span ng-show="listComments.formChildren.$error.maxlength" class="error">Máximo puedes ingresar 200 caracteres</span>

@@ -38,8 +38,8 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <angucomplete-alt id="location"
-                                      placeholder="Ciudad"
-                                      pause="400"
+                                      placeholder="Busca la ciudad y seleccionala"
+                                      pause="200"
                                       remote-url="/api/locations?pagesize=8&name="
                                       title-field="name"
                                       selected-object="main.changeLocation"
@@ -49,12 +49,13 @@
                                       field-required-class="parsley-error"
                                       remote-url-data-field="results"
                                       match-class="highlight"
-                                      minlength="1" />
+                                      minlength="1"
+                                      text-no-results="No se encontró la ciudad que buscas" />
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <angucomplete-alt id="breed"
-                                      placeholder="Ingresar Raza"
-                                      pause="400"
+                                      placeholder="Busca la raza y seleccionala"
+                                      pause="200"
                                       remote-url="/api/customtables/{{main.breedTable}}/rows?pagesize=8&keyword="
                                       title-field="value"
                                       selected-object="main.changeBreed"
@@ -64,7 +65,8 @@
                                       field-required-class="parsley-error"
                                       remote-url-data-field="results"
                                       match-class="highlight"
-                                      minlength="1" />
+                                      minlength="1"
+                                      text-no-results="No se encontró la raza que buscas" />
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <button type="button" class="btn btn-lg	" ng-click="main.search()">Buscar</button>

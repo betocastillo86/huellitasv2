@@ -73,6 +73,10 @@
         }
 
         function showMenu(openButton) {
+            if (vm.showingUserInfo) {
+                showUserInfo();
+            }
+
             //// Solo lo muestra si el clic viene del boton de abrir el menu
             //// o si previamente había abierto el menu
             if (vm.isShowingMenu !== undefined || openButton) {
@@ -82,6 +86,9 @@
         }
 
         function showUserInfo() {
+            if (vm.isShowingMenu) {
+                showMenu();
+            }
             vm.showingUserInfo = !vm.showingUserInfo;
         }
 

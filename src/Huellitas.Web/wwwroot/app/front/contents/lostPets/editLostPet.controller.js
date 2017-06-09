@@ -127,6 +127,12 @@
         }
 
         function save() {
+
+            if (!vm.model.breed)
+            {
+                $scope.$broadcast('angucomplete-alt:clearInput', 'breed');
+            }
+
             if (vm.form.$valid && !vm.form.isBusy) {
 
                 vm.form.isBusy = true;

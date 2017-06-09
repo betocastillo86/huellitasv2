@@ -25,26 +25,27 @@
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.genre.$invalid }">
                         <select name="genre" ng-model="main.model.genre.value" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.getFullNameImage()" required>
-                            <option value="">Genero del animal</option>
+                            <option value="">Género del animal</option>
                         </select>
-                        <span class="error" ng-if="main.form.$submitted && main.form.genre.$error.required">El genero de la mascota es obligatorio</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.genre.$error.required">El género de la mascota es obligatorio</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.genre.$valid"></span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.breed.$invalid }">
                         <angucomplete-alt id="breed"
-                                          placeholder="Ingresar Raza"
-                                          pause="400"
+                                          placeholder="Busca y selecciona la raza"
+                                          pause="200"
                                           remote-url="/api/customtables/{{main.breedTable}}/rows?pagesize=8&keyword="
                                           title-field="value"
                                           selected-object="main.changeBreed"
                                           initial-value="main.model.breed.text"
-                                          
+                                          focus-out="main.focusOutBreed"
                                           field-required="true"
                                           input-name="breed"
                                           field-required-class="parsley-error"
                                           remote-url-data-field="results"
                                           match-class="highlight"
-                                          minlength="1" />
+                                          minlength="1"
+                                          text-no-results="No se encontró la raza que buscas" />
                         <span class="error" ng-if="main.form.$submitted && main.form.breed.$invalid">Ingresa la raza del animal</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.breed.$valid"></span>
                     </div>
@@ -72,8 +73,8 @@
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.location.$invalid }">
                         <div>
                             <angucomplete-alt id="location"
-                                              placeholder="Ciudad"
-                                              pause="400"
+                                              placeholder="Busca tu ciudad y seleccionala"
+                                              pause="200"
                                               remote-url="/api/locations?pagesize=8&name="
                                               title-field="name"
                                               selected-object="main.changeLocation"
@@ -83,7 +84,8 @@
                                               field-required-class="parsley-error"
                                               remote-url-data-field="results"
                                               match-class="highlight"
-                                              minlength="1" />
+                                              minlength="1"
+                                              text-no-results="No se encontró la ciudad que buscas" />
                         </div>
                         <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>

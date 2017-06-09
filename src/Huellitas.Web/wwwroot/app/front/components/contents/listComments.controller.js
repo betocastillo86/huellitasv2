@@ -24,6 +24,7 @@
             orderBy: 'recent',
             withChildren: true
         };
+        vm.defaultDescription = 'Deja tus comentarios que son muy importatenes para nosotros';
 
         vm.saveComment = saveComment;
         vm.enableResponse = enableResponse;
@@ -36,6 +37,7 @@
 
         function activate() {
             vm.filter.contentId = $attrs.contentid ? $scope.$eval($attrs.contentid) : undefined;
+            vm.defaultDescription = $attrs.defaultdescription ? $attrs.defaultdescription : vm.defaultDescription;
 
             if (!vm.filter.contentId) {
                 throw 'No se ingreso el filtro de contenido';

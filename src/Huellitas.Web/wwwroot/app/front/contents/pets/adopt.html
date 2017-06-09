@@ -67,8 +67,8 @@
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.location.$invalid}">
                             <div>
                                 <angucomplete-alt id="location"
-                                                  placeholder="Ciudad"
-                                                  pause="400"
+                                                  placeholder="Busca tu ciudad y seleccionala"
+                                                  pause="200"
                                                   remote-url="/api/locations?pagesize=8&name="
                                                   title-field="name"
                                                   selected-object="main.changeLocation"
@@ -78,7 +78,8 @@
                                                   field-required-class="parsley-error"
                                                   remote-url-data-field="results"
                                                   match-class="highlight"
-                                                  minlength="1" />
+                                                  minlength="1" 
+                                                  text-no-results="No se encontró la ciudad que buscas" />
                             </div>
                             <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.location.$invalid">Ingresa la ubicación</span>
