@@ -13,7 +13,8 @@
                 onprogress: '=',
                 callbackParam: '@',
                 defaultname: '@',
-                validextensions: '@'
+                validextensions: '@',
+                validatehorizontal: '@'
             }
         };
 
@@ -27,9 +28,11 @@
             var progressArray = [];
             //// Contiene el indice de los archivos ya cargados
             var iFileSent = 0;
+            var alreadyShowedHorizontalError = false;
 
 
             function sendFile(e) {
+                alreadyShowedHorizontalError = false;
                 var fileUpload = element[0];
 
                 //progressArray = new Array();
@@ -39,21 +42,22 @@
 
 
                 var validExtensionsRegex = scope.validextensions ? new RegExp(scope.validextensions, 'i') : null;
+                var validatehorizontal = scope.validatehorizontal ? scope.validatehorizontal : false;
 
 
                 for (var i = 0; i < fileUpload.files.length; i++) {
                     if (fileUpload.files[i].size > app.Settings.security.maxRequestFileUploadMB * 1024 * 1024) {
                         errorSize = true;
                     }
-                    else if (validExtensionsRegex && !validExtensionsRegex.test(fileUpload.files[i].name))
-                    {
+                    else if (validExtensionsRegex && !validExtensionsRegex.test(fileUpload.files[i].name)) {
                         errorExtensions = true;
                     }
-                    else {
-                        fileService.post(fileUpload.files[i], scope.defaultname, onProgress, iFileSent)
-                            .then(postCompleted)
-                            .catch(helperService.handleException);
-                        iFileSent++;
+                    else if (validatehorizontal == '1') {
+                        validateHorizontalImage(fileUpload.files[i], fileUpload.files.length);
+                    }
+                    else
+                    {
+                        postFileToServer(fileUpload.files[i]);
                     }
                 }
 
@@ -87,13 +91,52 @@
                     helperService.handleException({ data: { error: { message: message } } });
                     element.val(null);
                 }
-
             }
 
             function onProgress(percentage, indexFile) {
                 progressArray[indexFile] = percentage;
                 if (scope.onprogress) {
                     scope.onprogress(progressArray);
+                }
+            }
+
+            function postFileToServer(file)
+            {
+                fileService.post(file, scope.defaultname, onProgress, iFileSent)
+                    .then(postCompleted)
+                    .catch(helperService.handleException);
+                iFileSent++;
+            }
+
+            function validateHorizontalImage(file, totalImages)
+            {
+                var _URL = window.URL || window.webkitURL;
+                if (_URL) {
+                    var x = scope.defaultname;
+                    var img = new Image();
+                    img.onload = function () {
+                        var y = scope.defaultname;
+                        if (img.height <= img.width) {
+                            postFileToServer(file);
+                        }
+                        else
+                        {
+                            if (!alreadyShowedHorizontalError)
+                            {
+                                var message = '';
+                                if (totalImages == 1) {
+                                    message = 'La imagen no puede tener formato vertical ya que se va a ver cortadas. Debes subir otra imagen.<br><img src="/img/front/ejemplo-mala-foto.png" />';
+                                }
+                                else {
+                                    message = 'Hay imagenes en formato vertical y no pueden ser cargadas ya que se van a ver cortadas. Toma otras fotos en formato vertical.<br><img src="/img/front/ejemplo-mala-foto.png" />';
+                                }
+
+                                helperService.handleException({ data: { error: { message: message } } });
+                                alreadyShowedHorizontalError = true;
+                            }
+                        }
+                    };
+                    img.src = _URL.createObjectURL(file);
                 }
             }
 

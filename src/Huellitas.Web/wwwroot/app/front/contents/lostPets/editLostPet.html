@@ -111,7 +111,7 @@
                             </div>
                             <div class="file-upload-button">
                                 <button class="btn btn-white btn-block btn-lg" type="button">Carga {{main.model.files.length ? 'más' : 'tus'}} fotos</button>
-                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" onprogress="main.imageOnProgress" data-defaultname="{{main.defaultNameImage}}" fileupload-huellitas validextensions="\.(gif|jpg|jpeg|tiff|png|bmp)$" accept="image/*">
+                                <input type="file" name="files" multiple="multiple" onadded="main.imageAdded" onprogress="main.imageOnProgress" data-defaultname="{{main.defaultNameImage}}" fileupload-huellitas validextensions="\.(gif|jpg|jpeg|tiff|png|bmp)$" validatehorizontal="1" accept="image/*">
                             </div>
                             <br>
                         </div>
@@ -127,7 +127,7 @@
                                 <img ng-src="{{file.thumbnail}}">
                             </div>
                         </li>
-                        <li ng-repeat="progressFile in main.progressFiles track by $index">
+                        <li ng-repeat="progressFile in main.progressFiles track by $index" ng-if="progressFile < 101">
                             <div class="progress" >
                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{progressFile}}"
                                      aria-valuemin="0" aria-valuemax="100" style="width:{{progressFile}}%">

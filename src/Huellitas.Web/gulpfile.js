@@ -21,6 +21,7 @@ var bower = require('gulp-bower'),
     sass = require("gulp-sass"),
     replace = require("gulp-replace"),
     flatten = require("gulp-flatten"),
+    clean = require('gulp-clean'),
     concat = require('gulp-concat');
 
 var paths = {
@@ -71,10 +72,10 @@ paths.libsFront = [
 paths.concatJsDestAdmin = paths.webroot + "js/admin.site.min.js";
 paths.concatJsDestFront = paths.webroot + "js/front.site.min.js";
  
-gulp.task('resourcesAdmin', function () {
+gulp.task('resourcesAdminRelease', function () {
     var files = paths.libsAdmin;
 
-    console.log('Inicia tarea resourcesAdmin ', files);
+    console.log('Inicia tarea resourcesAdminRelease ', files);
 
     return gulp.src(files, { base: '.' })
         .pipe(concat(paths.webroot + "js/admin.resources.min.js"))
@@ -82,7 +83,17 @@ gulp.task('resourcesAdmin', function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('scriptsReleaseAdmin', ['resourcesAdmin'], function () {
+gulp.task('resourcesAdminDev', function () {
+    var files = paths.libsAdmin;
+
+    console.log('Inicia tarea resourcesAdminDev ', files);
+
+    return gulp.src(files, { base: '.' })
+        .pipe(concat(paths.webroot + "js/admin.resources.min.js"))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('scriptsReleaseAdmin', ['resourcesAdminRelease'], function () {
 
     var files = [];
     //files = files.concat(paths.libsAdmin);
@@ -133,11 +144,9 @@ gulp.task('moveResources', function () {
         .pipe(gulp.dest(paths.webroot+'fonts'));
 })
 
-gulp.task('scriptsDevAdmin', function () {
-    console.log('Se generan los archivos', paths.libsAdmin);
-    return gulp.src(paths.libsAdmin, { base: '.' })
+gulp.task('scriptsDevAdmin', ['resourcesAdminDev'], function () {
+    return gulp.src([''], { base: '.' })
             .pipe(concat(paths.concatJsDestAdmin))
-            //.pipe(uglify())
             .pipe(gulp.dest('.'));
 });
 

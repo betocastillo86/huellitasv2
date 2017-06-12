@@ -1,5 +1,5 @@
 ﻿<div class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog login" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="tit-modal">{{modal.title}}</h4>
@@ -9,8 +9,11 @@
             </div>
             <form>
                 <div class="box-log" ng-bind-html="modal.message"></div>
-                <a class="btn btn-lg btn-default" ng-href="root.getRoute('contact')" target="_blank">Contactanos</a>
-                <button type="button" class="btn btn-lg btn-danger" ng-click="modal.close()">Aceptar</button>
+                <br />
+                <div>
+                    <a class="btn btn-lg btn-default" ng-href="root.getRoute('contact')" target="_blank">Contactanos</a>
+                    <button type="button" class="btn btn-lg btn-danger" ng-click="modal.close()">Aceptar</button>
+                </div>
             </form>
         </div>
     </div>
