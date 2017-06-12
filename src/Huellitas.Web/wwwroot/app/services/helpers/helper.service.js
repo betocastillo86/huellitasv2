@@ -22,7 +22,9 @@
             compile: compile,
             notFound: notFound,
             replaceJson: replaceJson,
-            enableLeavingPageMode: enableLeavingPageMode
+            enableLeavingPageMode: enableLeavingPageMode,
+            trackVisit: trackVisit,
+            trackGoal: trackGoal
         };
 
         return service;
@@ -136,6 +138,19 @@
                 originalString = originalString.replace(new RegExp('{' + key + '}', 'gi'), jsonReplace[key]);
             }
             return originalString;
+        }
+
+        function trackVisit(thewindow, thelocation)
+        {
+            if (app.Settings.general.googleAnalyticsCode.length) {
+                thewindow.ga('send', 'pageview', thelocation.path());
+            }
+        }
+
+        function trackGoal(category, action, label, value) {
+            if (app.Settings.general.googleAnalyticsCode.length) {
+                $window.ga('send', 'event', category, action, label, value);
+            }
         }
     }
 })();

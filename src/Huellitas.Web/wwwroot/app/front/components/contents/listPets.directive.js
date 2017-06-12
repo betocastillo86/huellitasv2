@@ -28,6 +28,8 @@
             petsloaded:     callback when the pets are loaded,
             pagingenabled:  enables the paging
             displaytype:    small,medium
+            viewall:        link to view all
+            viewalltitle:   title of view all
      * @param {any} $scope
      * @param {any} petService
      */
@@ -41,6 +43,7 @@
         vm.pagingEnabled = false;
         vm.title = undefined;
         vm.displayType = 'medium';
+        vm.showViewAll = false;
 
         vm.nextPage = nextPage;
 
@@ -52,6 +55,8 @@
             vm.pagingEnabled = $attrs.pagingenabled ? $scope.$eval($attrs.pagingenabled) : false;
             vm.displayType = $attrs.displaytype ? $attrs.displaytype : 'medium';
             vm.title = $attrs.title ? $scope.$eval($attrs.title) : undefined;
+            vm.viewAll = $attrs.viewall ? $scope.$eval($attrs.viewall) : undefined;
+            vm.viewAllTitle = $attrs.viewalltitle ? $scope.viewalltitle : 'Ver todos';
 
             getPets();
         }
@@ -67,8 +72,7 @@
                 for (var i = 0; i < response.results.length; i++) {
                     response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
                 }
-
-
+                
                 if (vm.pets.length && vm.filter.page) {
                     vm.pets = vm.pets.concat(response.results);
                 }
@@ -84,6 +88,11 @@
                 if (vm.petsLoadedCallback)
                 {
                     vm.petsLoadedCallback(response);
+                }
+
+                if (vm.viewAll)
+                {
+                    vm.showViewAll = response.meta.totalCount > 0;
                 }
             }
         }

@@ -127,6 +127,12 @@
         }
 
         function save() {
+
+            if (!vm.model.breed)
+            {
+                $scope.$broadcast('angucomplete-alt:clearInput', 'breed');
+            }
+
             if (vm.form.$valid && !vm.form.isBusy) {
 
                 vm.form.isBusy = true;
@@ -201,6 +207,8 @@
                                 message: 'Tu mascota ha sido publicada. A tu cuenta de correo llegará cualquier comentario recibido así que debes estar pendiente. Si tienes alguna inquietud <a href="' + routingService.getRoute('contact') + '" target="_blank">escríbenos a Facebook haciendo clic aquí</a>.',
                                 redirectAfterClose: routingService.getRoute('lostpets')
                             });
+
+                            helperService.trackGoal('LostPets', 'Request');
                         }
 
                         vm.form.isBusy = false;

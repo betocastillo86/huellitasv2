@@ -57,7 +57,7 @@
 
         function getFullRouteOfFile(file)
         {
-            return app.Settings.general.siteUrl + file;
+            return app.Settings.general.siteUrl + (file[0] == '/' ? file.substring(1) : file);
         }
     }
 })();

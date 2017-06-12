@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using Services;
 
@@ -108,5 +109,7 @@ namespace Huellitas.Business.Configuration
         /// The configuration JAVASCRIPT cache key.
         /// </value>
         public string ConfigJavascriptCacheKey { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
+
+        public string GoogleAnalyticsCode => this.settingService.GetCachedSetting<string>("GeneralSettings.GoogleAnalyticsCode");
     }
 }

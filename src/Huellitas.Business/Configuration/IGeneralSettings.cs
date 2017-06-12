@@ -89,5 +89,8 @@ namespace Huellitas.Business.Configuration
         /// The configuration JAVASCRIPT cache key.
         /// </value>
         string ConfigJavascriptCacheKey { get; }
+
+
+        string GoogleAnalyticsCode { get; }
     }
 }

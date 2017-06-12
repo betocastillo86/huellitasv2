@@ -97,6 +97,8 @@ namespace Huellitas.Web.Infraestructure.UI
         /// </summary>
         public void CreateJavascriptConfigurationFile()
         {
+            this.cacheManager.Clear();
+
             var isDebug = false;
 
 #if DEBUG
@@ -171,7 +173,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 {
                     facebookPublicToken = generalSettings.FacebookPublicToken,
                     siteUrl = generalSettings.SiteUrl,
-                    seoImage = generalSettings.SeoImage
+                    seoImage = generalSettings.SeoImage,
+                    googleAnalyticsCode = generalSettings.GoogleAnalyticsCode
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,

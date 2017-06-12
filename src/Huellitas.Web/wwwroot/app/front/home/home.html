@@ -31,7 +31,7 @@
         </ul>
     </div>
     <section>
-        <article class="content-all" list-pets data-filter="main.filterPets" data-petsloaded="main.petsLoaded"></article>
+        <article class="content-all" list-pets data-filter="main.filterPets" data-petsloaded="main.petsLoaded" data-viewall="root.getRoute('pets')"></article>
     </section>
     <section class="h-funda">
         <article class="content-all col-md-12">
@@ -45,7 +45,7 @@
                 </li>
                 <br>
             </ul>
-            <button type="button" class="btn btn-lg">Ver todas</button>
+            <a ng-href="{{::root.getRoute('shelters')}}" class="btn btn-lg btn-more">Ver todas</a>
         </article>
     </section>
 

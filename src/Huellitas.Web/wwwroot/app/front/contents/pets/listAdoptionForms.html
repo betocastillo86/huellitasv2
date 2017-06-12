@@ -13,8 +13,8 @@
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <angucomplete-alt id="petId"
-                                      placeholder="Nombre mascota"
-                                      pause="400"
+                                      placeholder="Busca por nombre de mascota"
+                                      pause="200"
                                       remote-url="/api/pets?pagesize=8&mine=true&keyword="
                                       title-field="name"
                                       selected-object="main.changePet"
@@ -24,7 +24,8 @@
                                       field-required-class="parsley-error"
                                       remote-url-data-field="results"
                                       match-class="highlight"
-                                      minlength="1" />
+                                      minlength="1"
+                                      text-no-results="No se encontró el nombre que buscas" />
                 </div>
                 <br>
             </form>

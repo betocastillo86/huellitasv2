@@ -41,11 +41,11 @@ namespace Huellitas.Web.TagHelpers
         /// <param name="output">A stateful HTML element used to generate an HTML tag.</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var rootPath = _appEnvironment.ContentRootPath + "\\wwwroot";
+            var rootPath = _appEnvironment.ContentRootPath + "/wwwroot";
             var strHtml = new StringBuilder();
             var mainFolder = context.AllAttributes["type"].Value.ToString();
 
-            SearchJsInPath(rootPath + "\\app", true, mainFolder)
+            SearchJsInPath(rootPath + "/app", true, mainFolder)
                 .ToList()
                 .ForEach(c => strHtml.AppendLine($"<script src=\"{c.Replace(rootPath, string.Empty).Replace("\\", "/")}\"></script>"));
 

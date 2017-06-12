@@ -10,8 +10,8 @@
             <form class="search-box">
                 <div class="col-md-4 col-sm-6">
                     <angucomplete-alt id="location"
-                                      placeholder="Ciudad"
-                                      pause="400"
+                                      placeholder="Busca la ciudad y seleccionala"
+                                      pause="200"
                                       remote-url="/api/locations?pagesize=8&name="
                                       title-field="name"
                                       selected-object="main.changeLocation"
@@ -21,7 +21,8 @@
                                       field-required-class="parsley-error"
                                       remote-url-data-field="results"
                                       match-class="highlight"
-                                      minlength="1"/>
+                                      minlength="1"
+                                      text-no-results="No se encontró la ciudad que buscas" />
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <input type="text" name="name" ng-model="main.filter.keyword" placeholder="Busca por nombre" />

@@ -44,9 +44,12 @@ namespace Huellitas.Web
 
             app.AddJWTAuthorization(env, loggerFactory);
 
-            //app.AddFacebookAuthorization();
-
             app.UseStaticFiles();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions()
+            {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+            });
 
             app.UseMvc(routes =>
             {
@@ -70,6 +73,7 @@ namespace Huellitas.Web
                     template: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });
             });
+            
 
             this.CreateJavascriptFile(app);
 
