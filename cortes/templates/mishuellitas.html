@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Huellitas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="../content/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="../content/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../content/css/styles.css" />
+
+    <!--[if IE]>
+		<script type="text/javascript">
+			 var console = { log: function() {} };
+		</script>
+	<![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../content/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.min.js"></script>
+</head>
+<body ng-app="ngAnimate">
+	<header class="inner-header">
+		<div class="content-all">
+			<div class="main-menu"><span class="icon-menu"></span></div>
+			<h1 class="logo">
+			<a href="/">
+				<img src="../content/images/logo.svg">
+				<span>Huellitas sin hogar - Ayuda a adoptar mascotas</span>
+			</a>
+			</h1>
+			<nav class="menu">
+				<h2><a class="active" href="index.html">Inicio</a></h2>
+				<h2><a href="huellitas.html">En adopción</a></h2>
+				<h2><a href="perdidos.html">Perdidos</a></h2>
+				<h2><a href="fundaciones.html">Fundaciones</a></h2>
+				<h2><a href="porque.html">¿Por qué adoptar?</a></h2>
+				<br/>
+			</nav>
+			<div class="user-wraper">
+				<!--<a class="login" href="">Iniciar sesión</a>-->
+				<a class="btn-noti" href="notificaciones.html">
+					<i class="icon-noti"></i>
+					<span>00</span>
+				</a>
+				<div class="user-img">
+					<div class="no-img">J</div>
+					<img src="https://scontent.fbog2-1.fna.fbcdn.net/v/t1.0-1/p56x56/14368897_1083015501806273_3197812012577248045_n.jpg?oh=e0ba28e2d93f5a799ac2d262b2ff862c&oe=5959FBE8">
+				</div>
+				<br/>
+				<div class="sub-wraper">
+					<h6>Julian Castillo</h6>
+					<p>chechocast@gmail.com</p>
+					<a href="mishuellitas.html">Mis huellitas</a>
+					<a href="misdatos.html">Mis datos</a>
+					<a href="">Cerrar sesión</a>
+				</div>
+			</div>
+			<br/>
+		</div>
+	</header>
+	<div class="pg-body col-md-12">
+		<section>
+			<article class="content-all">
+				<h1 class="tit-section col-md-12">MIS HUELLITAS</h1>
+				<div class="sub-title col-md-12">Puedes editar los datos de tus huellitas asociadas</div>
+				<div class="ft-mpet">
+					<form class="search-box">
+						<div class="col-md-2 col-sm-6">
+							<div class="type-pet">
+								<input type="radio">
+								<span class="icon-perro"></span>
+							</div>
+							<div class="type-pet">
+								<input type="radio">
+								<span class="icon-cat"></span>
+							</div>
+							<br/>
+						</div>
+						<div class="col-md-2 col-sm-6">
+							<input type="text" placeholder="Nombre">
+						</div>
+						<div class="col-md-2 col-sm-6">
+							<select>
+								<option>Edad</option>
+							</select>
+						</div>
+						<div class="col-md-2 col-sm-6">
+							<select>
+								<option>Genero</option>
+							</select>
+						</div>
+						<div class="col-md-2 col-sm-12">
+							<button type="button" class="btn btn-lg">Buscar</button>
+						</div>
+						<br/>
+					</form>
+					<a href="solicitudes.html" class="btn btn-lg btn-more">Ver solicitudes</a>
+					<div class="stage-box">
+						<span>Estado:</span>
+						<span class="st-on"></span>
+						<span>Inactivo</span>
+						<span class="st-off"></span>
+						<span>Activo</span>
+						<br/>
+					</div>
+					<br/>
+				</div>
+				<div class="mask-table">
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Nombre</th>
+								<th>Edad</th>
+								<th>Genero</th>
+								<th>Estado</th>
+								<th>Solicitudes</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="solicitudes.html">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+							<tr>
+								<th scope="row" class="img-table">
+									<img src="http://huellitas.social/img/18865/big">
+								</th>
+								<td>Rufus</td>
+								<td>5 años</td>
+								<td>Hembra</td>
+								<td>
+									<div class="onoffswitch">
+									    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+									    <label class="onoffswitch-label" for="myonoffswitch"></label>
+									</div>
+								</td>
+								<td><a href="">Ver 23</a></td>
+								<td><a class="btn btn-lg" href="">Editar</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</article>
+		</section>
+		<footer>
+			<div class="redes">
+				<a href=""><span class="icon-face"></span></a>
+				<a href=""><span class="icon-insta"></span></a>
+			</div>
+			<p>© 2017 Huellitas sin hogar. All rights reserved.</p>
+		</footer>
+	</div>
+</body>
+</html>
