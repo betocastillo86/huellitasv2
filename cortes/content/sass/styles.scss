@@ -64,7 +64,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px inherit inset;
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
     color: inherit;
 }
 
@@ -157,7 +157,7 @@ header{
 }
 .main-menu{
     display: none;
-    @include md{
+    @include sm{
         display: block;
         color: $blue;
         font-size: 40px;
@@ -172,7 +172,7 @@ header{
     @include md{
         margin: 0 0 0 20px;
     }
-    @include md{
+    @include sm{
         display: none;
         float: none;
         margin: 0;
@@ -195,7 +195,7 @@ header{
         float: left;
         margin: 0 10px;
 
-        @include md{
+        @include sm{
             float: none;
             margin: 0;
             text-align: center;
@@ -251,7 +251,6 @@ header{
         float: right;
     }
     .sub-wraper{
-        display: block;
         background: $white;
         width: 240px;
         position: absolute;
@@ -945,10 +944,6 @@ section{
         font-weight: 700;
         font-size: 20px;
         font-family: 'Oswald', sans-serif;
-        text-transform: uppercase;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     p{
         color: $gray;
@@ -970,16 +965,6 @@ section{
         }
     }
 }
-
-.content-lost {
-
-    .card {
-        .btn, .priority {
-            display: none !important;
-        }
-    }
-}
-
 .img-pet{
     width: 100%;
     overflow: hidden;
@@ -1076,7 +1061,7 @@ section{
     }
 }
 .btn-more{
-    width: 140px;
+    min-width: 140px;
     color: $red;
     border: 3px solid $red;
     @include transition(0.3s);
@@ -1613,10 +1598,10 @@ section{
         font-size: 20px;
     }
 }
-.bad {
-    input[type="text"], [type="password"], [type="url"], [type="number"], [type="email"], select, textarea {
+.bad{
+    input[type="text"], [type="password"], [type="number"], [type="email"], select, textarea{
         background: #FFEBEB;
-    }
+    } 
 }
 .error{
     color: #FF0047;
@@ -1668,16 +1653,15 @@ section{
     }
 }
 
-form {
-    input[type="text"], input[type="url"], [type="password"], [type="number"], [type="email"], select {
+form{
+    input[type="text"], [type="password"], [type="number"], [type="email"], select{
         background: $gray4;
         width: 100%;
         font-size: 16px;
         padding: 10px;
         @include border-radius(6px);
     }
-
-    textarea {
+    textarea{
         background: $gray4;
         width: 100%;
         font-size: 16px;
@@ -1685,28 +1669,24 @@ form {
         @include border-radius(6px);
         height: 100px;
     }
-
-    label {
+    label{
         font-size: 16px;
         font-weight: bold;
         color: $blue;
         display: block;
     }
-
-    fieldset {
+    fieldset{
         border: none;
         margin: 0;
         padding: 0;
     }
-
-    .checkbox + .checkbox, .radio + .radio {
+    .checkbox+.checkbox, .radio+.radio{
         margin-top: inherit;
     }
-
-    .radio, .checkbox {
+    .radio, .checkbox{
         margin: 10px 0 !important;
 
-        label {
+        label{
             font-size: 14px;
             color: $text-color;
         }
@@ -1949,7 +1929,6 @@ ul.wizard_steps {
             img{
                 display: block;
                 width: 100%;
-                cursor: -webkit-grab;
             }
 
             .delete-img{
@@ -1979,15 +1958,14 @@ ul.wizard_steps {
         }
     }
 }
-.redes-inp {
+.redes-inp{
 
-    input[type="text"], input[type="url"] {
+    input[type="text"]{
         width: calc(100% - 50px);
         float: left;
         margin: 0 0 0 6px;
     }
-
-    [class^="icon-"] {
+    [class^="icon-"]{
         font-size: 25px;
         text-align: center;
         line-height: 44px;
@@ -2612,3 +2590,4 @@ footer{
 }
 
 @import 'animate';
+@import 'a-huellitas';
