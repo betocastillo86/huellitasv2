@@ -58,7 +58,7 @@
             </h1>
             <nav class="menu">
                 <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}" ng-click="root.showMenu(false)">Inicio</a></h2>
-                <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('pets')) != -1 }" ng-click="root.showMenu(false)">En adopción</a></h2>
+                <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('pets')) != -1 }" ng-click="root.showMenu(false)" >En adopción</a></h2>
                 <h2><a href="{{::root.getRoute('lostpets')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('lostpets')) != -1 }" ng-click="root.showMenu(false)">Perdidos</a></h2>
                 <h2><a href="{{::root.getRoute('shelters')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('shelters')) != -1 }" ng-click="root.showMenu(false)">Fundaciones</a></h2>
                 <h2><a href="{{::root.getRoute('faq')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('faq')) != -1 }" ng-click="root.showMenu(false)">¿Por qué adoptar?</a></h2>
@@ -109,5 +109,6 @@
         <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
         <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
     </environment>
+
 </body>
 </html>

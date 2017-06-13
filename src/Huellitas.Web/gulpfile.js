@@ -66,7 +66,8 @@ paths.libsFront = [
     paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
     paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
-    paths.external + 'angucomplete-alt/angucomplete-alt.js'
+    paths.external + 'angucomplete-alt/angucomplete-alt.js',
+    paths.external + 'fullpage.js/dist/jquery.fullpage.js'
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/admin.site.min.js";
@@ -175,7 +176,8 @@ gulp.task('cssFront',['sassFront'], function () {
         paths.webroot + 'css/front/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
-        paths.webroot + 'css/front.huellitas.css'
+        paths.webroot + 'css/front.huellitas.css',
+        paths.external + 'fullpage.js/dist/jquery.fullpage.css'
     ];
 
     console.log('Inicia tarea de css con ', files);

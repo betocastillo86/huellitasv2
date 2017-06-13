@@ -16,6 +16,11 @@
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.Faq.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.Faq.Description'];
 
+            $scope.$on('$locationChangeStart', function (event) {
+                console.log('Destruye el fullpage');
+                $.fn.fullpage.destroy('all');
+            });
+            
             $timeout(fullpage, 500);   
         }
 
@@ -27,6 +32,7 @@
                 navigationPosition: 'right',
                 navigationTooltips: ['Adopta', 'Tiempo', 'Dinero', 'Hogar', 'Responsable', 'Tu mascota']
             });
+
         }
     }
 })();
