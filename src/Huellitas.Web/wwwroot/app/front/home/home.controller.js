@@ -15,12 +15,17 @@
         vm.petsLoaded = petsLoaded;
 
         vm.currentBanner = undefined;
+        vm.iCurrentBanner = 0;
+
         vm.filterPets = {
             pageSize: 9,
             orderBy: 'Featured',
             status: 'Published',
             contentType: 'Pet'
         };
+
+        vm.previousBanner = previousBanner;
+        vm.nextBanner = nextBanner;
 
         activate();
 
@@ -48,25 +53,30 @@
 
                 rotateBanners();
             }
+        }
 
-            function rotateBanners() {
-                if (vm.banners.length) {
-                    vm.currentBanner = vm.banners[0];
+        var interval = undefined;
+        function rotateBanners() {
+            if (vm.banners.length) {
+                vm.currentBanner = vm.banners[vm.iCurrentBanner];
 
-                    if (vm.banners.length > 1) {
-                        var iBanner = 0;
+                if (vm.banners.length > 1) {
+                    //vm.iCurrentBanner = 0;
 
-                        $interval(function () {
-                            if (iBanner + 1 == vm.banners.length) {
-                                iBanner = 0;
-                            }
-                            else {
-                                iBanner++;
-                            }
-
-                            vm.currentBanner = vm.banners[iBanner];
-                        }, 5000);
+                    if (interval) {
+                        $interval.cancel(interval);
                     }
+
+                    interval = $interval(function () {
+                        if (vm.iCurrentBanner + 1 == vm.banners.length) {
+                            vm.iCurrentBanner = 0;
+                        }
+                        else {
+                            vm.iCurrentBanner++;
+                        }
+
+                        vm.currentBanner = vm.banners[vm.iCurrentBanner];
+                    }, 5000);
                 }
             }
         }
@@ -81,6 +91,18 @@
                     $document[0].getElementsByTagName('header')[0].className = ($window.scrollY > 100 ? 'inner-header' : '');
                 });
             }
+        }
+
+        function previousBanner()
+        {
+            vm.iCurrentBanner = vm.iCurrentBanner == 0 ? vm.banners.length - 1 : vm.iCurrentBanner - 1;
+            rotateBanners();
+        }
+
+        function nextBanner()
+        {
+            vm.iCurrentBanner = vm.iCurrentBanner + 1 == vm.banners.length ? 0 : vm.iCurrentBanner + 1;
+            rotateBanners();
         }
 
         function getShelters() {

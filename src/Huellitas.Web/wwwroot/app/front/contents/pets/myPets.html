@@ -81,7 +81,12 @@
                             <td><a class="btn btn-lg btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a></td>
                         </tr>
                         <tr ng-if="!main.pets.length">
-                            <td colspan="7" align="center">No hay huellitas relacionadas con la busqueda</td>
+                            <td colspan="7" align="center">
+                                <div class="no-found">
+                                    <span class="icon-search"></span>
+                                    No hay resultados que coincidan con tu busqueda
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -51,7 +51,12 @@
                             <td>{{::form.creationDate | timeago}}</td>
                         </tr>
                         <tr ng-if="!main.forms.length">
-                            <td colspan="5" align="center">No hay resultados</td>
+                            <td colspan="5" align="center">
+                                <div class="no-found" >
+                                    <span class="icon-search"></span>
+                                    No hay resultados que coincidan con tu busqueda
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,9 +1,9 @@
 ﻿<div>
     <div class="home-banner">
         <ul>
-            <div class="btn-carousel">
-                <a class="thumb-prev" href="" ng-click="gallery.back()"><span class="icon-prev"></span></a>
-                <a class="thumb-next" href="" ng-click="gallery.next()"><span class="icon-next"></span></a>
+            <div class="btn-carousel" ng-if="main.banners.length > 1">
+                <a class="thumb-prev" href="" ng-click="main.previousBanner()"><span class="icon-prev"></span></a>
+                <a class="thumb-next" href="" ng-click="main.nextBanner()"><span class="icon-next"></span></a>
             </div>
             <li ng-animate-swap="main.currentBanner" ng-class="{ 'banner-desta' : main.currentBanner.isPet }">
                 <div class="event-desta" ng-if="!main.currentBanner.isPet">

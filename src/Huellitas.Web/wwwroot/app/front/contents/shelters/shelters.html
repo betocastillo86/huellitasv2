@@ -48,9 +48,12 @@
                     </a>
                     <br>
                 </li>
-
                 <button type="button" class="btn btn-lg btn-more" ng-if="main.hasNextPage" ng-click="main.more()">Ver más</button>
             </ul>
+            <div class="no-found" ng-if="!main.shelters.length">
+                <span class="icon-search"></span>
+                No hay resultados que coincidan con tu busqueda
+            </div>
         </article>
     </section>
 </div>

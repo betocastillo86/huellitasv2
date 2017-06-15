@@ -40,7 +40,7 @@
             <div class="col-md-12">
                 <p class="inner-text">{{::main.model.body}}</p>
             </div>
-            <div class="redes">
+            <div class="redes" ng-if="main.model.facebook || main.model.twitter || main.model.instagram ">
                 <h3>Nuestras redes:</h3>
                 <a ng-if="::main.model.facebook" ng-href="{{::main.model.facebook}}" title="Visita el Facebook de {{::main.model.name}}" target="_blank"><span class="icon-face"></span></a>
                 <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}" target="_blank"><span class="icon-insta"></span></a>
