@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Extensions
 {
+    using System;
     using Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
@@ -36,6 +37,35 @@ namespace Huellitas.Business.Extensions
             }
 
             return !string.IsNullOrEmpty(address) ? address : "No disponible";
+        }
+
+        /// <summary>
+        /// Gets the text age of a pet
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>Age in text format</returns>
+        public static string GetTextAge(this Content content)
+        {
+            var months = content.GetAttribute<int>(ContentAttributeType.Age);
+
+            if (months < 12)
+            {
+                return months + " mes" + (months > 1 ? "es" : string.Empty);
+            }
+            else
+            {
+                var years = Math.Floor((decimal)months / 12);
+                var otherMonths = months % 12;
+
+                if (otherMonths > 0)
+                {
+                    return years + " año" + (years > 1 ? "s" : string.Empty) + " y " + otherMonths + " mes" + (otherMonths > 1 ? "es" : string.Empty);
+                }
+                else
+                {
+                    return years + " año" + (years > 1 ? "s" : string.Empty);
+                }
+            }
         }
     }
 }

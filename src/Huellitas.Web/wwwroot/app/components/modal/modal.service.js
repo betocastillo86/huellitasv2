@@ -81,6 +81,7 @@
                 scope.message = options.message;
                 scope.title = options.title;
                 scope.large = options.large;
+                scope.params = options.params;
 
                 //injected properties of the new controller
                 var inputs = {

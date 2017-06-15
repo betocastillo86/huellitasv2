@@ -1,0 +1,77 @@
+﻿<div class="modal fade bs-example-modal-sm in" tabindex="-1" role="dialog" aria-hidden="true" style="display: block; padding-right: 17px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Crear post en redes</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-md-3 col-xs-12 widget widget_tally_box">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Selecciona la red social</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <ul class="legend list-unstyled">
+                                <li ng-repeat="network in modal.networks track by $index" ng-click="modal.changeNetwork(network)">
+                                    <p>
+                                        <span class="icon"><i class="fa" ng-class="network.css"></i></span> <span class="name" ng-class="{'selectedColor':network.selected}">{{network.name}}</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12 widget widget_tally_box">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Selecciona el color</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <ul class="legend list-unstyled">
+                                <li ng-repeat="color in modal.colors track by $index" ng-click="modal.changeColor(color)">
+                                    <p>
+                                        <span class="icon"><i class="fa fa-square" ng-style="{ 'color' : color.color }"></i></span> <span class="name" ng-class="{'selectedColor':color.selected}">{{color.name}}</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-3 col-xs-12 widget widget_tally_box">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Imagen generada</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="post.png" >
+                                <img ng-src="{{modal.generatedImage}}" style="width:120px;height:120px" />
+                            </a>
+                            <br />
+                            <br />
+                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="post.png" class="btn btn-primary" ><span class="fa fa-download"></span> Descargar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"> </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="modal.close()">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-click="modal.createImage()">Generar imagen</button>
+            </div>
+
+        </div>
+    </div>
+</div>

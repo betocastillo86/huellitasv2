@@ -5,10 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Extensions;
+    using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
+    using Huellitas.Data.Extensions;
     using ImageSharp;
     using ImageSharp.Processing;
+    using Microsoft.AspNetCore.Hosting;
+    using SixLabors.Fonts;
 
     /// <summary>
     /// Picture Service
@@ -27,16 +34,136 @@ namespace Huellitas.Business.Services
         private readonly ILogService logService;
 
         /// <summary>
+        /// The system setting service
+        /// </summary>
+        private readonly ISystemSettingService systemSettingService;
+
+        /// <summary>
+        /// The custom table service
+        /// </summary>
+        private readonly ICustomTableService customTableService;
+
+        /// <summary>
+        /// The host
+        /// </summary>
+        private readonly IHostingEnvironment host;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PictureService"/> class.
         /// </summary>
         /// <param name="fileHelper">The file helper.</param>
-        /// <param name="logService">the log service</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="systemSettingService">The system setting service.</param>
         public PictureService(
             IFilesHelper fileHelper,
-            ILogService logService)
+            ILogService logService,
+            ISystemSettingService systemSettingService,
+            ICustomTableService customTableService,
+            IHostingEnvironment host)
         {
             this.fileHelper = fileHelper;
             this.logService = logService;
+            this.systemSettingService = systemSettingService;
+            this.customTableService = customTableService;
+            this.host = host;
+        }
+
+        /// <summary>
+        /// Creates the social network post.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="color">The color.</param>
+        /// <param name="network">The network.</param>
+        /// <param name="contentUrlFunction">Content URL function</param>
+        /// <returns>
+        /// the new path of the image
+        /// </returns>
+        public async Task<string> CreateSocialNetworkPost(
+            Content content, 
+            File file, 
+            SocialPostColors color = SocialPostColors.Blue, 
+            SocialNetwork network = SocialNetwork.Facebook,
+            Func<string, string> contentUrlFunction = null)
+        {
+            int width = this.systemSettingService.GetCachedSetting<int>($"GeneralSettings.PostImageWidth{network.ToString()}");
+            int height = this.systemSettingService.GetCachedSetting<int>($"GeneralSettings.PostImageHeight{network.ToString()}");
+
+            var newImagePath = this.fileHelper.GetPhysicalPath(file, width, height);
+
+            int fontBigSize = 0;
+            int fontSmallSize = 0;
+
+            ImageSharp.Size sizeLogo;
+            Point pointLogo;
+
+            System.Numerics.Vector2 positionFontBig;
+            System.Numerics.Vector2 positionFontSmall;
+
+            switch (network)
+            {
+                case SocialNetwork.Instagram:
+                    fontBigSize = 55;
+                    fontSmallSize = 35;
+                    sizeLogo = new ImageSharp.Size() { Width = 180, Height = 98 };
+                    pointLogo = new Point() { X = width - 200, Y = height - 110 };
+                    positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 140 };
+                    positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 70 };
+                    break;
+                default:
+                case SocialNetwork.Facebook:
+                    fontBigSize = 50;
+                    fontSmallSize = 30;
+                    sizeLogo = new ImageSharp.Size() { Width = 150, Height = 81 };
+                    pointLogo = new Point() { X = width - 200, Y = height - 100 };
+                    positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 120 };
+                    positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 50 };
+                    break;
+            }
+
+            var fontCollection = new FontCollection();
+            fontCollection.Install($"{this.host.WebRootPath}/fonts/Oswald-DemiBold.ttf");
+            
+
+            var resizeOptions = new ResizeOptions()
+            {
+                Size = new ImageSharp.Size { Width = width, Height = height },
+                Mode = ResizeMode.Crop
+            };
+
+            var rgbColor = this.GetRgbColor(color);
+
+            var genreText = this.customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalGenre, content.GetAttribute<int>(ContentAttributeType.Genre));
+
+            using (var image = Image.Load(this.fileHelper.GetPhysicalPath(file)))
+            {
+                //for (int x = 0; x < image.Width; x++)
+                //{
+                //    for (int y = image.Height - 125; y < image.Height; y++)
+                //    {
+                //        image.GetPixelReference(x, y) = rgbColor;
+                //    }
+                //}
+
+                using (var logo = Image.Load($"{this.host.WebRootPath}/img/front/{this.GetLogoByColor(color)}"))
+                {
+                    var family = fontCollection.Families.FirstOrDefault();
+
+                    image
+                    .AutoOrient()
+                    .Resize(resizeOptions)
+                    .DrawPolygon(rgbColor, 125, new System.Numerics.Vector2[] { new System.Numerics.Vector2() { X = 0, Y = height - 62 }, new System.Numerics.Vector2() { X = width, Y = height - 62 } }, new GraphicsOptions() { BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Normal, BlendPercentage = 90 })
+                    .DrawText(content.Name.ToUpper(), new SixLabors.Fonts.Font(family, fontBigSize, FontStyle.Bold), Rgba32.White, positionFontBig, ImageSharp.Drawing.TextGraphicsOptions.Default)
+                    .DrawText($"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall, ImageSharp.Drawing.TextGraphicsOptions.Default)
+                    .DrawImage(logo, 100, sizeLogo, pointLogo)
+                    .Save(newImagePath);
+                }
+            }
+
+            await Task.FromResult(0);
+
+
+            return this.fileHelper.GetFullPath(file, contentUrlFunction, width, height);
         }
 
         /// <summary>
@@ -78,7 +205,7 @@ namespace Huellitas.Business.Services
                 {
                     var resizeOptions = new ResizeOptions()
                     {
-                        Size = new Size { Width = width, Height = height },
+                        Size = new ImageSharp.Size { Width = width, Height = height },
                         Mode = ResizeMode.Crop
                     };
 
@@ -87,73 +214,56 @@ namespace Huellitas.Business.Services
                         .Resize(resizeOptions)
                         .Save(resizedPath);
                 }
-
-                ////using (var image = Image.Load(pathOriginalFile))
-                ////{
-                ////    var resizeOptions = new ResizeOptions()
-                ////    {
-                ////        Size = new Size { Width = width, Height = height },
-                ////        Mode = ResizeMode.Max
-                ////    };
-
-                ////    image.Resize(resizeOptions)
-                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_max{System.IO.Path.GetExtension(resizedPath)}");
-
-                ////}
-
-                ////using (var image = Image.Load(pathOriginalFile))
-                ////{
-                ////    var resizeOptions = new ResizeOptions()
-                ////    {
-                ////        Size = new Size { Width = width, Height = height },
-                ////        Mode = ResizeMode.Min
-                ////    };
-
-                ////    image.Resize(resizeOptions)
-                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_min{System.IO.Path.GetExtension(resizedPath)}");
-                ////}
-
-                ////using (var image = Image.Load(pathOriginalFile))
-                ////{
-                ////    var resizeOptions = new ResizeOptions()
-                ////    {
-                ////        Size = new Size { Width = width, Height = height },
-                ////        Mode = ResizeMode.Pad
-                ////    };
-
-                ////    image.Resize(resizeOptions)
-                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_pad{System.IO.Path.GetExtension(resizedPath)}");
-                ////}
-
-                ////using (var image = Image.Load(pathOriginalFile))
-                ////{
-                ////    var resizeOptions = new ResizeOptions()
-                ////    {
-                ////        Size = new Size { Width = width, Height = height },
-                ////        Mode = ResizeMode.Stretch
-                ////    };
-
-                ////    image.Resize(resizeOptions)
-                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_Stretch{System.IO.Path.GetExtension(resizedPath)}");
-                ////}
-
-
-
-                ////using (var image = Image.Load(pathOriginalFile))
-                ////{
-                ////    var resizeOptions = new ResizeOptions()
-                ////    {
-                ////        Size = new Size { Width = width, Height = height },
-                ////        Mode = ResizeMode.BoxPad
-                ////    };
-
-                ////    image.Resize(resizeOptions)
-                ////        .Save(System.IO.Path.GetDirectoryName(resizedPath) + $"\\{width}_{height}_BoxPad{System.IO.Path.GetExtension(resizedPath)}");
-                ////}
             }
             catch (System.Exception e)
             {
                 this.logService.Error(e);
+            }
+        }
+
+        /// <summary>
+        /// Gets the color of the RGB.
+        /// </summary>
+        /// <param name="color">The color.</param>
+        /// <returns>the RGBA32 color</returns>
+        private Rgba32 GetRgbColor(SocialPostColors color)
+        {
+            switch (color)
+            {
+                case SocialPostColors.Pink:
+                    return new Rgba32(252, 146, 130);
+
+                case SocialPostColors.Green:
+                    return new Rgba32(184, 234, 129);
+
+                case SocialPostColors.DarkBlue:
+                    return new Rgba32(60, 117, 194);
+
+                case SocialPostColors.Violet:
+                    return new Rgba32(185, 107, 254);
+                default:
+                case SocialPostColors.Blue:
+                    return new Rgba32(124, 210, 225);
+            }
+        }
+
+        /// <summary>
+        /// Gets the color of the logo by.
+        /// </summary>
+        /// <param name="color">The color.</param>
+        /// <returns>the name of the logo image</returns>
+        private string GetLogoByColor(SocialPostColors color)
+        {
+            switch (color)
+            {
+                case SocialPostColors.DarkBlue:
+                case SocialPostColors.Violet:
+                    return "logohuellitas-blanco.png";
+                case SocialPostColors.Green:
+                case SocialPostColors.Blue:
+                case SocialPostColors.Pink:
+                default:
+                    return "logohuellitas.png";
             }
         }
     }

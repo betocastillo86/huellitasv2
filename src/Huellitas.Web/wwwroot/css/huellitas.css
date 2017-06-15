@@ -32,3 +32,8 @@ input.ng-invalid-parsley-error {
 .force-left {
     text-align: left !important;
 }
+
+.selectedColor {
+    font-weight: bold;
+    color: #286090;
+}
