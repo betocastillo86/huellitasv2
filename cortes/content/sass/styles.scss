@@ -2544,6 +2544,77 @@ footer{
 }
 /*FIN NOTIFICACIONES*/
 
+/*404*/
+.content-404{
+    margin: 100px 0;
+
+    @include iplus{
+        margin: 0;
+    }
+
+    .icon-perdida{
+        font-size: 250px;
+        color: $blue2;
+        width: 45%;
+        text-align: right;
+        float: left;
+        margin: 0 5% 0 0;
+
+        @include s{
+            font-size: 140px;
+        }
+        @include iplus{
+            float: none;
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            font-size: 100px;
+        }
+    }
+    .box-404{
+        float: left;
+        width: 50%;
+
+        @include iplus{
+            float: none;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 0;
+        }
+
+        h2{
+            font-size: 60px;
+            color: $blue;
+            line-height: 1;
+            font-weight: bold;
+
+            @include s{
+                font-size: 30px;
+            }
+        }
+        h3{
+            font-size: 150px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            color: $red;
+            line-height: 1;
+
+            @include s{
+                font-size: 80px;
+            }
+        }
+        p{
+            font-size: 25px;
+            line-height: 1;
+
+            @include s{
+                font-size: 18px;
+            }
+        }
+    }
+}
+/*FIN 404*/
+
 .col-md-12{
     float: none;
 
