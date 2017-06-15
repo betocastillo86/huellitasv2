@@ -271,7 +271,9 @@ namespace Huellitas.Business.Services
 
             if (includeContent)
             {
-                query = query.Include(c => c.Content);
+                query = query
+                    .Include(c => c.Content)
+                    .Include(c => c.Content.Location);
             }
 
             query = query.Where(c => c.UserId == userId);

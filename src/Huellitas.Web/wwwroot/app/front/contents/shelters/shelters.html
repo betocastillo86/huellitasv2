@@ -43,7 +43,7 @@
                             {{::shelter.location.name}} / Encargado: {{::shelter.location.owner}} <br>
                             Telefono: {{::shelter.phone}} <text ng-if="::shelter.phone2">Telefóno 2: {{::shelter.phone2}}</text>
                         </h4>
-                        <p>{{::shelter.body}}</p>
+                        <p>{{::shelter.body | limitTo:210}}</p>
                         <button type="button" class="btn btn-lg buttonmore">Conocer más</button>
                     </a>
                     <br>

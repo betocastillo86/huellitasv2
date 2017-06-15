@@ -29,17 +29,23 @@
                             <option value="">Fundacion</option>
                         </select>
                     </div>
+                    <div class="col-md-3 col-sm-6" ng-if="main.shelters.length">
+                        <select ng-model="main.filter.status" ng-change="main.search()">
+                            <option value="">Estado</option>
+                            <option value="Created" ng-selected="main.filter.status == 'Created'">Sin aprobar</option>
+                            <option value="Published" ng-selected="main.filter.status == 'Published'">Activo</option>
+                            <option value="Hidden" ng-selected="main.filter.status == 'Hidden'">Inactivo</option>
+                        </select>
+                    </div>
                     <br>
                 </form>
                 <a ng-href="{{root.getRoute('forms')}}" class="btn btn-lg btn-more">Ver solicitudes</a>
                 <div class="stage-box">
                     <span>Estado:</span>
-                    <span ng-class="{ 'st-on': main.filter.status == 'Created', 'st-off': main.filter.status != 'Created' }" ng-click="main.filterByStatus('Created')" ></span>
-                    <span>Sin aprobar</span>
-                    <span ng-class="{ 'st-on': main.filter.status == 'Published', 'st-off': main.filter.status != 'Published' }"  ng-click="main.filterByStatus('Published')"></span>
-                    <span>Activo</span>
-                    <span ng-class="{ 'st-on': main.filter.status == 'Hidden', 'st-off': main.filter.status != 'Hidden'  }" ng-click="main.filterByStatus('Hidden')"></span>
+                    <span class="st-on"></span>
                     <span>Inactivo</span>
+                    <span class="st-off"></span>
+                    <span>Activo</span>
                     <br>
                 </div>
                 <br>

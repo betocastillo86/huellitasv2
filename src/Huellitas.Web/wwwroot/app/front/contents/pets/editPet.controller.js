@@ -65,6 +65,7 @@
         vm.reorder = reorder;
         vm.validateAuthentication = validateAuthentication;
         vm.imageOnProgress = imageOnProgress;
+        vm.chageShelter = chageShelter;
 
         activate();
 
@@ -90,6 +91,14 @@
             authenticationService.showLogin($scope)
                 .then(authenticationCompleted)
                 .catch(authenticationError);
+        }
+
+        function chageShelter()
+        {
+            var shelter = _.findWhere(vm.shelters, { id: vm.model.shelter.id }); 
+            vm.model.location = shelter ? shelter.location : undefined;
+            
+            getFullNameImage();
         }
 
         function authenticationCompleted(userAuthenticated) {
