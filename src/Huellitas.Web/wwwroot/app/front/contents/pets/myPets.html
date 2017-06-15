@@ -72,7 +72,7 @@
                                 </div>
                             </td>
                             <td><a href="solicitudes.html">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
-                            <td><a class="btn btn-lg" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a></td>
+                            <td><a class="btn btn-lg btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a></td>
                         </tr>
                         <tr ng-if="!main.pets.length">
                             <td colspan="7" align="center">No hay huellitas relacionadas con la busqueda</td>

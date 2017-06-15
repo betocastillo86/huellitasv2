@@ -41,9 +41,24 @@
                 <p class="inner-text">{{::main.model.body}}</p>
             </div>
             <div class="redes">
+                <h3>Nuestras redes:</h3>
                 <a ng-if="::main.model.facebook" ng-href="{{::main.model.facebook}}" title="Visita el Facebook de {{::main.model.name}}" target="_blank"><span class="icon-face"></span></a>
                 <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}" target="_blank"><span class="icon-insta"></span></a>
                 <a ng-if="::main.model.twitter" ng-href="{{::main.model.twitter}}" title="Visita el Twitter de {{::main.model.name}}" target="_blank"><span class="icon-twt"></span></a>
+            </div>
+            <div class="share-btns"> 
+                <a class="social-circle share">
+                    <span></span>
+                    <b class="icon-face"></b>
+                </a>
+                <a class="social-circle share">
+                    <span></span>
+                    <b class="icon-twt"></b>
+                </a>
+                <a class="social-circle share">
+                    <span></span>
+                    <b class="icon-whatsapp"></b>
+                </a>
             </div>
         </article>
     </section>
