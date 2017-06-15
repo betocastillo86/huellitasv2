@@ -28,6 +28,7 @@
 
             function getCompleted(response) {
                 vm.model = response;
+                vm.model.fullRoute = routingService.getFullRoute('lostpet', { friendlyName: vm.model.friendlyName });
 
                 vm.filterSimilar = {
                     pageSize: 4,

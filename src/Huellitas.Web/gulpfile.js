@@ -122,13 +122,13 @@ gulp.task('cssAdmin', ['moveResources'], function () {
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
         paths.external + 'fullpage.js/jquery.fullPage.css',
-        paths.webroot + 'css/huellitas.css'
+        paths.webroot + 'css/admin.huellitas.css'
     ];
 
     console.log('Inicia tarea de css con ', files);
 
     return gulp.src(files, { base: '.' })
-        .pipe(cssConcat(paths.webroot + "css/styles.css"))
+        .pipe(cssConcat(paths.webroot + "css/admin.styles.css"))
         .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
@@ -173,7 +173,7 @@ gulp.task('cssFront',['sassFront'], function () {
     var files = [
         //paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
-        paths.webroot + 'css/front/styles.css',
+        paths.webroot + 'css/sassfront/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
         paths.webroot + 'css/front.huellitas.css',
@@ -196,7 +196,7 @@ gulp.task('sassFront', function () {
     return gulp.src(paths.sassFront + 'styles.scss')
         .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
         //.pipe(cssmin({ keepSpecialComments: 0 }))
-        .pipe(gulp.dest(paths.webroot + 'css/front/'));
+        .pipe(gulp.dest(paths.webroot + 'css/sassfront/'));
 });
 
 gulp.task('scriptsReleaseFront', function () {

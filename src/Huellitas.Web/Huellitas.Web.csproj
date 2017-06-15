@@ -93,6 +93,9 @@
     <Content Include="wwwroot\app\front\components\gallery\gallery.html" />
     <Content Include="wwwroot\app\front\components\login\login.directive.js" />
     <Content Include="wwwroot\app\front\components\login\login.html" />
+    <Content Include="wwwroot\app\front\components\share\share.controller.js" />
+    <Content Include="wwwroot\app\front\components\share\share.directive.js" />
+    <Content Include="wwwroot\app\front\components\share\share.html" />
     <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.controller.js" />
     <Content Include="wwwroot\app\front\contents\lostPets\editLostPet.html" />
     <Content Include="wwwroot\app\front\contents\lostPets\lostPetDetail.controller.js" />
@@ -168,6 +171,7 @@
     <Content Include="wwwroot\app\services\user\authentication.service.js" />
     <Content Include="wwwroot\app\services\user\role.service.js" />
     <Content Include="wwwroot\app\services\user\user.service.js" />
+    <Content Include="wwwroot\css\admin.huellitas.css" />
     <Content Include="wwwroot\fonts\Oswald-DemiBold.ttf" />
     <Content Include="wwwroot\img\front\logohuellitas-blanco.png" />
     <Content Include="wwwroot\img\front\logohuellitas.png" />

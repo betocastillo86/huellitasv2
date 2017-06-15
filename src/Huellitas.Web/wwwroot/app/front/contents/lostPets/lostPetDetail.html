@@ -6,7 +6,7 @@
         <article class="content-all">
             <h1 class="tit-section name-pet col-md-12">
                 MASCOTA PERDIDA: {{main.model.name}}
-                <a class="btn btn-sm" href="">Compartir</a>
+                <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
             </h1>
             <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files"></gallery-huellitas>
 
