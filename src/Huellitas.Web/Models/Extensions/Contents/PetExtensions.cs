@@ -83,7 +83,7 @@ namespace Huellitas.Web.Models.Extensions
                 entity.LocationId = model.Location.Id;
                 entity.ContentAttributes.Remove(ContentAttributeType.Shelter);
 
-                //// Cuando no tiene shelter le da solo unos días de publicacion
+                // Cuando no tiene shelter le da solo unos días de publicacion
                 if (entity.Id == 0 && !isAdmin)
                 {
                     entity.ClosingDate = DateTime.Now.AddDays(contentSettings.DaysToAutoClosingPet);

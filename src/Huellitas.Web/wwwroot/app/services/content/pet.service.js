@@ -11,7 +11,8 @@
             post: post,
             put: put,
             patch: patch,
-            changeStatus: changeStatus
+            changeStatus: changeStatus,
+            republish: republish
         };
 
         function getAll(filter) {
@@ -38,6 +39,11 @@
         function changeStatus(id, newStatus)
         {
             return patch(id, [{ op: 'replace', path: '/status', value: newStatus }]);
+        }
+
+        function republish(id)
+        {
+            return patch(id, [{ op: 'replace', path: '/closingDate', value: moment().format('YYYY/MM/DD') }]);
         }
     }
 })();

@@ -21,7 +21,8 @@
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             shelter: $location.search().shelter ? parseInt($location.search().shelter) : undefined,
             keyword: $location.search().keyword,
-            contentType: 'Pet'
+            contentType: 'Pet',
+            withinClosingDate: true
         };
 
         vm.genres = app.Settings.genres;
