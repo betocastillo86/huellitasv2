@@ -8,6 +8,7 @@
 
 
     RootController.$inject = [
+        '$http',
         '$location',
         '$scope',
         '$window',
@@ -17,6 +18,7 @@
         'routingService']
 
     function RootController(
+        $http,
         $location,
         $scope,
         $window,
@@ -71,6 +73,7 @@
 
             function getError(response) {
                 sessionService.removeCurrentUser();
+                $http.defaults.headers.common.Authorization = '';
                 console.log('Token Vencido');
             }
         }
@@ -121,6 +124,7 @@
 
         function logout() {
             sessionService.removeCurrentUser();
+            $http.defaults.headers.common.Authorization = '';
             vm.currentUser = undefined;
             $location.path(routingService.getRoute('home'));
         }

@@ -2,9 +2,9 @@
     angular.module('huellitasServices')
         .factory('sessionService', sessionService);
 
-    sessionService.$inject = ['$localStorage', '$http'];
+    sessionService.$inject = ['$localStorage'];
 
-    function sessionService($localStorage, $http)
+    function sessionService($localStorage)
     {
         return {
             setCurrentUser: setCurrentUser,
@@ -27,7 +27,6 @@
         function removeCurrentUser()
         {
             $localStorage.$reset({ currentUser: undefined });
-            $http.defaults.headers.common.Authorization = '';
         }
 
         function getToken()

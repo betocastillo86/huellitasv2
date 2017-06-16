@@ -438,7 +438,9 @@ namespace Huellitas.Business.Services
             var notification = this.GetCachedNotification(notificationType);
 
             string message = this.GetStringFormatted(notification.EmailHtml, parameters);
-            string body = this.notificationSettings.BodyBaseHtml.Replace("%%Body%%", message);
+            string body = this.notificationSettings.BodyBaseHtml
+                .Replace("%%Body%%", message)
+                .Replace("%%RootUrl%%", this.generalSettings.SiteUrl);
 
             await this.emailNotificationRepository.InsertAsync(new EmailNotification()
             {
@@ -560,7 +562,9 @@ namespace Huellitas.Business.Services
             }
 
             ////Reemplaza el HTML
-            string body = this.notificationSettings.BodyBaseHtml.Replace("%%Body%%", message);
+            string body = this.notificationSettings.BodyBaseHtml
+                .Replace("%%Body%%", message)
+                .Replace("%%RootUrl%%", this.generalSettings.SiteUrl);
 
             return new EmailNotification()
             {

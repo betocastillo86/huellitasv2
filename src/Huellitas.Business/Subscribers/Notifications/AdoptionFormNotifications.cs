@@ -72,6 +72,16 @@ namespace Huellitas.Business.Subscribers
         private readonly IWorkContext workContext;
 
         /// <summary>
+        /// content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
+        /// <summary>
+        /// the picture service
+        /// </summary>
+        private readonly IPictureService pictureService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormNotifications"/> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
@@ -90,7 +100,9 @@ namespace Huellitas.Business.Subscribers
             IUserService userService,
             IAdoptionFormService adoptionFormService,
             IGeneralSettings generalSettings,
-            ILocationService locationService)
+            ILocationService locationService,
+            IContentSettings contentSettings,
+            IPictureService pictureService)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -100,6 +112,8 @@ namespace Huellitas.Business.Subscribers
             this.adoptionFormService = adoptionFormService;
             this.generalSettings = generalSettings;
             this.locationService = locationService;
+            this.contentSettings = contentSettings;
+            this.pictureService = pictureService;
         }
 
         /// <summary>
@@ -137,7 +151,7 @@ namespace Huellitas.Business.Subscribers
             var content = this.GetContentByForm(form);
             var shelter = this.contentService.GetShelterByPet(content.Id);
 
-            await this.NotifyUserOfFormShared(form, content, shelter);
+            await this.NotifyUserOfFormShared(form, content, shelter, userForm);
         }
 
         /// <summary>
@@ -194,6 +208,11 @@ namespace Huellitas.Business.Subscribers
             var parameters = new List<NotificationParameter>();
             parameters.Add("Pet.Name", content.Name);
             parameters.Add("Pet.Url", petUrl);
+
+            if (content.File != null)
+            {
+                parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+            }
 
             if (shelter != null)
             {
@@ -315,6 +334,7 @@ namespace Huellitas.Business.Subscribers
             }
 
             var parents = this.contentService.GetUsersByContentId(content.Id, ContentUserRelationType.Parent, true)
+                .Where(c => !users.Select(u => u.Id).Contains(c.UserId) )
                 .Select(c => c.User)
                 .ToList();
 
@@ -349,15 +369,25 @@ namespace Huellitas.Business.Subscribers
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
         /// <returns>the task</returns>
-        private async Task NotifyUserOfFormShared(AdoptionForm form, Content content, Content shelter)
+        private async Task NotifyUserOfFormShared(AdoptionForm form, Content content, Content shelter, AdoptionFormUser formUser)
         {
             var parameters = this.GetBasicParameters(content, shelter);
 
+            var formUrl = this.seoService.GetFullRoute("form", form.Id.ToString());
+            parameters.Add("Form.Url", formUrl);
+
+            var userShared = formUser.User;
+
+            if (userShared == null)
+            {
+                userShared = this.userService.GetById(formUser.UserId);
+            }
+            
             await this.notificationService.NewNotification(
-                form.User,
-                null,
+                userShared,
+                this.workContext.CurrentUser,
                 Data.Entities.NotificationType.AdoptionFormShared,
-                this.seoService.GetContentUrl(content),
+                formUrl,
                 parameters);
         }
     }

@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('HeaderController', HeaderController);
 
-    HeaderController.$inject = ['sessionService', 'notificationService', 'helperService'];
+    HeaderController.$inject = ['$http', 'sessionService', 'notificationService', 'helperService'];
 
-    function HeaderController(sessionService, notificationService, helperService)
+    function HeaderController($http, sessionService, notificationService, helperService)
     {
         var vm = this;
         vm.model = {};
@@ -26,6 +26,7 @@
         function logout()
         {
             sessionService.removeCurrentUser();
+            $http.defaults.headers.common.Authorization = '';
             document.location = '/admin/login';
         }
 

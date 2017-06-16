@@ -173,8 +173,12 @@
     <Content Include="wwwroot\app\services\user\user.service.js" />
     <Content Include="wwwroot\css\admin.huellitas.css" />
     <Content Include="wwwroot\fonts\Oswald-DemiBold.ttf" />
+    <Content Include="wwwroot\img\front\fb.png" />
     <Content Include="wwwroot\img\front\logohuellitas-blanco.png" />
     <Content Include="wwwroot\img\front\logohuellitas.png" />
+    <Content Include="wwwroot\img\front\logomail.png" />
+    <Content Include="wwwroot\img\front\twt.png" />
+    <Content Include="wwwroot\js\textAngular-sanitize-admin.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="hangfire" Version="1.6.13" />

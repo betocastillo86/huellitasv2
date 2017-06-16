@@ -53,6 +53,11 @@
         private readonly IContentSettings contentSettings;
 
         /// <summary>
+        /// the picture service
+        /// </summary>
+        private readonly IPictureService pictureService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreatedContentNotifications"/> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
@@ -66,7 +71,8 @@
             ISeoService seoService,
             IUserService userService,
             IContentService contentService,
-            IContentSettings contentSettings)
+            IContentSettings contentSettings,
+            IPictureService pictureService)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -74,6 +80,7 @@
             this.userService = userService;
             this.contentService = contentService;
             this.contentSettings = contentSettings;
+            this.pictureService = pictureService;
         }
 
         /// <summary>
@@ -127,6 +134,10 @@
                 parameters.Add("Pet.Name", content.Name);
                 parameters.Add("Pet.Url", petUrl);
                 parameters.Add("Pet.CreationDate", content.CreatedDate.ToString("YYYY/MM/DD"));
+                if (content.File != null)
+                {
+                    parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+                }
 
                 var myPetsUrl = $"{this.seoService.GetFullRoute("mypets")}?status={StatusType.Hidden}";
 
@@ -171,6 +182,11 @@
                 var parameters = new List<NotificationParameter>();
                 parameters.Add("Pet.Name", content.Name);
                 parameters.Add("Pet.Url", petUrl);
+
+                if (content.File != null)
+                {
+                    parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+                }
 
                 await this.notificationService.NewNotification(
                     this.workContext.CurrentUser,
@@ -221,6 +237,12 @@
                 var parameters = new List<NotificationParameter>();
                 parameters.Add("Pet.Name", content.Name);
                 parameters.Add("Pet.Url", petUrl);
+
+                if (content.File != null)
+                {
+                    parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+                }
+
 
                 await this.notificationService.NewNotification(
                     user,
