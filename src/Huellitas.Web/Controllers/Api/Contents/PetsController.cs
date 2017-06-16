@@ -29,6 +29,7 @@ namespace Huellitas.Web.Controllers.Api
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Huellitas.Business.Tasks;
 
     /// <summary>
     /// Pets Controller
@@ -444,6 +445,17 @@ namespace Huellitas.Web.Controllers.Api
                 if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && content.StatusType != StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
                 {
                     content.StatusType = model.Status;
+
+                    ////Valida si debe otra vez alargar el tiempo de vencimiento de un pet
+                    if (content.Type == ContentType.Pet && patchDocument.Operations.Any(c => c.path.Equals("/status")))
+                    {
+                        if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
+                        {
+                            content.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
+                            BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                            BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                        }
+                    }
                 }
 
                 content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);

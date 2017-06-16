@@ -118,6 +118,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// When a form was not answered in a specific time
         /// </summary>
-        AdoptionFormNotAnswered = 21
+        AdoptionFormNotAnswered = 21,
+
+        /// <summary>
+        /// Notification when a pet is out of date
+        /// </summary>
+        OutDatedPet = 22
     }
 }

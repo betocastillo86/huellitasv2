@@ -9,6 +9,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System;
+    using Hangfire;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Tasks;
+    using Huellitas.Data.Extensions;
 
     /// <summary>
     /// Notification of the process of creating a pet
@@ -39,6 +43,16 @@
         private readonly IUserService userService;
 
         /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// the content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreatedContentNotifications"/> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
@@ -50,12 +64,16 @@
             INotificationService notificationService,
             IWorkContext workContext,
             ISeoService seoService,
-            IUserService userService)
+            IUserService userService,
+            IContentService contentService,
+            IContentSettings contentSettings)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
             this.seoService = seoService;
             this.userService = userService;
+            this.contentService = contentService;
+            this.contentSettings = contentSettings;
         }
 
         /// <summary>
@@ -94,6 +112,27 @@
                     null,
                     NotificationType.NewShelterRequest,
                     shelterUrl,
+                    parameters);
+            }
+        }
+
+        public async Task NotifyOutDatedPet(int contentId)
+        {
+            var content = this.contentService.GetById(contentId, true);
+
+            if (content.StatusType == StatusType.Published)
+            {
+                var petUrl = this.seoService.GetContentUrl(content);
+                var parameters = new List<NotificationParameter>();
+                parameters.Add("Pet.Name", content.Name);
+                parameters.Add("Pet.Url", petUrl);
+                parameters.Add("Pet.CreationDate", content.CreatedDate.ToString("YYYY/MM/DD"));
+
+                await this.notificationService.NewNotification(
+                    content.User,
+                    null,
+                    NotificationType.OutDatedPet,
+                    petUrl,
                     parameters);
             }
         }
@@ -187,6 +226,12 @@
                     NotificationType.PetApproved,
                     petUrl,
                     parameters);
+
+                if (content.ClosingDate.HasValue)
+                {
+                    BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                    BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                }
             }
         }
 

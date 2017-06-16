@@ -19,7 +19,8 @@
             pageSize: 9,
             orderBy: 'Featured',
             status: 'Published',
-            contentType: 'Pet'
+            contentType: 'Pet',
+            withinClosingDate: true
         };
 
         activate();
