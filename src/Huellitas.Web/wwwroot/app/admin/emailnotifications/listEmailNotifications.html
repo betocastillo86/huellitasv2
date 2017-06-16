@@ -52,6 +52,7 @@
                                     <th class="column-title">Asunto</th>
                                     <th class="column-title">Fecha Creación</th>
                                     <th class="column-title">Fecha Envío</th>
+                                    <th class="column-title">Intentos</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
                                     </th>
@@ -64,6 +65,7 @@
                                     <td>{{::notification.subject}}</td>
                                     <td>{{::notification.createdDate}}</td>
                                     <td>{{::notification.sentDate}}</td>
+                                    <td>{{::notification.sentTries}}</td>
                                     <td class="last">
                                             <a href="/admin/emailnotifications/{{::notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Ver</a>
                                     </td>

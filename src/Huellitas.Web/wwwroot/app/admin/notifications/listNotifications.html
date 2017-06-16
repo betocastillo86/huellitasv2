@@ -28,8 +28,8 @@
                             <thead>
                                 <tr class="headings">
                                     <th class="column-title">Nombre</th>
-                                    <th class="column-title">Correo</th>
                                     <th class="column-title">Sistema</th>
+                                    <th class="column-title">Correo</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
                                     </th>
@@ -41,6 +41,7 @@
                                     <td>{{::notification.name}}</td>
                                     <td>{{::notification.isSystem ? 'SI' : 'NO'}}</td>
                                     <td>{{::notification.isEmail ? 'SI' : 'NO'}}</td>
+
                                     <td class="last">
                                             <a href="/admin/notifications/{{::notification.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                     </td>

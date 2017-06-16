@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Migrations
 {
+    using System;
     using Huellitas.Data.Core;
 
     /// <summary>
@@ -41,6 +42,15 @@ namespace Huellitas.Data.Migrations
             SeedingAdoptionForms.Seed(context);
             SeedingNotifications.Seed(context);
             SeedingResources.Seed(context);
+
+            //// guarda registro de que se corrió la semilla
+            context.Logs.Add(new Entities.Log()
+            {
+                CreationDate = DateTime.Now,
+                FullMessage = "Ejecución de seed",
+                LogLevel = Entities.LogLevel.Information,
+                ShortMessage = "Ejecución de seed"
+            });
         }
     }
 }

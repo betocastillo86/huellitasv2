@@ -22,12 +22,12 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="env">The env.</param>
         public static void InitDatabase(this IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext));
                 context.Database.EnsureCreated();
                 context.EnsureSeeding();
-            }
+            //}
         }
     }
 }
