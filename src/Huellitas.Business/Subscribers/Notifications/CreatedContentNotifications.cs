@@ -128,11 +128,13 @@
                 parameters.Add("Pet.Url", petUrl);
                 parameters.Add("Pet.CreationDate", content.CreatedDate.ToString("YYYY/MM/DD"));
 
+                var myPetsUrl = $"{this.seoService.GetFullRoute("mypets")}?status={StatusType.Hidden}";
+
                 await this.notificationService.NewNotification(
                     content.User,
                     null,
                     NotificationType.OutDatedPet,
-                    petUrl,
+                    myPetsUrl,
                     parameters);
             }
         }
