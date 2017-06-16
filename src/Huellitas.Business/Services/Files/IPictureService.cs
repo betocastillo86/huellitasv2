@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
 
     /// <summary>
@@ -21,5 +24,21 @@ namespace Huellitas.Business.Services
         /// <param name="forceResize">forces the resize of the image</param>
         /// <returns>the url file</returns>
         string GetPicturePath(File file, int width, int height, bool forceResize = false);
+
+        /// <summary>
+        /// Creates the social network post.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="color">The color.</param>
+        /// <param name="network">The network.</param>
+        /// <param name="contentUrlFunction">Content URL function</param>
+        /// <returns>the new path of the image</returns>
+        Task<string> CreateSocialNetworkPost(
+            Content content, 
+            File file, 
+            SocialPostColors color = SocialPostColors.Blue, 
+            SocialNetwork network = SocialNetwork.Facebook,
+            Func<string, string> contentUrlFunction = null);
     }
 }

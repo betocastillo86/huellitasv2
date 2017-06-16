@@ -53,6 +53,11 @@
             list.Add(new SystemSetting() { Name = "SecuritySettings.TrackHomeRequests", Value = "False" });
             list.Add(new SystemSetting() { Name = "GeneralSettings.GoogleAnalyticsCode", Value = string.Empty });
 
+            list.Add(new SystemSetting() { Name = "GeneralSettings.PostImageWidthFacebook", Value = "1200" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.PostImageHeightFacebook", Value = "900" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.PostImageWidthInstagram", Value = "1080" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.PostImageHeightInstagram", Value = "1080" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

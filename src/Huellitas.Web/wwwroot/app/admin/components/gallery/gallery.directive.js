@@ -14,10 +14,11 @@
                 ondelete: '=',
                 onadded: '=',
                 defaultname: '@',
-                width : '@',
+                width: '@',
                 height: '@',
                 saveonreorder: '=',
-                contentid:'='
+                contentid: '=',
+                socialpost: '@'
             }
         };
     }

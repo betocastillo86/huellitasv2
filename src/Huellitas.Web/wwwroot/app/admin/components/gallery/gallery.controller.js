@@ -2,15 +2,16 @@
     angular.module('huellitasAdmin')
         .controller('GalleryController', GalleryController);
 
-    GalleryController.$inject = ['$scope', '$attrs', 'fileService'];
+    GalleryController.$inject = ['$scope', '$attrs', 'fileService', 'modalService'];
 
-    function GalleryController($scope, $attrs, fileService)
+    function GalleryController($scope, $attrs, fileService, modalService)
     {
         var vm = this;
         vm.model = {};
         vm.model.images = $scope.images;
         vm.saveonreorder = $scope.saveonreorder;
         vm.model.title = $scope.title;
+        vm.model.socialpost = $scope.socialpost === '1';
         vm.model.width = $scope.width || '100%';
         vm.model.height = $scope.height || '100%';
         vm.contentid = $scope.contentid;
@@ -23,6 +24,7 @@
         vm.getImageByIndex = getImageByIndex;
         vm.reorder = reorder;
         vm.onProgress = onProgress;
+        vm.createSocialPost = createSocialPost;
 
         return activate();
 
@@ -84,6 +86,17 @@
         function reorder(files)
         {
             vm.model.images = files;
+        }
+
+        function createSocialPost()
+        {
+            modalService.show({
+                controller: 'CreateSocialPostController',
+                template: '/app/admin/contents/createSocialPost.html',
+                params: {
+                    contentId: vm.contentid
+                }
+            });
         }
     }
 })();

@@ -9,7 +9,8 @@
             post: post,
             deleteContentFile: deleteContentFile,
             postContentFile: postContentFile,
-            sortContentFile: sortContentFile
+            sortContentFile: sortContentFile,
+            postSocialNetwork: postSocialNetwork
         };
 
         function post(file, name, callback, indexFile) {
@@ -73,6 +74,11 @@
 
         function sortContentFile(contentId, fileIdFrom, fileIdTo) {
             return http.post('/api/contents/' + contentId + '/files/' + fileIdFrom + '/sort/' + fileIdTo);
+        }
+
+        function postSocialNetwork(contentId, model)
+        {
+            return http.post('/api/contents/' + contentId + '/socialpost', model);
         }
     }
 })();

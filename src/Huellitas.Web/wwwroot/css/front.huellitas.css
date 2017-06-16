@@ -1,0 +1,96 @@
+﻿.home-banner li.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.home-banner li.ng-enter-active {
+    transition: 0.3s linear all;
+    opacity: 1;
+}
+
+.home-banner li.ng-leave {
+    display: none;
+}
+
+.home-banner li.ng-leave-active {
+    display: none;
+}
+
+.card.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.card.ng-enter-active {
+    opacity: 1;
+}
+
+
+.coment-form.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.coment-form.ng-enter-active {
+    transition: 0.3s linear all;
+    opacity: 1;
+}
+
+.sub-coment.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.sub-coment.ng-enter-active {
+    transition: 0.3s linear all;
+    opacity: 1;
+}
+
+.angucomplete-bootstrap {
+    float: none;
+}
+
+
+.all-preview li.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.all-preview li.ng-enter-active {
+    transition: 0.3s linear all;
+    opacity: 1;
+}
+
+.all-preview li.ng-leave {
+    transition: 0.3s linear all;
+    opacity: 1;
+}
+
+.all-preview li.ng-leave-active {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+.angucomplete-searching {
+    color: #cb0505 !important;
+    font-weight: bold;
+}
+
+.modal {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}

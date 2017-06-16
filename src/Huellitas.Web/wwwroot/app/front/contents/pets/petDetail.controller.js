@@ -31,6 +31,7 @@
             function getCompleted(response)
             {
                 vm.model = response;
+                vm.model.fullRoute = routingService.getFullRoute('pet', { friendlyName: vm.model.friendlyName });
 
                 vm.filterSimilar = {
                     pageSize: 4,

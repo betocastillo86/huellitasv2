@@ -42,6 +42,7 @@
         vm.goToAdmin = goToAdmin;
         vm.showMenu = showMenu;
         vm.getFirstLetters = getFirstLetters;
+        vm.getFullRoute = routingService.getFullRoute;
 
         activate();
 

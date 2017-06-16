@@ -24,13 +24,13 @@
         <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
         <jsresources type="admin"></jsresources>
 
-        <link href="~/css/styles.css" rel="stylesheet">
+        <link href="~/css/admin.styles.css?v=@Model.CacheKey" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
         <script src="/js/admin.configuration.js?v=@Model.CacheKey"></script>
         <script src="/js/admin.resources.min.js?v=@Model.CacheKey"></script>
         <script src="/js/admin.site.min.js?v=@Model.CacheKey"></script>
-        <link href="~/css/styles.css?v=@Model.CacheKey" rel="stylesheet">
+        <link href="~/css/admin.styles.css?v=@Model.CacheKey" rel="stylesheet">
     </environment>
 
 </head>

@@ -129,7 +129,7 @@ header{
     width: 100%;
     height: 70px;
     padding: 10px 0;
-    z-index: 2;
+    z-index: 3;
 
     @include s{
         background: $white;
@@ -555,6 +555,7 @@ section{
 .home-banner{
     background: $green;
     padding: 0;
+    position: relative;
 
     @include s{
         padding: 70px 0 0;
@@ -904,6 +905,46 @@ section{
             top: 0;
         }
     }
+    .btn-carousel{
+        z-index: 2;
+        top: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    
+        a{
+            position: absolute;
+            display: block;
+            text-align: center;
+            top: 50%;
+            color: $white;
+            font-size: 40px;
+            opacity: 0.8;
+            @include transition(0.3s);
+
+            &:hover{
+                color: $blue;
+                opacity: 1;
+                text-shadow: 1px 1px 0 $white, -1px -1px 0 $white, 1px -1px 0 $white, -1px 1px 0 $white, 1px 1px 0 $white;
+            }
+
+            @include xxs{
+                top: 40%;
+            }
+        }
+        .thumb-prev{
+            left: 20px;
+            @include xxs{
+                left: 10px;
+            }
+        }
+        .thumb-next{
+            right: 20px;
+            @include xxs{
+                right: 10px;
+            }
+        }
+    }
 }
 /*FIN HOME*/
 
@@ -1190,6 +1231,7 @@ section{
     overflow: hidden;
     background: $white;
     float: left;
+    position: relative;
     @include border-radius(6px 0 0 6px);
 
     @include sm{
@@ -1207,9 +1249,14 @@ section{
         width: calc(100% - 2px);
         height: auto;
     }
-
+    a{
+        position: absolute;
+        right: 50%;
+    }
     img{
-        width: 100%;
+        height: 100%;
+        right: -50%;
+        position: relative;
     }
 }
 .funda-txt{
@@ -1233,6 +1280,7 @@ section{
         font-weight: 700;
         font-size: 25px;
         font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
     }
     h4{
         color: $blue;
@@ -1577,6 +1625,16 @@ section{
                 }
             }
         }
+    }
+}
+.no-found{
+    text-align: center;
+
+    [class^="icon-"]{
+        font-size: 50px;
+        display: block;
+        color: $blue;
+        margin: 0 0 5px;
     }
 }
 /*FIN INTERNAS*/
@@ -2172,19 +2230,35 @@ footer{
         margin: 0 0 20px;
 
         a{
-            display: inline-block;
             @include circle(60px);
-            background: $gray5;
-            color: $white;
             font-size: 35px;
-            margin: 0 10px;
-            padding: 8px 0;
-            box-sizing: border-box;
-            @include transition(0.3s);
+        }
+    }
+}
+.redes{
+    margin: 20px 0 0;
 
-            &:hover{
-                background: $blue2;
-            }
+    h3{
+        font-size: 16px;
+        color: $black;
+        margin: 0 0 10px;
+        font-weight: 600;
+    }
+
+    a{
+        display: inline-block;
+        text-align: center;
+        @include circle(40px);
+        background: $gray5;
+        color: $white;
+        font-size: 20px;
+        margin: 0 10px;
+        padding: 8px 0;
+        box-sizing: border-box;
+        @include transition(0.3s);
+
+        &:hover{
+            background: $blue2;
         }
     }
 }
@@ -2320,7 +2394,7 @@ footer{
             display: block;
         }
     }
-    .btn{
+    .btn-blue{
         background: $blue3;
         color: $white;
         @include transition(0.3s);
@@ -2446,7 +2520,7 @@ footer{
             color: $blue2;
         }
     }
-    .btn{
+    .btn-save{
         width: 170px; 
         margin: 30px auto 0;
         display: block;
@@ -2524,6 +2598,66 @@ footer{
         color: $blue3;
     }
 }
+.share-btns{
+
+    .social-circle{
+        @include circle(80px);
+        @include transition(0.3s);
+        font-size: 35px;
+        padding-top: 12px;
+        margin: 0px 5px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        box-sizing: border-box;
+        border: 6px solid $blue2;
+        text-align: center;
+
+        @include s{
+            border: 4px solid $blue2;
+            @include circle(70px);
+            font-size: 30px;
+            margin: 0;
+
+            &:nth-child(2n){
+                margin: 0 20px;
+            }
+        }
+
+        span{
+            @include circle(1px);
+            @include transition(0.3s);
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            opacity: 0;
+            background: $blue2;
+        }
+
+        b{
+            z-index: 2;
+            position: relative;
+            color: $blue2;
+        }
+        &:hover{
+
+            b{
+                z-index: 2;
+                position: relative;
+                color: $white;
+            }
+
+            span{
+                @include circle(85%);
+                opacity: 1;
+            }
+        }
+    }
+}
 /*FIN MODALES*/
 
 /*NOTIFICACIONES*/
@@ -2565,6 +2699,77 @@ footer{
     }
 }
 /*FIN NOTIFICACIONES*/
+
+/*404*/
+.content-404{
+    margin: 100px 0;
+
+    @include iplus{
+        margin: 0;
+    }
+
+    .icon-perdida{
+        font-size: 250px;
+        color: $blue2;
+        width: 45%;
+        text-align: right;
+        float: left;
+        margin: 0 5% 0 0;
+
+        @include s{
+            font-size: 140px;
+        }
+        @include iplus{
+            float: none;
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            font-size: 100px;
+        }
+    }
+    .box-404{
+        float: left;
+        width: 50%;
+
+        @include iplus{
+            float: none;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 0;
+        }
+
+        h2{
+            font-size: 60px;
+            color: $blue;
+            line-height: 1;
+            font-weight: bold;
+
+            @include s{
+                font-size: 30px;
+            }
+        }
+        h3{
+            font-size: 150px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            color: $red;
+            line-height: 1;
+
+            @include s{
+                font-size: 80px;
+            }
+        }
+        p{
+            font-size: 25px;
+            line-height: 1;
+
+            @include s{
+                font-size: 18px;
+            }
+        }
+    }
+}
+/*FIN 404*/
 
 .col-md-12{
     float: none;

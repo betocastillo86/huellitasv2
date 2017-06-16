@@ -29,6 +29,7 @@
             function getCompleted(response)
             {
                 vm.model = response;
+                vm.model.fullRoute = routingService.getFullRoute('shelter', { friendlyName: vm.model.friendlyName });
 
                 vm.filterMyPets = {
                     page: 0,
