@@ -34,6 +34,13 @@
                 .catch(helperService.handleException);
 
             function getCompleted(response) {
+
+                var unseen = _.where(response.results, { seen: false }).length;
+                if (unseen)
+                {
+                    $scope.$emit('seenNotifications', unseen);
+                }
+
                 if (vm.notifications.length) {
                     vm.notifications = vm.notifications.concat(response.results);
                 }

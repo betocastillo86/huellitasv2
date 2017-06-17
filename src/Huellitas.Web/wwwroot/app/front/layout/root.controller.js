@@ -52,10 +52,16 @@
 
             $scope.$on("$routeChangeStart", locationChanged);
             $scope.$on('$viewContentLoaded', contentLoaded);
+            $scope.$on('seenNotifications', seenNotifications)
 
             if (sessionService.isAuthenticated()) {
                 getCurrentUser();
             }
+        }
+
+        function seenNotifications(event, seen)
+        {
+            vm.currentUser.unseenNotifications = vm.currentUser.unseenNotifications - seen;
         }
 
         function goToAdmin() {

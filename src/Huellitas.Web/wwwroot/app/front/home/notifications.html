@@ -5,7 +5,7 @@
                 <h2 class="tit-form">NOTIFICACIONES</h2>
                 <ul class="notification">
                     <li ng-repeat="notification in main.notifications">
-                        <p><div class="new" ng-if="!notification.seen"></div><a ng-href="{{notification.targetUrl}}">{{notification.value}}</a></p>
+                        <p><div class="new" ng-if="!notification.seen"></div><a ng-href="{{notification.targetUrl}}" ng-bind-html="notification.value"></a></p>
                         <span>{{notification.creationDate | timeago}}</span>
                     </li>
                 </ul>

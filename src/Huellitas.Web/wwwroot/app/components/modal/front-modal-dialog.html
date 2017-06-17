@@ -6,8 +6,10 @@
             </div>
             <form>
                 <div class="box-log" ng-bind-html="modal.message"></div>
-                <button type="button" class="btn btn-lg btn-save" ng-click="modal.accept()">Aceptar</button>
-                <button type="button" class="btn btn-lg btn-default" ng-click="modal.cancel()">Cancelar</button>
+                <div align="center">
+                    <button type="button" class="btn btn-lg btn-info" ng-click="modal.accept()">Aceptar</button>
+                    <button type="button" class="btn btn-lg btn-default" ng-click="modal.cancel()">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>

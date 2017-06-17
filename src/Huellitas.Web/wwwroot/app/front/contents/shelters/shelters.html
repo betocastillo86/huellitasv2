@@ -5,12 +5,12 @@
     </section>
     <section>
         <article class="content-all">
-            <h1 class="tit-section col-md-12">ENCUENTRA FUNDACIONES</h1>
-            <div class="sub-title col-md-12">Busca la fundación que mejor te parezca</div>
+            <h1 class="tit-section col-md-12">FUNDACIONES REGISTRADAS</h1>
+            <div class="sub-title col-md-12">Busca la fundación que se ubique más cerca a tu hogar y encuentra tu mascota para toda la vida.</div>
             <form class="search-box">
                 <div class="col-md-4 col-sm-6">
                     <angucomplete-alt id="location"
-                                      placeholder="Busca la ciudad y seleccionala"
+                                      placeholder="Busca la ciudad y selecciónala"
                                       pause="200"
                                       remote-url="/api/locations?pagesize=8&name="
                                       title-field="name"
@@ -40,7 +40,7 @@
                     <a class="funda-txt" ng-href="{{root.getRoute('shelter', {friendlyName : shelter.friendlyName})}}">
                         <h3>{{::shelter.name}}</h3>
                         <h4>
-                            {{::shelter.location.name}} / Encargado: {{::shelter.location.owner}} <br>
+                            {{::shelter.location.name}} / Responsable: {{::shelter.owner}} <br>
                             Telefono: {{::shelter.phone}} <text ng-if="::shelter.phone2">Telefóno 2: {{::shelter.phone2}}</text>
                         </h4>
                         <p>{{::shelter.body | limitTo:210}}</p>
@@ -52,7 +52,7 @@
             </ul>
             <div class="no-found" ng-if="!main.shelters.length">
                 <span class="icon-search"></span>
-                No hay resultados que coincidan con tu busqueda
+                No hay resultados que coincidan con tu búsqueda
             </div>
         </article>
     </section>

@@ -76,7 +76,7 @@ namespace Huellitas.Web.Models.Api
         {
             if (keywordRequired && string.IsNullOrEmpty(this.Keyword))
             {
-                this.AddError(HuellitasExceptionCode.BadArgument, "La busqueda es invalida", "Keyword");
+                this.AddError(HuellitasExceptionCode.BadArgument, "La búsqueda es invalida", "Keyword");
             }
 
             var orderEnum = OrderByComment.Recent;

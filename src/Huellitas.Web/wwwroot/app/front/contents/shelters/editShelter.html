@@ -3,18 +3,18 @@
         <article class="content-all">
             <div class="content-form">
                 <h1 class="tit-form">¿TIENES UNA FUNDACIÓN O REFUGIO?</h1>
-                <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a que le puedas conseguir hogar a los peludos de tu fundación, danos tus datos y pronto nos pondrémos en contacto contigo:</div>
+                <div class="sub-title col-md-12">En Huellitas sin hogar te ayudamos a conseguir hogar para los peludos de tu fundación, déjanos tus datos y pronto nos pondrémos en contacto contigo:</div>
                 <br>
                 <form name="main.form" novalidate ng-submit="main.save()">
                     <label class="col-md-12">Datos</label>
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.name.$invalid }">
-                        <input type="text" placeholder="Nombre de tu fundación" name="name" ng-model="main.model.name" ng-minlength="5" maxlength="100" required ng-change="main.getFullNameImage()">
+                        <input type="text" placeholder="Nombre de la fundación" name="name" ng-model="main.model.name" ng-minlength="5" maxlength="100" required ng-change="main.getFullNameImage()">
                         <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">Ingresa el nombre de tu fundación</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">Ingresa el nombre de al menos 5 caracteres</span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.owner.$invalid }">
-                        <input type="text" placeholder="Encargado del refugio" name="owner" ng-model="main.model.owner" ng-minlength="7" maxlength="100" required>
+                        <input type="text" placeholder="Nombre del responsable" name="owner" ng-model="main.model.owner" ng-minlength="7" maxlength="100" required>
                         <span class="error" ng-if="!main.form.$submitted || main.form.owner.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.owner.$error.required">Ingresa el encargado de tu refugio</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.owner.$error.minlength">Ingresa el nombre de al menos 7 caracteres</span>
@@ -29,7 +29,7 @@
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.location.$invalid }">
                         
                         <angucomplete-alt id="location"
-                                          placeholder="Busca la ciudad y seleccionala"
+                                          placeholder="Busca la ciudad y selecciónala"
                                           pause="200"
                                           remote-url="/api/locations?pagesize=8&name="
                                           title-field="name"
@@ -54,7 +54,7 @@
                         <span class="error" ng-if="main.form.$submitted && main.form.address.$error.minlength">Ingresa una dirección válida</span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{'bad' : main.form.$submitted && main.form.phone.$invalid }">
-                        <input type="text" placeholder="Teléfono" name="phone" ng-model="main.model.phone" ng-minlength="7" maxlength="15" required>
+                        <input type="text" placeholder="Teléfono 1" name="phone" ng-model="main.model.phone" ng-minlength="7" maxlength="15" required>
                         <span class="error" ng-if="!main.form.$submitted || main.form.phone.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.phone.$error.required">Ingresa el número telefónico</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.phone.$error.minlength">Ingresa una número telefónico válido</span>

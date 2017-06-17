@@ -137,7 +137,7 @@
                     var currentUser = responseAuth;
 
                     if (vm.model.files.length < 3) {
-                        modalService.showError({ message: 'Debes seleccionar al menos tres imagenes', title: 'Faltan las imagenes' });
+                        modalService.showError({ message: 'Debes cargar al menos tres imágenes de tu fundación', title: 'Muy pocas imágenes!' });
                         vm.form.isBusy = false;
                         return;
                     }

@@ -28,7 +28,7 @@
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
-        vm.ages = [{ id: '0-12', value: 'Menos de un año' }, { id: '13-35', value: 'De 1 a 2 años' }, { id: '36-59', value: 'De 3 a 4 años' }, { id: '60-', value: 'Más de 5 años' }];
+        vm.ages = [{ id: '0-11', value: 'Menos de un año' }, { id: '12-35', value: 'De 1 a 2 años' }, { id: '36-59', value: 'De 3 a 4 años' }, { id: '60-', value: 'Más de 5 años' }];
 
         vm.pagingEnabled = true;
 

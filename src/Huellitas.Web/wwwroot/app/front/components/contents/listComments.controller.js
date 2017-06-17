@@ -24,7 +24,7 @@
             orderBy: 'recent',
             withChildren: true
         };
-        vm.defaultDescription = 'Deja tus comentarios que son muy importatenes para nosotros';
+        vm.defaultDescription = 'Tus comentarios son muy importantes para nosotros';
 
         vm.saveComment = saveComment;
         vm.enableResponse = enableResponse;

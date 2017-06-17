@@ -128,7 +128,7 @@
                                     message = 'La imagen no puede tener formato vertical ya que se va a ver cortadas. Debes subir otra imagen.<br><img src="/img/front/ejemplo-mala-foto.png" />';
                                 }
                                 else {
-                                    message = 'Hay imagenes en formato vertical y no pueden ser cargadas ya que se van a ver cortadas. Toma otras fotos en formato vertical.<br><img src="/img/front/ejemplo-mala-foto.png" />';
+                                    message = 'Hay imagenes en formato vertical y no pueden ser cargadas ya que se van a ver cortadas. Toma otras fotos en formato <b>horizontal</b>.<br><img src="/img/front/ejemplo-mala-foto.png" />';
                                 }
 
                                 helperService.handleException({ data: { error: { message: message } } });
