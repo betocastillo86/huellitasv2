@@ -14,6 +14,7 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Text;
 
     /// <summary>
     /// Send Adoption Forms Controller
@@ -76,8 +77,30 @@ namespace Huellitas.Web.Controllers.Api
                         var user = new User() { Name = model.Email, Email = model.Email };
 
                         var parameters = new List<NotificationParameter>();
-                        parameters.Add("%Pet.Name%", form.Content.Name);
-                        parameters.Add("%Pet.Url%", form.Content.Name);
+                        parameters.Add("Pet.Name", form.Content.Name);
+                        parameters.Add("Pet.Url", form.Content.Name);
+
+
+                        var attributesHtml = new StringBuilder();
+
+                        attributesHtml.Append($"<br>Nombre: {form.Name}");
+                        attributesHtml.Append($"<br>Ubicación: {form.Location.Name}");
+                        attributesHtml.Append($"<br>Dirección: {form.Address}");
+                        attributesHtml.Append($"<br>Barrio: {form.Town}");
+                        attributesHtml.Append($"<br>Fecha de nacimiento: {form.BirthDate}");
+                        attributesHtml.Append($"<br>Número telefónico: {form.PhoneNumber}");
+
+                        attributesHtml.Append($"<br><h2>Preguntas del formulario</h2><br><br>");
+
+                        var attributes = this.adoptionFormService.GetAttributes(formId);
+                        for (int i = 0; i < attributes.Count; i++)
+                        {
+                            var attribute = attributes[i];
+                            attributesHtml.Append($"<br> {i + 1}. {attribute.Attribute.Value} <br><b>R/ {attribute.Value}</b>");
+                        }
+
+                        parameters.Add("Form.Attributes", attributesHtml.ToString());
+
 
                         await this.notificationService.NewNotification(
                             user,

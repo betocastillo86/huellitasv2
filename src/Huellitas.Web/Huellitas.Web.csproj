@@ -178,6 +178,7 @@
     <Content Include="wwwroot\img\front\logohuellitas.png" />
     <Content Include="wwwroot\img\front\logomail.png" />
     <Content Include="wwwroot\img\front\twt.png" />
+    <Content Include="wwwroot\js\angular-seo-server.js" />
     <Content Include="wwwroot\js\textAngular-sanitize-admin.js" />
   </ItemGroup>
   <ItemGroup>
