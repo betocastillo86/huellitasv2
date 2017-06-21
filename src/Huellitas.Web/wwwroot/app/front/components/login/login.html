@@ -36,7 +36,7 @@
                     <input type="password" placeholder="Contraseña" name="password" ng-model="login.model.password" ng-minlength="6" required>
                     <span class="error" ng-if="!login.form.$submitted || login.form.password.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.password.$error.required">Ingresa tu clave</span>
-                    <span class="error" ng-if="login.form.$submitted && login.form.password.$error.email">Tu clave debe ser de mínimo 6 caracteres</span>
+                    <span class="error" ng-if="login.form.$submitted && login.form.password.$error.minlength">Tu clave debe ser de mínimo 6 caracteres</span>
                 </div>
                 <div ng-if="!login.modeLogin">
                     <input type="password" placeholder="Confirmar contraseña" name="password2" ng-model="login.model.password2" ng-minlength="6" compare-to="login.model.password" ng-required="!login.modeLogin">

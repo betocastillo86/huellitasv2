@@ -11,7 +11,7 @@
                 <div class="box-log" ng-bind-html="modal.message"></div>
                 <br />
                 <div align="center">
-                    <a class="btn btn-lg btn-default" ng-href="root.getRoute('contact')" target="_blank">Contáctanos</a>
+                    <a class="btn btn-lg btn-default" ng-href="{{modal.getRoute('contact')}}" target="_blank">Contáctanos</a>
                     <button type="button" class="btn btn-lg btn-danger" ng-click="modal.close()">Aceptar</button>
                 </div>
             </form>
