@@ -13,7 +13,6 @@
         function response(responseData)
         {
             if (responseData.headers && responseData.headers()['x-currentdate']) {
-                //TODO:Implementar header
                 $window.currentDate = new Date(responseData.headers()['x-currentdate'])
             }
             else {

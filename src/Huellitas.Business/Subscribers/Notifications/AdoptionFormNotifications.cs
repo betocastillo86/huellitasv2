@@ -308,13 +308,15 @@ namespace Huellitas.Business.Subscribers
             var parameters = this.GetBasicParameters(content, shelter);
 
             var users = this.GetPetOwners(content, shelter);
-            
+
+            var formUrl = this.seoService.GetFullRoute("form", form.Id.ToString());
+            parameters.Add("Form.Url", formUrl);
+
             await this.notificationService.NewNotification(
                 users,
                 this.workContext.CurrentUser,
                 Data.Entities.NotificationType.AdoptionFormReceived,
-                ////TODO:URL para responder formulario
-                this.seoService.GetContentUrl(content),
+                formUrl,
                 parameters);
         }
 

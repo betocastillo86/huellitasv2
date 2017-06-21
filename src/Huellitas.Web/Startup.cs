@@ -69,6 +69,11 @@ namespace Huellitas.Web
                     defaults: new { controller = "Home", action = "Index" });
 
                 routes.MapRoute(
+                    name: "PreviousURLs",
+                    template: "fundaciones/{id:int}/{name}",
+                    defaults: new { controller = "Home", action = "RedirectPrevious" });
+
+                routes.MapRoute(
                     name: "defaultRoute",
                     template: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });

@@ -132,12 +132,18 @@
                     .then(authenticationCompleted)
                     .catch(authenticationError);
 
-                function authenticationCompleted(responseAuth)
-                {
+                function authenticationCompleted(responseAuth) {
                     var currentUser = responseAuth;
 
                     if (vm.model.files.length < 3) {
                         modalService.showError({ message: 'Debes cargar al menos tres imágenes de tu fundación', title: 'Muy pocas imágenes!' });
+                        vm.form.isBusy = false;
+                        return;
+                    }
+
+                    if (vm.progressFiles.length)
+                    {
+                        modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
                         vm.form.isBusy = false;
                         return;
                     }

@@ -172,7 +172,13 @@
     <Content Include="wwwroot\app\services\user\role.service.js" />
     <Content Include="wwwroot\app\services\user\user.service.js" />
     <Content Include="wwwroot\css\admin.huellitas.css" />
+    <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\fonts\Oswald-DemiBold.ttf" />
+    <Content Include="wwwroot\img\front\bkg-blue.png" />
+    <Content Include="wwwroot\img\front\bkg-blue2.png" />
+    <Content Include="wwwroot\img\front\bkg-blue3.png" />
+    <Content Include="wwwroot\img\front\bkg-green.png" />
+    <Content Include="wwwroot\img\front\bkg-red.png" />
     <Content Include="wwwroot\img\front\fb.png" />
     <Content Include="wwwroot\img\front\logohuellitas-blanco.png" />
     <Content Include="wwwroot\img\front\logohuellitas.png" />

@@ -497,11 +497,9 @@
                         new Location() { Name = "San Antero" },
                         new Location() { Name = "San Bernardo Del Viento" },
                         new Location() { Name = "San Carlos" },
-                        // TODO: agregar a la estructura del update (instalador)
                         new Location() { Name = "San Jose de Ure" },
                         new Location() { Name = "San Pelayo" },
                         new Location() { Name = "Tierralta" },
-                        // TODO: agregar a la estructura del update (instalador)
                         new Location() { Name = "Tuchín" },
                         new Location() { Name = "Valencia" }
                     } },
@@ -633,7 +631,6 @@
                         new Location() { Name = "Bagadó" },
                         new Location() { Name = "Bahía Solano" },
                         new Location() { Name = "Bajo Baudó" },
-                        // TODO: agregar a la estructura del update (instalador)
                         new Location() { Name = "Belén De Bajirá" },
                         new Location() { Name = "Bojaya" },
                         new Location() { Name = "El Canton Del San Pablo" },

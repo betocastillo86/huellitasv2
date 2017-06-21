@@ -8,9 +8,6 @@
     function applyEnter() {
 
         return function (text) {
-
-            console.log('Entra a revisar');
-
             if (text) {
                 return text.replace(/\n/g, '<br>');
             }

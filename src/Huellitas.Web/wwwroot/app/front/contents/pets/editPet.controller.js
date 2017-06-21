@@ -190,6 +190,12 @@
                     return;
                 }
 
+                if (vm.progressFiles.length) {
+                    modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
+                    vm.form.isBusy = false;
+                    return;
+                }
+
                 vm.form.isBusy = true;
 
                 var newPhone = vm.model.user.phone;

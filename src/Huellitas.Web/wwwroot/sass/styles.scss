@@ -582,7 +582,7 @@ section{
         }
     }
     .banner-desta{
-        background: url(../images/bkg-green.png) repeat $green;
+        background: url(/img/front/bkg-green.png) repeat $green;
     }
     .pet-desta{
         padding: 50px 15px;
@@ -2068,21 +2068,22 @@ ul.wizard_steps {
 /*FIN FORMULARIOS*/
 
 /*POR QUE*/
-.content-pq{
+.content-pq {
     text-align: center;
     font-size: 16px;
 
-    @include i6{
+    @include i6 {
         font-size: 14px;
     }
 
-    p{
+    p {
         max-width: 650px;
         width: 90%;
         margin: 0 auto;
         padding: 0;
     }
-    .btn{
+
+    .btn {
         background: $blue3;
         color: $white;
         border: none;
@@ -2090,53 +2091,61 @@ ul.wizard_steps {
         @include transition(0.3s);
         min-width: 170px;
 
-        &:hover{
+        &:hover {
             background: $white;
             color: $blue2;
         }
     }
 
-    .pq-2{
-        background: url(../images/bkg-blue3.png) repeat $blue3;
+    .pq-2 {
+        background: url(/img/front/bkg-blue3.png) repeat $blue3;
     }
-    .pq-3{
-        background: url(../images/bkg-green.png) repeat $green;
-    }
-    .pq-4{
-        background: url(../images/bkg-red.png) repeat $red;
 
-        h2{
+    .pq-3 {
+        background: url(/img/front/bkg-green.png) repeat $green;
+    }
+
+    .pq-4 {
+        background: url(/img/front/bkg-red.png) repeat $red;
+
+        h2 {
             color: $white;
         }
     }
-    .pq-5{
-        background: url(../images/bkg-blue.png) repeat $blue;
 
-        h2{
+    .pq-5 {
+        background: url(/img/front/bkg-blue.png) repeat $blue;
+
+        h2 {
             color: $blue3;
         }
-        p{
+
+        p {
             color: $gray2;
         }
     }
-    .pq-6{
-        background: url(../images/bkg-blue2.png) repeat $blue2;
 
-        h2{
+    .pq-6 {
+        background: url(/img/front/bkg-blue2.png) repeat $blue2;
+
+        h2 {
             color: $blue3;
         }
-        p{
+
+        p {
             color: $white;
         }
     }
-    .img-pq{
+
+    .img-pq {
         display: block;
         margin: 0 auto;
 
-        @include iplus{
+        @include iplus {
             width: 200px;
         }
-        @include xxxs{
+
+        @include xxxs {
             width: 150px;
         }
     }

@@ -37,16 +37,30 @@ namespace Huellitas.Web.Controllers
         private readonly ILogService logService;
 
         /// <summary>
+        /// system setting service
+        /// </summary>
+        private readonly ISystemSettingService systemSettingService;
+
+        /// <summary>
+        /// the SEO service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         public HomeController(
             IGeneralSettings generalSettings,
             ISecuritySettings securitySettings,
-            ILogService logService)
+            ILogService logService,
+            ISystemSettingService systemSettingService,
+            ISeoService seoService)
         {
             this.generalSettings = generalSettings;
             this.securitySettings = securitySettings;
             this.logService = logService;
+            this.systemSettingService = systemSettingService;
+            this.seoService = seoService;
         }
 
         #endregion ctor
@@ -55,18 +69,27 @@ namespace Huellitas.Web.Controllers
         /// Indexes this instance.
         /// </summary>
         /// <returns>the value</returns>
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            if (this.securitySettings.TrackHomeRequests)
-            {
-                this.logService.Information("Visita registrada en el home");
-            }
-
             var model = new HomeModel();
             model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
             model.GoogleAnalyticsCode = this.generalSettings.GoogleAnalyticsCode;
 
             return this.View(model);
+        }
+
+        public IActionResult RedirectPrevious(int id, string name)
+        {
+            var friendlyName = this.systemSettingService.GetCachedSetting<string>($"RedirectionSettings.{name}");
+
+            if (!string.IsNullOrEmpty(friendlyName))
+            {
+                return this.RedirectPermanent(this.seoService.GetFullRoute("shelter", friendlyName));
+            }
+            else
+            {
+                return this.Redirect(this.seoService.GetFullRoute("notfound"));
+            }
         }
     }
 }

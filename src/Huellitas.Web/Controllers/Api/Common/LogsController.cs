@@ -33,7 +33,6 @@ namespace Huellitas.Web.Controllers.Api
         [HttpGet]
         public IActionResult Get([FromQuery] LogFilterModel filter)
         {
-            ////TODO:Test
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
                 return this.Forbid();
