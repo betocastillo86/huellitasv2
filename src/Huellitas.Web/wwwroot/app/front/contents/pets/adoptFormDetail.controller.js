@@ -9,22 +9,26 @@
     AdoptionFormDetailController.$inject = [
         '$scope',
         '$routeParams',
+        '$location',
         'adoptionFormService',
         'helperService',
         'adoptionFormStatusService',
         'modalService',
         'adoptionFormAnswerService',
-        'routingService'];
+        'routingService',
+        'authenticationService'];
 
     function AdoptionFormDetailController(
         $scope,
         $routeParams,
+        $location,
         adoptionFormService,
         helperService,
         adoptionFormStatusService,
         modalService,
         adoptionFormAnswerService,
-        routingService) {
+        routingService,
+        authenticationService) {
 
         var vm = this;
         vm.id = $routeParams.id;
@@ -40,8 +44,9 @@
 
         function activate()
         {
+            validateAuthentication();
             getStatus();
-
+            
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptionFormDetail.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptionFormDetail.Description'];
         }
@@ -53,8 +58,13 @@
 
             function getCompleted(response) {
                 vm.statuses = _.reject(response, function (s) { return s.enum == 'None'; }) ;
-                getForm();
             }
+        }
+
+        function validateAuthentication() {
+            authenticationService.showLogin($scope)
+                .then(getForm)
+                .catch(authenticationError);
         }
 
         function getForm()
@@ -71,6 +81,11 @@
                     vm.model.answers[i].statusName = _.findWhere(vm.statuses, { enum: vm.model.answers[i].status }).name;
                 }
             }
+        }
+
+        function authenticationError()
+        {
+            $location.path(routingService.getRoute('home'));
         }
 
         function send()
