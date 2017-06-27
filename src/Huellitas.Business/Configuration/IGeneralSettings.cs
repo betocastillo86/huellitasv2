@@ -11,36 +11,12 @@ namespace Huellitas.Business.Configuration
     public interface IGeneralSettings
     {
         /// <summary>
-        /// Gets the default size of the page.
+        /// Gets the height of the banner picture size.
         /// </summary>
         /// <value>
-        /// The default size of the page.
+        /// The height of the banner picture size.
         /// </value>
-        int DefaultPageSize { get; }
-
-        /// <summary>
-        /// Gets the site URL.
-        /// </summary>
-        /// <value>
-        /// The site URL.
-        /// </value>
-        string SiteUrl { get; }
-
-        /// <summary>
-        /// Gets the facebook URL.
-        /// </summary>
-        /// <value>
-        /// The facebook URL.
-        /// </value>
-        string FacebookUrl { get; }
-
-        /// <summary>
-        /// Gets the <c>instagram</c> URL.
-        /// </summary>
-        /// <value>
-        /// The <c>instagram</c> URL.
-        /// </value>
-        string InstagramUrl { get; }
+        int BannerPictureSizeHeight { get; }
 
         /// <summary>
         /// Gets the width of the banner picture size.
@@ -51,12 +27,20 @@ namespace Huellitas.Business.Configuration
         int BannerPictureSizeWidth { get; }
 
         /// <summary>
-        /// Gets the height of the banner picture size.
+        /// Gets the configuration JAVASCRIPT cache key.
         /// </summary>
         /// <value>
-        /// The height of the banner picture size.
+        /// The configuration JAVASCRIPT cache key.
         /// </value>
-        int BannerPictureSizeHeight { get; }
+        string ConfigJavascriptCacheKey { get; }
+
+        /// <summary>
+        /// Gets the default size of the page.
+        /// </summary>
+        /// <value>
+        /// The default size of the page.
+        /// </value>
+        int DefaultPageSize { get; }
 
         /// <summary>
         /// Gets the facebook public token.
@@ -75,6 +59,46 @@ namespace Huellitas.Business.Configuration
         string FacebookSecretToken { get; }
 
         /// <summary>
+        /// Gets the facebook URL.
+        /// </summary>
+        /// <value>
+        /// The facebook URL.
+        /// </value>
+        string FacebookUrl { get; }
+
+        /// <summary>
+        /// Gets the google analytics code.
+        /// </summary>
+        /// <value>
+        /// The google analytics code.
+        /// </value>
+        string GoogleAnalyticsCode { get; }
+
+        /// <summary>
+        /// Gets the <c>instagram</c> URL.
+        /// </summary>
+        /// <value>
+        /// The <c>instagram</c> URL.
+        /// </value>
+        string InstagramUrl { get; }
+
+        /// <summary>
+        /// Gets the maximum size of the height picture.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the height picture.
+        /// </value>
+        int MaxHeightPictureSize { get; }
+
+        /// <summary>
+        /// Gets the maximum size of the Width picture.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the with picture.
+        /// </value>
+        int MaxWidthPictureSize { get; }
+
+        /// <summary>
         /// Gets the SEO image.
         /// </summary>
         /// <value>
@@ -83,14 +107,11 @@ namespace Huellitas.Business.Configuration
         string SeoImage { get; }
 
         /// <summary>
-        /// Gets the configuration JAVASCRIPT cache key.
+        /// Gets the site URL.
         /// </summary>
         /// <value>
-        /// The configuration JAVASCRIPT cache key.
+        /// The site URL.
         /// </value>
-        string ConfigJavascriptCacheKey { get; }
-
-
-        string GoogleAnalyticsCode { get; }
+        string SiteUrl { get; }
     }
 }

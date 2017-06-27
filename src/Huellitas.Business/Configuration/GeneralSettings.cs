@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using Services;
 
@@ -31,36 +30,12 @@ namespace Huellitas.Business.Configuration
         }
 
         /// <summary>
-        /// Gets the site URL.
+        /// Gets the height of the banner picture size.
         /// </summary>
         /// <value>
-        /// The site URL.
+        /// The height of the banner picture size.
         /// </value>
-        public string SiteUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SiteUrl"); } }
-
-        /// <summary>
-        /// Gets the facebook URL.
-        /// </summary>
-        /// <value>
-        /// The facebook URL.
-        /// </value>
-        public string FacebookUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookUrl"); } }
-
-        /// <summary>
-        /// Gets the <c>instagram</c> URL.
-        /// </summary>
-        /// <value>
-        /// The <c>instagram</c> URL.
-        /// </value>
-        public string InstagramUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.InstagramUrl"); } }
-
-        /// <summary>
-        /// Gets the default size of the page.
-        /// </summary>
-        /// <value>
-        /// The default size of the page.
-        /// </value>
-        public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.DefaultPageSize"); } }
+        public int BannerPictureSizeHeight { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeHeight"); } }
 
         /// <summary>
         /// Gets the width of the banner picture size.
@@ -71,12 +46,20 @@ namespace Huellitas.Business.Configuration
         public int BannerPictureSizeWidth { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeWidth"); } }
 
         /// <summary>
-        /// Gets the height of the banner picture size.
+        /// Gets the configuration JAVASCRIPT cache key.
         /// </summary>
         /// <value>
-        /// The height of the banner picture size.
+        /// The configuration JAVASCRIPT cache key.
         /// </value>
-        public int BannerPictureSizeHeight { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeHeight"); } }
+        public string ConfigJavascriptCacheKey { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
+
+        /// <summary>
+        /// Gets the default size of the page.
+        /// </summary>
+        /// <value>
+        /// The default size of the page.
+        /// </value>
+        public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.DefaultPageSize"); } }
 
         /// <summary>
         /// Gets the facebook public token.
@@ -95,6 +78,46 @@ namespace Huellitas.Business.Configuration
         public string FacebookSecretToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookSecretToken"); } }
 
         /// <summary>
+        /// Gets the facebook URL.
+        /// </summary>
+        /// <value>
+        /// The facebook URL.
+        /// </value>
+        public string FacebookUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookUrl"); } }
+
+        /// <summary>
+        /// Gets the google analytics code.
+        /// </summary>
+        /// <value>
+        /// The google analytics code.
+        /// </value>
+        public string GoogleAnalyticsCode => this.settingService.GetCachedSetting<string>("GeneralSettings.GoogleAnalyticsCode");
+
+        /// <summary>
+        /// Gets the <c>instagram</c> URL.
+        /// </summary>
+        /// <value>
+        /// The <c>instagram</c> URL.
+        /// </value>
+        public string InstagramUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.InstagramUrl"); } }
+
+        /// <summary>
+        /// Gets the maximum size of the height picture.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the height picture.
+        /// </value>
+        public int MaxHeightPictureSize => this.settingService.GetCachedSetting<int>("GeneralSettings.MaxHeightPictureSize");
+
+        /// <summary>
+        /// Gets the maximum size of the with picture.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the with picture.
+        /// </value>
+        public int MaxWidthPictureSize => this.settingService.GetCachedSetting<int>("GeneralSettings.MaxWidthPictureSize");
+
+        /// <summary>
         /// Gets the SEO image.
         /// </summary>
         /// <value>
@@ -103,13 +126,11 @@ namespace Huellitas.Business.Configuration
         public string SeoImage { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SeoImage"); } }
 
         /// <summary>
-        /// Gets the configuration JAVASCRIPT cache key.
+        /// Gets the site URL.
         /// </summary>
         /// <value>
-        /// The configuration JAVASCRIPT cache key.
+        /// The site URL.
         /// </value>
-        public string ConfigJavascriptCacheKey { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
-
-        public string GoogleAnalyticsCode => this.settingService.GetCachedSetting<string>("GeneralSettings.GoogleAnalyticsCode");
+        public string SiteUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SiteUrl"); } }
     }
 }

@@ -169,10 +169,10 @@
                         new Location() { Name = "Tubara" },
                         new Location() { Name = "Usiacuri" }
                     } },
-                    new Location() { Name = "Bogotá", ChildrenLocations = new Location[]
+                    new Location() { Name = "Bogotá"/*, ChildrenLocations = new Location[]
                     {
                         new Location() { Name = "Bogotá D.C." }
-                    } },
+                    } */},
                     new Location() { Name = "Bolivar", ChildrenLocations = new Location[]
                     {
                         new Location() { Name = "Cartagena" },

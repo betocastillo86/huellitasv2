@@ -5,10 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Huellitas.Data.Entities;
-    using Microsoft.AspNetCore.Hosting;
     using System;
     using System.Threading.Tasks;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Data.Entities;
+    using ImageSharp;
+    using Microsoft.AspNetCore.Hosting;
 
     /// <summary>
     /// Files Helper
@@ -22,12 +24,21 @@ namespace Huellitas.Business.Services
         private readonly IHostingEnvironment hostingEnvironment;
 
         /// <summary>
+        /// The general settings
+        /// </summary>
+        private readonly IGeneralSettings generalSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FilesHelper"/> class.
         /// </summary>
         /// <param name="hostingEnvironment">The hosting environment.</param>
-        public FilesHelper(IHostingEnvironment hostingEnvironment)
+        /// <param name="generalSettings">The general settings.</param>
+        public FilesHelper(
+            IHostingEnvironment hostingEnvironment,
+            IGeneralSettings generalSettings)
         {
             this.hostingEnvironment = hostingEnvironment;
+            this.generalSettings = generalSettings;
         }
 
         /// <summary>
@@ -203,10 +214,13 @@ namespace Huellitas.Business.Services
                 System.IO.Directory.CreateDirectory(directory);
             }
 
-            using (var fileStream = new System.IO.FileStream(fullPath, System.IO.FileMode.Create))
-            {
-                await fileStream.WriteAsync(bytes, 0, bytes.Length);
-            }
+            var image = ImageSharp.Image.Load(bytes);
+            int newWidth = image.Width > this.generalSettings.MaxWidthPictureSize ? this.generalSettings.MaxWidthPictureSize : image.Width;
+            int newHeight = image.Height > this.generalSettings.MaxHeightPictureSize ? this.generalSettings.MaxHeightPictureSize : image.Height;
+
+            image.AutoOrient()
+                .Resize(new ImageSharp.Processing.ResizeOptions { Mode = ImageSharp.Processing.ResizeMode.Max, Size = new Size { Width = newWidth, Height = newHeight } })
+                .Save(fullPath);
         }
     }
 }
