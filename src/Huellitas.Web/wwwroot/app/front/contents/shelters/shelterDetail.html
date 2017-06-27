@@ -1,6 +1,6 @@
 ﻿<div class="pg-body col-md-12">
-    <div class="box-edit">
-        <a ng-if="::main.model.canEdit" class="btn btn-lg" ng-href="{{root.getRoute('editshelter', {friendlyName:main.model.friendlyName})}}"><span class="icon-edit"></span> Editar</a>
+    <div class="box-edit" ng-if="::main.model.canEdit" >
+        <a class="btn btn-lg" ng-href="{{root.getRoute('editshelter', {friendlyName:main.model.friendlyName})}}"><span class="icon-edit"></span> Editar</a>
         <a class="btn btn-lg" ng-href="{{root.getRoute('mypets', { shelter: main.model.id})}}">Mis huellitas</a>
     </div>
     <section class="bkg-gray">

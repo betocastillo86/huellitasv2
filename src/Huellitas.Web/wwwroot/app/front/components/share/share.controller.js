@@ -13,6 +13,7 @@
         vm.url = $scope.params.url;
 
         vm.share = share;
+        vm.close = close;
         
         activate();
 
@@ -42,6 +43,11 @@
             }
 
             $window.open(shareUrl, 'shared', 'width='.concat(width, ',height=', height, ',top=', top, ',left=', left));
+        }
+
+        function close()
+        {
+            $scope.close({ accept: true });
         }
     }
 })();
