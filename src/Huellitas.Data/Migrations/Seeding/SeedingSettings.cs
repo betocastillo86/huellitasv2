@@ -60,7 +60,10 @@
 
             list.Add(new SystemSetting() { Name = "RedirectionSettings.Dame-Vida-ORG", Value = "organizacion-dame-vida-tenjo" });
             list.Add(new SystemSetting() { Name = "RedirectionSettings.Hogar-de-paso-Perro-Amor", Value = "hogar-de-paso-perro-amor-cota" });
-            
+
+            list.Add(new SystemSetting() { Name = "GeneralSettings.MaxHeightPictureSize", Value = "1500" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.MaxWidthPictureSize", Value = "1500" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))
