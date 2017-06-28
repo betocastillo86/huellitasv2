@@ -625,6 +625,7 @@ section{
             h3{
                 font-size: 60px;
                 font-family: 'Oswald', sans-serif;
+                text-transform: uppercase;
                 font-weight: 700;
                 color: $white;
 
@@ -778,7 +779,7 @@ section{
                 }
 
                 img{
-                    max-width: 100%;
+                    width: 100%;
                     display: block;
                 }
                 .priority{
