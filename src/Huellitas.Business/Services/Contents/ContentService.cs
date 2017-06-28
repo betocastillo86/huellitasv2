@@ -609,7 +609,7 @@ namespace Huellitas.Business.Services
                             break;
 
                         case FilterAttributeType.Range:
-                            strQueryAttributes.Append($" (Attribute = '{attribute.Attribute}' and  convert(int,Value) between '{attribute.Value}' and '{attribute.ValueTo}')");
+                            strQueryAttributes.Append($" (Attribute = '{attribute.Attribute}' and  convert(int, (case when Attribute = '{attribute.Attribute}' and ISNUMERIC(Value) = 1 and charindex('.', value) = 0 then Value else '-1' end)) between '{attribute.Value}' and '{attribute.ValueTo}')");
                             break;
 
                         case FilterAttributeType.Multiple:
