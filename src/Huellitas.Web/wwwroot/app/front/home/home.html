@@ -63,7 +63,7 @@
                     <div class="box-txt">
                         <h3>{{::root.resources['Home.HowTo.Help.Title']}}</h3>
                         <p ng-bind-html="::root.resources['Home.HowTo.Help.Content']"></p>
-                        <a class="btn btn-lg" href="">Conocer más</a>
+                        <a class="btn btn-lg" ng-href="{{::root.getRoute('faq')}}">Conocer más</a>
                     </div>
                     <br />
                 </li>
@@ -72,7 +72,7 @@
                     <div class="box-txt">
                         <h3>{{::root.resources['Home.HowTo.Parent.Title']}}</h3>
                         <p ng-bind-html="::root.resources['Home.HowTo.Parent.Content']"></p>
-                        <a class="btn btn-lg" href="">Conocer más</a>
+                        <a class="btn btn-lg" ng-href="{{::root.getRoute('pets')}}">Conocer más</a>
                     </div>
                     <br />
                 </li>
@@ -81,7 +81,7 @@
                     <div class="box-txt">
                         <h3>{{::root.resources['Home.HowTo.Adopt.Title']}}</h3>
                         <p ng-bind-html="::root.resources['Home.HowTo.Adopt.Content']"></p>
-                        <a class="btn btn-lg" href="">Conocer más</a>
+                        <a class="btn btn-lg" ng-href="{{::root.getRoute('pets')}}">Conocer más</a>
                     </div>
                     <br />
                 </li>

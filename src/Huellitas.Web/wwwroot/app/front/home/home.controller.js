@@ -84,12 +84,15 @@
 
         function attachScrollEvent()
         {
-            if (!helperService.isMobileWidth())
-            {
+            if (!helperService.isMobileWidth()) {
                 $document[0].getElementsByTagName('header')[0].className = '';
 
                 $window.addEventListener('scroll', function (e) {
                     $document[0].getElementsByTagName('header')[0].className = ($window.scrollY > 100 ? 'inner-header' : '');
+                });
+
+                $scope.$on('$locationChangeStart', function () {
+                    $document[0].getElementsByTagName('header')[0].className = 'inner-header';
                 });
             }
         }

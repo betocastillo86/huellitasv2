@@ -22,6 +22,16 @@
             list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Macho" });
             list.Add(new CustomTableRow() { CustomTableId = 3, Value = "Hembra" });
 
+            foreach (var item in list)
+            {
+                if (!context.CustomTableRows.Any(c => c.Value.Equals(item.Value) && c.CustomTableId.Equals(item.CustomTableId)))
+                {
+                    context.CustomTableRows.Add(item);
+                }
+            }
+
+            context.SaveChanges();
+
             list.Add(new CustomTableRow() { CustomTableId = 4, Value = "¿Porque razón quieres adoptar un animal?", AdditionalInfo = $"{AdoptionFormQuestionType.Text}||True", DisplayOrder = 1 });
             var morePets = new CustomTableRow() { CustomTableId = 4, Value = "¿Tienes otras mascotas actualmente?", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}||True", DisplayOrder = 2 };
             list.Add(morePets);

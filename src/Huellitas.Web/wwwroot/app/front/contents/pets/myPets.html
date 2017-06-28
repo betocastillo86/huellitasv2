@@ -79,7 +79,7 @@
                             </td>
                             <td><a ng-href="{{::root.getRoute('forms')}}">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
                             <td>
-                                <a class="btn btn-lg btn-dark" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a>
+                                <a class="btn btn-lg btn-dark btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a>
                             </td>
                         </tr>
                         <tr ng-if="!main.pets.length">
