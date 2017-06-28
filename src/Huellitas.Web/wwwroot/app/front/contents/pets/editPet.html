@@ -111,7 +111,7 @@
                     </div>
                     <br>
                     <div class="col-md-12"  ng-class="{ 'bad' : main.form.$submitted && main.form.body.$invalid }">
-                        <textarea placeholder="Descripción" name="body" ng-model="main.model.body" required  maxlength="500" ng-minlength="100"></textarea>
+                        <textarea placeholder="Descripción" name="body" ng-model="main.model.body" required  maxlength="1500" ng-minlength="100"></textarea>
                         <span class="error" ng-if="!main.form.$submitted || main.form.body.$valid"></span>
                         <span class="error" ng-if="main.form.$submitted && main.form.body.$error.required">Ingresa una descripción de la mascota</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.body.$error.minlength">La descripción debe tener al menos 100 caracteres</span>

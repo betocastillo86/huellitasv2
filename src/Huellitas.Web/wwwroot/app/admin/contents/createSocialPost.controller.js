@@ -28,6 +28,7 @@
         vm.close = close;
         vm.createImage = createImage;
         vm.contentId = $scope.params.contentId;
+        vm.fileId = $scope.params.fileId;
         vm.generatedImage = undefined;
 
         activate();
@@ -55,7 +56,7 @@
             var network = _.findWhere(vm.networks, { selected: true });
             var color = _.findWhere(vm.colors, { selected: true });
 
-            fileService.postSocialNetwork(vm.contentId, { color: color.code, socialNetwork: network.name })
+            fileService.postSocialNetwork(vm.contentId, { color: color.code, socialNetwork: network.name, fileId: vm.fileId })
                 .then(postCompleted)
                 .catch(helperService.handleException);
 

@@ -55,7 +55,19 @@
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
                     var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
-                    var userModel = new AuthenticatedUserModel() { Email = user.Email, Name = user.Name, Id = user.Id, Token = token, FacebookId = user.FacebookId };
+                    var userModel = new AuthenticatedUserModel()
+                    {
+                        Email = user.Email,
+                        Name = user.Name,
+                        Id = user.Id,
+                        Token = token,
+                        FacebookId = user.FacebookId,
+                        Role = user.RoleEnum,
+                        Phone = user.PhoneNumber,
+                        Phone2 = user.PhoneNumber2,
+                        Location = user.Location != null ? user.Location.ToModel() : null
+                    };
+
                     var createdUri = this.Url.Link("Api_Users_GetById", new BaseModel() { Id = user.Id });
                     return this.Created(createdUri, userModel);
                 }

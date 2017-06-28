@@ -73,7 +73,7 @@
                                     </td>
                                     <td class="last">
                                         <a href="/admin/shelters/{{::shelter.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
-                                        <button type="button" class="btn btn-info btn-xs">Ver</button>
+                                        <a href="{{::root.getRoute('shelter', {friendlyName: shelter.friendlyName})}}" class="btn btn-info btn-xs">Ver</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.shelters.length">

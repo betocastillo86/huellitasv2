@@ -18,7 +18,7 @@
                     <a class="btn btn-app" href="/pets/{{::main.model.content.id}}/edit">
                         <i class="fa fa-edit"></i> Editar
                     </a>
-                    <a class="btn btn-app" href="/pets/{{::main.model.content.id}}/edit">
+                    <a class="btn btn-app" ng-href="{{root.getRoute('pet', { friendlyName: main.model.content.friendlyName})}}">
                         <i class="fa fa-eye"></i> Ver
                     </a>
                     <button class="btn btn-app" ng-click="main.showAddUser()">

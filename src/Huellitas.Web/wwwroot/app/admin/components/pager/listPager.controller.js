@@ -16,6 +16,7 @@
         vm.previousPage = previousPage;
         vm.nextPage = nextPage;
         vm.changePage = changePage;
+        vm.showPage = showPage;
 
         activate();
 
@@ -31,6 +32,23 @@
 
         function getTotalPages() {
             return Math.ceil($scope.main.pager.totalCount / $scope.main.pager.pageSize);
+        }
+
+        function showPage(page)
+        {
+            if (getTotalPages() > 6) {
+                if ($scope.main.pager.page < 3 || $scope.main.pager.page > getTotalPages() - 3) {
+                    return page > getTotalPages() - 4 || page < 3;
+                }
+                else
+                {
+                    return page > $scope.main.pager.page - 4 && page < $scope.main.pager.page + 3;
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         function activeClass(currentPage) {

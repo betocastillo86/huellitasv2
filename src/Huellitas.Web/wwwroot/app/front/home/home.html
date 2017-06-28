@@ -17,7 +17,7 @@
                         <a ng-href="{{::root.getRoute('pet', {friendlyName: main.featuredPet.friendlyName})}}">
                             <h3>{{::main.featuredPet.name}}</h3>
                             <h4>{{::main.featuredPet.genre.text}} - {{::main.featuredPet.months | age}}</h4>
-                            <p>{{::main.featuredPet.body}}</p>
+                            <p>{{::main.featuredPet.body | limitTo:180}}</p>
                             <button class="btn btn-lg" >Conocer más</button>
                         </a>
                     </div>
