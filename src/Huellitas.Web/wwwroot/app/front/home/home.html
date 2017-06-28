@@ -13,11 +13,12 @@
                 <img class="img-banner" ng-src="{{main.currentBanner.fileUrl}}" ng-if="!main.currentBanner.isPet" alt="{{main.currentBanner.name}}" title="{{main.currentBanner.name}}">
                 <div ng-if="main.currentBanner.isPet" class="pet-desta content-all">
                     <div class="txt-pet">
-                        <a ng-href="{{::root.getRoute('pet', main.featuredPet.friendlyName)}}">
+                        
+                        <a ng-href="{{::root.getRoute('pet', {friendlyName: main.featuredPet.friendlyName})}}">
                             <h3>{{::main.featuredPet.name}}</h3>
                             <h4>{{::main.featuredPet.genre.text}} - {{::main.featuredPet.months | age}}</h4>
                             <p>{{::main.featuredPet.body}}</p>
-                            <button type="button" class="btn btn-lg">Conocer más</button>
+                            <button class="btn btn-lg" >Conocer más</button>
                         </a>
                     </div>
                     <div class="box-pet-img">

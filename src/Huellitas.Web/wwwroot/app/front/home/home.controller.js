@@ -38,7 +38,6 @@
             $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(app.Settings.general.seoImage);
 
             getShelters();
-            getBanners();
             attachScrollEvent();
         }
 
@@ -126,11 +125,8 @@
         }
 
         function petsLoaded(pets) {
+            getBanners();
             vm.featuredPet = _.findWhere(pets.results, { featured: true });
-
-            if (vm.banners.length) {
-                addPetToBanner();
-            }
         }
 
         function addPetToBanner()
