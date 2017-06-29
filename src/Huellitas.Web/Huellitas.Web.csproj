@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\img\front\redes-image.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="hangfire" Version="1.6.13" />

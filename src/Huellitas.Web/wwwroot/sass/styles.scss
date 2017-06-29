@@ -2601,6 +2601,19 @@ footer{
         padding: 0;
     }
 }
+.btn-fb{
+    background: #4267b2;
+    color: $white !important;
+    width: 100%;
+    box-sizing: border-box;
+    @include transition(0.3s);
+    @include border-radius(4px);
+
+    &:hover{
+        background: #29487d;
+    }
+}
+
 .box-log {
     padding: 20px 0 0;
     text-align: center;
