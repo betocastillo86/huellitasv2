@@ -39,7 +39,7 @@
                                 <angucomplete-alt id="shelter"
                                                   placeholder="Ingresar refugio"
                                                   pause="400"
-                                                  remote-url="/api/pets?keyword="
+                                                  remote-url="/api/pets?ContentType=Pet&keyword="
                                                   remote-url-data-field="results"
                                                   title-field="name"
                                                   selected-object="main.petChanged"
@@ -53,7 +53,7 @@
                                 Estado
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select class="form-control" ng-model="main.filter.status" ng-options="status.id as status.name for status in ::main.listStatus" ng-change="main.getForms()">
+                                <select class="form-control" ng-model="main.filter.status" ng-options="status.id as status.name for status in main.listStatus" ng-change="main.getForms()">
                                     <option value="">Todos</option>
                                 </select>
                             </div>

@@ -70,6 +70,7 @@
 
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditLostPet.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.EditLostPet.Description'];
+            $scope.$parent.root.seo.image = routingService.getFullRouteOfFile('img/front/compartir-fb-perdidos.png');
 
             if (vm.friendlyName) {
                 getPet();

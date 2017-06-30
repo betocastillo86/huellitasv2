@@ -26,7 +26,7 @@
         var vm = this;
         vm.model = {};
         vm.modal = undefined;
-        vm.modeLogin = true;
+        vm.modeLogin = false;
 
         vm.register = register;
         vm.authenticate = authenticate;

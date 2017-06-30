@@ -33,6 +33,7 @@
 
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.Shelters.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.Shelters.Description'];
+            $scope.$parent.root.seo.image = routingService.getFullRouteOfFile('img/front/compartir-fb-registrar-fundacion.png');
         }
 
         function getShelters()

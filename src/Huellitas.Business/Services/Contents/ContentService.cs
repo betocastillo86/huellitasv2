@@ -443,6 +443,7 @@ namespace Huellitas.Business.Services
         /// <param name="startingDateTo">filters starting date until this</param>
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <param name="excludeContentId">excludes the search of a content</param>
+        /// <param name="onlyFeatured">only featured</param>
         /// <returns>the list</returns>
         public IPagedList<Content> Search(
             string keyword = null,
@@ -458,7 +459,8 @@ namespace Huellitas.Business.Services
             DateTime? startingDateFrom = null,
             DateTime? startingDateTo = null,
             int? belongsToUserId = null,
-            int? excludeContentId = null)
+            int? excludeContentId = null,
+            bool? onlyFeatured = null)
         {
             var query = this.contentRepository.Table
                 .Include(c => c.ContentAttributes)
@@ -569,6 +571,11 @@ namespace Huellitas.Business.Services
             if (startingDateFrom.HasValue)
             {
                 query = query.Where(c => c.StartingDate == null || c.StartingDate > startingDateFrom.Value);
+            }
+
+            if (onlyFeatured.HasValue)
+            {
+                query = query.Where(c => c.Featured == onlyFeatured.Value);
             }
 
             if (startingDateTo.HasValue)
