@@ -41,6 +41,7 @@
         {
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.Pets.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.Pets.Description'];
+            $scope.$parent.root.seo.image = routingService.getFullRouteOfFile('img/front/compartir-fb-publicar.png');
         }
 
         function search()
