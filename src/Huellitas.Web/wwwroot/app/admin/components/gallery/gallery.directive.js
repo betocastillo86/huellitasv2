@@ -5,7 +5,7 @@
     function galleryHuellitas() {
         return {
             restrict: 'E',
-            templateUrl: '/app/admin/components/gallery/gallery.html',
+            templateUrl: '/app/admin/components/gallery/gallery.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: 'GalleryController',
             controllerAs: 'gallery',
             scope: {

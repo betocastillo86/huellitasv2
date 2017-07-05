@@ -5,7 +5,7 @@
     function listPager() {
         var directive = {
             restrict: 'E',
-            templateUrl: '/app/admin/components/pager/listPager.html',
+            templateUrl: '/app/admin/components/pager/listPager.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: 'ListPagerController',
             controllerAs: 'pager',
             scope: false

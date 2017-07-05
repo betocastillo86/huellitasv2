@@ -50,7 +50,16 @@
                 modalService.showError({ message: 'Debes estar autenticado para realizar esta acción' });
             }
             else {
-                modalService.showError({ error: data.data.error });
+                if (data.data) {
+                    modalService.showError({ error: data.data.error });
+                }
+                else
+                {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("POST", "/api/logs", true);
+                    xhttp.setRequestHeader("Content-type", "application/json");
+                    xhttp.send(JSON.stringify({ ShortMessage: data.toString(), FullMessage: 'Error:' + data.stack.toString() + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
+                }
             }
         }
 

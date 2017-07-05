@@ -684,6 +684,10 @@ namespace Huellitas.Business.Services
                                  .ThenByDescending(c => c.CreatedDate);
                     break;
 
+                case ContentOrderBy.Random:
+                    query = query.OrderBy(x => Guid.NewGuid());
+                    break;
+                
                 case ContentOrderBy.DisplayOrder:
                 default:
                     query = query.OrderBy(c => c.DisplayOrder);

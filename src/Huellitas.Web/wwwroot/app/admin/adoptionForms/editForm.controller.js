@@ -65,7 +65,7 @@
         {
             modalService.show({
                 controller: 'AddFormUserController',
-                template : '/app/admin/adoptionForms/addFormUser.html'
+                template: '/app/admin/adoptionForms/addFormUser.html?' + app.Settings.general.configJavascriptCacheKey
             });
         }
 
@@ -109,7 +109,7 @@
         {
             modalService.show({
                 controller: 'SendFormByEmailController',
-                template: '/app/admin/adoptionForms/sendFormByEmail.html'
+                template: '/app/admin/adoptionForms/sendFormByEmail.html?' + app.Settings.general.configJavascriptCacheKey
             });
         }
     }

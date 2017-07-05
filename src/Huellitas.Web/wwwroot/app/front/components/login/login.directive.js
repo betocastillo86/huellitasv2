@@ -12,7 +12,7 @@
             bindToController: true,
             controller: LoginController,
             controllerAs: 'login',
-            templateUrl: '/app/front/components/login/login.html'
+            templateUrl: '/app/front/components/login/login.html?' + app.Settings.general.configJavascriptCacheKey
         };
     }
 

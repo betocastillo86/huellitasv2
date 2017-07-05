@@ -20,7 +20,7 @@
             element.on('click', function () {
                 modalService.show({
                     controller: 'ShareController',
-                    template: '/app/front/components/share/share.html',
+                    template: '/app/front/components/share/share.html?' + app.Settings.general.configJavascriptCacheKey,
                     params: { url: scope.url }
                 });
             });
