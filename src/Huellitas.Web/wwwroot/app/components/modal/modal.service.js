@@ -57,7 +57,7 @@
                     .catch(consoleError);
             }
             else {
-                getTemplate('/app/components/modal/' + (app.Settings.isFront ? 'front-' : '') +'modal-' + options.modalType + '.html')
+                getTemplate('/app/components/modal/' + (app.Settings.isFront ? 'front-' : '') + 'modal-' + options.modalType + '.html?' + app.Settings.general.configJavascriptCacheKey)
                     .then(templateLoaded)
                     .catch(consoleError);
             }

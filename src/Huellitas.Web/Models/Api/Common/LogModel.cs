@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Models.Api
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// The Log Model
@@ -19,6 +20,7 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         /// The short message.
         /// </value>
+        [Required]
         public string ShortMessage { get; set; }
 
         /// <summary>

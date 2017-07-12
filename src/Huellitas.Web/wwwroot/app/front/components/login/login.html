@@ -8,7 +8,7 @@
                 </button>
             </div>
             <form name="login.form" novalidate ng-submit="login.authenticate()">
-                <a class="btn-fb btn btn-lg" ng-click="login.facebookLogin()" href="">Continuar con facebook</a>
+                <a class="btn-fb btn btn-lg" ng-click="login.facebookLogin()" href=""><i class="icon-face"></i> &nbsp; Continuar con Facebook</a>
                 <div class="login_redes">
                     <!--<button type="button">
                         <span class="icon-face" ng-click="login.facebookLogin()"></span>
@@ -54,7 +54,7 @@
                     <a ng-href="{{::root.getRoute('contact')}}">Recuperar contraseña</a>
                 </div>
                 <div class="box-log" ng-if="!login.modeLogin">
-                    <a href="#" ng-click="login.register(false)">Ya estoy registrado</a>
+                    <a href="#" ng-click="login.register(false)" class="btn btn-default">Ya estoy registrado</a>
                 </div>
                 <button type="submit" class="btn btn-lg btn-save">{{login.modeLogin ? 'Entra' : 'Registrate'}}</button>
             </form>

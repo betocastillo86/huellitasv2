@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\img\front\compartir-fb-perdidos.png" />
+    <Content Include="wwwroot\img\front\compartir-fb-publicar.png" />
+    <Content Include="wwwroot\img\front\compartir-fb-registrar-fundacion.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="hangfire" Version="1.6.13" />

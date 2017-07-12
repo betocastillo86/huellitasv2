@@ -132,6 +132,7 @@ namespace Huellitas.Business.Services
         /// <param name="startingDateTo">filters starting date until this</param>
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <param name="excludeContentId">excludes the search of a content</param>
+        /// <param name="onlyFeatured">only featured</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -147,7 +148,8 @@ namespace Huellitas.Business.Services
             DateTime? startingDateFrom = null,
             DateTime? startingDateTo = null,
             int? belongsToUserId = null,
-            int? excludeContentId = null);
+            int? excludeContentId = null,
+            bool? onlyFeatured = null);
 
         /// <summary>
         /// Updates the asynchronous.

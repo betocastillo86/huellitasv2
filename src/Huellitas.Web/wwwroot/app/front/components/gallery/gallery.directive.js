@@ -10,7 +10,7 @@
             scope: {
                 images : '='
             },
-            templateUrl: '/app/front/components/gallery/gallery.html',
+            templateUrl: '/app/front/components/gallery/gallery.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: 'GalleryController',
             controllerAs: 'gallery',
             //bindToController: true,

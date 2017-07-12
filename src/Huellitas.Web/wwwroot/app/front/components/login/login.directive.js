@@ -12,7 +12,7 @@
             bindToController: true,
             controller: LoginController,
             controllerAs: 'login',
-            templateUrl: '/app/front/components/login/login.html'
+            templateUrl: '/app/front/components/login/login.html?' + app.Settings.general.configJavascriptCacheKey
         };
     }
 
@@ -26,7 +26,7 @@
         var vm = this;
         vm.model = {};
         vm.modal = undefined;
-        vm.modeLogin = true;
+        vm.modeLogin = false;
 
         vm.register = register;
         vm.authenticate = authenticate;

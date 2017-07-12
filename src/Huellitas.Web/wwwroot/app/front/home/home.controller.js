@@ -112,7 +112,8 @@
             var filter = {
                 pageSize: 4,
                 orderBy: 'DisplayOrder',
-                status: 'Published'
+                status: 'Published',
+                featured: true
             };
 
             shelterService.getAll(filter)
