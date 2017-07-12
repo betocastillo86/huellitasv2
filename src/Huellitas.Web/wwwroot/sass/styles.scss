@@ -1555,6 +1555,25 @@ section{
         position: relative;
         overflow: hidden;
 
+        .adopt{
+            background: $red;
+            color: $white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 40px;
+            position: absolute;
+            top: 60px;
+            right: -70px;
+            @include rotate(45deg);
+            padding: 0 70px;
+
+            @include s{
+                font-size: 25px;
+                padding: 0 50px;
+                top: 40px;
+                right: -50px;
+            }
+        }
+
         img{
             display: block;
             width: 100%;
