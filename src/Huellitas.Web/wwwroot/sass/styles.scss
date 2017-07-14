@@ -2854,4 +2854,21 @@ footer{
     }
 }
 
+
+.youtubeadopt {
+    width: 100%;
+    height: 470px;
+
+    @include s {
+        width: 95%;
+        height: 250px !important;
+    }
+
+    @include xxs {
+        width: 95%;
+        height: 200px !important;
+    }
+}
+
 @import 'animate';
+
