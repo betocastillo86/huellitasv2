@@ -27,7 +27,7 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.Property(e => e.Value)
                     .IsRequired()
-                    .HasMaxLength(1000);
+                    .HasMaxLength(2000);
 
             entity.HasOne(d => d.AdoptionForm)
                 .WithMany(p => p.Attributes)

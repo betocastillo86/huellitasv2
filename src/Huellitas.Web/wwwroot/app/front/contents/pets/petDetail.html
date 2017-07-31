@@ -8,11 +8,11 @@
                 {{main.model.name}}
                 <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
             </h1>
-            <div class="box-btn" >
+            <div class="box-btn" ng-if="main.model.status == 'Published'" >
                 <a class="btn btn-lg btn-fixed" ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" title="Llenar formulario de adopción de {{::main.model.name}}">Adoptar</a>
                 <!--<a class="btn btn-lg" href="">Apadriname</a>-->
             </div>
-            <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files"></gallery-huellitas>
+            <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files" data-label="main.model.status == 'Hidden' ? 'ADOPTADO' : undefined"></gallery-huellitas>
 
             <ul class="data-list col-md-12">
                 <li>

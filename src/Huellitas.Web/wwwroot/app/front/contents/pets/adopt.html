@@ -47,13 +47,13 @@
                             <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">Ingresa tu nombre de mínimo 6 caracteres</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.phoneNumber.$invalid}">
-                            <input type="text" name="phoneNumber" placeholder="Teléfono de contacto" ng-model="main.model.phoneNumber" ng-minlength="7" maxlength="20" required />
+                            <input type="text" name="phoneNumber" placeholder="Teléfono de contacto" ng-model="main.model.phoneNumber" ng-minlength="7" maxlength="15" required />
                             <span class="error" ng-if="!main.form.$submitted || main.form.phoneNumber.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.phoneNumber.$error.required">Ingresa tu número de contacto</span>
                             <span class="error" ng-if="main.form.$submitted && main.form.phoneNumber.$error.minlength">Ingresa un número de contacto válido</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.email.$invalid}">
-                            <input type="email" name="email" ng-model="main.model.email" placeholder="Correo electrónico" required>
+                            <input type="email" name="email" ng-model="main.model.email" placeholder="Correo electrónico" maxlength="100" required>
                             <span class="error" ng-if="!main.form.$submitted || main.form.email.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.email.$error.required">Ingresa tu correo electrónico</span>
                         </div>
@@ -91,7 +91,7 @@
                             <span class="error" ng-if="main.form.$submitted && main.form.address.$error.minlength">Ingresa una dirección valida</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.town.$invalid}">
-                            <input type="text" name="town" placeholder="Barrio" ng-model="main.model.town" maxlength="100" required>
+                            <input type="text" name="town" placeholder="Barrio" ng-model="main.model.town" maxlength="50" required>
                             <span class="error" ng-if="!main.form.$submitted || main.form.town.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.town.$invalid">Ingresa el barrio donde vives</span>
                         </div>
@@ -133,7 +133,7 @@
 
                     <script id="templateText" type="text/ng-template">
                         <label class="col-md-12">{{::(child || question).question}}</label>
-                        <textarea name="{{(child || question).key}}" ng-required="(child || question).required" ng-model="(child || question).answer"></textarea>
+                        <textarea name="{{(child || question).key}}" ng-required="(child || question).required" ng-model="(child || question).answer" maxlength="1500"></textarea>
                         <span class="error" ng-if="main.form.$submitted && main.form[('question'+(child || question).id)].$invalid">Responde la pregunta</span>
                     </script>
 
