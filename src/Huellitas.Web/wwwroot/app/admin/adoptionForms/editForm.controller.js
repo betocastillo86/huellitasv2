@@ -2,15 +2,15 @@
     angular.module('huellitasAdmin')
         .controller('EditFormController', EditFormController);
 
-    EditFormController.$inject = ['$routeParams', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
+    EditFormController.$inject = ['$routeParams', '$location', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
 
-    function EditFormController($routeParams, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
+    function EditFormController($routeParams, $location, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.model = {};
         vm.answer = {};
-        vm.showAttributes = false;
-        vm.showForm = false;
+        vm.showAttributes = true;
+        vm.showForm = true;
         vm.isSending = false;
         vm.showAnswers = false;
 
@@ -81,7 +81,10 @@
                     vm.isSending = false;
                     vm.answer = {};
                     getAnswers();
-                    modalService.show({ message: 'Mensaje enviado correctamente' });
+                    modalService.show({
+                        message: 'Mensaje enviado correctamente',
+                        redirectAfterClose: '/adoptionforms'
+                    });
                 }
 
                 function postError(response) {

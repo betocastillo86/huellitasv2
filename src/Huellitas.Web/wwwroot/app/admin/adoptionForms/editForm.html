@@ -31,15 +31,19 @@
 
                 <div class="x_content">
                     <br>
-                    <div class="form-group">
-                        <img ng-src="{{::main.model.content.image.fileName}}" width="200" height="200" />
-                    </div>
+                    
                     <form class="form-horizontal">
+                        <div class="form-group">
+                            <img ng-src="{{::main.model.content.image.fileName}}" width="200" height="200" />
+                        </div>
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-6">
-                                    Mascota.
+                                    Mascota:
                                 </label>
+                                <div class="col-md-9 col-sm-9 col-xs-6">
+                                    {{::main.model.content.name}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-6">
@@ -138,56 +142,16 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content" ng-if="main.showAttributes">
-                            <div class="form-group" ng-repeat="attribute in ::main.model.attributes" >
-                                <label class="control-label col-md-9 col-sm-9 col-xs-12 force-left">
+                            <div class="form-group col-md-12" ng-repeat="attribute in ::main.model.attributes" >
+                                <label class="control-label col-md-6 col-sm-6 col-xs-12">
                                     {{::attribute.question}}
                                 </label>
-                                <div>
+                                <div class="control-label col-md-6 col-sm-6 col-xs-12">
                                     {{::attribute.value}}
                                 </div>
                             </div>
                             </div>
-                            <div class="x_title">
-                                <h2>Respuestas:</h2>
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li>
-                                        <a class="collapse-link" ng-click="main.toogleShowMore('answers')">Ver más</a>
-                                    </li>
-                                </ul>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <div class="x_content" ng-if="main.showAnswers">
-                                <table class="table jambo_table">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Usuario</th>
-                                            <th>Estado</th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="answer in main.model.answers">
-                                            <td>{{::answer.creationDate}}</td>
-                                            <td>{{::answer.user.name}}</td>
-                                            <td>
-                                                <span class="label" ng-class="::[
-                                                {'label-default' : answer.status == 'None'},
-                                                {'label-danger' : answer.status == 'Denied'},
-                                                {'label-warning' : answer.status == 'AlreadyAdopted'},
-                                                {'label-success' : answer.status == 'Approved'}
-                                                ]">{{::answer.status}}</span>
-                                            </td>
-                                            <td><button type="button" class="btn btn-default btn-xs" ng-click="main.showDetailAnswer(answer)">Ver Respuesta</button></td>
-                                        </tr>
-                                        <tr ng-if="!main.model.answers.length">
-                                            <td colspan="5">No se ha respondido todavía</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
+                            
 
                             <div class="x_title">
                                 <h2>Responder:</h2>
@@ -224,6 +188,48 @@
                                     <button class="btn btn-lg btn-success">Enviar</button>
                                 </form>
                             </div>
+
+                    <div class="x_title">
+                        <h2>Respuestas:</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link" ng-click="main.toogleShowMore('answers')">Ver más</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="x_content" ng-if="main.showAnswers">
+                        <table class="table jambo_table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Usuario</th>
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="answer in main.model.answers">
+                                    <td>{{::answer.creationDate}}</td>
+                                    <td>{{::answer.user.name}}</td>
+                                    <td>
+                                        <span class="label" ng-class="::[
+                                                {'label-default' : answer.status == 'None'},
+                                                {'label-danger' : answer.status == 'Denied'},
+                                                {'label-warning' : answer.status == 'AlreadyAdopted'},
+                                                {'label-success' : answer.status == 'Approved'}
+                                                ]">{{::answer.status}}</span>
+                                    </td>
+                                    <td><button type="button" class="btn btn-default btn-xs" ng-click="main.showDetailAnswer(answer)">Ver Respuesta</button></td>
+                                </tr>
+                                <tr ng-if="!main.model.answers.length">
+                                    <td colspan="5">No se ha respondido todavía</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
 
                             <br />
 

@@ -18,6 +18,7 @@
         vm.changePage = changePage;
         vm.getLogs = getLogs;
         vm.showLog = showLog;
+        vm.cleanLog = cleanLog;
 
         return activate();
 
@@ -46,6 +47,22 @@
         function changePage(page) {
             vm.filter.page = page;
             getLogs();
+        }
+
+        function cleanLog()
+        {
+            if (confirm("¿Está seguro de eliminar el log?"))
+            {
+                logService.clean()
+                    .then(clenCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function clenCompleted()
+            {
+                modalService.show({ message: 'Log eliminado correctamente' });
+                getLogs();
+            }
         }
     }
 })();

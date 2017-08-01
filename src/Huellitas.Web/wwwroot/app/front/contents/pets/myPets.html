@@ -21,7 +21,7 @@
                         <br />
                     </div>
                     <div class="col-md-2 col-sm-6">
-                        <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 300 }" ng-change="main.search()">
+                        <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 1200 }" ng-change="main.search()">
                     </div>
                     <div class="col-md-2 col-sm-6">
                         <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">

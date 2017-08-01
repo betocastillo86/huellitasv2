@@ -4,7 +4,7 @@
             <h1 class="tit-form">SOLICITUDES DE ADOPCIÓN</h1>
             <form class="search-box">
                 <div class="col-md-4 col-sm-6">
-                    <input type="text" placeholder="Nombre Persona" ng-model="main.filter.username" ng-model-options="{debounce:300}" ng-change="main.search()">
+                    <input type="text" placeholder="Nombre Persona" ng-model="main.filter.username" ng-model-options="{debounce:1200}" ng-change="main.search()">
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <select ng-options="status.enum as status.name for status in main.statuses" ng-model="main.filter.status" ng-change="main.search()">

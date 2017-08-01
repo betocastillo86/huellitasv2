@@ -115,7 +115,7 @@ namespace Huellitas.Business.Services
                     fontBigSize = 55;
                     fontSmallSize = 35;
                     sizeLogo = new ImageSharp.Size() { Width = 180, Height = 98 };
-                    pointLogo = new Point() { X = width - 200, Y = height - 110 };
+                    pointLogo = new Point() { X = width - 200, Y = 110 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 140 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 70 };
                     break;
