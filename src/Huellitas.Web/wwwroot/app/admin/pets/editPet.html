@@ -20,6 +20,8 @@
                 <div class="x_content">
                     <div ng-if="main.id">
                         <a ng-href="{{root.getRoute('pet', {friendlyName : main.model.friendlyName})}}" class="btn btn-info" target="_blank">Ver Publicación</a>
+                        <button ng-click="main.notify('PetRejected')" class="btn btn-danger"><i class="fa fa-send"></i> Malas fotos</button>
+                        <button ng-click="main.notify('PetWillBeHiddenByNotAnswer')" class="btn btn-danger"><i class="fa fa-send"></i> No responde</button>
                     </div>
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
@@ -249,7 +251,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="parent in main.parents">
-                                <td>{{::parent.name}}</td>
+                                <td><a href="/admin/users/{{::parent.id}}/edit">{{::parent.name}}</a></td>
                                 <td>{{::parent.email}}</td>
                                 <td>{{::parent.phone}}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" ng-click="main.deleteParent(parent)">Eliminar</button></td>

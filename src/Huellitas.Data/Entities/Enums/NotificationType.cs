@@ -123,6 +123,16 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// Notification when a pet is out of date
         /// </summary>
-        OutDatedPet = 22
+        OutDatedPet = 22,
+
+        /// <summary>
+        /// When a pet is rejected by pictures
+        /// </summary>
+        PetRejected = 23,
+
+        /// <summary>
+        /// When a pet is hidden because of not answer
+        /// </summary>
+        PetWillBeHiddenByNotAnswer = 24
     }
 }

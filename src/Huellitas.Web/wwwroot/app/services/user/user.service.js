@@ -10,7 +10,8 @@
             getAll: getAll,
             getById: getById,
             post: post,
-            put: put
+            put: put,
+            contact: contact
         };
 
         function getAll(filter)
@@ -29,6 +30,11 @@
 
         function put(model) {
             return http.put('/api/users/' + model.id, model);
+        }
+
+        function contact(id, model)
+        {
+            return http.post('/api/users/' + id +'/contact', model);
         }
     }
 })();

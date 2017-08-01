@@ -12,7 +12,8 @@
             put: put,
             patch: patch,
             changeStatus: changeStatus,
-            republish: republish
+            republish: republish,
+            notify: notify
         };
 
         function getAll(filter) {
@@ -31,19 +32,20 @@
             return http.put('/api/pets/' + model.id, model);
         }
 
-        function patch(id, jsonPatch)
-        {
+        function patch(id, jsonPatch) {
             return http.patch('/api/pets/' + id, jsonPatch);
         }
 
-        function changeStatus(id, newStatus)
-        {
+        function changeStatus(id, newStatus) {
             return patch(id, [{ op: 'replace', path: '/status', value: newStatus }]);
         }
 
-        function republish(id)
-        {
+        function republish(id) {
             return patch(id, [{ op: 'replace', path: '/closingDate', value: moment().format('YYYY/MM/DD') }]);
+        }
+
+        function notify(id, type) {
+            return http.post('/api/pets/' + id + '/notify/' + type);
         }
     }
 })();

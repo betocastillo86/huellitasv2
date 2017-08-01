@@ -7,6 +7,9 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <div ng-if="main.model.id">
+                        <button ng-click="main.contact()" class="btn btn-danger"><i class="fa fa-send"></i> Contactar</button>
+                    </div>
                     <br>
                     <form name="formUser" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formUser.$valid)">
                         <div class="form-group" ng-if="main.id">

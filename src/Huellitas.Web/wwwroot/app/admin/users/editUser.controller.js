@@ -16,6 +16,7 @@
         vm.save = save;
         vm.saveAndContinue = saveAndContinue;
         vm.changeLocation = changeLocation;
+        vm.contact = contact;
 
         activate();
 
@@ -111,5 +112,12 @@
             vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
         }
 
+        function contact()
+        {
+            modalService.show({
+                controller: 'ContactUserController',
+                template: '/app/admin/users/contactUser.html?' + app.Settings.general.configJavascriptCacheKey
+            });
+        }
     }
 })();
