@@ -36,6 +36,18 @@
                                                   minlength="1"/>
                             </div>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Estado
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select class="form-control" ng-model="main.filter.status" ng-options="status.enum as status.name for status in main.statusTypes" ng-change="main.changePage(0)">
+                                    <option value="">-</option>
+                                </select>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 
@@ -46,9 +58,9 @@
                                 <tr class="headings">
                                     <th class="column-title">Imagen</th>
                                     <th class="column-title">Nombre</th>
-                                    <th class="column-title">Tipo</th>
-                                    <th class="column-title">Genero</th>
-                                    <th class="column-title">Encargado</th>
+                                    <th class="column-title hidden-xs">Tipo</th>
+                                    <th class="column-title hidden-xs">Genero</th>
+                                    <th class="column-title hidden-xs">Encargado</th>
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
@@ -59,10 +71,10 @@
                             <tbody>
                                 <tr ng-repeat="pet in main.pets" class="pointer" ng-class-odd="odd" ng-class-even="even">
                                     <td><img ng-src="{{::pet.image.thumbnail}}" title="{{::pet.name}}" width="40" height="40" /></td>
-                                    <td>{{::pet.name}}</td>
-                                    <td>{{::pet.subtype.text}}</td>
-                                    <td>{{::pet.genre.text}}</td>
-                                    <td>{{::pet.shelter ? pet.shelter.name : ''}}</td>
+                                    <td><span title="Filtrar por {{::pet.name}}" ng-click="main.filterByPet(pet)">{{::pet.name}}</span></td>
+                                    <td class="hidden-xs">{{::pet.subtype.text}}</td>
+                                    <td class="hidden-xs">{{::pet.genre.text}}</td>
+                                    <td class="hidden-xs">{{::pet.shelter ? pet.shelter.name : ''}}</td>
                                     <td>
                                         <span class="label" ng-class="::[
                                               {'label-default' : pet.status == 'Created'},
@@ -70,15 +82,15 @@
                                               {'label-info' : pet.status == 'Hidden'},
                                               {'label-warning' : pet.status == 'Rejected'},
                                               {'label-success' : pet.status == 'Published'}
-                                              ]">{{::pet.status}}</span>
+                                              ]" ng-click="main.filterByStatus(pet)" title="Filtrar por estado">{{::pet.status}}</span>
                                     </td>
                                     <td class="last">
                                             <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
-                                        <a href="{{::root.getRoute('pet', {friendlyName: pet.friendlyName})}}" class="btn btn-info btn-xs">Ver</a>
+                                        <a href="{{::root.getRoute('pet', {friendlyName: pet.friendlyName})}}" class="btn btn-info btn-xs hidden-xs">Ver</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.pets.length">
-                                    <td colspan="5"  class="last">
+                                    <td colspan="7"  class="last">
                                      No hay registros
                                     </td>
                                 </tr>

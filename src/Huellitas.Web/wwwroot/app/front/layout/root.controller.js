@@ -45,6 +45,7 @@
         vm.showMenu = showMenu;
         vm.getFirstLetters = getFirstLetters;
         vm.getFullRoute = routingService.getFullRoute;
+        vm.hideFooter = false;
 
         activate();
 
