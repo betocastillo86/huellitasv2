@@ -127,7 +127,7 @@
         {
             var content = this.contentService.GetById(contentId, true);
 
-            if (content.StatusType == StatusType.Published)
+            if (content?.StatusType == StatusType.Published)
             {
                 var petUrl = this.seoService.GetContentUrl(content);
                 var parameters = new List<NotificationParameter>();

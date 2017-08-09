@@ -46,14 +46,14 @@
     }
 
     <script>
-            window.onerror = function (errorMsg, url, lineNumber, column, error) {
-                if (lineNumber > 0 || column > 0) {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open("POST", "/api/logs", true);
-                    xhttp.setRequestHeader("Content-type", "application/json");
-                    xhttp.send(JSON.stringify({ ShortMessage: errorMsg, FullMessage: 'Error:' + errorMsg + ' <br> url:' + url + ' <br> useragent:' + navigator.userAgent +'<br> line:' + lineNumber + '<br> column:' + column + '<br> document.url:' + document.location.href + '<br> Stack:' + (error && error.stack ? error.stack.toString() : 'No hay Stack') }));
-                }
-            }
+            //window.onerror = function (errorMsg, url, lineNumber, column, error) {
+            //    if (lineNumber > 0 || column > 0) {
+            //        var xhttp = new XMLHttpRequest();
+            //        xhttp.open("POST", "/api/logs", true);
+            //        xhttp.setRequestHeader("Content-type", "application/json");
+            //        xhttp.send(JSON.stringify({ ShortMessage: errorMsg, FullMessage: 'Error:' + errorMsg + ' <br> url:' + url + ' <br> useragent:' + navigator.userAgent +'<br> line:' + lineNumber + '<br> column:' + column + '<br> document.url:' + document.location.href + '<br> Stack:' + (error && error.stack ? error.stack.toString() : 'No hay Stack') }));
+            //    }
+            //}
     </script>
 </head>
 <body>

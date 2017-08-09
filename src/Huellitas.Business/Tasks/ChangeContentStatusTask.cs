@@ -37,8 +37,12 @@ namespace Huellitas.Business.Tasks
         public async Task DisablePetAfterDays(int id)
         {
             var content = this.contentService.GetById(id);
-            content.StatusType = Data.Entities.StatusType.Hidden;
-            await this.contentService.UpdateAsync(content);
+
+            if (content != null)
+            {
+                content.StatusType = Data.Entities.StatusType.Hidden;
+                await this.contentService.UpdateAsync(content);
+            }
         }
     }
 }

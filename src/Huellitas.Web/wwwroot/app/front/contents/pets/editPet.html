@@ -29,9 +29,10 @@
                         <span class="error" ng-if="main.form.$submitted && main.form.subtype.$invalid">Selecciona si es perro ó gato</span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.name.$invalid }">
-                        <input type="text" name="name" placeholder="Nombre de la mascota" ng-model="main.model.name" ng-maxlength="50" ng-change="main.getFullNameImage()" required>
+                        <input type="text" name="name" placeholder="Nombre de la mascota" ng-model="main.model.name" ng-maxlength="50" ng-minlength="3" ng-change="main.getFullNameImage()" required>
                         <span class="error" ng-if="main.form.$submitted && main.form.name.$error.required">El nombre es obligatorio</span>
                         <span class="error" ng-if="main.form.$submitted && main.form.name.$error.maxlength">El tamaño máximo del nombre son 50 caracteres</span>
+                        <span class="error" ng-if="main.form.$submitted && main.form.name.$error.minlength">El tamaño minimo del nombre son 3 caracteres</span>
                         <span class="error" ng-if="!main.form.$submitted || main.form.name.$valid"></span>
                     </div>
                     <div class="col-sm-6 col-xs-12" ng-class="{ 'bad' : main.form.$submitted && main.form.genre.$invalid }">
