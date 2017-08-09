@@ -16,7 +16,8 @@
         'petService',
         'routingService',
         'modalService',
-        'authenticationService'];
+        'authenticationService',
+        'logService'];
 
     function AdoptController(
         $routeParams,
@@ -29,7 +30,8 @@
         petService,
         routingService,
         modalService,
-        authenticationService) {
+        authenticationService,
+        logService) {
 
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
@@ -231,10 +233,15 @@
                             });
                         }
 
-                        function postError() {
+                        function postError(error) {
                             vm.form.isBusy = false;
                             modalService.showError({
                                 message: 'Ocurrió un error al envíar la información. Intenta de nuevo o <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a nuestro fan page dando clic aquí<a>'
+                            });
+
+                            logService.post({
+                                shortMessage: 'Error guardando el formulario de adopción',
+                                fullMessage: JSON.stringify(error.data)
                             });
                         }
                     }
