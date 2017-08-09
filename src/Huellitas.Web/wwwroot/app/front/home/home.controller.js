@@ -38,7 +38,6 @@
             $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(app.Settings.general.seoImage);
 
             getShelters();
-            getBanners();
             attachScrollEvent();
         }
 
@@ -113,7 +112,8 @@
             var filter = {
                 pageSize: 4,
                 orderBy: 'DisplayOrder',
-                status: 'Published'
+                status: 'Published',
+                featured: true
             };
 
             shelterService.getAll(filter)
@@ -126,11 +126,8 @@
         }
 
         function petsLoaded(pets) {
+            getBanners();
             vm.featuredPet = _.findWhere(pets.results, { featured: true });
-
-            if (vm.banners.length) {
-                addPetToBanner();
-            }
         }
 
         function addPetToBanner()

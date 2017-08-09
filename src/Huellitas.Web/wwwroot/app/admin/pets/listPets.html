@@ -16,7 +16,7 @@
                                 Nombre
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.getPets()" ng-model-options="{ debounce : 300 }">
+                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.keyword" ng-change="main.changePage(0)" ng-model-options="{ debounce : 1200 }">
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -74,6 +74,7 @@
                                     </td>
                                     <td class="last">
                                             <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="{{::root.getRoute('pet', {friendlyName: pet.friendlyName})}}" class="btn btn-info btn-xs">Ver</a>
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.pets.length">

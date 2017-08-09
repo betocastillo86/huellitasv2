@@ -2,15 +2,15 @@
     angular.module('huellitasAdmin')
         .controller('EditFormController', EditFormController);
 
-    EditFormController.$inject = ['$routeParams', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
+    EditFormController.$inject = ['$routeParams', '$location', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
 
-    function EditFormController($routeParams, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
+    function EditFormController($routeParams, $location, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.model = {};
         vm.answer = {};
-        vm.showAttributes = false;
-        vm.showForm = false;
+        vm.showAttributes = true;
+        vm.showForm = true;
         vm.isSending = false;
         vm.showAnswers = false;
 
@@ -65,7 +65,7 @@
         {
             modalService.show({
                 controller: 'AddFormUserController',
-                template : '/app/admin/adoptionForms/addFormUser.html'
+                template: '/app/admin/adoptionForms/addFormUser.html?' + app.Settings.general.configJavascriptCacheKey
             });
         }
 
@@ -81,7 +81,10 @@
                     vm.isSending = false;
                     vm.answer = {};
                     getAnswers();
-                    modalService.show({ message: 'Mensaje enviado correctamente' });
+                    modalService.show({
+                        message: 'Mensaje enviado correctamente',
+                        redirectAfterClose: '/adoptionforms'
+                    });
                 }
 
                 function postError(response) {
@@ -109,7 +112,7 @@
         {
             modalService.show({
                 controller: 'SendFormByEmailController',
-                template: '/app/admin/adoptionForms/sendFormByEmail.html'
+                template: '/app/admin/adoptionForms/sendFormByEmail.html?' + app.Settings.general.configJavascriptCacheKey
             });
         }
     }

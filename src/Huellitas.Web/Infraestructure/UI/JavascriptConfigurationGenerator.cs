@@ -105,33 +105,37 @@ namespace Huellitas.Web.Infraestructure.UI
             isDebug = true;
 #endif
 
-            this.SaveFile(true, this.GetAdminJson(isDebug));
-            this.SaveFile(false, this.GetFrontJson(isDebug));
-
             ////Actualiza la llave de cache del javascript
             var key = "GeneralSettings.ConfigJavascriptCacheKey";
-            var value = this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(key));
-            if (value == null)
+            var cacheKey = this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(key));
+
+
+            this.SaveFile(true, this.GetAdminJson(isDebug, cacheKey?.Value));
+            this.SaveFile(false, this.GetFrontJson(isDebug, cacheKey?.Value));
+
+            
+            if (cacheKey == null)
             {
                 this.systemSettingRepository.Insert(new SystemSetting() { Name = key, Value = Guid.NewGuid().ToString() });
             }
             else
             {
-                value.Value = Guid.NewGuid().ToString();
-                this.systemSettingRepository.Update(value);
+                cacheKey.Value = Guid.NewGuid().ToString();
+                this.systemSettingRepository.Update(cacheKey);
             }
 
             ////Clears cache after creating file because of the javascript cache key
             this.cacheManager.Clear();
         }
 
-        private string GetAdminJson(bool isDebug)
+        private string GetAdminJson(bool isDebug, string cacheKey)
         {
             var config = new
             {
                 general = new
                 {
-                    pageSize = this.generalSettings.DefaultPageSize
+                    pageSize = this.generalSettings.DefaultPageSize,
+                    configJavascriptCacheKey = cacheKey
                 },
                 customTables = new
                 {
@@ -165,7 +169,7 @@ namespace Huellitas.Web.Infraestructure.UI
             return JsonConvert.SerializeObject(config);
         }
 
-        private string GetFrontJson(bool isDebug)
+        private string GetFrontJson(bool isDebug, string cacheKey)
         {
             var config = new
             {
@@ -174,7 +178,8 @@ namespace Huellitas.Web.Infraestructure.UI
                     facebookPublicToken = generalSettings.FacebookPublicToken,
                     siteUrl = generalSettings.SiteUrl,
                     seoImage = generalSettings.SeoImage,
-                    googleAnalyticsCode = generalSettings.GoogleAnalyticsCode
+                    googleAnalyticsCode = generalSettings.GoogleAnalyticsCode,
+                    configJavascriptCacheKey = cacheKey
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,

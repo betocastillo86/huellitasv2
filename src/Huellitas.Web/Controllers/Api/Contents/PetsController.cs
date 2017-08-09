@@ -252,7 +252,7 @@ namespace Huellitas.Web.Controllers.Api
             if (content != null)
             {
                 ////Only the user can see an unpublished pet if can edit it
-                if (content.StatusType != StatusType.Published && !this.CanUserEditPet(content))
+                if (content.StatusType == StatusType.Created && !this.CanUserEditPet(content))
                 {
                     return this.NotFound();
                 }

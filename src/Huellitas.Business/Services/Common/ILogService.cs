@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System.Threading.Tasks;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
 
@@ -23,6 +24,19 @@ namespace Huellitas.Business.Services
         /// <returns>the value</returns>
         Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", User user = null);
 
+        /// <summary>
+        /// Gets all the logs by filter
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>the list of logs</returns>
         IPagedList<Log> GetAll(string keyword, int page = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        /// <returns>the task</returns>
+        Task Clear();
     }
 }

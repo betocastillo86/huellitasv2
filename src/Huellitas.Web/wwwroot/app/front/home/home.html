@@ -13,11 +13,12 @@
                 <img class="img-banner" ng-src="{{main.currentBanner.fileUrl}}" ng-if="!main.currentBanner.isPet" alt="{{main.currentBanner.name}}" title="{{main.currentBanner.name}}">
                 <div ng-if="main.currentBanner.isPet" class="pet-desta content-all">
                     <div class="txt-pet">
-                        <a ng-href="{{::main.featuredPet.friendlyName}}">
+                        
+                        <a ng-href="{{::root.getRoute('pet', {friendlyName: main.featuredPet.friendlyName})}}">
                             <h3>{{::main.featuredPet.name}}</h3>
                             <h4>{{::main.featuredPet.genre.text}} - {{::main.featuredPet.months | age}}</h4>
-                            <p>{{::main.featuredPet.body}}</p>
-                            <button type="button" class="btn btn-lg">Conocer más</button>
+                            <p>{{::main.featuredPet.body | limitTo:180}}</p>
+                            <button class="btn btn-lg" >Conocer más</button>
                         </a>
                     </div>
                     <div class="box-pet-img">
@@ -25,7 +26,7 @@
                             <img class="img-responsive" ng-src="{{::main.featuredPet.image.thumbnail}}" alt="Mascota destacada" title="Mascota destacada">
                             <span class="priority">
                                 <i class="icon-star"></i>
-                                <span>Caso prioritario</span>
+                                <span>Destacado</span>
                             </span>
                         </a>
                     </div>
@@ -43,9 +44,11 @@
             <div class="sub-title col-md-12">Estas son algunas de las fundaciones que puedes encontrar con nosotros</div>
             <ul>
                 <li ng-repeat="shelter in main.shelters">
-                    <a ng-href="{{::root.getRoute('shelter', {friendlyName: shelter.friendlyName})}}">
-                        <img ng-src="{{::shelter.image.thumbnail}}" title="Conoce a la fundación {{::shelter.name}}" alt="Conoce a la fundación {{::shelter.name}}">
-                    </a>
+                    <span>
+                        <a ng-href="{{::root.getRoute('shelter', {friendlyName: shelter.friendlyName})}}">
+                            <img ng-src="{{::shelter.image.thumbnail}}" title="Conoce a la fundación {{::shelter.name}}" alt="Conoce a la fundación {{::shelter.name}}">
+                        </a>
+                    </span>
                 </li>
                 <br>
             </ul>

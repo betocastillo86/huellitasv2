@@ -49,23 +49,32 @@ namespace Huellitas.Business.Services
         private readonly IHostingEnvironment host;
 
         /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PictureService"/> class.
         /// </summary>
         /// <param name="fileHelper">The file helper.</param>
         /// <param name="logService">The log service.</param>
         /// <param name="systemSettingService">The system setting service.</param>
+        /// <param name="customTableService">Custom table service</param>
+        /// <param name="contentService">The content service</param>
         public PictureService(
             IFilesHelper fileHelper,
             ILogService logService,
             ISystemSettingService systemSettingService,
             ICustomTableService customTableService,
-            IHostingEnvironment host)
+            IHostingEnvironment host,
+            IContentService contentService)
         {
             this.fileHelper = fileHelper;
             this.logService = logService;
             this.systemSettingService = systemSettingService;
             this.customTableService = customTableService;
             this.host = host;
+            this.contentService = contentService;
         }
 
         /// <summary>
@@ -106,7 +115,7 @@ namespace Huellitas.Business.Services
                     fontBigSize = 55;
                     fontSmallSize = 35;
                     sizeLogo = new ImageSharp.Size() { Width = 180, Height = 98 };
-                    pointLogo = new Point() { X = width - 200, Y = height - 110 };
+                    pointLogo = new Point() { X = width - 200, Y = 110 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 140 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 70 };
                     break;
@@ -135,16 +144,44 @@ namespace Huellitas.Business.Services
 
             var genreText = this.customTableService.GetValueByCustomTableAndId(CustomTableType.AnimalGenre, content.GetAttribute<int>(ContentAttributeType.Genre));
 
+            var phone = string.Empty;
+            if (content.Type == ContentType.Pet)
+            {
+                var parent = this.contentService.GetUsersByContentId(content.Id, ContentUserRelationType.Parent, true)
+                                                .FirstOrDefault();
+                if (parent != null)
+                {
+                    phone = parent.User.PhoneNumber;
+                }
+                else if (!string.IsNullOrEmpty(content.GetAttribute<string>(ContentAttributeType.Shelter)))
+                {
+                    var shelter = this.contentService.GetShelterByPet(content.Id);
+                    if (shelter != null)
+                    {
+                        phone = shelter.GetAttribute<string>(ContentAttributeType.Phone1);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(content.User?.PhoneNumber))
+                {
+                    phone = content.User.PhoneNumber;
+                }
+            }
+            else if (content.Type == ContentType.LostPet)
+            {
+                if (!string.IsNullOrEmpty(content.User?.PhoneNumber))
+                {
+                    phone = content.User.PhoneNumber;
+                }
+            }
+            else if (content.Type == ContentType.Shelter)
+            {
+                phone = content.GetAttribute<string>(ContentAttributeType.Phone1);
+            }
+
+            phone = !string.IsNullOrEmpty(phone) ? " - TEL:" + phone : string.Empty;
+
             using (var image = Image.Load(this.fileHelper.GetPhysicalPath(file)))
             {
-                //for (int x = 0; x < image.Width; x++)
-                //{
-                //    for (int y = image.Height - 125; y < image.Height; y++)
-                //    {
-                //        image.GetPixelReference(x, y) = rgbColor;
-                //    }
-                //}
-
                 using (var logo = Image.Load($"{this.host.WebRootPath}/img/front/{this.GetLogoByColor(color)}"))
                 {
                     var family = fontCollection.Families.FirstOrDefault();
@@ -154,7 +191,7 @@ namespace Huellitas.Business.Services
                     .Resize(resizeOptions)
                     .DrawPolygon(rgbColor, 125, new System.Numerics.Vector2[] { new System.Numerics.Vector2() { X = 0, Y = height - 62 }, new System.Numerics.Vector2() { X = width, Y = height - 62 } }, new GraphicsOptions() { BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Normal, BlendPercentage = 90 })
                     .DrawText(content.Name.ToUpper(), new SixLabors.Fonts.Font(family, fontBigSize, FontStyle.Bold), Rgba32.White, positionFontBig, ImageSharp.Drawing.TextGraphicsOptions.Default)
-                    .DrawText($"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall, ImageSharp.Drawing.TextGraphicsOptions.Default)
+                    .DrawText($"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()} {phone}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall, ImageSharp.Drawing.TextGraphicsOptions.Default)
                     .DrawImage(logo, 100, sizeLogo, pointLogo)
                     .Save(newImagePath);
                 }

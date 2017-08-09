@@ -19,6 +19,7 @@
 
         function activate() {
             vm.images = $scope.images;
+            vm.label = $scope.label;
             rotateImages();
         }
 

@@ -57,6 +57,14 @@ namespace Huellitas.Web.Models.Api
         public ContentOrderBy OrderByEnum { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ShelterFilterModel"/> is featured.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if featured; otherwise, <c>false</c>.
+        /// </value>
+        public bool? Featured { get; set; }
+
+        /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
         /// <param name="canGetUnpublished">if set to <c>true</c> [can get un published].</param>

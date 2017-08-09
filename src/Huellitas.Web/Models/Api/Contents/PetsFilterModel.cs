@@ -28,7 +28,7 @@ namespace Huellitas.Web.Models.Api
         public PetsFilterModel()
         {
             this.MaxPageSize = 20;
-            this.ValidOrdersBy = new string[] { ContentOrderBy.CreatedDate.ToString(), ContentOrderBy.DisplayOrder.ToString(), ContentOrderBy.Name.ToString(), ContentOrderBy.Featured.ToString() };
+            this.ValidOrdersBy = new string[] { ContentOrderBy.CreatedDate.ToString(), ContentOrderBy.DisplayOrder.ToString(), ContentOrderBy.Name.ToString(), ContentOrderBy.Featured.ToString(), ContentOrderBy.Random.ToString() };
         }
 
         /// <summary>

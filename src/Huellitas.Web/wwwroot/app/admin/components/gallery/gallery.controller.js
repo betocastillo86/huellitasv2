@@ -88,13 +88,14 @@
             vm.model.images = files;
         }
 
-        function createSocialPost()
+        function createSocialPost(image)
         {
             modalService.show({
                 controller: 'CreateSocialPostController',
-                template: '/app/admin/contents/createSocialPost.html',
+                template: '/app/admin/contents/createSocialPost.html?' + app.Settings.general.configJavascriptCacheKey,
                 params: {
-                    contentId: vm.contentid
+                    contentId: vm.contentid,
+                    fileId: image.id
                 }
             });
         }

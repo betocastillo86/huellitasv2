@@ -12,6 +12,7 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Infraestructure;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Log Service
@@ -80,6 +81,15 @@ namespace Huellitas.Business.Services
             return log;
         }
 
+        /// <summary>
+        /// Gets all the logs by filter
+        /// </summary>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>
+        /// the list of logs
+        /// </returns>
         public IPagedList<Log> GetAll(string keyword, int page = 0, int pageSize = int.MaxValue)
         {
             var query = this.logRepository.Table
@@ -94,6 +104,21 @@ namespace Huellitas.Business.Services
             query = query.OrderByDescending(c => c.CreationDate);
 
             return new PagedList<Log>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Clear()
+        {
+            var logs = this.logRepository.Table.ToList();
+            foreach (var log in logs)
+            {
+                await this.logRepository.DeleteAsync(log);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@
                 contentid: '='
             },*/
             scope: false,
-            templateUrl: '/app/front/components/contents/listComments.html',
+            templateUrl: '/app/front/components/contents/listComments.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: 'ListCommentsController',
             controllerAs: 'listComments',
             bindToController: true,

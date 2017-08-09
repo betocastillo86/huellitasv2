@@ -20,9 +20,9 @@
         vm.model.status = app.Settings.statusTypes.published;
         vm.showMoreActive = false;
         vm.regexYoutube = '^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$';
-        vm.regexFacebook = 'http(?:s)?:\/\/(?:www\.)?facebook\.com\/([a-zA-Z0-9_\?\=\/]+)';
-        vm.regexTwitter = 'http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_\?\=\/]+)';
-        vm.regexInstagram = 'http(?:s)?:\/\/(?:www\.)?instagram\.com\/([a-zA-Z0-9_\?\=\/]+)';
+        vm.regexFacebook = 'http(?:s)?:\/\/(?:www\.)?facebook\.com\/([a-zA-Z0-9_\-\.\?\=\/]+)';
+        vm.regexTwitter = 'http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_\-\.\?\=\/]+)';
+        vm.regexInstagram = 'http(?:s)?:\/\/(?:www\.)?instagram\.com\/([a-zA-Z0-9_\-\.\?\=\/]+)';
         vm.continueAfterSaving = false;
         vm.showPicturesActive = false;
         vm.defaultNameImage = '';

@@ -42,8 +42,8 @@
                                 Descripción <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500" ng-minlength="20"></textarea>
-                                <validation-message form="formPet" field="formPet.body" name="descripción" ng-maxlength="500" ng-minlength="20"></validation-message>
+                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="1500" ng-minlength="20"></textarea>
+                                <validation-message form="formPet" field="formPet.body" name="descripción" ng-maxlength="1500" ng-minlength="20"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -198,7 +198,7 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12" ng-if="main.showPicturesActive">
-            <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80" saveonreorder="main.saveonreorder" contentid="main.id"></gallery-huellitas>
+            <gallery-huellitas ng-if="main.canShowGallery()" images="main.model.files" title="Imagenes" ondelete="main.removeImage" onadded="main.imageAdded" defaultname="{{main.defaultNameImage}}" data-width="120" data-height="80" saveonreorder="main.saveonreorder" contentid="main.id" socialpost="1"></gallery-huellitas>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="x_panel">

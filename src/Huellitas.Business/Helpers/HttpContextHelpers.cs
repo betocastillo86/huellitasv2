@@ -72,7 +72,7 @@ namespace Huellitas.Business.Helpers
 
             if (includeQueryString)
             {
-                url = this.HttpContext.Request.Path;
+                url = this.HttpContext.Request.Path + "?"+ this.HttpContext.Request.QueryString;
             }
             else
             {

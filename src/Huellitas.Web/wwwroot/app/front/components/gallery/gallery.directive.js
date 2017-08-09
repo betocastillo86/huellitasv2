@@ -8,9 +8,10 @@
     function galleryHuellitas() {
         return {
             scope: {
-                images : '='
+                images: '=',
+                label: '='
             },
-            templateUrl: '/app/front/components/gallery/gallery.html',
+            templateUrl: '/app/front/components/gallery/gallery.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: 'GalleryController',
             controllerAs: 'gallery',
             //bindToController: true,

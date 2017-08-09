@@ -48,6 +48,7 @@
         vm.deleteParent = deleteParent;
         vm.getFullNameImage = getFullNameImage;
         vm.canShowGallery = canShowGallery;
+        vm.notify = notify;
 
         activate();
 
@@ -345,6 +346,14 @@
             function saveError(response) {
                 vm.isSending = false;
                 helperService.handleException(response);
+            }
+        }
+
+        function notify(type)
+        {
+            if (confirm("¿Estas seguro de notificar este usuario?"))
+            {
+                petService.notify(vm.model.id, type);
             }
         }
     }

@@ -28,6 +28,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// Featured and after created date
         /// </summary>
-        Featured
+        Featured,
+
+        /// <summary>
+        /// Random order
+        /// </summary>
+        Random
     }
 }

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Threading.Tasks;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
@@ -29,6 +30,23 @@ namespace Huellitas.Web.Controllers.Api
             this.workContext = workContext;
         }
 
+        [HttpPost]
+        public IActionResult Post([FromBody] LogModel model)
+        {
+            model = model ?? new LogModel();
+
+            if (this.IsValidModel(model))
+            {
+                this.logService.Error(model.ShortMessage, model.FullMessage);
+                return this.Ok(new { result = true });
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
+        }
+
+
         [Authorize]
         [HttpGet]
         public IActionResult Get([FromQuery] LogFilterModel filter)
@@ -42,6 +60,11 @@ namespace Huellitas.Web.Controllers.Api
             var models = logs.ToModels();
 
             return this.Ok(models, logs.HasNextPage, logs.TotalCount);
+        }
+
+        private bool IsValidModel(LogModel model)
+        {
+            return this.ModelState.IsValid;
         }
     }
 }

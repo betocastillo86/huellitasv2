@@ -183,7 +183,7 @@ namespace Huellitas.Business.Subscribers
                 var parameters = this.GetBasicParameters(form.Content, shelter);
 
                 parameters.Add("AdoptionForm.CreationDate", form.CreationDate.ToString());
-                parameters.Add("AdoptionForm.Days", (form.CreationDate - DateTime.Now).Days.ToString());
+                parameters.Add("AdoptionForm.Days", ((form.CreationDate - DateTime.Now).Days * -1).ToString());
 
                 var users = this.GetPetOwners(form.Content, shelter);
 
@@ -191,7 +191,7 @@ namespace Huellitas.Business.Subscribers
                     users,
                     null,
                     Data.Entities.NotificationType.AdoptionFormNotAnswered,
-                    this.seoService.GetFullRoute("forms"),
+                    this.seoService.GetFullRoute("forms") + "?status=None",
                     parameters);
             }
         }

@@ -20,6 +20,8 @@
                 <div class="x_content">
                     <div ng-if="main.id">
                         <a ng-href="{{root.getRoute('pet', {friendlyName : main.model.friendlyName})}}" class="btn btn-info" target="_blank">Ver Publicación</a>
+                        <button ng-click="main.notify('PetRejected')" class="btn btn-danger"><i class="fa fa-send"></i> Malas fotos</button>
+                        <button ng-click="main.notify('PetWillBeHiddenByNotAnswer')" class="btn btn-danger"><i class="fa fa-send"></i> No responde</button>
                     </div>
                     <br>
                     <form name="formPet" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formPet.$valid)">
@@ -45,8 +47,8 @@
                                 Descripción <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="500" ng-minlength="20"></textarea>
-                                <validation-message form="formPet" field="formPet.body" name="descripción" ng-maxlength="500" ng-minlength="20"></validation-message>
+                                <textarea name="body" class="form-control" rows="3" ng-model="main.model.body" ng-class="main.isInvalidClass(formPet, formPet.body)" required ng-maxlength="1500" ng-minlength="20"></textarea>
+                                <validation-message form="formPet" field="formPet.body" name="descripción" ng-maxlength="1500" ng-minlength="20"></validation-message>
                             </div>
                         </div>
                         <div class="form-group">
@@ -249,7 +251,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="parent in main.parents">
-                                <td>{{::parent.name}}</td>
+                                <td><a href="/admin/users/{{::parent.id}}/edit">{{::parent.name}}</a></td>
                                 <td>{{::parent.email}}</td>
                                 <td>{{::parent.phone}}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" ng-click="main.deleteParent(parent)">Eliminar</button></td>

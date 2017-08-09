@@ -1,0 +1,46 @@
+﻿<div class="modal fade bs-example-modal-lg in" tabindex="-1" role="dialog" aria-hidden="true" style="display: block; padding-right: 17px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form name="formContact" novalidate="novalidate" ng-submit="modal.save(formContact.$valid)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Enviar formulario por correo</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="first-name">
+                            Ingresa el asunto por el cual te quieres comunicar
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" name="subject" class="form-control col-md-9 col-xs-12" ng-model="modal.model.subject" required />
+                            <validation-message form="formContact" field="formContact.subject" name="asunto"></validation-message>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="first-name">
+                            Ingresa el mensaje
+                        </label>
+                    </div>
+                    <div>
+                        <div class="col-md-12">
+                            <text-angular name="message" ng-model="modal.model.message" required></text-angular>
+                            <validation-message form="formContact" field="formContact.message" name="cuerpo del correo"></validation-message>
+                        </div>
+                    </div>
+                </div>
+                
+                <br class="clear" />
+                <br />
+                <div class="modal-footer">
+                    
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -22,7 +22,7 @@
             list.Add(new SystemSetting() { Name = "ContentSettings.PictureSizeHeightList", Value = "230" });
             list.Add(new SystemSetting() { Name = "ContentSettings.DaysToAutoClosingPet", Value = "30" });
 
-            list.Add(new SystemSetting() { Name = "GeneralSettings.SiteUrl", Value = "http://localhost:23178/" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.SiteUrl", Value = "http://localhost:8609/" });
 
             list.Add(new SystemSetting() { Name = "NotificationSettings.BodyBaseHtml", Value = "<html> <body style=\"background: #F6F6F7;\">     <table width=\"600\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\" style=\"background:#FFF; font-family: sans-serif; color: #666666;\">         <tbody>             <tr style=\"height:30px\">                 <td colspan=\"3\">&nbsp;</td>             </tr>             <tr>                 <td style=\"width: 30px;\">&nbsp;</td>                 <td>                     <img src=\"%%RootUrl%%img/front/logomail.png\" alt=\"huellitas sin hogar\" style=\"display:block; margin: 0 auto;\" />                     %%Body%% 					<div style=\"text-align: center; margin: 50px 0 0;\">                         <a href=\"https://www.facebook.com/huellitas.social/\" target=\"_blank\" style=\"margin: 0 5px;\"><img src=\"%%RootUrl%%img/front/fb.png\" alt=\"facebook huellitas sin hogar\" width=\"40\" height=\"40\" class=\"CToWUd\"></a>                         <a href=\"https://www.instagram.com/huellitas.social/\" target=\"_blank\" style=\"margin: 0 5px;\"><img src=\"%%RootUrl%%img/front/twt.png\" alt=\"instagram huellitas sin hogar\" width=\"40\" height=\"40\" class=\"CToWUd\"></a>                     </div>                 </td>                 <td style=\"width: 30px;\">&nbsp;</td>             </tr>             <tr style=\"height:40px\">                 <td colspan=\"3\">&nbsp;</td>             </tr>         </tbody>     </table> </body> </html>" });
             list.Add(new SystemSetting() { Name = "NotificationSettings.EmailSenderName", Value = "Huellitas sin hogar" });
@@ -60,7 +60,10 @@
 
             list.Add(new SystemSetting() { Name = "RedirectionSettings.Dame-Vida-ORG", Value = "organizacion-dame-vida-tenjo" });
             list.Add(new SystemSetting() { Name = "RedirectionSettings.Hogar-de-paso-Perro-Amor", Value = "hogar-de-paso-perro-amor-cota" });
-            
+
+            list.Add(new SystemSetting() { Name = "GeneralSettings.MaxHeightPictureSize", Value = "1500" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.MaxWidthPictureSize", Value = "1500" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

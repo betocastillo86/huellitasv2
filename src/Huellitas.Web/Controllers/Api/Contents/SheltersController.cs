@@ -137,7 +137,8 @@ namespace Huellitas.Web.Controllers.Api
                     keyword: filter.Keyword,
                     orderBy: filter.OrderByEnum,
                     locationId: filter.LocationId,
-                    status: filter.Status);
+                    status: filter.Status,
+                    onlyFeatured: filter.Featured);
 
                 var models = contents.ToShelterModels(
                     this.contentService, 

@@ -1,4 +1,8 @@
 ﻿<div class="pg-body col-md-12">
+    <section class="inter-add">
+        <h3>¿Tienes una huellita para dar en adopción?</h3>
+        <a ng-href="{{root.getRoute('newpet0')}}" class="btn btn-lg">Publicala aquí</a>
+    </section>
     <section>
         <article class="content-all">
             <h1 class="tit-section col-md-12">MIS HUELLITAS</h1>
@@ -17,7 +21,7 @@
                         <br />
                     </div>
                     <div class="col-md-2 col-sm-6">
-                        <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 300 }" ng-change="main.search()">
+                        <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 1200 }" ng-change="main.search()">
                     </div>
                     <div class="col-md-2 col-sm-6">
                         <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">
