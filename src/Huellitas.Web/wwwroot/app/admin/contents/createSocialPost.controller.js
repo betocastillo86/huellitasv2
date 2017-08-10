@@ -23,13 +23,15 @@
             { name: 'Instagram', css: 'fa-instagram'}
         ];
 
-        vm.changeColor = changeColor;
-        vm.changeNetwork = changeNetwork;
         vm.close = close;
         vm.createImage = createImage;
         vm.contentId = $scope.params.contentId;
         vm.fileId = $scope.params.fileId;
         vm.generatedImage = undefined;
+        vm.currentNetwork = vm.networks[0].name;
+
+        vm.changeColor = changeColor;
+        vm.changeNetwork = changeNetwork;
 
         activate();
 
@@ -49,6 +51,8 @@
             for (var i = 0; i < vm.networks.length; i++) {
                 vm.networks[i].selected = vm.networks[i].name == network.name;
             }
+
+            vm.currentNetwork = network.name;
         }
 
         function createImage()
