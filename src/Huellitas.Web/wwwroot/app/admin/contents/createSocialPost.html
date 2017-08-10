@@ -54,12 +54,12 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="post.png" >
+                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="{{modal.currentNetwork}}_{{modal.contentId}}.png" >
                                 <img ng-src="{{modal.generatedImage}}" style="width:120px;height:120px" />
                             </a>
                             <br />
                             <br />
-                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="post.png" class="btn btn-primary" ><span class="fa fa-download"></span> Descargar</a>
+                            <a ng-href="{{modal.generatedImage}}" ng-if="modal.generatedImage" download="{{modal.currentNetwork}}_{{modal.contentId}}.png" class="btn btn-primary" ><span class="fa fa-download"></span> Descargar</a>
                         </div>
                     </div>
                 </div>
