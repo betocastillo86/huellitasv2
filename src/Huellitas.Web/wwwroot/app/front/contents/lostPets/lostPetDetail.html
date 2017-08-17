@@ -4,6 +4,7 @@
     </div>
     <section >
         <article class="content-all">
+            <div class="ad-horizontal-m"></div>
             <h1 class="tit-section name-pet col-md-12">
                 MASCOTA PERDIDA: {{main.model.name}}
                 <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
@@ -29,29 +30,38 @@
                 </li>
                 <br />
             </ul>
+            <div class="ad-horizontal"></div>
+            <div class="ad-horizontal-m"></div>
             <div class="col-md-12">
-                <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
-            </div>
+                <div class="w-ads">
+                    <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
+                    <div class="box-contact">
+                        <h5>Contacto:</h5>
 
-            <div class="box-contact col-md-12">
-                <h5>Contacto:</h5>
 
+                        <div ng-repeat="parent in main.model.parents" class="funda-txt">
+                            <h3>{{::parent.name}}</h3>
+                            <h4>
+                                {{::main.model.location.name}}<br>
+                                <span>Correo electrónico: {{::parent.email}}</span> <br />
+                                <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
+                                <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
+                            </h4>
+                        </div>
 
-                <div ng-repeat="parent in main.model.parents" class="funda-txt">
-                    <h3>{{::parent.name}}</h3>
-                    <h4>
-                        {{::main.model.location.name}}<br>
-                        <span>Correo electrónico: {{::parent.email}}</span> <br />
-                        <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
-                        <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
-                    </h4>
+                        <br>
+                    </div>
                 </div>
-
-                <br>
-            </div>
+                <div class="col-ads">
+                    <div class="ad-cube"></div>
+                </div>
+                <div class="ad-cube-m"></div>
+                <br/>
         </article>
     </section>
     <section class="bkg-gray">
         <div ng-if="main.model.id" list-comments data-contentid="main.model.id" data-defaultdescription="Has visto en algún lugar a esta huellita? Cualquier información es valiosa para nosotros!"></div>
+        <div class="ad-horizontal"></div>
+        <div class="ad-horizontal-m"></div>
     </section>
 </div>

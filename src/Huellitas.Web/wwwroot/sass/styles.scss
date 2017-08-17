@@ -1226,6 +1226,7 @@ section{
 .content-funda{
     margin: 0;
     list-style: none;
+    padding: 0;
 
     li{
         margin: 0 0 25px;
@@ -1239,19 +1240,21 @@ section{
     }
 }
 .funda-img{
-    width: 230px;
+    /*width: 230px;
     height: 230px;
+    @include border-radius(6px 0 0 6px);*/
+    height: 130px;
+    width: 130px;
     overflow: hidden;
     background: $white;
     float: left;
     position: relative;
-    @include border-radius(6px 0 0 6px);
+    margin: 20px 0 20px 20px;
+    @include border-radius(6px);
 
     @include sm{
-        @include border-radius(6px);
         height: 130px;
         width: 130px;
-        margin: 20px 0 20px 20px;
     }
     @include s{
         float: none;
@@ -1275,13 +1278,14 @@ section{
 }
 .funda-txt{
     float: left;
-    width: calc(100% - 230px);
+    /*width: calc(100% - 230px);
+    padding: 20px 30px 20px;*/
     box-sizing: border-box;
-    padding: 20px 30px 20px;
+    width: calc(100% - 150px);
+    padding: 20px;
     display: block;
 
     @include sm{
-        padding: 20px;
         width: calc(100% - 150px);
     }
     @include s{
@@ -2756,6 +2760,102 @@ footer{
     }
 }
 /*FIN NOTIFICACIONES*/
+
+/*ADS*/
+
+.ad-left, .ad-right{
+    background: $blue;
+    width: 160px;
+    height: 600px;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    z-index: 1;
+
+    @include lg{
+        display: none;
+    }
+}
+.ad-left{
+    margin-left: -667px !important;
+}
+.ad-right{
+    margin-left: 506px;
+}
+.ad-horizontal{
+    background: $blue;
+    max-width: 100%;
+    min-width: 728px;
+    min-height: 70px;
+    margin: 0 auto 20px;
+
+    @include sm{
+        display: none;
+    }
+}
+.ad-cube{
+    background: $blue;
+    width: 336px;
+    min-height: 200px;
+    max-height: 280px;
+    margin: 0 0 20px;
+
+    @include md{
+        width: 300px;
+    }
+
+    @include sm{
+        display: none;
+    }
+}
+.ad-cube-m{
+    background: $red;
+    min-width: 200px;
+    max-width: 300px;
+    min-height: 200px;
+    max-height: 250px;
+    margin: 0 auto 20px;
+    display: none;
+
+    @include s{
+        display: block;
+    }
+}
+.ad-horizontal-m{
+    background: $red;
+    width: 320px;
+    height: 50px;
+    margin: 0 auto 20px;
+    display: none;
+
+    @include s{
+        display: block;
+    }
+}
+
+.w-ads{
+    width: calc(100% - 356px);
+    float: left;
+
+    @include md{
+        width: calc(100% - 320px);
+    }
+
+    @include sm{
+        width: 100%;
+        float: none;
+    }
+}
+.col-ads{
+    float: right;
+
+    @include sm{
+        float: none;
+        display: none;
+    }
+}
+
+/*FIN ADS*/
 
 /*404*/
 .content-404{

@@ -4,6 +4,7 @@
     </div>
     <section class="bkg-gray">
         <article class="content-all">
+            <div class="ad-horizontal-m"></div>
             <h1 class="tit-section name-pet col-md-12">
                 {{main.model.name}}
                 <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
@@ -37,39 +38,46 @@
                 </li>
                 <br />
             </ul>
+            <div class="ad-horizontal"></div>
+            <div class="ad-horizontal-m"></div>
             <div class="col-md-12">
-                <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
-            </div>
-            
-            <div class="box-contact col-md-12">
-                <h5>Contacto:</h5>
+                <div class="w-ads">
+                    <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
+                    <div class="box-contact">
+                        <h5>Contacto:</h5>
 
-                <div ng-if="::main.model.shelter" class="funda-img">
-                    <a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">
-                        <img ng-src="{{::main.model.shelter.image.thumbnail}}" alt="Logo {{::main.model.shelter.name}}" title="Ir a {{::main.model.shelter.name}}">
-                    </a>
-                </div>
-                <div class="funda-txt" ng-if="::main.model.shelter">
-                    <h3><a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">{{::main.model.shelter.name}}</a></h3>
-                    <h4>
-                        {{::main.model.location.name}} / Encargado: {{::main.model.shelter.owner}} <br>
-                        <span>Correo electrónico: {{::main.model.shelter.email}}</span> <br />
-                        <span>Teléfono 1: {{::main.model.shelter.phone}}</span> <br />
-                        <span ng-if="::main.model.shelter.phone2">Teléfono 2: {{::main.model.shelter.phone2}}</span>
-                    </h4>
-                </div>
+                        <div ng-if="::main.model.shelter" class="funda-img">
+                            <a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">
+                                <img ng-src="{{::main.model.shelter.image.thumbnail}}" alt="Logo {{::main.model.shelter.name}}" title="Ir a {{::main.model.shelter.name}}">
+                            </a>
+                        </div>
+                        <div class="funda-txt" ng-if="::main.model.shelter">
+                            <h3><a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">{{::main.model.shelter.name}}</a></h3>
+                            <h4>
+                                {{::main.model.location.name}} / Encargado: {{::main.model.shelter.owner}} <br>
+                                <span>Correo electrónico: {{::main.model.shelter.email}}</span> <br />
+                                <span>Teléfono 1: {{::main.model.shelter.phone}}</span> <br />
+                                <span ng-if="::main.model.shelter.phone2">Teléfono 2: {{::main.model.shelter.phone2}}</span>
+                            </h4>
+                        </div>
 
-                <div ng-repeat="parent in main.model.parents" class="funda-txt">
-                    <h3>{{::parent.name}}</h3>
-                    <h4>
-                        {{::main.model.location.name}}<br>
-                        <span>Correo electrónico: {{::parent.email}}</span> <br />
-                        <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
-                        <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
-                    </h4>
+                        <div ng-repeat="parent in main.model.parents" class="funda-txt">
+                            <h3>{{::parent.name}}</h3>
+                            <h4>
+                                {{::main.model.location.name}}<br>
+                                <span>Correo electrónico: {{::parent.email}}</span> <br />
+                                <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
+                                <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
+                            </h4>
+                        </div>
+                        <br>
+                    </div>
                 </div>
-
-                <br>
+                <div class="col-ads">
+                    <div class="ad-cube"></div>
+                </div>
+                <div class="ad-cube-m"></div>
+                <br/>
             </div>
         </article>
     </section>
@@ -78,5 +86,7 @@
     </section>
     <section class="bkg-gray">
         <div ng-if="main.model.id" list-comments data-contentid="main.model.id"></div>
+        <div class="ad-horizontal"></div>
+        <div class="ad-horizontal-m"></div>
     </section>
 </div>
