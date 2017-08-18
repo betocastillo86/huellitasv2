@@ -19,6 +19,9 @@
         vm.getForms = getForms;
         vm.shelterChanged = shelterChanged;
         vm.petChanged = petChanged;
+        vm.filterByPet = filterByPet;
+        vm.filterByStatus = filterByStatus;
+        vm.filterByUser = filterByUser;
 
         return activate();
 
@@ -68,6 +71,24 @@
 
         function petChanged(selected) {
             vm.filter.petid = selected ? selected.originalObject.id : undefined;
+            changePage(0);
+        }
+
+        function filterByPet(form)
+        {
+            vm.filter.petId = form.content.id;
+            vm.filter.petName = form.content.name;
+            changePage(0);
+        }
+
+        function filterByUser(form)
+        {
+            vm.filter.userName = form.name;
+            changePage(0);
+        }
+
+        function filterByStatus(form) {
+            vm.filter.status = form.status;
             changePage(0);
         }
     }

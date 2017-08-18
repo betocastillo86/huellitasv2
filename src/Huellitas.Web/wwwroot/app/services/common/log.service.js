@@ -8,11 +8,17 @@
     function logService(http) {
         return {
             getAll: getAll,
+            post:post,
             clean: clean
         };
 
         function getAll(filter) {
             return http.get('/api/logs', { params: filter });
+        }
+
+        function post(model)
+        {
+            return http.post('/api/logs', model);
         }
 
         function clean()

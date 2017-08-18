@@ -18,6 +18,7 @@
         function activate() {
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptTerms.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptTerms.Description'];
+            $scope.$parent.root.hideFooter = true;
         }
     }
 })();

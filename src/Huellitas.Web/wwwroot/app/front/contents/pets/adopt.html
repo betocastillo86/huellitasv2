@@ -96,7 +96,7 @@
                             <span class="error" ng-if="main.form.$submitted && main.form.town.$invalid">Ingresa el barrio donde vives</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
-                            <input type="text" name="birthDate" placeholder="Fecha de nacimiento" ng-model="main.model.birthDate" datepicker-huellitas required />
+                            <input type="text" name="birthDate" placeholder="Fecha de nacimiento" ng-model="main.model.birthDate" datepicker-huellitas required onkeydown="return false" />
                             <span class="error" ng-if="!main.form.$submitted || main.form.birthDate.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid">Ingresa tu fecha de nacimiento</span>
                         </div>
