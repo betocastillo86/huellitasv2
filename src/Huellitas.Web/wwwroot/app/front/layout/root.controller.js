@@ -36,6 +36,8 @@
         vm.seo = {};
         vm.isShowingMenu = undefined;
         vm.previousPages = [];
+        vm.isMobileWidth = false;
+        vm.showAdsense = app.Settings.general.adsenseEnabled;
 
         vm.showUserInfo = showUserInfo;
         vm.getRoute = routingService.getRoute;
@@ -58,6 +60,8 @@
             if (sessionService.isAuthenticated()) {
                 getCurrentUser();
             }
+
+            vm.isMobileWidth = helperService.isMobileWidth();
         }
 
         function seenNotifications(event, seen)

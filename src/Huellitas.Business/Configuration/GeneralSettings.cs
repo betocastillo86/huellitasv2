@@ -132,5 +132,13 @@ namespace Huellitas.Business.Configuration
         /// The site URL.
         /// </value>
         public string SiteUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SiteUrl"); } }
+
+        /// <summary>
+        /// Gets a value indicating whether [adsense enabled].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
+        /// </value>
+        public bool AdsenseEnabled { get { return this.settingService.GetCachedSetting<bool>("GeneralSettings.AdsenseEnabled"); } }
     }
 }

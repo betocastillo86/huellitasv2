@@ -1,9 +1,12 @@
 ﻿<div ng-class="{'content-all col-md-12' : listPet.displayType == 'small'}">
     <h2 class="tit-section" ng-if="listPet.title" ng-bind="listPet.title"></h2>
     <div class="col-md-12" ng-class="{'content-card' : listPet.displayType == 'medium', 'content-lost' : listPet.displayType == 'small'}">
-        <div class="ad-horizontal"></div>
-        <div class="ad-cube-m"></div>
+        
         <div class="card" ng-repeat="pet in listPet.pets">
+
+            <div adsense-huellitas  ng-if="::listPet.showAds && $index > 0 && $index % 6 == 0" class="ad-horizontal"  ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"> </div>
+            <div adsense-huellitas  ng-if="::listPet.showAds && $index > 0 && $index % 6 == 0" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"      ></div>
+
             <div class="img-pet">
                 <a ng-href="{{::pet.url}}">
                     <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}" alt="{{pet.name}} mascota en adopción" title="{{pet.name}} mascota en adopción">

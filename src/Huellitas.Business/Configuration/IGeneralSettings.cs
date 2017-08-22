@@ -113,5 +113,13 @@ namespace Huellitas.Business.Configuration
         /// The site URL.
         /// </value>
         string SiteUrl { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether [adsense enabled].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
+        /// </value>
+        bool AdsenseEnabled { get; }
     }
 }

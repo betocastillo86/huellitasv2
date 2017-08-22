@@ -30,6 +30,7 @@
             displaytype:    small,medium
             viewall:        link to view all
             viewalltitle:   title of view all
+            showads:        show ads in the list
      * @param {any} $scope
      * @param {any} petService
      */
@@ -56,6 +57,7 @@
             vm.displayType = $attrs.displaytype ? $attrs.displaytype : 'medium';
             vm.title = $attrs.title ? $scope.$eval($attrs.title) : undefined;
             vm.viewAll = $attrs.viewall ? $scope.$eval($attrs.viewall) : undefined;
+            vm.showAds = $attrs.showads === '1' || $attrs.showads == 'true';
             vm.viewAllTitle = $attrs.viewalltitle ? $scope.viewalltitle : 'Ver todos';
 
             getPets();
