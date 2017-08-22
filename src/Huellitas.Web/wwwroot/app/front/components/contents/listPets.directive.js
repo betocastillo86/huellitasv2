@@ -45,6 +45,7 @@
         vm.title = undefined;
         vm.displayType = 'medium';
         vm.showViewAll = false;
+        vm.showAds = false;
 
         vm.nextPage = nextPage;
 
@@ -74,8 +75,13 @@
                 for (var i = 0; i < response.results.length; i++) {
                     response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
                 }
-                
+
+                if (vm.showAds) {
+                    response.results.push({ isAd: true });
+                }
+
                 if (vm.pets.length && vm.filter.page) {
+                    
                     vm.pets = vm.pets.concat(response.results);
                 }
                 else{
