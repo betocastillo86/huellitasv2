@@ -77,7 +77,13 @@
                 }
 
                 if (vm.showAds) {
-                    response.results.push({ isAd: true });
+                    if (response.results.length >= 3) {
+                        response.results.splice(3, 0, { isAd: true})
+                    }
+                    else
+                    {
+                        response.results.push({ isAd: true });
+                    }
                 }
 
                 if (vm.pets.length && vm.filter.page) {

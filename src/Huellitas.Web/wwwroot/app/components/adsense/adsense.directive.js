@@ -58,18 +58,21 @@
                 //////    element.html('');
                 //////}
 
-                $timeout(function () {
+                //$timeout(function () {
 
                     if (element[0].offsetWidth) {
                         console.log("registra " + element[0].offsetWidth, attrs.adSlot);
-                        console.log("registre google");
-                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        
+                        $timeout(function () {
+                            console.log("registre google");
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        }, 500);
                     }
                     else {
                         console.log("elimina " + element[0].offsetWidth, attrs.adSlot);
                         element.remove();
                     }
-                }, 1000/*, 2000*/);
+                //}, 500/*, 2000*/);
 
                 
 
