@@ -4,8 +4,8 @@
         
         <div ng-class="{ 'card' : !pet.isAd }" ng-repeat="pet in listPet.pets">
 
-            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-horizontal"  ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"> </div>
-            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"      ></div>
+            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-horizontal"  ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto" style="float:left;width:100%"> </div>
+            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"    ></div>
 
             <div class="img-pet" ng-if="!pet.isAd">
                 <a ng-href="{{::pet.url}}">
