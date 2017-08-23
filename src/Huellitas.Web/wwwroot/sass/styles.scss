@@ -2764,7 +2764,6 @@ footer{
 /*ADS*/
 
 .ad-left, .ad-right{
-    background: $blue;
     width: 160px;
     height: 600px;
     position: fixed;
@@ -2783,7 +2782,6 @@ footer{
     margin-left: 506px;
 }
 .ad-horizontal{
-    background: $blue;
     max-width: 100%;
     min-width: 728px;
     min-height: 70px;
@@ -2794,7 +2792,6 @@ footer{
     }
 }
 .ad-cube{
-    background: $blue;
     width: 336px;
     min-height: 200px;
     max-height: 280px;
@@ -2809,7 +2806,6 @@ footer{
     }
 }
 .ad-cube-m{
-    background: $red;
     min-width: 200px;
     max-width: 300px;
     min-height: 200px;
@@ -2822,7 +2818,6 @@ footer{
     }
 }
 .ad-horizontal-m{
-    background: $red;
     width: 320px;
     max-height: 50px;
     margin: 0 auto 20px;
