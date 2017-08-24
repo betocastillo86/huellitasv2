@@ -77,8 +77,8 @@
                 }
 
                 if (vm.showAds) {
-                    if (response.results.length >= 3) {
-                        response.results.splice(3, 0, { isAd: true})
+                    if (response.results.length >= 9) {
+                        response.results.splice(9, 0, { isAd: true})
                     }
                     else
                     {
