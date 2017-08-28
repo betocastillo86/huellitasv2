@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\app\admin\users\contactUser.controller.js" />
-    <Content Include="wwwroot\app\admin\users\contactUser.html" />
-    <Content Include="wwwroot\img\front\compartir-fb-perdidos.png" />
-    <Content Include="wwwroot\img\front\compartir-fb-publicar.png" />
-    <Content Include="wwwroot\img\front\compartir-fb-registrar-fundacion.png" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="hangfire" Version="1.6.13" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -31,9 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\app\components\fileupload\fileupload\" />
   </ItemGroup>
 
 </Project>

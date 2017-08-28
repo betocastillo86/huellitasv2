@@ -64,6 +64,10 @@
             list.Add(new SystemSetting() { Name = "GeneralSettings.MaxHeightPictureSize", Value = "1500" });
             list.Add(new SystemSetting() { Name = "GeneralSettings.MaxWidthPictureSize", Value = "1500" });
 
+            list.Add(new SystemSetting() { Name = "GeneralSettings.AdsenseEnabled", Value = "False" });
+
+            
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

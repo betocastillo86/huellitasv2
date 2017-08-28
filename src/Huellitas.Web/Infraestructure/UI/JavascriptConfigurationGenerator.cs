@@ -179,7 +179,8 @@ namespace Huellitas.Web.Infraestructure.UI
                     siteUrl = generalSettings.SiteUrl,
                     seoImage = generalSettings.SeoImage,
                     googleAnalyticsCode = generalSettings.GoogleAnalyticsCode,
-                    configJavascriptCacheKey = cacheKey
+                    configJavascriptCacheKey = cacheKey,
+                    adsenseEnabled = generalSettings.AdsenseEnabled
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,

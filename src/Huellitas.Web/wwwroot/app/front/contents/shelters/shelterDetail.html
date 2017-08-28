@@ -5,6 +5,7 @@
     </div>
     <section class="bkg-gray">
         <article class="content-all">
+            <div adsense-huellitas class="ad-horizontal-m" ad-client="ca-pub-4989702801072526" ad-slot="4251022586" ad-format="auto"></div>
             <h1 class="tit-section name-pet col-md-12">
                 {{::main.model.name}}
                 <a class="btn btn-sm"  ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
@@ -37,14 +38,23 @@
                 </li>
                 <br>
             </ul>
+            <div adsense-huellitas class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
+            <div adsense-huellitas class="ad-horizontal-m" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
             <div class="col-md-12">
-                <p class="inner-text">{{::main.model.body}}</p>
-            </div>
-            <div class="redes" ng-if="main.model.facebook || main.model.twitter || main.model.instagram ">
-                <h3>Nuestras redes:</h3>
-                <a ng-if="::main.model.facebook" ng-href="{{::main.model.facebook}}" title="Visita el Facebook de {{::main.model.name}}" target="_blank"><span class="icon-face"></span></a>
-                <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}" target="_blank"><span class="icon-insta"></span></a>
-                <a ng-if="::main.model.twitter" ng-href="{{::main.model.twitter}}" title="Visita el Twitter de {{::main.model.name}}" target="_blank"><span class="icon-twt"></span></a>
+                <div class="w-ads">
+                    <p class="inner-text">{{::main.model.body}}</p>
+                    <div class="redes" ng-if="main.model.facebook || main.model.twitter || main.model.instagram ">
+                        <h3>Nuestras redes:</h3>
+                        <a ng-if="::main.model.facebook" ng-href="{{::main.model.facebook}}" title="Visita el Facebook de {{::main.model.name}}" target="_blank"><span class="icon-face"></span></a>
+                        <a ng-if="::main.model.instagram" ng-href="{{::main.model.instagram}}" title="Visita el Instagram de {{::main.model.name}}" target="_blank"><span class="icon-insta"></span></a>
+                        <a ng-if="::main.model.twitter" ng-href="{{::main.model.twitter}}" title="Visita el Twitter de {{::main.model.name}}" target="_blank"><span class="icon-twt"></span></a>
+                    </div>
+                </div>
+                <div class="col-ads">
+                    <div adsense-huellitas class="ad-cube" ad-client="ca-pub-4989702801072526" ad-slot="9311266825" ad-format="auto"></div>
+                </div>
+                <div adsense-huellitas class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="9311266825" ad-format="auto"></div>
+                <br/>
             </div>
         </article>
     </section>
@@ -58,6 +68,8 @@
     </section>
     <section class="bkg-gray">
         <div ng-if="main.model.id" list-comments data-contentid="main.model.id"></div>
+        <div adsense-huellitas class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="5354019562" ad-format="auto"></div>
+        <div adsense-huellitas class="ad-horizontal-m" ad-client="ca-pub-4989702801072526" ad-slot="5354019562" ad-format="auto"></div>
     </section>
     <!--<div class="content-map"></div>-->
 </div>

@@ -30,6 +30,7 @@
             displaytype:    small,medium
             viewall:        link to view all
             viewalltitle:   title of view all
+            showads:        show ads in the list
      * @param {any} $scope
      * @param {any} petService
      */
@@ -44,6 +45,7 @@
         vm.title = undefined;
         vm.displayType = 'medium';
         vm.showViewAll = false;
+        vm.showAds = false;
 
         vm.nextPage = nextPage;
 
@@ -56,6 +58,7 @@
             vm.displayType = $attrs.displaytype ? $attrs.displaytype : 'medium';
             vm.title = $attrs.title ? $scope.$eval($attrs.title) : undefined;
             vm.viewAll = $attrs.viewall ? $scope.$eval($attrs.viewall) : undefined;
+            vm.showAds = $attrs.showads === '1' || $attrs.showads == 'true';
             vm.viewAllTitle = $attrs.viewalltitle ? $scope.viewalltitle : 'Ver todos';
 
             getPets();
@@ -72,8 +75,19 @@
                 for (var i = 0; i < response.results.length; i++) {
                     response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
                 }
-                
+
+                if (vm.showAds) {
+                    if (response.results.length >= 9) {
+                        response.results.splice(9, 0, { isAd: true})
+                    }
+                    else
+                    {
+                        response.results.push({ isAd: true });
+                    }
+                }
+
                 if (vm.pets.length && vm.filter.page) {
+                    
                     vm.pets = vm.pets.concat(response.results);
                 }
                 else{
