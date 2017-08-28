@@ -13,9 +13,7 @@
         .directive('adsenseHuellitas', adsenseHuellitas);
 
     adsenseHuellitas.$inject = ['$timeout', 'adsenseService'];
-
     
-
     function adsenseHuellitas($timeout, adsenseService) {
         var directive = {
             restrict: 'A',
@@ -26,7 +24,6 @@
                 adFormat: '@'
             },
             template: '<ins class="adsbygoogle" style="display:block" ' + (app.Settings.isDebug ? 'data-ad-test="on" data-adtest="on"' : '') +' data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" data-ad-format="{{adFormat}}"></ins>',
-            //controller: adsenseController,
             link: link
         };
 
@@ -37,67 +34,22 @@
             }
             else
             {
-                //////if (element[0].offsetWidth) {
-                //////    //if (!adsenseService.isAlreadyLoaded) {
-                //////    //    var s = document.createElement('script');
-                //////    //    s.type = 'text/javascript';
-                //////    //    s.src = adsenseService.url;
-                //////    //    s.async = true;
-                //////    //    document.body.appendChild(s);
-                //////    //    adsenseService.isAlreadyLoaded = true;
-                //////    //}
-
-                //////    $timeout(function () {
-                //////        console.log("registra " + element[0].offsetWidth, attrs.$attr);
-                //////        console.log("registre google");
-                //////        (adsbygoogle = window.adsbygoogle || []).push({});
-                //////    }/*, 2000*/);
-                //////}
-                //////else {
-                //////    console.log("elimina " + element[0].offsetWidth, attrs.$attr);
-                //////    element.html('');
-                //////}
-
-                //$timeout(function () {
-
-                    if (element[0].offsetWidth) {
-                        console.log("registra " + element[0].offsetWidth, attrs.adSlot);
+                if (element[0].offsetWidth) {
+                    console.log("registra " + element[0].offsetWidth, attrs.adSlot);
                         
-                        $timeout(function () {
-                            console.log("registre google");
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        }, 500);
-                    }
-                    else {
-                        console.log("elimina " + element[0].offsetWidth, attrs.adSlot);
-                        element.remove();
-                    }
-                //}, 500/*, 2000*/);
-
-                
+                    $timeout(function () {
+                        console.log("registre google");
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    }, 500);
+                }
+                else {
+                    console.log("elimina " + element[0].offsetWidth, attrs.adSlot);
+                    element.remove();
+                }
 
             }
         }
 
         return directive;
     }
-
-    //adsenseController.$inject = ['$timeout', 'adsenseService'];
-
-    //function adsenseController($timeout, adsenseService) {
-
-    //    if (!adsenseService.isAlreadyLoaded) {
-    //        var s = document.createElement('script');
-    //        s.type = 'text/javascript';
-    //        s.src = adsenseService.url;
-    //        s.async = true;
-    //        document.body.appendChild(s);
-    //        adsenseService.isAlreadyLoaded = true;
-    //    }
-
-    //    $timeout(function () {
-    //        console.log("registre google");
-    //        (adsbygoogle = window.adsbygoogle || []).push({});
-    //    }, 1000);
-    //}
 })();
