@@ -43,6 +43,15 @@
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
                                     {{::main.model.content.name}}
+
+                                    <span class="label" ng-class="[
+                                              {'label-default' : main.model.content.status == 'Created'},
+                                              {'label-danger' : main.model.content.status == 'Closed'},
+                                              {'label-info' : main.model.content.status == 'Hidden'},
+                                              {'label-warning' : main.model.content.status == 'Rejected'},
+                                              {'label-success' : main.model.content.status == 'Published'}
+                                              ]" >{{::main.model.content.status}}</span>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -89,10 +98,10 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-6">
-                                    Ubicación
+                                    Ubicación solicitante
                                 </label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    {{::main.model.location.name}} - {{::main.model.town}}
+                                    {{::main.model.location.name}} - {{::main.model.town}} (<b>Animal de {{::main.model.content.location.name}}</b>)
                                 </div>
                             </div>
                             <div class="form-group">

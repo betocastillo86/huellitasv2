@@ -27,7 +27,7 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         [Required]
         [MaxLength(150)]
-        [MinLength(3)]
+        [MinLength(2)]
         public string Name { get; set; }
 
         /// <summary>

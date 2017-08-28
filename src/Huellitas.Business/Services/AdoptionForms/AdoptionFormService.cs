@@ -285,6 +285,7 @@ namespace Huellitas.Business.Services
                 .Include(c => c.Content)
                 .Include(c => c.Content.User)
                 .Include(c => c.Content.File)
+                .Include(c => c.Content.Location)
                 .Include(c => c.Job)
                 .Include(c => c.Location)
                 .FirstOrDefault(c => c.Id == id);
