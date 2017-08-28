@@ -38,18 +38,18 @@
         {
             if (getTotalPages() > 6) {
                 if ($scope.main.pager.page < 3 || $scope.main.pager.page > getTotalPages() - 3) {
-                    return page > getTotalPages() - 4 || page < 3;
+                    return page > getTotalPages() - 3 || page < 4 || page == $scope.main.pager.page - 1;
                 }
                 else
                 {
-                    return page > $scope.main.pager.page - 4 && page < $scope.main.pager.page + 3;
+                    return page > $scope.main.pager.page - 3 && (page < $scope.main.pager.page + 2 || page > getTotalPages() - 3) ;
                 }
             }
             else
             {
                 return true;
             }
-        }
+        }   
 
         function activeClass(currentPage) {
             return currentPage == $scope.main.pager.page ? 'active' : '';
