@@ -78,7 +78,7 @@ namespace Huellitas.Business.Services
         public IList<Location> GetCachedLocations()
         {
             return this.cacheManager.Get(
-                CacheKeys.CUSTOMTABLEROWS_BY_TABLE, 
+                CacheKeys.LOCATIONS_ALL, 
                 () => 
                 {
                 return this.GetAll();

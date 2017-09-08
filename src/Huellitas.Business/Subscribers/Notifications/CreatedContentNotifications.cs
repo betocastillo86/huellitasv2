@@ -139,6 +139,10 @@
                     parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
                 }
 
+                // updates the pet
+                content.StatusType = StatusType.Hidden;
+                await this.contentService.UpdateAsync(content);
+
                 var myPetsUrl = $"{this.seoService.GetFullRoute("mypets")}?status={StatusType.Hidden}";
 
                 await this.notificationService.NewNotification(
