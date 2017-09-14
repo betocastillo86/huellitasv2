@@ -451,7 +451,7 @@ namespace Huellitas.Web.Controllers.Api
                     {
                         if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
                         {
-                            content.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
+                            model.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
                             BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
                             BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
                         }
