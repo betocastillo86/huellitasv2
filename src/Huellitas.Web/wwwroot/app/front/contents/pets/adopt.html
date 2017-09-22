@@ -97,7 +97,7 @@
                             <span class="error" ng-if="main.form.$submitted && main.form.town.$invalid">Ingresa el barrio donde vives</span>
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
-                            <input type="text" name="birthDate" placeholder="Fecha de nacimiento" ng-model="main.model.birthDate" datepicker-huellitas required onkeydown="return false" />
+                            <input type="text" name="birthDate" placeholder="Fecha de nacimiento" ng-model="main.model.birthDate" datepicker-huellitas required onkeydown="return false" onkeypress="return false" />
                             <span class="error" ng-if="!main.form.$submitted || main.form.birthDate.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid">Ingresa tu fecha de nacimiento</span>
                         </div>
@@ -181,7 +181,7 @@
                         </div>
                         <div class="radio col-sm-6 col-xs-12">
                             <label>
-                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answerOther" value="Otro" >
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answerOther" maxlength="100" value="Otro" >
                                 Otro
                             </label>
                         </div>
@@ -199,7 +199,7 @@
                                 {{::option}}
                             </label>
                             <div class="col-sm-6 col-xs-12" ng-if="(child || question).checks[option].checked">
-                                <input type="text" name="{{(child || question).key}}" ng-model="(child || question).checks[option].text" ng-change="main.changeCheckboxType((child || question), option)" required>
+                                <input type="text" name="{{(child || question).key}}" ng-model="(child || question).checks[option].text" ng-change="main.changeCheckboxType((child || question), option)" maxlength="200" required>
                             </div>
                         </div>
                         <span class="error" ng-if="main.form.$submitted && main.form[(child || question).key].$invalid">Responde la pregunta</span>
@@ -209,7 +209,7 @@
                     <script id="templateOptionsWithText" type="text/ng-template">
                         <label class="col-md-12">{{::(child || question).question}}</label>
                         <div class="col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
-                            <input type="text" placeholder="{{::option}}" ng-model="(child || question).checks[option].text" name="{{(child || question).key + '_option' + $index}}"  ng-required="(child || question).required" ng-change="main.changeOptionsWithTextType((child || question), option)">
+                            <input type="text" placeholder="{{::option}}" ng-model="(child || question).checks[option].text" name="{{(child || question).key + '_option' + $index}}"  ng-required="(child || question).required" ng-change="main.changeOptionsWithTextType((child || question), option)" maxlength="200">
                             <span class="error" ng-if="main.form.$submitted && main.form[((child || question).key + '_option' + $index)].$invalid">Responde la pregunta</span>
                             <span class="error" ng-if="!main.form.$submitted || !main.form[((child || question).key + '_option' + $index)].$invalid"></span>
                         </div>
