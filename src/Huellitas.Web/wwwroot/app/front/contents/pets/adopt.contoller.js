@@ -52,6 +52,7 @@
         vm.back = back;
         vm.validateAuthentication = validateAuthentication;
         vm.disableLeaving = undefined;
+        vm.notPress = notPress;
 
         activate();
 
@@ -126,6 +127,13 @@
 
                 console.log(vm.questions);
             }
+        }
+
+        function notPress(event)
+        {
+            //event.originalEvent.returnValue = false
+            vm.model.birthDate = undefined;
+            alert("Selecciona la fecha del calendario");
         }
 
         function getJobs() {
