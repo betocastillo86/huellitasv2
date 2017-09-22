@@ -73,7 +73,7 @@
         {
             this.promiseAuth = $q.defer();
 
-            if (scope.root.currentUser) {
+            if (sessionService.getCurrentUser()) {
                 this.promiseAuth.resolve(sessionService.getCurrentUser());
             }
             else
