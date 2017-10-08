@@ -9,10 +9,11 @@
         '$window',
         '$location',
         '$compile',
+        '$timeout',
         'modalService',
         'routingService'];
 
-    function helperService($window, $location, $compile, modalService, routingService) {
+    function helperService($window, $location, $compile, $timeout, modalService, routingService) {
         var service = {
             configServiceUrl: configServiceUrl,
             handleException: handleException,
@@ -24,7 +25,8 @@
             replaceJson: replaceJson,
             enableLeavingPageMode: enableLeavingPageMode,
             trackVisit: trackVisit,
-            trackGoal: trackGoal
+            trackGoal: trackGoal,
+            startPhantom: startPhantom
         };
 
         return service;
@@ -61,6 +63,15 @@
                     xhttp.send(JSON.stringify({ ShortMessage: data.toString(), FullMessage: 'Error:' + data.stack.toString() + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
                 }
             }
+        }
+
+        function startPhantom() {
+            $timeout(function () {
+                console.log("phantom registered");
+                if (typeof $window.callPhantom === 'function') {
+                    $window.callPhantom();
+                }
+            }, 600);       
         }
 
         function enableLeavingPageMode($scope, $window)
