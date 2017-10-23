@@ -16,6 +16,7 @@ namespace Huellitas.Business.Services
     using ImageSharp.Processing;
     using Microsoft.AspNetCore.Hosting;
     using SixLabors.Fonts;
+    using SixLabors.Primitives;
 
     /// <summary>
     /// Picture Service
@@ -103,7 +104,7 @@ namespace Huellitas.Business.Services
             int fontBigSize = 0;
             int fontSmallSize = 0;
 
-            ImageSharp.Size sizeLogo;
+            Size sizeLogo;
             Point pointLogo;
 
             System.Numerics.Vector2 positionFontBig;
@@ -114,7 +115,7 @@ namespace Huellitas.Business.Services
                 case SocialNetwork.Instagram:
                     fontBigSize = 55;
                     fontSmallSize = 35;
-                    sizeLogo = new ImageSharp.Size() { Width = 180, Height = 98 };
+                    sizeLogo = new Size() { Width = 180, Height = 98 };
                     pointLogo = new Point() { X = width - 200, Y = 110 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 140 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 70 };
@@ -123,7 +124,7 @@ namespace Huellitas.Business.Services
                 case SocialNetwork.Facebook:
                     fontBigSize = 50;
                     fontSmallSize = 30;
-                    sizeLogo = new ImageSharp.Size() { Width = 150, Height = 81 };
+                    sizeLogo = new Size() { Width = 150, Height = 81 };
                     pointLogo = new Point() { X = width - 200, Y = height - 100 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 120 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 50 };
@@ -136,7 +137,7 @@ namespace Huellitas.Business.Services
 
             var resizeOptions = new ResizeOptions()
             {
-                Size = new ImageSharp.Size { Width = width, Height = height },
+                Size = new Size { Width = width, Height = height },
                 Mode = ResizeMode.Crop
             };
 
@@ -189,7 +190,7 @@ namespace Huellitas.Business.Services
                     image
                     .AutoOrient()
                     .Resize(resizeOptions)
-                    .DrawPolygon(rgbColor, 125, new System.Numerics.Vector2[] { new System.Numerics.Vector2() { X = 0, Y = height - 62 }, new System.Numerics.Vector2() { X = width, Y = height - 62 } }, new GraphicsOptions() { BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Normal, BlendPercentage = 90 })
+                    .DrawPolygon(rgbColor, 125, new PointF[] { new PointF() { X = 0, Y = height - 62 }, new PointF() { X = width, Y = height - 62 } }, new GraphicsOptions() { BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Normal, BlendPercentage = 90 })
                     .DrawText(content.Name.ToUpper(), new SixLabors.Fonts.Font(family, fontBigSize, FontStyle.Bold), Rgba32.White, positionFontBig, ImageSharp.Drawing.TextGraphicsOptions.Default)
                     .DrawText($"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()} {phone}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall, ImageSharp.Drawing.TextGraphicsOptions.Default)
                     .DrawImage(logo, 100, sizeLogo, pointLogo)
@@ -242,7 +243,7 @@ namespace Huellitas.Business.Services
                 {
                     var resizeOptions = new ResizeOptions()
                     {
-                        Size = new ImageSharp.Size { Width = width, Height = height },
+                        Size = new Size { Width = width, Height = height },
                         Mode = ResizeMode.Crop
                     };
 

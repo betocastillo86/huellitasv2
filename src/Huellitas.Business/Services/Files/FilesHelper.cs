@@ -219,7 +219,7 @@ namespace Huellitas.Business.Services
             int newHeight = image.Height > this.generalSettings.MaxHeightPictureSize ? this.generalSettings.MaxHeightPictureSize : image.Height;
 
             image.AutoOrient()
-                .Resize(new ImageSharp.Processing.ResizeOptions { Mode = ImageSharp.Processing.ResizeMode.Max, Size = new Size { Width = newWidth, Height = newHeight } })
+                .Resize(new ImageSharp.Processing.ResizeOptions { Mode = ImageSharp.Processing.ResizeMode.Max, Size= new SixLabors.Primitives.Size { Width = newWidth, Height = newHeight } })
                 .Save(fullPath);
         }
     }
