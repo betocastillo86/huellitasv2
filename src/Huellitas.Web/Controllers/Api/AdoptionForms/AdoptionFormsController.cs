@@ -182,10 +182,10 @@ namespace Huellitas.Web.Controllers.Api
                 this.ModelState.AddModelError("Attributes", "Debe ingresar las respuestas del formulario");
             }
 
-            if (model.FamilyMembers.HasValue && model.FamilyMembers.Value != model.FamilyMembersAge?.Split(new char[] { ',' }).Length)
-            {
-                this.ModelState.AddModelError("FamilyMembersAge", "Las edades deben corresponder al número de miembros");
-            }
+            //if (model.FamilyMembers.HasValue && model.FamilyMembers.Value != model.FamilyMembersAge?.Split(new char[] { ',' }).Length)
+            //{
+            //    this.ModelState.AddModelError("FamilyMembersAge", "Las edades deben corresponder al número de miembros");
+            //}
 
             return this.ModelState.IsValid;
         }

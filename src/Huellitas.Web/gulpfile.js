@@ -10,8 +10,7 @@ var gulp = require('gulp');
 //    uglify = require('gulp-uglify'),
 //    concat = require('gulp-concat');
 
-var bower = require('gulp-bower'),
-    uglify = require('gulp-uglify'),
+var uglify = require('gulp-uglify'),
     wrap = require('gulp-wrap'),
     watch = require('gulp-watch'),
     declare = require('gulp-declare'),
@@ -21,7 +20,6 @@ var bower = require('gulp-bower'),
     sass = require("gulp-sass"),
     replace = require("gulp-replace"),
     flatten = require("gulp-flatten"),
-    clean = require('gulp-clean'),
     concat = require('gulp-concat');
 
 var paths = {
@@ -30,7 +28,7 @@ var paths = {
     approotFront: './wwwroot/app/front',
     approotServices: './wwwroot/app/services',
     approotComponents: './wwwroot/app/components',
-    external: './node_modules/externalHuellitas/',
+    external: './bower_components/',
     sassFront : './wwwroot/sass/'
 };
 
@@ -131,8 +129,8 @@ gulp.task('cssAdmin', ['moveResources'], function () {
     return gulp.src(files, { base: '.' })
         .pipe(cssConcat(paths.webroot + "css/admin.styles.css"))
         .pipe(cssmin({ keepSpecialComments: 0 }))
-        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
-        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/bower_components\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/bower_components\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         .pipe(gulp.dest('.'));
 });
 
@@ -172,7 +170,7 @@ gulp.task('fullpage', function () {
 
 gulp.task('cssFront',['sassFront'], function () {
     var files = [
-        //paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap-theme.min.css',
+        
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'css/sassfront/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
@@ -186,8 +184,8 @@ gulp.task('cssFront',['sassFront'], function () {
     return gulp.src(files, { base: '.' })
         .pipe(cssConcat(paths.webroot + "css/front.styles.css"))
         .pipe(replace(/\"fonts\//g, '\"/fonts/'))
-        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
-        .pipe(replace(/\.\.\/\.\.\/node_modules\/externalHuellitas\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/bower_components\/gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
+        .pipe(replace(/\.\.\/\.\.\/bower_components\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest('.'));
 });
