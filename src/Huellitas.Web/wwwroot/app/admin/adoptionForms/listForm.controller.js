@@ -22,6 +22,7 @@
         vm.filterByPet = filterByPet;
         vm.filterByStatus = filterByStatus;
         vm.filterByUser = filterByUser;
+        vm.filterByPetStatus = filterByPetStatus;
 
         return activate();
 
@@ -89,6 +90,11 @@
 
         function filterByStatus(form) {
             vm.filter.status = form.status;
+            changePage(0);
+        }
+
+        function filterByPetStatus(form) {
+            vm.filter.petStatus = form.status;
             changePage(0);
         }
     }

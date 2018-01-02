@@ -8,7 +8,6 @@ namespace Huellitas.Tests.Business
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Helpers;

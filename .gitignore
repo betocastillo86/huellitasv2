@@ -24,6 +24,7 @@ _UpgradeReport_Files/
 # Directories #
 ###############
 **/node_modules/
+**/bower_components/
 **/wwwroot/lib
 **/wwwroot/tempfiles/*
 **/wwwroot/img/content

@@ -5,15 +5,14 @@
         .module('huellitas')
         .controller('ListAdoptionFormController', ListAdoptionFormController);
 
-    ListAdoptionFormController.$inject = ['$location', '$scope', 'routingService', 'adoptionFormService', 'sessionService', 'helperService', 'adoptionFormStatusService'];
+    ListAdoptionFormController.$inject = ['$location', '$scope', 'routingService', 'adoptionFormService', 'sessionService', 'helperService', 'adoptionFormStatusService', 'authenticationService'];
 
-    function ListAdoptionFormController($location, $scope, routingService, adoptionFormService, sessionService, helperService, adoptionFormStatusService) {
+    function ListAdoptionFormController($location, $scope, routingService, adoptionFormService, sessionService, helperService, adoptionFormStatusService, authenticationService) {
         var vm = this;
         vm.forms = [];
         vm.statuses = [];
         vm.hasNextPage = false;
         vm.filter = {
-            allRelatedToUserId: sessionService.getCurrentUser().id,
             page: 0,
             pageSize: 10,
             petId: $location.search().petId ? parseInt($location.search().petId) : undefined,
@@ -34,7 +33,19 @@
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptionForms.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptionForms.Description'];
 
-            getStatus();
+            authenticationService.showLogin($scope)
+                .then(authenticationCompleted)
+                .catch(authenticationError);
+
+            function authenticationCompleted(response) {
+                vm.filter.allRelatedToUserId = sessionService.getCurrentUser().id;
+                getStatus();
+            }
+
+            function authenticationError() {
+                $location.path(routingService.getRoute('home'));
+            }
+
         }
 
         function getStatus() {

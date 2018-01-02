@@ -72,6 +72,7 @@
                                     <th class="column-title">Solicitante</th>
                                     <th class="column-title">Fecha Solicitud</th>
                                     <th class="column-title">Estado</th>
+                                    <th class="column-title">Estado Perro</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
                                     </th>
@@ -92,6 +93,18 @@
                         {'label-success' : form.status == 'Approved'}
                         ]" ng-click="main.filterByStatus(form)" title="Filtrar por estado">{{::form.status}}</span>
                                     </td>
+
+                                    <td>
+                                        <span class="label" ng-class="::[
+                                              {'label-default' : form.content.status == 'Created'},
+                                              {'label-danger' : form.content.status == 'Closed'},
+                                              {'label-info' : form.content.status == 'Hidden'},
+                                              {'label-warning' : form.content.status == 'Rejected'},
+                                              {'label-success' : form.content.status == 'Published'}
+                                              ]" ng-click="main.filterByPetStatus(form.content)" title="Filtrar por estado">{{::form.content.status}}</span>
+                                    </td>
+
+
                                     <td class="last">
                                             <a href="/admin/adoptionforms/{{::form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                     </td>

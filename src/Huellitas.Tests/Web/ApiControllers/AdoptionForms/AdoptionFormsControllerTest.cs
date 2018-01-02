@@ -5,28 +5,22 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Forms Controller Test
@@ -255,7 +249,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             this.adoptionFormService.Setup(c => c.IsUserInAdoptionForm(userId, form.Id))
                 .Returns(true);
-            
+
             var controller = this.GetController();
 
             Assert.IsTrue(controller.CanSeeForm(form));
@@ -348,18 +342,18 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.SetupNotAuthenticated();
 
             this.adoptionFormService.Setup(c => c.GetAll(
-                It.IsAny<string>(), 
-                It.IsAny<int?>(), 
-                It.IsAny<int?>(), 
-                It.IsAny<int?>(), 
-                It.IsAny<int?>(), 
+                It.IsAny<string>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
                 It.IsAny<int?>(),
                 It.IsAny<int?>(),
                 It.IsAny<int?>(),
                 It.IsAny<int?>(),
                 It.IsAny<AdoptionFormAnswerStatus>(),
-                It.IsAny<AdoptionFormOrderBy>(), 
-                It.IsAny<int>(), 
+                It.IsAny<AdoptionFormOrderBy>(),
+                It.IsAny<int>(),
                 It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 

@@ -123,6 +123,7 @@ namespace Huellitas.Business.Services
             int? allRelatedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
+            StatusType? petStatus = null,
             int page = 0,
             int pageSize = int.MaxValue)
         {
@@ -220,6 +221,12 @@ namespace Huellitas.Business.Services
             {
                 short lastStatusNumber = Convert.ToInt16(lastStatus.Value);
                 query = query.Where(c => c.LastStatus == lastStatusNumber);
+            }
+
+            if (petStatus.HasValue)
+            {
+                short petStatusNumber = Convert.ToInt16(petStatus.Value);
+                query = query.Where(c => c.Content.Status == petStatusNumber);
             }
 
             switch (orderBy)

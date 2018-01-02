@@ -76,12 +76,12 @@
                 controllerAs: 'main'
             })
             .when('/adoptionforms', {
-                templateUrl: '/app/admin/adoptionforms/listForms.html?' + cacheKey,
+                templateUrl: '/app/admin/adoptionForms/listForms.html?' + cacheKey,
                 controller: 'ListFormController',
                 controllerAs: 'main'
             })
             .when('/adoptionforms/:id/edit', {
-                templateUrl: '/app/admin/adoptionforms/editForm.html?' + cacheKey,
+                templateUrl: '/app/admin/adoptionForms/editForm.html?' + cacheKey,
                 controller: 'EditFormController',
                 controllerAs: 'main'
             })

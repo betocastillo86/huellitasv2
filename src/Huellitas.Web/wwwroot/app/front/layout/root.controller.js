@@ -62,8 +62,6 @@
             }
 
             vm.isMobileWidth = helperService.isMobileWidth();
-
-            helperService.startPhantom();
         }
 
         function seenNotifications(event, seen)
