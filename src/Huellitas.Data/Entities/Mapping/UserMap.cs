@@ -54,6 +54,9 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasColumnType("varchar(50)")
                 .IsRequired(false);
 
+            entity.Property(e => e.PasswordRecoveryToken)
+                .HasColumnType("varchar(40)");
+
             entity.Ignore(e => e.RoleEnum);
 
             entity.Property(e => e.PhoneNumber).HasColumnType("varchar(15)");

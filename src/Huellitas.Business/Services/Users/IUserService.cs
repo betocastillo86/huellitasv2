@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System.Threading.Tasks;
     using Data.Entities;
     using Data.Infraestructure;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface of user services
@@ -26,14 +26,23 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="keyword">The keyword.</param>
         /// <param name="role">The role.</param>
+        /// <param name="email">filter by email</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>the list of users</returns>
         Task<IPagedList<User>> GetAll(
             string keyword = null,
             RoleEnum? role = null,
+            string email = null,
             int page = 0,
             int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the user</returns>
+        User GetById(int id);
 
         /// <summary>
         /// Gets the by identifier.
@@ -43,11 +52,11 @@ namespace Huellitas.Business.Services
         Task<User> GetByIdAsync(int id);
 
         /// <summary>
-        /// Gets the user by identifier.
+        /// Gets the user by password token.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="passwordToken">The password token.</param>
         /// <returns>the user</returns>
-        User GetById(int id);
+        Task<User> GetByPasswordToken(string passwordToken);
 
         /// <summary>
         /// Inserts the specified user.

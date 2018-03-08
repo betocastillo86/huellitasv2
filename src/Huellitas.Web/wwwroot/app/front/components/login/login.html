@@ -51,7 +51,8 @@
                 </div>
                 <div class="box-log" ng-if="login.modeLogin">
                     ¿Eres nuevo? <a href="#" ng-click="login.register(true)">Regístrate</a><br>
-                    <a ng-href="{{::root.getRoute('contact')}}">Recuperar contraseña</a>
+                    <!--<a ng-href="{{::root.getRoute('contact')}}">Recuperar contraseña</a>-->
+                    <a ng-click="login.getPasswordRecovery()">Recuperar contraseña</a>
                 </div>
                 <div class="box-log" ng-if="!login.modeLogin">
                     <a href="#" ng-click="login.register(false)" class="btn btn-default">Ya estoy registrado</a>

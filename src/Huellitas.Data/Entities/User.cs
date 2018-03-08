@@ -122,6 +122,14 @@ namespace Huellitas.Data.Entities
         public string Salt { get; set; }
 
         /// <summary>
+        /// Gets or sets the password recovery token.
+        /// </summary>
+        /// <value>
+        /// The password recovery token.
+        /// </value>
+        public string PasswordRecoveryToken { get; set; }
+
+        /// <summary>
         /// Gets or sets the location identifier.
         /// </summary>
         /// <value>

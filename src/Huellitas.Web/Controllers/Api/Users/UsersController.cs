@@ -119,7 +119,7 @@ namespace Huellitas.Web.Controllers.Api
             if (filter.IsValid(canSeeWholeUser))
             {
                 var users = await this.userService
-                    .GetAll(filter.Keyword, filter.Role, filter.Page, filter.PageSize);
+                    .GetAll(filter.Keyword, filter.Role, null, filter.Page, filter.PageSize);
                 var models = users.ToModels(canSeeWholeUser);
 
                 return this.Ok(models, users.HasNextPage, users.TotalCount);

@@ -133,6 +133,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// When a pet is hidden because of not answer
         /// </summary>
-        PetWillBeHiddenByNotAnswer = 24
+        PetWillBeHiddenByNotAnswer = 24,
+
+        /// <summary>
+        /// The password recovery
+        /// </summary>
+        PasswordRecovery = 25
     }
 }
