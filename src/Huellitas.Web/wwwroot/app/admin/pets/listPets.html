@@ -58,8 +58,7 @@
                                 <tr class="headings">
                                     <th class="column-title">Imagen</th>
                                     <th class="column-title">Nombre</th>
-                                    <th class="column-title hidden-xs">Tipo</th>
-                                    <th class="column-title hidden-xs">Genero</th>
+                                    <th class="column-title hidden-xs">Fecha Creación</th>
                                     <th class="column-title hidden-xs">Encargado</th>
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
@@ -72,8 +71,7 @@
                                 <tr ng-repeat="pet in main.pets" class="pointer" ng-class-odd="odd" ng-class-even="even">
                                     <td><img ng-src="{{::pet.image.thumbnail}}" title="{{::pet.name}}" width="40" height="40" /></td>
                                     <td><span title="Filtrar por {{::pet.name}}" ng-click="main.filterByPet(pet)">{{::pet.name}}</span></td>
-                                    <td class="hidden-xs">{{::pet.subtype.text}}</td>
-                                    <td class="hidden-xs">{{::pet.genre.text}}</td>
+                                    <td class="hidden-xs">{{::pet.createdDate}}</td>
                                     <td class="hidden-xs">{{::pet.shelter ? pet.shelter.name : ''}}</td>
                                     <td>
                                         <span class="label" ng-class="::[

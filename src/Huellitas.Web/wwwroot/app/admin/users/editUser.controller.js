@@ -17,6 +17,7 @@
         vm.saveAndContinue = saveAndContinue;
         vm.changeLocation = changeLocation;
         vm.contact = contact;
+        vm.delete = deleteUser;
 
         activate();
 
@@ -118,6 +119,21 @@
                 controller: 'ContactUserController',
                 template: '/app/admin/users/contactUser.html?' + app.Settings.general.configJavascriptCacheKey
             });
+        }
+
+        function deleteUser()
+        {
+            if (confirm("¿Seguro desea eliminar este usuario?"))
+            {
+                userService.delete(vm.model.id)
+                    .then(deleteCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function deleteCompleted(response)
+            {
+                console.log(response);
+            }
         }
     }
 })();
