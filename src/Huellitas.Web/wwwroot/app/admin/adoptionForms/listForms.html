@@ -28,14 +28,14 @@
                                                   selected-object="main.shelterChanged"
                                                   input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
                                                   match-class="highlight"
-                                                  minlength="1"/>
+                                                  minlength="1" />
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
                                 Mascota
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-6 col-sm-6 col-xs-10">
                                 <angucomplete-alt id="petName"
                                                   placeholder="Ingresar refugio"
                                                   pause="400"
@@ -46,7 +46,11 @@
                                                   selected-object="main.petChanged"
                                                   input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
                                                   match-class="highlight"
-                                                  minlength="1"/>
+                                                  image-field="image.fileName"
+                                                  minlength="1" />
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-2">
+                                <span class="label label-danger" ng-click="main.removeFilterByPet()"> X </span>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -75,6 +79,7 @@
                                     <th class="column-title">Estado Perro</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
+                                        <input type="checkbox" name="checkAll" ng-model="main.allSelected" ng-click="main.toogleAll(main.allSelected)" />
                                     </th>
                                 </tr>
                             </thead>
@@ -107,6 +112,7 @@
 
                                     <td class="last">
                                             <a href="/admin/adoptionforms/{{::form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                            <input type="checkbox" name="toResponse[]" value="{{::form.id}}" ng-checked="form.checked" ng-click="main.toogleToResponse(form)" />
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.forms.length">
@@ -118,6 +124,12 @@
                         </table>
 
                         <list-pager class="pagerDirective"></list-pager>
+                        <div>
+                            <div class="form-group col-md-6">
+                                <button type="button" class="btn btn-info" ng-click="main.responseAdopted()">Responder Adoptados</button>
+                               -> {{main.toResponse}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

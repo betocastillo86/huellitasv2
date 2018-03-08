@@ -134,7 +134,7 @@ namespace Huellitas.Business.Services
 
             if (!string.IsNullOrEmpty(user))
             {
-                query = query.Where(c => c.Name.Contains(user));
+                query = query.Where(c => c.Name.Contains(user) || c.Email.Contains(user));
             }
 
             if (contentId.HasValue)

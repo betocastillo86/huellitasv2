@@ -59,7 +59,7 @@
                 function putCompleted()
                 {
                     modalService.show({
-                        message: 'Tu clave ha sido cambiada correctamente, ingresa ahora a Hostaliando',
+                        message: 'Tu clave ha sido cambiada correctamente, incia sesión con tu nueva clave',
                         redirectAfterClose: routingService.getRoute('home'/*, {login: true}*/)
                     });
                 }

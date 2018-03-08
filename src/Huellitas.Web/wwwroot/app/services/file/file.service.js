@@ -10,7 +10,8 @@
             deleteContentFile: deleteContentFile,
             postContentFile: postContentFile,
             sortContentFile: sortContentFile,
-            postSocialNetwork: postSocialNetwork
+            postSocialNetwork: postSocialNetwork,
+            patchContentFile: patchContentFile 
         };
 
         function post(file, name, callback, indexFile) {
@@ -79,6 +80,11 @@
         function postSocialNetwork(contentId, model)
         {
             return http.post('/api/contents/' + contentId + '/socialpost', model);
+        }
+
+        function patchContentFile(contentId, fileId, jsonPatch)
+        {
+            return http.patch('/api/contents/' + contentId + '/files/' + fileId, jsonPatch);
         }
     }
 })();

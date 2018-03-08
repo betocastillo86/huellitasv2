@@ -133,6 +133,7 @@ namespace Huellitas.Business.Services
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <param name="excludeContentId">excludes the search of a content</param>
         /// <param name="onlyFeatured">only featured</param>
+        /// <param name="userEmail">filter by user parent</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,

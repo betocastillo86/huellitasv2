@@ -9,6 +9,7 @@ namespace Huellitas.Business.Services
     using System.Threading.Tasks;
     using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
+    using ImageSharp.Processing;
 
     /// <summary>
     /// Interface of picture service
@@ -22,8 +23,9 @@ namespace Huellitas.Business.Services
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="forceResize">forces the resize of the image</param>
+        /// <param name="resizeMode">resize mode</param>
         /// <returns>the url file</returns>
-        string GetPicturePath(File file, int width, int height, bool forceResize = false);
+        string GetPicturePath(File file, int width, int height, bool forceResize = false, ResizeMode resizeMode = ResizeMode.Crop);
 
         /// <summary>
         /// Creates the social network post.

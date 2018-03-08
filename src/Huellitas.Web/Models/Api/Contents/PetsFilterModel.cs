@@ -159,7 +159,15 @@ namespace Huellitas.Web.Models.Api
         /// The exclude identifier.
         /// </value>
         public int? ExcludeId { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the user email.
+        /// </summary>
+        /// <value>
+        /// The user email.
+        /// </value>
+        public string UserEmail { get; set; }
+
         /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
