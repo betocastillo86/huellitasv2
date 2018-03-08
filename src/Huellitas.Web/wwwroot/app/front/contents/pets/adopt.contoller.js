@@ -42,6 +42,9 @@
         vm.pet = {};
         vm.ageFamilyMembers = [];
         vm.showNotLogged = false;
+        vm.days = [];
+        vm.months = [];
+        vm.years = [];
 
         vm.changeLocation = changeLocation;
         vm.ageChanged = ageChanged;
@@ -53,11 +56,13 @@
         vm.validateAuthentication = validateAuthentication;
         vm.disableLeaving = undefined;
         vm.notPress = notPress;
+        vm.dateChanged = dateChanged;
 
         activate();
 
         function activate() {
             validateAuthentication();
+            fillDays();
             vm.disableLeaving = helperService.enableLeavingPageMode($scope, $window);
         }
 
@@ -72,6 +77,22 @@
             getPet();
             getJobs();
             getQuestions();
+        }
+
+        function fillDays()
+        {
+            for (var i = 1; i < 32; i++) {
+                vm.days.push(i < 10 ? ('0'+i) : i);
+            }
+
+            //vm.months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            for (var i = 1; i < 13; i++) {
+                vm.months.push(i < 10 ? ('0' + i) : i);
+            }
+
+            for (var i = 1920; i < 2010; i++) {
+                vm.years.push(i);
+            }
         }
 
         function authenticationError() {
@@ -126,6 +147,17 @@
                 }
 
                 console.log(vm.questions);
+            }
+        }
+
+        function dateChanged()
+        {
+            if (vm.birthDateDay && vm.birthDateMonth && vm.birthDateYear) {
+                vm.model.birthDate = vm.birthDateDay + '/' + vm.birthDateMonth + '/' + vm.birthDateYear;
+            }
+            else
+            {
+                vm.model.birthDate = undefined;
             }
         }
 
