@@ -153,7 +153,7 @@
         function dateChanged()
         {
             if (vm.birthDateDay && vm.birthDateMonth && vm.birthDateYear) {
-                vm.model.birthDate = vm.birthDateDay + '/' + vm.birthDateMonth + '/' + vm.birthDateYear;
+                vm.model.birthDate = vm.birthDateYear + '/' + vm.birthDateMonth + '/' + vm.birthDateDay;
             }
             else
             {

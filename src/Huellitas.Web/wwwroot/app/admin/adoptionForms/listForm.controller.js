@@ -145,11 +145,14 @@
             var sentAnswers = 0;
 
             if (vm.toResponse.length > 0) {
-                for (var i = 0; i < vm.toResponse.length; i++) {
-                    var formId = vm.toResponse[i];
-                    adoptionFormAnswerService.post({ adoptionFormId: formId, status: 'AlreadyAdopted' })
-                        .then(postAnswerCompleted)
-                        .catch(helperService.handleException);
+                if (confirm('¿Está seguro de responder esos formularios?'))
+                {
+                    for (var i = 0; i < vm.toResponse.length; i++) {
+                        var formId = vm.toResponse[i];
+                        adoptionFormAnswerService.post({ adoptionFormId: formId, status: 'AlreadyAdopted' })
+                            .then(postAnswerCompleted)
+                            .catch(helperService.handleException);
+                    }
                 }
             }
             else
