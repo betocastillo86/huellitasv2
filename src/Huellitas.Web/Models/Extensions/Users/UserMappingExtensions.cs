@@ -74,6 +74,7 @@ namespace Huellitas.Web.Models.Extensions
                 Phone = entity.PhoneNumber,
                 Phone2 = entity.PhoneNumber2,
                 Role = canSeeSensitiveInfo ? entity.RoleEnum : (RoleEnum?)null,
+                FacebookId = canSeeSensitiveInfo ? entity.FacebookId : null,
                 Location = entity.Location != null ? entity.Location.ToModel() : null,
                 CreatedDate = entity.CreatedDate
             };

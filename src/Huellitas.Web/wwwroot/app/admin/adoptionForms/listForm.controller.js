@@ -2,12 +2,14 @@
     angular.module('huellitasAdmin')
         .controller('ListFormController', ListFormController);
 
-    ListFormController.$inject = ['adoptionFormService', 'adoptionFormStatusService', 'helperService'];
+    ListFormController.$inject = ['$scope', 'adoptionFormService', 'adoptionFormStatusService', 'helperService', 'modalService', 'adoptionFormAnswerService'];
 
-    function ListFormController(adoptionFormService, adoptionFormStatusService, helperService) {
+    function ListFormController($scope, adoptionFormService, adoptionFormStatusService, helperService, modalService, adoptionFormAnswerService) {
         var vm = this;
         vm.forms = [];
         vm.listStatus = [];
+        vm.toResponse = [];
+        vm.toogleToResponse = toogleToResponse;
         
         vm.filter = {
             pageSize: app.Settings.general.pageSize,
@@ -22,6 +24,10 @@
         vm.filterByPet = filterByPet;
         vm.filterByStatus = filterByStatus;
         vm.filterByUser = filterByUser;
+        vm.filterByPetStatus = filterByPetStatus;
+        vm.removeFilterByPet = removeFilterByPet;
+        vm.toogleAll = toogleAll;
+        vm.responseAdopted = responseAdopted;
 
         return activate();
 
@@ -60,6 +66,8 @@
 
         function changePage(page) {
             vm.filter.page = page;
+            vm.toResponse = [];
+            vm.allSelected = false;
             getForms();
         }
 
@@ -81,6 +89,14 @@
             changePage(0);
         }
 
+        function removeFilterByPet()
+        {
+            vm.filter.petId = undefined;
+            vm.filter.petName = undefined;
+            $scope.$broadcast('angucomplete-alt:clearInput', 'petName');
+            changePage(0);
+        }
+
         function filterByUser(form)
         {
             vm.filter.userName = form.name;
@@ -90,6 +106,68 @@
         function filterByStatus(form) {
             vm.filter.status = form.status;
             changePage(0);
+        }
+
+        function filterByPetStatus(form) {
+            vm.filter.petStatus = form.status;
+            changePage(0);
+        }
+
+        function toogleToResponse(form)
+        {
+            var position = vm.toResponse.indexOf(form.id);
+
+            if (position > -1) {
+                vm.toResponse.splice(position, 1);
+                vm.allSelected = false;
+            }
+            else
+            {
+                vm.toResponse.push(form.id);
+            }
+        }
+
+        function toogleAll(selected)
+        {
+            if (selected)
+            {
+                vm.toResponse = _.map(vm.forms, function (form) { form.checked = true; return form.id });
+            }
+            else
+            {
+                _.each(vm.forms, function (form) { form.checked = false; });
+                vm.toResponse = [];
+            }
+        }
+
+        function responseAdopted()
+        {
+            var sentAnswers = 0;
+
+            if (vm.toResponse.length > 0) {
+                if (confirm('¿Está seguro de responder esos formularios?'))
+                {
+                    for (var i = 0; i < vm.toResponse.length; i++) {
+                        var formId = vm.toResponse[i];
+                        adoptionFormAnswerService.post({ adoptionFormId: formId, status: 'AlreadyAdopted' })
+                            .then(postAnswerCompleted)
+                            .catch(helperService.handleException);
+                    }
+                }
+            }
+            else
+            {
+                modalService.showError({message: 'Selecciona al menos un registro'});
+            }
+
+            function postAnswerCompleted(response)
+            {
+                sentAnswers++;
+                if (vm.toResponse.length == sentAnswers)
+                {
+                    modalService.show({message:'Se han respondido todos los formularios correctamente'});
+                }
+            }
         }
     }
 })();

@@ -31,6 +31,7 @@
         vm.register = register;
         vm.authenticate = authenticate;
         vm.facebookLogin = facebookLogin;
+        vm.getPasswordRecovery = getPasswordRecovery;
 
         activate();
 
@@ -105,6 +106,11 @@
             vm.form.isBusy = false;
             $scope.root.currentUser = response;
 
+            closeModal();
+        }
+
+        function closeModal()
+        {
             vm.modal.off('hidden.bs.modal');
             vm.modal.modal('toggle');
             $(vm.modal).data('bs.modal', null);
@@ -113,6 +119,16 @@
 
         function register(isRegister) {
             vm.modeLogin = !isRegister;
+        }
+
+        function getPasswordRecovery()
+        {
+            closeModal();
+            modalService.show({
+                controller: 'GetPasswordRecoveryController',
+                template: '/app/front/home/getPasswordRecovery.html?' + app.Settings.general.configJavascriptCacheKey,
+                controllerAs: 'getPassword'
+            });
         }
     }
 

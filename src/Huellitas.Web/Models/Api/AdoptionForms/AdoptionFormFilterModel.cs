@@ -126,6 +126,15 @@ namespace Huellitas.Web.Models.Api
         public AdoptionFormAnswerStatus? Status { get; set; }
 
         /// <summary>
+        /// Gets or sets the pet status.
+        /// </summary>
+        /// <value>
+        /// The pet status.
+        /// </value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public StatusType? PetStatus { get; set; }
+
+        /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

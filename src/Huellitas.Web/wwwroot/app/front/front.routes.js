@@ -117,6 +117,11 @@
                 templateUrl: '/app/front/home/notfound.html?' + cacheKey,
                 controller: 'NotFoundController',
                 controllerAs: 'main'
+            })
+            .when('/cambiar-clave/:token', {
+                templateUrl: '/app/front/home/updatePasswordRecovery.html?' + cacheKey,
+                controller: 'UpdatePasswordRecoveryController',
+                controllerAs: 'main'
             });
 
         $routeProvider.otherwise({ redirectTo: "/pagina-no-encontrada" });

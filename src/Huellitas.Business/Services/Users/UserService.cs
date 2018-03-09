@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Data.Entities;
     using Data.Infraestructure;
     using EventPublisher;
@@ -13,9 +16,6 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Core;
     using Microsoft.EntityFrameworkCore;
     using Security;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// User Service
@@ -24,9 +24,9 @@ namespace Huellitas.Business.Services
     public class UserService : IUserService
     {
         /// <summary>
-        /// The user repository
+        /// The HTTP context helpers
         /// </summary>
-        private readonly IRepository<User> userRepository;
+        private readonly IHttpContextHelpers httpContextHelpers;
 
         /// <summary>
         /// The publisher
@@ -39,9 +39,9 @@ namespace Huellitas.Business.Services
         private readonly ISecurityHelpers securityHelpers;
 
         /// <summary>
-        /// The HTTP context helpers
+        /// The user repository
         /// </summary>
-        private readonly IHttpContextHelpers httpContextHelpers;
+        private readonly IRepository<User> userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -82,6 +82,7 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="keyword">The keyword.</param>
         /// <param name="role">The role.</param>
+        /// <param name="email">filter by email</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>
@@ -90,6 +91,7 @@ namespace Huellitas.Business.Services
         public async Task<IPagedList<User>> GetAll(
             string keyword = null,
             RoleEnum? role = null,
+            string email = null,
             int page = 0,
             int pageSize = int.MaxValue)
         {
@@ -98,6 +100,11 @@ namespace Huellitas.Business.Services
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(c => c.Name.Contains(keyword) || c.Email.Contains(keyword));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(c => c.Email.Equals(email));
             }
 
             if (role.HasValue)
@@ -109,6 +116,18 @@ namespace Huellitas.Business.Services
             query = query.OrderByDescending(c => c.CreatedDate);
 
             return await new PagedList<User>().Async(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the user</returns>
+        public User GetById(int id)
+        {
+            return this.userRepository.Table
+                .Include(c => c.Location)
+                .FirstOrDefault(c => c.Id == id && !c.Deleted);
         }
 
         /// <summary>
@@ -126,15 +145,15 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
-        /// Gets the user by identifier.
+        /// Gets the user by password token.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>the user</returns>
-        public User GetById(int id)
+        /// <param name="passwordToken">The password token.</param>
+        /// <returns>
+        /// the user
+        /// </returns>
+        public async Task<User> GetByPasswordToken(string passwordToken)
         {
-            return this.userRepository.Table
-                .Include(c => c.Location)
-                .FirstOrDefault(c => c.Id == id && !c.Deleted);
+            return await this.userRepository.Table.FirstOrDefaultAsync(c => c.PasswordRecoveryToken == passwordToken);
         }
 
         /// <summary>

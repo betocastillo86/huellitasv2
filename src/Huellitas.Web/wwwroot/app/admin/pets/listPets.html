@@ -33,7 +33,16 @@
                                                   selected-object="main.shelterChanged"
                                                   input-class="form-control col-md-9 col-xs-12 angucomplete-bootstrap"
                                                   match-class="highlight"
-                                                  minlength="1"/>
+                                                  minlength="1" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Correo usuario
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" required="required" class="form-control col-md-7 col-xs-12" ng-model="main.filter.userEmail" ng-change="main.changePage(0)" ng-model-options="{ debounce : 2200 }">
                             </div>
                         </div>
 
@@ -58,8 +67,7 @@
                                 <tr class="headings">
                                     <th class="column-title">Imagen</th>
                                     <th class="column-title">Nombre</th>
-                                    <th class="column-title hidden-xs">Tipo</th>
-                                    <th class="column-title hidden-xs">Genero</th>
+                                    <th class="column-title hidden-xs">Fecha Creación</th>
                                     <th class="column-title hidden-xs">Encargado</th>
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
@@ -72,8 +80,7 @@
                                 <tr ng-repeat="pet in main.pets" class="pointer" ng-class-odd="odd" ng-class-even="even">
                                     <td><img ng-src="{{::pet.image.thumbnail}}" title="{{::pet.name}}" width="40" height="40" /></td>
                                     <td><span title="Filtrar por {{::pet.name}}" ng-click="main.filterByPet(pet)">{{::pet.name}}</span></td>
-                                    <td class="hidden-xs">{{::pet.subtype.text}}</td>
-                                    <td class="hidden-xs">{{::pet.genre.text}}</td>
+                                    <td class="hidden-xs">{{::pet.createdDate}}</td>
                                     <td class="hidden-xs">{{::pet.shelter ? pet.shelter.name : ''}}</td>
                                     <td>
                                         <span class="label" ng-class="::[

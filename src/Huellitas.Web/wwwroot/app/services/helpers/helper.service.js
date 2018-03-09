@@ -49,6 +49,9 @@
             else if (data.status == 401) {
                 modalService.showError({ message: 'Debes estar autenticado para realizar esta acción' });
             }
+            else if (data.status == 404) {
+                modalService.showError({ message: 'Página no encontrada' });
+            }
             else {
                 if (data.data) {
                     modalService.showError({ error: data.data.error });
@@ -58,7 +61,7 @@
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("POST", "/api/logs", true);
                     xhttp.setRequestHeader("Content-type", "application/json");
-                    xhttp.send(JSON.stringify({ ShortMessage: data.toString(), FullMessage: 'Error:' + data.stack.toString() + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
+                    xhttp.send(JSON.stringify({ ShortMessage: data.toString(), FullMessage: 'Error:' + (data.stack ? data.stack.toString() : null) + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
                 }
             }
         }

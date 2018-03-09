@@ -5,20 +5,23 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
     using Business.Services;
     using Data.Entities;
+    using Hangfire;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Web.Infraestructure.Tasks;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using Infraestructure.Security;
+    using ImageSharp.Processing;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using Hangfire;
-    using Huellitas.Web.Infraestructure.Tasks;
 
     /// <summary>
     /// Content Files Controller
@@ -27,6 +30,16 @@ namespace Huellitas.Web.Controllers.Api
     [Route("api/contents/{contentId:int}/files")]
     public class ContentFilesController : BaseApiController
     {
+        /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// The content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
         /// <summary>
         /// The file helper
         /// </summary>
@@ -38,24 +51,14 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IFileService fileService;
 
         /// <summary>
-        /// The content service
-        /// </summary>
-        private readonly IContentService contentService;
-
-        /// <summary>
-        /// The work context
-        /// </summary>
-        private readonly IWorkContext workContext;
-
-        /// <summary>
         /// The picture service
         /// </summary>
         private readonly IPictureService pictureService;
 
         /// <summary>
-        /// The content settings
+        /// The work context
         /// </summary>
-        private readonly IContentSettings contentSettings;
+        private readonly IWorkContext workContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
@@ -98,7 +101,7 @@ namespace Huellitas.Web.Controllers.Api
             if (this.workContext.CurrentUser.CanUserEditContent(content, this.contentService))
             {
                 await this.fileService.DeleteContentFile(contentId, fileId, true);
-                
+
                 return this.Ok(new { result = true });
             }
             else
@@ -120,6 +123,56 @@ namespace Huellitas.Web.Controllers.Api
                 .ToModels(this.fileHelper, Url.Content, sizes.Width, sizes.Height);
 
             return this.Ok(models);
+        }
+
+        /// <summary>
+        /// Patches the specified content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="contentFileId">The content file identifier.</param>
+        /// <param name="patchDocument">The patch document.</param>
+        /// <returns>the action</returns>
+        [Authorize]
+        [HttpPatch]
+        [Route("{contentFileId:int}")]
+        public IActionResult Patch(int contentId, int contentFileId, [FromBody] JsonPatchDocument<FileModel> patchDocument)
+        {
+            if (!this.workContext.CurrentUser.IsSuperAdmin())
+            {
+                return this.Forbid();
+            }
+
+            if (patchDocument == null)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var content = this.contentService.GetById(contentId);
+
+            var contentFile = this.contentService.GetFiles(contentId).FirstOrDefault(c => c.FileId == contentFileId);
+
+            if (content == null || contentFile == null)
+            {
+                return this.NotFound();
+            }
+
+            foreach (var operation in patchDocument.Operations)
+            {
+                // Realiza el redimensionamiento de las imagenes con el nuevo tipo de corte
+                if (operation.path.Equals("/resize") && operation.OperationType == Microsoft.AspNetCore.JsonPatch.Operations.OperationType.Replace)
+                {
+
+                    // elimina las imagenes para reemplazarlas con el corte
+                    System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail));
+                    System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+
+                    // crea nuevamente las imagenes con el nuevo corte
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, ResizeMode.Pad);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, ResizeMode.Pad);
+                }
+            }
+
+            return this.Ok();
         }
 
         /// <summary>
@@ -175,7 +228,7 @@ namespace Huellitas.Web.Controllers.Api
                 else
                 {
                     return this.NotFound();
-                }                
+                }
             }
             else
             {

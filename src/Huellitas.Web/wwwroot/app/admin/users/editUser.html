@@ -8,7 +8,8 @@
                 </div>
                 <div class="x_content">
                     <div ng-if="main.model.id">
-                        <button ng-click="main.contact()" class="btn btn-danger"><i class="fa fa-send"></i> Contactar</button>
+                        <button ng-click="main.contact()" class="btn btn-warning"><i class="fa fa-send"></i> Contactar</button>
+                        <button ng-click="main.delete()" class="btn btn-danger"><i class="fa fa-warning"></i> Eliminar</button>
                     </div>
                     <br>
                     <form name="formUser" class="form-horizontal form-label-left" novalidate="novalidate" ng-submit="main.save(formUser.$valid)">
@@ -17,7 +18,7 @@
                                 Fecha de registro
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                               {{main.model.createdDate}}
+                                {{main.model.createdDate}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -40,7 +41,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                Teléfono 
+                                Teléfono
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input name="phone" type="text" class="form-control col-md-7 col-xs-12" ng-model="main.model.phone" ng-class="main.isInvalidClass(formUser, formUser.phone)" ng-maxlength="11" ng-minlength="7" />
@@ -63,6 +64,14 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <select name="role" class="form-control" ng-model="main.model.role" ng-options="role.enum as role.name for role in main.roles" required></select>
                                 <validation-message form="formUser" field="formUser.role" name="rol"></validation-message>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="main.model.facebookId">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Facebook 
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <a class="btn btn-default btn-sm" href="https://facebook.com/profile.php?id={{main.model.facebookId}}" target="_blank">Ver</a>
                             </div>
                         </div>
                         <div class="form-group">
@@ -92,7 +101,7 @@
                                 Cambiar clave
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input type="checkbox" ng-model="main.changePassword"  />
+                                <input type="checkbox" ng-model="main.changePassword" />
                             </div>
                         </div>
                         <div class="form-group" ng-if="main.changePassword">
@@ -100,8 +109,8 @@
                                 Clave <span class="required">*</span>
                             </label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input name="password" class="form-control col-md-7 col-xs-12" type="password" ng-model="main.model.password" ng-minlength="6" ng-maxlength="100" required="{{main.changePassword}}"  />
-                                <validation-message form="formUser" field="formUser.password" name="clave"  ng-minlength="6" ng-maxlength="100"></validation-message>
+                                <input name="password" class="form-control col-md-7 col-xs-12" type="password" ng-model="main.model.password" ng-minlength="6" ng-maxlength="100" required="{{main.changePassword}}" />
+                                <validation-message form="formUser" field="formUser.password" name="clave" ng-minlength="6" ng-maxlength="100"></validation-message>
                             </div>
                         </div>
                         <div class="form-group" ng-if="main.changePassword">

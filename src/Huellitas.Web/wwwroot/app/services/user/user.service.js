@@ -11,7 +11,11 @@
             getById: getById,
             post: post,
             put: put,
-            contact: contact
+            contact: contact,
+            delete: deleteUser,
+            postPasswordRecovery: postPasswordRecovery,
+            getPasswordRecovery: getPasswordRecovery,
+            putPasswordRecovery: putPasswordRecovery
         };
 
         function getAll(filter)
@@ -35,6 +39,23 @@
         function contact(id, model)
         {
             return http.post('/api/users/' + id +'/contact', model);
+        }
+
+        function deleteUser(id)
+        {
+            return http.delete('/api/users/' + id);
+        }
+
+        function postPasswordRecovery(model) {
+            return http.post('/api/users/' + 'passwordrecovery', model);
+        }
+
+        function getPasswordRecovery(token) {
+            return http.get('/api/users/' + 'passwordrecovery/' + token);
+        }
+
+        function putPasswordRecovery(token, model) {
+            return http.put('/api/users/' + 'passwordrecovery/' + token, model);
         }
     }
 })();

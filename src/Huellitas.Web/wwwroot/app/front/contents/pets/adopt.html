@@ -79,7 +79,7 @@
                                                   field-required-class="parsley-error"
                                                   remote-url-data-field="results"
                                                   match-class="highlight"
-                                                  minlength="1" 
+                                                  minlength="1"
                                                   text-no-results="No se encontró la ciudad que buscas" />
                             </div>
                             <span class="error" ng-if="!main.form.$submitted || main.form.location.$valid"></span>
@@ -96,11 +96,36 @@
                             <span class="error" ng-if="!main.form.$submitted || main.form.town.$valid"></span>
                             <span class="error" ng-if="main.form.$submitted && main.form.town.$invalid">Ingresa el barrio donde vives</span>
                         </div>
-                        <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
-                            <input type="text" name="birthDate" placeholder="Fecha de nacimiento" ng-model="main.model.birthDate" datepicker-huellitas required ng-keypress="main.model.birthDate = ''" />
-                            <span class="error" ng-if="!main.form.$submitted || main.form.birthDate.$valid"></span>
-                            <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid">Ingresa tu fecha de nacimiento</span>
+                        <div class="col-sm-3 col-xs-2">
+                            Fecha Nacimiento
+                            <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid">Ingresa fecha de nacimiento</span>
                         </div>
+                        <div class="col-sm-1 col-xs-3" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
+                            <input type="hidden" name="birthDate" ng-model="main.model.birthDate" required />
+                            <select ng-model="main.birthDateYear" style="padding-left:0px; font-size:14px" ng-change="main.dateChanged()">
+                                <option value="">Año</option>
+                                <option ng-repeat="year in main.years" value="{{year}}">{{year}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 col-xs-3" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
+
+                            <select ng-model="main.birthDateMonth" style="padding-left:3px"  ng-change="main.dateChanged()">
+                                <option value="">Mes</option>
+                                <option ng-repeat="month in main.months" value="{{month}}">{{month}}</option>
+                            </select>
+
+                            <span class="error" ng-if="!main.form.$submitted || main.form.birthDate.$valid"></span>
+                            <span class="error" ng-if="main.form.$submitted && main.form.birthDate.$invalid"></span>
+
+                        </div>
+                        <div class="col-sm-1 col-xs-3" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
+                            <select ng-model="main.birthDateDay" style="padding-left:3px"  ng-change="main.dateChanged()">
+                                <option value="">Día</option>
+                                <option ng-repeat="day in main.days" value="{{day}}">{{day}}</option>
+                            </select>
+                        </div>
+
+
                         <div class="col-sm-6 col-xs-12" ng-class="{'bad':main.form.$submitted && main.form.familyMembers.$invalid}">
                             <input type="number" name="familyMembers" placeholder="¿Cuantas personas viven en tu casa?" ng-model="main.model.familyMembers" maxlength="2" min="1" max="99" ng-change="main.familyMembersChanged()" required>
                             <span class="error" ng-if="!main.form.$submitted || main.form.familyMembers.$valid"></span>

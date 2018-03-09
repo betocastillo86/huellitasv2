@@ -211,16 +211,17 @@ namespace Huellitas.Business.Services
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="forceResize">forces the resize of the image</param>
+        /// <param name="resizeMode">resize mode</param>
         /// <returns>
         /// the url file
         /// </returns>
-        public string GetPicturePath(File file, int width, int height, bool forceResize = false)
+        public string GetPicturePath(File file, int width, int height, bool forceResize = false, ResizeMode resizeMode = ResizeMode.Crop)
         {
             var resizedPhysicalPath = this.fileHelper.GetPhysicalPath(file, width, height);
 
             if (forceResize && !System.IO.File.Exists(resizedPhysicalPath))
             {
-                this.ResizePicture(resizedPhysicalPath, file, width, height);
+                this.ResizePicture(resizedPhysicalPath, file, width, height, resizeMode);
             }
 
             return this.fileHelper.GetFullPath(file, null, width, height);
@@ -233,7 +234,7 @@ namespace Huellitas.Business.Services
         /// <param name="file">The file.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public void ResizePicture(string resizedPath, File file, int width, int height)
+        public void ResizePicture(string resizedPath, File file, int width, int height, ResizeMode resizeMode = ResizeMode.Crop)
         {
             ////Takes the original image path
             var pathOriginalFile = this.fileHelper.GetPhysicalPath(file);
@@ -244,7 +245,7 @@ namespace Huellitas.Business.Services
                     var resizeOptions = new ResizeOptions()
                     {
                         Size = new Size { Width = width, Height = height },
-                        Mode = ResizeMode.Crop
+                        Mode = resizeMode
                     };
 
                     image

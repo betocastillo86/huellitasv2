@@ -2,9 +2,9 @@
     angular.module('huellitasAdmin')
         .controller('GalleryController', GalleryController);
 
-    GalleryController.$inject = ['$scope', '$attrs', 'fileService', 'modalService'];
+    GalleryController.$inject = ['$scope', '$attrs', 'fileService', 'modalService', 'helperService'];
 
-    function GalleryController($scope, $attrs, fileService, modalService)
+    function GalleryController($scope, $attrs, fileService, modalService, helperService)
     {
         var vm = this;
         vm.model = {};
@@ -25,6 +25,7 @@
         vm.reorder = reorder;
         vm.onProgress = onProgress;
         vm.createSocialPost = createSocialPost;
+        vm.resizeImage = resizeImage;
 
         return activate();
 
@@ -98,6 +99,22 @@
                     fileId: image.id
                 }
             });
+        }
+
+        function resizeImage(image)
+        {
+            if (confirm('¿Seguro desea generar la imagen nuevamente?'))
+            {
+                fileService.patchContentFile(vm.contentid, image.id, [{ path: '/resize', op: 'replace', value: 'land' }])
+                    .then(resizeCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function resizeCompleted()
+            {
+                modalService.show({ message: 'Imagen redimensionada correctamente' });
+                image.thumbnail = image.thumbnail + '?rand=' + new Date().getDate();
+            }
         }
     }
 })();

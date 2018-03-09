@@ -44,6 +44,7 @@ namespace Huellitas.Business.Services
             int? allRelatedToUserId = null,
             AdoptionFormAnswerStatus? lastStatus = null,
             AdoptionFormOrderBy orderBy = AdoptionFormOrderBy.CreationDate,
+            StatusType? petStatus = null,
             int page = 0,
             int pageSize = int.MaxValue);
 

@@ -13,7 +13,7 @@
         };
 
         function getRoute(routeName, params) {
-
+            
             var routeValue = '/'+app.Settings.routes[routeName];
 
             switch (routeName) {
@@ -42,7 +42,7 @@
                 case 'notifications':
                 case 'faq':
                 case 'notfound':
-                    return routeValue;
+                    return routeValue + (params ? '?' + $.param(params) : '');
                 case 'contact': //////////////<------------- no borrar
                     return 'https://m.me/huellitas.social';
                 case 'form':

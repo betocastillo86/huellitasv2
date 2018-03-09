@@ -112,6 +112,7 @@ namespace Huellitas.Web.Controllers.Api
                     filter.AllRelatedToUserId,
                     filter.Status,
                     filter.OrderByEnum,
+                    filter.PetStatus,
                     filter.Page,
                     filter.PageSize);
                 var models = forms.ToModels(this.filesHelper, Url.Content, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList);

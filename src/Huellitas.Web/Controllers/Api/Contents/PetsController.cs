@@ -110,6 +110,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IPublisher publisher;
 
+        /// <summary>
+        /// The user service
+        /// </summary>
+        private readonly IUserService userService;
+
         #endregion props
 
         #region ctor
@@ -139,7 +144,8 @@ namespace Huellitas.Web.Controllers.Api
             IRepository<Content> contentRepository,
             ILogService logService,
             IAdoptionFormService adoptionFormService,
-            IPublisher publisher)
+            IPublisher publisher,
+            IUserService userService)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -155,6 +161,7 @@ namespace Huellitas.Web.Controllers.Api
             this.logService = logService;
             this.adoptionFormService = adoptionFormService;
             this.publisher = publisher;
+            this.userService = userService;
         }
 
         #endregion ctor
@@ -178,7 +185,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="filter">The filter.</param>
         /// <returns>the value</returns>
         [HttpGet]
-        public IActionResult Get(PetsFilterModel filter)
+        public async Task<IActionResult> Get(PetsFilterModel filter)
         {
             IList<FilterAttribute> filterData = null;
 
@@ -187,6 +194,26 @@ namespace Huellitas.Web.Controllers.Api
             if (filter.IsValid(canGetUnplublished, this.workContext, out filterData))
             {
                 DateTime? closingDateFilter = filter.WithinClosingDate.HasValue && filter.WithinClosingDate.Value ? DateTime.Now : (DateTime?)null;
+
+                int? belongsToUserId = null;
+
+                if (!string.IsNullOrEmpty(filter.UserEmail) && !filter.Mine)
+                {
+                    // Si no se encuentra el usuario por correo electrónico quiere decir que no hay usuarios
+                    var user = (await this.userService.GetAll(email: filter.UserEmail)).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return this.Ok(new List<object>(), false, 0);
+                    }
+                    else
+                    {
+                        belongsToUserId = user.Id;
+                    }
+                }
+                else if (filter.Mine)
+                {
+                    belongsToUserId = this.workContext.CurrentUserId;
+                }
 
                 var contentList = this.contentService.Search(
                     filter.Keyword,
@@ -199,7 +226,7 @@ namespace Huellitas.Web.Controllers.Api
                     filter.Status,
                     closingDateFrom: closingDateFilter,
                     startingDateFrom: filter.FromStartingDate,
-                    belongsToUserId: filter.Mine ? this.workContext.CurrentUserId : (int?)null,
+                    belongsToUserId: belongsToUserId,
                     excludeContentId: filter.ExcludeId);
 
                 IDictionary<int, int> formsByContent = null;

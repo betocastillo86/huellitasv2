@@ -236,6 +236,7 @@ namespace Huellitas.Business.Services
             routes.Add("notifications", "notificaciones");
             routes.Add("faq", "por-que-adoptar");
             routes.Add("notfound", "pagina-no-encontrada");
+            routes.Add("passwordrecovery", "cambiar-clave/{0}");
             return routes;
         }
 
