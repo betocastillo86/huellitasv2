@@ -1,11 +1,11 @@
 ﻿<div ng-class="{'content-all col-md-12' : listPet.displayType == 'small'}">
     <h2 class="tit-section" ng-if="listPet.title" ng-bind="listPet.title"></h2>
     <div class="col-md-12" ng-class="{'content-card' : listPet.displayType == 'medium', 'content-lost' : listPet.displayType == 'small'}">
-        
+
         <div ng-class="{ 'card' : !pet.isAd }" ng-repeat="pet in listPet.pets">
 
-            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-horizontal"  ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto" style="float:left;width:100%"> </div>
-            <div adsense-huellitas  ng-if="::listPet.showAds && pet.isAd" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"    ></div>
+            <div adsense-huellitas ng-if="::listPet.showAds && pet.isAd" class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto" style="float:left;width:100%"> </div>
+            <div adsense-huellitas ng-if="::listPet.showAds && pet.isAd" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"></div>
             <div class="clear" ng-if="::listPet.showAds && pet.isAd"></div>
 
             <div class="img-pet" ng-if="!pet.isAd">
@@ -25,7 +25,7 @@
                 </span>
             </a>
         </div>
-        <div class="no-found" ng-if="!listPet.pets.length">
+        <div class="no-found" ng-if="listPet.pets.length == 1">
             <span class="icon-search"></span>
             No hay resultados que coincidan con tu búsqueda
         </div>

@@ -21,6 +21,8 @@
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
             shelter: $location.search().shelter ? parseInt($location.search().shelter) : undefined,
             keyword: $location.search().keyword,
+            locationId: $location.search().locationId,
+            locationName: $location.search().locationName,
             contentType: 'Pet',
             withinClosingDate: true
         };
@@ -34,6 +36,7 @@
 
         vm.search = search;
         vm.isSubtypeChecked = isSubtypeChecked;
+        vm.changeLocation = changeLocation;
 
         activate();
 
@@ -52,13 +55,25 @@
                 age: vm.filter.age,
                 subtype: vm.filter.subtype,
                 keyword: vm.filter.keyword,
-                shelter: vm.filter.shelter
+                shelter: vm.filter.shelter,
+                locationId: vm.filter.locationId,
+                locationName: vm.filter.locationName
             });
         }
 
         function isSubtypeChecked(index)
         {
             return vm.filter.subtype == vm.subtypes[index].id;
+        }
+
+        function changeLocation(selectedLocation)
+        {
+            if (selectedLocation)
+            {
+                vm.filter.locationId = selectedLocation.originalObject.id;
+                vm.filter.locationName = selectedLocation.originalObject.name;
+                search();
+            }
         }
     }
 })();
