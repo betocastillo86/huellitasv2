@@ -10,16 +10,16 @@
             <form class="search-box">
                 <div class="col-md-2 col-sm-6">
                     <div class="type-pet">
-                        <input name="petSubtype" type="radio"  ng-model="main.filter.subtype"  value="{{main.subtypes[0].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(0)">
+                        <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[0].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(0)">
                         <span class="icon-perro"></span>
                     </div>
                     <div class="type-pet">
-                        <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[1].id}}" ng-change="main.search()"  ng-checked="main.isSubtypeChecked(1)"/>
+                        <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[1].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(1)" />
                         <span class="icon-cat"></span>
                     </div>
                     <br />
                 </div>
-                
+
                 <div class="col-md-2 col-sm-6">
                     <select ng-model="main.filter.age" ng-options="age.id as age.value for age in ::main.ages" ng-change="main.search()">
                         <option value="">¿Edad?</option>
@@ -30,15 +30,31 @@
                         <option value="">¿Que Tamaño?</option>
                     </select>
                 </div>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-2 col-sm-6">
                     <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">
-                        <option value="">¿Macho o Hembra?</option>
+                        <option value="">¿Genero?</option>
                     </select>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <input type="text" ng-model="main.filter.keyword" ng-model-options="{ debounce: 1200 }" ng-change="main.search()" placeholder="Busca por nombre" />
+                <div class="col-md-2 col-sm-6">
+                    <input type="text" ng-model="main.filter.keyword" ng-model-options="{ debounce: 1200 }" ng-change="main.search()" placeholder="Por nombre" />
                 </div>
-                <br />
+                <div class="col-md-2 col-sm-6">
+                    <angucomplete-alt id="location"
+                                      placeholder="¿Cuál ciudad?"
+                                      pause="200"
+                                      remote-url="/api/locations?pagesize=8&name="
+                                      title-field="name"
+                                      selected-object="main.changeLocation"
+                                      initial-value="main.filter.locationName"
+                                      field-required="true"
+                                      input-name="location"
+                                      field-required-class="parsley-error"
+                                      remote-url-data-field="results"
+                                      match-class="highlight"
+                                      minlength="1"
+                                      text-no-results="No se encontró la ciudad que buscas" />
+                </div>
+                    <br />
             </form>
             
             <div list-pets data-filter="main.filter" data-showads="true" data-pagingenabled="main.pagingEnabled"></div>
