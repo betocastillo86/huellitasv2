@@ -43,7 +43,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void GetRelatedContents_AsContentType_False_Ok()
         {
             var filter = new RelatedContentFilterModel();
-            filter.RelationType = Data.Entities.Enums.RelationType.SimilarPets;
+            filter.RelationType = RelationType.SimilarPets;
             filter.AsContentType = false;
 
             this.contentService
@@ -66,7 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void GetRelatedContents_AsContentType_Ok()
         {
             var filter = new RelatedContentFilterModel();
-            filter.RelationType = Data.Entities.Enums.RelationType.SimilarPets;
+            filter.RelationType = RelationType.SimilarPets;
             filter.AsContentType = true;
 
             this.contentService
@@ -109,7 +109,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.customTableService.Object,
                 this.cacheManager.Object,
                 this.filesHelper.Object,
-                this.contentSettings.Object);
+                this.contentSettings.Object,
+                this.workContext.Object);
         }
     }
 }

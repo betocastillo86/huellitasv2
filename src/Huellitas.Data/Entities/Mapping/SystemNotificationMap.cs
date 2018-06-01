@@ -35,13 +35,13 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_SystemNotification_User");
 
             entity.HasOne(c => c.TriggerUser)
                 .WithMany()
                 .HasForeignKey(c => c.TriggerUserId)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_SystemNotification_TriggerUser");
         }
     }

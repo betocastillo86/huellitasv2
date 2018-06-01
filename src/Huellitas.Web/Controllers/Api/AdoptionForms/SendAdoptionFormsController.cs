@@ -93,7 +93,7 @@ namespace Huellitas.Web.Controllers.Api
                         attributesHtml.Append($"<br><h2>Preguntas del formulario</h2><br><br>");
 
                         var attributes = this.adoptionFormService.GetAttributes(formId);
-                        for (int i = 0; i < attributes.Count; i++)
+                        for (int i = 0; i < attributes?.Count; i++)
                         {
                             var attribute = attributes[i];
                             attributesHtml.Append($"<br> {i + 1}. {attribute.Attribute.Value} <br><b>R/ {attribute.Value}</b>");

@@ -9,6 +9,7 @@ namespace Huellitas.Tests.Business.Services
     using System.Linq;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
+    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Moq;
     using NUnit.Framework;
@@ -31,7 +32,10 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateCorrectFriendlyName()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+
+            var contentRepository = new Mock<IRepository<Content>>();
+
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido", contents));
             Assert.AreEqual("con-punto", service.GenerateFriendlyName("Con punto.", contents));
@@ -51,7 +55,8 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateFriendlyName_Query_Null()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+            var contentRepository = new Mock<IRepository<Content>>();
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido", null));
             Assert.AreEqual("con-punto", service.GenerateFriendlyName("Con punto.", null));
             Assert.AreEqual("con-coma", service.GenerateFriendlyName("Con coma,", null));
@@ -64,7 +69,8 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateRepeatedWithMaxLength()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+            var contentRepository = new Mock<IRepository<Content>>();
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer", service.GenerateFriendlyName("El primer contenido", contents, 10));
         }
@@ -76,7 +82,8 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateRepeatedWithMaxLengthAndFinishWord()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+            var contentRepository = new Mock<IRepository<Content>>();
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             var contents = new List<Content>().AsQueryable();
             Assert.AreEqual("el-primer-contenido", service.GenerateFriendlyName("El primer contenido con palabra final", contents, 13));
             Assert.AreEqual("el-primer-si", service.GenerateFriendlyName("El primer si contenido con palabra final", contents, 13));
@@ -89,7 +96,8 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateWithMaxLength()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+            var contentRepository = new Mock<IRepository<Content>>();
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             var contents = new List<Content>();
             contents.Add(new Content() { Name = "El primer contenido", FriendlyName = "el-primer" });
             contents.Add(new Content() { Name = "El segundo contenido", FriendlyName = "el-segundo" });
@@ -106,7 +114,8 @@ namespace Huellitas.Tests.Business.Services
         public void GenerateWithNoRepeatedUrls()
         {
             this.Setup();
-            var service = new SeoService(this.generalSettings.Object);
+            var contentRepository = new Mock<IRepository<Content>>();
+            var service = new SeoService(this.generalSettings.Object, contentRepository.Object, this.logService.Object);
             var contents = new List<Content>();
             contents.Add(new Content() { Name = "El primer contenido", FriendlyName = "el-primer-contenido" });
             contents.Add(new Content() { Name = "El segundo contenido", FriendlyName = "el-segundo-contenido" });

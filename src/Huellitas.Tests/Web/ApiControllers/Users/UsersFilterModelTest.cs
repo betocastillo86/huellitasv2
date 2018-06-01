@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Users
 {
+    using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
@@ -55,7 +56,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         public void UserFilter_IsValid_True_Role_Public()
         {
             var filter = new UsersFilterModel();
-            filter.Role = Data.Entities.Enums.RoleEnum.Public;
+            filter.Role = RoleEnum.Public;
             Assert.IsTrue(filter.IsValid(false));
         }
 
@@ -77,7 +78,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         public void UserFilter_IsValid_False_Role_Admin()
         {
             var filter = new UsersFilterModel();
-            filter.Role = Data.Entities.Enums.RoleEnum.SuperAdmin;
+            filter.Role = RoleEnum.SuperAdmin;
             Assert.IsFalse(filter.IsValid(false));
             Assert.AreEqual("Role", filter.Errors[0].Target);
         }

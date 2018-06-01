@@ -5,12 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Threading.Tasks;
     using Huellitas.Business.Configuration;
     using Huellitas.Data.Entities;
-    using ImageSharp;
     using Microsoft.AspNetCore.Hosting;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Processing;
+    using SixLabors.ImageSharp.Processing.Transforms;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Files Helper
@@ -191,10 +193,7 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="file">The file.</param>
         /// <param name="bytes">The bytes.</param>
-        /// <returns>
-        /// the name of the new file
-        /// </returns>
-        public async Task SaveFileAsync(File file, byte[] bytes)
+        public void SaveFile(File file, byte[] bytes)
         {
             ////TODO:Test
             if (file.Id <= 0)
@@ -214,13 +213,13 @@ namespace Huellitas.Business.Services
                 System.IO.Directory.CreateDirectory(directory);
             }
 
-            var image = ImageSharp.Image.Load(bytes);
+            var image = Image.Load(bytes);
             int newWidth = image.Width > this.generalSettings.MaxWidthPictureSize ? this.generalSettings.MaxWidthPictureSize : image.Width;
             int newHeight = image.Height > this.generalSettings.MaxHeightPictureSize ? this.generalSettings.MaxHeightPictureSize : image.Height;
 
-            image.AutoOrient()
-                .Resize(new ImageSharp.Processing.ResizeOptions { Mode = ImageSharp.Processing.ResizeMode.Max, Size= new SixLabors.Primitives.Size { Width = newWidth, Height = newHeight } })
-                .Save(fullPath);
+            image.Mutate(c => c.AutoOrient()
+                                .Resize(new ResizeOptions { Mode = ResizeMode.Max, Size = new SixLabors.Primitives.Size { Width = newWidth, Height = newHeight } }));
+            image.Save(fullPath);
         }
     }
 }

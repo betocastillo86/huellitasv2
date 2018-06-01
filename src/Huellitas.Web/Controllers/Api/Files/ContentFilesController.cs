@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
@@ -17,11 +15,13 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Web.Infraestructure.Tasks;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using ImageSharp.Processing;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
+    using SixLabors.ImageSharp.Processing.Transforms;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Files Controller
@@ -161,7 +161,6 @@ namespace Huellitas.Web.Controllers.Api
                 // Realiza el redimensionamiento de las imagenes con el nuevo tipo de corte
                 if (operation.path.Equals("/resize") && operation.OperationType == Microsoft.AspNetCore.JsonPatch.Operations.OperationType.Replace)
                 {
-
                     // elimina las imagenes para reemplazarlas con el corte
                     System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail));
                     System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));

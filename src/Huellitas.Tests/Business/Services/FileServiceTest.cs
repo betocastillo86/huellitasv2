@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Business.Services
 {
+    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Core;
@@ -33,6 +34,10 @@ namespace Huellitas.Tests.Business.Services
         /// The files helper/
         /// </summary>
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
+
+        private Mock<IPublisher> publisher = new Mock<IPublisher>();
+
+        private Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
 
         /// <summary>
         /// Inserts the content file with invalid file.
@@ -79,7 +84,9 @@ namespace Huellitas.Tests.Business.Services
             return new FileService(
                 this.fileRepository.Object,
                 this.filesHelper.Object,
-                this.contentFileRepository.Object);
+                this.contentFileRepository.Object,
+                this.publisher.Object,
+                this.contentRepository.Object);
         }
     }
 }

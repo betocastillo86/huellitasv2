@@ -5,25 +5,21 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Users
 {
-    using System.Threading.Tasks;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Helpers;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
     using Huellitas.Tests.Web.Mocks;
-    using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Users Controller Test
@@ -85,7 +81,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var id = 1;
 
             this.userService.Setup(c => c.GetByIdAsync(id))
-                .ReturnsAsync(null);
+                .ReturnsAsync((User)null);
 
             var controller = this.GetController();
 
@@ -153,7 +149,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var id = 1;
 
             this.userService.Setup(c => c.GetByIdAsync(id))
-                .ReturnsAsync(null);
+                .ReturnsAsync((User)null);
 
             var controller = this.GetController();
             var response = await controller.Get(id) as NotFoundResult;
@@ -236,7 +232,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var filter = new UsersFilterModel();
 
             this.userService
-                .Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<RoleEnum?>(), filter.Page, filter.PageSize))
+                .Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<RoleEnum?>(), null, filter.Page, filter.PageSize))
                 .ReturnsAsync(new PagedList<User>());
 
             var controller = this.GetController();
@@ -551,7 +547,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var model = this.GetModel();
 
             var controller = this.GetController();
-            model.Role = Data.Entities.Enums.RoleEnum.Public;
+            model.Role = RoleEnum.Public;
             Assert.IsTrue(controller.IsValidModel(model, true, false));
 
             model = this.GetModel();
@@ -613,7 +609,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var model = this.GetModel();
 
             var controller = this.GetController();
-            model.Role = Data.Entities.Enums.RoleEnum.SuperAdmin;
+            model.Role = RoleEnum.SuperAdmin;
             model.Password = null;
             Assert.IsFalse(controller.IsValidModel(model, false, false));
         }
@@ -651,7 +647,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.workContext.SetupGet(c => c.IsAuthenticated).Returns(false);
 
             var controller = this.GetController();
-            model.Role = Data.Entities.Enums.RoleEnum.Public;
+            model.Role = RoleEnum.Public;
             model.Password = null;
             Assert.IsTrue(controller.IsValidModel(model, false, false));
 
@@ -702,7 +698,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 Password = "123",
                 Phone = "456",
                 Phone2 = "789",
-                Role = Data.Entities.Enums.RoleEnum.SuperAdmin
+                Role = RoleEnum.SuperAdmin
             };
         }
     }

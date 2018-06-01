@@ -6,6 +6,7 @@
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
     using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using Moq;
     using NUnit.Framework;
@@ -72,7 +73,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var userId = 1;
 
-            this.contentService.Setup(c => c.IsUserInContent(userId, filter.ShelterId.Value, Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.IsUserInContent(userId, filter.ShelterId.Value, ContentUserRelationType.Shelter))
                 .Returns(false);
 
             Assert.IsFalse(filter.IsValid(userId, this.contentService.Object, false));
@@ -159,7 +160,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var userId = 1;
 
-            this.contentService.Setup(c => c.IsUserInContent(userId, filter.ShelterId.Value, Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.IsUserInContent(userId, filter.ShelterId.Value, ContentUserRelationType.Shelter))
                 .Returns(true);
 
             Assert.IsTrue(filter.IsValid(1, this.contentService.Object, false));

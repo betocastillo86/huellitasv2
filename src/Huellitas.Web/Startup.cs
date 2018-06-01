@@ -23,6 +23,18 @@ namespace Huellitas.Web
     /// </summary>
     public class Startup
     {
+        //private readonly IApplicationBuilder applicationBuilder;
+
+        //public Startup(IHostingEnvironment env, IConfiguration configuration)
+        //{
+        //    configuration.
+        //}
+
+        ////public Startup(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        ////{
+        ////    this.applicationBuilder = app;
+        ////}
+
         /// <summary>
         /// Configures the specified application.
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,9 +136,6 @@ namespace Huellitas.Web
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
 
-            ////Register all policies required
-            services.ConfigurePolicies();
-
             ////Registra los Repositorios genericos
             services.RegisterHuellitasServices(configuration);
 
@@ -134,6 +143,9 @@ namespace Huellitas.Web
             services.RegisterHangFireServices(configuration);
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            ////Register all policies required
+            services.AddJwtAuthentication();
         }
 
         /// <summary>

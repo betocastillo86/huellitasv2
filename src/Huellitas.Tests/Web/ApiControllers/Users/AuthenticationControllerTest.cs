@@ -169,7 +169,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             this.userService
                 .Setup(c => c.ValidateAuthentication(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(null);
+                .ReturnsAsync((User)null);
 
             var controller = this.GetController();
 

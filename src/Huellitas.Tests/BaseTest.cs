@@ -5,16 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Data.Entities.Enums;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Security;
-    using Huellitas.Business.Services.Contents;
+    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Infraestructure.Security;
     using Moq;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Base class for testing
@@ -37,6 +35,10 @@ namespace Huellitas.Tests
         /// The content settings
         /// </summary>
         protected Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
+
+        protected Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
+
+        protected Mock<ILogService> logService = new Mock<ILogService>();
 
         /// <summary>
         /// The publisher
@@ -68,9 +70,11 @@ namespace Huellitas.Tests
             this.contentService = new Mock<IContentService>();
             this.contentSettings = new Mock<IContentSettings>();
             this.publisher = new Mock<IPublisher>();
-            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = RoleEnum.SuperAdmin });
             this.workContext.SetupGet(c => c.CurrentUserId).Returns(1);
             this.workContext.SetupGet(c => c.IsAuthenticated).Returns(true);
+            this.generalSettings = new Mock<IGeneralSettings>();
+            this.logService = new Mock<ILogService>();
         }
 
         /// <summary>

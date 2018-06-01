@@ -46,7 +46,7 @@ namespace Huellitas.Tests.Business.Services
             listKeys.Add(new SystemSetting() { Name = "key3", Value = "True" });
 
             var systemRepositoryMock = new Mock<IRepository<SystemSetting>>();
-            systemRepositoryMock.Setup(c => c.TableNoTracking)
+            systemRepositoryMock.Setup(c => c.Table)
                 .Returns(listKeys.AsQueryable());
 
             return new SystemSettingService(systemRepositoryMock.Object, cacheManagerMock.Object, this.publisher.Object);

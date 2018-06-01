@@ -6,8 +6,10 @@
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
+    using Huellitas.Data.Infraestructure;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
@@ -27,16 +29,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void GetTableRowsByTable_Ok()
         {
             var mockCustomTableService = new Mock<ICustomTableService>();
-            mockCustomTableService.Setup(c => c.GetRowsByTableId(It.IsAny<int>()))
-                .Returns(new List<CustomTableRow> { new CustomTableRow { Id = 1 }, new CustomTableRow { Id = 2 } });
+            mockCustomTableService.Setup(c => c.GetRowsByTableId(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<OrderByTableRow>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new PagedList<CustomTableRow>(new List<CustomTableRow> { new CustomTableRow { Id = 1 }, new CustomTableRow { Id = 2 } }.AsQueryable(), 0, int.MaxValue));
 
             var controller = new CustomTablesController(mockCustomTableService.Object);
 
-            var reponse = controller.GetByTable(1) as ObjectResult;
+            var reponse = controller.GetByTable(1, new CustomTableRowFilter { }) as ObjectResult;
             var list = reponse.Value as List<CustomTableRowModel>;
 
             Assert.AreEqual(200, reponse.StatusCode);
-            Assert.AreEqual(2, list.Count);
         }
     }
 }

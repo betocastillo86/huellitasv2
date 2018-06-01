@@ -47,7 +47,8 @@ namespace Huellitas.Tests.Business.Extensions
         private Mock<ICustomTableService> MockCustomTableService()
         {
             var mockCustomTableService = new Mock<ICustomTableService>();
-            mockCustomTableService.Setup(c => c.GetRowsByTableIdCached(It.IsAny<CustomTableType>())).Returns(new List<CustomTableRow> { new CustomTableRow { Id = 1, Value = "a" }, new CustomTableRow { Id = 2, Value = "b" } });
+            mockCustomTableService.Setup(c => c.GetRowsByTableIdCached(It.IsAny<CustomTableType>(), OrderByTableRow.DisplayOrder))
+                .Returns(new List<CustomTableRow> { new CustomTableRow { Id = 1, Value = "a" }, new CustomTableRow { Id = 2, Value = "b" } });
             return mockCustomTableService;
         }
     }

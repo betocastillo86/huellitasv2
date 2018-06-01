@@ -16,7 +16,7 @@ namespace Huellitas.Tests.Business.Services
     /// File Helpers Test
     /// </summary>
     [TestFixture]
-    public class FileHelpersTest
+    public class FileHelpersTest : BaseTest
     {
         /// <summary>
         /// Gets the folder name default files by folder.
@@ -26,7 +26,7 @@ namespace Huellitas.Tests.Business.Services
         {
             var mockHosting = new Mock<IHostingEnvironment>();
 
-            var fileHelper = new FilesHelper(mockHosting.Object);
+            var fileHelper = new FilesHelper(mockHosting.Object, this.generalSettings.Object);
             Assert.AreEqual("000001", fileHelper.GetFolderName(new File() { Id = 1 }));
             Assert.AreEqual("000002", fileHelper.GetFolderName(new File() { Id = 51 }));
             Assert.AreEqual("000003", fileHelper.GetFolderName(new File() { Id = 101 }));
@@ -41,7 +41,7 @@ namespace Huellitas.Tests.Business.Services
         {
             var mockHosting = new Mock<IHostingEnvironment>();
 
-            var fileHelper = new FilesHelper(mockHosting.Object);
+            var fileHelper = new FilesHelper(mockHosting.Object, this.generalSettings.Object);
             Assert.AreEqual("000001", fileHelper.GetFolderName(new File() { Id = 1 }, 200));
             Assert.AreEqual("000001", fileHelper.GetFolderName(new File() { Id = 51 }, 200));
             Assert.AreEqual("000001", fileHelper.GetFolderName(new File() { Id = 101 }, 200));
@@ -68,7 +68,7 @@ namespace Huellitas.Tests.Business.Services
             var mockHosting = new Mock<IHostingEnvironment>();
             mockHosting.SetupGet(c => c.WebRootPath).Returns(rootPath);
 
-            var fileHelper = new FilesHelper(mockHosting.Object);
+            var fileHelper = new FilesHelper(mockHosting.Object, this.generalSettings.Object);
             var file = new File();
             file.Id = 1;
             file.FileName = "elarchivo.jpg";
@@ -86,7 +86,7 @@ namespace Huellitas.Tests.Business.Services
         public void FileHelpers_GetFileNameWithSize()
         {
             var mockHosting = new Mock<IHostingEnvironment>();
-            var fileHelper = new FilesHelper(mockHosting.Object);
+            var fileHelper = new FilesHelper(mockHosting.Object, this.generalSettings.Object);
 
             var file = new File();
             file.Id = 1;
@@ -112,7 +112,7 @@ namespace Huellitas.Tests.Business.Services
         public void FileHelpers_GetFullPath()
         {
             var mockHosting = new Mock<IHostingEnvironment>();
-            var fileHelper = new FilesHelper(mockHosting.Object);
+            var fileHelper = new FilesHelper(mockHosting.Object, this.generalSettings.Object);
 
             var file = new File();
             file.Id = 1;
