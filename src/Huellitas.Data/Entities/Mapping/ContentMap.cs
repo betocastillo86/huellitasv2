@@ -33,6 +33,8 @@ namespace Huellitas.Data.Entities.Mapping
 
             entity.Property(e => e.DisplayOrder).HasDefaultValueSql("0");
 
+            entity.HasIndex(c => new { c.Deleted, c.TypeId, c.Status, c.ClosingDate });
+
             entity.Property(e => e.Email).HasColumnType("varchar(150)");
 
             entity.Property(e => e.Name)

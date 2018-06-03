@@ -36,7 +36,7 @@ namespace Huellitas.Web.Infraestructure.Start
 
             var connectionStringConfig = builder.Build();
 
-            GlobalConfiguration.Configuration.UseSqlServerStorage(connectionStringConfig.GetConnectionString("HangfireConnection"));
+            GlobalConfiguration.Configuration.UseSqlServerStorage(connectionStringConfig.GetConnectionString("DefaultConnection"), new Hangfire.SqlServer.SqlServerStorageOptions { SchemaName = "Hangfire" });
 
             var dashboardOptions = new DashboardOptions()
             {
@@ -54,7 +54,7 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="configuration">The configuration.</param>
         public static void RegisterHangFireServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            services.AddHangfire(c => c.UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
+            services.AddHangfire(c => c.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"), new Hangfire.SqlServer.SqlServerStorageOptions { SchemaName = "Hangfire" }));
         }
 
         /// <summary>

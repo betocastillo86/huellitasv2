@@ -5,7 +5,6 @@
         .module('huellitas')
         .controller('MyPetsController', MyPetsController);
 
-
     MyPetsController.$inject = [
         '$scope',
         '$location',
@@ -27,7 +26,6 @@
         sessionService,
         modalService,
         authenticationService) {
-
         var vm = this;
         vm.pets = [];
         vm.filter = {
@@ -38,12 +36,12 @@
             orderBy: 'CreatedDate',
             contentType: 'Pet',
             subtype: $location.search().subtype ? parseInt($location.search().subtype) : undefined,
-            genre: $location.search().genre ? parseInt($location.search().genre)  : undefined,
+            genre: $location.search().genre ? parseInt($location.search().genre) : undefined,
             keyword: $location.search().keyword ? $location.search().keyword : undefined,
             shelter: $location.search().shelter ? parseInt($location.search().shelter) : undefined,
             status: $location.search().status ? $location.search().status : undefined
         };
-        
+
         vm.hasNextPage = false;
         vm.genres = app.Settings.genres;
         vm.subtypes = app.Settings.subtypes;
@@ -54,11 +52,10 @@
         vm.filterByStatus = filterByStatus;
         vm.changeStatus = changeStatus;
         vm.more = more;
-        
+
         activate();
 
-        function activate()
-        {
+        function activate() {
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.MyPets.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.MyPets.Description'];
 
@@ -71,41 +68,36 @@
                 getShelters();
             }
 
-            function authenticationError()
-            {
+            function authenticationError() {
                 $location.path(routingService.getRoute('home'));
             }
         }
 
-        function getPets()
-        {
+        function getPets() {
             petService.getAll(vm.filter)
                 .then(getCompleted)
                 .catch(helperService.handleException);
 
-            function getCompleted(response)
-            {
+            function getCompleted(response) {
                 if (vm.pets.length) {
                     vm.pets = vm.pets.concat(response.results);
                 }
-                else{
+                else {
                     vm.pets = response.results;
                 }
-                
+
                 vm.hasNextPage = response.meta.hasNextPage;
             }
         }
 
-        function getShelters()
-        {
+        function getShelters() {
             var userId = sessionService.getCurrentUser().id;
 
             contentService.getContentsOfUser(userId, { relationType: 'Shelter', pageSize: 20 })
                 .then(getCompleted)
                 .catch(helperService.handleException);
 
-            function getCompleted(response)
-            {
+            function getCompleted(response) {
                 vm.shelters = response.results;
             }
         }
@@ -124,38 +116,32 @@
             return vm.filter.subtype == vm.subtypes[index].id;
         }
 
-        function filterByStatus(status)
-        {
+        function filterByStatus(status) {
             vm.filter.status = status === vm.filter.status ? undefined : status;
             vm.search();
         }
 
-        function changeStatus(pet)
-        {
+        function changeStatus(pet) {
             modalService.showDialog({
                 message: '¿Seguro deseas cambiar el estado de la mascota?',
                 closed: confirmClosed
             });
-            
-            function confirmClosed(response)
-            {
-                if (response.accept)
-                {
+
+            function confirmClosed(response) {
+                if (response.accept) {
                     var newStatus = pet.status === 'Published' ? 'Hidden' : 'Published';
                     petService.changeStatus(pet.id, newStatus)
                         .then(patchCompleted)
                         .catch(helperService.handleException);
+                }
 
-                    function patchCompleted(response)
-                    {
-                        pet.status = newStatus;
-                    }
+                function patchCompleted(response) {
+                    pet.status = newStatus;
                 }
             }
         }
 
-        function more()
-        {
+        function more() {
             vm.filter.page++;
             getPets();
         }

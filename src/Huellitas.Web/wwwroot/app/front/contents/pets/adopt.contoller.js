@@ -32,7 +32,6 @@
         modalService,
         authenticationService,
         logService) {
-
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.currentStep = 0;
@@ -79,10 +78,9 @@
             getQuestions();
         }
 
-        function fillDays()
-        {
+        function fillDays() {
             for (var i = 1; i < 32; i++) {
-                vm.days.push(i < 10 ? ('0'+i) : i);
+                vm.days.push(i < 10 ? ('0' + i) : i);
             }
 
             //vm.months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -150,19 +148,16 @@
             }
         }
 
-        function dateChanged()
-        {
+        function dateChanged() {
             if (vm.birthDateDay && vm.birthDateMonth && vm.birthDateYear) {
                 vm.model.birthDate = vm.birthDateYear + '/' + vm.birthDateMonth + '/' + vm.birthDateDay;
             }
-            else
-            {
+            else {
                 vm.model.birthDate = undefined;
             }
         }
 
-        function notPress(event)
-        {
+        function notPress(event) {
             //event.originalEvent.returnValue = false
             vm.model.birthDate = undefined;
             alert("Selecciona la fecha del calendario");
@@ -219,76 +214,75 @@
                     message: 'Despues de este paso toda la información será enviada. ¿Confirmas todos los datos ingresados?',
                     closed: confirmClosed
                 });
-
-                function confirmClosed(response) {
-                    if (response.accept) {
-                        vm.form.isBusy = true;
-
-                        vm.model.attributes = new Array();
-                        for (var i = 0; i < vm.questions.length; i++) {
-                            var question = vm.questions[i];
-
-                            if (!question.questionParentId) {
-                                var answer = question.answer;
-                                if (question.answer == 'true') {
-                                    answer = 'Si';
-                                }
-                                else if (question.answer == 'false') {
-                                    answer = 'No';
-                                }
-
-                                vm.model.attributes.push({
-                                    attributeId: question.id,
-                                    value: answer,
-                                    question: question.question
-                                });
-
-                                if (question.children) {
-                                    for (var j = 0; j < question.children.length; j++) {
-                                        vm.model.attributes.push({
-                                            attributeId: question.children[j].id,
-                                            value: question.children[j].answer,
-                                            question: question.children[j].question
-                                        });
-                                    }
-                                }
-                            }
-                        }
-
-                        adoptionFormService.post(vm.model)
-                            .then(postCompleted)
-                            .catch(postError);
-
-                        function postCompleted() {
-
-                            helperService.trackGoal('Pets', 'AdoptionForm');
-
-                            vm.form.isBusy = false;
-
-                            vm.disableLeaving();
-
-                            modalService.show({
-                                message: "Muchas gracias por llenar el formulario. Debes estar pendiente de tu correo donde enviarémos la respuesta.",
-                                redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.friendlyName })
-                            });
-                        }
-
-                        function postError(error) {
-                            vm.form.isBusy = false;
-                            modalService.showError({
-                                message: 'Ocurrió un error al envíar la información. Intenta de nuevo o <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a nuestro fan page dando clic aquí<a>'
-                            });
-
-                            logService.post({
-                                shortMessage: 'Error guardando el formulario de adopción',
-                                fullMessage: JSON.stringify(error.data)
-                            });
-                        }
-                    }
-                }
             }
             else if (vm.form.$invalid) {
                 helperService.goToFocusError();
+            }
+
+            function confirmClosed(response) {
+                if (response.accept) {
+                    vm.form.isBusy = true;
+
+                    vm.model.attributes = new Array();
+                    for (var i = 0; i < vm.questions.length; i++) {
+                        var question = vm.questions[i];
+
+                        if (!question.questionParentId) {
+                            var answer = question.answer;
+                            if (question.answer == 'true') {
+                                answer = 'Si';
+                            }
+                            else if (question.answer == 'false') {
+                                answer = 'No';
+                            }
+
+                            vm.model.attributes.push({
+                                attributeId: question.id,
+                                value: answer,
+                                question: question.question
+                            });
+
+                            if (question.children) {
+                                for (var j = 0; j < question.children.length; j++) {
+                                    vm.model.attributes.push({
+                                        attributeId: question.children[j].id,
+                                        value: question.children[j].answer,
+                                        question: question.children[j].question
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    adoptionFormService.post(vm.model)
+                        .then(postCompleted)
+                        .catch(postError);
+                }
+
+                function postCompleted() {
+                    helperService.trackGoal('Pets', 'AdoptionForm');
+
+                    vm.form.isBusy = false;
+
+                    vm.disableLeaving();
+
+                    modalService.show({
+                        message: "Muchas gracias por llenar el formulario. Debes estar pendiente de tu correo donde enviarémos la respuesta.",
+                        redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.friendlyName })
+                    });
+                }
+
+                function postError(error) {
+                    vm.form.isBusy = false;
+                    modalService.showError({
+                        message: 'Ocurrió un error al envíar la información. Intenta de nuevo o <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a nuestro fan page dando clic aquí<a>'
+                    });
+
+                    logService.post({
+                        shortMessage: 'Error guardando el formulario de adopción',
+                        fullMessage: JSON.stringify(error.data)
+                    });
+                }
             }
         }
 
@@ -301,11 +295,11 @@
                 modalService.showDialog({
                     message: '¿Seguro deseas salir del formulario?', closed: confirmClosed
                 });
+            }
 
-                function confirmClosed(response) {
-                    if (response.accept) {
-                        $location.path(routingService.getRoute('pet', { friendlyName: vm.friendlyName }));
-                    }
+            function confirmClosed(response) {
+                if (response.accept) {
+                    $location.path(routingService.getRoute('pet', { friendlyName: vm.friendlyName }));
                 }
             }
         }

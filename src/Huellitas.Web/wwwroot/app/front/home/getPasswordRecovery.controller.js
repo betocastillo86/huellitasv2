@@ -28,20 +28,20 @@
                 userService.postPasswordRecovery(vm.model)
                     .then(postCompleted)
                     .catch(postError);
+            }
 
-                function postCompleted(response) {
-                    closeModal();
-                    modalService.show(
-                        {
-                            message: 'Te acabamos de enviar un correo para que puedas escoger tu nueva clave. Revísalo.',
-                            redirectAfterClose: routingService.getRoute('login')
-                        });
-                    vm.errorToken = undefined;
-                }
+            function postCompleted(response) {
+                closeModal();
+                modalService.show(
+                    {
+                        message: 'Te acabamos de enviar un correo para que puedas escoger tu nueva clave. Revísalo.',
+                        redirectAfterClose: routingService.getRoute('login')
+                    });
+                vm.errorToken = undefined;
+            }
 
-                function postError(response) {
-                    vm.errorToken = 'Valida que tu correo si se encuentre registrado';
-                }
+            function postError(response) {
+                vm.errorToken = 'Valida que tu correo si se encuentre registrado';
             }
         }
 

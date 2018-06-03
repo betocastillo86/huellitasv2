@@ -32,7 +32,6 @@
         sessionService,
         contentService,
         authenticationService) {
-
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.model = {};
@@ -51,7 +50,6 @@
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
-        
 
         vm.changeMonths = changeMonths;
         vm.isSubtypeChecked = isSubtypeChecked;
@@ -86,29 +84,26 @@
             validateAuthentication();
         }
 
-        function validateAuthentication()
-        {
+        function validateAuthentication() {
             authenticationService.showLogin($scope)
                 .then(authenticationCompleted)
                 .catch(authenticationError);
         }
 
-        function chageShelter()
-        {
-            var shelter = _.findWhere(vm.shelters, { id: vm.model.shelter.id }); 
+        function chageShelter() {
+            var shelter = _.findWhere(vm.shelters, { id: vm.model.shelter.id });
             vm.model.location = shelter ? shelter.location : undefined;
-            
+
             getFullNameImage();
         }
 
         function authenticationCompleted(userAuthenticated) {
-
             vm.currentUser = userAuthenticated;
             setUser(userAuthenticated);
 
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditPet.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.EditPet.Description'];
-            
+
             if (vm.friendlyName) {
                 getPet();
             }
@@ -116,7 +111,7 @@
                 vm.model.location = vm.currentUser.location;
                 vm.model.files = [];
             }
-            
+
             vm.showNotLogged = false;
             getShelters();
         }
@@ -203,7 +198,6 @@
                 vm.model.user = vm.currentUser;
                 vm.model.user.phone = newPhone;
                 vm.model.user.location = newLocation;
-                
 
                 if (vm.friendlyName) {
                     petService.put(vm.model)
@@ -214,57 +208,55 @@
                     vm.model.type = 'Pet';
 
                     vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
-                    
+
                     petService.post(vm.model)
                         .then(updateUserPhone)
                         .catch(updateError);
                 }
+            }
 
-                function updateUserPhone() {
-                    if (vm.canChangePhone && (vm.originalPhone !== vm.currentUser.phone || vm.originalLocation !== vm.currentUser.location.id)) {
-                        userService.put(vm.currentUser)
-                            .then(confirmSaved)
-                            .catch(putUserError);
-                    }
-                    else {
-                        confirmSaved();
-                    }
-
-                    function putUserError() {
-
-                        modalService.showError({
-                            message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
-                            redirectAfterClose: routingService.getRoute('myaccount')
-                        });
-                    }
+            function updateUserPhone() {
+                if (vm.canChangePhone && (vm.originalPhone !== vm.currentUser.phone || vm.originalLocation !== vm.currentUser.location.id)) {
+                    userService.put(vm.currentUser)
+                        .then(confirmSaved)
+                        .catch(putUserError);
+                }
+                else {
+                    confirmSaved();
                 }
 
-                function confirmSaved() {
-                    if (vm.friendlyName) {
-                        modalService.show({
-                            title: 'Mascota actualizada',
-                            message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
-                            redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.model.friendlyName })
-                        });
-                    }
-                    else {
-                        modalService.show({
-                            title: 'Mascota guardada',
-                            message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a Facebook clic aquí<a>.',
-                            redirectAfterClose: routingService.getRoute('pets')
-                        });
+                function putUserError() {
+                    modalService.showError({
+                        message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
+                        redirectAfterClose: routingService.getRoute('myaccount')
+                    });
+                }
+            }
 
-                        helperService.trackGoal('Pets', 'Request');
-                    }
+            function confirmSaved() {
+                if (vm.friendlyName) {
+                    modalService.show({
+                        title: 'Mascota actualizada',
+                        message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
+                        redirectAfterClose: routingService.getRoute('pet', { friendlyName: vm.model.friendlyName })
+                    });
+                }
+                else {
+                    modalService.show({
+                        title: 'Mascota guardada',
+                        message: 'Muchas gracias por dejar tus datos, validarémos la información y aprobarémos la huellita pronto. Debes estar pendiente. Si tienes dudas <a href="' + routingService.getRoute('contact') + '" target="_blank">escribenos a Facebook clic aquí<a>.',
+                        redirectAfterClose: routingService.getRoute('pets')
+                    });
 
-                    vm.form.isBusy = false;
+                    helperService.trackGoal('Pets', 'Request');
                 }
 
-                function updateError(response)
-                {
-                    vm.form.isBusy = false;
-                    helperService.handleException(response);
-                }
+                vm.form.isBusy = false;
+            }
+
+            function updateError(response) {
+                vm.form.isBusy = false;
+                helperService.handleException(response);
             }
         }
 
@@ -295,7 +287,6 @@
             getFullNameImage();
         }
 
-
         function getFullNameImage() {
             if (canShowGallery() && vm.sizes) {
                 var size = _.findWhere(vm.sizes, { id: vm.model.size.value });
@@ -311,7 +302,6 @@
             return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && vm.model.location;
         }
 
-        
         function removeFile(image) {
             if (vm.model.id) {
                 fileService.deleteContentFile(vm.model.id, image.id)
@@ -321,8 +311,7 @@
                 confirmRemoved();
             }
 
-            function confirmRemoved()
-            {
+            function confirmRemoved() {
                 vm.model.files = _.reject(vm.model.files, function (el) { return el.id == image.id });
             }
         }
@@ -331,14 +320,13 @@
             if (vm.model.id) {
                 fileService.postContentFile(vm.model.id, image)
                     .then(postCompleted);
-
-                function postCompleted(response)
-                {
-                    vm.model.files.push(image);
-                }
             }
             else {
                 vm.model.files = vm.model.files || [];
+                vm.model.files.push(image);
+            }
+
+            function postCompleted(response) {
                 vm.model.files.push(image);
             }
         }
@@ -346,7 +334,6 @@
         function imageOnProgress(progressFiles) {
             vm.progressFiles = progressFiles;
         }
-
 
         function reorder(newFiles) {
             vm.model.files = newFiles;

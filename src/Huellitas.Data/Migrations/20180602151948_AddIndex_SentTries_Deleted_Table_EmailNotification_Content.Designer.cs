@@ -11,9 +11,10 @@ using System;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20180602151948_AddIndex_SentTries_Deleted_Table_EmailNotification_Content")]
+    partial class AddIndex_SentTries_Deleted_Table_EmailNotification_Content
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

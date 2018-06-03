@@ -33,6 +33,8 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasColumnName("CC")
                 .HasMaxLength(500);
 
+            entity.HasIndex(c => new { c.SentDate, c.SentTries });
+
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
             entity.Property(e => e.ScheduledDate).HasColumnType("datetime");

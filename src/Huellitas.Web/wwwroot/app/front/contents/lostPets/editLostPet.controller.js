@@ -32,7 +32,6 @@
         sessionService,
         authenticationService,
         contentService) {
-
         var vm = this;
         vm.friendlyName = $routeParams.friendlyName;
         vm.model = {};
@@ -45,7 +44,7 @@
         vm.breedTable = app.Settings.customTables.breed;
         vm.maxdate = moment().toDate();
         vm.progressFiles = [];
-        
+
         vm.genres = app.Settings.genres;
         vm.sizes = app.Settings.sizes;
         vm.subtypes = app.Settings.subtypes;
@@ -65,7 +64,6 @@
         activate();
 
         function activate() {
-
             vm.currentUser = sessionService.isAuthenticated() ? sessionService.getCurrentUser() : {};
 
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.EditLostPet.Title'];
@@ -81,10 +79,8 @@
             }
         }
 
-        function setUser(user)
-        {
-            if (user)
-            {
+        function setUser(user) {
+            if (user) {
                 vm.model.user = user;
                 vm.model.location = vm.model.location ? vm.model.location : user.location;
                 vm.originalPhone = user.phone;
@@ -110,8 +106,7 @@
                 if (!vm.canChangePhone) {
                     getParents();
                 }
-                else
-                {
+                else {
                     setUser(vm.currentUser)
                 }
             }
@@ -128,112 +123,103 @@
         }
 
         function save() {
-
-            if (!vm.model.breed)
-            {
+            if (!vm.model.breed) {
                 $scope.$broadcast('angucomplete-alt:clearInput', 'breed');
             }
 
             if (vm.form.$valid && !vm.form.isBusy) {
-
                 vm.form.isBusy = true;
 
                 authenticationService.showLogin($scope)
                     .then(authenticationCompleted)
                     .catch(authenticationError);
+            }
 
-                function authenticationCompleted(response)
-                {
-                    vm.currentUser = response;
+            function authenticationCompleted(response) {
+                vm.currentUser = response;
 
-                    if (vm.model.files.length < 2) {
-                        modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
-                        vm.form.isBusy = false;
-                        return;
-                    }
-
-                    if (vm.progressFiles.length) {
-                        modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
-                        vm.form.isBusy = false;
-                        return;
-                    }
-
-                    var newPhone = vm.model.user.phone;
-                    var newLocation = vm.model.location;
-                    vm.model.user = vm.currentUser;
-                    vm.model.user.phone = newPhone;
-                    vm.model.user.location = newLocation;
-
-                    if (vm.friendlyName) {
-                        petService.put(vm.model)
-                            .then(updateUserPhone)
-                            .catch(errorSaving);
-                    }
-                    else {
-                        vm.model.type = 'LostPet';
-                        vm.model.months = 1;
-                        
-                        vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
-
-                        petService.post(vm.model)
-                            .then(updateUserPhone)
-                            .catch(errorSaving);
-                    }
-
-                    function updateUserPhone() {
-                        if (vm.canChangePhone && (vm.currentUser.phone !== vm.originalPhone || vm.originalLocation !== vm.currentUser.location.id)) {
-                            
-                            userService.put(vm.currentUser)
-                                .then(confirmSaved)
-                                .catch(putUserError);
-                        }
-                        else {
-                            confirmSaved();
-                        }
-
-                        function putUserError() {
-
-                            modalService.showError({
-                                message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
-                                redirectAfterClose: routingService.getRoute('myaccount')
-                            });
-                        }
-                    }
-
-                    function confirmSaved() {
-                        if (vm.friendlyName) {
-                            modalService.show({
-                                title: 'Mascota actualizada',
-                                message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
-                                redirectAfterClose: routingService.getRoute('lostpet', { friendlyName: vm.model.friendlyName })
-                            });
-                        }
-                        else {
-                            modalService.show({
-                                title: 'Mascota guardada',
-                                message: 'Tu mascota ha sido publicada. A tu cuenta de correo llegará cualquier comentario recibido así que debes estar pendiente. Si tienes alguna inquietud <a href="' + routingService.getRoute('contact') + '" target="_blank">escríbenos a Facebook haciendo clic aquí</a>.',
-                                redirectAfterClose: routingService.getRoute('lostpets')
-                            });
-
-                            helperService.trackGoal('LostPets', 'Request');
-                        }
-
-                        vm.form.isBusy = false;
-                    }
-
-                    function errorSaving(response)
-                    {
-                        vm.form.isBusy = false;
-                        helperService.handleException(response);
-                    }
-
-                }
-
-                function authenticationError()
-                {
+                if (vm.model.files.length < 2) {
+                    modalService.showError({ message: 'Debes cargar al menos dos imagenes' });
                     vm.form.isBusy = false;
-                    console.log('No autenticado');
+                    return;
                 }
+
+                if (vm.progressFiles.length) {
+                    modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
+                    vm.form.isBusy = false;
+                    return;
+                }
+
+                var newPhone = vm.model.user.phone;
+                var newLocation = vm.model.location;
+                vm.model.user = vm.currentUser;
+                vm.model.user.phone = newPhone;
+                vm.model.user.location = newLocation;
+
+                if (vm.friendlyName) {
+                    petService.put(vm.model)
+                        .then(updateUserPhone)
+                        .catch(errorSaving);
+                }
+                else {
+                    vm.model.type = 'LostPet';
+                    vm.model.months = 1;
+
+                    vm.model.parents = [{ userid: vm.model.user.id, relationType: 'Parent' }];
+
+                    petService.post(vm.model)
+                        .then(updateUserPhone)
+                        .catch(errorSaving);
+                }
+            }
+
+            function updateUserPhone() {
+                if (vm.canChangePhone && (vm.currentUser.phone !== vm.originalPhone || vm.originalLocation !== vm.currentUser.location.id)) {
+                    userService.put(vm.currentUser)
+                        .then(confirmSaved)
+                        .catch(putUserError);
+                }
+                else {
+                    confirmSaved();
+                }
+
+                function putUserError() {
+                    modalService.showError({
+                        message: 'La mascota fue actualizada correctamente, pero ocurrió un error guardando el número telefónico, actualizalo por tus datos personales',
+                        redirectAfterClose: routingService.getRoute('myaccount')
+                    });
+                }
+            }
+
+            function confirmSaved() {
+                if (vm.friendlyName) {
+                    modalService.show({
+                        title: 'Mascota actualizada',
+                        message: 'Los datos de ' + vm.model.name + ' fueron actualizados correctamente',
+                        redirectAfterClose: routingService.getRoute('lostpet', { friendlyName: vm.model.friendlyName })
+                    });
+                }
+                else {
+                    modalService.show({
+                        title: 'Mascota guardada',
+                        message: 'Tu mascota ha sido publicada. A tu cuenta de correo llegará cualquier comentario recibido así que debes estar pendiente. Si tienes alguna inquietud <a href="' + routingService.getRoute('contact') + '" target="_blank">escríbenos a Facebook haciendo clic aquí</a>.',
+                        redirectAfterClose: routingService.getRoute('lostpets')
+                    });
+
+                    helperService.trackGoal('LostPets', 'Request');
+                }
+
+                vm.form.isBusy = false;
+            }
+
+            function errorSaving(response) {
+                vm.form.isBusy = false;
+                helperService.handleException(response);
+            }
+
+            function authenticationError() {
+                vm.form.isBusy = false;
+                console.log('No autenticado');
             }
         }
 
@@ -279,7 +265,6 @@
             return vm.model.subtype && vm.model.genre && vm.model.size && vm.model.name && vm.model.location;
         }
 
-
         function removeFile(image) {
             if (vm.model.id) {
                 fileService.deleteContentFile(vm.model.id, image.id)
@@ -294,8 +279,7 @@
             }
         }
 
-        function imageOnProgress(progressFiles)
-        {
+        function imageOnProgress(progressFiles) {
             vm.progressFiles = progressFiles;
         }
 
@@ -303,17 +287,16 @@
             if (vm.model.id) {
                 fileService.postContentFile(vm.model.id, image)
                     .then(postCompleted);
-
-                function postCompleted(response) {
-                    vm.model.files.push(image);
-                }
             }
             else {
                 vm.model.files = vm.model.files || [];
                 vm.model.files.push(image);
             }
-        }
 
+            function postCompleted(response) {
+                vm.model.files.push(image);
+            }
+        }
 
         function reorder(newFiles) {
             vm.model.files = newFiles;

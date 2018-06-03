@@ -29,7 +29,6 @@
         activate();
 
         function activate() {
-
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.AdoptionForms.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.AdoptionForms.Description'];
 
@@ -45,7 +44,6 @@
             function authenticationError() {
                 $location.path(routingService.getRoute('home'));
             }
-
         }
 
         function getStatus() {
@@ -100,8 +98,7 @@
             search();
         }
 
-        function goToForm(id)
-        {
+        function goToForm(id) {
             $location.path(routingService.getRoute('form', { id: id }));
         }
     }
