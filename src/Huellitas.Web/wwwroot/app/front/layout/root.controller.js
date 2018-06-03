@@ -113,6 +113,7 @@
             vm.currentMenu = next.$$route.originalPath;
             helperService.trackVisit($window, $location);
             vm.previousPages.push($location.$$path);
+            $window.scrollTo(0, 0);
         }
 
         function contentLoaded() {

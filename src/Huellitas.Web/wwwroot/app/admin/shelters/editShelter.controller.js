@@ -72,8 +72,8 @@
         function getUsers() {
             if (vm.id) {
                 contentService.getUsers(vm.id, vm.usersFilter)
-                .then(getCompleted)
-                .catch(helperService.handleException);
+                    .then(getCompleted)
+                    .catch(helperService.handleException);
 
                 function getCompleted(response) {
                     vm.users = response.results;
@@ -83,7 +83,6 @@
 
         function deleteUser(user) {
             if (vm.id) {
-
                 if (confirm('¿Seguro deseas eliminar este usuario?')) {
                     contentService.deleteUser(vm.id, user.id)
                         .then(deleteCompleted)
@@ -109,8 +108,6 @@
                 var contentUser = { userId: user.id, relationType: user.relationType };
 
                 if (vm.id) {
-
-
                     contentService.postUser(vm.id, contentUser)
                         .then(postCompleted)
                         .catch(helperService.handleException);
@@ -207,8 +204,7 @@
             }
         }
 
-        function canShowGallery()
-        {
+        function canShowGallery() {
             return vm.model.name && vm.model.location;
         }
 
@@ -217,8 +213,7 @@
                 modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
                 return false;
             }
-            else if (!vm.model.image)
-            {
+            else if (!vm.model.image) {
                 modalService.showError({ message: 'El logo es obligatorio' });
                 return false;
             }
@@ -231,18 +226,17 @@
 
                 if (vm.model.id > 0) {
                     shelterService.put(vm.model)
-                    .then(saveCompleted)
-                    .catch(saveError);
+                        .then(saveCompleted)
+                        .catch(saveError);
                 }
                 else {
                     shelterService.post(vm.model)
-                    .then(saveCompleted)
-                    .catch(saveError);
+                        .then(saveCompleted)
+                        .catch(saveError);
                 }
             }
 
             function saveCompleted(response) {
-
                 ////Vuelve a quitar el logo
                 vm.model.files = _.rest(vm.model.files);
 
@@ -259,23 +253,22 @@
                 modalService.show({
                     message: message
                 })
-                .then(function (modal) {
-                    modal.closed.then(function () {
-                        if (vm.continueAfterSaving) {
-                            //if it is new and want to continue updates the location
-                            if (isNew) {
-                                $location.path('/shelters/' + vm.model.id + '/edit');
+                    .then(function (modal) {
+                        modal.closed.then(function () {
+                            if (vm.continueAfterSaving) {
+                                //if it is new and want to continue updates the location
+                                if (isNew) {
+                                    $location.path('/shelters/' + vm.model.id + '/edit');
+                                }
                             }
-                        }
-                        else {
-                            $location.path('/shelters');
-                        }
+                            else {
+                                $location.path('/shelters');
+                            }
 
-                        vm.continueAfterSaving = false;
+                            vm.continueAfterSaving = false;
+                        });
                     });
-                });
             }
-
 
             function saveError(response) {
                 vm.isSending = false;
@@ -286,6 +279,5 @@
         function logoAdded(file) {
             vm.model.image = file;
         }
-
     }
 })();

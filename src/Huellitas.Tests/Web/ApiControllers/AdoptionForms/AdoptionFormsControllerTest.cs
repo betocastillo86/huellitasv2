@@ -45,26 +45,6 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
 
         /// <summary>
-        /// Adoptions the forms controller is valid model false family members age.
-        /// </summary>
-        [Test]
-        public void AdoptionFormsController_IsValidModel_False_FamilyMembersAge()
-        {
-            this.Setup();
-
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
-
-            var model = this.GetModel();
-            model.FamilyMembers = 5;
-
-            var controller = this.GetController();
-
-            Assert.IsFalse(controller.IsValidModel(model));
-            Assert.IsNotNull(controller.ModelState["FamilyMembersAge"]);
-        }
-
-        /// <summary>
         /// Adoptions the forms controller is valid model false no attributes.
         /// </summary>
         [Test]
@@ -72,8 +52,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             var model = this.GetModel();
             model.Attributes = null;
@@ -91,8 +71,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             var model = this.GetModel();
             var controller = this.GetController();
@@ -108,8 +88,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             var attributes = this.GetAttributes();
 
@@ -131,8 +111,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             var attributes = this.GetAttributes();
             var controller = this.GetController();
@@ -153,8 +133,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             var questions = this.GetQuestions();
             questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|False" });
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(questions);
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(questions.AsQueryable(), 0, int.MaxValue));
 
             var attributes = this.GetAttributes();
 
@@ -196,7 +176,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
                 .Returns(5);
 
-            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), ContentUserRelationType.Shelter))
                 .Returns(false);
 
             var controller = this.GetController();
@@ -268,7 +248,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var form = this.GetEntity();
 
-            this.contentService.Setup(c => c.IsUserInContent(userId, form.ContentId, Data.Entities.Enums.ContentUserRelationType.Parent))
+            this.contentService.Setup(c => c.IsUserInContent(userId, form.ContentId, ContentUserRelationType.Parent))
                 .Returns(true);
 
             var controller = this.GetController();
@@ -305,7 +285,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.contentService.Setup(c => c.GetContentAttribute<int?>(form.ContentId, ContentAttributeType.Shelter))
                 .Returns(5);
 
-            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter))
+            this.contentService.Setup(c => c.IsUserInContent(It.IsAny<int>(), It.IsAny<int>(), ContentUserRelationType.Shelter))
                 .Returns(true);
 
             var controller = this.GetController();
@@ -353,6 +333,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 It.IsAny<int?>(),
                 It.IsAny<AdoptionFormAnswerStatus>(),
                 It.IsAny<AdoptionFormOrderBy>(),
+                It.IsAny<StatusType>(),
                 It.IsAny<int>(),
                 It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
@@ -377,7 +358,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             this.Setup();
 
-            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<AdoptionFormAnswerStatus?>(), It.IsAny<AdoptionFormOrderBy>(), It.IsAny<int>(), It.IsAny<int>()))
+            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<int?>(), It.IsAny<AdoptionFormAnswerStatus?>(), It.IsAny<AdoptionFormOrderBy>(), It.IsAny<StatusType?>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new PagedList<AdoptionForm>(new List<AdoptionForm>().AsQueryable(), 0, 1));
 
             var controller = this.GetController();
@@ -494,8 +475,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var model = this.GetModel();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
                 .Throws(new HuellitasException("Location", HuellitasExceptionCode.InvalidForeignKey));
@@ -523,8 +504,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 
             var model = this.GetModel();
 
-            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm)))
-                .Returns(this.GetQuestions());
+            this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
+                .Returns(new PagedList<CustomTableRow>(this.GetQuestions().AsQueryable(), 0, int.MaxValue));
 
             this.adoptionFormService.Setup(c => c.Insert(It.IsAny<AdoptionForm>()))
                 .Callback((AdoptionForm c) =>
@@ -583,7 +564,9 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 this.workContext.Object,
                 this.contentService.Object,
                 this.filesHelper.Object,
-                this.customTableService.Object);
+                this.customTableService.Object,
+                this.cacheManager.Object,
+                this.contentSettings.Object);
         }
 
         /// <summary>

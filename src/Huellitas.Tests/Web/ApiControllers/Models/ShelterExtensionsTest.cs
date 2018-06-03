@@ -5,18 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Huellitas.Business.Services;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Extensions.Contents;
+    using Huellitas.Web.Models.Extensions;
     using Mocks;
     using Moq;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Shelter Extensions Test
@@ -148,7 +147,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
                 .Returns("thefile");
 
-            var model = content.ToShelterModel(this.contentService.Object, this.filesHelper.Object, null, false);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, false);
 
             Assert.AreEqual(content.Id, model.Id);
             Assert.AreEqual(content.Name, model.Name);
@@ -156,7 +155,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(content.CommentsCount, model.CommentsCount);
             Assert.AreEqual(content.DisplayOrder, model.DisplayOrder);
             Assert.AreEqual(content.StatusType, model.Status);
-            Assert.AreEqual(content.Type, model.TypeId);
+            Assert.AreEqual(content.Type, model.Type);
             Assert.AreEqual(content.Views, model.Views);
             Assert.AreEqual(content.CreatedDate, model.CreatedDate);
             Assert.AreEqual(content.Featured, model.Featured);
@@ -190,7 +189,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.contentService.Setup(c => c.GetFiles(content.Id))
                 .Returns(content.ContentFiles.ToList());
 
-            var model = content.ToShelterModel(this.contentService.Object, this.filesHelper.Object, null, true);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, true);
             Assert.AreEqual(2, model.Files.Count);
             Assert.AreEqual(content.ContentFiles.ElementAt(0).File.Name, model.Files[0].Name);
             Assert.AreEqual(content.ContentFiles.ElementAt(1).File.Name, model.Files[1].Name);
@@ -207,7 +206,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
                 .Returns("thefile");
 
-            var model = content.ToShelterModel(this.contentService.Object, null, null, true);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, null, null, true);
             Assert.IsNull(model.Files);
         }
 
@@ -223,7 +222,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 .Returns("thefile");
             content.File = null;
 
-            var model = content.ToShelterModel(this.contentService.Object, this.filesHelper.Object, null, false);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, false);
             Assert.IsNull(model.Image);
         }
 
@@ -239,7 +238,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 .Returns("thefile");
             content.Location = null;
 
-            var model = content.ToShelterModel(this.contentService.Object, this.filesHelper.Object, null, false);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, false);
             Assert.IsNull(model.Location);
         }
 
@@ -255,7 +254,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 .Returns("thefile");
             content.User = null;
 
-            var model = content.ToShelterModel(this.contentService.Object, this.filesHelper.Object, null, false);
+            var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, false);
             Assert.IsNull(model.User);
         }
 

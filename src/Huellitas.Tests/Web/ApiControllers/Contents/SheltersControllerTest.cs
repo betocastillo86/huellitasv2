@@ -5,23 +5,20 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Data.Entities;
-    using Data.Entities.Enums;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
+    using Huellitas.Data.Core;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Extensions.Contents;
+    using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Shelters Controller Test
@@ -67,7 +64,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
             controller.AddUrl();
 
-            var response = controller.Get(id) as ObjectResult;
+            var response = controller.Get(id.ToString()) as ObjectResult;
             var error = (response.Value as BaseApiError).Error;
 
             Assert.AreEqual(400, response.StatusCode);
@@ -93,7 +90,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var controller = this.GetController();
 
-            var response = controller.Get(id) as NotFoundResult;
+            var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
         }
 
@@ -116,7 +113,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var controller = this.GetController();
 
-            var response = controller.Get(id) as NotFoundResult;
+            var response = controller.Get(id.ToString()) as NotFoundResult;
 
             Assert.AreEqual(404, response.StatusCode);
         }
@@ -144,7 +141,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
             controller.AddUrl();
 
-            var response = controller.Get(id) as ObjectResult;
+            var response = controller.Get(id.ToString()) as ObjectResult;
 
             Assert.AreEqual(200, response.StatusCode);
         }
@@ -404,13 +401,21 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <returns>the controller</returns>
         private SheltersController GetController()
         {
+            Mock<ILocationService> locationService = new Mock<ILocationService>();
+            Mock<ISeoService> seoService = new Mock<ISeoService>();
+            Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
+
             return new SheltersController(
                 this.contentService.Object,
                 this.fileHelpers.Object,
                 this.contentSettings.Object,
                 this.workContext.Object,
                 this.fileService.Object,
-                this.pictureService.Object);
+                this.pictureService.Object,
+                locationService.Object,
+                seoService.Object,
+                contentRepository.Object,
+                this.publisher.Object);
         }
     }
 }

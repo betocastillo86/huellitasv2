@@ -27,13 +27,13 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionFormUser_User");
 
             entity.HasOne(c => c.AdoptionForm)
                 .WithMany(c => c.Users)
                 .HasForeignKey(c => c.AdoptionFormId)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionFormUser_AdoptionForm");
         }
     }

@@ -50,6 +50,6 @@ namespace Huellitas.Business.Services
         /// <param name="file">The file.</param>
         /// <param name="bytes">The bytes.</param>
         /// <returns>the asynchronous result</returns>
-        Task SaveFileAsync(File file, byte[] bytes);
+        void SaveFile(File file, byte[] bytes);
     }
 }

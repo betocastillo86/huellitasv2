@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Threading.Tasks;
     using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
-    using ImageSharp.Processing;
+    using SixLabors.ImageSharp.Processing.Transforms;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Interface of picture service
@@ -37,9 +37,9 @@ namespace Huellitas.Business.Services
         /// <param name="contentUrlFunction">Content URL function</param>
         /// <returns>the new path of the image</returns>
         Task<string> CreateSocialNetworkPost(
-            Content content, 
-            File file, 
-            SocialPostColors color = SocialPostColors.Blue, 
+            Content content,
+            File file,
+            SocialPostColors color = SocialPostColors.Blue,
             SocialNetwork network = SocialNetwork.Facebook,
             Func<string, string> contentUrlFunction = null);
     }

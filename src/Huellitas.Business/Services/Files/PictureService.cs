@@ -5,18 +5,23 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Extensions;
     using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
-    using ImageSharp;
-    using ImageSharp.Processing;
     using Microsoft.AspNetCore.Hosting;
     using SixLabors.Fonts;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.PixelFormats;
+    using SixLabors.ImageSharp.Processing;
+    using SixLabors.ImageSharp.Processing.Drawing;
+    using SixLabors.ImageSharp.Processing.Drawing.Brushes;
+    using SixLabors.ImageSharp.Processing.Text;
+    using SixLabors.ImageSharp.Processing.Transforms;
     using SixLabors.Primitives;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Picture Service
@@ -90,9 +95,9 @@ namespace Huellitas.Business.Services
         /// the new path of the image
         /// </returns>
         public async Task<string> CreateSocialNetworkPost(
-            Content content, 
-            File file, 
-            SocialPostColors color = SocialPostColors.Blue, 
+            Content content,
+            File file,
+            SocialPostColors color = SocialPostColors.Blue,
             SocialNetwork network = SocialNetwork.Facebook,
             Func<string, string> contentUrlFunction = null)
         {
@@ -116,16 +121,17 @@ namespace Huellitas.Business.Services
                     fontBigSize = 55;
                     fontSmallSize = 35;
                     sizeLogo = new Size() { Width = 180, Height = 98 };
-                    pointLogo = new Point() { X = width - 200, Y = 110 };
+                    pointLogo = new Point(sizeLogo) { X = width - 200, Y = 110 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 140 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 70 };
                     break;
+
                 default:
                 case SocialNetwork.Facebook:
                     fontBigSize = 50;
                     fontSmallSize = 30;
                     sizeLogo = new Size() { Width = 150, Height = 81 };
-                    pointLogo = new Point() { X = width - 200, Y = height - 100 };
+                    pointLogo = new Point(sizeLogo) { X = width - 200, Y = height - 100 };
                     positionFontBig = new System.Numerics.Vector2() { X = 20, Y = height - 120 };
                     positionFontSmall = new System.Numerics.Vector2() { X = 20, Y = height - 50 };
                     break;
@@ -133,7 +139,6 @@ namespace Huellitas.Business.Services
 
             var fontCollection = new FontCollection();
             fontCollection.Install($"{this.host.WebRootPath}/fonts/Oswald-DemiBold.ttf");
-            
 
             var resizeOptions = new ResizeOptions()
             {
@@ -185,21 +190,24 @@ namespace Huellitas.Business.Services
             {
                 using (var logo = Image.Load($"{this.host.WebRootPath}/img/front/{this.GetLogoByColor(color)}"))
                 {
+                    logo
+                        .Mutate(c => c.Resize(sizeLogo));
+
                     var family = fontCollection.Families.FirstOrDefault();
 
                     image
-                    .AutoOrient()
-                    .Resize(resizeOptions)
-                    .DrawPolygon(rgbColor, 125, new PointF[] { new PointF() { X = 0, Y = height - 62 }, new PointF() { X = width, Y = height - 62 } }, new GraphicsOptions() { BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Normal, BlendPercentage = 90 })
-                    .DrawText(content.Name.ToUpper(), new SixLabors.Fonts.Font(family, fontBigSize, FontStyle.Bold), Rgba32.White, positionFontBig, ImageSharp.Drawing.TextGraphicsOptions.Default)
-                    .DrawText($"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()} {phone}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall, ImageSharp.Drawing.TextGraphicsOptions.Default)
-                    .DrawImage(logo, 100, sizeLogo, pointLogo)
-                    .Save(newImagePath);
+                        .Mutate(c => c.AutoOrient()
+                                        .Resize(resizeOptions)
+                                        .DrawPolygon(new GraphicsOptions() { BlenderMode = PixelBlenderMode.Normal, BlendPercentage = 90 }, rgbColor, 125.0f, new PointF() { X = 0, Y = height - 62 }, new PointF() { X = width, Y = height - 62 })
+                                        .DrawText(TextGraphicsOptions.Default, content.Name.ToUpper(), new SixLabors.Fonts.Font(family, fontBigSize, FontStyle.Bold), Rgba32.White, positionFontBig)
+                                        .DrawText(TextGraphicsOptions.Default, $"EDAD: {content.GetTextAge().ToUpper()} - {genreText.ToUpper()} - UBICACIÓN: {content.Location.Name.ToUpper()} {phone}", new SixLabors.Fonts.Font(family, fontSmallSize, FontStyle.Italic), Rgba32.White, positionFontSmall)
+                                        .DrawImage(logo, PixelBlenderMode.Normal, 1, pointLogo));
+
+                    image.Save(newImagePath);
                 }
             }
 
             await Task.FromResult(0);
-
 
             return this.fileHelper.GetFullPath(file, contentUrlFunction, width, height);
         }
@@ -248,10 +256,10 @@ namespace Huellitas.Business.Services
                         Mode = resizeMode
                     };
 
-                    image
-                        .AutoOrient()
-                        .Resize(resizeOptions)
-                        .Save(resizedPath);
+                    image.Mutate(c => c.AutoOrient()
+                                        .Resize(resizeOptions));
+
+                    image.Save(resizedPath);
                 }
             }
             catch (System.Exception e)
@@ -280,6 +288,7 @@ namespace Huellitas.Business.Services
 
                 case SocialPostColors.Violet:
                     return new Rgba32(185, 107, 254);
+
                 default:
                 case SocialPostColors.Blue:
                     return new Rgba32(124, 210, 225);
@@ -298,6 +307,7 @@ namespace Huellitas.Business.Services
                 case SocialPostColors.DarkBlue:
                 case SocialPostColors.Violet:
                     return "logohuellitas-blanco.png";
+
                 case SocialPostColors.Green:
                 case SocialPostColors.Blue:
                 case SocialPostColors.Pink:

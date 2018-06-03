@@ -33,7 +33,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditPet_SuperAdmin_True()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.SuperAdmin };
             var content = new Content { };
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
@@ -46,7 +46,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditPet_UserContent_True()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 1 };
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
@@ -59,7 +59,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditPet_UserContent_False()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
@@ -72,13 +72,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditPet_ShelterOwner_True()
         {
-            var user = new User() { Id = 2, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 2, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 1, ContentAttributes = new List<ContentAttribute> { new ContentAttribute { AttributeType = ContentAttributeType.Shelter, Value = "1" } } };
 
             var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 2 } }).AsQueryable(), 0, 5);
             this.contentService.Setup(c => c.GetUsersByContentId(
                 It.IsAny<int>(), 
-                Data.Entities.Enums.ContentUserRelationType.Shelter, 
+                ContentUserRelationType.Shelter, 
                 false,
                 It.IsAny<int>(),
                 It.IsAny<int>()))
@@ -94,11 +94,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditPet_ShelterOwner_False()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
             var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 3 } }).AsQueryable(), 0, 5);
-            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), Data.Entities.Enums.ContentUserRelationType.Shelter, true, It.IsAny<int>(), It.IsAny<int>()))
+            this.contentService.Setup(c => c.GetUsersByContentId(It.IsAny<int>(), ContentUserRelationType.Shelter, true, It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(contentUsers);
 
             var response = ContentExtensions.CanUserEditPet(user, content, this.contentService.Object);
@@ -111,7 +111,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditShelter_OwnerContent_False()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 2 };
 
             var response = ContentExtensions.CanUserEditShelter(user, content, this.contentService.Object);
@@ -124,7 +124,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         [Test]
         public void CanUserEditShelter_OwnerContent_True()
         {
-            var user = new User() { Id = 1, Name = "Name", RoleEnum = Data.Entities.Enums.RoleEnum.Public };
+            var user = new User() { Id = 1, Name = "Name", RoleEnum = RoleEnum.Public };
             var content = new Content { UserId = 1 };
 
             var response = ContentExtensions.CanUserEditShelter(user, content, this.contentService.Object);

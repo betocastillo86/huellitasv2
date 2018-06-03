@@ -5,18 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Entities.Enums;
     using Huellitas.Data.Infraestructure;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Users Controller Test
@@ -317,7 +316,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 UserId = 1,
                 Content = this.GetContent(),
                 User = new User() { Id = 1, Name = "User" },
-                RelationType = Data.Entities.Enums.ContentUserRelationType.Parent
+                RelationType = ContentUserRelationType.Parent
             };
         }
 
@@ -327,7 +326,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <returns>the model</returns>
         public ContentUserFilterModel GetFilter()
         {
-            return new ContentUserFilterModel() { RelationType = Data.Entities.Enums.ContentUserRelationType.Parent };
+            return new ContentUserFilterModel() { RelationType = ContentUserRelationType.Parent };
         }
 
         /// <summary>
@@ -339,7 +338,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             return new ContentUserModel
             {
                 UserId = 1,
-                RelationType = Data.Entities.Enums.ContentUserRelationType.Parent
+                RelationType = ContentUserRelationType.Parent
             };
         }
 

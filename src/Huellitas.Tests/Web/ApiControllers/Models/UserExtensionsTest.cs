@@ -66,7 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Password = "123",
                 PhoneNumber = "456",
                 PhoneNumber2 = "789",
-                RoleEnum = Data.Entities.Enums.RoleEnum.Public
+                RoleEnum = RoleEnum.Public
             };
         }
     }

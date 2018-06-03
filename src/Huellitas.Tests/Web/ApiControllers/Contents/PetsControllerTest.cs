@@ -5,15 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Data.Entities;
-    using Data.Entities.Enums;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
+    using Huellitas.Data.Core;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
@@ -22,6 +19,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Mocks;
     using Moq;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Pets Controller Test
@@ -29,11 +29,18 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     [TestFixture]
     public class PetsControllerTest : BaseTest
     {
+        Mock<ISeoService> seoService = new Mock<ISeoService>();
+        Mock<ILocationService> locationService = new Mock<ILocationService>();
+        Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
+        Mock<ILogService> logService = new Mock<ILogService>();
+        Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
+        Mock<IUserService> userService = new Mock<IUserService>();
+
         /// <summary>
         /// Gets the pets invalid filter.
         /// </summary>
         [Test]
-        public void GetPetsInvalidFilter()
+        public async void GetPetsInvalidFilter()
         {
             this.Setup();
 
@@ -47,7 +54,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var filter = new PetsFilterModel();
             filter.Shelter = "4,b,c,5";
 
-            var response = controller.Get(filter) as ObjectResult;
+            var response = await controller.Get(filter) as ObjectResult;
             var error = (response.Value as BaseApiError).Error;
 
             Assert.AreEqual(400, response.StatusCode);
@@ -59,7 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Gets the pets valid filter.
         /// </summary>
         [Test]
-        public void GetPetsValidFilter()
+        public async void GetPetsValidFilter()
         {
             this.Setup();
 
@@ -71,22 +78,29 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null,null, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
-                mockContentService.Object, 
-                fileHelpers.Object, 
-                cacheManager.Object, 
-                customTableService.Object, 
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
             controller.AddResponse().AddUrl();
 
             var filter = new PetsFilterModel();
-            var reponse = controller.Get(filter) as ObjectResult;
+            var reponse = await controller.Get(filter) as ObjectResult;
             var list = reponse.Value as PaginationResponseModel<PetModel>;
 
             Assert.AreEqual(200, reponse.StatusCode);
@@ -114,14 +128,21 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var fileService = new Mock<IFileService>();
 
             var controller = new PetsController(
-                mockContentService.Object, 
-                fileHelpers.Object, 
-                cacheManager.Object, 
-                customTableService.Object, 
-                this.workContext.Object, 
-                pictureService.Object, 
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
+                this.workContext.Object,
+                pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
             var model = new PetModel();
             var response = await controller.Post(model) as ObjectResult;
@@ -167,14 +188,21 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(Task.FromResult(0));
 
             var controller = new PetsController(
-                mockContentService.Object, 
-                fileHelpers.Object, 
-                cacheManager.Object, 
-                customTableService.Object, 
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
             controller.AddUrl(true);
 
@@ -248,7 +276,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             controller = this.MockController();
             model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
-            Assert.IsFalse(controller.IsValidModel(model, true)); 
+            Assert.IsFalse(controller.IsValidModel(model, true));
             Assert.IsNotNull(controller.ModelState["Location"]);
             Assert.IsNull(controller.ModelState["Files"]);
         }
@@ -281,7 +309,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var controller = this.MockController();
             var content = new Content();
-            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.SuperAdmin });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = RoleEnum.SuperAdmin });
             Assert.IsTrue(controller.CanUserEditPet(content));
         }
 
@@ -304,7 +332,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.MockController(mockContentService);
             var content = new Content();
             content.ContentAttributes.Add(new Data.Entities.ContentAttribute { AttributeType = ContentAttributeType.Shelter, Value = "2" });
-            
+
             this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = validUserId, Name = "Admin", RoleEnum = RoleEnum.Public });
 
             Assert.IsTrue(controller.CanUserEditPet(content));
@@ -321,7 +349,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.MockController();
             var content = new Content();
             content.UserId = 1;
-            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = Data.Entities.Enums.RoleEnum.Public });
+            this.workContext.SetupGet(c => c.CurrentUser).Returns(new User() { Id = 1, Name = "Admin", RoleEnum = RoleEnum.Public });
             Assert.IsTrue(controller.CanUserEditPet(content));
         }
 
@@ -358,7 +386,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
             var response = await controller.Put(newId, model) as ObjectResult;
 
@@ -398,7 +433,14 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
             var response = await controller.Put(newId, model) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -436,51 +478,18 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
 
-            var response = controller.Get(id) as NotFoundResult;
+            var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
-        }
-
-        /// <summary>
-        /// Gets the type of the pet by identifier bad request not pet.
-        /// </summary>
-        [Test]
-        public void GetPetById_BadRequest_NotPetType()
-        {
-            this.Setup();
-
-            var mockContentService = new Mock<IContentService>();
-            var fileHelpers = new Mock<IFilesHelper>();
-            var customTableService = new Mock<ICustomTableService>();
-            var cacheManager = new Mock<ICacheManager>();
-            var pictureService = new Mock<IPictureService>();
-            var contentSettings = new Mock<IContentSettings>();
-            var fileService = new Mock<IFileService>();
-
-            int id = 1;
-
-            var content = new Content() { Id = id, Type = ContentType.Shelter };
-            mockContentService.Setup(c => c.GetById(It.IsAny<int>(), true))
-                .Returns(content);
-
-            var controller = new PetsController(
-                mockContentService.Object,
-                fileHelpers.Object,
-                cacheManager.Object,
-                customTableService.Object,
-                this.workContext.Object,
-                pictureService.Object,
-                contentSettings.Object,
-                fileService.Object);
-
-            var response = controller.Get(id) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
-
-            Assert.AreEqual(400, response.StatusCode);
-            Assert.AreEqual("BadArgument", error.Code);
-            Assert.AreEqual("Id", error.Details[0].Target);
-        }
+        }      
 
         /// <summary>
         /// Gets the pet by identifier not found unpublished pet.
@@ -502,7 +511,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var controller = this.MockController(mockContentService);
 
-            var response = controller.Get(id) as NotFoundResult;
+            var response = controller.Get(id.ToString()) as NotFoundResult;
 
             Assert.AreEqual(404, response.StatusCode);
         }
@@ -534,7 +543,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.MockController(mockContentService);
             controller.AddUrl(true);
 
-            var response = controller.Get(id) as ObjectResult;
+            var response = controller.Get(id.ToString()) as ObjectResult;
 
             Assert.AreEqual(200, response.StatusCode);
         }
@@ -675,16 +684,29 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var pictureService = new Mock<IPictureService>();
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
+            Mock<ISeoService> seoService = new Mock<ISeoService>();
+            Mock<ILocationService> locationService = new Mock<ILocationService>();
+            Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
+            Mock<ILogService> logService = new Mock<ILogService>();
+            Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
+            Mock<IUserService> userService = new Mock<IUserService>();
 
             return new PetsController(
-                mockContentService.Object, 
-                fileHelpers.Object, 
-                cacheManager.Object, 
-                customTableService.Object, 
+                mockContentService.Object,
+                fileHelpers.Object,
+                cacheManager.Object,
+                customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
                 contentSettings.Object,
-                fileService.Object);
+                fileService.Object,
+                seoService.Object,
+                locationService.Object,
+                contentRepository.Object,
+                logService.Object,
+                adoptionFormService.Object,
+                publisher.Object,
+                userService.Object);
         }
     }
 }

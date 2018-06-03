@@ -51,6 +51,10 @@
                 ev.preventDefault();
                 angular.element(document.getElementsByClassName('over')).removeClass('over');
 
+                function errorMoving() {
+                    console.log('Error moviendo');
+                }
+
                 var toId = scope.id;
 
                 if (toId)
@@ -76,11 +80,6 @@
                     else
                     {
                         scope.$apply(move.bind(null, indexFrom, indexTo, fromElement));
-                    }
-
-                    function errorMoving()
-                    {
-                        console.log('Error moviendo');
                     }
                 }
 

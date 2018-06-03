@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Common
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Data.Entities;
     using Data.Infraestructure;
-    using Huellitas.Business.Services.Configuration;
-    using Huellitas.Web.Controllers.Api.Common;
-    using Huellitas.Web.Models.Api.Common;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Test of system settings controller

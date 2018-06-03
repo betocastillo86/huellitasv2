@@ -137,10 +137,10 @@ namespace Huellitas.Business.Services
         /// <returns>the asynchronous result</returns>
         public async Task InsertAsync(File file, byte[] fileContent)
         {
-            this.fileRepository.Insert(file);
+            await this.fileRepository.InsertAsync(file);
 
             ////Save the file on database
-            await this.filesHelper.SaveFileAsync(file, fileContent);
+            this.filesHelper.SaveFile(file, fileContent);
         }
 
         /// <summary>

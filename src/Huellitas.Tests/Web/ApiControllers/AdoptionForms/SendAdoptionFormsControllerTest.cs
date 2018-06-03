@@ -164,7 +164,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 Name = "Username",
                 Town = "Barrio",
                 UserId = 1,
-                Content = new Content() { UserId = 1 }
+                Content = new Content() { UserId = 1 },
+                Location = new Location() { Id = 1 }
             };
         }
 

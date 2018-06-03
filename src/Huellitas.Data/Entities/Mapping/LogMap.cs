@@ -40,7 +40,7 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasOne(d => d.User)
                 .WithMany()
                 .HasForeignKey(f => f.UserId)
-                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Log_User");
         }
     }

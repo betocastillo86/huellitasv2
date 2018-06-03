@@ -172,11 +172,14 @@ namespace Huellitas.Tests.Business.Mocks
             }
         }
 
+        public long? Size { get; set; }
+
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
+            
         }
     }
 }

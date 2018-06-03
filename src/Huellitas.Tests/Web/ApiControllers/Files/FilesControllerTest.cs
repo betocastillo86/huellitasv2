@@ -7,6 +7,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
     using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
@@ -87,13 +88,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             var seoServiceMock = new Mock<ISeoService>();
             var pictureService = new Mock<IPictureService>();
+            var securitySettings = new Mock<ISecuritySettings>();
 
             var controller = new FilesController(
                 hostingEnvironmentMock.Object,
                 fileServiceMock.Object,
                 filesHelperMock.Object,
                 seoServiceMock.Object,
-                pictureService.Object);
+                pictureService.Object,
+                securitySettings.Object);
 
             return controller;
         }

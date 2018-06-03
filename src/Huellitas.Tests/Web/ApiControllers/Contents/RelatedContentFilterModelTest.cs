@@ -7,6 +7,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using System;
     using System.Linq;
+    using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using NUnit.Framework;
 
@@ -36,7 +37,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             var filter = new RelatedContentFilterModel();
             filter.AsContentType = true;
-            filter.RelationType = Data.Entities.Enums.RelationType.SimilarPets;
+            filter.RelationType = RelationType.SimilarPets;
             Assert.IsTrue(filter.IsValid());
         }
 
@@ -47,7 +48,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void RelatedContentFilter_IsValid_RelationType_False()
         {
             var filter = new RelatedContentFilterModel();
-            filter.RelationType = (Data.Entities.Enums.RelationType)Enum.Parse(typeof(Data.Entities.Enums.RelationType), "123");
+            filter.RelationType = (RelationType)Enum.Parse(typeof(RelationType), "123");
             Assert.IsFalse(filter.IsValid());
             Assert.AreEqual("RelationType", filter.Errors.FirstOrDefault().Target);
         }
@@ -59,7 +60,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void RelatedContentFilter_IsValid_RelationType_True()
         {
             var filter = new RelatedContentFilterModel();
-            filter.RelationType = (Data.Entities.Enums.RelationType)Enum.Parse(typeof(Data.Entities.Enums.RelationType), "SimilarPets");
+            filter.RelationType = (RelationType)Enum.Parse(typeof(RelationType), "SimilarPets");
             Assert.IsTrue(filter.IsValid());
         }
     }

@@ -26,7 +26,6 @@
         routingService,
         fileService,
         authenticationService) {
-
         var vm = this;
         vm.model = {};
         vm.model.files = [];
@@ -49,28 +48,23 @@
 
         activate();
 
-        function activate()
-        {
-            if (vm.friendlyName)
-            {
+        function activate() {
+            if (vm.friendlyName) {
                 getShelter();
             }
         }
 
-        function getShelter()
-        {
+        function getShelter() {
             shelterService.getById(vm.friendlyName)
                 .then(getCompleted)
                 .catch(helperService.handleError);
 
-            function getCompleted(response)
-            {
+            function getCompleted(response) {
                 vm.model = response;
             }
         }
 
-        function changeLocation(selectedLocation)
-        {
+        function changeLocation(selectedLocation) {
             vm.model.location = vm.model.location || {};
             vm.model.location = selectedLocation ? selectedLocation.originalObject : undefined;
             getFullNameImage();
@@ -107,98 +101,91 @@
             if (vm.model.id) {
                 fileService.postContentFile(vm.model.id, image)
                     .then(postCompleted);
-
-                function postCompleted(response) {
-                    vm.model.files.push(image);
-                }
             }
             else {
                 vm.model.files = vm.model.files || [];
                 vm.model.files.push(image);
             }
+
+            function postCompleted(response) {
+                vm.model.files.push(image);
+            }
         }
 
-        function reorder(newFiles)
-        {
+        function reorder(newFiles) {
             vm.model.files = newFiles;
         }
 
-        function save()
-        {
+        function save() {
             if (vm.form.$submitted && vm.form.$valid && !vm.form.isBusy) {
-
                 vm.form.isBusy = true;
 
                 authenticationService.showLogin($scope)
                     .then(authenticationCompleted)
                     .catch(authenticationError);
-
-                function authenticationCompleted(responseAuth) {
-                    var currentUser = responseAuth;
-
-                    if (vm.model.files.length < 3) {
-                        modalService.showError({ message: 'Debes cargar al menos tres imágenes de tu fundación', title: 'Muy pocas imágenes!' });
-                        vm.form.isBusy = false;
-                        return;
-                    }
-
-                    if (vm.progressFiles.length)
-                    {
-                        modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
-                        vm.form.isBusy = false;
-                        return;
-                    }
-
-                    if (vm.friendlyName) {
-                        shelterService.put(vm.model)
-                            .then(postCompleted)
-                            .catch(postError);
-                    }
-                    else {
-                        vm.model.user = currentUser;
-                        vm.model.users = [{ userid: vm.model.user.id, relationType: 'Shelter' }];
-
-                        shelterService.post(vm.model)
-                            .then(postCompleted)
-                            .catch(postError);
-                    }
-
-                    function postCompleted(response) {
-
-                        if (!vm.friendlyName)
-                        {
-                            helperService.trackGoal('Shelters', 'Request');
-                        }
-                        
-                        vm.form.isBusy = false;
-                        if (vm.friendlyName) {
-                            modalService.show({
-                                message: 'La fundación fue correctamente actualizada',
-                                redirectAfterClose: routingService.getRoute('shelter', { friendlyName: vm.friendlyName })
-                            });
-                        }
-                        else {
-                            modalService.show({
-                                message: 'Muchas gracias por registrar tu fundación en Huellitas sin Hogar. Pronto recibirás noticias de nosotros.',
-                                redirectAfterClose: routingService.getRoute('shelters')
-                            });
-                        }
-                    }
-
-                    function postError(response) {
-                        vm.form.isBusy = false;
-                        modalService.showError({ message: 'No pudimos guardar los datos. Intenta de nuevo o comunicate con nosotros por medio de Facebook' });
-                    }
-                }
-
-                function authenticationError()
-                {
-                    console.log('No autenticado');
-                    vm.form.isBusy = false;
-                }
             }
             else {
                 helperService.goToFocusError();
+            }
+
+            function authenticationCompleted(responseAuth) {
+                var currentUser = responseAuth;
+
+                if (vm.model.files.length < 3) {
+                    modalService.showError({ message: 'Debes cargar al menos tres imágenes de tu fundación', title: 'Muy pocas imágenes!' });
+                    vm.form.isBusy = false;
+                    return;
+                }
+
+                if (vm.progressFiles.length) {
+                    modalService.showError({ message: 'Las imagenes no han terminado de cargar, espera unos segundos y cuando termine dale clic nuevamente en guardar.', title: 'Imagenes cargando' });
+                    vm.form.isBusy = false;
+                    return;
+                }
+
+                if (vm.friendlyName) {
+                    shelterService.put(vm.model)
+                        .then(postCompleted)
+                        .catch(postError);
+                }
+                else {
+                    vm.model.user = currentUser;
+                    vm.model.users = [{ userid: vm.model.user.id, relationType: 'Shelter' }];
+
+                    shelterService.post(vm.model)
+                        .then(postCompleted)
+                        .catch(postError);
+                }
+            }
+
+            function authenticationError() {
+                console.log('No autenticado');
+                vm.form.isBusy = false;
+            }
+
+            function postCompleted(response) {
+                if (!vm.friendlyName) {
+                    helperService.trackGoal('Shelters', 'Request');
+                }
+
+                vm.form.isBusy = false;
+                if (vm.friendlyName) {
+                    modalService.show({
+                        message: 'La fundación fue correctamente actualizada',
+                        redirectAfterClose: routingService.getRoute('shelter', { friendlyName: vm.friendlyName })
+                    });
+                }
+                else {
+                    modalService.show({
+                        message: 'Muchas gracias por registrar tu fundación en Huellitas sin Hogar. Pronto recibirás noticias de nosotros.',
+                        redirectAfterClose: routingService.getRoute('shelters')
+                    });
+                }
+            }
+
+            function postError(response) {
+                vm.form.isBusy = false;
+                modalService.showError({ message: 'No pudimos guardar los datos. Intenta de nuevo o comunicate con nosotros por medio de Facebook' });
             }
         }
 

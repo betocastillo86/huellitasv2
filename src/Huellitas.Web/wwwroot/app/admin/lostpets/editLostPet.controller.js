@@ -27,7 +27,6 @@
         vm.showMoreActive = false;
         vm.showPicturesActive = false;
 
-
         vm.activeTooggleClass = activeTooggleClass;
         vm.changeGenre = changeGenre;
         vm.changeSubtype = changeSubtype;
@@ -78,7 +77,6 @@
                 vm.model.relatedPets = [];
                 vm.getFullNameImage();
                 //vm.model.closingDate = moment(vm.model.closingDate, 'YYYY/MM/DD HH:mm:ss').format('YYYY/MM/DD');
-
             }
         }
 
@@ -103,8 +101,6 @@
                 var contentUser = { userId: user.id, relationType: user.relationType };
 
                 if (vm.id) {
-
-
                     contentService.postUser(vm.id, contentUser)
                         .then(postCompleted)
                         .catch(helperService.handleException);
@@ -124,7 +120,6 @@
 
         function deleteParent(user) {
             if (vm.id) {
-
                 if (confirm('¿Seguro deseas eliminar este usuario?')) {
                     contentService.deleteUser(vm.id, user.id)
                         .then(deleteCompleted)
@@ -162,8 +157,7 @@
             }
         }
 
-        function changeBreed(selectedBreed)
-        {
+        function changeBreed(selectedBreed) {
             vm.model.breed = selectedBreed ? { value: selectedBreed.originalObject.id, text: selectedBreed.originalObject.value } : undefined;
         }
 
@@ -275,7 +269,6 @@
 
         function save(isValid) {
             if (isValid && !vm.isSending) {
-
                 if (!vm.model.files || vm.model.files.length == 0) {
                     modalService.showError({ message: 'Al menos debe seleccionar una imagen' });
                     return false;
@@ -296,7 +289,6 @@
             }
 
             function saveCompleted(response) {
-
                 vm.isSending = false;
 
                 response = response;

@@ -55,21 +55,19 @@
                 userService.putPasswordRecovery(vm.token, vm.model)
                     .then(putCompleted)
                     .catch(putError);
+            }
 
-                function putCompleted()
-                {
-                    modalService.show({
-                        message: 'Tu clave ha sido cambiada correctamente, incia sesión con tu nueva clave',
-                        redirectAfterClose: routingService.getRoute('home'/*, {login: true}*/)
-                    });
-                }
+            function putCompleted() {
+                modalService.show({
+                    message: 'Tu clave ha sido cambiada correctamente, incia sesión con tu nueva clave',
+                    redirectAfterClose: routingService.getRoute('home'/*, {login: true}*/)
+                });
+            }
 
-                function putError()
-                {
-                    modalService.showError({
-                        message: 'No fue posible actualizar tus datos'
-                    });
-                }
+            function putError() {
+                modalService.showError({
+                    message: 'No fue posible actualizar tus datos'
+                });
             }
         }
     }
