@@ -14,7 +14,7 @@ namespace Huellitas.Data.Core
     /// Interface of Repository
     /// </summary>
     /// <typeparam name="T">The class base entity</typeparam>
-    public partial interface IRepository<T> where T : BaseEntity
+    public partial interface IRepository<T> where T : IEntity
     {
         /// <summary>
         /// Gets the table.
@@ -43,13 +43,6 @@ namespace Huellitas.Data.Core
         /// </summary>
         /// <param name="entities">The Entities</param>
         void Delete(IEnumerable<T> entities);
-
-        /// <summary>
-        /// Get entity by identifier
-        /// </summary>
-        /// <param name="id">the Identifier</param>
-        /// <returns>the entity</returns>
-        T GetById(int id);
 
         /// <summary>
         /// Insert entity

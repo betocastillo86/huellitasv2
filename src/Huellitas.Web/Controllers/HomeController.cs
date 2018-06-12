@@ -9,6 +9,7 @@ namespace Huellitas.Web.Controllers
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
+    using Huellitas.Web.Infraestructure.Filters.Action;
     using Huellitas.Web.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,7 @@ namespace Huellitas.Web.Controllers
         /// Indexes this instance.
         /// </summary>
         /// <returns>the value</returns>
+        [ServiceFilter(typeof(CrawlerAttribute))]
         public IActionResult Index()
         {
             var model = new HomeModel();

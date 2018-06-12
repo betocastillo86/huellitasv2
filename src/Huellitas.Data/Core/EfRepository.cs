@@ -17,7 +17,7 @@ namespace Huellitas.Data.Core
     /// </summary>
     /// <typeparam name="T">The Entity</typeparam>
     /// <seealso cref="Huellitas.Data.Core.IRepository{T}" />
-    public partial class EfRepository<T> : IRepository<T> where T : BaseEntity
+    public partial class EfRepository<T> : IRepository<T> where T : class, IEntity
     {
         /// <summary>
         /// The context
@@ -122,20 +122,6 @@ namespace Huellitas.Data.Core
             }
 
             this.context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Get entity by identifier
-        /// </summary>
-        /// <param name="id">the Identifier</param>
-        /// <returns>
-        /// The Entity
-        /// </returns>
-        public virtual T GetById(int id)
-        {
-            ////see some suggested performance optimization (not tested)
-            ////http://stackoverflow.com/questions/11686225/dbset-find-method-ridiculously-slow-compared-to-singleordefault-on-id/11688189#comment34876113_11688189
-            return this.Entities.FirstOrDefault(e => e.Id == id);
         }
 
         /// <summary>

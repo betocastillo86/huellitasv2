@@ -248,8 +248,9 @@ namespace Huellitas.Business.Services
         {
             var statusCreated = Convert.ToInt16(StatusType.Created);
             var statusRejected = Convert.ToInt16(StatusType.Rejected);
+            var statusClosed = Convert.ToInt16(StatusType.Closed);
             var contents = this.contentRepository.Table
-                .Where(c => !c.Deleted && c.Status != statusCreated && c.Status != statusRejected)
+                .Where(c => !c.Deleted && c.Status != statusCreated && c.Status != statusRejected && c.Status != statusClosed && (c.ClosingDate == null || c.ClosingDate >= DateTime.Now))
                 .ToList();
 
             var urls = new Dictionary<string, DateTime?>();

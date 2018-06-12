@@ -2,9 +2,30 @@
     angular.module('huellitasAdmin')
         .controller('EditLostPetController', EditLostPetController);
 
-    EditLostPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService', 'helperService'];
+    EditLostPetController.$inject = [
+        '$routeParams',
+        '$location',
+        'petService',
+        'customTableRowService',
+        'statusTypeService',
+        'fileService',
+        'modalService',
+        'contentService',
+        'helperService',
+        'crawlingService'];
 
-    function EditLostPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
+    function EditLostPetController(
+        $routeParams,
+        $location,
+        petService,
+        customTableRowService,
+        statusTypeService,
+        fileService,
+        modalService,
+        contentService,
+        helperService,
+        crawlingService) {
+
         var vm = this;
         vm.id = $routeParams.id;
         vm.saveonreorder = vm.id > 0;
@@ -298,6 +319,9 @@
                 if (isNew) {
                     message = 'La mascota se ha creado correctamente';
                     vm.model.id = response.id;
+                }
+                else {
+                    crawlingService.openCrawlingWindow('lostpet', { friendlyName: vm.model.friendlyName });
                 }
 
                 modalService.show({

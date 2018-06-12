@@ -8,7 +8,7 @@ namespace Huellitas.Data.Entities
     /// <summary>
     /// Base of all database entities
     /// </summary>
-    public class BaseEntity
+    public class BaseEntity : IEntity
     {
         /// <summary>
         /// Gets or sets the identifier.
