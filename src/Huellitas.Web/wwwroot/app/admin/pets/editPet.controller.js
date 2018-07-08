@@ -2,9 +2,30 @@
     angular.module('huellitasAdmin')
         .controller('EditPetController', EditPetController);
 
-    EditPetController.$inject = ['$routeParams', '$location', 'petService', 'customTableRowService', 'statusTypeService', 'fileService', 'modalService', 'contentService', 'helperService'];
+    EditPetController.$inject = [
+        '$routeParams',
+        '$location',
+        'petService',
+        'customTableRowService',
+        'statusTypeService',
+        'fileService',
+        'modalService',
+        'contentService',
+        'helperService',
+        'crawlingService'];
 
-    function EditPetController($routeParams, $location, petService, customTableRowService, statusTypeService, fileService, modalService, contentService, helperService) {
+    function EditPetController(
+        $routeParams,
+        $location,
+        petService,
+        customTableRowService,
+        statusTypeService,
+        fileService,
+        modalService,
+        contentService,
+        helperService,
+        crawlingService) {
+
         var vm = this;
         vm.id = $routeParams.id;
         vm.saveonreorder = vm.id > 0;
@@ -314,6 +335,9 @@
                 if (isNew) {
                     message = 'La mascota se ha creado correctamente';
                     vm.model.id = response.id;
+                }
+                else {
+                    crawlingService.openCrawlingWindow('pet', { friendlyName: vm.model.friendlyName });
                 }
 
                 modalService.show({

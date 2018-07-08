@@ -1,9 +1,9 @@
 ﻿<div>
     BIENVENID@ {{main.name}}
 
-    <button ng-click="main.showModal()" >Mostrar modal</button>
-
-    <modal-huellitas control="main.modal"></modal-huellitas>
+    <ul>
+        <li>Hacer crawling a la página <input type="text" ng-model="main.model.prefixCrawl" /> <button ng-click="main.crawl()" class="btn btn-lg btn-danger">Ejecutar</button></li>
+    </ul>
 
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

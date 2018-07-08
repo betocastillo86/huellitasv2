@@ -122,6 +122,7 @@ namespace Huellitas.Business.Services
             var urls = this.GetUrlsForSiteMap();
 
             var elements = new List<XElement>();
+            XNamespace nsa = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
             foreach (var url in urls)
             {
@@ -131,14 +132,14 @@ namespace Huellitas.Business.Services
 
                 if (url.Value.HasValue)
                 {
-                    children.Add(new XElement("lastmod", url.Value));
+                    children.Add(new XElement("lastmod", url.Value.Value.ToString("yyyy-MM-dd")));
                 }
 
                 var element = new XElement("url", children);
                 elements.Add(element);
             }
 
-            var document = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement("urlset", elements));
+            var document = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement(nsa + "urlset", elements));
 
             return document.ToString();
         }
@@ -246,10 +247,11 @@ namespace Huellitas.Business.Services
         /// <returns>the list of url</returns>
         private IDictionary<string, DateTime?> GetContentUrls()
         {
-            var statusCreated = Convert.ToInt16(StatusType.Created);
-            var statusRejected = Convert.ToInt16(StatusType.Rejected);
+            var statusPublished = Convert.ToInt16(StatusType.Published);
+            //var statusRejected = Convert.ToInt16(StatusType.Rejected);
+            //var statusClosed = Convert.ToInt16(StatusType.Closed);
             var contents = this.contentRepository.Table
-                .Where(c => !c.Deleted && c.Status != statusCreated && c.Status != statusRejected)
+                .Where(c => !c.Deleted && c.Status == statusPublished && (c.ClosingDate == null || c.ClosingDate >= DateTime.Now))
                 .ToList();
 
             var urls = new Dictionary<string, DateTime?>();

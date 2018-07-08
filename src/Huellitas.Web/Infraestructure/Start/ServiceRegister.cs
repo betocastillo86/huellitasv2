@@ -22,6 +22,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using UI;
     using Huellitas.Web.Infraestructure.Tasks;
     using Huellitas.Business.Tasks;
+    using Huellitas.Web.Infraestructure.Filters.Action;
 
     /// <summary>
     /// Helper for register services
@@ -81,12 +82,16 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IExternalAuthenticationService, ExternalAuthenticationService>();
+            services.AddScoped<ICrawlingService, CrawlingService>();
 
             ////UI
             services.AddScoped<IJavascriptConfigurationGenerator, JavascriptConfigurationGenerator>();
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();
+
+            // Filters
+            services.AddScoped<CrawlerAttribute>();
 
             ////Events
             //services.AddScoped<ImageResizeTask, ImageResizeTask>();

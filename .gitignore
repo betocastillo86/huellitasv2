@@ -82,6 +82,7 @@ NuGet.exe
 _[Ss]cripts
 *.exe
 *.dll
+*.pubxml
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over

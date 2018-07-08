@@ -11,9 +11,10 @@ using System;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20180609160428_AddTable_SeoCrawlings")]
+    partial class AddTable_SeoCrawlings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -819,11 +820,11 @@ namespace Huellitas.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<DateTime>("CreationDate");
-
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<DateTime>("CreationDate");
 
                     b.Property<DateTime?>("ModifiedDate");
 

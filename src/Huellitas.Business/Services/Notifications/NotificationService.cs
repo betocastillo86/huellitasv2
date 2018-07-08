@@ -136,7 +136,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public Notification GetById(int id)
         {
-            return this.notificationRepository.GetById(id);
+            return this.notificationRepository.Table.FirstOrDefault(c => c.Id == id);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public EmailNotification GetEmailNotificationById(int id)
         {
-            return this.emailNotificationRepository.GetById(id);
+            return this.emailNotificationRepository.Table.FirstOrDefault(c => c.Id == id);
         }
 
         /// <summary>

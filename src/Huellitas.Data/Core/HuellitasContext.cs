@@ -223,7 +223,21 @@ namespace Huellitas.Data.Core
         /// </value>
         public virtual DbSet<Banner> Banners { get; set; }
 
+        /// <summary>
+        /// Gets or sets the comments.
+        /// </summary>
+        /// <value>
+        /// The comments.
+        /// </value>
         public virtual DbSet<Comment> Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the seo crawlings.
+        /// </summary>
+        /// <value>
+        /// The seo crawlings.
+        /// </value>
+        public virtual DbSet<SeoCrawling> SeoCrawlings { get; set; }
 
         /// <summary>
         /// Override this method to further configure the model that was discovered by convention from the entity types
@@ -266,6 +280,7 @@ namespace Huellitas.Data.Core
             modelBuilder.Entity<TextResource>().Map();
             modelBuilder.Entity<Banner>().Map();
             modelBuilder.Entity<Comment>().Map();
+            modelBuilder.Entity<SeoCrawling>().Map();
         }
     }
 }

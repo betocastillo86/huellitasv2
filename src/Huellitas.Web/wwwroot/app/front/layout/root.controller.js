@@ -12,20 +12,24 @@
         '$location',
         '$scope',
         '$window',
+        '$timeout',
         'sessionService',
         'authenticationService',
         'helperService',
-        'routingService']
+        'routingService',
+        'crawlingService']
 
     function RootController(
         $http,
         $location,
         $scope,
         $window,
+        $timeout,
         sessionService,
         authenticationService,
         helperService,
-        routingService) {
+        routingService,
+        crawlingService) {
 
         var vm = this;
 
@@ -119,6 +123,48 @@
         function contentLoaded() {
             vm.seo.url = $window.location.href;
             vm.seo.image = vm.seo.image ? vm.seo.image : routingService.getFullRouteOfFile(app.Settings.general.seoImage);
+
+            validateCrawling();
+        }
+
+        function validateCrawling()
+        {
+            if ($location.search().angularjs)
+            {
+                vm.seo.url = vm.seo.url.replace('?angularjs=true', '').replace('angularjs=true', '');
+
+                $timeout(function () {
+                    var html = getHtml();
+                    var url = $location.path();
+                    crawlingService.post({ url: url, html: html })
+                        .then(crawlingCompleted)
+                        .catch(crawlingError);
+                }, 2000);
+            }
+
+            function getHtml()
+            {
+                var imgs = $('img');
+                for (var i = 0; i < imgs.length; i++) {
+                    var img = $(imgs[i]);
+                    if (img.attr('src').startsWith('/')) {
+                        img.attr('src', app.Settings.general.siteUrl + img.attr('src'));
+                    }
+                }
+
+                return new XMLSerializer().serializeToString(document);                
+            }
+
+            function crawlingCompleted() {
+                console.log("crawling completado");
+            }
+
+            function crawlingError(err) {
+                if (!window.opener) {
+                    alert("Error haciendo crawling");
+                }
+                console.log(err);
+            }
         }
 
         function showLogin() {

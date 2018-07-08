@@ -135,7 +135,8 @@ namespace Huellitas.Web.Infraestructure.UI
                 general = new
                 {
                     pageSize = this.generalSettings.DefaultPageSize,
-                    configJavascriptCacheKey = cacheKey
+                    configJavascriptCacheKey = cacheKey,
+                    siteUrl = generalSettings.SiteUrl
                 },
                 customTables = new
                 {
