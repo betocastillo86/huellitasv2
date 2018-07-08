@@ -82,7 +82,7 @@ gulp.task('resourcesAdminRelease', function () {
 
     return gulp.src(files, { base: '.' })
         .pipe(concat(paths.webroot + "js/admin.resources.min.js"))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest('.'));
 });
 
@@ -202,7 +202,7 @@ gulp.task('sassFront', function () {
     console.log(paths.sassFront + 'styles.scss')
     return gulp.src(paths.sassFront + 'styles.scss')
         .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
-        //.pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest(paths.webroot + 'css/sassfront/'));
 });
 

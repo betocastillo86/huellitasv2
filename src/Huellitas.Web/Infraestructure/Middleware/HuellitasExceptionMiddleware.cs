@@ -42,7 +42,7 @@ namespace Huellitas.Web.Infraestructure.Middleware
             }
             catch (Exception ex)
             {
-                this.logService.Error(ex);
+                // this.logService.Error(ex);
 
                 var jsonResponse = new ApiError()
                 {
