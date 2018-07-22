@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
-    using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;

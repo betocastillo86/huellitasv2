@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Huellitas.Business.Notifications;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Notifications;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface of Notification Service

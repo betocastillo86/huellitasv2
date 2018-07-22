@@ -5,14 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Beto.Core.Caching;
     using Beto.Core.Data;
     using Data.Entities;
-    using Data.Infraestructure;
-    using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
@@ -21,9 +21,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Pets Controller Test
@@ -31,11 +28,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     [TestFixture]
     public class PetsControllerTest : BaseTest
     {
-        Mock<ISeoService> seoService = new Mock<ISeoService>();
-        Mock<ILocationService> locationService = new Mock<ILocationService>();
-        Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
-        Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
-        Mock<IUserService> userService = new Mock<IUserService>();
+        private Mock<ISeoService> seoService = new Mock<ISeoService>();
+        private Mock<ILocationService> locationService = new Mock<ILocationService>();
+        private Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
+        private Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
+        private Mock<IUserService> userService = new Mock<IUserService>();
 
         /// <summary>
         /// Gets the pets invalid filter.
@@ -79,7 +76,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null,null, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null, null, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
                 mockContentService.Object,
@@ -490,7 +487,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
-        }      
+        }
 
         /// <summary>
         /// Gets the pet by identifier not found unpublished pet.

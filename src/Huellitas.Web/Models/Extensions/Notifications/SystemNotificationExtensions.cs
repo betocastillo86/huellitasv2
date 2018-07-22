@@ -26,7 +26,7 @@ namespace Huellitas.Web.Models.Extensions
             {
                 Id = entity.Id,
                 Seen = entity.Seen,
-                TargetUrl = entity.TargetURL,
+                TargetUrl = entity.TargetUrl,
                 Value = entity.Value,
                 CreationDate = entity.CreationDate
             };

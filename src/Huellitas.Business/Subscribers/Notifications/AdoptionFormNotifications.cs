@@ -9,14 +9,14 @@ namespace Huellitas.Business.Subscribers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Business.Notifications;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
     using Configuration;
     using Data.Entities;
     using Data.Extensions;
     using Exceptions;
     using Extensions;
     using Hangfire;
-    using Beto.Core.EventPublisher;
     using Huellitas.Business.Tasks;
     using Security;
     using Services;
@@ -171,7 +171,6 @@ namespace Huellitas.Business.Subscribers
 
             await this.NotifyAdoptionFormAnswer(answer, user, content, shelter);
         }
-
 
         public async Task NotifyNoAnsweredForm(int formId)
         {
@@ -336,7 +335,7 @@ namespace Huellitas.Business.Subscribers
             }
 
             var parents = this.contentService.GetUsersByContentId(content.Id, ContentUserRelationType.Parent, true)
-                .Where(c => !users.Select(u => u.Id).Contains(c.UserId) )
+                .Where(c => !users.Select(u => u.Id).Contains(c.UserId))
                 .Select(c => c.User)
                 .ToList();
 
@@ -384,7 +383,7 @@ namespace Huellitas.Business.Subscribers
             {
                 userShared = this.userService.GetById(formUser.UserId);
             }
-            
+
             await this.notificationService.NewNotification(
                 userShared,
                 this.workContext.CurrentUser,

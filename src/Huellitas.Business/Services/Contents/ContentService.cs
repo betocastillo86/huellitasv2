@@ -17,7 +17,7 @@ namespace Huellitas.Business.Services
     using Beto.Core.EventPublisher;
     using Exceptions;
     using Huellitas.Data.Core;
-    using Huellitas.Data.Infraestructure;
+    
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>

@@ -10,7 +10,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.Security;

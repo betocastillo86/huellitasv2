@@ -3,9 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
     using Beto.Core.Helpers;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
@@ -23,7 +22,6 @@
         /// The notification service
         /// </summary>
         private readonly INotificationService notificationService;
-
 
         /// <summary>
         /// The SEO service

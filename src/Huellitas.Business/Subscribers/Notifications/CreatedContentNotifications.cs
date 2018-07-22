@@ -1,24 +1,24 @@
 ﻿namespace Huellitas.Business.Subscribers
 {
-    using Beto.Core.EventPublisher;
-    using Huellitas.Business.Extensions;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Security;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Entities;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using System;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
     using Hangfire;
     using Huellitas.Business.Configuration;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
+    using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
 
     /// <summary>
     /// Notification of the process of creating a pet
     /// </summary>
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
-    public class CreatedContentNotifications : 
+    public class CreatedContentNotifications :
         ISubscriber<EntityInsertedMessage<Content>>,
         ISubscriber<ContentAprovedModel>
     {
@@ -224,8 +224,6 @@
             }
         }
 
-
-
         /// <summary>
         /// Notifies the pet aproved.
         /// </summary>
@@ -246,7 +244,6 @@
                 {
                     parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
                 }
-
 
                 await this.notificationService.NewNotification(
                     user,

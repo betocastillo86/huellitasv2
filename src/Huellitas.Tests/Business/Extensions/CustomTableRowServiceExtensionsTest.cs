@@ -10,7 +10,7 @@ namespace Huellitas.Tests.Business.Extensions
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Moq;
     using NUnit.Framework;
 

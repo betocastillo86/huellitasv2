@@ -5,15 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Beto.Core.Caching;
     using Beto.Core.Data;
     using Caching;
-    using Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Location Service
@@ -80,11 +77,11 @@ namespace Huellitas.Business.Services
         public IList<Location> GetCachedLocations()
         {
             return this.cacheManager.Get(
-                CacheKeys.LOCATIONS_ALL, 
-                () => 
+                CacheKeys.LOCATIONS_ALL,
+                () =>
                 {
-                return this.GetAll();
-            });
+                    return this.GetAll();
+                });
         }
 
         /// <summary>

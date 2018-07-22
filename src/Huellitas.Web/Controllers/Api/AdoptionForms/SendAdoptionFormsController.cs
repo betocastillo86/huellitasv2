@@ -5,16 +5,16 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using Huellitas.Business.Notifications;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Text;
 
     /// <summary>
     /// Send Adoption Forms Controller
@@ -80,7 +80,6 @@ namespace Huellitas.Web.Controllers.Api
                         parameters.Add("Pet.Name", form.Content.Name);
                         parameters.Add("Pet.Url", form.Content.Name);
 
-
                         var attributesHtml = new StringBuilder();
 
                         attributesHtml.Append($"<br>Nombre: {form.Name}");
@@ -100,7 +99,6 @@ namespace Huellitas.Web.Controllers.Api
                         }
 
                         parameters.Add("Form.Attributes", attributesHtml.ToString());
-
 
                         await this.notificationService.NewNotification(
                             user,

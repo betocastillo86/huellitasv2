@@ -3,13 +3,15 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
+using Beto.Core.Data.Entities;
+
 namespace Huellitas.Data.Entities
 {
     /// <summary>
     /// System Setting
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class SystemSetting : BaseEntity
+    public partial class SystemSetting : BaseEntity, ISettingEntity
     {
         /// <summary>
         /// Gets or sets the name.

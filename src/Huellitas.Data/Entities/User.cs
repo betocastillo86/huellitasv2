@@ -7,12 +7,13 @@ namespace Huellitas.Data.Entities
 {
     using System;
     using System.Collections.Generic;
+    using Beto.Core.Data.Users;
 
     /// <summary>
     /// The class User
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class User : BaseEntity
+    public partial class User : BaseEntity, IUserEntity
     {
         private ICollection<Comment> comments;
 

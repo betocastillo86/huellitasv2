@@ -11,7 +11,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
     using System.Threading.Tasks;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;

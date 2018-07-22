@@ -6,8 +6,8 @@
 namespace Huellitas.Business.Services
 {
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Data.Entities;
-    using Data.Infraestructure;
 
     /// <summary>
     /// Interface of user services

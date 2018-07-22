@@ -6,8 +6,8 @@
 namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
+    using Beto.Core.Data;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Interface of Custom Table Service

@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Beto.Core.Data.Configuration;
     using Extensions;
+    using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Models;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
@@ -42,7 +44,7 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// The system setting service
         /// </summary>
-        private readonly ISystemSettingService systemSettingService;
+        private readonly ICoreSettingService systemSettingService;
 
         /// <summary>
         /// The custom table service
@@ -70,7 +72,7 @@ namespace Huellitas.Business.Services
         public PictureService(
             IFilesHelper fileHelper,
             ILogService logService,
-            ISystemSettingService systemSettingService,
+            ICoreSettingService systemSettingService,
             ICustomTableService customTableService,
             IHostingEnvironment host,
             IContentService contentService)
@@ -101,8 +103,8 @@ namespace Huellitas.Business.Services
             SocialNetwork network = SocialNetwork.Facebook,
             Func<string, string> contentUrlFunction = null)
         {
-            int width = this.systemSettingService.GetCachedSetting<int>($"GeneralSettings.PostImageWidth{network.ToString()}");
-            int height = this.systemSettingService.GetCachedSetting<int>($"GeneralSettings.PostImageHeight{network.ToString()}");
+            int width = this.systemSettingService.Get<int>($"GeneralSettings.PostImageWidth{network.ToString()}");
+            int height = this.systemSettingService.Get<int>($"GeneralSettings.PostImageHeight{network.ToString()}");
 
             var newImagePath = this.fileHelper.GetPhysicalPath(file, width, height);
 

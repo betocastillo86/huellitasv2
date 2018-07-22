@@ -7,6 +7,8 @@ namespace Huellitas.Business.Configuration
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Beto.Core.Data.Configuration;
+    using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services;
 
     /// <summary>
@@ -19,13 +21,13 @@ namespace Huellitas.Business.Configuration
         /// <summary>
         /// The setting service
         /// </summary>
-        private readonly ISystemSettingService settingService;
+        private readonly ICoreSettingService settingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecuritySettings"/> class.
         /// </summary>
         /// <param name="settingService">The setting service.</param>
-        public SecuritySettings(ISystemSettingService settingService)
+        public SecuritySettings(ICoreSettingService settingService)
         {
             this.settingService = settingService;
         }
@@ -36,7 +38,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The authentication audience.
         /// </value>
-        public string AuthenticationAudience { get { return this.settingService.GetCachedSetting<string>("SecuritySettings.AuthenticationAudience"); } }
+        public string AuthenticationAudience { get { return this.settingService.Get<string>("SecuritySettings.AuthenticationAudience"); } }
 
         /// <summary>
         /// Gets the authentication issuer.
@@ -44,7 +46,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The authentication issuer.
         /// </value>
-        public string AuthenticationIssuer { get { return this.settingService.GetCachedSetting<string>("SecuritySettings.AuthenticationIssuer"); } }
+        public string AuthenticationIssuer { get { return this.settingService.Get<string>("SecuritySettings.AuthenticationIssuer"); } }
 
         /// <summary>
         /// Gets the authentication secret key.
@@ -52,7 +54,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The authentication secret key.
         /// </value>
-        public string AuthenticationSecretKey { get { return this.settingService.GetCachedSetting<string>("SecuritySettings.AuthenticationSecretKey"); } }
+        public string AuthenticationSecretKey { get { return this.settingService.Get<string>("SecuritySettings.AuthenticationSecretKey"); } }
 
         /// <summary>
         /// Gets the expiration token minutes.
@@ -60,10 +62,10 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The expiration token minutes.
         /// </value>
-        public int ExpirationTokenMinutes { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.ExpirationTokenMinutes"); } }
+        public int ExpirationTokenMinutes { get { return this.settingService.Get<int>("SecuritySettings.ExpirationTokenMinutes"); } }
 
-        public int MaxRequestFileUploadMB { get { return this.settingService.GetCachedSetting<int>("SecuritySettings.MaxRequestFileUploadMB"); } }
+        public int MaxRequestFileUploadMB { get { return this.settingService.Get<int>("SecuritySettings.MaxRequestFileUploadMB"); } }
 
-        public bool TrackHomeRequests => this.settingService.GetCachedSetting<bool>("SecuritySettings.TrackHomeRequests");
+        public bool TrackHomeRequests => this.settingService.Get<bool>("SecuritySettings.TrackHomeRequests");
     }
 }

@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    using Beto.Core.Data.Notifications;
+
     /// <summary>
     /// Notification Class
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class Notification : BaseEntity
+    public partial class Notification : BaseEntity, INotificationEntity
     {
         /// <summary>
         /// Gets or sets the name.

@@ -28,7 +28,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasMaxLength(500);
 
-            entity.Property(t => t.TargetURL)
+            entity.Property(t => t.TargetUrl)
                 .IsRequired()
                 .HasMaxLength(500);
 

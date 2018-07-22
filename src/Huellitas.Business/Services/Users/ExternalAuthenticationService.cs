@@ -1,4 +1,5 @@
 ﻿using Beto.Core.Data;
+using Beto.Core.Data.Users;
 using Beto.Core.Helpers;
 using Huellitas.Business.Exceptions;
 using Huellitas.Business.Models;
@@ -29,6 +30,11 @@ namespace Huellitas.Business.Services
         private readonly IRepository<User> userRepository;
 
         /// <summary>
+        /// The social authentication service
+        /// </summary>
+        private readonly ISocialAuthenticationService socialAuthenticationService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExternalAuthenticationService"/> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
@@ -36,10 +42,12 @@ namespace Huellitas.Business.Services
         /// <param name="stringHelpers">The string helpers.</param>
         public ExternalAuthenticationService(
             IUserService userService,
-            IRepository<User> userRepository)
+            IRepository<User> userRepository,
+            ISocialAuthenticationService socialAuthenticationService)
         {
             this.userService = userService;
             this.userRepository = userRepository;
+            this.socialAuthenticationService = socialAuthenticationService;
         }
 
         /// <summary>
@@ -52,21 +60,7 @@ namespace Huellitas.Business.Services
         /// <exception cref="HuellitasException">When can't connect</exception>
         public async Task<FacebookUserModel> GetFacebookUser(string token)
         {
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    var uri = "https://graph.facebook.com/me?fields=id,name,email&access_token=" + token;
-                    var response = await client.GetAsync(uri);
-                    var json = await response.Content.ReadAsStringAsync();
-                    FacebookUserModel facebookUser = JsonConvert.DeserializeObject<FacebookUserModel>(json);
-                    return facebookUser;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new HuellitasException(HuellitasExceptionCode.ErrorTryingExternalLogin, e.Message);
-            }
+            return await this.socialAuthenticationService.GetFacebookUser(token);
         }
 
         public async Task<Tuple<bool, User>> TryAuthenticate(SocialLoginType socialNetwork, string token, string token2)

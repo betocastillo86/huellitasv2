@@ -7,7 +7,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;

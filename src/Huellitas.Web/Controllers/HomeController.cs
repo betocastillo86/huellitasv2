@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers
 {
+    using Beto.Core.Data.Configuration;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
+    using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
     using Huellitas.Web.Infraestructure.Filters.Action;
@@ -40,7 +42,7 @@ namespace Huellitas.Web.Controllers
         /// <summary>
         /// system setting service
         /// </summary>
-        private readonly ISystemSettingService systemSettingService;
+        private readonly ICoreSettingService systemSettingService;
 
         /// <summary>
         /// the SEO service
@@ -54,7 +56,7 @@ namespace Huellitas.Web.Controllers
             IGeneralSettings generalSettings,
             ISecuritySettings securitySettings,
             ILogService logService,
-            ISystemSettingService systemSettingService,
+            ICoreSettingService systemSettingService,
             ISeoService seoService)
         {
             this.generalSettings = generalSettings;
@@ -82,7 +84,7 @@ namespace Huellitas.Web.Controllers
 
         public IActionResult RedirectPrevious(int id, string name)
         {
-            var friendlyName = this.systemSettingService.GetCachedSetting<string>($"RedirectionSettings.{name}");
+            var friendlyName = this.systemSettingService.Get<string>($"RedirectionSettings.{name}");
 
             if (!string.IsNullOrEmpty(friendlyName))
             {

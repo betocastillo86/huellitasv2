@@ -11,9 +11,7 @@ namespace Huellitas.Business.Services
     using Beto.Core.Caching;
     using Beto.Core.Data;
     using Caching;
-    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Custom table service
@@ -65,6 +63,7 @@ namespace Huellitas.Business.Services
                 case OrderByTableRow.Value:
                     query = query.OrderBy(c => c.Id);
                     break;
+
                 default:
                 case OrderByTableRow.DisplayOrder:
                     query = query.OrderByDescending(c => c.DisplayOrder);
@@ -86,7 +85,7 @@ namespace Huellitas.Business.Services
         {
             var key = string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, tableId);
             return this.cacheManager.Get(
-                key, 
+                key,
                 () =>
             {
                 return this.GetRowsByTableId(Convert.ToInt32(tableId));

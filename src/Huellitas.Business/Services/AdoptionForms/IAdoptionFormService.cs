@@ -7,8 +7,9 @@ namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
 
     /// <summary>
     /// Interface of adoption form service

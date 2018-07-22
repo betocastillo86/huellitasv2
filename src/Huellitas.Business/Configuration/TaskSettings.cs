@@ -5,7 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
-    using Huellitas.Business.Services;
+    using Beto.Core.Data.Configuration;
+    using Huellitas.Business.Extensions.Services;
 
     /// <summary>
     /// Task Settings
@@ -16,14 +17,14 @@ namespace Huellitas.Business.Configuration
         /// <summary>
         /// The setting service
         /// </summary>
-        private readonly ISystemSettingService settingService;
+        private readonly ICoreSettingService settingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskSettings"/> class.
         /// </summary>
         /// <param name="settingService">The setting service.</param>
         public TaskSettings(
-            ISystemSettingService settingService)
+            ICoreSettingService settingService)
         {
             this.settingService = settingService;
         }
@@ -34,6 +35,6 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The take emails to send.
         /// </value>
-        public int SendEmailsInterval => this.settingService.GetCachedSetting<int>("TaskSettings.SendEmailsInterval");
+        public int SendEmailsInterval => this.settingService.Get<int>("TaskSettings.SendEmailsInterval");
     }
 }

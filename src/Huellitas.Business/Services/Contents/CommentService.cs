@@ -11,7 +11,7 @@ namespace Huellitas.Business.Services
     using Huellitas.Business.Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;

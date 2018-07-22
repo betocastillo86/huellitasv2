@@ -5,21 +5,20 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Beto.Core.Caching;
-    using Beto.Core.Data;
-    using Business.Configuration;
-    using Caching;
-    using Data.Core;
-    using Beto.Core.EventPublisher;
-    using Exceptions;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.Data.Users;
+    using Beto.Core.EventPublisher;
+    using Business.Configuration;
+    using Caching;
+    using Exceptions;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Notification Service
@@ -68,6 +67,11 @@ namespace Huellitas.Business.Services
         private readonly IUserService userService;
 
         /// <summary>
+        /// The core notification service
+        /// </summary>
+        private readonly ICoreNotificationService coreNotificationService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NotificationService"/> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
@@ -86,7 +90,8 @@ namespace Huellitas.Business.Services
             IRepository<SystemNotification> systemNotificationRepository,
             IRepository<EmailNotification> emailNotificationRepository,
             ICacheManager cacheManager,
-            IPublisher publisher)
+            IPublisher publisher,
+            ICoreNotificationService coreNotificationService)
         {
             this.userService = userService;
             this.generalSettings = generalSettings;
@@ -96,6 +101,7 @@ namespace Huellitas.Business.Services
             this.emailNotificationRepository = emailNotificationRepository;
             this.cacheManager = cacheManager;
             this.publisher = publisher;
+            this.coreNotificationService = coreNotificationService;
         }
 
         /// <summary>
@@ -325,93 +331,27 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task NewNotification(IList<User> users, User userTriggerEvent, NotificationType type, string targetUrl, IList<NotificationParameter> parameters, string defaultFromName, string defaultSubject, string defaultMessage)
         {
-            ////En los casos manuales no las busca, sino que quedan quemadas
-            var notification = type != NotificationType.Manual ? this.GetCachedNotification(type) : new Notification() { Active = true, IsEmail = true };
+            var notificationId = Convert.ToInt32(type);
+            var notification = this.GetCachedNotifications()
+                .FirstOrDefault(n => n.Id == notificationId);
 
-            if (parameters == null)
+            var settings = new Beto.Core.Data.Notifications.NotificationSettings()
             {
-                parameters = new List<NotificationParameter>();
-            }
+                BaseHtml = this.notificationSettings.BodyBaseHtml,
+                DefaultFromName = defaultFromName,
+                DefaultMessage = defaultMessage,
+                DefaultSubject = defaultSubject,
+                IsManual = false,
+                SiteUrl = this.generalSettings.SiteUrl
+            };
 
-            if (notification == null)
-            {
-                throw new HuellitasException(HuellitasExceptionCode.RowNotFound);
-            }
-
-            if (notification.Active)
-            {
-                ////Listado de usuarios a los que no se les envía la notificación
-                var usersNotSend = new List<int>();
-
-                ////Se agrega la raiz del sitio
-                parameters.Add("RootUrl", this.generalSettings.SiteUrl);
-
-                ////Asigna por defecto el parametro url el target url
-                if (!string.IsNullOrEmpty(targetUrl) && !parameters.Any(c => c.Key.Equals("Url")))
-                {
-                    if (targetUrl.StartsWith("/"))
-                    {
-                        string.Concat(this.generalSettings.SiteUrl, targetUrl);
-                    }
-
-                    parameters.Add("Url", targetUrl);
-                }
-
-                parameters.Add("FacebookUrl", this.generalSettings.FacebookUrl);
-                parameters.Add("InstagramUrl", this.generalSettings.InstagramUrl);
-
-                if (userTriggerEvent != null)
-                {
-                    parameters.AddOrReplace("TriggerUser.Name", userTriggerEvent.Name);
-                    parameters.AddOrReplace("TriggerUser.Email", userTriggerEvent.Email);
-                }
-
-                var systemNotificationsToInsert = new List<SystemNotification>();
-                var emailNotificationsToInsert = new List<EmailNotification>();
-
-                ////Recorre los usuarios a los que debe realizar la notificación
-
-                foreach (var user in users)
-                {
-                    parameters.AddOrReplace("NotifiedUser.Name", user.Name);
-                    parameters.AddOrReplace("NotifiedUser.Email", user.Email);
-
-                    ////Si la notificación es del sistema la envia
-                    if (notification.IsSystem)
-                    {
-                        var systemNotification = new SystemNotification();
-                        systemNotification.UserId = user.Id;
-                        systemNotification.Value = this.GetStringFormatted(notification.SystemText, parameters);
-                        systemNotification.TargetURL = targetUrl;
-                        systemNotification.CreationDate = DateTime.Now;
-                        systemNotification.Seen = false;
-
-                        if (userTriggerEvent != null)
-                        {
-                            systemNotification.TriggerUserId = userTriggerEvent.Id;
-                        }
-
-                        ////Inserta la notificación de este tipo
-                        systemNotificationsToInsert.Add(systemNotification);
-                    }
-
-                    if (notification.IsEmail && !string.IsNullOrWhiteSpace(user.Email))
-                    {
-                        var emailNotification = this.GetEmailNotificationToAdd(notification, type, user, parameters, defaultFromName, defaultSubject, defaultMessage);
-                        emailNotificationsToInsert.Add(emailNotification);
-                    }
-                }
-
-                if (emailNotificationsToInsert.Count > 0)
-                {
-                    await this.emailNotificationRepository.InsertAsync(emailNotificationsToInsert);
-                }
-
-                if (systemNotificationsToInsert.Count > 0)
-                {
-                    await this.systemNotificationRepository.InsertAsync(systemNotificationsToInsert);
-                }
-            }
+            await this.coreNotificationService.NewNotification<SystemNotification, EmailNotification>(
+                users.Select(c => (IUserEntity)c).ToList(),
+                userTriggerEvent,
+                notification,
+                targetUrl,
+                parameters,
+                settings);
         }
 
         /// <summary>

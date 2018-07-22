@@ -7,9 +7,9 @@ namespace Huellitas.Web.Controllers.Api.Users
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
-    using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -18,7 +18,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Contacts a specific user 
+    /// Contacts a specific user
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/users/{id:int}/contact")]

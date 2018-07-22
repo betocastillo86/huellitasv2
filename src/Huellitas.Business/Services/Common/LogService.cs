@@ -12,7 +12,7 @@ namespace Huellitas.Business.Services
     using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>

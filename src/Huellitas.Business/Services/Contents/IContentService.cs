@@ -5,8 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Beto.Core.Data;
     using Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

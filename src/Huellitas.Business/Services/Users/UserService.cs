@@ -9,14 +9,11 @@ namespace Huellitas.Business.Services
     using System.Linq;
     using System.Threading.Tasks;
     using Beto.Core.Data;
-    using Data.Entities;
-    using Data.Infraestructure;
     using Beto.Core.EventPublisher;
-    using Exceptions;
-    using Huellitas.Data.Core;
-    using Microsoft.EntityFrameworkCore;
-    using Security;
     using Beto.Core.Helpers;
+    using Data.Entities;
+    using Exceptions;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// User Service
@@ -33,7 +30,6 @@ namespace Huellitas.Business.Services
         /// The publisher
         /// </summary>
         private readonly IPublisher publisher;
-
 
         /// <summary>
         /// The user repository

@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers.Notifications
 {
-    using Huellitas.Business.Configuration;
-    using Beto.Core.EventPublisher;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Entities;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// User Notifications

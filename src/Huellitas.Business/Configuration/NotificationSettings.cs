@@ -6,6 +6,8 @@
 namespace Huellitas.Business.Configuration
 {
     using System.Diagnostics.CodeAnalysis;
+    using Beto.Core.Data.Configuration;
+    using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services;
 
     /// <summary>
@@ -18,13 +20,13 @@ namespace Huellitas.Business.Configuration
         /// <summary>
         /// The setting service
         /// </summary>
-        private readonly ISystemSettingService settingService;
+        private readonly ICoreSettingService settingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationSettings"/> class.
         /// </summary>
         /// <param name="settingService">The setting service.</param>
-        public NotificationSettings(ISystemSettingService settingService)
+        public NotificationSettings(ICoreSettingService settingService)
         {
             this.settingService = settingService;
         }
@@ -35,7 +37,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The body base HTML.
         /// </value>
-        public string BodyBaseHtml { get { return this.settingService.GetCachedSetting<string>("NotificationSettings.BodyBaseHtml"); } }
+        public string BodyBaseHtml { get { return this.settingService.Get<string>("NotificationSettings.BodyBaseHtml"); } }
 
         /// <summary>
         /// Gets the email sender email.
@@ -43,7 +45,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The email sender email.
         /// </value>
-        public string EmailSenderEmail => this.settingService.GetCachedSetting<string>("NotificationSettings.EmailSenderEmail");
+        public string EmailSenderEmail => this.settingService.Get<string>("NotificationSettings.EmailSenderEmail");
 
         /// <summary>
         /// Gets the name of the email sender.
@@ -51,7 +53,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The name of the email sender.
         /// </value>
-        public string EmailSenderName { get { return this.settingService.GetCachedSetting<string>("NotificationSettings.EmailSenderName"); } }
+        public string EmailSenderName { get { return this.settingService.Get<string>("NotificationSettings.EmailSenderName"); } }
 
         /// <summary>
         /// Gets the maximum attemtps to send email.
@@ -59,7 +61,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The maximum attemtps to send email.
         /// </value>
-        public int MaxAttemtpsToSendEmail => this.settingService.GetCachedSetting<int>("NotificationSettings.MaxAttemtpsToSendEmail");
+        public int MaxAttemtpsToSendEmail => this.settingService.Get<int>("NotificationSettings.MaxAttemtpsToSendEmail");
 
         /// <summary>
         /// Gets a value indicating whether [send email enabled].
@@ -67,7 +69,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// <c>true</c> if [send email enabled]; otherwise, <c>false</c>.
         /// </value>
-        public bool SendEmailEnabled => this.settingService.GetCachedSetting<bool>("NotificationSettings.SendEmailEnabled");
+        public bool SendEmailEnabled => this.settingService.Get<bool>("NotificationSettings.SendEmailEnabled");
 
         /// <summary>
         /// Gets the SMTP host.
@@ -75,7 +77,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SMTP host.
         /// </value>
-        public string SmtpHost => this.settingService.GetCachedSetting<string>("NotificationSettings.SmtpHost");
+        public string SmtpHost => this.settingService.Get<string>("NotificationSettings.SmtpHost");
 
         /// <summary>
         /// Gets the SMTP password.
@@ -83,7 +85,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SMTP password.
         /// </value>
-        public string SmtpPassword => this.settingService.GetCachedSetting<string>("NotificationSettings.SmtpPassword");
+        public string SmtpPassword => this.settingService.Get<string>("NotificationSettings.SmtpPassword");
 
         /// <summary>
         /// Gets the SMTP port.
@@ -91,7 +93,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SMTP port.
         /// </value>
-        public int SmtpPort => this.settingService.GetCachedSetting<int>("NotificationSettings.SmtpPort");
+        public int SmtpPort => this.settingService.Get<int>("NotificationSettings.SmtpPort");
 
         /// <summary>
         /// Gets the SMTP user.
@@ -99,7 +101,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SMTP user.
         /// </value>
-        public string SmtpUser => this.settingService.GetCachedSetting<string>("NotificationSettings.SmtpUser");
+        public string SmtpUser => this.settingService.Get<string>("NotificationSettings.SmtpUser");
 
         /// <summary>
         /// Gets a value indicating whether [SMTP use SSL].
@@ -107,7 +109,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// <c>true</c> if [SMTP use SSL]; otherwise, <c>false</c>.
         /// </value>
-        public bool SmtpUseSsl => this.settingService.GetCachedSetting<bool>("NotificationSettings.SmtpUseSsl");
+        public bool SmtpUseSsl => this.settingService.Get<bool>("NotificationSettings.SmtpUseSsl");
 
         /// <summary>
         /// Gets the take emails to send.
@@ -115,6 +117,6 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The take emails to send.
         /// </value>
-        public int TakeEmailsToSend => this.settingService.GetCachedSetting<int>("NotificationSettings.TakeEmailsToSend");
+        public int TakeEmailsToSend => this.settingService.Get<int>("NotificationSettings.TakeEmailsToSend");
     }
 }

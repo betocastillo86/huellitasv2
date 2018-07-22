@@ -9,6 +9,10 @@ namespace Huellitas.Web.Infraestructure.Start
     using System.Reflection;
     using Beto.Core.Caching;
     using Beto.Core.Data;
+    using Beto.Core.Data.Common;
+    using Beto.Core.Data.Configuration;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.Data.Users;
     using Beto.Core.EventPublisher;
     using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
@@ -59,7 +63,7 @@ namespace Huellitas.Web.Infraestructure.Start
             ////Settings
             services.AddScoped<IContentSettings, ContentSettings>();
             services.AddScoped<IGeneralSettings, GeneralSettings>();
-            services.AddScoped<INotificationSettings, NotificationSettings>();
+            services.AddScoped<INotificationSettings, Huellitas.Business.Configuration.NotificationSettings>();
             services.AddScoped<ISecuritySettings, SecuritySettings>();
             services.AddScoped<ITaskSettings, TaskSettings>();
 
@@ -68,7 +72,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ILoggerService, LogService>();
             services.AddScoped<ISeoService, SeoService>();
-            services.AddScoped<ISystemSettingService, SystemSettingService>();
+            services.AddScoped<ICoreSettingService, CoreSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
             services.AddScoped<IFilesHelper, FilesHelper>();
             services.AddScoped<IUserService, UserService>();
@@ -91,7 +95,10 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IPublisher, Publisher>();
             services.AddScoped<IServiceFactory, DefaultServiceFactory>();
             services.AddScoped<IMessageExceptionFinder, MessageExceptionFinder>();
-
+            services.AddScoped<ISeoHelper, SeoHelper>();
+            services.AddScoped<ICoreNotificationService, CoreNotificationService>();
+            services.AddScoped<ISocialAuthenticationService, SocialAuthenticationService>();
+            
             // Filters
             services.AddScoped<CrawlerAttribute>();
 
