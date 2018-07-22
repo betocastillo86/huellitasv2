@@ -6,12 +6,13 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
-    using Huellitas.Web.Infraestructure.WebApi;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
-    using Huellitas.Business.Security;
-    using Huellitas.Business.Extensions;
 
     /// <summary>
     /// Modules Controller
@@ -22,7 +23,7 @@ namespace Huellitas.Web.Controllers.Api
     {
         private readonly IWorkContext workContext;
 
-        public ModulesController(IWorkContext workContext)
+        public ModulesController(IWorkContext workContext, IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
         }

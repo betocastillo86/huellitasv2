@@ -3,6 +3,10 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
@@ -64,7 +68,8 @@
             IContentService contentService,
             ISeoService seoService,
             IPictureService pictureService,
-            IContentSettings contentSettings)
+            IContentSettings contentSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.notificationService = notificationService;
@@ -82,6 +87,7 @@
         /// <returns>the action</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(int id, NotificationType type)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
@@ -91,7 +97,7 @@
 
             if (type != NotificationType.PetRejected && type != NotificationType.PetWillBeHiddenByNotAnswer)
             {
-                return this.BadRequest(new List<ApiError> { new ApiError { Code = "NotValidNotification", Message = "No se puede enviar esta notificación" } });
+                return this.BadRequest(new List<ApiErrorModel> { new ApiErrorModel { Code = "NotValidNotification", Message = "No se puede enviar esta notificación" } });
             }
 
             var pet = this.contentService.GetById(id);

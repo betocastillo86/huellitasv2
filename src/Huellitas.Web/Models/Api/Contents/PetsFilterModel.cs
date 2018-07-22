@@ -19,8 +19,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Pet Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class PetsFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class PetsFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PetsFilterModel"/> class.

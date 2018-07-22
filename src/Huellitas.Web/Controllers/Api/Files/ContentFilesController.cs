@@ -8,6 +8,9 @@ namespace Huellitas.Web.Controllers.Api
     using System.Linq;
     using System.Threading.Tasks;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
@@ -16,13 +19,11 @@ namespace Huellitas.Web.Controllers.Api
     using Hangfire;
     using Huellitas.Business.Extensions;
     using Huellitas.Web.Infraestructure.Tasks;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using SixLabors.ImageSharp.Processing.Transforms;
 
     /// <summary>
     /// Content Files Controller
@@ -76,7 +77,8 @@ namespace Huellitas.Web.Controllers.Api
             IContentService contentService,
             IWorkContext workContext,
             IPictureService pictureService,
-            IContentSettings contentSettings)
+            IContentSettings contentSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.fileService = fileService;
             this.fileHelper = fileHelper;
@@ -183,6 +185,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the value</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post(int contentId, [FromBody]FileModel model)
         {
             if (model != null && model.Id > 0)

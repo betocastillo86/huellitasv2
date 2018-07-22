@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Infraestructure.Filters
 {
     using System.Collections.Generic;
+    using Beto.Core.Web.Api;
     using Business.Security;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
@@ -73,7 +74,7 @@ namespace Huellitas.Web.Infraestructure.Filters
                 return;
             }
 
-            var error = new ApiError();
+            var error = new ApiErrorModel();
             error.Code = "ServerError";
 
             if (this.hostingEnvironment.IsDevelopment())

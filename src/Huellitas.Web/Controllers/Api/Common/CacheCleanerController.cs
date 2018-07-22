@@ -7,10 +7,11 @@ namespace Huellitas.Web.Controllers.Api.Common
 {
     using System.Threading.Tasks;
     using Beto.Core.Caching;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Web.Infraestructure.UI;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -45,7 +46,8 @@ namespace Huellitas.Web.Controllers.Api.Common
         public CacheCleanerController(
             ICacheManager cacheManager,
             IJavascriptConfigurationGenerator javascriptGenerator,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.cacheManager = cacheManager;
             this.javascriptGenerator = javascriptGenerator;

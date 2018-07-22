@@ -18,6 +18,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
     using Beto.Core.Registers;
+    using Beto.Core.Web.Security;
     using Business.Configuration;
     using Business.Security;
     using Business.Services;
@@ -28,6 +29,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Security;
     using UI;
 
@@ -72,6 +74,7 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<IContentService, ContentService>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ILoggerService, LogService>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddScoped<ISeoService, SeoService>();
             services.AddScoped<ICoreSettingService, CoreSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();

@@ -177,7 +177,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         {
             return new SystemSettingsController(
                 this.systemSettingService.Object,
-                this.workContext.Object);
+                this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

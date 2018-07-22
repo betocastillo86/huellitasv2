@@ -1,5 +1,9 @@
 ﻿namespace Huellitas.Web.Controllers.Api
 {
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Security;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.Security;
@@ -29,7 +33,8 @@
         /// <param name="externalAuthentication">The external authentication.</param>
         public ExternalAuthenticationController(
             IExternalAuthenticationService externalAuthentication,
-            IAuthenticationTokenGenerator authenticationTokenGenerator)
+            IAuthenticationTokenGenerator authenticationTokenGenerator,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.externalAuthentication = externalAuthentication;
             this.authenticationTokenGenerator = authenticationTokenGenerator;
@@ -41,6 +46,7 @@
         /// <param name="model">The model.</param>
         /// <returns>the action</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody] ExternalAuthenticationModel model)
         {
             ////TODO:Test
@@ -54,7 +60,7 @@
 
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
-                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now, null);
                     var userModel = new AuthenticatedUserModel()
                     {
                         Email = user.Email,

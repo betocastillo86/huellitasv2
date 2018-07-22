@@ -8,7 +8,7 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Custom table Filter
     /// </summary>
-    public class CustomTableRowFilter : BaseFilterModel
+    public class CustomTableRowFilter : BaseFilterNotFluentModel
     {
         public CustomTableRowFilter()
         {

@@ -5,7 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using Business.Caching;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Configuration;
     using Business.Extensions;
     using Business.Security;
@@ -13,26 +23,16 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Utilities.Extensions;
     using Data.Entities;
     using Hangfire;
-    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Subscribers;
-    using Huellitas.Data.Core;
+    using Huellitas.Business.Tasks;
     using Huellitas.Web.Infraestructure.Tasks;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.JsonPatch.Exceptions;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Huellitas.Business.Tasks;
-    using Beto.Core.Caching;
-    using Beto.Core.Data;
-    using Beto.Core.Data.Files;
 
     /// <summary>
     /// Pets Controller
@@ -148,7 +148,8 @@ namespace Huellitas.Web.Controllers.Api
             ILogService logService,
             IAdoptionFormService adoptionFormService,
             IPublisher publisher,
-            IUserService userService)
+            IUserService userService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -255,7 +256,7 @@ namespace Huellitas.Web.Controllers.Api
             }
             else
             {
-                return this.BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+                return this.BadRequest(filter.Errors);
             }
         }
 
@@ -325,6 +326,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the pet id</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]PetModel model)
         {
             if (this.IsValidModel(model, true))
@@ -381,6 +383,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </returns>
         [HttpPut("{id:int}")]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
         {
             if (this.IsValidModel(model, false))
@@ -407,7 +410,7 @@ namespace Huellitas.Web.Controllers.Api
                     {
                         content.StatusType = model.Status;
                     }
-                    
+
                     content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
 
                     try

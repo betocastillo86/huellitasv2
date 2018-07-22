@@ -9,6 +9,10 @@ namespace Huellitas.Web.Controllers.Api.Files
     using System.Linq;
     using System.Threading.Tasks;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
@@ -58,7 +62,8 @@ namespace Huellitas.Web.Controllers.Api.Files
             IPictureService pictureService,
             IFilesHelper filesHelper,
             IWorkContext workContext,
-            IContentService contentService)
+            IContentService contentService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.pictureService = pictureService;
             this.filesHelper = filesHelper;
@@ -74,6 +79,7 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// <returns>the task</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(int id, [FromBody] SocialPostsModel model)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
@@ -102,12 +108,12 @@ namespace Huellitas.Web.Controllers.Api.Files
                     }
                     else
                     {
-                        return this.BadRequest(new List<ApiError>() { new ApiError() { Code = "IsNotImage", Message = "El archivo que se desea convertir no es una imagen" } });
+                        return this.BadRequest(new List<ApiErrorModel>() { new ApiErrorModel() { Code = "IsNotImage", Message = "El archivo que se desea convertir no es una imagen" } });
                     }
                 }
                 else
                 {
-                    return this.BadRequest(HuellitasExceptionCode.BadArgument, new List<ApiError>() { new ApiError() { Code = "ImageNotFound", Message = "El archivo que se desea convertir no pertenece al contenido", Target = "FileId" } });
+                    return this.BadRequest(new List<ApiErrorModel>() { new ApiErrorModel() { Code = "ImageNotFound", Message = "El archivo que se desea convertir no pertenece al contenido", Target = "FileId" } });
                 }
             }
             else

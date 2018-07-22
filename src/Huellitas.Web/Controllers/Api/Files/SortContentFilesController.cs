@@ -6,14 +6,15 @@
 
 namespace Huellitas.Web.Controllers.Api.Files
 {
+    using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Sort Content Files Controller
@@ -27,7 +28,8 @@ namespace Huellitas.Web.Controllers.Api.Files
 
         public SortContentFilesController(
             IWorkContext workContext,
-            IContentService contentService)
+            IContentService contentService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.contentService = contentService;

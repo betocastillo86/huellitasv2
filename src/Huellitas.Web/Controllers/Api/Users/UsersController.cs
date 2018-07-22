@@ -9,7 +9,11 @@ namespace Huellitas.Web.Controllers.Api
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Security;
     using Business.Exceptions;
     using Business.Extensions;
     
@@ -56,7 +60,8 @@ namespace Huellitas.Web.Controllers.Api
         public UsersController(
             IWorkContext workContext,
             IUserService userService,
-            IAuthenticationTokenGenerator authenticationTokenGenerator)
+            IAuthenticationTokenGenerator authenticationTokenGenerator,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.userService = userService;
@@ -205,6 +210,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="model">The model.</param>
         /// <returns>the user</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]UserModel model)
         {
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
@@ -229,7 +235,7 @@ namespace Huellitas.Web.Controllers.Api
                 {
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
-                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now, null);
                     var userModel = new AuthenticatedUserModel() { Email = model.Email, Name = user.Name, Id = user.Id, Token = token };
                     var createdUri = this.Url.Link("Api_Users_GetById", new BaseModel() { Id = user.Id });
                     return this.Created(createdUri, userModel);
@@ -256,6 +262,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]UserModel model)
         {
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();

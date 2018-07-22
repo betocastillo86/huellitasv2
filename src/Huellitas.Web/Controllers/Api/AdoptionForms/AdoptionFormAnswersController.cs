@@ -6,13 +6,14 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Security;
     using Business.Services;
     using Data.Entities;
-    using Huellitas.Web.Infraestructure.WebApi;
-    using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
@@ -49,7 +50,8 @@ namespace Huellitas.Web.Controllers.Api
         public AdoptionFormAnswersController(
             IAdoptionFormService adoptionFormService,
             IWorkContext workContext,
-            IContentService contentService)
+            IContentService contentService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.adoptionFormService = adoptionFormService;
             this.workContext = workContext;
@@ -142,6 +144,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(int formId, [FromBody] AdoptionFormAnswerModel model)
         {
             if (this.IsValidModel(model))

@@ -10,8 +10,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Comment Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class CommentFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class CommentFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentFilterModel"/> class.

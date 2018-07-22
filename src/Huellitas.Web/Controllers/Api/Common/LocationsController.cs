@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Collections.Generic;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Business.Services;
-    using Huellitas.Data.Entities;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
@@ -29,7 +28,8 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="LocationsController"/> class.
         /// </summary>
         /// <param name="locationService">The location service.</param>
-        public LocationsController(ILocationService locationService)
+        public LocationsController(ILocationService locationService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.locationService = locationService;
         }
@@ -45,9 +45,9 @@ namespace Huellitas.Web.Controllers.Api
             if (filter.IsValid())
             {
                 var locations = this.locationService.GetAll(
-                    filter.Name, 
-                    filter.ParentId, 
-                    filter.Page, 
+                    filter.Name,
+                    filter.ParentId,
+                    filter.Page,
                     filter.PageSize);
 
                 var models = locations.ToModels();

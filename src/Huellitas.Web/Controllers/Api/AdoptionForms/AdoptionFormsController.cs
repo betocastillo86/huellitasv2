@@ -7,6 +7,8 @@ namespace Huellitas.Web.Controllers.Api
 {
     using Beto.Core.Caching;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Filters;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Security;
@@ -78,7 +80,8 @@ namespace Huellitas.Web.Controllers.Api
             IFilesHelper filesHelper,
             ICustomTableService customTableService,
             ICacheManager cacheManager,
-            IContentSettings contentSettings) : base(workContext, contentService, adoptionFormService)
+            IContentSettings contentSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(workContext, contentService, adoptionFormService, messageExceptionFinder)
         {
             this.adoptionFormService = adoptionFormService;
             this.workContext = workContext;
@@ -200,6 +203,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody] AdoptionFormModel model)
         {
             if (this.IsValidModel(model))

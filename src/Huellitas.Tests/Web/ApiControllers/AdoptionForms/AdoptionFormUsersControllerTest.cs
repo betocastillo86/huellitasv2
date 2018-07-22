@@ -165,7 +165,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             return new AdoptionFormUsersController(
                 this.workContext.Object,
                 this.contentService.Object,
-                this.adoptionFormService.Object);
+                this.adoptionFormService.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

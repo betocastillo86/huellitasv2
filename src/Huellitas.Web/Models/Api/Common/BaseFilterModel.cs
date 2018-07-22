@@ -7,18 +7,18 @@ namespace Huellitas.Web.Models.Api
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Web.Infraestructure.WebApi;
 
     /// <summary>
     /// Base Model for filter
     /// </summary>
-    public abstract class BaseFilterModel
+    public abstract class BaseFilterNotFluentModel
     {
         /// <summary>
         /// The errors
         /// </summary>
-        private IList<ApiError> errors;
+        private IList<ApiErrorModel> errors;
 
         /// <summary>
         /// Gets the errors.
@@ -26,11 +26,11 @@ namespace Huellitas.Web.Models.Api
         /// <value>
         /// The errors.
         /// </value>
-        public IList<ApiError> Errors
+        public IList<ApiErrorModel> Errors
         {
             get
             {
-                return this.errors ?? (this.errors = new List<ApiError>());
+                return this.errors ?? (this.errors = new List<ApiErrorModel>());
             }
         }
 
@@ -115,7 +115,7 @@ namespace Huellitas.Web.Models.Api
         /// <param name="target">The target.</param>
         protected void AddError(string code, string message, string target = null)
         {
-            this.Errors.Add(new ApiError()
+            this.Errors.Add(new ApiErrorModel()
             {
                 Code = code,
                 Target = target,

@@ -14,6 +14,7 @@ namespace Huellitas.Tests
     using Huellitas.Data.Entities;
     using Moq;
     using System.Diagnostics.CodeAnalysis;
+    using Beto.Core.Exceptions;
 
     /// <summary>
     /// Base class for testing
@@ -40,6 +41,8 @@ namespace Huellitas.Tests
         protected Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
 
         protected Mock<ILogService> logService = new Mock<ILogService>();
+
+        protected Mock<IMessageExceptionFinder> messageExceptionFinder = new Mock<IMessageExceptionFinder>();
 
         /// <summary>
         /// The publisher
@@ -68,6 +71,7 @@ namespace Huellitas.Tests
         protected virtual void Setup()
         {
             this.workContext = new Mock<IWorkContext>();
+            this.messageExceptionFinder = new Mock<IMessageExceptionFinder>();
             this.contentService = new Mock<IContentService>();
             this.contentSettings = new Mock<IContentSettings>();
             this.publisher = new Mock<IPublisher>();

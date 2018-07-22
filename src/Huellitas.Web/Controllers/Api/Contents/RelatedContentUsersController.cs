@@ -7,8 +7,9 @@ namespace Huellitas.Web.Controllers.Api
 {
     using System.Linq;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="filesHelper">The files helper.</param>
         public RelatedContentUsersController(
             IContentService contentService,
-            IFilesHelper filesHelper)
+            IFilesHelper filesHelper,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;

@@ -8,6 +8,9 @@ namespace Huellitas.Web.Controllers.Api.Users
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
@@ -55,7 +58,8 @@ namespace Huellitas.Web.Controllers.Api.Users
             INotificationService notificationService,
             IWorkContext workContext,
             IUserService userService,
-            INotificationSettings notificationSettings)
+            INotificationSettings notificationSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -71,6 +75,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post(int id, [FromBody]ContactUserModel model)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())

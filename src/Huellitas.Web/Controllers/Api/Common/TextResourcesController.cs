@@ -6,11 +6,13 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -40,7 +42,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="workContext">The work context.</param>
         public TextResourcesController(
             ITextResourceService textResourceService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.textResourceService = textResourceService;
             this.workContext = workContext;
@@ -83,6 +86,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the values</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]TextResourceModel model)
         {
             ////TODO:Test
@@ -122,6 +126,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]TextResourceModel model)
         {
             ////TODO:Test

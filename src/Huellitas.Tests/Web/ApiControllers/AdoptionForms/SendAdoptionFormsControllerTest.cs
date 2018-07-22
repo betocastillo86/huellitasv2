@@ -177,7 +177,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 this.adoptionFormService.Object,
                 this.notificationService.Object,
                 this.workContext.Object,
-                this.contentService.Object);
+                this.contentService.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

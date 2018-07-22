@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     
@@ -106,7 +109,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.cacheManager.Object,
                 this.filesHelper.Object,
                 this.contentSettings.Object,
-                this.workContext.Object);
+                this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

@@ -7,6 +7,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
@@ -22,7 +24,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
     /// Files Controller Test
     /// </summary>
     [TestFixture]
-    public class FilesControllerTest
+    public class FilesControllerTest : BaseTest
     {
         /// <summary>
         /// Validates if it is invalid model true.
@@ -69,7 +71,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
             model.Name = "Usuario";
 
             var response = await controller.Post(model) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -95,7 +97,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
                 filesHelperMock.Object,
                 seoServiceMock.Object,
                 pictureService.Object,
-                securitySettings.Object);
+                securitySettings.Object,
+                this.messageExceptionFinder.Object);
 
             return controller;
         }

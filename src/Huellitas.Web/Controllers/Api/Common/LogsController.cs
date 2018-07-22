@@ -5,11 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -24,13 +25,15 @@ namespace Huellitas.Web.Controllers.Api
 
         public LogsController(
             ILogService logService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.logService = logService;
             this.workContext = workContext;
         }
 
         [HttpPost]
+        [RequiredModel]
         public IActionResult Post([FromBody] LogModel model)
         {
             model = model ?? new LogModel();
@@ -45,7 +48,6 @@ namespace Huellitas.Web.Controllers.Api
                 return this.BadRequest(this.ModelState);
             }
         }
-
 
         [Authorize]
         [HttpGet]

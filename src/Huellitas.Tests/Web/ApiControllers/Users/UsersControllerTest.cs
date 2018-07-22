@@ -5,21 +5,20 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Users
 {
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Web.Api;
+    using Beto.Core.Web.Security;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Helpers;
-    using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.Security;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Users Controller Test
@@ -34,19 +33,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         private Mock<IAuthenticationTokenGenerator> authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
 
         /// <summary>
-        /// The security helpers
-        /// </summary>
-        private Mock<ISecurityHelpers> securityHelpers = new Mock<ISecurityHelpers>();
-
-        /// <summary>
         /// The user service
         /// </summary>
         private Mock<IUserService> userService = new Mock<IUserService>();
-
-        /// <summary>
-        /// The string helpers
-        /// </summary>
-        private Mock<IStringHelpers> stringHelpers = new Mock<IStringHelpers>();
 
         /// <summary>
         /// Deletes the user forbid.
@@ -263,7 +252,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var response = await controller.Post(model) as ObjectResult;
 
             Assert.AreEqual(400, response.StatusCode);
-            Assert.AreEqual(HuellitasExceptionCode.UserEmailAlreadyUsed.ToString(), (response.Value as BaseApiError).Error.Code);
+            Assert.AreEqual(HuellitasExceptionCode.UserEmailAlreadyUsed.ToString(), (response.Value as BaseApiErrorModel).Error.Code);
         }
 
         /// <summary>
@@ -365,7 +354,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var response = await controller.Put(id, model) as ObjectResult;
 
             Assert.AreEqual(400, response.StatusCode);
-            Assert.AreEqual(HuellitasExceptionCode.UserEmailAlreadyUsed.ToString(), (response.Value as BaseApiError).Error.Code);
+            Assert.AreEqual(HuellitasExceptionCode.UserEmailAlreadyUsed.ToString(), (response.Value as BaseApiErrorModel).Error.Code);
         }
 
         /// <summary>
@@ -664,9 +653,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         protected override void Setup()
         {
             this.authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
-            this.securityHelpers = new Mock<ISecurityHelpers>();
             this.userService = new Mock<IUserService>();
-            this.stringHelpers = new Mock<IStringHelpers>();
             base.Setup();
         }
 
@@ -680,8 +667,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 this.workContext.Object,
                 this.userService.Object,
                 this.authenticationTokenGenerator.Object,
-                this.securityHelpers.Object,
-                this.stringHelpers.Object);
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

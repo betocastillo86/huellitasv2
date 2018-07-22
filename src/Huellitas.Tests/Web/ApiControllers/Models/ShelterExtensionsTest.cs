@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using Beto.Core.Data.Files;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
@@ -144,7 +145,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
 
             var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, this.filesHelper.Object, null, false);
@@ -183,7 +184,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
 
             this.contentService.Setup(c => c.GetFiles(content.Id))
@@ -203,7 +204,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
 
             var model = content.ToShelterModel(this.contentService.Object, this.workContext.Object, null, null, true);
@@ -218,7 +219,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
             content.File = null;
 
@@ -234,7 +235,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
             content.Location = null;
 
@@ -250,7 +251,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         {
             var content = this.MockEntity();
 
-            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0))
+            this.filesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false))
                 .Returns("thefile");
             content.User = null;
 

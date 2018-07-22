@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
+    using Beto.Core.Web.Security;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using Infraestructure.Security;

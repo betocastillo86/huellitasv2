@@ -7,6 +7,8 @@ namespace Huellitas.Web.Controllers.Api
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -39,7 +41,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="notificationService">The notification service.</param>
         public UserNotificationsController(
             IWorkContext workContext,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.notificationService = notificationService;

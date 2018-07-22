@@ -4,7 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
@@ -44,7 +47,8 @@
         public PasswordRecoveryController(
             IUserService userService,
             INotificationService notificationService,
-            ISeoService seoService)
+            ISeoService seoService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.userService = userService;
             this.notificationService = notificationService;
@@ -95,6 +99,7 @@
         /// <returns>the action</returns>
         [HttpPost]
         [AllowAnonymous]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]PasswordRecoveryModel model)
         {
             if (!this.IsValidModel(model))
@@ -139,6 +144,7 @@
         [HttpPut]
         [Route("{token}")]
         [AllowAnonymous]
+        [RequiredModel]
         public async Task<IActionResult> Put(string token, [FromBody]UpdatePasswordModel model)
         {
             if (!this.IsValidUpdateModel(model))

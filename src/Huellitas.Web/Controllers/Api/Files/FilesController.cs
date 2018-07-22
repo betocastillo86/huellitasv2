@@ -9,6 +9,9 @@ namespace Huellitas.Web.Controllers.Api
     using System.Linq;
     using System.Threading.Tasks;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Services;
     using Data.Entities;
     using Huellitas.Business.Configuration;
@@ -69,7 +72,8 @@ namespace Huellitas.Web.Controllers.Api
             IFilesHelper filesHelper,
             ISeoService seoService,
             IPictureService pictureService,
-            ISecuritySettings securitySettings)
+            ISecuritySettings securitySettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.fileService = fileService;
@@ -97,6 +101,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="model">The model.</param>
         /// <returns>the file id and thumbnail Url</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(PostFileModel model)
         {
             if (this.IsValidModel(model.Files))

@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Middleware;
     using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
     using Infraestructure.Middleware;
@@ -44,7 +46,7 @@ namespace Huellitas.Web
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseMiddleware<HuellitasExceptionMiddleware>();
+            app.UseMiddleware<ExceptionsMiddlewareLogger>();
 
             app.AddHangFire(env, loggerFactory);
 
@@ -130,6 +132,7 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
+                config.Filters.Add(new FluentValidatorAttribute());
             }).AddJsonOptions(c =>
             {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;

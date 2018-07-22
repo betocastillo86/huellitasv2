@@ -5,10 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
     using Data.Entities;
-    using Data.Infraestructure;
-    using Huellitas.Business.Caching;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Web.Models.Api;
@@ -16,9 +19,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Pet Extensions Test
@@ -236,7 +236,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.MockContentService();
 
             var mockFilesHelper = new Mock<IFilesHelper>();
-            mockFilesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0)).Returns("filename.jpg");
+            mockFilesHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false)).Returns("filename.jpg");
 
             var mockCacheManager = new Mock<ICacheManager>();
 

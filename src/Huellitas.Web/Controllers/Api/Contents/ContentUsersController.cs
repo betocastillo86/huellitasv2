@@ -5,20 +5,22 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Exceptions;
     using Data.Entities;
     using Data.Extensions;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Users Controller
@@ -44,7 +46,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="workContext">The work context.</param>
         public ContentUsersController(
             IContentService contentService,
-            IWorkContext workContext)
+            IWorkContext workContext, 
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.workContext = workContext;
@@ -87,6 +90,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post(int contentId, [FromBody] ContentUserModel model)
         {
             if (this.IsValidModel(model))

@@ -7,11 +7,12 @@ namespace Huellitas.Web.Controllers.Api
 {
     using Beto.Core.Caching;
     using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Services;
     using Huellitas.Business.Security;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
@@ -66,7 +67,8 @@ namespace Huellitas.Web.Controllers.Api
             ICacheManager cacheManager,
             IFilesHelper filesHelper,
             IContentSettings contentSettings,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.customTableService = customTableService;
@@ -126,7 +128,7 @@ namespace Huellitas.Web.Controllers.Api
             }
             else
             {
-                return this.BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+                return this.BadRequest(filter.Errors);
             }
         }
     }

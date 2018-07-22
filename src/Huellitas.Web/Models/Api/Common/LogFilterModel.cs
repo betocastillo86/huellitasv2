@@ -8,7 +8,7 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Log Filter Model
     /// </summary>
-    public class LogFilterModel : BaseFilterModel
+    public class LogFilterModel : BaseFilterNotFluentModel
     {
 
         public LogFilterModel()

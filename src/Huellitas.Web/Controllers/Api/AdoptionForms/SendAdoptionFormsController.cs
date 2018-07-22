@@ -9,6 +9,8 @@ namespace Huellitas.Web.Controllers.Api
     using System.Text;
     using System.Threading.Tasks;
     using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
@@ -49,7 +51,8 @@ namespace Huellitas.Web.Controllers.Api
             IAdoptionFormService adoptionFormService,
             INotificationService notificationService,
             IWorkContext workContext,
-            IContentService contentService) : base(workContext, contentService, adoptionFormService)
+            IContentService contentService,
+            IMessageExceptionFinder messageExceptionFinder) : base(workContext, contentService, adoptionFormService, messageExceptionFinder)
         {
             this.adoptionFormService = adoptionFormService;
             this.notificationService = notificationService;
@@ -64,6 +67,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(int formId, [FromBody] SendAdoptionFormModel model)
         {
             if (this.IsValidModel(model))

@@ -6,10 +6,10 @@
 namespace Huellitas.Web.Controllers.Api.AdoptionForms
 {
     using Beto.Core.Caching;
-    using Huellitas.Business.Caching;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -36,7 +36,8 @@ namespace Huellitas.Web.Controllers.Api.AdoptionForms
         /// <param name="cacheManager">The cache manager.</param>
         public AdoptionFormQuestionsController(
             ICustomTableService customTableRowService,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.customTableRowService = customTableRowService;
             this.cacheManager = cacheManager;

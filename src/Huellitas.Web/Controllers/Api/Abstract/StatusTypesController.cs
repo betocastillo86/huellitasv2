@@ -7,6 +7,8 @@ namespace Huellitas.Web.Controllers.Api
 {
     using System;
     using System.Collections.Generic;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,10 @@ namespace Huellitas.Web.Controllers.Api
     [Route("api/statustypes")]
     public class StatusTypesController : BaseApiController
     {
+        public StatusTypesController(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+        {
+        }
+
         /// <summary>
         /// Gets this instance.
         /// </summary>

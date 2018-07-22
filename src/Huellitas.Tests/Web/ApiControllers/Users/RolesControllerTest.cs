@@ -77,7 +77,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// <returns>the controller</returns>
         private RolesController GetController()
         {
-            return new RolesController(this.roleService.Object, this.workContext.Object);
+            return new RolesController(this.roleService.Object, this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

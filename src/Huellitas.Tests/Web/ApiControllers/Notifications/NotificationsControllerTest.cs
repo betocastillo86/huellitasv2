@@ -9,6 +9,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     
@@ -244,7 +245,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
         {
             return new NotificationsController(
                 this.notificationService.Object,
-                this.workContext.Object);
+                this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

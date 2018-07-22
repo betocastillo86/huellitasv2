@@ -15,8 +15,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Related Content Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class RelatedContentFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class RelatedContentFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RelatedContentFilterModel"/> class.

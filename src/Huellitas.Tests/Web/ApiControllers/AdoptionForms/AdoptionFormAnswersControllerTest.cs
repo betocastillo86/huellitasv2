@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
@@ -193,7 +194,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             var controller = this.GetController();
 
             var result = await controller.Post(1, model) as ObjectResult;
-            var error = result.Value as BaseApiError;
+            var error = result.Value as BaseApiErrorModel;
 
             Assert.AreEqual(400, result.StatusCode);
             Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey.ToString(), error.Error.Code);
@@ -306,7 +307,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             return new AdoptionFormAnswersController(
                 this.adoptionFormService.Object,
                 this.workContext.Object,
-                this.contentService.Object);
+                this.contentService.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

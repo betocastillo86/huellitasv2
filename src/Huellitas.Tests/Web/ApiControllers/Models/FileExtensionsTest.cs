@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using Beto.Core.Data.Files;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Extensions;
@@ -24,7 +25,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         public void ToFileModelValid()
         {
             var mockFileHelper = new Mock<IFilesHelper>();
-            mockFileHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0)).Returns("thevalue");
+            mockFileHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, 0, 0, false)).Returns("thevalue");
 
             var file = new File();
             file.Id = 1;
@@ -45,7 +46,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         public void ToFileModelValid_Thumbnail()
         {
             var mockFileHelper = new Mock<IFilesHelper>();
-            mockFileHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, It.IsAny<int>(), It.IsAny<int>())).Returns("thevalue");
+            mockFileHelper.Setup(c => c.GetFullPath(It.IsAny<File>(), null, It.IsAny<int>(), It.IsAny<int>(), false)).Returns("thevalue");
 
             var file = new File();
             file.Id = 1;

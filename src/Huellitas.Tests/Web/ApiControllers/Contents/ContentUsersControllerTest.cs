@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using Beto.Core.Data;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     
@@ -300,7 +301,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <returns>the controller</returns>
         public ContentUsersController GetController()
         {
-            return new ContentUsersController(this.contentService.Object, this.workContext.Object);
+            return new ContentUsersController(this.contentService.Object, this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

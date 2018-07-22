@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Beto.Core.Exceptions;
+using Beto.Core.Web.Api.Controllers;
+using Beto.Core.Web.Api.Filters;
 using Huellitas.Business.Extensions;
 using Huellitas.Business.Security;
 using Huellitas.Business.Services;
-using Huellitas.Web.Infraestructure.WebApi;
 using Huellitas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +35,8 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// <param name="workContext">The work context.</param>
         public CrawlingController(
             ICrawlingService crawlingService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.crawlingService = crawlingService;
             this.workContext = workContext;
@@ -46,6 +49,7 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody] CrawlingModel model)
         {
             if (!this.IsValid(model))

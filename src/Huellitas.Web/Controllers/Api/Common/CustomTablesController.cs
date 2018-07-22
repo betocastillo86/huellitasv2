@@ -5,8 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
@@ -27,7 +28,9 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="CustomTablesController"/> class.
         /// </summary>
         /// <param name="customTableService">The custom table service.</param>
-        public CustomTablesController(ICustomTableService customTableService)
+        public CustomTablesController(
+            ICustomTableService customTableService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.customTableService = customTableService;
         }

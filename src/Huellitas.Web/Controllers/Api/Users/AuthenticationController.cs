@@ -10,6 +10,10 @@ namespace Huellitas.Web.Controllers.Api
     using System.Security.Claims;
     using System.Security.Principal;
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Security;
     using Business.Security;
     using Business.Services;
     using Huellitas.Web.Infraestructure.Security;
@@ -57,7 +61,8 @@ namespace Huellitas.Web.Controllers.Api
             IAuthenticationTokenGenerator authenticationTokenGenerator,
             IUserService userService,
             IWorkContext workContext,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.authenticationTokenGenerator = authenticationTokenGenerator;
             this.userService = userService;
@@ -88,6 +93,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="model">The model.</param>
         /// <returns>the action</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]AuthenticationUserModel model)
         {
             if (model != null && this.ModelState.IsValid)
@@ -99,7 +105,7 @@ namespace Huellitas.Web.Controllers.Api
                     IList<Claim> claims;
 
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
-                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now, null);
                     var userModel = new AuthenticatedUserModel()
                     {
                         Email = model.Email,

@@ -15,8 +15,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Adoption Form Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class AdoptionFormFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class AdoptionFormFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormFilterModel"/> class.

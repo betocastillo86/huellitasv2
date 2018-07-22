@@ -11,6 +11,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using Beto.Core.Caching;
     using Beto.Core.Data;
     using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Data.Entities;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
@@ -54,7 +55,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             filter.Shelter = "4,b,c,5";
 
             var response = await controller.Get(filter) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -94,7 +95,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             controller.AddResponse().AddUrl();
 
@@ -141,12 +143,13 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             var model = new PetModel();
             var response = await controller.Post(model) as ObjectResult;
 
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("Files", error.Details[0].Target);
@@ -201,7 +204,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             controller.AddUrl(true);
 
@@ -392,7 +396,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = await controller.Put(newId, model) as ObjectResult;
 
@@ -439,7 +444,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = await controller.Put(newId, model) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -484,7 +490,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -705,7 +712,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

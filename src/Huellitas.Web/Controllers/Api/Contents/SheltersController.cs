@@ -11,6 +11,9 @@ namespace Huellitas.Web.Controllers.Api
     using Beto.Core.Data;
     using Beto.Core.Data.Files;
     using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions;
@@ -104,7 +107,8 @@ namespace Huellitas.Web.Controllers.Api
             ILocationService locationService,
             ISeoService seoService,
             IRepository<Content> contentRepository,
-            IPublisher publisher)
+            IPublisher publisher,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -155,7 +159,7 @@ namespace Huellitas.Web.Controllers.Api
             }
             else
             {
-                return this.BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+                return this.BadRequest(filter.Errors);
             }
         }
 
@@ -222,6 +226,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]ShelterModel model)
         {
             if (this.IsValidModel(model, true))
@@ -280,6 +285,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </returns>
         [HttpPut("{id:int}")]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]ShelterModel model)
         {
             if (this.IsValidModel(model, false))

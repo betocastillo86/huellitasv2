@@ -1,4 +1,5 @@
-﻿using Huellitas.Business.Services;
+﻿using Beto.Core.Data;
+using Huellitas.Business.Services;
 using Huellitas.Data.Entities;
 
 using Huellitas.Web.Controllers.Api;
@@ -84,7 +85,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
         {
             return new UserNotificationsController(
                 this.workContext.Object,
-                this.notificationService.Object);
+                this.notificationService.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }
