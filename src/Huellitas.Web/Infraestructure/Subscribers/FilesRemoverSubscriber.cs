@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Subscribers
 {
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;

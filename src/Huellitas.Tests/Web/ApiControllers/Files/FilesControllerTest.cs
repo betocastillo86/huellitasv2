@@ -9,7 +9,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
     using System.Threading.Tasks;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;

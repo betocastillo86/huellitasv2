@@ -13,7 +13,8 @@ namespace Huellitas.Business.Services
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Data;
 
     /// <summary>
     /// File Service

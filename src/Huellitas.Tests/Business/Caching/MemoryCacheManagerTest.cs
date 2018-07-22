@@ -6,6 +6,7 @@
 namespace Huellitas.Tests.Business.Caching
 {
     using System.Collections.Generic;
+    using Beto.Core.Caching;
     using Huellitas.Business.Caching;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Business.Mocks;

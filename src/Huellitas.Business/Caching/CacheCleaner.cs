@@ -7,7 +7,8 @@ namespace Huellitas.Business.Caching
 {
     using System;
     using System.Threading.Tasks;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.Caching;
+    using Beto.Core.EventPublisher;
     using Huellitas.Data.Entities;
 
     /// <summary>

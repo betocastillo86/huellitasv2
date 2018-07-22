@@ -6,7 +6,7 @@
 namespace Huellitas.Business.Subscribers.Notifications
 {
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;

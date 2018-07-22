@@ -5,10 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
     using Business.Configuration;
     using Caching;
     using Data.Core;
-    using EventPublisher;
+    using Beto.Core.EventPublisher;
     using Exceptions;
     using Huellitas.Business.Notifications;
     using Huellitas.Data.Entities;

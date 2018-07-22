@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.AdoptionForms
 {
+    using Beto.Core.Caching;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;

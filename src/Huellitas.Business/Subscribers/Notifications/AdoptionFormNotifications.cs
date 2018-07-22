@@ -16,7 +16,7 @@ namespace Huellitas.Business.Subscribers
     using Exceptions;
     using Extensions;
     using Hangfire;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Tasks;
     using Security;
     using Services;

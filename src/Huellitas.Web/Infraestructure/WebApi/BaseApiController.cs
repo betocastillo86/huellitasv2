@@ -30,7 +30,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
         {
             var error = new ApiError();
             error.Code = HuellitasExceptionCode.BadArgument.ToString();
-            error.Message = ExceptionMessages.GetMessage(HuellitasExceptionCode.BadArgument);
+            error.Message = MessageExceptionFinder.GetErrorMessage(HuellitasExceptionCode.BadArgument);
 
             foreach (var key in modelState.Keys)
             {
@@ -77,7 +77,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
             var error = new ApiError()
             {
                 Code = code.ToString(),
-                Message = ExceptionMessages.GetMessage(code),
+                Message = MessageExceptionFinder.GetErrorMessage(code),
                 Target = target,
                 Details = errors == null || errors.Count == 0 ? null : errors
             };
@@ -96,7 +96,7 @@ namespace Huellitas.Web.Infraestructure.WebApi
             var apiError = new ApiError()
             {
                 Code = code.ToString(),
-                Message = ExceptionMessages.GetMessage(code),
+                Message = MessageExceptionFinder.GetErrorMessage(code),
                 Target = null
             };
 

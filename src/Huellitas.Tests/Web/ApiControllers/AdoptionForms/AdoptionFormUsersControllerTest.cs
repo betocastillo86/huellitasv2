@@ -9,7 +9,6 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;

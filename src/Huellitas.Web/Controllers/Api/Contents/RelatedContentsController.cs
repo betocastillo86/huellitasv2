@@ -16,6 +16,7 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
     using Huellitas.Business.Security;
+    using Beto.Core.Caching;
 
     /// <summary>
     /// Related Contents Controller

@@ -13,7 +13,7 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Utilities.Extensions;
     using Data.Entities;
     using Hangfire;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Subscribers;
     using Huellitas.Data.Core;
@@ -30,6 +30,8 @@ namespace Huellitas.Web.Controllers.Api
     using System.Linq;
     using System.Threading.Tasks;
     using Huellitas.Business.Tasks;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
 
     /// <summary>
     /// Pets Controller

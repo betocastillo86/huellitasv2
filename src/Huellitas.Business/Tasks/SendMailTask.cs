@@ -7,6 +7,7 @@ namespace Huellitas.Business.Tasks
 {
     using System;
     using System.Linq;
+    using Beto.Core.Data;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;

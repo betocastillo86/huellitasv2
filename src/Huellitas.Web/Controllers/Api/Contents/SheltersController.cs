@@ -21,10 +21,11 @@ namespace Huellitas.Web.Controllers.Api
     using Models.Extensions;
     using System;
     using Huellitas.Data.Core;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Subscribers;
     using Hangfire;
     using Huellitas.Web.Infraestructure.Tasks;
+    using Beto.Core.Data;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller

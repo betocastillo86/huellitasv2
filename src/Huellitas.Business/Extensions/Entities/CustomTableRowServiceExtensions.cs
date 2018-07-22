@@ -11,6 +11,7 @@ namespace Huellitas.Business.Extensions
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Business.Caching;
+    using Beto.Core.Caching;
 
     /// <summary>
     /// Custom table row service extensions

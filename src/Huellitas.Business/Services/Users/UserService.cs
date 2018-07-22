@@ -8,14 +8,15 @@ namespace Huellitas.Business.Services
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Data.Entities;
     using Data.Infraestructure;
-    using EventPublisher;
+    using Beto.Core.EventPublisher;
     using Exceptions;
-    using Huellitas.Business.Helpers;
     using Huellitas.Data.Core;
     using Microsoft.EntityFrameworkCore;
     using Security;
+    using Beto.Core.Helpers;
 
     /// <summary>
     /// User Service
@@ -26,17 +27,13 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// The HTTP context helpers
         /// </summary>
-        private readonly IHttpContextHelpers httpContextHelpers;
+        private readonly IHttpContextHelper httpContextHelpers;
 
         /// <summary>
         /// The publisher
         /// </summary>
         private readonly IPublisher publisher;
 
-        /// <summary>
-        /// The security helpers
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
 
         /// <summary>
         /// The user repository
@@ -52,12 +49,10 @@ namespace Huellitas.Business.Services
         public UserService(
             IRepository<User> userRepository,
             IPublisher publisher,
-            ISecurityHelpers securityHelpers,
-            IHttpContextHelpers httpContextHelpers)
+            IHttpContextHelper httpContextHelpers)
         {
             this.userRepository = userRepository;
             this.publisher = publisher;
-            this.securityHelpers = securityHelpers;
             this.httpContextHelpers = httpContextHelpers;
         }
 
@@ -232,7 +227,7 @@ namespace Huellitas.Business.Services
 
             if (user != null)
             {
-                return this.securityHelpers.ToSha1(password, user.Salt).Equals(user.Password) ? user : null;
+                return StringHelpers.ToSha1(password, user.Salt).Equals(user.Password) ? user : null;
             }
             else
             {

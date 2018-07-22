@@ -6,7 +6,7 @@
 namespace Huellitas.Web.Controllers.Api.Common
 {
     using System.Threading.Tasks;
-    using Huellitas.Business.Caching;
+    using Beto.Core.Caching;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Web.Infraestructure.UI;

@@ -8,6 +8,8 @@ namespace Huellitas.Business.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
     using Caching;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;

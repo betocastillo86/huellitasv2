@@ -1,5 +1,6 @@
-﻿using Huellitas.Business.Exceptions;
-using Huellitas.Business.Helpers;
+﻿using Beto.Core.Data;
+using Beto.Core.Helpers;
+using Huellitas.Business.Exceptions;
 using Huellitas.Business.Models;
 using Huellitas.Data.Core;
 using Huellitas.Data.Entities;
@@ -23,11 +24,6 @@ namespace Huellitas.Business.Services
         private readonly IUserService userService;
 
         /// <summary>
-        /// The string helpers
-        /// </summary>
-        private readonly IStringHelpers stringHelpers;
-
-        /// <summary>
         /// The user repository
         /// </summary>
         private readonly IRepository<User> userRepository;
@@ -40,12 +36,10 @@ namespace Huellitas.Business.Services
         /// <param name="stringHelpers">The string helpers.</param>
         public ExternalAuthenticationService(
             IUserService userService,
-            IRepository<User> userRepository,
-            IStringHelpers stringHelpers)
+            IRepository<User> userRepository)
         {
             this.userService = userService;
             this.userRepository = userRepository;
-            this.stringHelpers = stringHelpers;
         }
 
         /// <summary>
@@ -140,7 +134,7 @@ namespace Huellitas.Business.Services
                         Name = name,
                         Email = email,
                         RoleEnum = RoleEnum.Public,
-                        Salt = this.stringHelpers.GetRandomString()
+                        Salt = StringHelpers.GetRandomString()
                     };
 
                     toCreate = true;

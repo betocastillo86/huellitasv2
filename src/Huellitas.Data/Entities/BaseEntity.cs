@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    using Beto.Core.Data;
+
     /// <summary>
     /// Base of all database entities
     /// </summary>

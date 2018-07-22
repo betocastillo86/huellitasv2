@@ -11,6 +11,7 @@ namespace Huellitas.Business.Services
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml.Linq;
+    using Beto.Core.Data;
     using Business.Configuration;
     using Data.Entities;
     using Data.Entities.Abstract;
@@ -126,9 +127,11 @@ namespace Huellitas.Business.Services
 
             foreach (var url in urls)
             {
-                var children = new List<XElement>();
-                children.Add(new XElement("loc", url.Key));
-                children.Add(new XElement("changefreq", "weekly"));
+                var children = new List<XElement>
+                {
+                    new XElement("loc", url.Key),
+                    new XElement("changefreq", "weekly")
+                };
 
                 if (url.Value.HasValue)
                 {

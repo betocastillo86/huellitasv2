@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using Beto.Core.Caching;
     using Data.Entities;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;

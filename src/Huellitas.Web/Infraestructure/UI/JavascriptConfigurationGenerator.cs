@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.UI
 {
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;

@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
     using Data.Entities;
     using Data.Infraestructure;
     using Huellitas.Business.Caching;
@@ -32,7 +34,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         Mock<ISeoService> seoService = new Mock<ISeoService>();
         Mock<ILocationService> locationService = new Mock<ILocationService>();
         Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
-        Mock<ILogService> logService = new Mock<ILogService>();
         Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
         Mock<IUserService> userService = new Mock<IUserService>();
 

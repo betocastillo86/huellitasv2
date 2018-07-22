@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
 

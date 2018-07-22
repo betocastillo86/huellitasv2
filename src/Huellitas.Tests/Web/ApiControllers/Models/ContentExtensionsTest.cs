@@ -10,7 +10,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using System.Linq;
     using Data.Infraestructure;
     using Huellitas.Business.Services;
-    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Extensions;
     using Moq;
@@ -77,8 +76,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             var contentUsers = new PagedList<ContentUser>((new List<ContentUser> { new ContentUser() { UserId = 2 } }).AsQueryable(), 0, 5);
             this.contentService.Setup(c => c.GetUsersByContentId(
-                It.IsAny<int>(), 
-                ContentUserRelationType.Shelter, 
+                It.IsAny<int>(),
+                ContentUserRelationType.Shelter,
                 false,
                 It.IsAny<int>(),
                 It.IsAny<int>()))

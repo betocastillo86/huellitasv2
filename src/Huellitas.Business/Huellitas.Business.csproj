@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core\Beto.Core.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
   </ItemGroup>
 

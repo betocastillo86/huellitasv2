@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using Beto.Core.Data;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Helpers;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Infraestructure;
@@ -16,6 +16,7 @@ namespace Huellitas.Business.Services
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Helpers;
 
     public class CommentService : ICommentService
     {
@@ -37,7 +38,7 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// The HTTP context helpers
         /// </summary>
-        private readonly IHttpContextHelpers httpContextHelpers;
+        private readonly IHttpContextHelper httpContextHelpers;
 
         /// <summary>
         /// The publisher
@@ -62,7 +63,7 @@ namespace Huellitas.Business.Services
             IRepository<Comment> commentRepository,
             IRepository<Content> contentRepository,
             IGeneralSettings generalSettings,
-            IHttpContextHelpers httpContextHelpers,
+            IHttpContextHelper httpContextHelpers,
             IPublisher publisher,
             IRepository<User> userRepository)
         {

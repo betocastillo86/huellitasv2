@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using Beto.Core.Caching;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Security;

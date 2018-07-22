@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Business
 {
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Core;

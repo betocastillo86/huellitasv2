@@ -21,11 +21,6 @@ namespace Huellitas.Tests.Business.Services
     public class SeoServiceTest : BaseTest
     {
         /// <summary>
-        /// The general settings
-        /// </summary>
-        private Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
-
-        /// <summary>
         /// Generates the name of the correct friendly.
         /// </summary>
         [Test]

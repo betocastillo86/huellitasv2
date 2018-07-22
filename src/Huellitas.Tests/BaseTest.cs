@@ -5,9 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests
 {
+    using Beto.Core.Caching;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;

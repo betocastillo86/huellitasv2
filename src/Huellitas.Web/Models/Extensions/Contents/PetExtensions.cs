@@ -6,6 +6,7 @@
 namespace Huellitas.Web.Models.Extensions
 {
     using Api;
+    using Beto.Core.Caching;
     using Business.Caching;
     using Business.Configuration;
     using Business.Exceptions;

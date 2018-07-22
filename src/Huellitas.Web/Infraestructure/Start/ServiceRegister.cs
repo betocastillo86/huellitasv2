@@ -6,23 +6,25 @@
 namespace Huellitas.Web.Infraestructure.Start
 {
     using System;
-    using System.IO;
     using System.Reflection;
-    using Business.Caching;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Helpers;
+    using Beto.Core.Registers;
     using Business.Configuration;
-    using Business.EventPublisher;
     using Business.Security;
     using Business.Services;
-    using Huellitas.Business.Helpers;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Tasks;
     using Huellitas.Data.Core;
+    using Huellitas.Web.Infraestructure.Filters.Action;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
     using UI;
-    using Huellitas.Web.Infraestructure.Tasks;
-    using Huellitas.Business.Tasks;
-    using Huellitas.Web.Infraestructure.Filters.Action;
 
     /// <summary>
     /// Helper for register services
@@ -44,9 +46,10 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             ////Registra los Repositorios genericos
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            services.AddScoped<IDbContext, HuellitasContext>();
 
-            services.AddTransient<IHttpContextHelpers, HttpContextHelpers>();
+            services.AddTransient<IHttpContextHelper, HttpContextHelper>();
 
             ////Core
             services.AddScoped<ICacheManager, MemoryCacheManager>();
@@ -60,13 +63,10 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ISecuritySettings, SecuritySettings>();
             services.AddScoped<ITaskSettings, TaskSettings>();
 
-            ////Helpers
-            services.AddScoped<ISecurityHelpers, SecurityHelpers>();
-            services.AddSingleton<IStringHelpers, StringHelpers>();
-
             ////Services
             services.AddScoped<IContentService, ContentService>();
             services.AddScoped<ILogService, LogService>();
+            services.AddScoped<ILoggerService, LogService>();
             services.AddScoped<ISeoService, SeoService>();
             services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ICustomTableService, CustomTableService>();
@@ -89,6 +89,8 @@ namespace Huellitas.Web.Infraestructure.Start
 
             ////Events
             services.AddScoped<IPublisher, Publisher>();
+            services.AddScoped<IServiceFactory, DefaultServiceFactory>();
+            services.AddScoped<IMessageExceptionFinder, MessageExceptionFinder>();
 
             // Filters
             services.AddScoped<CrawlerAttribute>();
@@ -96,7 +98,7 @@ namespace Huellitas.Web.Infraestructure.Start
             ////Events
             //services.AddScoped<ImageResizeTask, ImageResizeTask>();
 
-            foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ISubscriber<>)))
+            foreach (var implementationType in ReflectionHelper.GetTypesOnProject(typeof(ISubscriber<>), "huellitas"))
             {
                 var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
                     (type, criteria) =>
@@ -111,7 +113,7 @@ namespace Huellitas.Web.Infraestructure.Start
                 }
             }
 
-            foreach (var implementationType in ReflectionHelpers.GetTypesOnProject(typeof(ITask)))
+            foreach (var implementationType in ReflectionHelper.GetTypesOnProject(typeof(ITask), "huellitas"))
             {
                 var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(
                     (type, criteria) =>

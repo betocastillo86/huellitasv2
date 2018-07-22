@@ -5,7 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers.Notifications
 {
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;

@@ -7,6 +7,7 @@ namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Data.Core;
     using Huellitas.Data.Entities;
     using Microsoft.EntityFrameworkCore;

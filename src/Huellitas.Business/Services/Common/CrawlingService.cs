@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Huellitas.Data;
     using Huellitas.Data.Core;
     using Microsoft.EntityFrameworkCore;

@@ -8,7 +8,8 @@ namespace Huellitas.Business.Services
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;

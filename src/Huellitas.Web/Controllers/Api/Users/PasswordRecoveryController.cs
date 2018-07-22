@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Huellitas.Business.Helpers;
+    using Beto.Core.Helpers;
     using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
@@ -24,20 +24,11 @@
         /// </summary>
         private readonly INotificationService notificationService;
 
-        /// <summary>
-        /// The security helpers
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
 
         /// <summary>
         /// The SEO service
         /// </summary>
         private readonly ISeoService seoService;
-
-        /// <summary>
-        /// The string helpers
-        /// </summary>
-        private readonly IStringHelpers stringHelpers;
 
         /// <summary>
         /// The user service
@@ -55,15 +46,11 @@
         public PasswordRecoveryController(
             IUserService userService,
             INotificationService notificationService,
-            ISeoService seoService,
-            IStringHelpers stringHelpers,
-            ISecurityHelpers securityHelpers)
+            ISeoService seoService)
         {
             this.userService = userService;
             this.notificationService = notificationService;
             this.seoService = seoService;
-            this.stringHelpers = stringHelpers;
-            this.securityHelpers = securityHelpers;
         }
 
         /// <summary>
@@ -121,7 +108,7 @@
 
             if (users.Count > 0)
             {
-                var token = this.securityHelpers.ToSha1(this.stringHelpers.GetRandomString(15));
+                var token = StringHelpers.ToSha1(StringHelpers.GetRandomString(15));
 
                 var user = users.FirstOrDefault();
                 user.PasswordRecoveryToken = token;
@@ -168,7 +155,7 @@
                 return this.NotFound();
             }
 
-            user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
+            user.Password = StringHelpers.ToSha1(model.Password, user.Salt);
             user.PasswordRecoveryToken = null;
 
             await this.userService.Update(user);

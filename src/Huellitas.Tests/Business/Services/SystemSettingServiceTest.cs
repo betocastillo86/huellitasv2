@@ -7,6 +7,7 @@ namespace Huellitas.Tests.Business.Services
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Caching;
     using Huellitas.Business.Caching;
     using Huellitas.Business.Services;
     using Huellitas.Data.Core;

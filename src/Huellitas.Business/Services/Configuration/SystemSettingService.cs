@@ -10,7 +10,9 @@ namespace Huellitas.Business.Services
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
-    using EventPublisher;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Caching;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;

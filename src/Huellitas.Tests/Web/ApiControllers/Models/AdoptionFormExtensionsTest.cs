@@ -10,7 +10,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using Data.Entities;
     using Huellitas.Business.Services;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Moq;
     using NUnit.Framework;

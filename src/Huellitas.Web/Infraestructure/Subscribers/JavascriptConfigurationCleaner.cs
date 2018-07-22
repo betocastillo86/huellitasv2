@@ -7,7 +7,7 @@ namespace Huellitas.Web.Infraestructure
 {
     using System;
     using System.Threading.Tasks;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.EventPublisher;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.UI;
 
