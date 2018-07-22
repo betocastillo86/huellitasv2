@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', '$scope', '$window', '$document', 'bannerService', 'helperService', 'shelterService', 'routingService'];
+    HomeController.$inject = ['$sce','$interval', '$scope', '$window', '$document', 'bannerService', 'helperService', 'shelterService', 'routingService'];
 
-    function HomeController($interval, $scope, $window, $document, bannerService, helperService, shelterService, routingService) {
+    function HomeController($sce, $interval, $scope, $window, $document, bannerService, helperService, shelterService, routingService) {
         var vm = this;
         vm.banners = [];
         vm.shelters = [];
@@ -27,6 +27,7 @@
 
         vm.previousBanner = previousBanner;
         vm.nextBanner = nextBanner;
+        vm.trustHtml = trustHtml;
 
         activate();
 
@@ -37,19 +38,22 @@
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.Home.Description'];
             $scope.$parent.root.seo.image = routingService.getFullRouteOfFile(app.Settings.general.seoImage);
 
+            getBanners();
             getShelters();
             attachScrollEvent();
         }
 
-        function getBanners(response) {
+        function trustHtml(html) {
+            return $sce.trustAsHtml(html);
+        }
+
+        function getBanners() {
             bannerService.getAll({ active: true, section: 'Home' })
                 .then(getCompleted)
                 .catch(helperService.handleException);
 
             function getCompleted(response) {
                 vm.banners = response.results;
-
-                addPetToBanner();
 
                 rotateBanners();
             }
@@ -126,16 +130,8 @@
         }
 
         function petsLoaded(pets) {
-            getBanners();
             vm.featuredPet = _.findWhere(pets.results, { featured: true });
         }
 
-        function addPetToBanner()
-        {
-            if (vm.featuredPet)
-            {
-                vm.banners.push({ isPet: true });
-            }
-        }
     }
 })();

@@ -87,6 +87,20 @@
         content: " ";
         height: 100%;
     }
+
+    .titleBanner {
+        font-size:50px;
+        color:white;
+        font-weight:700;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .titleBanner {
+        font-size: 30px;
+        color: white;
+        font-weight: 700;
+    }
 }
 
 .modal-dialog {

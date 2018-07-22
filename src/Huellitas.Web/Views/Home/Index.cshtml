@@ -60,12 +60,12 @@
     <header class="inner-header">
         <div class="content-all">
             <div class="main-menu" ng-click="root.showMenu(true)"><span class="icon-menu"></span></div>
-            <h1 class="logo">
+            <div class="logo">
                 <a href="/">
                     <img src="/img/front/logo.svg" title="Logo Huellitas sin hogar" alt="Logo Huellitas sin hogar" />
                     <span>Huellitas sin hogar - Adopción de perros en Bogotá y Colombia</span>
                 </a>
-            </h1>
+            </div>
             <nav class="menu">
                 <h2><a href="/" ng-class="{'active': root.currentMenu == '/'}" ng-click="root.showMenu(false)">Inicio</a></h2>
                 <h2><a href="{{::root.getRoute('pets')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('pets')) != -1 }" ng-click="root.showMenu(false)">En adopción</a></h2>
