@@ -61,11 +61,10 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Nombre</th>
-                            <th>Edad</th>
-                            <th>Genero</th>
-                            <th>Estado</th>
-                            <th>Solicitudes</th>
+                            <th style="max-width:100px;" class="hidden-xs">Nombre</th>
+                            <th style="max-width:20px">Estado</th>
+                            <th style="max-width:20px;">Formularios</th>
+                            
                             <th></th>
                         </tr>
                     </thead>
@@ -74,16 +73,14 @@
                             <th scope="row" class="img-table">
                                 <img ng-src="{{::pet.image.thumbnail}}" title="Foto de {{::pet.name}}">
                             </th>
-                            <td>{{::pet.name}}</td>
-                            <td>{{::pet.months | age}}</td>
-                            <td>{{::pet.genre.text}}</td>
-                            <td>
+                            <td style="max-width:100px;" class="hidden-xs">{{::pet.name | limitTo:18}}</td>
+                            <td style="max-width:40px">
                                 <div class="onoffswitch" ng-if="::pet.status != 'Created'" ng-click="main.changeStatus(pet)">
                                     <input type="checkbox" name="status{{::pet.id}}" class="onoffswitch-checkbox" ng-checked="pet.status == 'Published'">
                                     <label class="onoffswitch-label" for="status{{::pet.id}}"></label>
                                 </div>
                             </td>
-                            <td><a ng-href="{{::root.getRoute('forms')}}">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
+                            <td><a ng-href="{{::root.getRoute('forms')}}" title="Formularios pendientes de responder">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
                             <td>
                                 <a class="btn btn-lg btn-dark btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a>
                             </td>
