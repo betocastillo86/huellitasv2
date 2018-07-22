@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />-->
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core.Web\Beto.Core.Web.csproj" />
     <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
   </ItemGroup>

@@ -42,8 +42,20 @@ namespace Huellitas.Business.Configuration
         /// </value>
         int ExpirationTokenMinutes { get; }
 
+        /// <summary>
+        /// Gets the maximum request file upload mb.
+        /// </summary>
+        /// <value>
+        /// The maximum request file upload mb.
+        /// </value>
         int MaxRequestFileUploadMB { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether [track home requests].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [track home requests]; otherwise, <c>false</c>.
+        /// </value>
         bool TrackHomeRequests { get; }
     }
 }

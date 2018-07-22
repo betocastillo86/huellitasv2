@@ -12,8 +12,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Shelter Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class ShelterFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class ShelterFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShelterFilterModel"/> class.

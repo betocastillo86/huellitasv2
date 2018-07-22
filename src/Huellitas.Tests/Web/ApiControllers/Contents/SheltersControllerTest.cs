@@ -5,20 +5,21 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Data.Entities;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Shelters Controller Test
@@ -65,7 +66,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             controller.AddUrl();
 
             var response = controller.Get(id.ToString()) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -160,7 +161,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var model = new ShelterModel();
             var response = await controller.Post(model) as ObjectResult;
 
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("Files", error.Details[0].Target);
@@ -223,7 +224,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
 
             var response = await controller.Put(newId, model) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -415,7 +416,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 locationService.Object,
                 seoService.Object,
                 contentRepository.Object,
-                this.publisher.Object);
+                this.publisher.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

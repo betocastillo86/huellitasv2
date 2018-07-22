@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Entities
 {
+    using Beto.Core.Data.Notifications;
+
     /// <summary>
     /// System Notification
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public class SystemNotification : BaseEntity
+    public class SystemNotification : BaseEntity, ISystemNotificationEntity
     {
         /// <summary>
         /// Gets or sets the user identifier.
@@ -33,7 +35,7 @@ namespace Huellitas.Data.Entities
         /// <value>
         /// The target URL.
         /// </value>
-        public string TargetURL { get; set; }
+        public string TargetUrl { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="SystemNotification"/> is seen.

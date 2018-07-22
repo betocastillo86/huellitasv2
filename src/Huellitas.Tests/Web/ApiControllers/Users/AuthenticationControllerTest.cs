@@ -10,12 +10,11 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using System.Security.Claims;
     using System.Security.Principal;
     using System.Threading.Tasks;
+    using Beto.Core.Web.Api;
+    using Beto.Core.Web.Security;
     using Data.Entities;
-    using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.Security;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -39,11 +38,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         private Mock<INotificationService> notificationService = new Mock<INotificationService>();
 
         /// <summary>
-        /// The security helpers
-        /// </summary>
-        private Mock<ISecurityHelpers> securityHelpers;
-
-        /// <summary>
         /// The user service
         /// </summary>
         private Mock<IUserService> userService;
@@ -55,7 +49,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         {
             this.authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
             this.userService = new Mock<IUserService>();
-            this.securityHelpers = new Mock<ISecurityHelpers>();
             this.notificationService = new Mock<INotificationService>();
         }
 
@@ -86,7 +79,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 this.authenticationTokenGenerator.Object,
                 this.userService.Object,
                 this.workContext.Object,
-                this.notificationService.Object);
+                this.notificationService.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>
@@ -115,7 +109,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
 
             AuthenticationUserModel model = null;
             var response = await controller.Post(model) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -133,12 +127,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             var userAuthenticated = new User { Id = 1, Name = "Name", Role = new Role() { Name = "Role", Id = 1 }, Email = model.Email };
 
             this.authenticationTokenGenerator
-                .Setup(c => c.GenerateToken(It.IsAny<GenericIdentity>(), It.IsAny<IList<Claim>>(), It.IsAny<DateTimeOffset>()))
+                .Setup(c => c.GenerateToken(It.IsAny<GenericIdentity>(), It.IsAny<IList<Claim>>(), It.IsAny<DateTimeOffset>(), null))
                 .Returns(token);
-
-            this.securityHelpers
-                .Setup(c => c.ToSha1(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns("123");
 
             this.userService
                 .Setup(c => c.ValidateAuthentication(It.IsAny<string>(), It.IsAny<string>()))
@@ -162,10 +152,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         public async Task PostAuthentication_Unauthorized_WrongPassword()
         {
             var model = new AuthenticationUserModel { Email = "aa@aa.com", Password = "123" };
-
-            this.securityHelpers
-                .Setup(c => c.ToSha1(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns("123");
 
             this.userService
                 .Setup(c => c.ValidateAuthentication(It.IsAny<string>(), It.IsAny<string>()))

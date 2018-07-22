@@ -7,10 +7,11 @@ namespace Huellitas.Tests.Business.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Data;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
+    
     using Moq;
     using NUnit.Framework;
 

@@ -6,6 +6,8 @@
 namespace Huellitas.Business.Configuration
 {
     using System.Diagnostics.CodeAnalysis;
+    using Beto.Core.Data.Configuration;
+    using Huellitas.Business.Extensions.Services;
     using Services;
 
     /// <summary>
@@ -18,13 +20,13 @@ namespace Huellitas.Business.Configuration
         /// <summary>
         /// The setting service
         /// </summary>
-        private readonly ISystemSettingService settingService;
+        private readonly ICoreSettingService settingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralSettings"/> class.
         /// </summary>
         /// <param name="settingService">The setting service.</param>
-        public GeneralSettings(ISystemSettingService settingService)
+        public GeneralSettings(ICoreSettingService settingService)
         {
             this.settingService = settingService;
         }
@@ -35,7 +37,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The height of the banner picture size.
         /// </value>
-        public int BannerPictureSizeHeight { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeHeight"); } }
+        public int BannerPictureSizeHeight { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeHeight"); } }
 
         /// <summary>
         /// Gets the width of the banner picture size.
@@ -43,7 +45,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The width of the banner picture size.
         /// </value>
-        public int BannerPictureSizeWidth { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.BannerPictureSizeWidth"); } }
+        public int BannerPictureSizeWidth { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeWidth"); } }
 
         /// <summary>
         /// Gets the configuration JAVASCRIPT cache key.
@@ -51,7 +53,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The configuration JAVASCRIPT cache key.
         /// </value>
-        public string ConfigJavascriptCacheKey { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
+        public string ConfigJavascriptCacheKey { get { return this.settingService.Get<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
 
         /// <summary>
         /// Gets the default size of the page.
@@ -59,7 +61,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The default size of the page.
         /// </value>
-        public int DefaultPageSize { get { return this.settingService.GetCachedSetting<int>("GeneralSettings.DefaultPageSize"); } }
+        public int DefaultPageSize { get { return this.settingService.Get<int>("GeneralSettings.DefaultPageSize"); } }
 
         /// <summary>
         /// Gets the facebook public token.
@@ -67,7 +69,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook public token.
         /// </value>
-        public string FacebookPublicToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookPublicToken"); } }
+        public string FacebookPublicToken { get { return this.settingService.Get<string>("GeneralSettings.FacebookPublicToken"); } }
 
         /// <summary>
         /// Gets the facebook secret token.
@@ -75,7 +77,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook secret token.
         /// </value>
-        public string FacebookSecretToken { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookSecretToken"); } }
+        public string FacebookSecretToken { get { return this.settingService.Get<string>("GeneralSettings.FacebookSecretToken"); } }
 
         /// <summary>
         /// Gets the facebook URL.
@@ -83,7 +85,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook URL.
         /// </value>
-        public string FacebookUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.FacebookUrl"); } }
+        public string FacebookUrl { get { return this.settingService.Get<string>("GeneralSettings.FacebookUrl"); } }
 
         /// <summary>
         /// Gets the google analytics code.
@@ -91,7 +93,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The google analytics code.
         /// </value>
-        public string GoogleAnalyticsCode => this.settingService.GetCachedSetting<string>("GeneralSettings.GoogleAnalyticsCode");
+        public string GoogleAnalyticsCode => this.settingService.Get<string>("GeneralSettings.GoogleAnalyticsCode");
 
         /// <summary>
         /// Gets the <c>instagram</c> URL.
@@ -99,7 +101,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The <c>instagram</c> URL.
         /// </value>
-        public string InstagramUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.InstagramUrl"); } }
+        public string InstagramUrl { get { return this.settingService.Get<string>("GeneralSettings.InstagramUrl"); } }
 
         /// <summary>
         /// Gets the maximum size of the height picture.
@@ -107,7 +109,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The maximum size of the height picture.
         /// </value>
-        public int MaxHeightPictureSize => this.settingService.GetCachedSetting<int>("GeneralSettings.MaxHeightPictureSize");
+        public int MaxHeightPictureSize => this.settingService.Get<int>("GeneralSettings.MaxHeightPictureSize");
 
         /// <summary>
         /// Gets the maximum size of the with picture.
@@ -115,7 +117,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The maximum size of the with picture.
         /// </value>
-        public int MaxWidthPictureSize => this.settingService.GetCachedSetting<int>("GeneralSettings.MaxWidthPictureSize");
+        public int MaxWidthPictureSize => this.settingService.Get<int>("GeneralSettings.MaxWidthPictureSize");
 
         /// <summary>
         /// Gets the SEO image.
@@ -123,7 +125,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SEO image.
         /// </value>
-        public string SeoImage { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SeoImage"); } }
+        public string SeoImage { get { return this.settingService.Get<string>("GeneralSettings.SeoImage"); } }
 
         /// <summary>
         /// Gets the site URL.
@@ -131,7 +133,7 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The site URL.
         /// </value>
-        public string SiteUrl { get { return this.settingService.GetCachedSetting<string>("GeneralSettings.SiteUrl"); } }
+        public string SiteUrl { get { return this.settingService.Get<string>("GeneralSettings.SiteUrl"); } }
 
         /// <summary>
         /// Gets a value indicating whether [adsense enabled].
@@ -139,6 +141,6 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
         /// </value>
-        public bool AdsenseEnabled { get { return this.settingService.GetCachedSetting<bool>("GeneralSettings.AdsenseEnabled"); } }
+        public bool AdsenseEnabled { get { return this.settingService.Get<bool>("GeneralSettings.AdsenseEnabled"); } }
     }
 }

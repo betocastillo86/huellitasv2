@@ -5,16 +5,16 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers.Notifications
 {
-    using Huellitas.Business.EventPublisher;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Security;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Comment notifications
@@ -36,6 +36,7 @@ namespace Huellitas.Business.Subscribers.Notifications
         /// The content service
         /// </summary>
         private readonly IContentService contentService;
+
         /// <summary>
         /// The notification service
         /// </summary>
@@ -50,6 +51,16 @@ namespace Huellitas.Business.Subscribers.Notifications
         /// The work context
         /// </summary>
         private readonly IWorkContext workContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentNotifications"/> class.
+        /// </summary>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="commentService">The comment service.</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="notificationService">The notification service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="commentRepository">The comment repository.</param>
         public CommentNotifications(
             IContentService contentService,
             ICommentService commentService,
@@ -138,7 +149,7 @@ namespace Huellitas.Business.Subscribers.Notifications
                     contentUrl,
                     parameters);
             }
-            
+
             ////Notifica a los otros que comentaron
             var others = this.commentRepository.Table
                 .Include(c => c.User)

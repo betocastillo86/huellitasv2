@@ -5,22 +5,23 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Forms Controller Test
@@ -344,7 +345,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             var filter = new AdoptionFormFilterModel();
 
             var response = controller.Get(filter) as ObjectResult;
-            var error = response.Value as BaseApiError;
+            var error = response.Value as BaseApiErrorModel;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("FormUserId", error.Error.Details[0].Target);
@@ -486,7 +487,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             controller.AddResponse();
 
             var result = await controller.Post(model) as ObjectResult;
-            var error = result.Value as BaseApiError;
+            var error = result.Value as BaseApiErrorModel;
 
             Assert.AreEqual(400, result.StatusCode);
             Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey.ToString(), error.Error.Code);
@@ -566,7 +567,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 this.filesHelper.Object,
                 this.customTableService.Object,
                 this.cacheManager.Object,
-                this.contentSettings.Object);
+                this.contentSettings.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

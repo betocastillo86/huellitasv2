@@ -1,11 +1,18 @@
-﻿namespace Huellitas.Web.Controllers.Api.Users
+﻿//-----------------------------------------------------------------------
+// <copyright file="PasswordRecoveryController.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Controllers.Api.Users
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Huellitas.Business.Helpers;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Security;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Helpers;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api.Users;
@@ -25,19 +32,9 @@
         private readonly INotificationService notificationService;
 
         /// <summary>
-        /// The security helpers
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
-
-        /// <summary>
         /// The SEO service
         /// </summary>
         private readonly ISeoService seoService;
-
-        /// <summary>
-        /// The string helpers
-        /// </summary>
-        private readonly IStringHelpers stringHelpers;
 
         /// <summary>
         /// The user service
@@ -45,32 +42,30 @@
         private readonly IUserService userService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordRecoveryController"/> class.
+        /// Initializes a new instance of the <see cref="PasswordRecoveryController" /> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
         /// <param name="notificationService">The notification service.</param>
-        /// <param name="seoService">The SEO service.</param>
-        /// <param name="stringHelpers">string helpers</param>
-        /// <param name="securityHelpers">security helpers</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public PasswordRecoveryController(
             IUserService userService,
             INotificationService notificationService,
             ISeoService seoService,
-            IStringHelpers stringHelpers,
-            ISecurityHelpers securityHelpers)
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.userService = userService;
             this.notificationService = notificationService;
             this.seoService = seoService;
-            this.stringHelpers = stringHelpers;
-            this.securityHelpers = securityHelpers;
         }
 
         /// <summary>
         /// Gets the specified token.
         /// </summary>
         /// <param name="token">The token.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [Route("{token}")]
         [AllowAnonymous]
         [HttpGet]
@@ -81,6 +76,13 @@
             return user == null ? (IActionResult)this.NotFound() : this.Ok();
         }
 
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         public bool IsValidModel(PasswordRecoveryModel model)
         {
@@ -92,6 +94,13 @@
             return this.ModelState.IsValid;
         }
 
+        /// <summary>
+        /// Determines whether [is valid update model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid update model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         public bool IsValidUpdateModel(UpdatePasswordModel model)
         {
@@ -107,9 +116,12 @@
         /// Posts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPost]
         [AllowAnonymous]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]PasswordRecoveryModel model)
         {
             if (!this.IsValidModel(model))
@@ -121,7 +133,7 @@
 
             if (users.Count > 0)
             {
-                var token = this.securityHelpers.ToSha1(this.stringHelpers.GetRandomString(15));
+                var token = StringHelpers.ToSha1(StringHelpers.GetRandomString(15));
 
                 var user = users.FirstOrDefault();
                 user.PasswordRecoveryToken = token;
@@ -150,10 +162,13 @@
         /// </summary>
         /// <param name="token">The token.</param>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPut]
         [Route("{token}")]
         [AllowAnonymous]
+        [RequiredModel]
         public async Task<IActionResult> Put(string token, [FromBody]UpdatePasswordModel model)
         {
             if (!this.IsValidUpdateModel(model))
@@ -168,7 +183,7 @@
                 return this.NotFound();
             }
 
-            user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
+            user.Password = StringHelpers.ToSha1(model.Password, user.Salt);
             user.PasswordRecoveryToken = null;
 
             await this.userService.Update(user);

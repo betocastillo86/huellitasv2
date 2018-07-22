@@ -5,10 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Business.Services
 {
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Helpers;
     using Moq;
@@ -35,8 +36,14 @@ namespace Huellitas.Tests.Business.Services
         /// </summary>
         private Mock<IFilesHelper> filesHelper = new Mock<IFilesHelper>();
 
+        /// <summary>
+        /// The publisher
+        /// </summary>
         private Mock<IPublisher> publisher = new Mock<IPublisher>();
 
+        /// <summary>
+        /// The content repository
+        /// </summary>
         private Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
 
         /// <summary>
@@ -78,7 +85,9 @@ namespace Huellitas.Tests.Business.Services
         /// <summary>
         /// Gets the service.
         /// </summary>
-        /// <returns>the service</returns>
+        /// <returns>
+        /// the service
+        /// </returns>
         private FileService GetService()
         {
             return new FileService(

@@ -6,6 +6,9 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
@@ -37,9 +40,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public NotificationsController(
             INotificationService notificationService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -105,6 +110,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody] NotificationModel model)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())

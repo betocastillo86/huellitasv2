@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Infraestructure.Filters.Action
+﻿//-----------------------------------------------------------------------
+// <copyright file="CrawlerAttribute.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Infraestructure.Filters.Action
 {
     using System;
     using System.Diagnostics;
@@ -14,6 +19,20 @@
     public class CrawlerAttribute : ActionFilterAttribute
     {
         /// <summary>
+        /// The user agents
+        /// </summary>
+        private static string[] userAgents = new string[]
+        {
+                "facebookexternalhit",
+                "twitterbot",
+                "linkedinbot",
+                "pinterest",
+                "developers.google.com/+/web/snippet",
+                "slackbot",
+                "whatsapp"
+            };
+
+        /// <summary>
         /// The crawling service
         /// </summary>
         private readonly ICrawlingService crawlingService;
@@ -28,21 +47,8 @@
         }
 
         /// <summary>
-        /// The user agents
         /// </summary>
-        private static string[] userAgents = new string[] {
-                "facebookexternalhit",
-                "twitterbot",
-                "linkedinbot",
-                "pinterest",
-                "developers.google.com/+/web/snippet",
-                "slackbot",
-                "whatsapp"
-            };
-
-        /// <summary>
-        /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">the context</param>
         /// <inheritdoc />
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -63,8 +69,6 @@
                 Debug.WriteLine("the agent->" + agent);
                 Console.WriteLine("the agent->" + agent);
             }
-
-            
 
             base.OnActionExecuting(context);
         }

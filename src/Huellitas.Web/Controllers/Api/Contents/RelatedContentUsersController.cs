@@ -5,12 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Linq;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     /// <summary>
     /// Users related to a content
@@ -34,9 +36,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="contentService">The content service.</param>
         /// <param name="filesHelper">The files helper.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RelatedContentUsersController(
             IContentService contentService,
-            IFilesHelper filesHelper)
+            IFilesHelper filesHelper,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;

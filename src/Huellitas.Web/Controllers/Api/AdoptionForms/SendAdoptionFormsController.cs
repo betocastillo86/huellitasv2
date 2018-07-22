@@ -5,16 +5,18 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using Huellitas.Business.Notifications;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Text;
 
     /// <summary>
     /// Send Adoption Forms Controller
@@ -45,11 +47,13 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="notificationService">The notification service.</param>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SendAdoptionFormsController(
             IAdoptionFormService adoptionFormService,
             INotificationService notificationService,
             IWorkContext workContext,
-            IContentService contentService) : base(workContext, contentService, adoptionFormService)
+            IContentService contentService,
+            IMessageExceptionFinder messageExceptionFinder) : base(workContext, contentService, adoptionFormService, messageExceptionFinder)
         {
             this.adoptionFormService = adoptionFormService;
             this.notificationService = notificationService;
@@ -64,6 +68,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [Authorize]
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(int formId, [FromBody] SendAdoptionFormModel model)
         {
             if (this.IsValidModel(model))
@@ -79,7 +84,6 @@ namespace Huellitas.Web.Controllers.Api
                         var parameters = new List<NotificationParameter>();
                         parameters.Add("Pet.Name", form.Content.Name);
                         parameters.Add("Pet.Url", form.Content.Name);
-
 
                         var attributesHtml = new StringBuilder();
 
@@ -100,7 +104,6 @@ namespace Huellitas.Web.Controllers.Api
                         }
 
                         parameters.Add("Form.Attributes", attributesHtml.ToString());
-
 
                         await this.notificationService.NewNotification(
                             user,

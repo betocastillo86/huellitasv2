@@ -6,26 +6,28 @@
 namespace Huellitas.Business.Services
 {
     using System;
-    using Huellitas.Business.Helpers;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using System.Linq;
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Helpers;
+    using Huellitas.Data.Entities;
+
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Log Service
     /// </summary>
+    /// <seealso cref="Beto.Core.Exceptions.ILoggerService" />
     /// <seealso cref="Huellitas.Business.Services.ILogService" />
-    public class LogService : ILogService
+    public class LogService : ILoggerService, ILogService
     {
         #region props
 
         /// <summary>
         /// The context helpers
         /// </summary>
-        private readonly IHttpContextHelpers contextHelpers;
+        private readonly IHttpContextHelper contextHelpers;
 
         /// <summary>
         /// The log repository
@@ -37,48 +39,33 @@ namespace Huellitas.Business.Services
         #region ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogService"/> class.
+        /// Initializes a new instance of the <see cref="LogService" /> class.
         /// </summary>
         /// <param name="logRepository">The log repository.</param>
         /// <param name="contextHelpers">The context helpers.</param>
         public LogService(
             IRepository<Log> logRepository,
-            IHttpContextHelpers contextHelpers)
+            IHttpContextHelper contextHelpers)
         {
             this.logRepository = logRepository;
             this.contextHelpers = contextHelpers;
         }
+
         #endregion ctor
 
         /// <summary>
-        /// Inserts the specified log level.
+        /// Clears this instance.
         /// </summary>
-        /// <param name="logLevel">The log level.</param>
-        /// <param name="shortMessage">The short message.</param>
-        /// <param name="fullMessage">The full message.</param>
-        /// <param name="user">The user.</param>
-        /// <returns>the value</returns>
-        public Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", User user = null)
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task Clear()
         {
-            if (string.IsNullOrEmpty(shortMessage))
+            var logs = this.logRepository.Table.ToList();
+            foreach (var log in logs)
             {
-                return null;
+                await this.logRepository.DeleteAsync(log);
             }
-                
-            var log = new Log()
-            {
-                CreationDate = DateTime.Now,
-                FullMessage = fullMessage,
-                ShortMessage = shortMessage,
-                IpAddress = this.contextHelpers.GetCurrentIpAddress(),
-                PageUrl = this.contextHelpers.GetThisPageUrl(true),
-                UserId = user != null ? user.Id : (int?)null,
-                LogLevel = logLevel
-            };
-
-            this.logRepository.Insert(log);
-
-            return log;
         }
 
         /// <summary>
@@ -107,18 +94,75 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
-        /// Clears this instance.
+        /// Inserts the specified log level.
         /// </summary>
+        /// <param name="logLevel">The log level.</param>
+        /// <param name="shortMessage">The short message.</param>
+        /// <param name="fullMessage">The full message.</param>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        /// the value
+        /// </returns>
+        public Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", User user = null)
+        {
+            if (string.IsNullOrEmpty(shortMessage))
+            {
+                return null;
+            }
+
+            var log = new Log()
+            {
+                CreationDate = DateTime.Now,
+                FullMessage = fullMessage,
+                ShortMessage = shortMessage,
+                IpAddress = this.contextHelpers.GetCurrentIpAddress(),
+                PageUrl = this.contextHelpers.GetThisPageUrl(true),
+                UserId = user != null ? user.Id : (int?)null,
+                LogLevel = logLevel
+            };
+
+            this.logRepository.Insert(log);
+
+            return log;
+        }
+
+        /// <summary>
+        /// Inserts the specified short message.
+        /// </summary>
+        /// <param name="shortMessage">The short message.</param>
+        /// <param name="fullMessage">The full message.</param>
+        public void Insert(string shortMessage, string fullMessage = "")
+        {
+            this.Insert(LogLevel.Error, shortMessage, fullMessage, null);
+        }
+
+        /// <summary>
+        /// Inserts the asynchronous.
+        /// </summary>
+        /// <param name="shortMessage">The short message.</param>
+        /// <param name="fullMessage">The full message.</param>
         /// <returns>
         /// the task
         /// </returns>
-        public async Task Clear()
+        public async Task InsertAsync(string shortMessage, string fullMessage = "")
         {
-            var logs = this.logRepository.Table.ToList();
-            foreach (var log in logs)
+            if (string.IsNullOrEmpty(shortMessage))
             {
-                await this.logRepository.DeleteAsync(log);
+                throw new ArgumentNullException(nameof(shortMessage));
             }
+
+            var log = new Log()
+            {
+                CreationDate = DateTime.Now,
+                FullMessage = fullMessage,
+                ShortMessage = shortMessage,
+                IpAddress = this.contextHelpers.GetCurrentIpAddress(),
+                PageUrl = this.contextHelpers.GetThisPageUrl(true),
+                UserId = null,
+                LogLevel = LogLevel.Error
+            };
+
+            await this.logRepository.InsertAsync(log);
         }
     }
 }

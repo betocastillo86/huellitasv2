@@ -5,7 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using Business.Caching;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Configuration;
     using Business.Extensions;
     using Business.Security;
@@ -13,27 +23,21 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Utilities.Extensions;
     using Data.Entities;
     using Hangfire;
-    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Subscribers;
-    using Huellitas.Data.Core;
+    using Huellitas.Business.Tasks;
     using Huellitas.Web.Infraestructure.Tasks;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.JsonPatch.Exceptions;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Huellitas.Business.Tasks;
 
     /// <summary>
     /// Pets Controller
     /// </summary>
+    /// <seealso cref="Beto.Core.Web.Api.Controllers.BaseApiController" />
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/pets")]
     public class PetsController : BaseApiController
@@ -41,9 +45,19 @@ namespace Huellitas.Web.Controllers.Api
         #region props
 
         /// <summary>
+        /// The adoption form service
+        /// </summary>
+        private readonly IAdoptionFormService adoptionFormService;
+
+        /// <summary>
         /// The cache manager
         /// </summary>
         private readonly ICacheManager cacheManager;
+
+        /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
 
         /// <summary>
         /// The content service
@@ -51,29 +65,14 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IContentService contentService;
 
         /// <summary>
-        /// The cache manager
-        /// </summary>
-        private readonly ICustomTableService customTableService;
-
-        /// <summary>
-        /// The files helper
-        /// </summary>
-        private readonly IFilesHelper filesHelper;
-
-        /// <summary>
-        /// The work context
-        /// </summary>
-        private readonly IWorkContext workContext;
-
-        /// <summary>
-        /// The picture service
-        /// </summary>
-        private readonly IPictureService pictureService;
-
-        /// <summary>
         /// The content settings
         /// </summary>
         private readonly IContentSettings contentSettings;
+
+        /// <summary>
+        /// The cache manager
+        /// </summary>
+        private readonly ICustomTableService customTableService;
 
         /// <summary>
         /// The file service
@@ -81,9 +80,9 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IFileService fileService;
 
         /// <summary>
-        /// The seo service
+        /// The files helper
         /// </summary>
-        private readonly ISeoService seoService;
+        private readonly IFilesHelper filesHelper;
 
         /// <summary>
         /// The location service
@@ -96,14 +95,9 @@ namespace Huellitas.Web.Controllers.Api
         private readonly ILogService logService;
 
         /// <summary>
-        /// The adoption form service
+        /// The picture service
         /// </summary>
-        private readonly IAdoptionFormService adoptionFormService;
-
-        /// <summary>
-        /// The content repository
-        /// </summary>
-        private readonly IRepository<Content> contentRepository;
+        private readonly IPictureService pictureService;
 
         /// <summary>
         /// The publisher
@@ -111,25 +105,43 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IPublisher publisher;
 
         /// <summary>
+        /// The seo service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
         /// The user service
         /// </summary>
         private readonly IUserService userService;
+
+        /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
 
         #endregion props
 
         #region ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetsController"/> class.
+        /// Initializes a new instance of the <see cref="PetsController" /> class.
         /// </summary>
         /// <param name="contentService">The content service.</param>
-        /// <param name="filesHelper">the file helper</param>
-        /// <param name="cacheManager">the cache manager</param>
-        /// <param name="customTableService">the custom table service</param>
-        /// <param name="workContext">the work context</param>
-        /// <param name="pictureService">the picture service</param>
-        /// <param name="contentSettings">content settings</param>
-        /// <param name="fileService">the file service</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="locationService">The location service.</param>
+        /// <param name="contentRepository">The content repository.</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="adoptionFormService">The adoption form service.</param>
+        /// <param name="publisher">The publisher.</param>
+        /// <param name="userService">The user service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public PetsController(
             IContentService contentService,
             IFilesHelper filesHelper,
@@ -145,7 +157,8 @@ namespace Huellitas.Web.Controllers.Api
             ILogService logService,
             IAdoptionFormService adoptionFormService,
             IPublisher publisher,
-            IUserService userService)
+            IUserService userService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -167,10 +180,85 @@ namespace Huellitas.Web.Controllers.Api
         #endregion ctor
 
         /// <summary>
+        /// Determines whether this instance [can get unpublished] the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can get unpublished] the specified filter; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanGetUnpublished(PetsFilterModel filter)
+        {
+            var user = this.workContext.CurrentUser;
+            ////Si no tiene sesión no puede traerlos todos
+            if (user != null)
+            {
+                ////Si es superadmin puede traerlos todos
+                if (user.IsSuperAdmin())
+                {
+                    return true;
+                }
+                else
+                {
+                    ////Si no es super admin y pertenece a alguna de los refugios los puede traer todos
+                    ////Si el filtro tiene más de un refugio no permite ver inactivos
+                    if (filter.Shelter.ToIntList(false).Length == 1)
+                    {
+                        ////Puede traer inactivos si pertenece al refugio
+                        var shelterId = filter.Shelter.ToIntList().FirstOrDefault();
+                        return this.contentService.GetUsersByContentId(shelterId, ContentUserRelationType.Shelter).Any(c => c.UserId == user.Id);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can user create pets on shelter] the specified shelter identifier.
+        /// </summary>
+        /// <param name="shelterId">The shelter identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can user create pets on shelter] the specified shelter identifier; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanUserCreatePetsOnShelter(int shelterId)
+        {
+            if (this.workContext.CurrentUser.IsSuperAdmin())
+            {
+                return true;
+            }
+            else
+            {
+                return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelterId, ContentUserRelationType.Shelter);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can user edit pet] the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can user edit pet] the specified content; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool CanUserEditPet(Content content)
+        {
+            return this.workContext.CurrentUser.CanUserEditPet(content, this.contentService);
+        }
+
+        /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -183,7 +271,9 @@ namespace Huellitas.Web.Controllers.Api
         /// Gets the specified filter.
         /// </summary>
         /// <param name="filter">The filter.</param>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get(PetsFilterModel filter)
         {
@@ -252,15 +342,17 @@ namespace Huellitas.Web.Controllers.Api
             }
             else
             {
-                return this.BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+                return this.BadRequest(filter.Errors);
             }
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the specified friendly name.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>the value</returns>
+        /// <param name="friendlyName">Name of the friendly.</param>
+        /// <returns>
+        /// the return
+        /// </returns>
         [HttpGet]
         [Route("{friendlyName}", Name = "Api_Pets_GetById")]
         public IActionResult Get(string friendlyName)
@@ -304,256 +396,12 @@ namespace Huellitas.Web.Controllers.Api
                 }
                 else
                 {
-                    //this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
-                    //return this.BadRequest(this.ModelState);
                     return this.NotFound();
                 }
             }
             else
             {
                 return this.NotFound();
-            }
-        }
-
-        /// <summary>
-        /// Posts the specified model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <returns>the pet id</returns>
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Post([FromBody]PetModel model)
-        {
-            if (this.IsValidModel(model, true))
-            {
-                Content content = null;
-
-                try
-                {
-                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), files: model.Files);
-
-                    content.FriendlyName = this.GenerateFriendlyName(model, content);
-
-                    content.UserId = this.workContext.CurrentUserId;
-
-                    ////Only if the user can aprove contents changes the status
-                    if (this.workContext.CurrentUser.CanApproveContents())
-                    {
-                        content.StatusType = model.Status;
-                    }
-                    else
-                    {
-                        content.StatusType = model.Type == ContentType.Pet ? StatusType.Created : StatusType.Published;
-                    }
-
-                    await this.contentService.InsertAsync(content);
-
-                    if (content.ContentFiles.Count > 0)
-                    {
-                        var contentFiles = content.ContentFiles.Select(c => c.FileId).ToArray();
-                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(contentFiles));
-                    }
-                }
-                catch (HuellitasException e)
-                {
-                    return this.BadRequest(e);
-                }
-
-                var createdUri = this.Url.Link("Api_Pets_GetById", new { friendlyName = content.Id });
-                return this.Created(createdUri, new BaseModel { Id = content.Id });
-            }
-            else
-            {
-                return this.BadRequest(this.ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Puts the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="model">The model.</param>
-        /// <returns>
-        /// the response
-        /// </returns>
-        [HttpPut("{id:int}")]
-        [Authorize]
-        public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
-        {
-            if (this.IsValidModel(model, false))
-            {
-                var content = this.contentService.GetById(id);
-
-                if (content != null)
-                {
-                    var previousStatus = content.StatusType;
-
-                    if (content.Type != ContentType.Pet && content.Type != ContentType.LostPet)
-                    {
-                        this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
-                        return this.BadRequest(this.ModelState);
-                    }
-
-                    if (!this.CanUserEditPet(content))
-                    {
-                        return this.Forbid();
-                    }
-
-                    ////Only if the user can aprove contents changes the status
-                    if (this.workContext.CurrentUser.CanApproveContents())
-                    {
-                        content.StatusType = model.Status;
-                    }
-                    
-                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
-
-                    try
-                    {
-                        await this.contentService.UpdateAsync(content);
-
-                        if (previousStatus == StatusType.Created && content.StatusType == StatusType.Published)
-                        {
-                            await this.publisher.Publish(new ContentAprovedModel() { Content = content });
-                        }
-
-                        return this.Ok(new { result = true });
-                    }
-                    catch (HuellitasException e)
-                    {
-                        return this.BadRequest(e);
-                    }
-                }
-                else
-                {
-                    return this.NotFound();
-                }
-            }
-            else
-            {
-                return this.BadRequest(this.ModelState);
-            }
-        }
-
-        [Authorize]
-        [HttpPatch]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<PetModel> patchDocument)
-        {
-            ////TODO:Test
-            var content = this.contentService.GetById(id, true);
-
-            if (content != null)
-            {
-                if (content.Type != ContentType.Pet)
-                {
-                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
-                    return this.BadRequest(this.ModelState);
-                }
-
-                if (!this.CanUserEditPet(content))
-                {
-                    return this.Forbid();
-                }
-
-                var model = content.ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.workContext, this.filesHelper);
-
-                try
-                {
-                    patchDocument.ApplyTo(model);
-                }
-                catch (JsonPatchException e)
-                {
-                    this.logService.Error(e, this.workContext.CurrentUser);
-                    return this.BadRequest(HuellitasExceptionCode.BadArgument, "Argumento invalido");
-                }
-
-                ////Un usuario sin permisos no puede cambiar un contenido de creado a publicado
-                ////Si el estado no es creado si lo puede actualizar
-                if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && content.StatusType != StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
-                {
-                    content.StatusType = model.Status;
-
-                    ////Valida si debe otra vez alargar el tiempo de vencimiento de un pet
-                    if (content.Type == ContentType.Pet && patchDocument.Operations.Any(c => c.path.Equals("/status")))
-                    {
-                        if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
-                        {
-                            model.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
-                            BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
-                            BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
-                        }
-                    }
-                }
-
-                content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
-
-                try
-                {
-                    await this.contentService.UpdateAsync(content);
-                    return this.Ok(new { result = true });
-                }
-                catch (HuellitasException e)
-                {
-                    return this.BadRequest(e);
-                }
-            }
-            else
-            {
-                return this.NotFound();
-            }
-        }
-
-        /// <summary>
-        /// Determines whether this instance [can user edit pet] the specified content.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <returns>
-        ///   <c>true</c> if this instance [can user edit pet] the specified content; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool CanUserEditPet(Content content)
-        {
-            return this.workContext.CurrentUser.CanUserEditPet(content, this.contentService);
-        }
-
-        /// <summary>
-        /// Determines whether this instance [can get unpublished] the specified filter.
-        /// </summary>
-        /// <param name="filter">The filter.</param>
-        /// <returns>
-        ///   <c>true</c> if this instance [can get unpublished] the specified filter; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool CanGetUnpublished(PetsFilterModel filter)
-        {
-            var user = this.workContext.CurrentUser;
-            ////Si no tiene sesión no puede traerlos todos
-            if (user != null)
-            {
-                ////Si es superadmin puede traerlos todos
-                if (user.IsSuperAdmin())
-                {
-                    return true;
-                }
-                else
-                {
-                    ////Si no es super admin y pertenece a alguna de los refugios los puede traer todos
-                    ////Si el filtro tiene más de un refugio no permite ver inactivos
-                    if (filter.Shelter.ToIntList(false).Length == 1)
-                    {
-                        ////Puede traer inactivos si pertenece al refugio
-                        var shelterId = filter.Shelter.ToIntList().FirstOrDefault();
-                        return this.contentService.GetUsersByContentId(shelterId, ContentUserRelationType.Shelter).Any(c => c.UserId == user.Id);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -626,10 +474,211 @@ namespace Huellitas.Web.Controllers.Api
         }
 
         /// <summary>
-        /// Generates the friendly name
+        /// Patches the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="patchDocument">The patch document.</param>
+        /// <returns>the return</returns>
+        [Authorize]
+        [HttpPatch]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<PetModel> patchDocument)
+        {
+            ////TODO:Test
+            var content = this.contentService.GetById(id, true);
+
+            if (content != null)
+            {
+                if (content.Type != ContentType.Pet)
+                {
+                    this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                    return this.BadRequest(this.ModelState);
+                }
+
+                if (!this.CanUserEditPet(content))
+                {
+                    return this.Forbid();
+                }
+
+                var model = content.ToPetModel(this.contentService, this.customTableService, this.cacheManager, this.workContext, this.filesHelper);
+
+                try
+                {
+                    patchDocument.ApplyTo(model);
+                }
+                catch (JsonPatchException e)
+                {
+                    this.logService.Error(e, this.workContext.CurrentUser);
+                    return this.BadRequest(HuellitasExceptionCode.BadArgument, "Argumento invalido");
+                }
+
+                ////Un usuario sin permisos no puede cambiar un contenido de creado a publicado
+                ////Si el estado no es creado si lo puede actualizar
+                if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && content.StatusType != StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
+                {
+                    content.StatusType = model.Status;
+
+                    ////Valida si debe otra vez alargar el tiempo de vencimiento de un pet
+                    if (content.Type == ContentType.Pet && patchDocument.Operations.Any(c => c.path.Equals("/status")))
+                    {
+                        if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
+                        {
+                            model.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
+                            BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                            BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                        }
+                    }
+                }
+
+                content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
+
+                try
+                {
+                    await this.contentService.UpdateAsync(content);
+                    return this.Ok(new { result = true });
+                }
+                catch (HuellitasException e)
+                {
+                    return this.BadRequest(e);
+                }
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Posts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns>the friendle name</returns>
+        /// <returns>
+        /// the pet id
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        [RequiredModel]
+        public async Task<IActionResult> Post([FromBody]PetModel model)
+        {
+            if (this.IsValidModel(model, true))
+            {
+                Content content = null;
+
+                try
+                {
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), files: model.Files);
+
+                    content.FriendlyName = this.GenerateFriendlyName(model, content);
+
+                    content.UserId = this.workContext.CurrentUserId;
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
+                    }
+                    else
+                    {
+                        content.StatusType = model.Type == ContentType.Pet ? StatusType.Created : StatusType.Published;
+                    }
+
+                    await this.contentService.InsertAsync(content);
+
+                    if (content.ContentFiles.Count > 0)
+                    {
+                        var contentFiles = content.ContentFiles.Select(c => c.FileId).ToArray();
+                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(contentFiles));
+                    }
+                }
+                catch (HuellitasException e)
+                {
+                    return this.BadRequest(e);
+                }
+
+                var createdUri = this.Url.Link("Api_Pets_GetById", new { friendlyName = content.Id });
+                return this.Created(createdUri, new BaseModel { Id = content.Id });
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Puts the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        /// the response
+        /// </returns>
+        [HttpPut("{id:int}")]
+        [Authorize]
+        [RequiredModel]
+        public async Task<IActionResult> Put(int id, [FromBody]PetModel model)
+        {
+            if (this.IsValidModel(model, false))
+            {
+                var content = this.contentService.GetById(id);
+
+                if (content != null)
+                {
+                    var previousStatus = content.StatusType;
+
+                    if (content.Type != ContentType.Pet && content.Type != ContentType.LostPet)
+                    {
+                        this.ModelState.AddModelError("Id", "Este id no pertenece a un animal");
+                        return this.BadRequest(this.ModelState);
+                    }
+
+                    if (!this.CanUserEditPet(content))
+                    {
+                        return this.Forbid();
+                    }
+
+                    ////Only if the user can aprove contents changes the status
+                    if (this.workContext.CurrentUser.CanApproveContents())
+                    {
+                        content.StatusType = model.Status;
+                    }
+
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
+
+                    try
+                    {
+                        await this.contentService.UpdateAsync(content);
+
+                        if (previousStatus == StatusType.Created && content.StatusType == StatusType.Published)
+                        {
+                            await this.publisher.Publish(new ContentAprovedModel() { Content = content });
+                        }
+
+                        return this.Ok(new { result = true });
+                    }
+                    catch (HuellitasException e)
+                    {
+                        return this.BadRequest(e);
+                    }
+                }
+                else
+                {
+                    return this.NotFound();
+                }
+            }
+            else
+            {
+                return this.BadRequest(this.ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Generates the name of the friendly.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="content">The content.</param>
+        /// <returns>
+        /// the return
+        /// </returns>
         private string GenerateFriendlyName(PetModel model, Content content)
         {
             try
@@ -645,25 +694,6 @@ namespace Huellitas.Web.Controllers.Api
             catch (NullReferenceException)
             {
                 throw new HuellitasException(HuellitasExceptionCode.InvalidForeignKey);
-            }
-        }
-
-        /// <summary>
-        /// Determines whether this instance [can user create pets on shelter] the specified shelter identifier.
-        /// </summary>
-        /// <param name="shelterId">The shelter identifier.</param>
-        /// <returns>
-        ///   <c>true</c> if this instance [can user create pets on shelter] the specified shelter identifier; otherwise, <c>false</c>.
-        /// </returns>
-        public bool CanUserCreatePetsOnShelter(int shelterId)
-        {
-            if (this.workContext.CurrentUser.IsSuperAdmin())
-            {
-                return true;
-            }
-            else
-            {
-                return this.contentService.IsUserInContent(this.workContext.CurrentUserId, shelterId, ContentUserRelationType.Shelter);
             }
         }
     }

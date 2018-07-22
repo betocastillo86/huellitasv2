@@ -7,13 +7,16 @@ namespace Huellitas.Web.Controllers.Api
 {
     using System;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -61,15 +64,19 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="bannerService">The banner service.</param>
         /// <param name="generalSettings">The general settings.</param>
-        /// <param name="filesHelper">file helper</param>
-        /// <param name="fileService">file service</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public BannersController(
             IBannerService bannerService,
             IGeneralSettings generalSettings,
             IFilesHelper filesHelper,
             IFileService fileService,
             IWorkContext workContext,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.bannerService = bannerService;
             this.generalSettings = generalSettings;
@@ -171,6 +178,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]BannerModel model)
         {
             ////TODO:Test
@@ -218,6 +226,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]BannerModel model)
         {
             ////TODO:Test

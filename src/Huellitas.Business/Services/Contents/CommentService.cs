@@ -5,18 +5,21 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
-    using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Helpers;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Helpers;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// Comment Service
+    /// </summary>
+    /// <seealso cref="Huellitas.Business.Services.ICommentService" />
     public class CommentService : ICommentService
     {
         /// <summary>
@@ -37,7 +40,7 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// The HTTP context helpers
         /// </summary>
-        private readonly IHttpContextHelpers httpContextHelpers;
+        private readonly IHttpContextHelper httpContextHelpers;
 
         /// <summary>
         /// The publisher
@@ -62,7 +65,7 @@ namespace Huellitas.Business.Services
             IRepository<Comment> commentRepository,
             IRepository<Content> contentRepository,
             IGeneralSettings generalSettings,
-            IHttpContextHelpers httpContextHelpers,
+            IHttpContextHelper httpContextHelpers,
             IPublisher publisher,
             IRepository<User> userRepository)
         {
@@ -200,9 +203,9 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
-        /// Searches the specified key.
+        /// Searches the specified keyword.
         /// </summary>
-        /// <param name="keyword"></param>
+        /// <param name="keyword">The keyword.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="parentCommentId">The parent comment identifier.</param>
         /// <param name="userId">The user identifier.</param>
@@ -210,7 +213,7 @@ namespace Huellitas.Business.Services
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>
-        /// the comments
+        /// the return
         /// </returns>
         public IPagedList<Comment> Search(
             string keyword = null,

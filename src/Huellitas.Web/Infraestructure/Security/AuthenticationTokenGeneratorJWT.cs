@@ -11,6 +11,7 @@ namespace Huellitas.Web.Infraestructure.Security
     using System.Security.Claims;
     using System.Security.Principal;
     using System.Text;
+    using Beto.Core.Web.Security;
     using Huellitas.Business.Configuration;
     using Microsoft.IdentityModel.Tokens;
 
@@ -40,10 +41,11 @@ namespace Huellitas.Web.Infraestructure.Security
         /// <param name="genericIdentity">The generic identity.</param>
         /// <param name="claims">The claims.</param>
         /// <param name="generationDate">The date when the key is generation. Usually you can use DateTimeOffset.Now</param>
+        /// <param name="configParams">configuration parameters depending of type of authentication</param>
         /// <returns>
         /// The generated token for authentication
         /// </returns>
-        public GeneratedAuthenticationToken GenerateToken(GenericIdentity genericIdentity, IList<Claim> claims, DateTimeOffset generationDate)
+        public GeneratedAuthenticationToken GenerateToken(GenericIdentity genericIdentity, IList<Claim> claims, DateTimeOffset generationDate, IDictionary<string, string> configParams)
         {
             var identity = new ClaimsIdentity(genericIdentity, claims);
 

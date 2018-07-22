@@ -5,8 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Api;
-    using Business.Caching;
+    using Beto.Core.Caching;
+    using Beto.Core.Data.Files;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions;
@@ -15,9 +19,6 @@ namespace Huellitas.Web.Models.Extensions
     using Data.Extensions;
     using Huellitas.Business.Security;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Pet Extensions
@@ -135,6 +136,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="contentService">The content service.</param>
         /// <param name="customTableService">The custom table service.</param>
         /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
@@ -143,7 +145,8 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
-        /// <returns>the model</returns>
+        /// <param name="pendingForms">The pending forms.</param>
+        /// <returns>the return</returns>
         public static PetModel ToPetModel(
             this Content entity,
             IContentService contentService,
@@ -265,6 +268,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="contentService">The content service.</param>
         /// <param name="customTableService">The custom table service.</param>
         /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
@@ -272,7 +276,8 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
-        /// <returns>the models</returns>
+        /// <param name="pendingForms">The pending forms.</param>
+        /// <returns>the return</returns>
         public static IList<PetModel> ToPetModels(
             this IList<Content> entities,
             IContentService contentService,

@@ -7,9 +7,14 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
+    using Beto.Core.Data.Configuration;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
@@ -26,7 +31,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <summary>
         /// The system setting service
         /// </summary>
-        private readonly ISystemSettingService systemSettingService;
+        private readonly ICoreSettingService systemSettingService;
 
         /// <summary>
         /// The work context
@@ -38,9 +43,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="systemSettingService">The system setting service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SystemSettingsController(
-            ISystemSettingService systemSettingService,
-            IWorkContext workContext)
+            ICoreSettingService systemSettingService,
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.systemSettingService = systemSettingService;
             this.workContext = workContext;
@@ -53,7 +60,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the list</returns>
         [HttpGet]
         [Authorize]
-        public IActionResult Get([FromQuery] SystemSettingFilterModel filter)
+        public async Task<IActionResult> Get([FromQuery] SystemSettingFilterModel filter)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
             {
@@ -62,7 +69,7 @@ namespace Huellitas.Web.Controllers.Api
 
             if (filter.IsValid())
             {
-                var settings = this.systemSettingService.Get(filter.Keyword, null, filter.Page, filter.PageSize);
+                var settings = await this.systemSettingService.GetAsync<SystemSetting>(filter.Keyword, null, filter.Page, filter.PageSize);
                 var models = settings.ToModels();
                 return this.Ok(models, settings.HasNextPage, settings.TotalCount);
             }
@@ -81,6 +88,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody] SystemSettingModel model)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
@@ -90,7 +98,7 @@ namespace Huellitas.Web.Controllers.Api
 
             if (this.IsValid(model))
             {
-                var setting = this.systemSettingService.GetByKey(model.Name);
+                var setting = this.systemSettingService.GetByKey<SystemSetting>(model.Name);
 
                 if (setting != null && setting.Id == id)
                 {

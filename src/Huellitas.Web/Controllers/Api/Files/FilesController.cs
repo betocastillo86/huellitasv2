@@ -6,16 +6,20 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Services;
     using Data.Entities;
+    using Huellitas.Business.Configuration;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
-    using System.Linq;
-    using Huellitas.Business.Configuration;
 
     /// <summary>
     /// File Controller
@@ -60,15 +64,18 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="hostingEnvironment">The hosting environment.</param>
         /// <param name="fileService">The file service.</param>
         /// <param name="filesHelper">The files helper.</param>
-        /// <param name="seoService">The SEO service.</param>
+        /// <param name="seoService">The seo service.</param>
         /// <param name="pictureService">The picture service.</param>
+        /// <param name="securitySettings">The security settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public FilesController(
             IHostingEnvironment hostingEnvironment,
             IFileService fileService,
             IFilesHelper filesHelper,
             ISeoService seoService,
             IPictureService pictureService,
-            ISecuritySettings securitySettings)
+            ISecuritySettings securitySettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.fileService = fileService;
@@ -96,6 +103,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="model">The model.</param>
         /// <returns>the file id and thumbnail Url</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post(PostFileModel model)
         {
             if (this.IsValidModel(model.Files))

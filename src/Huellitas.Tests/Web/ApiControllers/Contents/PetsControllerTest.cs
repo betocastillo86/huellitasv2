@@ -5,36 +5,55 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Web.Api;
     using Data.Entities;
-    using Data.Infraestructure;
-    using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Pets Controller Test
     /// </summary>
+    /// <seealso cref="Huellitas.Tests.BaseTest" />
     [TestFixture]
     public class PetsControllerTest : BaseTest
     {
-        Mock<ISeoService> seoService = new Mock<ISeoService>();
-        Mock<ILocationService> locationService = new Mock<ILocationService>();
-        Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
-        Mock<ILogService> logService = new Mock<ILogService>();
-        Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
-        Mock<IUserService> userService = new Mock<IUserService>();
+        /// <summary>
+        /// The seo service
+        /// </summary>
+        private Mock<ISeoService> seoService = new Mock<ISeoService>();
+
+        /// <summary>
+        /// The location service
+        /// </summary>
+        private Mock<ILocationService> locationService = new Mock<ILocationService>();
+
+        /// <summary>
+        /// The content repository
+        /// </summary>
+        private Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
+
+        /// <summary>
+        /// The adoption form service
+        /// </summary>
+        private Mock<IAdoptionFormService> adoptionFormService = new Mock<IAdoptionFormService>();
+
+        /// <summary>
+        /// The user service
+        /// </summary>
+        private Mock<IUserService> userService = new Mock<IUserService>();
 
         /// <summary>
         /// Gets the pets invalid filter.
@@ -55,7 +74,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             filter.Shelter = "4,b,c,5";
 
             var response = await controller.Get(filter) as ObjectResult;
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
@@ -78,24 +97,25 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var contentSettings = new Mock<IContentSettings>();
             var fileService = new Mock<IFileService>();
 
-            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null,null, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
+            mockContentService.Setup(c => c.Search(null, ContentType.Pet, new List<FilterAttribute>(), 10, 0, ContentOrderBy.DisplayOrder, null, null, null, null, null, null, null, null, null)).Returns(new PagedList<Content>() { new Content() { } });
 
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             controller.AddResponse().AddUrl();
 
@@ -113,7 +133,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <summary>
         /// Posts the pets bad request.
         /// </summary>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         [Test]
         public async Task PostPetsBadRequest()
         {
@@ -130,24 +152,25 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             var model = new PetModel();
             var response = await controller.Post(model) as ObjectResult;
 
-            var error = (response.Value as BaseApiError).Error;
+            var error = (response.Value as BaseApiErrorModel).Error;
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("Files", error.Details[0].Target);
@@ -158,7 +181,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <summary>
         /// Posts the pets ok.
         /// </summary>
-        /// <returns>The task</returns>
+        /// <returns>
+        /// The task
+        /// </returns>
         [Test]
         public async Task PostPetsOk()
         {
@@ -190,19 +215,20 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             controller.AddUrl(true);
 
@@ -356,7 +382,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <summary>
         /// Puts the pets ok.
         /// </summary>
-        /// <returns>the result</returns>
+        /// <returns>
+        /// the result
+        /// </returns>
         [Test]
         public async Task PutPets_Ok()
         {
@@ -381,19 +409,20 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = await controller.Put(newId, model) as ObjectResult;
 
@@ -403,7 +432,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <summary>
         /// Puts the pets not found.
         /// </summary>
-        /// <returns>the result</returns>
+        /// <returns>
+        /// the result
+        /// </returns>
         [Test]
         public async Task PutPets_NotFound()
         {
@@ -428,19 +459,20 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = await controller.Put(newId, model) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -473,23 +505,24 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = new PetsController(
                 mockContentService.Object,
                 fileHelpers.Object,
-                cacheManager.Object,
+                this.cacheManager.Object,
                 customTableService.Object,
                 this.workContext.Object,
                 pictureService.Object,
-                contentSettings.Object,
+                this.contentSettings.Object,
                 fileService.Object,
-                seoService.Object,
-                locationService.Object,
-                contentRepository.Object,
-                logService.Object,
-                adoptionFormService.Object,
-                publisher.Object,
-                userService.Object);
+                this.seoService.Object,
+                this.locationService.Object,
+                this.contentRepository.Object,
+                this.logService.Object,
+                this.adoptionFormService.Object,
+                this.publisher.Object,
+                this.userService.Object,
+                this.messageExceptionFinder.Object);
 
             var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
-        }      
+        }
 
         /// <summary>
         /// Gets the pet by identifier not found unpublished pet.
@@ -674,7 +707,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Mocks the controller.
         /// </summary>
         /// <param name="mockContentService">The mock content service.</param>
-        /// <returns>the mock</returns>
+        /// <returns>
+        /// the mock
+        /// </returns>
         private PetsController MockController(Mock<IContentService> mockContentService = null)
         {
             mockContentService = mockContentService ?? new Mock<IContentService>();
@@ -706,7 +741,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 logService.Object,
                 adoptionFormService.Object,
                 publisher.Object,
-                userService.Object);
+                userService.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

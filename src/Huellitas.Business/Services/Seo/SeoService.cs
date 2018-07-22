@@ -8,14 +8,11 @@ namespace Huellitas.Business.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Xml.Linq;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Common;
     using Business.Configuration;
     using Data.Entities;
-    using Data.Entities.Abstract;
     using Huellitas.Business.Extensions;
-    using Huellitas.Data.Core;
 
     /// <summary>
     /// <c>Seo</c> Service
@@ -39,19 +36,27 @@ namespace Huellitas.Business.Services
         private readonly ILogService logService;
 
         /// <summary>
+        /// The seo helper
+        /// </summary>
+        private readonly ISeoHelper seoHelper;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SeoService"/> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="logService">The log service.</param>
+        /// <param name="seoHelper">The seo helper.</param>
         public SeoService(
             IGeneralSettings generalSettings,
             IRepository<Content> contentRepository,
-            ILogService logService)
+            ILogService logService,
+            ISeoHelper seoHelper)
         {
             this.generalSettings = generalSettings;
             this.contentRepository = contentRepository;
             this.logService = logService;
+            this.seoHelper = seoHelper;
         }
 
         /// <summary>
@@ -65,52 +70,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public string GenerateFriendlyName(string name, IQueryable<ISeoEntity> query = null, int maxLength = 280)
         {
-            ////TODO: Implementar
-            ////var wordsToRemove = FactoryContext.Resolve<GeneralSettings>().SeoWordsToRemove.Split(new char[] { ',' });
-            ////
-            //////Si debe remover articulos los borra
-            ////if (removeArticles)
-            ////    title = Regex.Replace(title, "\\b" + string.Join("\\b|\\b", wordsToRemove) + "\\b", string.Empty, RegexOptions.IgnoreCase);
-
-            ////Convierte la cadena en Seo friendly
-            string textnorm = name.Trim().Normalize(NormalizationForm.FormD);
-            var reg = new Regex("[^a-zA-Z0-9 ]");
-            string friendlyname = reg.Replace(textnorm, string.Empty)
-                .Trim()
-                .Replace(" ", "-")
-                .ToLower();
-
-            var regexMultipleSpaces = new Regex("[-]{2,}", RegexOptions.None);
-            friendlyname = regexMultipleSpaces.Replace(friendlyname, "-");
-
-            if (friendlyname.Length > maxLength)
-            {
-                ////Valida que el nombre no pase del tamaño permitido, pero agrega las palabras completas en el titulo
-                if (friendlyname.IndexOf("-", maxLength - 1) != -1)
-                {
-                    friendlyname = friendlyname.Substring(0, friendlyname.IndexOf("-", maxLength - 1));
-                }
-            }
-
-            ////Realiza una ultima validación para verificar que el texto no se vaya ir muy largo.
-            ////Ejemplo: cuando meten cadenas muy largas sin espacios
-            if (friendlyname.Length > maxLength + 20)
-            {
-                friendlyname = friendlyname.Substring(0, maxLength + 20);
-            }
-
-            if (query != null)
-            {
-                var available = !query.Any(c => c.FriendlyName.Equals(friendlyname));
-
-                ////Si el nombre no está disponible genera un numero aleatorio para completar la URL
-                if (!available)
-                {
-                    friendlyname = $"{friendlyname}-{new Random().Next(1000000).ToString()}";
-                }
-            }
-
-            return friendlyname;
+            return this.seoHelper.GenerateFriendlyName(name, query, maxLength);
         }
 
         /// <summary>
@@ -121,27 +81,7 @@ namespace Huellitas.Business.Services
         {
             var urls = this.GetUrlsForSiteMap();
 
-            var elements = new List<XElement>();
-            XNamespace nsa = "http://www.sitemaps.org/schemas/sitemap/0.9";
-
-            foreach (var url in urls)
-            {
-                var children = new List<XElement>();
-                children.Add(new XElement("loc", url.Key));
-                children.Add(new XElement("changefreq", "weekly"));
-
-                if (url.Value.HasValue)
-                {
-                    children.Add(new XElement("lastmod", url.Value.Value.ToString("yyyy-MM-dd")));
-                }
-
-                var element = new XElement("url", children);
-                elements.Add(element);
-            }
-
-            var document = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement(nsa + "urlset", elements));
-
-            return document.ToString();
+            return this.seoHelper.GetSiteMapXml(urls);
         }
 
         /// <summary>
@@ -248,8 +188,7 @@ namespace Huellitas.Business.Services
         private IDictionary<string, DateTime?> GetContentUrls()
         {
             var statusPublished = Convert.ToInt16(StatusType.Published);
-            //var statusRejected = Convert.ToInt16(StatusType.Rejected);
-            //var statusClosed = Convert.ToInt16(StatusType.Closed);
+
             var contents = this.contentRepository.Table
                 .Where(c => !c.Deleted && c.Status == statusPublished && (c.ClosingDate == null || c.ClosingDate >= DateTime.Now))
                 .ToList();
@@ -278,21 +217,21 @@ namespace Huellitas.Business.Services
         /// Gets the url for site map.
         /// </summary>
         /// <returns>the url</returns>
-        private IDictionary<string, DateTime?> GetUrlsForSiteMap()
+        private IList<SitemapRoute> GetUrlsForSiteMap()
         {
-            var urls = new Dictionary<string, DateTime?>();
-            urls.Add($"{this.generalSettings.SiteUrl}", null);
-            urls.Add(this.GetFullRoute("shelters"), null);
-            urls.Add(this.GetFullRoute("pets"), null);
-            urls.Add(this.GetFullRoute("lostpets"), null);
-            urls.Add(this.GetFullRoute("newshelter"), null);
-            urls.Add(this.GetFullRoute("newlostpet"), null);
-            urls.Add(this.GetFullRoute("faq"), null);
-            urls.Add(this.GetFullRoute("newpet0"), null);
+            var urls = new List<SitemapRoute>();
+            urls.Add(new SitemapRoute { Url = $"{this.generalSettings.SiteUrl}", ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("shelters"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("pets"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("lostpets"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("newshelter"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("newlostpet"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("faq"), ModifiedDate = null });
+            urls.Add(new SitemapRoute { Url = this.GetFullRoute("newpet0"), ModifiedDate = null });
 
             foreach (var content in this.GetContentUrls())
             {
-                urls.Add(content.Key, content.Value);
+                urls.Add(new SitemapRoute { Url = content.Key, ModifiedDate = content.Value });
             }
 
             return urls;

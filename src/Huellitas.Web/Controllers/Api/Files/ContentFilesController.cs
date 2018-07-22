@@ -5,6 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
@@ -13,15 +19,11 @@ namespace Huellitas.Web.Controllers.Api
     using Hangfire;
     using Huellitas.Business.Extensions;
     using Huellitas.Web.Infraestructure.Tasks;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using SixLabors.ImageSharp.Processing.Transforms;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Files Controller
@@ -64,18 +66,20 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
         /// </summary>
         /// <param name="fileService">The file service.</param>
-        /// <param name="fileHelper">the file helper</param>
-        /// <param name="contentService">content service</param>
-        /// <param name="workContext">work context</param>
-        /// <param name="pictureService">picture service</param>
-        /// <param name="contentSettings">the content settings</param>
+        /// <param name="fileHelper">The file helper.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ContentFilesController(
             IFileService fileService,
             IFilesHelper fileHelper,
             IContentService contentService,
             IWorkContext workContext,
             IPictureService pictureService,
-            IContentSettings contentSettings)
+            IContentSettings contentSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.fileService = fileService;
             this.fileHelper = fileHelper;
@@ -166,8 +170,8 @@ namespace Huellitas.Web.Controllers.Api
                     System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
 
                     // crea nuevamente las imagenes con el nuevo corte
-                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, ResizeMode.Pad);
-                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, ResizeMode.Pad);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, Beto.Core.Data.Files.ResizeMode.Pad);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, Beto.Core.Data.Files.ResizeMode.Pad);
                 }
             }
 
@@ -182,6 +186,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <returns>the value</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post(int contentId, [FromBody]FileModel model)
         {
             if (model != null && model.Id > 0)

@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface Text Resource Service

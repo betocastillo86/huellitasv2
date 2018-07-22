@@ -6,13 +6,13 @@
 namespace Huellitas.Business.Exceptions
 {
     using System;
-    using Huellitas.Business.Helpers;
+    using Beto.Core.Exceptions;
 
     /// <summary>
     /// Specific exception of <![CDATA[Huellitas]]>
     /// </summary>
     /// <seealso cref="System.Exception" />
-    public class HuellitasException : Exception
+    public class HuellitasException : CoreException<HuellitasExceptionCode>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HuellitasException"/> class.
@@ -26,7 +26,7 @@ namespace Huellitas.Business.Exceptions
         /// Initializes a new instance of the <see cref="HuellitasException"/> class.
         /// </summary>
         /// <param name="code">The code.</param>
-        public HuellitasException(HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
+        public HuellitasException(HuellitasExceptionCode code) : base(MessageExceptionFinder.GetErrorMessage(code))
         {
             this.Code = code;
         }
@@ -46,26 +46,10 @@ namespace Huellitas.Business.Exceptions
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="code">The code.</param>
-        public HuellitasException(string target, HuellitasExceptionCode code) : base(ExceptionMessages.GetMessage(code))
+        public HuellitasException(string target, HuellitasExceptionCode code) : base(MessageExceptionFinder.GetErrorMessage(code))
         {
             this.Target = target;
             this.Code = code;
         }
-
-        /// <summary>
-        /// Gets or sets the code.
-        /// </summary>
-        /// <value>
-        /// The code.
-        /// </value>
-        public HuellitasExceptionCode Code { get; set; }
-
-        /// <summary>
-        /// Gets or sets the target.
-        /// </summary>
-        /// <value>
-        /// The target.
-        /// </value>
-        public string Target { get; set; }
     }
 }

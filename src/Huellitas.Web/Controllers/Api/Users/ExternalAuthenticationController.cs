@@ -1,17 +1,29 @@
-﻿namespace Huellitas.Web.Controllers.Api
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExternalAuthenticationController.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Controllers.Api
 {
-    using Huellitas.Business.Exceptions;
-    using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.Security;
-    using Huellitas.Web.Infraestructure.WebApi;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Extensions;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Security;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Infraestructure.Security;
+    using Huellitas.Web.Models.Api;
+    using Huellitas.Web.Models.Extensions;
+    using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// External Authentication Controller
+    /// </summary>
+    /// <seealso cref="Beto.Core.Web.Api.Controllers.BaseApiController" />
     [Route("api/auth/external")]
     public class ExternalAuthenticationController : BaseApiController
     {
@@ -20,16 +32,21 @@
         /// </summary>
         private readonly IExternalAuthenticationService externalAuthentication;
 
-        
+        /// <summary>
+        /// The authentication token generator
+        /// </summary>
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalAuthenticationController"/> class.
+        /// Initializes a new instance of the <see cref="ExternalAuthenticationController" /> class.
         /// </summary>
         /// <param name="externalAuthentication">The external authentication.</param>
+        /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ExternalAuthenticationController(
             IExternalAuthenticationService externalAuthentication,
-            IAuthenticationTokenGenerator authenticationTokenGenerator)
+            IAuthenticationTokenGenerator authenticationTokenGenerator,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.externalAuthentication = externalAuthentication;
             this.authenticationTokenGenerator = authenticationTokenGenerator;
@@ -39,8 +56,11 @@
         /// Posts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody] ExternalAuthenticationModel model)
         {
             ////TODO:Test
@@ -54,7 +74,7 @@
 
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
-                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now, null);
                     var userModel = new AuthenticatedUserModel()
                     {
                         Email = user.Email,

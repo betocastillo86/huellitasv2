@@ -12,6 +12,12 @@ namespace Huellitas.Business.Subscribers
     /// </summary>
     public class ContentAprovedModel
     {
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
         public Content Content { get; set; }
     }
 }

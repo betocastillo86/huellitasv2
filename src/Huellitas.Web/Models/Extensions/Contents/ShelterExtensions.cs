@@ -5,14 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Api;
+    using Beto.Core.Data.Files;
     using Data.Entities;
     using Data.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Shelter Extensions
@@ -93,6 +94,7 @@ namespace Huellitas.Web.Models.Extensions
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
@@ -100,7 +102,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
-        /// <returns>the model</returns>
+        /// <returns>the return</returns>
         public static ShelterModel ToShelterModel(
             this Content entity,
             IContentService contentService,
@@ -217,13 +219,15 @@ namespace Huellitas.Web.Models.Extensions
         /// To the shelter base model.
         /// </summary>
         /// <param name="entity">The entity.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
-        /// <returns>the model</returns>
+        /// <returns>the return</returns>
         public static BaseShelterModel ToShelterBaseModel(
             this Content entity,
             IContentService contentService,
@@ -306,6 +310,7 @@ namespace Huellitas.Web.Models.Extensions
         /// </summary>
         /// <param name="entities">The entities.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="withFiles">if set to <c>true</c> [with files].</param>
@@ -313,7 +318,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="height">The height.</param>
         /// <param name="thumbnailWidth">Width of the thumbnail.</param>
         /// <param name="thumbnailHeight">Height of the thumbnail.</param>
-        /// <returns>the models</returns>
+        /// <returns>the return</returns>
         public static IList<ShelterModel> ToShelterModels(
             this ICollection<Content> entities,
             IContentService contentService,

@@ -6,6 +6,8 @@
 namespace Huellitas.Web.Controllers.Api
 {
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Business.Extensions;
     using Business.Security;
     using Huellitas.Business.Services;
@@ -37,9 +39,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="roleService">The role service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RolesController(
             IRoleService roleService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.roleService = roleService;
             this.workContext = workContext;

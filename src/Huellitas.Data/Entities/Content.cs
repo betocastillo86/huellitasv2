@@ -8,7 +8,7 @@ namespace Huellitas.Data.Entities
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Abstract;
+    using Beto.Core.Data.Common;
 
     /// <summary>
     /// The class Content
@@ -293,6 +293,12 @@ namespace Huellitas.Data.Entities
         /// </value>
         public DateTime? ClosingDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the starting date.
+        /// </summary>
+        /// <value>
+        /// The starting date.
+        /// </value>
         public DateTime? StartingDate { get; set; }
 
         /// <summary>

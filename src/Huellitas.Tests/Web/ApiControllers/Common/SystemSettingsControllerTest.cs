@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Common
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Configuration;
     using Data.Entities;
-    using Data.Infraestructure;
-    using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Test of system settings controller
@@ -26,20 +26,20 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         /// <summary>
         /// The system setting service
         /// </summary>
-        private Mock<ISystemSettingService> systemSettingService;
+        private Mock<ICoreSettingService> systemSettingService;
 
         /// <summary>
         /// Gets the system settings bad request.
         /// </summary>
         [Test]
-        public void GetSystemSettings_BadRequest()
+        public async void GetSystemSettings_BadRequest()
         {
             this.Setup();
             var controller = this.GetController();
             var filter = this.GetFilter();
             filter.PageSize = 50000;
 
-            var response = controller.Get(filter) as ObjectResult;
+            var response = (await controller.Get(filter)) as ObjectResult;
 
             Assert.AreEqual(400, response.StatusCode);
         }
@@ -65,17 +65,17 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         /// Gets the system settings ok.
         /// </summary>
         [Test]
-        public void GetSystemSettings_Ok()
+        public async void GetSystemSettings_Ok()
         {
             this.Setup();
 
-            this.systemSettingService.Setup(c => c.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(this.GetList());
+            this.systemSettingService.Setup(c => c.GetAsync<SystemSetting>(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(() => this.GetList());
 
             var controller = this.GetController();
             var filter = this.GetFilter();
 
-            var response = controller.Get(filter) as ObjectResult;
+            var response = await controller.Get(filter) as ObjectResult;
 
             Assert.AreEqual(200, response.StatusCode);
         }
@@ -91,7 +91,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
             var entity = this.GetEntity();
             var model = this.GetModel();
 
-            this.systemSettingService.Setup(c => c.GetByKey(model.Name))
+            this.systemSettingService.Setup(c => c.GetByKey<SystemSetting>(model.Name))
                 .Returns(entity);
 
             var controller = this.GetController();
@@ -150,7 +150,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
             var entity = this.GetEntity();
             var model = this.GetModel();
 
-            this.systemSettingService.Setup(c => c.GetByKey(model.Name))
+            this.systemSettingService.Setup(c => c.GetByKey<SystemSetting>(model.Name))
                 .Returns(entity);
 
             var controller = this.GetController();
@@ -166,7 +166,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         protected override void Setup()
         {
             base.Setup();
-            this.systemSettingService = new Mock<ISystemSettingService>();
+            this.systemSettingService = new Mock<ICoreSettingService>();
         }
 
         /// <summary>
@@ -177,7 +177,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         {
             return new SystemSettingsController(
                 this.systemSettingService.Object,
-                this.workContext.Object);
+                this.workContext.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

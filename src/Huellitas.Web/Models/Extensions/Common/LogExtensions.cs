@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
-    using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api;
     using System.Collections.Generic;
     using System.Linq;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Log Extensions

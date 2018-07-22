@@ -7,6 +7,7 @@ namespace Huellitas.Business.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Caching;
     using Business.Services;
     using Caching;
     using Huellitas.Data.Entities;

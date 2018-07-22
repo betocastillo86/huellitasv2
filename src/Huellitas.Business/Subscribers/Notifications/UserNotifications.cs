@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Subscribers.Notifications
 {
-    using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Entities;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// User Notifications
@@ -33,7 +33,9 @@ namespace Huellitas.Business.Subscribers.Notifications
         /// Initializes a new instance of the <see cref="UserNotifications"/> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
-        public UserNotifications(INotificationService notificationService,
+        /// <param name="generalSettings">The general settings.</param>
+        public UserNotifications(
+            INotificationService notificationService,
             IGeneralSettings generalSettings)
         {
             this.notificationService = notificationService;

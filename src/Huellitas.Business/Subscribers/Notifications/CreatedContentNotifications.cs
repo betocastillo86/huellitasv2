@@ -1,36 +1,53 @@
-﻿namespace Huellitas.Business.Subscribers
+﻿//-----------------------------------------------------------------------
+// <copyright file="CreatedContentNotifications.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Subscribers
 {
-    using Huellitas.Business.EventPublisher;
-    using Huellitas.Business.Extensions;
-    using Huellitas.Business.Notifications;
-    using Huellitas.Business.Security;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Entities;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using System;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.EventPublisher;
     using Hangfire;
     using Huellitas.Business.Configuration;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
+    using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
 
     /// <summary>
     /// Notification of the process of creating a pet
     /// </summary>
+    /// <seealso cref="Beto.Core.EventPublisher.ISubscriber{Beto.Core.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
+    /// <seealso cref="Beto.Core.EventPublisher.ISubscriber{Huellitas.Business.Subscribers.ContentAprovedModel}" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.Content}}" />
-    public class CreatedContentNotifications : 
+    public class CreatedContentNotifications :
         ISubscriber<EntityInsertedMessage<Content>>,
         ISubscriber<ContentAprovedModel>
     {
+        /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// the content settings
+        /// </summary>
+        private readonly IContentSettings contentSettings;
+
         /// <summary>
         /// The notification service
         /// </summary>
         private readonly INotificationService notificationService;
 
         /// <summary>
-        /// The work context
+        /// the picture service
         /// </summary>
-        private readonly IWorkContext workContext;
+        private readonly IPictureService pictureService;
 
         /// <summary>
         /// The seo service
@@ -43,28 +60,20 @@
         private readonly IUserService userService;
 
         /// <summary>
-        /// The content service
+        /// The work context
         /// </summary>
-        private readonly IContentService contentService;
+        private readonly IWorkContext workContext;
 
         /// <summary>
-        /// the content settings
-        /// </summary>
-        private readonly IContentSettings contentSettings;
-
-        /// <summary>
-        /// the picture service
-        /// </summary>
-        private readonly IPictureService pictureService;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreatedContentNotifications"/> class.
+        /// Initializes a new instance of the <see cref="CreatedContentNotifications" /> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
         /// <param name="workContext">The work context.</param>
-        /// <param name="routingService">The routing service.</param>
         /// <param name="seoService">The seo service.</param>
         /// <param name="userService">The user service.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="pictureService">The picture service.</param>
         public CreatedContentNotifications(
             INotificationService notificationService,
             IWorkContext workContext,
@@ -103,26 +112,30 @@
             }
         }
 
-        private async Task NotifyCreatedShelterToAdmins(Content content)
+        /// <summary>
+        /// Handles the event.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task HandleEvent(ContentAprovedModel message)
         {
-            if (!this.workContext.CurrentUser.IsSuperAdmin())
+            if (message.Content.Type == ContentType.Pet)
             {
-                var shelterUrl = this.seoService.GetContentUrl(content);
-                var parameters = new List<NotificationParameter>();
-                parameters.Add("Shelter.Name", content.Name);
-                parameters.Add("Shelter.Url", shelterUrl);
-
-                var administrators = await this.userService.GetAll(role: RoleEnum.SuperAdmin);
-
-                await this.notificationService.NewNotification(
-                    administrators,
-                    null,
-                    NotificationType.NewShelterRequest,
-                    shelterUrl,
-                    parameters);
+                await this.NotifyPetAproved(message.Content);
+            }
+            else if (message.Content.Type == ContentType.Shelter)
+            {
+                await this.NotifyShelterAprovedOrRejected(message.Content);
             }
         }
 
+        /// <summary>
+        /// Notifies the out dated pet.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <returns>the return</returns>
         public async Task NotifyOutDatedPet(int contentId)
         {
             var content = this.contentService.GetById(contentId, true);
@@ -155,29 +168,12 @@
         }
 
         /// <summary>
-        /// Handles the event.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns>
-        /// the task
-        /// </returns>
-        public async Task HandleEvent(ContentAprovedModel message)
-        {
-            if (message.Content.Type == ContentType.Pet)
-            {
-                await this.NotifyPetAproved(message.Content);
-            }
-            else if (message.Content.Type == ContentType.Shelter)
-            {
-                await this.NotifyShelterAprovedOrRejected(message.Content);
-            }
-        }
-
-        /// <summary>
         /// Notifies the created pet confirmation.
         /// </summary>
         /// <param name="content">The content.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         private async Task NotifyCreatedPetConfirmation(Content content)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
@@ -205,7 +201,9 @@
         /// Notifies the created shelter confirmation.
         /// </summary>
         /// <param name="content">The content.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         private async Task NotifyCreatedShelterConfirmation(Content content)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())
@@ -224,13 +222,38 @@
             }
         }
 
+        /// <summary>
+        /// Notifies the created shelter to admins.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>the return</returns>
+        private async Task NotifyCreatedShelterToAdmins(Content content)
+        {
+            if (!this.workContext.CurrentUser.IsSuperAdmin())
+            {
+                var shelterUrl = this.seoService.GetContentUrl(content);
+                var parameters = new List<NotificationParameter>();
+                parameters.Add("Shelter.Name", content.Name);
+                parameters.Add("Shelter.Url", shelterUrl);
 
+                var administrators = await this.userService.GetAll(role: RoleEnum.SuperAdmin);
+
+                await this.notificationService.NewNotification(
+                    administrators,
+                    null,
+                    NotificationType.NewShelterRequest,
+                    shelterUrl,
+                    parameters);
+            }
+        }
 
         /// <summary>
         /// Notifies the pet aproved.
         /// </summary>
         /// <param name="content">The content.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         private async Task NotifyPetAproved(Content content)
         {
             var user = this.userService.GetById(content.UserId);
@@ -247,7 +270,6 @@
                     parameters.Add("Pet.Image", this.pictureService.GetPicturePath(content.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
                 }
 
-
                 await this.notificationService.NewNotification(
                     user,
                     null,
@@ -263,6 +285,11 @@
             }
         }
 
+        /// <summary>
+        /// Notifies the shelter aproved or rejected.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns>the return</returns>
         private async Task NotifyShelterAprovedOrRejected(Content content)
         {
             var user = this.userService.GetById(content.UserId);

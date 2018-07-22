@@ -5,13 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Subscribers
 {
-    using Huellitas.Business.EventPublisher;
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Hosting;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Removes the physical files
@@ -43,6 +44,9 @@ namespace Huellitas.Web.Infraestructure.Subscribers
         /// Initializes a new instance of the <see cref="FilesRemoverSubscriber"/> class.
         /// </summary>
         /// <param name="filesHelper">The files helper.</param>
+        /// <param name="hostingEnvironment">The hosting environment.</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="workContext">The work context.</param>
         public FilesRemoverSubscriber(
             IFilesHelper filesHelper,
             IHostingEnvironment hostingEnvironment,

@@ -7,7 +7,7 @@ namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using Huellitas.Business.Services;
+    using Beto.Core.Data.Files;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
 

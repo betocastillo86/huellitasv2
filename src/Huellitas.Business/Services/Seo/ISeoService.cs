@@ -7,8 +7,8 @@ namespace Huellitas.Business.Services
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Data.Common;
     using Data.Entities;
-    using Huellitas.Data.Entities.Abstract;
 
     /// <summary>
     /// Interface to friendly

@@ -8,14 +8,12 @@ namespace Huellitas.Business.Services
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Helpers;
     using Data.Entities;
-    using Data.Infraestructure;
-    using EventPublisher;
     using Exceptions;
-    using Huellitas.Business.Helpers;
-    using Huellitas.Data.Core;
     using Microsoft.EntityFrameworkCore;
-    using Security;
 
     /// <summary>
     /// User Service
@@ -26,17 +24,12 @@ namespace Huellitas.Business.Services
         /// <summary>
         /// The HTTP context helpers
         /// </summary>
-        private readonly IHttpContextHelpers httpContextHelpers;
+        private readonly IHttpContextHelper httpContextHelpers;
 
         /// <summary>
         /// The publisher
         /// </summary>
         private readonly IPublisher publisher;
-
-        /// <summary>
-        /// The security helpers
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
 
         /// <summary>
         /// The user repository
@@ -48,16 +41,14 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="publisher">The publisher.</param>
-        /// <param name="securityHelpers">The security helpers.</param>
+        /// <param name="httpContextHelpers">The HTTP context helpers.</param>
         public UserService(
             IRepository<User> userRepository,
             IPublisher publisher,
-            ISecurityHelpers securityHelpers,
-            IHttpContextHelpers httpContextHelpers)
+            IHttpContextHelper httpContextHelpers)
         {
             this.userRepository = userRepository;
             this.publisher = publisher;
-            this.securityHelpers = securityHelpers;
             this.httpContextHelpers = httpContextHelpers;
         }
 
@@ -232,7 +223,7 @@ namespace Huellitas.Business.Services
 
             if (user != null)
             {
-                return this.securityHelpers.ToSha1(password, user.Salt).Equals(user.Password) ? user : null;
+                return StringHelpers.ToSha1(password, user.Salt).Equals(user.Password) ? user : null;
             }
             else
             {

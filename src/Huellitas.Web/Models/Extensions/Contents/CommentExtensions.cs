@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Infraestructure.Security;
     using Huellitas.Web.Models.Api;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Comment Extensions
@@ -33,7 +33,7 @@ namespace Huellitas.Web.Models.Extensions
                 ContentId = model.ContentId,
                 UserId = model.User != null ? model.User.Id : 0
             };
-            
+
             return entity;
         }
 
@@ -41,13 +41,10 @@ namespace Huellitas.Web.Models.Extensions
         /// To the model.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="currentUser">The current user.</param>
+        /// <param name="commentService">The comment service.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="loadFirstComments">if set to <c>true</c> [load first comments].</param>
-        /// <param name="loadAttributes">if set to <c>true</c> [load attributes].</param>
-        /// <param name="liked">if set to <c>true</c> [liked].</param>
-        /// <param name="width">The width image.</param>
-        /// <param name="height">The height image.</param>
         /// <returns>the model</returns>
         public static CommentModel ToModel(
             this Comment entity,
@@ -82,14 +79,11 @@ namespace Huellitas.Web.Models.Extensions
         /// To the models.
         /// </summary>
         /// <param name="entities">The entities.</param>
-        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="currentUser">The current user.</param>
+        /// <param name="commentService">The comment service.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
         /// <param name="loadFirstComments">if set to <c>true</c> [load first comments].</param>
-        /// <param name="loadAttributes">if set to <c>true</c> [load attributes].</param>
-        /// <param name="likedComments">The liked comments.</param>
-        /// <param name="width">The width image.</param>
-        /// <param name="height">The height image.</param>
-        /// <returns>the models</returns>
+        /// <returns>the return</returns>
         public static IList<CommentModel> ToModels(
             this IList<Comment> entities,
             User currentUser,

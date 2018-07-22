@@ -6,12 +6,13 @@
 namespace Huellitas.Data.Entities
 {
     using System;
+    using Beto.Core.Data.Notifications;
 
     /// <summary>
     /// Email Notification
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class EmailNotification : BaseEntity
+    public partial class EmailNotification : BaseEntity, IEmailNotificationEntity
     {
         /// <summary>
         /// Gets or sets the subject.

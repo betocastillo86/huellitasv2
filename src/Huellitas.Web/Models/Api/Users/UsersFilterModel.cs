@@ -12,7 +12,7 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Users Filter Model
     /// </summary>
-    public class UsersFilterModel : BaseFilterModel
+    public class UsersFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Gets or sets the keyword.

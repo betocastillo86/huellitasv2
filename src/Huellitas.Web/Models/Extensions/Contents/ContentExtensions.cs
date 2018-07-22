@@ -9,9 +9,10 @@ namespace Huellitas.Web.Models.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using Api;
+    using Beto.Core.Data.Files;
     using Business.Extensions;
     using Business.Services;
-    
+
     using Data.Extensions;
     using Huellitas.Data.Entities;
 
@@ -105,8 +106,10 @@ namespace Huellitas.Web.Models.Extensions
                 case ContentType.Pet:
                 case ContentType.LostPet:
                     return user.CanUserEditPet(content, contentService);
+
                 case ContentType.Shelter:
                     return user.CanUserEditShelter(content, contentService);
+
                 default:
                     return false;
             }

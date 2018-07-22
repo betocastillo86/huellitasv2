@@ -9,4 +9,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core.Data\Beto.Core.Data.csproj" />
+    <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core\Beto.Core.csproj" />
+  </ItemGroup>
+
 </Project>

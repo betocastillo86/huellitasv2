@@ -5,16 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Data.Core;
-    using Data.Entities;
-    using EventPublisher;
-    using Exceptions;
-    using Huellitas.Data.Infraestructure;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
+    using Data.Entities;
+    using Exceptions;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Adoption Form Service
@@ -63,7 +62,7 @@ namespace Huellitas.Business.Services
         private readonly IContentService contentService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AdoptionFormService"/> class.
+        /// Initializes a new instance of the <see cref="AdoptionFormService" /> class.
         /// </summary>
         /// <param name="adoptionFormRepository">The adoption form repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
@@ -72,6 +71,7 @@ namespace Huellitas.Business.Services
         /// <param name="adoptionFormUserRepository">The adoption form user repository.</param>
         /// <param name="publisher">The publisher.</param>
         /// <param name="contentUserRepository">The content user repository.</param>
+        /// <param name="contentService">The content service.</param>
         public AdoptionFormService(
             IRepository<AdoptionForm> adoptionFormRepository,
             IRepository<ContentAttribute> contentAttributeRepository,
@@ -106,6 +106,7 @@ namespace Huellitas.Business.Services
         /// <param name="allRelatedToUserId">all the forms related to an user</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
+        /// <param name="petStatus">The pet status.</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns>
@@ -159,29 +160,11 @@ namespace Huellitas.Business.Services
             //// Si debe traer los asociados a un usuario omite los demás filtros
             if (allRelatedToUserId.HasValue)
             {
-                ////var petsWhichIsParent = getPetsByParent(allRelatedToUserId.Value);
-
-                ////////Consulta los refugios del usuario para posteriormente traer los formularios de esos refugios
-                ////var relationId = Convert.ToInt16(ContentUserRelationType.Shelter);
-                ////var sheltersOfUser = this.contentUserRepository.Table.Where(c => c.UserId == allRelatedToUserId.Value && c.RelationTypeId == relationId)
-                ////    .Select(c => c.ContentId.ToString());
-
-                ////var attributeShelter = ContentAttributeType.Shelter.ToString();
-                ////var contentsOfShelter = this.contentAttributeRepository.Table
-                ////    .Where(c => c.Attribute.Equals(attributeShelter) && sheltersOfUser.Contains(c.Value))
-                ////    .Select(c => c.ContentId);
-
                 var myPets = this.contentService.Search(belongsToUserId: allRelatedToUserId.Value, contentType: ContentType.Pet).Select(c => c.Id).ToArray();
 
                 query = query.Where(
                     c => c.Users.Any(x => x.UserId == allRelatedToUserId.Value) ||
-                    myPets.Contains(c.ContentId)
-
-                    //petsWhichIsParent.Contains(c.ContentId) ||
-                    //contentsOfShelter.Contains(c.ContentId)
-                    //c.UserId == allRelatedToUserId.Value ||
-                    //c.Content.UserId == allRelatedToUserId.Value
-                    );
+                    myPets.Contains(c.ContentId));
             }
             else
             {
@@ -305,6 +288,15 @@ namespace Huellitas.Business.Services
         /// <returns>
         /// the task
         /// </returns>
+        /// <exception cref="HuellitasException">
+        /// Content
+        /// or
+        /// Job
+        /// or
+        /// Location
+        /// or
+        /// User
+        /// </exception>
         public async Task Insert(AdoptionForm form)
         {
             try
@@ -345,6 +337,11 @@ namespace Huellitas.Business.Services
         /// <returns>
         /// the task
         /// </returns>
+        /// <exception cref="HuellitasException">
+        /// AdoptionFormId
+        /// or
+        /// UserId
+        /// </exception>
         public async Task InsertAnswer(AdoptionFormAnswer answer)
         {
             try
@@ -381,7 +378,9 @@ namespace Huellitas.Business.Services
         /// Inserts the user.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns>the user</returns>
+        /// <returns>
+        /// the user
+        /// </returns>
         public async Task InsertUser(AdoptionFormUser entity)
         {
             try
@@ -420,7 +419,14 @@ namespace Huellitas.Business.Services
         /// Updates the specified form.
         /// </summary>
         /// <param name="form">The form.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
+        /// <exception cref="HuellitasException">
+        /// AdoptionFormId
+        /// or
+        /// UserId
+        /// </exception>
         public async Task Update(AdoptionForm form)
         {
             try
@@ -446,6 +452,14 @@ namespace Huellitas.Business.Services
             }
         }
 
+        /// <summary>
+        /// Counts the adoption forms by contents.
+        /// </summary>
+        /// <param name="contentIds">The content ids.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// the count
+        /// </returns>
         public IDictionary<int, int> CountAdoptionFormsByContents(int[] contentIds, AdoptionFormAnswerStatus? status = null)
         {
             var query = this.adoptionFormRepository.Table

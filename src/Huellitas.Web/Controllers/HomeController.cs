@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers
 {
+    using Beto.Core.Data.Configuration;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
+    using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
     using Huellitas.Web.Infraestructure.Filters.Action;
@@ -40,7 +42,7 @@ namespace Huellitas.Web.Controllers
         /// <summary>
         /// system setting service
         /// </summary>
-        private readonly ISystemSettingService systemSettingService;
+        private readonly ICoreSettingService systemSettingService;
 
         /// <summary>
         /// the SEO service
@@ -48,13 +50,18 @@ namespace Huellitas.Web.Controllers
         private readonly ISeoService seoService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// Initializes a new instance of the <see cref="HomeController" /> class.
         /// </summary>
+        /// <param name="generalSettings">The general settings.</param>
+        /// <param name="securitySettings">The security settings.</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="systemSettingService">The system setting service.</param>
+        /// <param name="seoService">The seo service.</param>
         public HomeController(
             IGeneralSettings generalSettings,
             ISecuritySettings securitySettings,
             ILogService logService,
-            ISystemSettingService systemSettingService,
+            ICoreSettingService systemSettingService,
             ISeoService seoService)
         {
             this.generalSettings = generalSettings;
@@ -69,7 +76,9 @@ namespace Huellitas.Web.Controllers
         /// <summary>
         /// Indexes this instance.
         /// </summary>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         [ServiceFilter(typeof(CrawlerAttribute))]
         public IActionResult Index()
         {
@@ -80,9 +89,15 @@ namespace Huellitas.Web.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Redirects the previous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>the return</returns>
         public IActionResult RedirectPrevious(int id, string name)
         {
-            var friendlyName = this.systemSettingService.GetCachedSetting<string>($"RedirectionSettings.{name}");
+            var friendlyName = this.systemSettingService.Get<string>($"RedirectionSettings.{name}");
 
             if (!string.IsNullOrEmpty(friendlyName))
             {

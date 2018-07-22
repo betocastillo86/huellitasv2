@@ -10,8 +10,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// User Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class UserNotificationFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class UserNotificationFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserNotificationFilterModel"/> class.

@@ -7,7 +7,6 @@ namespace Huellitas.Tests.Web.Mocks
 {
     using System.Collections.Generic;
     using Huellitas.Web.Models.Api;
-    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Model extension for testing

@@ -8,8 +8,8 @@ namespace Huellitas.Web.Models.Api
     /// <summary>
     /// Text Resource Filter Model
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class TextResourceFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class TextResourceFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextResourceFilterModel"/> class.

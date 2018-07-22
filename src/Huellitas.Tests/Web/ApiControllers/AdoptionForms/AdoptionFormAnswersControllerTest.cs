@@ -5,20 +5,20 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Beto.Core.Web.Api;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Form Answers Controller Test
@@ -193,7 +193,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             var controller = this.GetController();
 
             var result = await controller.Post(1, model) as ObjectResult;
-            var error = result.Value as BaseApiError;
+            var error = result.Value as BaseApiErrorModel;
 
             Assert.AreEqual(400, result.StatusCode);
             Assert.AreEqual(HuellitasExceptionCode.InvalidForeignKey.ToString(), error.Error.Code);
@@ -306,7 +306,8 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             return new AdoptionFormAnswersController(
                 this.adoptionFormService.Object,
                 this.workContext.Object,
-                this.contentService.Object);
+                this.contentService.Object,
+                this.messageExceptionFinder.Object);
         }
 
         /// <summary>

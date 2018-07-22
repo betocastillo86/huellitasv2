@@ -3,10 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using System.ComponentModel.DataAnnotations;
-
 namespace Huellitas.Web.Models.Api.Users
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// Update Password Model
     /// </summary>

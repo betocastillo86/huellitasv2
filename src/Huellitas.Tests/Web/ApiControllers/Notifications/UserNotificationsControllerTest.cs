@@ -1,17 +1,22 @@
-﻿using Huellitas.Business.Services;
-using Huellitas.Data.Entities;
-using Huellitas.Data.Infraestructure;
-using Huellitas.Web.Controllers.Api;
-using Huellitas.Web.Models.Api;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserNotificationsControllerTest.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Notifications
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
+    using Huellitas.Web.Controllers.Api;
+    using Huellitas.Web.Models.Api;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+    using NUnit.Framework;
+
     /// <summary>
     /// User Notifications Controller Test
     /// </summary>
@@ -84,7 +89,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
         {
             return new UserNotificationsController(
                 this.workContext.Object,
-                this.notificationService.Object);
+                this.notificationService.Object,
+                this.messageExceptionFinder.Object);
         }
     }
 }

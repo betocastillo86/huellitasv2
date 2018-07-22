@@ -1,0 +1,3 @@
+[submodule "ext/beto.core"]
+	path = ext/beto.core
+	url = https://github.com/betocastillo86/beto.core

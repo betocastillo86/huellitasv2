@@ -34,7 +34,7 @@ namespace Huellitas.Tests.Web.Infraestructure
             var claims = this.MockAdminClaims();
 
             var date = new DateTimeOffset(2016, 11, 15, 16, 46, 13, 865, new TimeSpan(-5, 0, 0));
-            var token = tokenGenerator.GenerateToken(genericIdentity, claims, date);
+            var token = tokenGenerator.GenerateToken(genericIdentity, claims, date, null);
 
             var expected = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhZG1pbi5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW5pc3RyYWRvciIsImV4cCI6MTQ3OTI0OTkxMywiaXNzIjoiQXV0aGVudGljYXRpb25Jc3N1ZXIiLCJhdWQiOiJBdWRpZW5jZUF1dGhlbnRpY2F0aW9uIn0.iTenlL8WGlTNEYFaO2abhHA9rRA4TUVIX2C7IbCxJkE";
             Assert.AreNotEqual(expected, token.AccessToken);
@@ -54,7 +54,7 @@ namespace Huellitas.Tests.Web.Infraestructure
             var claims = this.MockAdminClaims();
 
             var date = new DateTimeOffset(2016, 11, 15, 16, 45, 13, 865, new TimeSpan(-5, 0, 0));
-            var token = tokenGenerator.GenerateToken(genericIdentity, claims, date);
+            var token = tokenGenerator.GenerateToken(genericIdentity, claims, date, null);
 
             var expected = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhZG1pbi5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW5pc3RyYWRvciIsImV4cCI6MTQ3OTI0OTkxMywiaXNzIjoiQXV0aGVudGljYXRpb25Jc3N1ZXIiLCJhdWQiOiJBdWRpZW5jZUF1dGhlbnRpY2F0aW9uIn0.iTenlL8WGlTNEYFaO2abhHA9rRA4TUVIX2C7IbCxJkE";
             Assert.AreEqual(expected, token.AccessToken);

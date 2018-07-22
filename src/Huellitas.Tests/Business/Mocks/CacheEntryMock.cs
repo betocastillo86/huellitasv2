@@ -140,6 +140,11 @@ namespace Huellitas.Tests.Business.Mocks
         }
 
         /// <summary>
+        /// Gets or sets the size of the cache entry value.
+        /// </summary>
+        public long? Size { get; set; }
+
+        /// <summary>
         /// Gets or sets how long a cache entry can be inactive (e.g. not accessed) before it will be removed.
         /// This will not extend the entry lifetime beyond the absolute expiration (if set).
         /// </summary>
@@ -172,14 +177,11 @@ namespace Huellitas.Tests.Business.Mocks
             }
         }
 
-        public long? Size { get; set; }
-
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
-            
         }
     }
 }

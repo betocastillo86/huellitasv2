@@ -6,11 +6,12 @@
 namespace Huellitas.Web.Controllers.Api.Common
 {
     using System.Threading.Tasks;
-    using Huellitas.Business.Caching;
+    using Beto.Core.Caching;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Web.Infraestructure.UI;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -40,12 +41,14 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// Initializes a new instance of the <see cref="CacheCleanerController"/> class.
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
-        /// <param name="javascriptGenerator">The JAVASCRIPT generator.</param>
+        /// <param name="javascriptGenerator">The javascript generator.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public CacheCleanerController(
             ICacheManager cacheManager,
             IJavascriptConfigurationGenerator javascriptGenerator,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.cacheManager = cacheManager;
             this.javascriptGenerator = javascriptGenerator;

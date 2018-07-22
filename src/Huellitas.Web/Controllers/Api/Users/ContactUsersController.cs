@@ -7,9 +7,12 @@ namespace Huellitas.Web.Controllers.Api.Users
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Notifications;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
-    using Huellitas.Business.Notifications;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
@@ -18,7 +21,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Contacts a specific user 
+    /// Contacts a specific user
     /// </summary>
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/users/{id:int}/contact")]
@@ -51,11 +54,13 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// <param name="workContext">The work context.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="notificationSettings">The notification settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ContactUsersController(
             INotificationService notificationService,
             IWorkContext workContext,
             IUserService userService,
-            INotificationSettings notificationSettings)
+            INotificationSettings notificationSettings,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -71,6 +76,7 @@ namespace Huellitas.Web.Controllers.Api.Users
         /// <returns>the action</returns>
         [HttpPost]
         [Authorize]
+        [RequiredModel]
         public async Task<IActionResult> Post(int id, [FromBody]ContactUserModel model)
         {
             if (!this.workContext.CurrentUser.IsSuperAdmin())

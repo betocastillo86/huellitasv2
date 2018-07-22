@@ -1,12 +1,24 @@
-﻿namespace Huellitas.Data.Migrations
+﻿//-----------------------------------------------------------------------
+// <copyright file="SeedingFiles.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Data.Migrations
 {
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
 
+    /// <summary>
+    /// Seeding files
+    /// </summary>
     public static class SeedingFiles
     {
+        /// <summary>
+        /// Seeds the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public static void Seed(HuellitasContext context)
         {
             var list = new List<File>();

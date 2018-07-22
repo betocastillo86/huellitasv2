@@ -12,11 +12,11 @@ namespace Huellitas.Business.Services
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
     using Data.Entities;
-    using EventPublisher;
     using Exceptions;
     using Huellitas.Data.Core;
-    using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -67,7 +67,7 @@ namespace Huellitas.Business.Services
         private readonly ISeoService seoService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentService"/> class.
+        /// Initializes a new instance of the <see cref="ContentService" /> class.
         /// </summary>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="contentAttributeRepository">The content attribute repository.</param>
@@ -98,6 +98,44 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
+        /// Deletes the content user.
+        /// </summary>
+        /// <param name="contentUser">The content user.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
+        public async Task DeleteContentUser(ContentUser contentUser)
+        {
+            await this.contentUserRepository.DeleteAsync(contentUser);
+
+            await this.publisher.EntityDeleted(contentUser);
+        }
+
+        /// <summary>
+        /// Get by friendly name
+        /// </summary>
+        /// <param name="friendlyName">friendly name</param>
+        /// <param name="includeLocation">includes location</param>
+        /// <returns>
+        /// the content
+        /// </returns>
+        public Content GetByFriendlyName(string friendlyName, bool includeLocation = false)
+        {
+            var query = this.contentRepository.Table
+                .Include(c => c.ContentAttributes)
+                .Include(c => c.File)
+                .Include(c => c.User)
+                .Where(c => c.FriendlyName.Equals(friendlyName) && !c.Deleted);
+
+            if (includeLocation)
+            {
+                query = query.Include(c => c.Location);
+            }
+
+            return query.FirstOrDefault();
+        }
+
+        /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -112,22 +150,6 @@ namespace Huellitas.Business.Services
                 .Include(c => c.File)
                 .Include(c => c.User)
                 .Where(c => c.Id == id && !c.Deleted);
-
-            if (includeLocation)
-            {
-                query = query.Include(c => c.Location);
-            }
-
-            return query.FirstOrDefault();
-        }
-
-        public Content GetByFriendlyName(string friendlyName, bool includeLocation = false)
-        {
-            var query = this.contentRepository.Table
-                .Include(c => c.ContentAttributes)
-                .Include(c => c.File)
-                .Include(c => c.User)
-                .Where(c => c.FriendlyName.Equals(friendlyName) && !c.Deleted);
 
             if (includeLocation)
             {
@@ -163,6 +185,56 @@ namespace Huellitas.Business.Services
             {
                 return default(T);
             }
+        }
+
+        /// <summary>
+        /// Gets the contents by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="includeContent">if set to <c>true</c> [include content].</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>
+        /// the contents
+        /// </returns>
+        public IPagedList<ContentUser> GetContentsByUserId(int userId, ContentUserRelationType? relation = null, bool includeContent = false, int page = 0, int pageSize = int.MaxValue)
+        {
+            var query = this.contentUserRepository.Table;
+
+            if (includeContent)
+            {
+                query = query
+                    .Include(c => c.Content)
+                    .Include(c => c.Content.Location);
+            }
+
+            query = query.Where(c => c.UserId == userId);
+
+            if (relation.HasValue)
+            {
+                var relationId = Convert.ToDecimal(relation.Value);
+                query = query.Where(c => c.RelationTypeId == relationId);
+            }
+
+            query = query.OrderBy(c => c.Id);
+
+            return new PagedList<ContentUser>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Gets the content user by user identifier and content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// the content user relationship
+        /// </returns>
+        public ContentUser GetContentUserById(int contentId, int userId)
+        {
+            return this.contentUserRepository.Table
+                .Include(c => c.Content)
+                .FirstOrDefault(c => c.ContentId == contentId && c.UserId == userId);
         }
 
         /// <summary>
@@ -255,45 +327,12 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
-        /// Gets the contents by user identifier.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="relation">The relation.</param>
-        /// <param name="includeContent">if set to <c>true</c> [include content].</param>
-        /// <param name="page">The page.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <returns>
-        /// the contents
-        /// </returns>
-        public IPagedList<ContentUser> GetContentsByUserId(int userId, ContentUserRelationType? relation = null, bool includeContent = false, int page = 0, int pageSize = int.MaxValue)
-        {
-            var query = this.contentUserRepository.Table;
-
-            if (includeContent)
-            {
-                query = query
-                    .Include(c => c.Content)
-                    .Include(c => c.Content.Location);
-            }
-
-            query = query.Where(c => c.UserId == userId);
-
-            if (relation.HasValue)
-            {
-                var relationId = Convert.ToDecimal(relation.Value);
-                query = query.Where(c => c.RelationTypeId == relationId);
-            }
-
-            query = query.OrderBy(c => c.Id);
-
-            return new PagedList<ContentUser>(query, page, pageSize);
-        }
-
-        /// <summary>
         /// Inserts the asynchronous.
         /// </summary>
         /// <param name="content">The content.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         /// <exception cref="HuellitasException">the exception</exception>
         public async Task InsertAsync(Content content)
         {
@@ -350,39 +389,12 @@ namespace Huellitas.Business.Services
         }
 
         /// <summary>
-        /// Gets the content user by user identifier and content identifier.
-        /// </summary>
-        /// <param name="contentId">The content identifier.</param>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>
-        /// the content user relationship
-        /// </returns>
-        public ContentUser GetContentUserById(int contentId, int userId)
-        {
-            return this.contentUserRepository.Table
-                .Include(c => c.Content)
-                .FirstOrDefault(c => c.ContentId == contentId && c.UserId == userId);
-        }
-
-        /// <summary>
-        /// Deletes the content user.
+        /// Inserts the user.
         /// </summary>
         /// <param name="contentUser">The content user.</param>
         /// <returns>
         /// the task
         /// </returns>
-        public async Task DeleteContentUser(ContentUser contentUser)
-        {
-            await this.contentUserRepository.DeleteAsync(contentUser);
-
-            await this.publisher.EntityDeleted(contentUser);
-        }
-
-        /// <summary>
-        /// Inserts the user.
-        /// </summary>
-        /// <param name="contentUser">The content user.</param>
-        /// <returns>the task</returns>
         public async Task InsertUser(ContentUser contentUser)
         {
             try
@@ -444,7 +456,10 @@ namespace Huellitas.Business.Services
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <param name="excludeContentId">excludes the search of a content</param>
         /// <param name="onlyFeatured">only featured</param>
-        /// <returns>the list</returns>
+        /// <returns>
+        /// the list
+        /// </returns>
+        /// <exception cref="HuellitasException">No se puede filtrar por usuario ya que el filtro tipo de contenido es obligatorio</exception>
         public IPagedList<Content> Search(
             string keyword = null,
             ContentType? contentType = null,
@@ -687,7 +702,7 @@ namespace Huellitas.Business.Services
                 case ContentOrderBy.Random:
                     query = query.OrderBy(x => Guid.NewGuid());
                     break;
-                
+
                 case ContentOrderBy.DisplayOrder:
                 default:
                     query = query.OrderBy(c => c.DisplayOrder);
@@ -695,6 +710,62 @@ namespace Huellitas.Business.Services
             }
 
             return new PagedList<Content>(query, page, pageSize);
+        }
+
+        /// <summary>
+        /// Sorts the files.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileIdFrom">The file identifier from.</param>
+        /// <param name="fileIdTo">The file identifier to.</param>
+        /// <returns>the return</returns>
+        public async Task SortFiles(int contentId, int fileIdFrom, int fileIdTo)
+        {
+            var files = this.contentFileRepository.Table.Where(c => c.ContentId == contentId)
+                .ToList();
+
+            var fileFrom = files.FirstOrDefault(c => c.FileId == fileIdFrom);
+            var fileTo = files.FirstOrDefault(c => c.FileId == fileIdTo);
+            var newDisplayOrder = fileTo.DisplayOrder;
+
+            ////if the old position is lower than new's substracts 1
+            if (fileFrom.DisplayOrder < fileTo.DisplayOrder)
+            {
+                var filesToUpdate = files
+                    .Where(c => c.DisplayOrder <= fileTo.DisplayOrder && c.DisplayOrder > fileFrom.DisplayOrder)
+                    .ToList();
+
+                foreach (var file in filesToUpdate)
+                {
+                    file.DisplayOrder--;
+                }
+
+                await this.contentFileRepository.UpdateAsync(filesToUpdate);
+            }
+            else
+            {
+                var filesToUpdate = files.Where(c => c.DisplayOrder >= fileTo.DisplayOrder && c.DisplayOrder < fileFrom.DisplayOrder)
+                    .ToList();
+
+                foreach (var file in filesToUpdate)
+                {
+                    file.DisplayOrder++;
+                }
+
+                await this.contentFileRepository.UpdateAsync(filesToUpdate);
+            }
+
+            ////Actualiza la nueva posición
+            fileFrom.DisplayOrder = newDisplayOrder;
+            await this.contentFileRepository.UpdateAsync(fileFrom);
+
+            ////Actualiza la imagen principal
+            if (newDisplayOrder == files.Count)
+            {
+                var content = this.contentRepository.Table.FirstOrDefault(c => c.Id == contentId);
+                content.FileId = fileFrom.FileId;
+                await this.contentRepository.UpdateAsync(content);
+            }
         }
 
         /// <summary>
@@ -745,55 +816,6 @@ namespace Huellitas.Business.Services
                         throw;
                     }
                 }
-            }
-        }
-
-        public async Task SortFiles(int contentId, int fileIdFrom, int fileIdTo)
-        {
-            var files = this.contentFileRepository.Table.Where(c => c.ContentId == contentId)
-                .ToList();
-
-            var fileFrom = files.FirstOrDefault(c => c.FileId == fileIdFrom);
-            var fileTo = files.FirstOrDefault(c => c.FileId == fileIdTo);
-            var newDisplayOrder = fileTo.DisplayOrder;
-
-            ////if the old position is lower than new's substracts 1
-            if (fileFrom.DisplayOrder < fileTo.DisplayOrder)
-            {
-                var filesToUpdate = files
-                    .Where(c => c.DisplayOrder <= fileTo.DisplayOrder && c.DisplayOrder > fileFrom.DisplayOrder)
-                    .ToList();
-
-                foreach (var file in filesToUpdate)
-                {
-                    file.DisplayOrder--;
-                }
-
-                await this.contentFileRepository.UpdateAsync(filesToUpdate);
-            }
-            else
-            {
-                var filesToUpdate = files.Where(c => c.DisplayOrder >= fileTo.DisplayOrder && c.DisplayOrder < fileFrom.DisplayOrder)
-                    .ToList();
-
-                foreach (var file in filesToUpdate)
-                {
-                    file.DisplayOrder++;
-                }
-
-                await this.contentFileRepository.UpdateAsync(filesToUpdate);
-            }
-
-            ////Actualiza la nueva posición
-            fileFrom.DisplayOrder = newDisplayOrder;
-            await this.contentFileRepository.UpdateAsync(fileFrom);
-
-            ////Actualiza la imagen principal
-            if (newDisplayOrder == files.Count)
-            {
-                var content = this.contentRepository.Table.FirstOrDefault(c => c.Id == contentId);
-                content.FileId = fileFrom.FileId;
-                await this.contentRepository.UpdateAsync(content);
             }
         }
     }

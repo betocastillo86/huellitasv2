@@ -12,7 +12,6 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
@@ -63,7 +62,10 @@ namespace Huellitas.Web.Infraestructure.Start
 
             var securitySettings = sp.GetService<ISecuritySettings>();
 
-            if (securitySettings.AuthenticationSecretKey == null) return;
+            if (securitySettings.AuthenticationSecretKey == null)
+            {
+                return;
+            }
 
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securitySettings.AuthenticationSecretKey));
 
@@ -80,17 +82,17 @@ namespace Huellitas.Web.Infraestructure.Start
             {
                 c.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(c => {
+            .AddJwtBearer(c =>
+            {
                 c.Audience = securitySettings.AuthenticationAudience;
                 c.ClaimsIssuer = securitySettings.AuthenticationIssuer;
                 c.TokenValidationParameters = validationParameters;
             });
 
-
             services.AddAuthorization(c =>
             {
                 c.AddPolicy(
-                    "IsAdmin", 
+                    "IsAdmin",
                     policy =>
                 {
                     policy.RequireClaim(ClaimTypes.Role, RoleEnum.SuperAdmin.ToString(), "Admin");

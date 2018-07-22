@@ -7,9 +7,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 {
     using System;
     using System.Collections.Generic;
+    using Beto.Core.Data.Files;
     using Data.Entities;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Moq;

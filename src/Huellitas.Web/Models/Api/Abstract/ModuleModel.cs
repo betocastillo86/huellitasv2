@@ -3,10 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using System.Collections.Generic;
-
 namespace Huellitas.Web.Models.Api
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Module model
     /// </summary>

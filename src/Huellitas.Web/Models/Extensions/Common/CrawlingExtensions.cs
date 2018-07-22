@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Models.Extensions
+﻿//-----------------------------------------------------------------------
+// <copyright file="CrawlingExtensions.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Models.Extensions
 {
     using Huellitas.Data;
 

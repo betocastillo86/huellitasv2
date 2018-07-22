@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Extensions
 {
+    using System;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using System;
 
     /// <summary>
     /// Log extensions

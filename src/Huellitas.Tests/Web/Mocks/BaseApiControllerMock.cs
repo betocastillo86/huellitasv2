@@ -6,6 +6,9 @@
 namespace Huellitas.Tests.Web.Mocks
 {
     using System.Collections.Generic;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api;
+    using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Exceptions;
     using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
@@ -17,15 +20,23 @@ namespace Huellitas.Tests.Web.Mocks
     public class BaseApiControllerMock : BaseApiController
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="BaseApiControllerMock"/> class.
+        /// </summary>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
+        public BaseApiControllerMock(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+        {
+        }
+
+        /// <summary>
         /// Method for testing Bad request with code
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="errors">The errors.</param>
         /// <param name="target">The target.</param>
         /// <returns>action result</returns>
-        public IActionResult BadRequestWithCode(HuellitasExceptionCode code, IList<ApiError> errors, string target = null)
+        public IActionResult BadRequestWithCode(HuellitasExceptionCode code, IList<ApiErrorModel> errors, string target = null)
         {
-            return this.BadRequest(code, errors, target);
+            return this.BadRequest(new HuellitasException(code), errors, target);
         }
     }
 }

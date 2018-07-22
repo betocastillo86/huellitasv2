@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Business.Caching;
+    using Beto.Core.Caching;
+    using Beto.Core.Data.Files;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
+    using Huellitas.Business.Security;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using Huellitas.Business.Security;
 
     /// <summary>
     /// Related Contents Controller
@@ -61,13 +61,16 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="cacheManager">The cache manager.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentSettings">The content settings.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RelatedContentsController(
             IContentService contentService,
             ICustomTableService customTableService,
             ICacheManager cacheManager,
             IFilesHelper filesHelper,
             IContentSettings contentSettings,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.customTableService = customTableService;
@@ -99,34 +102,35 @@ namespace Huellitas.Web.Controllers.Api
                         ////when case is similar pets returns PetModel
                         case Data.Entities.RelationType.SimilarPets:
                             var models = related.ToPetModels(
-                                this.contentService, 
-                                this.customTableService, 
+                                this.contentService,
+                                this.customTableService,
                                 this.cacheManager,
                                 this.workContext,
-                                this.filesHelper, 
+                                this.filesHelper,
                                 Url.Content,
                                 width: this.contentSettings.PictureSizeWidthDetail,
                                 height: this.contentSettings.PictureSizeHeightDetail,
                                 thumbnailWidth: this.contentSettings.PictureSizeWidthList,
                                 thumbnailHeight: this.contentSettings.PictureSizeHeightList);
                             return this.Ok(models, related.HasNextPage, related.TotalCount);
+
                         default:
                             return this.BadRequest("Tipo de relación inexistente");
                     }
                 }
                 else
                 {
-                   var models = related.ToModels(
-                       this.filesHelper,
-                        Url.Content,
-                        width: this.contentSettings.PictureSizeWidthList,
-                        height: this.contentSettings.PictureSizeHeightList);
+                    var models = related.ToModels(
+                        this.filesHelper,
+                         Url.Content,
+                         width: this.contentSettings.PictureSizeWidthList,
+                         height: this.contentSettings.PictureSizeHeightList);
                     return this.Ok(models, related.HasNextPage, related.TotalCount);
                 }
             }
             else
             {
-                return this.BadRequest(HuellitasExceptionCode.BadArgument, filter.Errors);
+                return this.BadRequest(filter.Errors);
             }
         }
     }

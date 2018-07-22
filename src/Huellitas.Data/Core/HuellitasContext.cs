@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Core
 {
+    using Beto.Core.Data;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Mapping;
     using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace Huellitas.Data.Core
     /// Context of <![CDATA[Huellitas]]>
     /// </summary>
     /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
-    public partial class HuellitasContext : DbContext
+    public partial class HuellitasContext : DbContext, IDbContext
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HuellitasContext"/> class.

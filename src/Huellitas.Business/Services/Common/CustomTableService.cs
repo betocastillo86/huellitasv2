@@ -8,10 +8,10 @@ namespace Huellitas.Business.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
     using Caching;
-    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
 
     /// <summary>
     /// Custom table service
@@ -46,8 +46,12 @@ namespace Huellitas.Business.Services
         /// Gets the rows by table identifier.
         /// </summary>
         /// <param name="tableId">The table identifier.</param>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
         /// <returns>
-        /// the rows
+        /// the list
         /// </returns>
         public IPagedList<CustomTableRow> GetRowsByTableId(int tableId, string keyword = null, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder, int page = 0, int pageSize = int.MaxValue)
         {
@@ -63,6 +67,7 @@ namespace Huellitas.Business.Services
                 case OrderByTableRow.Value:
                     query = query.OrderBy(c => c.Id);
                     break;
+
                 default:
                 case OrderByTableRow.DisplayOrder:
                     query = query.OrderByDescending(c => c.DisplayOrder);
@@ -84,7 +89,7 @@ namespace Huellitas.Business.Services
         {
             var key = string.Format(CacheKeys.CUSTOMTABLEROWS_BY_TABLE, tableId);
             return this.cacheManager.Get(
-                key, 
+                key,
                 () =>
             {
                 return this.GetRowsByTableId(Convert.ToInt32(tableId));

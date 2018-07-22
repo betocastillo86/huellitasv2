@@ -8,7 +8,6 @@ namespace Huellitas.Web.Models.Api
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Huellitas.Web.Models.Api;
 
     /// <summary>
     /// Pet Model
@@ -26,7 +25,6 @@ namespace Huellitas.Web.Models.Api
         /// </summary>
         public PetModel()
         {
-            
         }
 
         /// <summary>
@@ -69,7 +67,6 @@ namespace Huellitas.Web.Models.Api
         /// The starting date.
         /// </value>
         public DateTime? StartingDate { get; set; }
-
 
         /// <summary>
         /// Gets or sets the moths.

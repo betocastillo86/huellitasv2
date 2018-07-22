@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
     using Huellitas.Data.Entities;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using System;
-    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// User Model

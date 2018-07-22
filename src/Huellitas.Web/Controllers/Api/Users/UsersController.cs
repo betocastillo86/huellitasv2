@@ -9,12 +9,16 @@ namespace Huellitas.Web.Controllers.Api
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Helpers;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Beto.Core.Web.Security;
     using Business.Exceptions;
     using Business.Extensions;
-    using Business.Helpers;
+
     using Business.Security;
     using Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
@@ -34,11 +38,6 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
         /// <summary>
-        /// The security helper
-        /// </summary>
-        private readonly ISecurityHelpers securityHelpers;
-
-        /// <summary>
         /// The user service
         /// </summary>
         private readonly IUserService userService;
@@ -49,30 +48,21 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IWorkContext workContext;
 
         /// <summary>
-        /// The string helpers
-        /// </summary>
-        private readonly IStringHelpers stringHelpers;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="authenticationTokenGenerator">token generator</param>
-        /// <param name="securityHelpers">security helpers</param>
-        /// <param name="stringHelpers">string helpers</param>
+        /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public UsersController(
             IWorkContext workContext,
             IUserService userService,
             IAuthenticationTokenGenerator authenticationTokenGenerator,
-            ISecurityHelpers securityHelpers,
-            IStringHelpers stringHelpers)
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.userService = userService;
             this.authenticationTokenGenerator = authenticationTokenGenerator;
-            this.securityHelpers = securityHelpers;
-            this.stringHelpers = stringHelpers;
         }
 
         /// <summary>
@@ -105,7 +95,7 @@ namespace Huellitas.Web.Controllers.Api
                 return this.Forbid();
             }
         }
-        
+
         /// <summary>
         /// Gets the specified model.
         /// </summary>
@@ -217,15 +207,16 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="model">The model.</param>
         /// <returns>the user</returns>
         [HttpPost]
+        [RequiredModel]
         public async Task<IActionResult> Post([FromBody]UserModel model)
         {
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
             if (this.IsValidModel(model, true, canSeeWholeUser))
             {
                 var user = model.ToEntity();
-                user.Salt = this.stringHelpers.GetRandomString();
+                user.Salt = StringHelpers.GetRandomString();
 
-                user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
+                user.Password = StringHelpers.ToSha1(model.Password, user.Salt);
 
                 try
                 {
@@ -241,7 +232,7 @@ namespace Huellitas.Web.Controllers.Api
                 {
                     IList<Claim> claims;
                     var identity = AuthenticationHelper.GetIdentity(user, out claims);
-                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now);
+                    var token = this.authenticationTokenGenerator.GenerateToken(identity, claims, DateTimeOffset.Now, null);
                     var userModel = new AuthenticatedUserModel() { Email = model.Email, Name = user.Name, Id = user.Id, Token = token };
                     var createdUri = this.Url.Link("Api_Users_GetById", new BaseModel() { Id = user.Id });
                     return this.Created(createdUri, userModel);
@@ -268,6 +259,7 @@ namespace Huellitas.Web.Controllers.Api
         [HttpPut]
         [Authorize]
         [Route("{id:int}")]
+        [RequiredModel]
         public async Task<IActionResult> Put(int id, [FromBody]UserModel model)
         {
             var canSeeWholeUser = this.workContext.CurrentUser.CanSeeSensitiveUserInfo();
@@ -290,7 +282,7 @@ namespace Huellitas.Web.Controllers.Api
 
                     if (!string.IsNullOrEmpty(model.Password))
                     {
-                        user.Password = this.securityHelpers.ToSha1(model.Password, user.Salt);
+                        user.Password = StringHelpers.ToSha1(model.Password, user.Salt);
                     }
 
                     if (model.Role.HasValue)

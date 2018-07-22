@@ -8,11 +8,10 @@ namespace Huellitas.Business.Services
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Huellitas.Business.EventPublisher;
+    using Beto.Core.Data;
+    using Beto.Core.EventPublisher;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
-    using Huellitas.Data.Infraestructure;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -35,6 +34,7 @@ namespace Huellitas.Business.Services
         /// Initializes a new instance of the <see cref="BannerService"/> class.
         /// </summary>
         /// <param name="bannerRepository">The banner repository.</param>
+        /// <param name="publisher">The publisher.</param>
         public BannerService(
             IRepository<Banner> bannerRepository,
             IPublisher publisher)

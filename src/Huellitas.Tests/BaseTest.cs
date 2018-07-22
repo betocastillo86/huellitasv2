@@ -5,14 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests
 {
-    using Huellitas.Business.Caching;
+    using System.Diagnostics.CodeAnalysis;
+    using Beto.Core.Caching;
+    using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
     using Huellitas.Business.Configuration;
-    using Huellitas.Business.EventPublisher;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Moq;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Base class for testing
@@ -36,9 +37,20 @@ namespace Huellitas.Tests
         /// </summary>
         protected Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
 
+        /// <summary>
+        /// The general settings
+        /// </summary>
         protected Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
 
+        /// <summary>
+        /// The log service
+        /// </summary>
         protected Mock<ILogService> logService = new Mock<ILogService>();
+
+        /// <summary>
+        /// The message exception finder
+        /// </summary>
+        protected Mock<IMessageExceptionFinder> messageExceptionFinder = new Mock<IMessageExceptionFinder>();
 
         /// <summary>
         /// The publisher
@@ -46,7 +58,7 @@ namespace Huellitas.Tests
         protected Mock<IPublisher> publisher = new Mock<IPublisher>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseTest"/> class.
+        /// Initializes a new instance of the <see cref="BaseTest" /> class.
         /// </summary>
         public BaseTest()
         {
@@ -67,6 +79,7 @@ namespace Huellitas.Tests
         protected virtual void Setup()
         {
             this.workContext = new Mock<IWorkContext>();
+            this.messageExceptionFinder = new Mock<IMessageExceptionFinder>();
             this.contentService = new Mock<IContentService>();
             this.contentSettings = new Mock<IContentSettings>();
             this.publisher = new Mock<IPublisher>();

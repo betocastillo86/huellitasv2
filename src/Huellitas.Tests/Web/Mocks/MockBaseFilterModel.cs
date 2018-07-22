@@ -10,8 +10,8 @@ namespace Huellitas.Tests.Web.Mocks
     /// <summary>
     /// Mock to test BaseFilterModel
     /// </summary>
-    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterModel" />
-    public class MockBaseFilterModel : BaseFilterModel
+    /// <seealso cref="Huellitas.Web.Models.Api.BaseFilterNotFluentModel" />
+    public class MockBaseFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MockBaseFilterModel"/> class.

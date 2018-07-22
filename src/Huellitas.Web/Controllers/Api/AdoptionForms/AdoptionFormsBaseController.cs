@@ -5,11 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
     using Business.Services;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -39,10 +40,12 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
         /// <param name="adoptionFormService">The adoption form service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public AdoptionFormsBaseController(
             IWorkContext workContext,
             IContentService contentService,
-            IAdoptionFormService adoptionFormService)
+            IAdoptionFormService adoptionFormService,
+            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.contentService = contentService;
