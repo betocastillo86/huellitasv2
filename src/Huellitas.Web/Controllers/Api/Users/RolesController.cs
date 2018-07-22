@@ -39,6 +39,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="roleService">The role service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RolesController(
             IRoleService roleService,
             IWorkContext workContext,

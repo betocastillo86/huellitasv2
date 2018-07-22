@@ -31,7 +31,12 @@ namespace Huellitas.Web.Models.Api.Files
         [JsonConverter(typeof(StringEnumConverter))]
         public SocialPostColors Color { get; set; } = SocialPostColors.Blue;
 
-
+        /// <summary>
+        /// Gets or sets the social network.
+        /// </summary>
+        /// <value>
+        /// The social network.
+        /// </value>
         [JsonConverter(typeof(StringEnumConverter))]
         public SocialNetwork SocialNetwork { get; set; } = SocialNetwork.Facebook;
     }

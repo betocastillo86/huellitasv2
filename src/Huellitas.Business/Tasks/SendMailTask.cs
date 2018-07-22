@@ -11,7 +11,6 @@ namespace Huellitas.Business.Tasks
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
     using MailKit.Net.Smtp;
     using MimeKit;
@@ -42,6 +41,13 @@ namespace Huellitas.Business.Tasks
         /// </summary>
         private readonly ITaskSettings taskSettings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SendMailTask"/> class.
+        /// </summary>
+        /// <param name="notificationRepository">The notification repository.</param>
+        /// <param name="taskSettings">The task settings.</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="notificationSettings">The notification settings.</param>
         public SendMailTask(
             IRepository<EmailNotification> notificationRepository,
             ITaskSettings taskSettings,
@@ -112,14 +118,10 @@ namespace Huellitas.Business.Tasks
 
                 using (var client = new SmtpClient())
                 {
-                    //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
                     client.Connect(
                         this.notificationSettings.SmtpHost,
                         this.notificationSettings.SmtpPort,
                         this.notificationSettings.SmtpUseSsl);
-
-                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                     client.Authenticate(this.notificationSettings.SmtpUser, this.notificationSettings.SmtpPassword);
 

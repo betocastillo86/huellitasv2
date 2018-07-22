@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Data.Migrations
+﻿//-----------------------------------------------------------------------
+// <copyright file="SeedingNotifications.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Data.Migrations
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +11,15 @@
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
 
+    /// <summary>
+    /// Seeding Notifications
+    /// </summary>
     public static class SeedingNotifications
     {
+        /// <summary>
+        /// Seeds the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public static void Seed(HuellitasContext context)
         {
             var list = new List<Notification>();
@@ -37,7 +49,6 @@
             list.Add(new Notification() { Id = Convert.ToInt32(NotificationType.PetRejected), Name = "Fotos de mascota rechazada", Active = true, IsEmail = true, IsSystem = true, SystemText = "Tu mascota %%Pet.Name%% ha sido rechazada por fotografías mal tomadas", Tags = "[{ \"key\":\"%%NotifiedUser.Name%%\",\"value\":\"Nombre del usuario\" },{ \"key\":\"%%NotifiedUser.Email%%\",\"value\":\"Correo del usuario notificado\" },{\"key\":\"%%Url%%\" , \"value\": \"Link principal\"},{\"key\":\"%%Pet.Name%%\", \"value\":\"Nombre de la mascota\"},{\"key\":\"%%Pet.Url%%\", \"value\":\"Link de la mascota\"}]", EmailSubject = "Tu mascota %%Pet.Name%% no fue aprobada", EmailHtml = "<h2 style=\"color: #304a6f;text-align: center;font-size: 22px;\"><b>!No podemos aprobar a %%Pet.Name%%!</b></h2> <p style=\"text-align: left;\">Hola %%NotifiedUser.Name%%,</p> <p style=\"text-align: left;\">las fotografías que tomaste no son adecuadas para dar en adopción tu mascota. Sube unas nuevas y contactanos de nuevo. Si no sabes como tomar las fotos ingresa mira este video que hicimos para ti: </p> <a href=\"https://www.youtube.com/watch?v=EvtRItw8cuk\" style =\"color: #FFF; background: #3C75C2; font-size: 20px; text-decoration: none; margin: 10px auto; display: block; min-width: 140px; text-align: center; border-radius: 6px; padding: 10px 0;\">Ver video de toma de fotos</a></p> <p>Muchas gracias por apoyar a las huellitas sin hogar.</p>" });
             list.Add(new Notification() { Id = Convert.ToInt32(NotificationType.PetWillBeHiddenByNotAnswer), Name = "Huellita deshabilitada por falta de respuesta", Active = true, IsEmail = true, IsSystem = true, SystemText = "Tu mascota será deshabilitada por no responder formularios", Tags = "[{ \"key\":\"%%NotifiedUser.Name%%\",\"value\":\"Nombre del usuario\" },{ \"key\":\"%%NotifiedUser.Email%%\",\"value\":\"Correo del usuario notificado\" },{\"key\":\"%%Url%%\" , \"value\": \"Link principal\"},{\"key\":\"%%Pet.Name%%\", \"value\":\"Nombre de la mascota\"},{\"key\":\"%%Pet.Url%%\", \"value\":\"Link de la mascota\"}]", EmailSubject = "Tu mascota %%Pet.Name%% ha sido deshabilitada", EmailHtml = "<h2 style=\"color: #304a6f;text-align: center;font-size: 22px;\"><b>!Hemos deshabilitado a %%Pet.Name%%!</b></h2> <p style=\"text-align: left;\">Hola %%NotifiedUser.Name%%,</p> <p style=\"text-align: left;\">debido a que no has respondido los formularios de adopción que has recibido, hemos tomado la decisión de deshabilitar tu mascota. Si deseas habilitarla nuevamente, contactanos y lo harémos si respondes los formularios pendientes. </p>  <a href=\"%%Url%%\" style =\"color: #FFF; background: #3C75C2; font-size: 20px; text-decoration: none; margin: 10px auto; display: block; min-width: 140px; text-align: center; border-radius: 6px; padding: 10px 0;\">Ir a huellitas</a></p> <p>Muchas gracias por apoyar a las huellitas sin hogar.</p>" });
             list.Add(new Notification() { Id = Convert.ToInt32(NotificationType.PasswordRecovery), Name = "Recuperación de clave", Active = true, IsEmail = true, IsSystem = false, SystemText = null, Tags = "[{ \"key\":\"%%NotifiedUser.Name%%\",\"value\":\"Nombre del usuario\" },{ \"key\":\"%%NotifiedUser.Email%%\",\"value\":\"Correo del usuario notificado\" },{\"key\":\"%%Url%%\" , \"value\": \"Link principal\"},{\"key\":\"%%Pet.Name%%\", \"value\":\"Nombre de la mascota\"},{\"key\":\"%%Pet.Url%%\", \"value\":\"Link de la mascota\"}]", EmailSubject = "Recuperar clave de Huellitas sin hogar", EmailHtml = "<h2 style=\"color: #304a6f;text-align: center;font-size: 22px;\"><b>!Actualiza tu contraseña!</b></h2> <p style=\"text-align: left;\">Hola %%NotifiedUser.Name%%,</p> <p style=\"text-align: left;\">realizaste la solicitud para cambio de contraseña. Si fuiste tu la persona que lo hizo, da clic en el botón y escoge tu nueva clave. </p><p>Si tu no solicitaste el cambio de clave omite este correo.</p>  <a href=\"%%Url%%\" style =\"color: #FFF; background: #3C75C2; font-size: 20px; text-decoration: none; margin: 10px auto; display: block; min-width: 140px; text-align: center; border-radius: 6px; padding: 10px 0;\">Cambiar clave</a></p> <p>Muchas gracias por apoyar a las huellitas sin hogar.</p>" });
-
 
             foreach (var item in list)
             {

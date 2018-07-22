@@ -5,18 +5,17 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Contents
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Beto.Core.Data;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    
     using Huellitas.Web.Controllers.Api;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Users Controller Test
@@ -301,7 +300,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// <returns>the controller</returns>
         public ContentUsersController GetController()
         {
-            return new ContentUsersController(this.contentService.Object, this.workContext.Object,
+            return new ContentUsersController(
+                this.contentService.Object, 
+                this.workContext.Object,
                 this.messageExceptionFinder.Object);
         }
 

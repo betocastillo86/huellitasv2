@@ -41,6 +41,7 @@ namespace Huellitas.Web.Infraestructure.Security
         /// <param name="genericIdentity">The generic identity.</param>
         /// <param name="claims">The claims.</param>
         /// <param name="generationDate">The date when the key is generation. Usually you can use DateTimeOffset.Now</param>
+        /// <param name="configParams">configuration parameters depending of type of authentication</param>
         /// <returns>
         /// The generated token for authentication
         /// </returns>

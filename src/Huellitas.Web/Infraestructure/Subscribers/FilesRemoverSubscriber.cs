@@ -44,6 +44,9 @@ namespace Huellitas.Web.Infraestructure.Subscribers
         /// Initializes a new instance of the <see cref="FilesRemoverSubscriber"/> class.
         /// </summary>
         /// <param name="filesHelper">The files helper.</param>
+        /// <param name="hostingEnvironment">The hosting environment.</param>
+        /// <param name="logService">The log service.</param>
+        /// <param name="workContext">The work context.</param>
         public FilesRemoverSubscriber(
             IFilesHelper filesHelper,
             IHostingEnvironment hostingEnvironment,

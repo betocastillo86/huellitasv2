@@ -41,8 +41,9 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// Initializes a new instance of the <see cref="CacheCleanerController"/> class.
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
-        /// <param name="javascriptGenerator">The JAVASCRIPT generator.</param>
+        /// <param name="javascriptGenerator">The javascript generator.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public CacheCleanerController(
             ICacheManager cacheManager,
             IJavascriptConfigurationGenerator javascriptGenerator,

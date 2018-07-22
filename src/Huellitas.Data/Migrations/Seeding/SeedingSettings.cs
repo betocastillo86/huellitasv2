@@ -1,12 +1,24 @@
-﻿namespace Huellitas.Data.Migrations
+﻿//-----------------------------------------------------------------------
+// <copyright file="SeedingSettings.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Data.Migrations
 {
     using System.Collections.Generic;
     using System.Linq;
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
 
+    /// <summary>
+    /// Seeding Settings
+    /// </summary>
     public static class SeedingSettings
     {
+        /// <summary>
+        /// Seeds the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public static void Seed(HuellitasContext context)
         {
             var list = new List<SystemSetting>();
@@ -32,8 +44,8 @@
             list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeWidth", Value = "1500" });
             list.Add(new SystemSetting() { Name = "GeneralSettings.BannerPictureSizeHeight", Value = "1159" });
 
-            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookPublicToken", Value = "" });
-            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookSecretToken", Value = "" });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookPublicToken", Value = string.Empty });
+            list.Add(new SystemSetting() { Name = "GeneralSettings.FacebookSecretToken", Value = string.Empty });
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.SeoImage", Value = "/img/front/porque-adoptar-una-mascota.png" });
 
@@ -65,8 +77,6 @@
             list.Add(new SystemSetting() { Name = "GeneralSettings.MaxWidthPictureSize", Value = "1500" });
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.AdsenseEnabled", Value = "False" });
-
-            
 
             foreach (var item in list)
             {

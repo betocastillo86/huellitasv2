@@ -10,6 +10,9 @@ namespace Huellitas.Web.Models.Api
     /// </summary>
     public class CustomTableRowFilter : BaseFilterNotFluentModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomTableRowFilter"/> class.
+        /// </summary>
         public CustomTableRowFilter()
         {
             this.MaxPageSize = int.MaxValue;

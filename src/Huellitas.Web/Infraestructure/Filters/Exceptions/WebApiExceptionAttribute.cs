@@ -5,17 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Filters
 {
-    using System.Collections.Generic;
     using Beto.Core.Web.Api;
     using Business.Security;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using Security;
 
     /// <summary>
     /// Attribute for web <c>api</c> exceptions
@@ -51,7 +48,7 @@ namespace Huellitas.Web.Infraestructure.Filters
         /// <param name="hostingEnvironment">The hosting environment.</param>
         /// <param name="workContext">the work context</param>
         public WebApiExceptionAttribute(
-            ILogService logService, 
+            ILogService logService,
             IHostingEnvironment hostingEnvironment,
             IWorkContext workContext)
         {
@@ -79,7 +76,6 @@ namespace Huellitas.Web.Infraestructure.Filters
 
             if (this.hostingEnvironment.IsDevelopment())
             {
-                
                 error.Message = context.Exception.ToString();
             }
             else

@@ -28,7 +28,9 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="LocationsController"/> class.
         /// </summary>
         /// <param name="locationService">The location service.</param>
-        public LocationsController(ILocationService locationService,
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
+        public LocationsController(
+            ILocationService locationService,
             IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.locationService = locationService;

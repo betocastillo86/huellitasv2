@@ -42,7 +42,8 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
-        /// <param name="adoptionFormService">The adoption form service</param>
+        /// <param name="adoptionFormService">The adoption form service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public AdoptionFormUsersController(
             IWorkContext workContext,
             IContentService contentService,

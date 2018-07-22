@@ -46,6 +46,7 @@ namespace Huellitas.Business.Services
         /// <param name="generalSettings">The general settings.</param>
         /// <param name="contentRepository">The content repository.</param>
         /// <param name="logService">The log service.</param>
+        /// <param name="seoHelper">The seo helper.</param>
         public SeoService(
             IGeneralSettings generalSettings,
             IRepository<Content> contentRepository,
@@ -187,8 +188,7 @@ namespace Huellitas.Business.Services
         private IDictionary<string, DateTime?> GetContentUrls()
         {
             var statusPublished = Convert.ToInt16(StatusType.Published);
-            //var statusRejected = Convert.ToInt16(StatusType.Rejected);
-            //var statusClosed = Convert.ToInt16(StatusType.Closed);
+
             var contents = this.contentRepository.Table
                 .Where(c => !c.Deleted && c.Status == statusPublished && (c.ClosingDate == null || c.ClosingDate >= DateTime.Now))
                 .ToList();

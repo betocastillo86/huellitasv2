@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Data.Entities.Mapping
+﻿//-----------------------------------------------------------------------
+// <copyright file="SeoCrawlingMap.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Data.Entities.Mapping
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;

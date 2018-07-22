@@ -13,11 +13,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using Beto.Core.Web.Api;
     using Beto.Core.Web.Security;
     using Data.Entities;
-    using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.Security;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Mocks;
@@ -39,7 +36,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// The string helpers
         /// </summary>
         private Mock<INotificationService> notificationService = new Mock<INotificationService>();
-
 
         /// <summary>
         /// The user service

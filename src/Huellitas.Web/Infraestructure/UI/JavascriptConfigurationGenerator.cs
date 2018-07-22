@@ -5,20 +5,18 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.UI
 {
-    using Beto.Core.Caching;
-    using Beto.Core.Data;
-    using Huellitas.Business.Caching;
-    using Huellitas.Business.Configuration;
-    using Huellitas.Business.Extensions;
-    using Huellitas.Business.Services;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
-    using Microsoft.AspNetCore.Hosting;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Beto.Core.Caching;
+    using Beto.Core.Data;
+    using Huellitas.Business.Configuration;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Services;
+    using Huellitas.Data.Entities;
+    using Microsoft.AspNetCore.Hosting;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The <c>javascript</c> Configuration Generator
@@ -67,13 +65,16 @@ namespace Huellitas.Web.Infraestructure.UI
         private readonly ISecuritySettings securitySettings;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JavascriptConfigurationGenerator"/> class.
+        /// Initializes a new instance of the <see cref="JavascriptConfigurationGenerator" /> class.
         /// </summary>
         /// <param name="generalSettings">The general settings.</param>
         /// <param name="textResourceService">The text resource service.</param>
         /// <param name="cacheManager">The cache manager.</param>
         /// <param name="env">The env.</param>
         /// <param name="systemSettingRepository">The system setting repository.</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="securitySettings">The security settings.</param>
         public JavascriptConfigurationGenerator(
             IGeneralSettings generalSettings,
             ITextResourceService textResourceService,
@@ -111,11 +112,9 @@ namespace Huellitas.Web.Infraestructure.UI
             var key = "GeneralSettings.ConfigJavascriptCacheKey";
             var cacheKey = this.systemSettingRepository.Table.FirstOrDefault(c => c.Name.Equals(key));
 
-
             this.SaveFile(true, this.GetAdminJson(isDebug, cacheKey?.Value));
             this.SaveFile(false, this.GetFrontJson(isDebug, cacheKey?.Value));
 
-            
             if (cacheKey == null)
             {
                 this.systemSettingRepository.Insert(new SystemSetting() { Name = key, Value = Guid.NewGuid().ToString() });
@@ -130,6 +129,12 @@ namespace Huellitas.Web.Infraestructure.UI
             this.cacheManager.Clear();
         }
 
+        /// <summary>
+        /// Gets the admin json.
+        /// </summary>
+        /// <param name="isDebug">if set to <c>true</c> [is debug].</param>
+        /// <param name="cacheKey">The cache key.</param>
+        /// <returns>the return</returns>
         private string GetAdminJson(bool isDebug, string cacheKey)
         {
             var config = new
@@ -138,7 +143,7 @@ namespace Huellitas.Web.Infraestructure.UI
                 {
                     pageSize = this.generalSettings.DefaultPageSize,
                     configJavascriptCacheKey = cacheKey,
-                    siteUrl = generalSettings.SiteUrl
+                    siteUrl = this.generalSettings.SiteUrl
                 },
                 customTables = new
                 {
@@ -161,7 +166,7 @@ namespace Huellitas.Web.Infraestructure.UI
                 },
                 security = new
                 {
-                    maxRequestFileUploadMB = securitySettings.MaxRequestFileUploadMB
+                    maxRequestFileUploadMB = this.securitySettings.MaxRequestFileUploadMB
                 },
                 resources = this.GetAdminResources(),
                 isDebug = isDebug,
@@ -172,18 +177,24 @@ namespace Huellitas.Web.Infraestructure.UI
             return JsonConvert.SerializeObject(config);
         }
 
+        /// <summary>
+        /// Gets the front json.
+        /// </summary>
+        /// <param name="isDebug">if set to <c>true</c> [is debug].</param>
+        /// <param name="cacheKey">The cache key.</param>
+        /// <returns>the return</returns>
         private string GetFrontJson(bool isDebug, string cacheKey)
         {
             var config = new
             {
                 general = new
                 {
-                    facebookPublicToken = generalSettings.FacebookPublicToken,
-                    siteUrl = generalSettings.SiteUrl,
-                    seoImage = generalSettings.SeoImage,
-                    googleAnalyticsCode = generalSettings.GoogleAnalyticsCode,
+                    facebookPublicToken = this.generalSettings.FacebookPublicToken,
+                    siteUrl = this.generalSettings.SiteUrl,
+                    seoImage = this.generalSettings.SeoImage,
+                    googleAnalyticsCode = this.generalSettings.GoogleAnalyticsCode,
                     configJavascriptCacheKey = cacheKey,
-                    adsenseEnabled = generalSettings.AdsenseEnabled
+                    adsenseEnabled = this.generalSettings.AdsenseEnabled
                 },
                 resources = this.GetFrontResources(),
                 isDebug = isDebug,
@@ -198,7 +209,7 @@ namespace Huellitas.Web.Infraestructure.UI
                 },
                 security = new
                 {
-                    maxRequestFileUploadMB = securitySettings.MaxRequestFileUploadMB
+                    maxRequestFileUploadMB = this.securitySettings.MaxRequestFileUploadMB
                 },
                 isFront = true,
                 routes = this.seoService.GetRoutes()
@@ -207,6 +218,11 @@ namespace Huellitas.Web.Infraestructure.UI
             return JsonConvert.SerializeObject(config);
         }
 
+        /// <summary>
+        /// Saves the file.
+        /// </summary>
+        /// <param name="isAdmin">if set to <c>true</c> [is admin].</param>
+        /// <param name="jsonString">The json string.</param>
         private void SaveFile(bool isAdmin, string jsonString)
         {
             ////If does not exist the directory. It creates it.
@@ -240,7 +256,9 @@ namespace Huellitas.Web.Infraestructure.UI
         /// <summary>
         /// Gets the resources.
         /// </summary>
-        /// <returns>the resources</returns>
+        /// <returns>
+        /// the resources
+        /// </returns>
         private IDictionary<string, string> GetAdminResources()
         {
             var resources = new Dictionary<string, string>();
@@ -249,6 +267,10 @@ namespace Huellitas.Web.Infraestructure.UI
             return resources;
         }
 
+        /// <summary>
+        /// Gets the front resources.
+        /// </summary>
+        /// <returns>the return</returns>
         private IDictionary<string, string> GetFrontResources()
         {
             var resources = new Dictionary<string, string>();

@@ -44,6 +44,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="contentService">The content service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ContentUsersController(
             IContentService contentService,
             IWorkContext workContext, 

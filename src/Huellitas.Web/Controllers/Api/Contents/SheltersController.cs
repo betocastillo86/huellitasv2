@@ -23,7 +23,6 @@ namespace Huellitas.Web.Controllers.Api
     using Hangfire;
     using Huellitas.Business.Subscribers;
     using Huellitas.Web.Infraestructure.Tasks;
-    using Infraestructure.WebApi;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
@@ -37,6 +36,11 @@ namespace Huellitas.Web.Controllers.Api
     public class SheltersController : BaseApiController
     {
         /// <summary>
+        /// The content repository
+        /// </summary>
+        private readonly IRepository<Content> contentRepository;
+
+        /// <summary>
         /// The content service
         /// </summary>
         private readonly IContentService contentService;
@@ -47,24 +51,14 @@ namespace Huellitas.Web.Controllers.Api
         private readonly IContentSettings contentSettings;
 
         /// <summary>
-        /// The files helper
-        /// </summary>
-        private readonly IFilesHelper filesHelper;
-
-        /// <summary>
-        /// The work context
-        /// </summary>
-        private readonly IWorkContext workContext;
-
-        /// <summary>
         /// The file service
         /// </summary>
         private readonly IFileService fileService;
 
         /// <summary>
-        /// The picture service
+        /// The files helper
         /// </summary>
-        private readonly IPictureService pictureService;
+        private readonly IFilesHelper filesHelper;
 
         /// <summary>
         /// The location service
@@ -72,19 +66,24 @@ namespace Huellitas.Web.Controllers.Api
         private readonly ILocationService locationService;
 
         /// <summary>
-        /// The seo service
+        /// The picture service
         /// </summary>
-        private readonly ISeoService seoService;
-
-        /// <summary>
-        /// The content repository
-        /// </summary>
-        private readonly IRepository<Content> contentRepository;
+        private readonly IPictureService pictureService;
 
         /// <summary>
         /// The publisher
         /// </summary>
         private readonly IPublisher publisher;
+
+        /// <summary>
+        /// The seo service
+        /// </summary>
+        private readonly ISeoService seoService;
+
+        /// <summary>
+        /// The work context
+        /// </summary>
+        private readonly IWorkContext workContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SheltersController"/> class.
@@ -95,8 +94,11 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="workContext">The work context.</param>
         /// <param name="fileService">The file service.</param>
         /// <param name="pictureService">The picture service.</param>
-        /// <param name="customTableService">The custom table service.</param>
         /// <param name="locationService">The location service.</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="contentRepository">The content repository.</param>
+        /// <param name="publisher">The publisher.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SheltersController(
             IContentService contentService,
             IFilesHelper filesHelper,
@@ -120,6 +122,17 @@ namespace Huellitas.Web.Controllers.Api
             this.seoService = seoService;
             this.contentRepository = contentRepository;
             this.publisher = publisher;
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can get unpublished].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance [can get unpublished]; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanGetUnpublished()
+        {
+            return this.workContext.CurrentUser.IsSuperAdmin();
         }
 
         /// <summary>
@@ -164,10 +177,10 @@ namespace Huellitas.Web.Controllers.Api
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the specified friendly name.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>the content</returns>
+        /// <param name="friendlyName">Name of the friendly.</param>
+        /// <returns>the return</returns>
         [HttpGet]
         [Route("{friendlyName}", Name = "Api_Shelters_GetById")]
         public IActionResult Get(string friendlyName)
@@ -208,8 +221,6 @@ namespace Huellitas.Web.Controllers.Api
                 }
                 else
                 {
-                    //this.ModelState.AddModelError("Id", "Este id no pertenece a un refugio");
-                    //return this.BadRequest(this.ModelState);
                     return this.NotFound();
                 }
             }
@@ -217,6 +228,30 @@ namespace Huellitas.Web.Controllers.Api
             {
                 return this.NotFound();
             }
+        }
+
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="isNew">if set to <c>true</c> [is new].</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
+        [NonAction]
+        public bool IsValidModel(ShelterModel model, bool isNew)
+        {
+            if (isNew && (model.Files == null || model.Files.Count == 0))
+            {
+                this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");
+            }
+
+            if (model.Location == null)
+            {
+                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
+            }
+
+            return this.ModelState.IsValid;
         }
 
         /// <summary>
@@ -351,17 +386,6 @@ namespace Huellitas.Web.Controllers.Api
         }
 
         /// <summary>
-        /// Determines whether this instance [can get unpublished].
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance [can get unpublished]; otherwise, <c>false</c>.
-        /// </returns>
-        public bool CanGetUnpublished()
-        {
-            return this.workContext.CurrentUser.IsSuperAdmin();
-        }
-
-        /// <summary>
         /// Generates the name of the friendly.
         /// </summary>
         /// <param name="content">The content.</param>
@@ -378,30 +402,6 @@ namespace Huellitas.Web.Controllers.Api
             {
                 throw new HuellitasException("Location", HuellitasExceptionCode.InvalidForeignKey);
             }
-        }
-
-        /// <summary>
-        /// Determines whether [is valid model] [the specified model].
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="isNew">if set to <c>true</c> [is new].</param>
-        /// <returns>
-        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
-        /// </returns>
-        [NonAction]
-        public bool IsValidModel(ShelterModel model, bool isNew)
-        {
-            if (isNew && (model.Files == null || model.Files.Count == 0))
-            {
-                this.ModelState.AddModelError("Files", "Al menos se debe cargar una imagen");
-            }
-
-            if (model.Location == null)
-            {
-                this.ModelState.AddModelError("Location", "Si no ingresa la refugio debe ingresar ubicación");
-            }
-
-            return this.ModelState.IsValid;
         }
     }
 }

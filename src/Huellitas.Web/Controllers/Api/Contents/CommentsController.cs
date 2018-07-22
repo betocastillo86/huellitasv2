@@ -40,6 +40,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="commentService">The comment service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public CommentsController(
             ICommentService commentService,
             IWorkContext workContext,
@@ -52,8 +53,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
-        /// <param name="friendlyName">The name.</param>
-        /// <returns>the action</returns>
+        /// <param name="id">The identifier.</param>
+        /// <returns>the return</returns>
         [Authorize]
         [HttpDelete]
         [Route("{id:int}")]

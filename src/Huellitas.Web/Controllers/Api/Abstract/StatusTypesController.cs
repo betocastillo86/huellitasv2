@@ -19,6 +19,10 @@ namespace Huellitas.Web.Controllers.Api
     [Route("api/statustypes")]
     public class StatusTypesController : BaseApiController
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatusTypesController"/> class.
+        /// </summary>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public StatusTypesController(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
         }

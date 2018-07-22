@@ -19,6 +19,10 @@ namespace Huellitas.Tests.Web.Mocks
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     public class BaseApiControllerMock : BaseApiController
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseApiControllerMock"/> class.
+        /// </summary>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public BaseApiControllerMock(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
         }

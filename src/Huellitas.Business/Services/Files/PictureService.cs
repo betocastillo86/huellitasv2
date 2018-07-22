@@ -72,8 +72,10 @@ namespace Huellitas.Business.Services
         /// <param name="fileHelper">The file helper.</param>
         /// <param name="logService">The log service.</param>
         /// <param name="systemSettingService">The system setting service.</param>
-        /// <param name="customTableService">Custom table service</param>
-        /// <param name="contentService">The content service</param>
+        /// <param name="customTableService">The custom table service.</param>
+        /// <param name="host">The host.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="corePictureResizerService">The core picture resizer service.</param>
         public PictureService(
             IFilesHelper fileHelper,
             ILogService logService,

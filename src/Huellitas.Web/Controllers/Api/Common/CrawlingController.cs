@@ -1,16 +1,21 @@
-﻿using System.Threading.Tasks;
-using Beto.Core.Exceptions;
-using Beto.Core.Web.Api.Controllers;
-using Beto.Core.Web.Api.Filters;
-using Huellitas.Business.Extensions;
-using Huellitas.Business.Security;
-using Huellitas.Business.Services;
-using Huellitas.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CrawlingController.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api.Common
 {
+    using System.Threading.Tasks;
+    using Beto.Core.Exceptions;
+    using Beto.Core.Web.Api.Controllers;
+    using Beto.Core.Web.Api.Filters;
+    using Huellitas.Business.Extensions;
+    using Huellitas.Business.Security;
+    using Huellitas.Business.Services;
+    using Huellitas.Web.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     /// <summary>
     /// Crawling Controller
     /// </summary>
@@ -33,6 +38,7 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// </summary>
         /// <param name="crawlingService">The crawling service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public CrawlingController(
             ICrawlingService crawlingService,
             IWorkContext workContext,

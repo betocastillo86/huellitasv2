@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="BaseFilterModel.cs" company="Huellitas sin hogar">
+// <copyright file="BaseFilterNotFluentModel.cs" company="Huellitas sin hogar">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------

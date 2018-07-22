@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Business.Services
+﻿//-----------------------------------------------------------------------
+// <copyright file="CrawlingService.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Services
 {
     using System;
     using System.Linq;
@@ -28,6 +33,13 @@
             this.crawlingRepository = crawlingRepository;
         }
 
+        /// <summary>
+        /// Gets the by URL.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// the crawling
+        /// </returns>
         public SeoCrawling GetByUrl(string url)
         {
             return this.crawlingRepository.Table.FirstOrDefault(c => c.Url.Equals(url));

@@ -24,6 +24,10 @@ namespace Huellitas.Business.Subscribers
     /// <summary>
     /// Adoption Form Notifications
     /// </summary>
+    /// <seealso cref="Beto.Core.EventPublisher.ISubscriber{Beto.Core.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionForm}}" />
+    /// <seealso cref="Beto.Core.EventPublisher.ISubscriber{Beto.Core.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionFormAnswer}}" />
+    /// <seealso cref="Beto.Core.EventPublisher.ISubscriber{Beto.Core.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionFormUser}}" />
+    /// <seealso cref="Huellitas.Business.Tasks.ITask" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionForm}}" />
     /// <seealso cref="Huellitas.Business.EventPublisher.ISubscriber{Huellitas.Business.EventPublisher.EntityInsertedMessage{Huellitas.Data.Entities.AdoptionFormAnswer}}" />
     public class AdoptionFormNotifications : ISubscriber<EntityInsertedMessage<AdoptionForm>>,
@@ -82,16 +86,18 @@ namespace Huellitas.Business.Subscribers
         private readonly IPictureService pictureService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AdoptionFormNotifications"/> class.
+        /// Initializes a new instance of the <see cref="AdoptionFormNotifications" /> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
         /// <param name="workContext">The work context.</param>
-        /// <param name="seoService">The SEO service.</param>
+        /// <param name="seoService">The seo service.</param>
         /// <param name="contentService">The content service.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="adoptionFormService">The adoption form service.</param>
         /// <param name="generalSettings">The general settings.</param>
         /// <param name="locationService">The location service.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="pictureService">The picture service.</param>
         public AdoptionFormNotifications(
             INotificationService notificationService,
             IWorkContext workContext,
@@ -172,6 +178,11 @@ namespace Huellitas.Business.Subscribers
             await this.NotifyAdoptionFormAnswer(answer, user, content, shelter);
         }
 
+        /// <summary>
+        /// Notifies the no answered form.
+        /// </summary>
+        /// <param name="formId">The form identifier.</param>
+        /// <returns>the return</returns>
         public async Task NotifyNoAnsweredForm(int formId)
         {
             var form = this.adoptionFormService.GetById(formId);
@@ -200,7 +211,9 @@ namespace Huellitas.Business.Subscribers
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
-        /// <returns>the parameters</returns>
+        /// <returns>
+        /// the parameters
+        /// </returns>
         private IList<NotificationParameter> GetBasicParameters(Content content, Content shelter)
         {
             var petUrl = this.seoService.GetContentUrl(content);
@@ -237,7 +250,9 @@ namespace Huellitas.Business.Subscribers
         /// Gets the content by form.
         /// </summary>
         /// <param name="adoptionForm">The adoption form.</param>
-        /// <returns>the content</returns>
+        /// <returns>
+        /// the content
+        /// </returns>
         private Content GetContentByForm(AdoptionForm adoptionForm)
         {
             if (adoptionForm.Content != null)
@@ -257,7 +272,10 @@ namespace Huellitas.Business.Subscribers
         /// <param name="user">The user.</param>
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
+        /// <exception cref="HuellitasException">Respuesta invalida</exception>
         private async Task NotifyAdoptionFormAnswer(AdoptionFormAnswer answer, User user, Content content, Content shelter)
         {
             var parameters = this.GetBasicParameters(content, shelter);
@@ -301,7 +319,9 @@ namespace Huellitas.Business.Subscribers
         /// <param name="form">The form.</param>
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         private async Task NotifyPetOwnersOfFormCreated(AdoptionForm form, Content content, Content shelter)
         {
             var parameters = this.GetBasicParameters(content, shelter);
@@ -319,6 +339,12 @@ namespace Huellitas.Business.Subscribers
                 parameters);
         }
 
+        /// <summary>
+        /// Gets the pet owners.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="shelter">The shelter.</param>
+        /// <returns>the return</returns>
         private IList<User> GetPetOwners(Content content, Content shelter)
         {
             List<User> users = null;
@@ -350,7 +376,9 @@ namespace Huellitas.Business.Subscribers
         /// <param name="form">The form.</param>
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         private async Task NotifyUserOfFormCreated(AdoptionForm form, Content content, Content shelter)
         {
             var parameters = this.GetBasicParameters(content, shelter);
@@ -369,7 +397,10 @@ namespace Huellitas.Business.Subscribers
         /// <param name="form">The form.</param>
         /// <param name="content">The content.</param>
         /// <param name="shelter">The shelter.</param>
-        /// <returns>the task</returns>
+        /// <param name="formUser">The form user.</param>
+        /// <returns>
+        /// the return
+        /// </returns>
         private async Task NotifyUserOfFormShared(AdoptionForm form, Content content, Content shelter, AdoptionFormUser formUser)
         {
             var parameters = this.GetBasicParameters(content, shelter);

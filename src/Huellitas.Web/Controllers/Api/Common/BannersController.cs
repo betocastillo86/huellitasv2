@@ -64,8 +64,11 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="bannerService">The banner service.</param>
         /// <param name="generalSettings">The general settings.</param>
-        /// <param name="filesHelper">file helper</param>
-        /// <param name="fileService">file service</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="fileService">The file service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public BannersController(
             IBannerService bannerService,
             IGeneralSettings generalSettings,

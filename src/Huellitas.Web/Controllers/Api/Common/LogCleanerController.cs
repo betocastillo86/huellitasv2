@@ -36,6 +36,7 @@ namespace Huellitas.Web.Controllers.Api.Common
         /// </summary>
         /// <param name="logService">The log service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public LogCleanerController(
             ILogService logService,
             IWorkContext workContext,

@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Beto.Core.Caching;
     using Beto.Core.Data.Files;
     using Beto.Core.Exceptions;
@@ -13,15 +16,11 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Extensions;
     using Business.Security;
     using Business.Services;
-    using Huellitas.Business.Caching;
     using Huellitas.Business.Configuration;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Forms Controller
@@ -73,6 +72,9 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="contentService">The content service.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="customTableService">The custom table service.</param>
+        /// <param name="cacheManager">The cache manager.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public AdoptionFormsController(
             IAdoptionFormService adoptionFormService,
             IWorkContext workContext,
@@ -187,11 +189,6 @@ namespace Huellitas.Web.Controllers.Api
             {
                 this.ModelState.AddModelError("Attributes", "Debe ingresar las respuestas del formulario");
             }
-
-            //if (model.FamilyMembers.HasValue && model.FamilyMembers.Value != model.FamilyMembersAge?.Split(new char[] { ',' }).Length)
-            //{
-            //    this.ModelState.AddModelError("FamilyMembersAge", "Las edades deben corresponder al número de miembros");
-            //}
 
             return this.ModelState.IsValid;
         }

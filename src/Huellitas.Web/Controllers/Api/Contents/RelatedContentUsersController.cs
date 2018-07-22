@@ -36,6 +36,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="contentService">The content service.</param>
         /// <param name="filesHelper">The files helper.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RelatedContentUsersController(
             IContentService contentService,
             IFilesHelper filesHelper,

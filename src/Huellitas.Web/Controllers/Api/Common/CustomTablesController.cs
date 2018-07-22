@@ -28,6 +28,7 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="CustomTablesController"/> class.
         /// </summary>
         /// <param name="customTableService">The custom table service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public CustomTablesController(
             ICustomTableService customTableService,
             IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
@@ -39,7 +40,8 @@ namespace Huellitas.Web.Controllers.Api
         /// Gets the by table.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the action</returns>
+        /// <param name="filter">The filter.</param>
+        /// <returns>the return</returns>
         [HttpGet]
         [Route("{id}/rows")]
         public IActionResult GetByTable(int id, [FromQuery] CustomTableRowFilter filter)

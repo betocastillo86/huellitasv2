@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Business.Services
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICrawlingService.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Services
 {
     using System.Threading.Tasks;
     using Huellitas.Data;

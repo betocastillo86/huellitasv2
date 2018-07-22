@@ -47,6 +47,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="notificationService">The notification service.</param>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SendAdoptionFormsController(
             IAdoptionFormService adoptionFormService,
             INotificationService notificationService,

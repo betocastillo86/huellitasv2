@@ -5,21 +5,20 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Beto.Core.Web.Api;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Tests.Web.Mocks;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Form Answers Controller Test

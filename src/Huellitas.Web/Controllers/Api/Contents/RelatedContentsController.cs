@@ -61,6 +61,8 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="cacheManager">The cache manager.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentSettings">The content settings.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public RelatedContentsController(
             IContentService contentService,
             ICustomTableService customTableService,

@@ -39,17 +39,12 @@ namespace Huellitas.Web.Infraestructure.Start
     public static class ServiceRegister
     {
         /// <summary>
-        /// Registers the <![CDATA[huellitas]]> services.
+        /// Registers the huellitas services.
         /// </summary>
         /// <param name="services">The services.</param>
+        /// <param name="configuration">The configuration.</param>
         public static void RegisterHuellitasServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            ///////Registra el contexto de base de datos
-            ///var builder = new ConfigurationBuilder();
-            ///builder.SetBasePath(Directory.GetCurrentDirectory());
-            ///builder.AddJsonFile("appsettings.json");
-            ///
-            ///var connectionStringConfig = builder.Build();
             services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             ////Registra los Repositorios genericos
@@ -108,8 +103,6 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<CrawlerAttribute>();
 
             ////Events
-            //services.AddScoped<ImageResizeTask, ImageResizeTask>();
-
             foreach (var implementationType in ReflectionHelper.GetTypesOnProject(typeof(ISubscriber<>), "huellitas"))
             {
                 var servicesTypeFound = implementationType.GetTypeInfo().FindInterfaces(

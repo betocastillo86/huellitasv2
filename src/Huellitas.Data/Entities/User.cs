@@ -12,13 +12,17 @@ namespace Huellitas.Data.Entities
     /// <summary>
     /// The class User
     /// </summary>
+    /// <seealso cref="Beto.Core.Data.Users.IUserEntity" />
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
     public partial class User : BaseEntity, IUserEntity
     {
+        /// <summary>
+        /// The comments
+        /// </summary>
         private ICollection<Comment> comments;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="User"/> class.
+        /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
         public User()
         {
@@ -99,7 +103,7 @@ namespace Huellitas.Data.Entities
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="User"/> is deleted.
+        /// Gets or sets a value indicating whether this <see cref="User" /> is deleted.
         /// </summary>
         /// <value>
         ///   <c>true</c> if deleted; otherwise, <c>false</c>.

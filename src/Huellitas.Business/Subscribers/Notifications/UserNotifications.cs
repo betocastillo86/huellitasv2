@@ -33,7 +33,9 @@ namespace Huellitas.Business.Subscribers.Notifications
         /// Initializes a new instance of the <see cref="UserNotifications"/> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
-        public UserNotifications(INotificationService notificationService,
+        /// <param name="generalSettings">The general settings.</param>
+        public UserNotifications(
+            INotificationService notificationService,
             IGeneralSettings generalSettings)
         {
             this.notificationService = notificationService;

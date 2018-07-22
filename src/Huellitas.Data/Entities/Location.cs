@@ -52,6 +52,12 @@ namespace Huellitas.Data.Entities
         /// </value>
         public virtual Location ParentLocation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the children locations.
+        /// </summary>
+        /// <value>
+        /// The children locations.
+        /// </value>
         public virtual IList<Location> ChildrenLocations { get; set; }
     }
 }

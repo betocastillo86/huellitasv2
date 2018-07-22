@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests.Web.ApiControllers.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Beto.Core.Data.Files;
-    using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Huellitas.Data.Extensions;
     using Huellitas.Web.Models.Api;
@@ -14,9 +16,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     using Mocks;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Shelter Extensions Test

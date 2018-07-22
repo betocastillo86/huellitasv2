@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Middleware
 {
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Middleware for adding the current server date
@@ -32,7 +32,7 @@ namespace Huellitas.Web.Infraestructure.Middleware
         /// Invokes the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <returns></returns>
+        /// <returns>the value</returns>
         public async Task Invoke(HttpContext context)
         {
             if (context.Response != null)

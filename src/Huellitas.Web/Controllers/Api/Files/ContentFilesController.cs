@@ -66,11 +66,12 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="ContentFilesController"/> class.
         /// </summary>
         /// <param name="fileService">The file service.</param>
-        /// <param name="fileHelper">the file helper</param>
-        /// <param name="contentService">content service</param>
-        /// <param name="workContext">work context</param>
-        /// <param name="pictureService">picture service</param>
-        /// <param name="contentSettings">the content settings</param>
+        /// <param name="fileHelper">The file helper.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="contentSettings">The content settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ContentFilesController(
             IFileService fileService,
             IFilesHelper fileHelper,

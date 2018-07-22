@@ -19,13 +19,26 @@ namespace Huellitas.Web.Controllers.Api.Files
     /// <summary>
     /// Sort Content Files Controller
     /// </summary>
+    /// <seealso cref="Beto.Core.Web.Api.Controllers.BaseApiController" />
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     public class SortContentFilesController : BaseApiController
     {
+        /// <summary>
+        /// The work context
+        /// </summary>
         private readonly IWorkContext workContext;
 
+        /// <summary>
+        /// The content service
+        /// </summary>
         private readonly IContentService contentService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortContentFilesController"/> class.
+        /// </summary>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SortContentFilesController(
             IWorkContext workContext,
             IContentService contentService,
@@ -35,6 +48,13 @@ namespace Huellitas.Web.Controllers.Api.Files
             this.contentService = contentService;
         }
 
+        /// <summary>
+        /// Sorts the specified content identifier.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileIdFrom">The file identifier from.</param>
+        /// <param name="fileIdTo">The file identifier to.</param>
+        /// <returns>the return</returns>
         [HttpPost]
         [Authorize]
         [Route("api/contents/{contentId:int}/files/{fileIdFrom:int}/sort/{fileIdTo:int}")]

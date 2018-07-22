@@ -1,12 +1,17 @@
-﻿using Huellitas.Business.Exceptions;
-using Huellitas.Data.Entities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.ComponentModel.DataAnnotations;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CommentFilterModel.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Data.Entities;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
     /// <summary>
     /// Comment Filter Model
     /// </summary>
@@ -14,7 +19,7 @@ namespace Huellitas.Web.Models.Api
     public class CommentFilterModel : BaseFilterNotFluentModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommentFilterModel"/> class.
+        /// Initializes a new instance of the <see cref="CommentFilterModel" /> class.
         /// </summary>
         public CommentFilterModel()
         {
@@ -72,6 +77,13 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         public bool WithChildren { get; set; }
 
+        /// <summary>
+        /// Returns true if ... is valid.
+        /// </summary>
+        /// <param name="keywordRequired">if set to <c>true</c> [keyword required].</param>
+        /// <returns>
+        ///   <c>true</c> if the specified keyword required is valid; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsValid(bool keywordRequired)
         {
             if (keywordRequired && string.IsNullOrEmpty(this.Keyword))

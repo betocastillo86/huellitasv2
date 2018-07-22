@@ -1,7 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CrawlingModel.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Web.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// Crawling Model
     /// </summary>

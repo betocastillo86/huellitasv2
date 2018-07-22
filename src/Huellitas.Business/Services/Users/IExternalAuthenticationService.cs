@@ -5,11 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Beto.Core.Data.Users;
-    using Huellitas.Business.Models;
-    using Huellitas.Data.Entities;
     using System;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Users;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface of external authentication service

@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Controllers.Api.Contents
+﻿//-----------------------------------------------------------------------
+// <copyright file="PetNotificationsController.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Controllers.Api.Contents
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -59,9 +64,10 @@
         /// <param name="workContext">The work context.</param>
         /// <param name="notificationService">The notification service.</param>
         /// <param name="contentService">The content service.</param>
-        /// <param name="seoService">The SEO service.</param>
+        /// <param name="seoService">The seo service.</param>
         /// <param name="pictureService">The picture service.</param>
         /// <param name="contentSettings">The content settings.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public PetNotificationsController(
             IWorkContext workContext,
             INotificationService notificationService,

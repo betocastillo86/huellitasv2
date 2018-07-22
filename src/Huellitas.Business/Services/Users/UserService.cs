@@ -41,7 +41,7 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="publisher">The publisher.</param>
-        /// <param name="securityHelpers">The security helpers.</param>
+        /// <param name="httpContextHelpers">The HTTP context helpers.</param>
         public UserService(
             IRepository<User> userRepository,
             IPublisher publisher,

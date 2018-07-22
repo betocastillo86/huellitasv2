@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Tasks
 {
+    using System.Linq;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
     using Huellitas.Business.Tasks;
-    using System.Linq;
 
     /// <summary>
     /// Image Resize Tasks
@@ -34,6 +34,8 @@ namespace Huellitas.Web.Infraestructure.Tasks
         /// Initializes a new instance of the <see cref="ImageResizeTask"/> class.
         /// </summary>
         /// <param name="fileService">The file service.</param>
+        /// <param name="pictureService">The picture service.</param>
+        /// <param name="contentSettings">The content settings.</param>
         public ImageResizeTask(
             IFileService fileService,
             IPictureService pictureService,

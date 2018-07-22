@@ -9,12 +9,11 @@ namespace Huellitas.Web.Models.Api
     using System.Collections.Generic;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;
+    using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Web.Models.Api;
-    using Huellitas.Business.Security;
-    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Pet Filter Model
@@ -136,10 +135,10 @@ namespace Huellitas.Web.Models.Api
         public DateTime? FromStartingDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the mine.
+        /// Gets or sets a value indicating whether this <see cref="PetsFilterModel"/> is mine.
         /// </summary>
         /// <value>
-        /// The mine.
+        ///   <c>true</c> if mine; otherwise, <c>false</c>.
         /// </value>
         public bool Mine { get; set; }
 
@@ -171,7 +170,8 @@ namespace Huellitas.Web.Models.Api
         /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
-        /// <param name="canGetUnpublished">if set to <c>true</c> [can get un published].</param>
+        /// <param name="canGetUnpublished">if set to <c>true</c> [can get unpublished].</param>
+        /// <param name="workContext">The work context.</param>
         /// <param name="selectedFilters">The selected filters.</param>
         /// <returns>
         ///   <c>true</c> if the specified can get unpublished is valid; otherwise, <c>false</c>.

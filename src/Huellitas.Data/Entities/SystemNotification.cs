@@ -3,10 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using Beto.Core.Data.Notifications;
-
 namespace Huellitas.Data.Entities
 {
+    using Beto.Core.Data.Notifications;
+
     /// <summary>
     /// System Notification
     /// </summary>

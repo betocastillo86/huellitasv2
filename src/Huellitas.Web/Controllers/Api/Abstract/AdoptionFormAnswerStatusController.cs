@@ -20,6 +20,10 @@ namespace Huellitas.Web.Controllers.Api
     [Route("api/[controller]")]
     public class AdoptionFormAnswerStatusController : BaseApiController
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdoptionFormAnswerStatusController"/> class.
+        /// </summary>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public AdoptionFormAnswerStatusController(IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
         }

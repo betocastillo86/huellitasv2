@@ -12,12 +12,13 @@ namespace Huellitas.Business.Services
     using Beto.Core.Exceptions;
     using Beto.Core.Helpers;
     using Huellitas.Data.Entities;
-    
+
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Log Service
     /// </summary>
+    /// <seealso cref="Beto.Core.Exceptions.ILoggerService" />
     /// <seealso cref="Huellitas.Business.Services.ILogService" />
     public class LogService : ILoggerService, ILogService
     {
@@ -38,7 +39,7 @@ namespace Huellitas.Business.Services
         #region ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogService"/> class.
+        /// Initializes a new instance of the <see cref="LogService" /> class.
         /// </summary>
         /// <param name="logRepository">The log repository.</param>
         /// <param name="contextHelpers">The context helpers.</param>
@@ -99,7 +100,9 @@ namespace Huellitas.Business.Services
         /// <param name="shortMessage">The short message.</param>
         /// <param name="fullMessage">The full message.</param>
         /// <param name="user">The user.</param>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         public Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", User user = null)
         {
             if (string.IsNullOrEmpty(shortMessage))
@@ -123,11 +126,24 @@ namespace Huellitas.Business.Services
             return log;
         }
 
+        /// <summary>
+        /// Inserts the specified short message.
+        /// </summary>
+        /// <param name="shortMessage">The short message.</param>
+        /// <param name="fullMessage">The full message.</param>
         public void Insert(string shortMessage, string fullMessage = "")
         {
             this.Insert(LogLevel.Error, shortMessage, fullMessage, null);
         }
 
+        /// <summary>
+        /// Inserts the asynchronous.
+        /// </summary>
+        /// <param name="shortMessage">The short message.</param>
+        /// <param name="fullMessage">The full message.</param>
+        /// <returns>
+        /// the task
+        /// </returns>
         public async Task InsertAsync(string shortMessage, string fullMessage = "")
         {
             if (string.IsNullOrEmpty(shortMessage))

@@ -5,12 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Beto.Core.Data;
-    using Data.Entities;
-    
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Data.Entities;
 
     /// <summary>
     /// Interface of Content Service
@@ -129,12 +128,11 @@ namespace Huellitas.Business.Services
         /// <param name="status">The status.</param>
         /// <param name="closingDateFrom">The closing date from.</param>
         /// <param name="closingDateTo">The closing date to.</param>
-        /// <param name="startingDateFrom">filters starting date from this</param>
-        /// <param name="startingDateTo">filters starting date until this</param>
-        /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
-        /// <param name="excludeContentId">excludes the search of a content</param>
-        /// <param name="onlyFeatured">only featured</param>
-        /// <param name="userEmail">filter by user parent</param>
+        /// <param name="startingDateFrom">The starting date from.</param>
+        /// <param name="startingDateTo">The starting date to.</param>
+        /// <param name="belongsToUserId">The belongs to user identifier.</param>
+        /// <param name="excludeContentId">The exclude content identifier.</param>
+        /// <param name="onlyFeatured">The only featured.</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -169,6 +167,13 @@ namespace Huellitas.Business.Services
         /// <returns>the value</returns>
         T GetContentAttribute<T>(int contentId, ContentAttributeType attribute);
 
+        /// <summary>
+        /// Sorts the files.
+        /// </summary>
+        /// <param name="contentId">The content identifier.</param>
+        /// <param name="fileIdFrom">The file identifier from.</param>
+        /// <param name="fileIdTo">The file identifier to.</param>
+        /// <returns>the task</returns>
         Task SortFiles(int contentId, int fileIdFrom, int fileIdTo);
     }
 }

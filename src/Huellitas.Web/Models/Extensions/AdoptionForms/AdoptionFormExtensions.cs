@@ -23,7 +23,9 @@ namespace Huellitas.Web.Models.Extensions
         /// <param name="entity">The entity.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
-        /// <returns>the model</returns>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the return</returns>
         public static AdoptionFormModel ToModel(
             this AdoptionForm entity,
             IFilesHelper filesHelper,
@@ -73,12 +75,14 @@ namespace Huellitas.Web.Models.Extensions
         }
 
         /// <summary>
-        /// To the model.
+        /// To the models.
         /// </summary>
         /// <param name="entities">The entities.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="contentUrlFunction">The content URL function.</param>
-        /// <returns>the list</returns>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>the return</returns>
         public static IList<AdoptionFormModel> ToModels(
             this ICollection<AdoptionForm> entities,
             IFilesHelper filesHelper,

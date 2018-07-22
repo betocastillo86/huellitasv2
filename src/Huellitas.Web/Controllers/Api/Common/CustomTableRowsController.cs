@@ -27,7 +27,9 @@ namespace Huellitas.Web.Controllers.Api
         /// Initializes a new instance of the <see cref="CustomTableRowsController"/> class.
         /// </summary>
         /// <param name="customTableService">The custom table service.</param>
-        public CustomTableRowsController(ICustomTableService customTableService,
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
+        public CustomTableRowsController(
+            ICustomTableService customTableService,
             IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.customTableService = customTableService;

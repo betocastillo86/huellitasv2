@@ -9,7 +9,6 @@ namespace Huellitas.Business.Services
     using System.Threading.Tasks;
     using Beto.Core.Data;
     using Huellitas.Data.Entities;
-    
 
     /// <summary>
     /// Interface of adoption form service
@@ -30,9 +29,12 @@ namespace Huellitas.Business.Services
         /// <param name="allRelatedToUserId">all the forms related to an user</param>
         /// <param name="lastStatus">The last status.</param>
         /// <param name="orderBy">The order by.</param>
+        /// <param name="petStatus">The pet status.</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
-        /// <returns>the list of adoption forms</returns>
+        /// <returns>
+        /// the list of adoption forms
+        /// </returns>
         IPagedList<AdoptionForm> GetAll(
             string user = null,
             int? contentId = null,
@@ -53,42 +55,54 @@ namespace Huellitas.Business.Services
         /// Gets the answers.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the list</returns>
+        /// <returns>
+        /// the list
+        /// </returns>
         IList<AdoptionFormAnswer> GetAnswers(int id);
 
         /// <summary>
         /// Gets the attributes.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the list of attributes</returns>
+        /// <returns>
+        /// the list of attributes
+        /// </returns>
         IList<AdoptionFormAttribute> GetAttributes(int id);
 
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>the entity</returns>
+        /// <returns>
+        /// the entity
+        /// </returns>
         AdoptionForm GetById(int id);
 
         /// <summary>
         /// Inserts the specified form.
         /// </summary>
         /// <param name="form">The form.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task Insert(AdoptionForm form);
 
         /// <summary>
         /// Inserts the answer.
         /// </summary>
         /// <param name="answer">The answer.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task InsertAnswer(AdoptionFormAnswer answer);
 
         /// <summary>
         /// Inserts the user.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task InsertUser(AdoptionFormUser entity);
 
         /// <summary>
@@ -105,9 +119,17 @@ namespace Huellitas.Business.Services
         /// Updates the specified form.
         /// </summary>
         /// <param name="form">The form.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task Update(AdoptionForm form);
 
+        /// <summary>
+        /// Counts the adoption forms by contents.
+        /// </summary>
+        /// <param name="contentIds">The content ids.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>the count</returns>
         IDictionary<int, int> CountAdoptionFormsByContents(int[] contentIds, AdoptionFormAnswerStatus? status = null);
     }
 }

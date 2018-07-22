@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Controllers.Api.Users
+﻿//-----------------------------------------------------------------------
+// <copyright file="PasswordRecoveryController.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Controllers.Api.Users
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -37,13 +42,12 @@
         private readonly IUserService userService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordRecoveryController"/> class.
+        /// Initializes a new instance of the <see cref="PasswordRecoveryController" /> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
         /// <param name="notificationService">The notification service.</param>
-        /// <param name="seoService">The SEO service.</param>
-        /// <param name="stringHelpers">string helpers</param>
-        /// <param name="securityHelpers">security helpers</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public PasswordRecoveryController(
             IUserService userService,
             INotificationService notificationService,
@@ -59,7 +63,9 @@
         /// Gets the specified token.
         /// </summary>
         /// <param name="token">The token.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [Route("{token}")]
         [AllowAnonymous]
         [HttpGet]
@@ -70,6 +76,13 @@
             return user == null ? (IActionResult)this.NotFound() : this.Ok();
         }
 
+        /// <summary>
+        /// Determines whether [is valid model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         public bool IsValidModel(PasswordRecoveryModel model)
         {
@@ -81,6 +94,13 @@
             return this.ModelState.IsValid;
         }
 
+        /// <summary>
+        /// Determines whether [is valid update model] [the specified model].
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid update model] [the specified model]; otherwise, <c>false</c>.
+        /// </returns>
         [NonAction]
         public bool IsValidUpdateModel(UpdatePasswordModel model)
         {
@@ -96,7 +116,9 @@
         /// Posts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPost]
         [AllowAnonymous]
         [RequiredModel]
@@ -140,7 +162,9 @@
         /// </summary>
         /// <param name="token">The token.</param>
         /// <param name="model">The model.</param>
-        /// <returns>the action</returns>
+        /// <returns>
+        /// the action
+        /// </returns>
         [HttpPut]
         [Route("{token}")]
         [AllowAnonymous]

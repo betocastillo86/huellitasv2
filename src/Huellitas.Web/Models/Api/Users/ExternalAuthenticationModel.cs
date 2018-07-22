@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Api
 {
-    using Huellitas.Data.Entities;
     using System.ComponentModel.DataAnnotations;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// External authentication model

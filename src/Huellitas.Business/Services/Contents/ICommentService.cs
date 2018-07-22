@@ -5,19 +5,22 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System.Threading.Tasks;
     using Beto.Core.Data;
     using Huellitas.Data.Entities;
-    
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Interface of comment service
+    /// </summary>
     public interface ICommentService
     {
         /// <summary>
         /// Deletes the specified comment.
         /// </summary>
         /// <param name="comment">The comment.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task Delete(Comment comment);
 
         /// <summary>
@@ -27,28 +30,33 @@ namespace Huellitas.Business.Services
         /// <param name="getUser">if set to <c>true</c> [get user].</param>
         /// <param name="getParent">if set to <c>true</c> [get parent].</param>
         /// <param name="getContent">if set to <c>true</c> [get content].</param>
-        /// <returns>the comment</returns>
+        /// <returns>
+        /// the comment
+        /// </returns>
         Comment GetById(int id, bool getUser = true, bool getParent = true, bool getContent = false);
-
 
         /// <summary>
         /// Inserts the specified comment.
         /// </summary>
         /// <param name="comment">The comment.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task Insert(Comment comment);
 
         /// <summary>
-        /// Searches the specified key.
+        /// Searches the specified keyword.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <param name="keyword">The keyword.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="parentCommentId">The parent comment identifier.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="contentId">The content identifier.</param>
         /// <param name="page">The page.</param>
         /// <param name="pageSize">Size of the page.</param>
-        /// <returns>the comments</returns>
+        /// <returns>
+        /// the return
+        /// </returns>
         IPagedList<Comment> Search(
             string keyword = null,
             OrderByComment orderBy = OrderByComment.Recent,
@@ -62,7 +70,9 @@ namespace Huellitas.Business.Services
         /// Updates the specified comment.
         /// </summary>
         /// <param name="comment">The comment.</param>
-        /// <returns>the task</returns>
+        /// <returns>
+        /// the task
+        /// </returns>
         Task Update(Comment comment);
     }
 }

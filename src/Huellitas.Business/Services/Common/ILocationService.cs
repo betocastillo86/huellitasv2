@@ -8,7 +8,6 @@ namespace Huellitas.Business.Services
     using System.Collections.Generic;
     using Beto.Core.Data;
     using Huellitas.Data.Entities;
-    
 
     /// <summary>
     /// Interface of location service

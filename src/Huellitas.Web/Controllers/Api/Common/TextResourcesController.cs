@@ -40,6 +40,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="textResourceService">The text resource service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public TextResourcesController(
             ITextResourceService textResourceService,
             IWorkContext workContext,

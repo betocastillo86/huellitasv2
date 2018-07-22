@@ -23,12 +23,71 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
     /// <summary>
     /// Pet Extensions Test
     /// </summary>
+    /// <seealso cref="Huellitas.Tests.BaseTest" />
     [TestFixture]
     public class PetExtensionsTest : BaseTest
     {
-        protected override void Setup()
+        /// <summary>
+        /// To the pet entity closing date configuration.
+        /// </summary>
+        [Test]
+        public void ToPetEntity_ClosingDate_Config()
         {
-            base.Setup();
+            this.Setup();
+            var model = new PetModel().MockNew();
+
+            var timeToClose = 5;
+            this.contentSettings.SetupGet(c => c.DaysToAutoClosingPet)
+                .Returns(timeToClose);
+
+            var dateTimeClose = DateTime.Now.AddDays(timeToClose);
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false);
+
+            Assert.AreEqual(dateTimeClose.Date, entity.ClosingDate.Value.Date);
+        }
+
+        /// <summary>
+        /// To the pet entity closing date no configuration admin.
+        /// </summary>
+        [Test]
+        public void ToPetEntity_ClosingDate_NoConfig_Admin()
+        {
+            this.Setup();
+            var model = new PetModel().MockNew();
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+
+            Assert.AreEqual(date, entity.ClosingDate);
+        }
+
+        /// <summary>
+        /// To the pet entity closing date no configuration no admin.
+        /// </summary>
+        [Test]
+        public void ToPetEntity_ClosingDate_NoConfig_NoAdmin()
+        {
+            this.Setup();
+            var model = new PetModel().MockNew();
+            model.Shelter = new BaseShelterModel { Id = 1, Name = "Name" };
+
+            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = 1, LocationId = 2 });
+
+            var date = DateTime.Now;
+
+            model.ClosingDate = date;
+
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+
+            Assert.AreEqual(date, entity.ClosingDate);
         }
 
         /// <summary>
@@ -93,60 +152,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             Assert.AreEqual(model.Size.Value.ToString(), entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Size).Value);
             Assert.AreEqual(model.Castrated.ToString(), entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Castrated).Value);
             Assert.Zero(entity.Users.Count);
-        }
-
-        [Test]
-        public void ToPetEntity_ClosingDate_Config()
-        {
-            this.Setup();
-            var model = new PetModel().MockNew();
-
-            var timeToClose = 5;
-            this.contentSettings.SetupGet(c => c.DaysToAutoClosingPet)
-                .Returns(timeToClose);
-
-            var dateTimeClose = DateTime.Now.AddDays(timeToClose);
-
-            var date = DateTime.Now;
-
-            model.ClosingDate = date;
-
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false);
-
-            Assert.AreEqual(dateTimeClose.Date, entity.ClosingDate.Value.Date);
-        }
-
-        [Test]
-        public void ToPetEntity_ClosingDate_NoConfig_Admin()
-        {
-            this.Setup();
-            var model = new PetModel().MockNew();
-
-            var date = DateTime.Now;
-
-            model.ClosingDate = date;
-
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
-
-            Assert.AreEqual(date, entity.ClosingDate);
-        }
-
-        [Test]
-        public void ToPetEntity_ClosingDate_NoConfig_NoAdmin()
-        {
-            this.Setup();
-            var model = new PetModel().MockNew();
-            model.Shelter = new BaseShelterModel { Id = 1, Name = "Name" };
-
-            this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = 1, LocationId = 2 });
-
-            var date = DateTime.Now;
-
-            model.ClosingDate = date;
-
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
-
-            Assert.AreEqual(date, entity.ClosingDate);
         }
 
         /// <summary>
@@ -265,9 +270,16 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         }
 
         /// <summary>
+        /// Setups this instance.
+        /// </summary>
+        protected override void Setup()
+        {
+            base.Setup();
+        }
+
+        /// <summary>
         /// Mocks the content service.
         /// </summary>
-        /// <returns>the mock</returns>
         private void MockContentService()
         {
             this.contentService.Setup(c => c.GetFiles(It.IsAny<int>())).Returns(new List<ContentFile>() { new ContentFile { File = new File { Id = 1, Name = "File1" } }, new ContentFile { File = new File { Id = 2, Name = "File2" } } });
@@ -278,7 +290,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         /// <summary>
         /// Mocks the custom table service.
         /// </summary>
-        /// <returns>the mock</returns>
+        /// <returns>
+        /// the mock
+        /// </returns>
         private Mock<ICustomTableService> MockCustomTableService()
         {
             var mockCustomTableService = new Mock<ICustomTableService>();
@@ -289,7 +303,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         /// <summary>
         /// Mocks the entity.
         /// </summary>
-        /// <returns>the mock</returns>
+        /// <returns>
+        /// the mock
+        /// </returns>
         private Content MockEntity()
         {
             var entity = new Content();

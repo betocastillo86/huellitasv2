@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using Beto.Core.Data.Configuration;
     using Huellitas.Business.Extensions.Services;
-    using Huellitas.Business.Services;
 
     /// <summary>
     /// Security Settings
@@ -64,8 +62,20 @@ namespace Huellitas.Business.Configuration
         /// </value>
         public int ExpirationTokenMinutes { get { return this.settingService.Get<int>("SecuritySettings.ExpirationTokenMinutes"); } }
 
+        /// <summary>
+        /// Gets the maximum request file upload mb.
+        /// </summary>
+        /// <value>
+        /// The maximum request file upload mb.
+        /// </value>
         public int MaxRequestFileUploadMB { get { return this.settingService.Get<int>("SecuritySettings.MaxRequestFileUploadMB"); } }
 
+        /// <summary>
+        /// Gets a value indicating whether [track home requests].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [track home requests]; otherwise, <c>false</c>.
+        /// </value>
         public bool TrackHomeRequests => this.settingService.Get<bool>("SecuritySettings.TrackHomeRequests");
     }
 }

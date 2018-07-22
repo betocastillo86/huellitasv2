@@ -1,18 +1,19 @@
-﻿using Beto.Core.Data;
-using Beto.Core.Data.Users;
-using Beto.Core.Helpers;
-using Huellitas.Business.Exceptions;
-using Huellitas.Business.Models;
-using Huellitas.Data.Core;
-using Huellitas.Data.Entities;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExternalAuthenticationService.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Users;
+    using Beto.Core.Helpers;
+    using Huellitas.Business.Exceptions;
+    using Huellitas.Data.Entities;
+
     /// <summary>
     /// External authentication service
     /// </summary>
@@ -20,9 +21,9 @@ namespace Huellitas.Business.Services
     public class ExternalAuthenticationService : IExternalAuthenticationService
     {
         /// <summary>
-        /// The user service
+        /// The social authentication service
         /// </summary>
-        private readonly IUserService userService;
+        private readonly ISocialAuthenticationService socialAuthenticationService;
 
         /// <summary>
         /// The user repository
@@ -30,16 +31,16 @@ namespace Huellitas.Business.Services
         private readonly IRepository<User> userRepository;
 
         /// <summary>
-        /// The social authentication service
+        /// The user service
         /// </summary>
-        private readonly ISocialAuthenticationService socialAuthenticationService;
+        private readonly IUserService userService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalAuthenticationService"/> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
         /// <param name="userRepository">The user repository.</param>
-        /// <param name="stringHelpers">The string helpers.</param>
+        /// <param name="socialAuthenticationService">The social authentication service.</param>
         public ExternalAuthenticationService(
             IUserService userService,
             IRepository<User> userRepository,
@@ -63,6 +64,15 @@ namespace Huellitas.Business.Services
             return await this.socialAuthenticationService.GetFacebookUser(token);
         }
 
+        /// <summary>
+        /// Tries the authenticate.
+        /// </summary>
+        /// <param name="socialNetwork">The social network.</param>
+        /// <param name="token">The token.</param>
+        /// <param name="token2">The token2.</param>
+        /// <returns>
+        /// the user authenticated
+        /// </returns>
         public async Task<Tuple<bool, User>> TryAuthenticate(SocialLoginType socialNetwork, string token, string token2)
         {
             bool userExisted = false;

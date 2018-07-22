@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Web.Models.Api
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseShelterModel.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Web.Models.Api
 {
     using System.ComponentModel.DataAnnotations;
 

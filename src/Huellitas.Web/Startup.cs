@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
+    using System.IO;
     using Beto.Core.Web.Api.Filters;
     using Beto.Core.Web.Middleware;
     using Huellitas.Web.Infraestructure.Filters;
@@ -18,25 +19,12 @@ namespace Huellitas.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
-    using System.IO;
 
     /// <summary>
     /// The startup
     /// </summary>
     public class Startup
     {
-        //private readonly IApplicationBuilder applicationBuilder;
-
-        //public Startup(IHostingEnvironment env, IConfiguration configuration)
-        //{
-        //    configuration.
-        //}
-
-        ////public Startup(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        ////{
-        ////    this.applicationBuilder = app;
-        ////}
-
         /// <summary>
         /// Configures the specified application.
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +67,7 @@ namespace Huellitas.Web
 
                 routes.MapRoute(
                     name: "HomeRoute",
-                    template: "",
+                    template: string.Empty,
                     defaults: new { controller = "Home", action = "Index" });
 
                 routes.MapRoute(
@@ -92,23 +80,10 @@ namespace Huellitas.Web
                     template: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });
             });
-            
 
             this.CreateJavascriptFile(app);
 
             app.StartRecurringJobs();
-
-            ////loggerFactory.AddConsole();
-
-            ////if (env.IsDevelopment())
-            ////{
-            ////    app.UseDeveloperExceptionPage();
-            ////}
-
-            ////app.Run(async (context) =>
-            ////{
-            ////    await context.Response.WriteAsync("Hello World!");
-            ////});
         }
 
         /// <summary>

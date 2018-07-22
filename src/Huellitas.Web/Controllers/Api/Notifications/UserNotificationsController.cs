@@ -39,6 +39,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="notificationService">The notification service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public UserNotificationsController(
             IWorkContext workContext,
             INotificationService notificationService,

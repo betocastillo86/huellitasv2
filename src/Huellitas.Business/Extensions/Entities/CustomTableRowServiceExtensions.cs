@@ -7,11 +7,11 @@ namespace Huellitas.Business.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using Beto.Core.Caching;
+    using Huellitas.Business.Caching;
     using Huellitas.Business.Models;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
-    using Huellitas.Business.Caching;
-    using Beto.Core.Caching;
 
     /// <summary>
     /// Custom table row service extensions
@@ -22,10 +22,13 @@ namespace Huellitas.Business.Extensions
         /// Gets the adoption form questions.
         /// </summary>
         /// <param name="customTableRowService">The custom table row service.</param>
-        /// <returns>list of questions</returns>
+        /// <param name="cacheManager">The cache manager.</param>
+        /// <returns>the return</returns>
         public static IList<AdoptionFormQuestionModel> GetAdoptionFormQuestions(this ICustomTableService customTableRowService, ICacheManager cacheManager)
         {
-            return cacheManager.Get(CacheKeys.CUSTOMTABLEROWS_ADOPTIONFORM_QUESTIONS, () =>
+            return cacheManager.Get(
+                CacheKeys.CUSTOMTABLEROWS_ADOPTIONFORM_QUESTIONS, 
+                () =>
             {
                 var rows = customTableRowService.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm));
 

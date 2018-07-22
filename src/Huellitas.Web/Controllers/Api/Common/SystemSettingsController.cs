@@ -43,6 +43,7 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="systemSettingService">The system setting service.</param>
         /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SystemSettingsController(
             ICoreSettingService systemSettingService,
             IWorkContext workContext,

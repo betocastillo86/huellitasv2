@@ -18,7 +18,7 @@ namespace Huellitas.Web.Infraestructure.Filters.Authorization
         /// Authorizes the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <returns></returns>
+        /// <returns>the value</returns>
         public bool Authorize([NotNull] DashboardContext context)
         {
             return true;

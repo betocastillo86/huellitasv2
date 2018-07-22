@@ -33,7 +33,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             mockCustomTableService.Setup(c => c.GetRowsByTableId(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<OrderByTableRow>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new PagedList<CustomTableRow>(new List<CustomTableRow> { new CustomTableRow { Id = 1 }, new CustomTableRow { Id = 2 } }.AsQueryable(), 0, int.MaxValue));
 
-            var controller = new CustomTablesController(mockCustomTableService.Object,
+            var controller = new CustomTablesController(
+                mockCustomTableService.Object,
                 this.messageExceptionFinder.Object);
 
             var reponse = controller.GetByTable(1, new CustomTableRowFilter { }) as ObjectResult;

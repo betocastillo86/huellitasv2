@@ -16,10 +16,9 @@ namespace Huellitas.Web.Controllers.Api
     using Beto.Core.Web.Security;
     using Business.Exceptions;
     using Business.Extensions;
-    
+
     using Business.Security;
     using Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Infraestructure.Security;
     using Microsoft.AspNetCore.Authorization;
@@ -38,7 +37,6 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IAuthenticationTokenGenerator authenticationTokenGenerator;
 
-
         /// <summary>
         /// The user service
         /// </summary>
@@ -54,9 +52,8 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         /// <param name="workContext">The work context.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="authenticationTokenGenerator">token generator</param>
-        /// <param name="securityHelpers">security helpers</param>
-        /// <param name="stringHelpers">string helpers</param>
+        /// <param name="authenticationTokenGenerator">The authentication token generator.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public UsersController(
             IWorkContext workContext,
             IUserService userService,
@@ -98,7 +95,7 @@ namespace Huellitas.Web.Controllers.Api
                 return this.Forbid();
             }
         }
-        
+
         /// <summary>
         /// Gets the specified model.
         /// </summary>

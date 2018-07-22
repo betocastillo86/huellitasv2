@@ -5,16 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Tests
 {
+    using System.Diagnostics.CodeAnalysis;
     using Beto.Core.Caching;
-    using Huellitas.Business.Caching;
-    using Huellitas.Business.Configuration;
     using Beto.Core.EventPublisher;
+    using Beto.Core.Exceptions;
+    using Huellitas.Business.Configuration;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Moq;
-    using System.Diagnostics.CodeAnalysis;
-    using Beto.Core.Exceptions;
 
     /// <summary>
     /// Base class for testing
@@ -38,10 +37,19 @@ namespace Huellitas.Tests
         /// </summary>
         protected Mock<IContentSettings> contentSettings = new Mock<IContentSettings>();
 
+        /// <summary>
+        /// The general settings
+        /// </summary>
         protected Mock<IGeneralSettings> generalSettings = new Mock<IGeneralSettings>();
 
+        /// <summary>
+        /// The log service
+        /// </summary>
         protected Mock<ILogService> logService = new Mock<ILogService>();
 
+        /// <summary>
+        /// The message exception finder
+        /// </summary>
         protected Mock<IMessageExceptionFinder> messageExceptionFinder = new Mock<IMessageExceptionFinder>();
 
         /// <summary>
@@ -50,7 +58,7 @@ namespace Huellitas.Tests
         protected Mock<IPublisher> publisher = new Mock<IPublisher>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseTest"/> class.
+        /// Initializes a new instance of the <see cref="BaseTest" /> class.
         /// </summary>
         public BaseTest()
         {

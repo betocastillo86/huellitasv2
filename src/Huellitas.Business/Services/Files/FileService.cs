@@ -5,17 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Exceptions;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Beto.Core.EventPublisher;
     using Beto.Core.Data;
     using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
+    using Exceptions;
+    using Huellitas.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// File Service
@@ -52,8 +50,10 @@ namespace Huellitas.Business.Services
         /// Initializes a new instance of the <see cref="FileService"/> class.
         /// </summary>
         /// <param name="fileRepository">The file repository.</param>
-        /// <param name="filesHelper">The file helper</param>
-        /// <param name="contentFileRepository">content file repository</param>
+        /// <param name="filesHelper">The files helper.</param>
+        /// <param name="contentFileRepository">The content file repository.</param>
+        /// <param name="publisher">The publisher.</param>
+        /// <param name="contentRepository">The content repository.</param>
         public FileService(
             IRepository<File> fileRepository,
             IFilesHelper filesHelper,
@@ -89,7 +89,7 @@ namespace Huellitas.Business.Services
                 await this.contentFileRepository.DeleteAsync(contentFile);
 
                 ////if does not have any relationship with contents deletes the file
-                if (removeFileIfDoesnotHaveRelationship && 
+                if (removeFileIfDoesnotHaveRelationship &&
                     !this.contentFileRepository.Table.Any(c => c.FileId == fileId) &&
                     !this.contentRepository.Table.Any(c => c.FileId == fileId))
                 {
@@ -102,7 +102,6 @@ namespace Huellitas.Business.Services
                 throw new HuellitasException(HuellitasExceptionCode.RowNotFound);
             }
         }
-
 
         /// <summary>
         /// Gets the by identifier.

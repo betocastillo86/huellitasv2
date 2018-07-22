@@ -52,6 +52,15 @@ namespace Huellitas.Business.Subscribers.Notifications
         /// </summary>
         private readonly IWorkContext workContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentNotifications"/> class.
+        /// </summary>
+        /// <param name="contentService">The content service.</param>
+        /// <param name="commentService">The comment service.</param>
+        /// <param name="seoService">The seo service.</param>
+        /// <param name="notificationService">The notification service.</param>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="commentRepository">The comment repository.</param>
         public CommentNotifications(
             IContentService contentService,
             ICommentService commentService,

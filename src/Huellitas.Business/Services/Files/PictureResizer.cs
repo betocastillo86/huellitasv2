@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Business.Services
+﻿//-----------------------------------------------------------------------
+// <copyright file="PictureResizer.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Business.Services
 {
     using Beto.Core.Data.Files;
     using SixLabors.ImageSharp;

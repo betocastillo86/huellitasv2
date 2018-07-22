@@ -82,6 +82,7 @@ namespace Huellitas.Business.Services
         /// <param name="emailNotificationRepository">The email notification repository.</param>
         /// <param name="cacheManager">The cache manager.</param>
         /// <param name="publisher">The publisher.</param>
+        /// <param name="coreNotificationService">The core notification service.</param>
         public NotificationService(
             IUserService userService,
             IGeneralSettings generalSettings,

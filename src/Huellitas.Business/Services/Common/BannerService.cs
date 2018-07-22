@@ -34,6 +34,7 @@ namespace Huellitas.Business.Services
         /// Initializes a new instance of the <see cref="BannerService"/> class.
         /// </summary>
         /// <param name="bannerRepository">The banner repository.</param>
+        /// <param name="publisher">The publisher.</param>
         public BannerService(
             IRepository<Banner> bannerRepository,
             IPublisher publisher)

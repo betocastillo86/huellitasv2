@@ -17,12 +17,21 @@ namespace Huellitas.Web.Controllers.Api
     /// <summary>
     /// Modules Controller
     /// </summary>
+    /// <seealso cref="Beto.Core.Web.Api.Controllers.BaseApiController" />
     /// <seealso cref="Huellitas.Web.Infraestructure.WebApi.BaseApiController" />
     [Route("api/[controller]")]
     public class ModulesController : BaseApiController
     {
+        /// <summary>
+        /// The work context
+        /// </summary>
         private readonly IWorkContext workContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModulesController"/> class.
+        /// </summary>
+        /// <param name="workContext">The work context.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public ModulesController(IWorkContext workContext, IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
@@ -31,7 +40,9 @@ namespace Huellitas.Web.Controllers.Api
         /// <summary>
         /// Gets this instance.
         /// </summary>
-        /// <returns>the value</returns>
+        /// <returns>
+        /// the value
+        /// </returns>
         [HttpGet]
         [Authorize]
         public IActionResult Get()

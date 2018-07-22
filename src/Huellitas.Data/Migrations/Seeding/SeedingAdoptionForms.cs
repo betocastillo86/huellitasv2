@@ -1,4 +1,9 @@
-﻿namespace Huellitas.Data.Migrations
+﻿//-----------------------------------------------------------------------
+// <copyright file="SeedingAdoptionForms.cs" company="Gabriel Castillo">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Huellitas.Data.Migrations
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +11,15 @@
     using Huellitas.Data.Core;
     using Huellitas.Data.Entities;
 
+    /// <summary>
+    /// Seeding adoptions
+    /// </summary>
     public static class SeedingAdoptionForms
     {
+        /// <summary>
+        /// Seeds the specified context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public static void Seed(HuellitasContext context)
         {
             var contentId1 = context.Contents.FirstOrDefault().Id;

@@ -46,8 +46,12 @@ namespace Huellitas.Business.Services
         /// Gets the rows by table identifier.
         /// </summary>
         /// <param name="tableId">The table identifier.</param>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="page">The page.</param>
+        /// <param name="pageSize">Size of the page.</param>
         /// <returns>
-        /// the rows
+        /// the list
         /// </returns>
         public IPagedList<CustomTableRow> GetRowsByTableId(int tableId, string keyword = null, OrderByTableRow orderBy = OrderByTableRow.DisplayOrder, int page = 0, int pageSize = int.MaxValue)
         {

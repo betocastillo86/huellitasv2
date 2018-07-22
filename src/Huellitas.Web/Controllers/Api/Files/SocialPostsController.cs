@@ -54,10 +54,10 @@ namespace Huellitas.Web.Controllers.Api.Files
         /// Initializes a new instance of the <see cref="SocialPostsController"/> class.
         /// </summary>
         /// <param name="pictureService">The picture service.</param>
-        /// <param name="fileService">The file service.</param>
         /// <param name="filesHelper">The files helper.</param>
         /// <param name="workContext">The work context.</param>
         /// <param name="contentService">The content service.</param>
+        /// <param name="messageExceptionFinder">The message exception finder.</param>
         public SocialPostsController(
             IPictureService pictureService,
             IFilesHelper filesHelper,
