@@ -5,9 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Api;
     using Beto.Core.Caching;
-    using Business.Caching;
+    using Beto.Core.Data.Files;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions;
@@ -16,9 +19,6 @@ namespace Huellitas.Web.Models.Extensions
     using Data.Extensions;
     using Huellitas.Business.Security;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Pet Extensions

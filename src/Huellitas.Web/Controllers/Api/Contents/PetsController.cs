@@ -32,6 +32,7 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Business.Tasks;
     using Beto.Core.Caching;
     using Beto.Core.Data;
+    using Beto.Core.Data.Files;
 
     /// <summary>
     /// Pets Controller

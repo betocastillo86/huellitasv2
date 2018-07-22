@@ -5,27 +5,26 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
+    using Beto.Core.Data.Files;
+    using Beto.Core.EventPublisher;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Extensions;
     using Business.Security;
     using Business.Services;
     using Data.Entities;
-    using Infraestructure.Security;
+    using Hangfire;
+    using Huellitas.Business.Subscribers;
+    using Huellitas.Web.Infraestructure.Tasks;
     using Infraestructure.WebApi;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
-    using System;
-    using Huellitas.Data.Core;
-    using Beto.Core.EventPublisher;
-    using Huellitas.Business.Subscribers;
-    using Hangfire;
-    using Huellitas.Web.Infraestructure.Tasks;
-    using Beto.Core.Data;
 
     /// <summary>
     /// Shelters <c>Api</c> Controller
@@ -128,7 +127,7 @@ namespace Huellitas.Web.Controllers.Api
         public IActionResult Get([FromQuery]ShelterFilterModel filter)
         {
             var canGetUnplublished = this.CanGetUnpublished();
-        
+
             if (filter.IsValid(canGetUnplublished))
             {
                 var contents = this.contentService.Search(
@@ -142,10 +141,10 @@ namespace Huellitas.Web.Controllers.Api
                     onlyFeatured: filter.Featured);
 
                 var models = contents.ToShelterModels(
-                    this.contentService, 
+                    this.contentService,
                     this.workContext,
                     this.filesHelper,
-                    Url.Content, 
+                    Url.Content,
                     withFiles: false,
                     width: this.contentSettings.PictureSizeWidthDetail,
                     height: this.contentSettings.PictureSizeHeightDetail,

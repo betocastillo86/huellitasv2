@@ -5,7 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Beto.Core.Data.Configuration;
+    using Beto.Core.Data.Files;
     using Extensions;
     using Huellitas.Business.Extensions.Services;
     using Huellitas.Business.Models;
@@ -17,13 +21,9 @@ namespace Huellitas.Business.Services
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
     using SixLabors.ImageSharp.Processing.Drawing;
-    using SixLabors.ImageSharp.Processing.Drawing.Brushes;
     using SixLabors.ImageSharp.Processing.Text;
     using SixLabors.ImageSharp.Processing.Transforms;
     using SixLabors.Primitives;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Picture Service
@@ -32,9 +32,24 @@ namespace Huellitas.Business.Services
     public class PictureService : IPictureService
     {
         /// <summary>
+        /// The content service
+        /// </summary>
+        private readonly IContentService contentService;
+
+        /// <summary>
+        /// The custom table service
+        /// </summary>
+        private readonly ICustomTableService customTableService;
+
+        /// <summary>
         /// The file helper
         /// </summary>
         private readonly IFilesHelper fileHelper;
+
+        /// <summary>
+        /// The host
+        /// </summary>
+        private readonly IHostingEnvironment host;
 
         /// <summary>
         /// The log service
@@ -47,19 +62,9 @@ namespace Huellitas.Business.Services
         private readonly ICoreSettingService systemSettingService;
 
         /// <summary>
-        /// The custom table service
+        /// The core picture resizer service
         /// </summary>
-        private readonly ICustomTableService customTableService;
-
-        /// <summary>
-        /// The host
-        /// </summary>
-        private readonly IHostingEnvironment host;
-
-        /// <summary>
-        /// The content service
-        /// </summary>
-        private readonly IContentService contentService;
+        private readonly ICorePictureResizerService corePictureResizerService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PictureService"/> class.
@@ -75,7 +80,8 @@ namespace Huellitas.Business.Services
             ICoreSettingService systemSettingService,
             ICustomTableService customTableService,
             IHostingEnvironment host,
-            IContentService contentService)
+            IContentService contentService,
+            ICorePictureResizerService corePictureResizerService)
         {
             this.fileHelper = fileHelper;
             this.logService = logService;
@@ -83,6 +89,7 @@ namespace Huellitas.Business.Services
             this.customTableService = customTableService;
             this.host = host;
             this.contentService = contentService;
+            this.corePictureResizerService = corePictureResizerService;
         }
 
         /// <summary>
@@ -145,7 +152,7 @@ namespace Huellitas.Business.Services
             var resizeOptions = new ResizeOptions()
             {
                 Size = new Size { Width = width, Height = height },
-                Mode = ResizeMode.Crop
+                Mode = SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Crop
             };
 
             var rgbColor = this.GetRgbColor(color);
@@ -225,48 +232,37 @@ namespace Huellitas.Business.Services
         /// <returns>
         /// the url file
         /// </returns>
-        public string GetPicturePath(File file, int width, int height, bool forceResize = false, ResizeMode resizeMode = ResizeMode.Crop)
+        public string GetPicturePath(File file, int width, int height, bool forceResize = false, Beto.Core.Data.Files.ResizeMode resizeMode = Beto.Core.Data.Files.ResizeMode.Crop)
         {
             var resizedPhysicalPath = this.fileHelper.GetPhysicalPath(file, width, height);
 
             if (forceResize && !System.IO.File.Exists(resizedPhysicalPath))
             {
-                this.ResizePicture(resizedPhysicalPath, file, width, height, resizeMode);
+                var originalPath = this.fileHelper.GetPhysicalPath(file);
+                this.corePictureResizerService.ResizePicture(System.IO.File.ReadAllBytes(originalPath), resizedPhysicalPath, width, height, resizeMode);
             }
 
             return this.fileHelper.GetFullPath(file, null, width, height);
         }
-
+        
         /// <summary>
-        /// Resizes the picture.
+        /// Gets the color of the logo by.
         /// </summary>
-        /// <param name="resizedPath">The resized path.</param>
-        /// <param name="file">The file.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        public void ResizePicture(string resizedPath, File file, int width, int height, ResizeMode resizeMode = ResizeMode.Crop)
+        /// <param name="color">The color.</param>
+        /// <returns>the name of the logo image</returns>
+        private string GetLogoByColor(SocialPostColors color)
         {
-            ////Takes the original image path
-            var pathOriginalFile = this.fileHelper.GetPhysicalPath(file);
-            try
+            switch (color)
             {
-                using (var image = Image.Load(pathOriginalFile))
-                {
-                    var resizeOptions = new ResizeOptions()
-                    {
-                        Size = new Size { Width = width, Height = height },
-                        Mode = resizeMode
-                    };
+                case SocialPostColors.DarkBlue:
+                case SocialPostColors.Violet:
+                    return "logohuellitas-blanco.png";
 
-                    image.Mutate(c => c.AutoOrient()
-                                        .Resize(resizeOptions));
-
-                    image.Save(resizedPath);
-                }
-            }
-            catch (System.Exception e)
-            {
-                this.logService.Error(e);
+                case SocialPostColors.Green:
+                case SocialPostColors.Blue:
+                case SocialPostColors.Pink:
+                default:
+                    return "logohuellitas.png";
             }
         }
 
@@ -294,27 +290,6 @@ namespace Huellitas.Business.Services
                 default:
                 case SocialPostColors.Blue:
                     return new Rgba32(124, 210, 225);
-            }
-        }
-
-        /// <summary>
-        /// Gets the color of the logo by.
-        /// </summary>
-        /// <param name="color">The color.</param>
-        /// <returns>the name of the logo image</returns>
-        private string GetLogoByColor(SocialPostColors color)
-        {
-            switch (color)
-            {
-                case SocialPostColors.DarkBlue:
-                case SocialPostColors.Violet:
-                    return "logohuellitas-blanco.png";
-
-                case SocialPostColors.Green:
-                case SocialPostColors.Blue:
-                case SocialPostColors.Pink:
-                default:
-                    return "logohuellitas.png";
             }
         }
     }

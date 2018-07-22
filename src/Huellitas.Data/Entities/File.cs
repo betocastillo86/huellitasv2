@@ -6,12 +6,13 @@
 namespace Huellitas.Data.Entities
 {
     using System.Collections.Generic;
+    using Beto.Core.Data.Entities;
 
     /// <summary>
     /// The class File
     /// </summary>
     /// <seealso cref="Huellitas.Data.Entities.BaseEntity" />
-    public partial class File : BaseEntity
+    public partial class File : BaseEntity, IFileEntity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="File"/> class.

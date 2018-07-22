@@ -5,14 +5,15 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Models.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Api;
+    using Beto.Core.Data.Files;
     using Data.Entities;
     using Data.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Shelter Extensions

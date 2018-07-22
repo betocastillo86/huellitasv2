@@ -8,6 +8,7 @@ namespace Huellitas.Web.Controllers.Api.Files
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;

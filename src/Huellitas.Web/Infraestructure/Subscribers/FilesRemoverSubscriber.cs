@@ -5,13 +5,14 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Infraestructure.Subscribers
 {
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
     using Beto.Core.EventPublisher;
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
     using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Hosting;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Removes the physical files

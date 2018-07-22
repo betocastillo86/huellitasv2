@@ -10,6 +10,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
     using System.Threading.Tasks;
     using Beto.Core.Caching;
     using Beto.Core.Data;
+    using Beto.Core.Data.Files;
     using Data.Entities;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;

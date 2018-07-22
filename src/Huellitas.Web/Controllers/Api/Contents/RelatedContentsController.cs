@@ -5,18 +5,16 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Business.Caching;
+    using Beto.Core.Caching;
+    using Beto.Core.Data.Files;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Services;
+    using Huellitas.Business.Security;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
-    using Huellitas.Business.Security;
-    using Beto.Core.Caching;
 
     /// <summary>
     /// Related Contents Controller
@@ -100,28 +98,29 @@ namespace Huellitas.Web.Controllers.Api
                         ////when case is similar pets returns PetModel
                         case Data.Entities.RelationType.SimilarPets:
                             var models = related.ToPetModels(
-                                this.contentService, 
-                                this.customTableService, 
+                                this.contentService,
+                                this.customTableService,
                                 this.cacheManager,
                                 this.workContext,
-                                this.filesHelper, 
+                                this.filesHelper,
                                 Url.Content,
                                 width: this.contentSettings.PictureSizeWidthDetail,
                                 height: this.contentSettings.PictureSizeHeightDetail,
                                 thumbnailWidth: this.contentSettings.PictureSizeWidthList,
                                 thumbnailHeight: this.contentSettings.PictureSizeHeightList);
                             return this.Ok(models, related.HasNextPage, related.TotalCount);
+
                         default:
                             return this.BadRequest("Tipo de relación inexistente");
                     }
                 }
                 else
                 {
-                   var models = related.ToModels(
-                       this.filesHelper,
-                        Url.Content,
-                        width: this.contentSettings.PictureSizeWidthList,
-                        height: this.contentSettings.PictureSizeHeightList);
+                    var models = related.ToModels(
+                        this.filesHelper,
+                         Url.Content,
+                         width: this.contentSettings.PictureSizeWidthList,
+                         height: this.contentSettings.PictureSizeHeightList);
                     return this.Ok(models, related.HasNextPage, related.TotalCount);
                 }
             }

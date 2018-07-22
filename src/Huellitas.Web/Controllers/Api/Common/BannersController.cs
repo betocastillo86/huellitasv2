@@ -7,6 +7,7 @@ namespace Huellitas.Web.Controllers.Api
 {
     using System;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Exceptions;
     using Huellitas.Business.Extensions;

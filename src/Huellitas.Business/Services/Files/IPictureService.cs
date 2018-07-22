@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
-    using Huellitas.Business.Models;
-    using Huellitas.Data.Entities;
-    using SixLabors.ImageSharp.Processing.Transforms;
     using System;
     using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
+    using Huellitas.Business.Models;
+    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Interface of picture service

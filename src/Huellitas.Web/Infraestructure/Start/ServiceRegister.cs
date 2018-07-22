@@ -11,6 +11,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Beto.Core.Data;
     using Beto.Core.Data.Common;
     using Beto.Core.Data.Configuration;
+    using Beto.Core.Data.Files;
     using Beto.Core.Data.Notifications;
     using Beto.Core.Data.Users;
     using Beto.Core.EventPublisher;
@@ -98,7 +99,8 @@ namespace Huellitas.Web.Infraestructure.Start
             services.AddScoped<ISeoHelper, SeoHelper>();
             services.AddScoped<ICoreNotificationService, CoreNotificationService>();
             services.AddScoped<ISocialAuthenticationService, SocialAuthenticationService>();
-            
+            services.AddScoped<ICorePictureResizerService, PictureResizer>();
+
             // Filters
             services.AddScoped<CrawlerAttribute>();
 

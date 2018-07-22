@@ -7,7 +7,7 @@ namespace Huellitas.Web.Models.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using Business.Services;
+    using Beto.Core.Data.Files;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
 
@@ -64,7 +64,7 @@ namespace Huellitas.Web.Models.Extensions
         /// <returns>the model</returns>
         public static IList<FileModel> ToModels(
             this IList<File> files,
-            IFilesHelper fileHelper, 
+            IFilesHelper fileHelper,
             Func<string, string> contentUrlFunction = null,
             int width = 0,
             int height = 0,

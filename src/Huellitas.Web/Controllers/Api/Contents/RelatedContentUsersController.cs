@@ -5,12 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Linq;
+    using Beto.Core.Data.Files;
     using Huellitas.Business.Services;
     using Huellitas.Web.Infraestructure.WebApi;
     using Huellitas.Web.Models.Api;
     using Huellitas.Web.Models.Extensions;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     /// <summary>
     /// Users related to a content

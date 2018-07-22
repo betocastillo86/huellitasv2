@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Beto.Core.Data.Files;
     using Business.Configuration;
     using Business.Exceptions;
     using Business.Security;
@@ -20,8 +23,6 @@ namespace Huellitas.Web.Controllers.Api
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
     using SixLabors.ImageSharp.Processing.Transforms;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Content Files Controller
@@ -166,8 +167,8 @@ namespace Huellitas.Web.Controllers.Api
                     System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
 
                     // crea nuevamente las imagenes con el nuevo corte
-                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, ResizeMode.Pad);
-                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, ResizeMode.Pad);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, Beto.Core.Data.Files.ResizeMode.Pad);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, Beto.Core.Data.Files.ResizeMode.Pad);
                 }
             }
 
