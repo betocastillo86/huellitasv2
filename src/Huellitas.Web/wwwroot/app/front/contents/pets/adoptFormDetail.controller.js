@@ -37,6 +37,7 @@
 
         vm.send = send;
         vm.seePreviousAnswers = seePreviousAnswers;
+        vm.showHelp = showHelp;
 
         activate();
 
@@ -54,7 +55,7 @@
                 .catch(helperService.handleException);
 
             function getCompleted(response) {
-                vm.statuses = _.reject(response, function (s) { return s.enum == 'None'; });
+                vm.statuses = _.reject(response, function (s) { return s.enum === 'None'; });
             }
         }
 
@@ -120,6 +121,10 @@
 
         function seePreviousAnswers() {
             vm.showAnswers = true;
+        }
+
+        function showHelp(message) {
+            modalService.show({message: message });
         }
     }
 })();

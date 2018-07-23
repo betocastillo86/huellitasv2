@@ -57,6 +57,14 @@ namespace Huellitas.Business.Models
         public bool Required { get; set; }
 
         /// <summary>
+        /// Gets or sets the recommendations.
+        /// </summary>
+        /// <value>
+        /// The recommendations.
+        /// </value>
+        public string Recommendations { get; set; }
+
+        /// <summary>
         /// Gets or sets the display order.
         /// </summary>
         /// <value>

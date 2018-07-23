@@ -33,5 +33,13 @@ namespace Huellitas.Web.Models.Api
         /// The value.
         /// </value>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recommendation.
+        /// </summary>
+        /// <value>
+        /// The recommendation.
+        /// </value>
+        public string Recommendations { get; set; }
     }
 }
