@@ -61,7 +61,7 @@
                 <h3 class="tit-sct">Respuestas del adoptante</h3>
                 <ul class="answer-list">
                     <li ng-repeat="attribute in main.model.attributes">
-                        <b>{{::attribute.question}}</b>
+                        <b>{{::attribute.question}} <button class="btn btn-sm btn-danger" ng-if="::attribute.recommendations.length > 0" ng-click="main.showHelp(attribute.recommendations)">Ayuda con esta pregunta</button></b>
                         {{::attribute.value}}
                     </li>
                 </ul>

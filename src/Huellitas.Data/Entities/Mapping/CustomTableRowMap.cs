@@ -25,7 +25,8 @@ namespace Huellitas.Data.Entities.Mapping
             entity.HasKey(c => c.Id)
                 .HasName("PK_CustomTableRow");
 
-            entity.Property(e => e.AdditionalInfo).HasMaxLength(100);
+            entity.Property(e => e.AdditionalInfo)
+                .HasColumnType("varchar(1500)");
 
             entity.Property(e => e.Value)
                 .IsRequired()

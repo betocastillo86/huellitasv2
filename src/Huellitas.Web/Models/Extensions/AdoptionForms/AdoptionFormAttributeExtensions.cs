@@ -7,6 +7,7 @@ namespace Huellitas.Web.Models.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Huellitas.Business.Extensions;
     using Huellitas.Data.Entities;
     using Huellitas.Web.Models.Api;
 
@@ -50,7 +51,8 @@ namespace Huellitas.Web.Models.Extensions
             {
                 AttributeId = entity.AttributeId,
                 Question = entity.Attribute.Value,
-                Value = entity.Value
+                Value = entity.Value,
+                Recommendations = entity.Attribute?.ToAdoptionFormQuestionModel().Recommendations
             };
         }
 

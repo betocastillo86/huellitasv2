@@ -11,9 +11,10 @@ using System;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20180723231256_AlterColumn_AdditionalInfo_Table_CustomTableRow")]
+    partial class AlterColumn_AdditionalInfo_Table_CustomTableRow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
