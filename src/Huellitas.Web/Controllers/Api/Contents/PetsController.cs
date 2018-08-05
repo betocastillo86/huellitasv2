@@ -317,7 +317,8 @@ namespace Huellitas.Web.Controllers.Api
                     closingDateFrom: closingDateFilter,
                     startingDateFrom: filter.FromStartingDate,
                     belongsToUserId: belongsToUserId,
-                    excludeContentId: filter.ExcludeId);
+                    excludeContentId: filter.ExcludeId,
+                    onlyRescuers: filter.OnlyRescuers);
 
                 IDictionary<int, int> formsByContent = null;
                 if (filter.CountForms)

@@ -44,7 +44,7 @@
             <div class="col-md-12">
                 <div class="w-ads">
                     <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
-                    <div class="box-contact">
+                    <div class="box-contact" ng-if="main.model.status == 'Published'" >
                         <h5>Contacto:</h5>
 
                         <div ng-if="::main.model.shelter" class="funda-img">
@@ -62,7 +62,7 @@
                             </h4>
                         </div>
 
-                        <div ng-repeat="parent in main.model.parents" class="funda-txt">
+                        <div ng-repeat="parent in main.model.parents" class="funda-txt" >
                             <h3>{{::parent.name}}</h3>
                             <h4>
                                 {{::main.model.location.name}}<br>

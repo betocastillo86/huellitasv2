@@ -7,7 +7,7 @@
 
     function listContents() {
         return {
-            scope: false,
+            scope: true,
             templateUrl: '/app/front/components/contents/listPets.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: ListPetsController,
             controllerAs: 'listPet',
@@ -73,6 +73,7 @@
             function getCompleted(response)
             {
                 for (var i = 0; i < response.results.length; i++) {
+                    console.log(response.results[i].name);
                     response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
                 }
 

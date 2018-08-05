@@ -40,7 +40,8 @@
         </ul>
     </div>
     <section>
-        <article class="content-all" list-pets data-showads="true" data-filter="main.filterPets" data-petsloaded="main.petsLoaded" data-viewall="root.getRoute('pets')"></article>
+        <article id="firstPets" class="content-all" list-pets data-showads="true" data-filter="main.filterPets" ></article>
+        <article id="secondPets" class="content-all" list-pets data-showads="true" data-filter="main.filterPetsRescuers" data-viewall="root.getRoute('pets')"></article>
     </section>
     <section class="h-funda"  ng-if="main.shelters.length > 0">
         <article class="content-all col-md-12">

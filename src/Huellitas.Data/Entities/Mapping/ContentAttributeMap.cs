@@ -33,6 +33,8 @@ namespace Huellitas.Data.Entities.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(500)");
 
+            entity.HasIndex(c => c.Attribute);
+
             entity.HasOne(d => d.Content)
                 .WithMany(p => p.ContentAttributes)
                 .HasForeignKey(d => d.ContentId)

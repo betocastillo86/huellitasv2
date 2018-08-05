@@ -9,6 +9,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Huellitas.Data.Migrations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Startup for database initialization
@@ -20,11 +21,12 @@ namespace Huellitas.Web.Infraestructure.Start
         /// </summary>
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
-        public static void InitDatabase(this IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="config">The configuration.</param>
+        public static void InitDatabase(this IApplicationBuilder app, IHostingEnvironment env, IConfigurationRoot config)
         {
             var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext));
             context.Database.EnsureCreated();
-            context.EnsureSeeding();
+            context.EnsureSeeding(config);
         }
     }
 }

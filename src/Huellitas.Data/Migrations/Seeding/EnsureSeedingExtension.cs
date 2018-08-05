@@ -7,6 +7,7 @@ namespace Huellitas.Data.Migrations
 {
     using System;
     using Huellitas.Data.Core;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Ensure the seeding of data base
@@ -17,9 +18,11 @@ namespace Huellitas.Data.Migrations
         /// Ensures the seeding.
         /// </summary>
         /// <param name="context">The context.</param>
-        public static void EnsureSeeding(this HuellitasContext context)
+        /// <param name="config">The configuration.</param>
+        public static void EnsureSeeding(this HuellitasContext context, IConfigurationRoot config)
         {
-            if (context.AllMigrationsApplied())
+            var execMigrations = config["ExecSeed"] != null && Convert.ToBoolean(config["ExecSeed"]);
+            if (execMigrations && context.AllMigrationsApplied())
             {
                 EnsureSeedingExtension.Seed(context);
             }

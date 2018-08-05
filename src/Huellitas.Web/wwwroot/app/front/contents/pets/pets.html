@@ -54,10 +54,50 @@
                                       minlength="1"
                                       text-no-results="No se encontró la ciudad que buscas" />
                 </div>
-                    <br />
+                <br />
             </form>
-            
-            <div list-pets data-filter="main.filter" data-showads="true" data-pagingenabled="main.pagingEnabled"></div>
+
+
+
+
+
+
+
+            <div>
+                <div class="col-md-12 content-card">
+
+                    <div ng-class="{ 'card' : !pet.isAd }" ng-repeat="pet in main.pets">
+
+                        <div adsense-huellitas ng-if="::pet.isAd" class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto" style="float:left;width:100%"> </div>
+                        <div adsense-huellitas ng-if="::pet.isAd" class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="7867845722" ad-format="auto"></div>
+                        <div class="clear" ng-if="::pet.isAd"></div>
+                        <div class="img-pet" ng-if="::!pet.isAd">
+                            <a ng-href="{{::root.getRoute('pet', { friendlyName: pet.friendlyName })}}">
+                                <img class="img-responsive" ng-src="{{::pet.image.thumbnail}}" alt="{{::pet.name}} mascota en adopción" title="{{::pet.name}} mascota en adopción">
+                            </a>
+                        </div>
+                        <a ng-href="{{::root.getRoute('pet', { friendlyName: pet.friendlyName })}}" ng-if="::!pet.isAd">
+                            <h3>{{::pet.name}}</h3>
+                            <p ng-if="::pet.type == 'Pet'">{{::pet.genre.text}} - {{::pet.months | age}} </p>
+                            <p ng-if="::pet.type == 'LostPet'">{{::pet.genre.text}} - {{::pet.startingDate | timeago}} </p>
+                            <p style="display:none">{{::pet.body}}</p>
+                            <button class="btn btn-lg">Conocer más</button>
+                            <span class="priority">
+                                <i ng-if="::pet.featured" class="icon-star"></i>
+                                <span ng-if="::pet.featured">Destacado</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="no-found" ng-if="main.pets.length == 1">
+                        <span class="icon-search"></span>
+                        No hay resultados que coincidan con tu búsqueda
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-lg btn-more" ng-if="main.filter.hasNextPage" ng-click="main.nextPage()">Ver más</button>
+                </div>
+
+            </div>
+
 
         </article>
     </section>
