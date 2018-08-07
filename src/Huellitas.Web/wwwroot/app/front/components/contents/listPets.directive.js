@@ -73,7 +73,6 @@
             function getCompleted(response)
             {
                 for (var i = 0; i < response.results.length; i++) {
-                    console.log(response.results[i].name);
                     response.results[i].url = routingService.getRoute(response.results[i].type == 'Pet' ? 'pet' : 'lostpet', { friendlyName: response.results[i].friendlyName });
                 }
 
