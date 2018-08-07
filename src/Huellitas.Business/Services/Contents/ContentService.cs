@@ -456,6 +456,7 @@ namespace Huellitas.Business.Services
         /// <param name="belongsToUserId">filter by user owner inside. User identifier and parents</param>
         /// <param name="excludeContentId">excludes the search of a content</param>
         /// <param name="onlyFeatured">only featured</param>
+        /// <param name="onlyRescuers">only with rescuers</param>
         /// <returns>
         /// the list
         /// </returns>
@@ -475,10 +476,10 @@ namespace Huellitas.Business.Services
             DateTime? startingDateTo = null,
             int? belongsToUserId = null,
             int? excludeContentId = null,
-            bool? onlyFeatured = null)
+            bool? onlyFeatured = null,
+            bool? onlyRescuers = null)
         {
             var query = this.contentRepository.Table
-                .Include(c => c.ContentAttributes)
                 .Include(c => c.Location)
                 .Include(c => c.File)
                 .Where(c => !c.Deleted);
@@ -565,6 +566,19 @@ namespace Huellitas.Business.Services
             if (locationId.HasValue)
             {
                 query = query.Where(c => c.LocationId == locationId || c.Location.ParentLocationId == locationId);
+            }
+
+            if (onlyRescuers.HasValue)
+            {
+                var rescuerRoleId = Convert.ToInt32(RoleEnum.Rescuer);
+                if (onlyRescuers.Value)
+                {
+                    query = query.Where(c => c.User.RoleId == rescuerRoleId);
+                }
+                else
+                {
+                    query = query.Where(c => c.User.RoleId != rescuerRoleId);
+                }
             }
 
             if (status.HasValue)
@@ -709,7 +723,19 @@ namespace Huellitas.Business.Services
                     break;
             }
 
-            return new PagedList<Content>(query, page, pageSize);
+            var contents = new PagedList<Content>(query, page, pageSize);
+
+            var contentIds = contents.Select(c => c.Id).ToArray();
+            var attributes = this.contentAttributeRepository.TableNoTracking
+                .Where(c => contentIds.Contains(c.ContentId))
+                .ToList();
+
+            foreach (var content in contents)
+            {
+                content.ContentAttributes = attributes.Where(c => c.ContentId == content.Id).ToArray();
+            }
+
+            return contents;
         }
 
         /// <summary>

@@ -61,6 +61,8 @@ namespace Huellitas.Data.Entities.Mapping
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Content_User");
 
+            entity.HasIndex(c => c.TypeId);
+
             entity.HasIndex(c => c.FriendlyName)
                 .IsUnique();
         }

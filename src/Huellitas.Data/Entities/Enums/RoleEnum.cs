@@ -18,6 +18,11 @@ namespace Huellitas.Data.Entities
         /// <summary>
         /// The public
         /// </summary>
-        Public = 2
+        Public = 2,
+
+        /// <summary>
+        /// The rescuer
+        /// </summary>
+        Rescuer = 3
     }
 }

@@ -25,14 +25,36 @@ namespace Huellitas.Web
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Configures the specified application.
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The application.</param>
-        /// <param name="env">The env.</param>
-        /// <param name="loggerFactory">The logger factory.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Startup"/> class.
+            /// </summary>
+            /// <param name="env">The environment.</param>
+            public Startup(IHostingEnvironment env)
+            {
+                var builder = new ConfigurationBuilder()
+                                .SetBasePath(env.ContentRootPath)
+                                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                .AddEnvironmentVariables();
+
+                this.Configuration = builder.Build();
+            }
+
+            /// <summary>
+            /// Gets the configuration.
+            /// </summary>
+            /// <value>
+            /// The configuration.
+            /// </value>
+            public IConfigurationRoot Configuration { get; private set; }
+
+            /// <summary>
+            /// Configures the specified application.
+            /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            /// </summary>
+            /// <param name="app">The application.</param>
+            /// <param name="env">The env.</param>
+            /// <param name="loggerFactory">The logger factory.</param>
+            public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMiddleware<ExceptionsMiddlewareLogger>();
 
@@ -40,7 +62,7 @@ namespace Huellitas.Web
 
             app.UseMiddleware<CurrentDateMiddleware>();
 
-            app.InitDatabase(env);
+            app.InitDatabase(env, this.Configuration);
 
             ////app.UseDeveloperExceptionPage();
 
@@ -92,12 +114,6 @@ namespace Huellitas.Web
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("appsettings.json");
-
-            var configuration = builder.Build();
-
             ////Habilita configuraciones con inyecciond e dependencia
             services.AddOptions();
 
@@ -115,10 +131,10 @@ namespace Huellitas.Web
             });
 
             ////Registra los Repositorios genericos
-            services.RegisterHuellitasServices(configuration);
+            services.RegisterHuellitasServices(this.Configuration);
 
             //// External services
-            services.RegisterHangFireServices(configuration);
+            services.RegisterHangFireServices(this.Configuration);
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

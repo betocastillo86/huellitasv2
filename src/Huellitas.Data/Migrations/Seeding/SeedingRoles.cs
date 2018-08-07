@@ -25,6 +25,7 @@ namespace Huellitas.Data.Migrations
 
             list.Add(new Entities.Role() { Name = "SuperAdmin", Description = "Usuario con todos los privilegios" });
             list.Add(new Entities.Role() { Name = "Public", Description = "Usuario publico" });
+            list.Add(new Entities.Role() { Name = "Rescuer", Description = "Rescatista" });
 
             foreach (var item in list)
             {

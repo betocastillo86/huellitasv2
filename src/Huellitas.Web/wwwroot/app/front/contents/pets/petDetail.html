@@ -4,47 +4,49 @@
     </div>
     <section class="bkg-gray">
         <article class="content-all">
-            <div adsense-huellitas class="ad-horizontal-m" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
-            <h1 class="tit-section name-pet col-md-12">
-                {{main.model.name}}
-                <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
-            </h1>
-            <div class="box-btn" ng-if="main.model.status == 'Published'" >
-                <a class="btn btn-lg btn-fixed" ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" title="Llenar formulario de adopción de {{::main.model.name}}">Adoptar</a>
-                <!--<a class="btn btn-lg" href="">Apadriname</a>-->
+            <div adsense-huellitas class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
+            <div class="col-md-9">
+                <h1 class="tit-section name-pet col-md-12">
+                    {{main.model.name}}
+                    <a class="btn btn-sm" ng-if="main.model.id" href="#" share-huellitas url="main.model.fullRoute">Compartir</a>
+                </h1>
+                <div class="box-btn" ng-if="main.model.status == 'Published'">
+                    <a class="btn btn-lg btn-fixed" ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" title="Llenar formulario de adopción de {{::main.model.name}}">Adoptar</a>
+                    <!--<a class="btn btn-lg" href="">Apadriname</a>-->
+                </div>
+                <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files" data-label="main.model.status == 'Hidden' ? 'ADOPTADO' : undefined"></gallery-huellitas>
             </div>
-            <gallery-huellitas class="bkg-gray" ng-if="main.model.files" data-images="main.model.files" data-label="main.model.status == 'Hidden' ? 'ADOPTADO' : undefined"></gallery-huellitas>
 
-            <ul class="data-list col-md-12">
-                <li>
-                    Genero
-                    <b>{{::main.model.genre.text}}</b>
-                </li>
-                <li>
-                    Tamaño
-                    <b>{{::main.model.size.text}}</b>
-                </li>
-                <li>
-                    Edad
-                    <b>{{::main.model.months | age}}</b>
-                </li>
-                <li>
-                    Esterilizada/Castrado
-                    <b>{{main.model.castrated ? 'SI' : 'NO'}}</b>
-                </li>
-                <li>
-                    Ubicación
-                    <b>{{::main.model.location.name}}</b>
-                </li>
-                <br />
-            </ul>
+            <div class="col-md-3" style="padding-left:0px">
+                <ul class="data-list col-md-12">
+                    <li>
+                        Genero
+                        <b>{{::main.model.genre.text}}</b>
+                    </li>
+                    <li>
+                        Tamaño
+                        <b>{{::main.model.size.text}}</b>
+                    </li>
+                    <li>
+                        Edad
+                        <b>{{::main.model.months | age}}</b>
+                    </li>
+                    <li>
+                        Esterilizada/Castrado
+                        <b>{{main.model.castrated ? 'SI' : 'NO'}}</b>
+                    </li>
+                    <li>
+                        Ubicación
+                        <b>{{::main.model.location.name}}</b>
+                    </li>
+                    <br />
+                </ul>
+            </div>
 
-            <div adsense-huellitas class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
-            
-            <div class="col-md-12">
-                <div class="w-ads">
+            <div class="col-md-3"  style="padding-left:0px">
+                <div>
                     <p class="inner-text" ng-bind-html="main.model.body | applyEnter"></p>
-                    <div class="box-contact">
+                    <div class="box-contact" ng-if="main.model.status == 'Published'">
                         <h5>Contacto:</h5>
 
                         <div ng-if="::main.model.shelter" class="funda-img">
@@ -52,36 +54,47 @@
                                 <img ng-src="{{::main.model.shelter.image.thumbnail}}" alt="Logo {{::main.model.shelter.name}}" title="Ir a {{::main.model.shelter.name}}">
                             </a>
                         </div>
-                        <div class="funda-txt" ng-if="::main.model.shelter">
-                            <h3><a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}">{{::main.model.shelter.name}}</a></h3>
-                            <h4>
-                                {{::main.model.location.name}} / Encargado: {{::main.model.shelter.owner}} <br>
-                                <span>Correo electrónico: {{::main.model.shelter.email}}</span> <br />
-                                <span>Teléfono 1: {{::main.model.shelter.phone}}</span> <br />
-                                <span ng-if="::main.model.shelter.phone2">Teléfono 2: {{::main.model.shelter.phone2}}</span>
-                            </h4>
-                        </div>
+                        <br />
 
-                        <div ng-repeat="parent in main.model.parents" class="funda-txt">
-                            <h3>{{::parent.name}}</h3>
-                            <h4>
-                                {{::main.model.location.name}}<br>
-                                <span>Correo electrónico: {{::parent.email}}</span> <br />
-                                <span ng-if="::parent.phone">Teléfono 1: {{::parent.phone}}</span> <br />
-                                <span ng-if="::parent.phone2">Teléfono 2: {{::parent.phone2}}</span>
-                            </h4>
+                        <div class="card" ng-if="::main.model.shelter">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <a ng-href="{{root.getRoute('shelter', {friendlyName: main.model.shelter.friendlyName})}}" title="Ir a {{::main.model.shelter.name}}">{{::main.model.shelter.name}}</a>
+                                    <p class="card-text">{{::main.model.location.name}}</p></a>
+                                </li>
+                                <li class="list-group-item">{{::main.model.shelter.owner}}</li>
+                                <li class="list-group-item">{{::main.model.shelter.email}}</li>
+                                <li class="list-group-item">{{::main.model.shelter.phone}}</li>
+                                <li class="list-group-item" ng-if="::main.model.shelter.phone2">{{::main.model.shelter.phone2}}</li>
+                                <li class="list-group-item" ng-if="main.model.status == 'Published'"><a ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" class="card-link">Adoptar</a></li>
+                            </ul>
+                        </div>
+                        <div class="card" ng-repeat="parent in main.model.parents">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">{{::parent.name}}</h5>
+                                    <p class="card-text">{{::main.model.location.name}}</p>
+                                </li>
+                                <li class="list-group-item">{{::parent.email}}</li>
+                                <li class="list-group-item" ng-if="::parent.phone">{{::parent.phone}}</li>
+                                <li class="list-group-item" ng-if="::parent.phone2">{{::parent.phone2}}</li>
+                                <li class="list-group-item" ng-if="main.model.status == 'Published'"><a ng-href="{{root.getRoute('adopt0', {friendlyName: main.model.friendlyName})}}" class="card-link">Adoptar</a></li>
+                            </ul>
                         </div>
                         <br>
                     </div>
                 </div>
-                <div class="col-ads">
-                    <div adsense-huellitas class="ad-cube" ad-client="ca-pub-4989702801072526" ad-slot="9311266825" ad-format="auto" ></div>
-                </div>
+
                 <div adsense-huellitas class="ad-cube-m" ad-client="ca-pub-4989702801072526" ad-slot="9311266825" ad-format="auto"></div>
-                <br/>
             </div>
+            <br />
+            <div class="col-md-12">
+                <div adsense-huellitas class="ad-horizontal" ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
+            </div>
+
         </article>
     </section>
+    <br />
     <section style="padding: 40px 0 15px;">
         <div ng-if="main.model.id" list-pets data-filter="main.filterSimilar" data-displaytype="small" data-title="main.titleSimilar"></div>
     </section>

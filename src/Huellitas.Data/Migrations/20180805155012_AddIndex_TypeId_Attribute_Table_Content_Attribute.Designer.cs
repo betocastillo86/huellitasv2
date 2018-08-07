@@ -11,9 +11,10 @@ using System;
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
-    partial class HuellitasContextModelSnapshot : ModelSnapshot
+    [Migration("20180805155012_AddIndex_TypeId_Attribute_Table_Content_Attribute")]
+    partial class AddIndex_TypeId_Attribute_Table_Content_Attribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

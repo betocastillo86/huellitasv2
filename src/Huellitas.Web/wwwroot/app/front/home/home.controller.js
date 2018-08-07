@@ -18,11 +18,21 @@
         vm.iCurrentBanner = 0;
 
         vm.filterPets = {
-            pageSize: 9,
+            pageSize: 6,
             orderBy: 'Featured',
             status: 'Published',
             contentType: 'Pet',
-            withinClosingDate: true
+            withinClosingDate: true,
+            onlyRescuers: false
+        };
+
+        vm.filterPetsRescuers = {
+            pageSize: 6,
+            orderBy: 'Featured',
+            status: 'Published',
+            contentType: 'Pet',
+            withinClosingDate: true,
+            onlyRescuers: true
         };
 
         vm.previousBanner = previousBanner;

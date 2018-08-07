@@ -7,7 +7,7 @@
 
     function listContents() {
         return {
-            scope: false,
+            scope: true,
             templateUrl: '/app/front/components/contents/listPets.html?' + app.Settings.general.configJavascriptCacheKey,
             controller: ListPetsController,
             controllerAs: 'listPet',

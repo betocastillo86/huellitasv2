@@ -168,6 +168,14 @@ namespace Huellitas.Web.Models.Api
         public string UserEmail { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [include rescuers].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [include rescuers]; otherwise, <c>false</c>.
+        /// </value>
+        public bool? OnlyRescuers { get; set; }
+
+        /// <summary>
         /// Returns true if ... is valid.
         /// </summary>
         /// <param name="canGetUnpublished">if set to <c>true</c> [can get unpublished].</param>

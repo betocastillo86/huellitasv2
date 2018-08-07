@@ -133,6 +133,7 @@ namespace Huellitas.Business.Services
         /// <param name="belongsToUserId">The belongs to user identifier.</param>
         /// <param name="excludeContentId">The exclude content identifier.</param>
         /// <param name="onlyFeatured">The only featured.</param>
+        /// <param name="onlyRescuers">only with rescuers</param>
         /// <returns>the list</returns>
         IPagedList<Content> Search(
             string keyword = null,
@@ -149,7 +150,8 @@ namespace Huellitas.Business.Services
             DateTime? startingDateTo = null,
             int? belongsToUserId = null,
             int? excludeContentId = null,
-            bool? onlyFeatured = null);
+            bool? onlyFeatured = null,
+            bool? onlyRescuers = null);
 
         /// <summary>
         /// Updates the asynchronous.
