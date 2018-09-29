@@ -118,5 +118,37 @@ namespace Huellitas.Business.Configuration
         /// The take emails to send.
         /// </value>
         public int TakeEmailsToSend => this.settingService.Get<int>("NotificationSettings.TakeEmailsToSend");
+
+        /// <summary>
+        /// Gets or sets the SMS key.
+        /// </summary>
+        /// <value>
+        /// The SMS key.
+        /// </value>
+        public string SmsKey => this.settingService.Get<string>("NotificationSettings.SmsKey");
+
+        /// <summary>
+        /// Gets or sets the SMS message.
+        /// </summary>
+        /// <value>
+        /// The SMS message.
+        /// </value>
+        public string SmsMessage => this.settingService.Get<string>("NotificationSettings.SmsMessage");
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [send SMS enabled].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [send SMS enabled]; otherwise, <c>false</c>.
+        /// </value>
+        public bool SendSmsEnabled => this.settingService.Get<bool>("NotificationSettings.SendSmsEnabled");
+
+        /// <summary>
+        /// Gets the SMS country code.
+        /// </summary>
+        /// <value>
+        /// The SMS country code.
+        /// </value>
+        public string SmsCountryCode => this.settingService.Get<string>("NotificationSettings.SmsCountryCode");
     }
 }
