@@ -149,7 +149,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void IsValidModel_Unpublished_True()
         {
             IList<FilterAttribute> selectedFilters = null;
-            var filter = new PetsFilterModel();
+            var filter = new PetsFilterModel() { ContentType = ContentType.Pet };
             filter.Status = StatusType.Closed;
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
         }
@@ -161,7 +161,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         public void IsValidModel_Published_True()
         {
             IList<FilterAttribute> selectedFilters = null;
-            var filter = new PetsFilterModel();
+            var filter = new PetsFilterModel() { ContentType = ContentType.Pet };
             filter.Status = StatusType.Published;
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
         }
@@ -218,6 +218,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             IList<FilterAttribute> selectedFilters = null;
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             filter.Age = "1-5";
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
             Assert.AreEqual("1", selectedFilters[0].Value.ToString());
@@ -246,6 +247,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             IList<FilterAttribute> selectedFilters = null;
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             filter.Genre = "1";
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
             filter.Genre = null;
@@ -260,6 +262,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             IList<FilterAttribute> selectedFilters = null;
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             filter.Shelter = "1,2,3,4";
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
             filter.Shelter = "1";
@@ -276,6 +279,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             IList<FilterAttribute> selectedFilters = null;
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             filter.Size = "1,2,3,4";
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
             filter.Size = "1";
@@ -292,6 +296,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         {
             IList<FilterAttribute> selectedFilters = null;
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             filter.SubType = "1,2,3,4";
             Assert.IsTrue(filter.IsValid(true, this.workContext.Object, out selectedFilters));
             filter.SubType = "1";
