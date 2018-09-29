@@ -78,6 +78,11 @@ namespace Huellitas.Data.Migrations
 
             list.Add(new SystemSetting() { Name = "GeneralSettings.AdsenseEnabled", Value = "False" });
 
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmsKey", Value = "False" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmsMessage", Value = "Llenaron un formulario de adopción por %%Pet.Name%%. Respondelo aquí %%Url%%" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SendSmsEnabled", Value = "False" });
+            list.Add(new SystemSetting() { Name = "NotificationSettings.SmsCountryCode", Value = "57" });
+
             foreach (var item in list)
             {
                 if (!context.SystemSettings.Any(c => c.Name.Equals(item.Name)))

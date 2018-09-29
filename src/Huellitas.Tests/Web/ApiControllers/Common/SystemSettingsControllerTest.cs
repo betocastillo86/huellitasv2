@@ -32,7 +32,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         /// Gets the system settings bad request.
         /// </summary>
         [Test]
-        public async void GetSystemSettings_BadRequest()
+        public async Task GetSystemSettings_BadRequest()
         {
             this.Setup();
             var controller = this.GetController();
@@ -48,7 +48,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         /// Gets the system settings forbid.
         /// </summary>
         [Test]
-        public void GetSystemSettings_Forbid()
+        public async Task GetSystemSettings_Forbid()
         {
             this.Setup();
             this.SetupPublicUser();
@@ -56,7 +56,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
             var controller = this.GetController();
             var filter = this.GetFilter();
 
-            var response = controller.Get(filter);
+            var response = await controller.Get(filter);
 
             Assert.IsAssignableFrom(typeof(ForbidResult), response);
         }
@@ -65,7 +65,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Common
         /// Gets the system settings ok.
         /// </summary>
         [Test]
-        public async void GetSystemSettings_Ok()
+        public async Task GetSystemSettings_Ok()
         {
             this.Setup();
 

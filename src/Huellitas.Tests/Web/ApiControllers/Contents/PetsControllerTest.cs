@@ -59,7 +59,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         /// Gets the pets invalid filter.
         /// </summary>
         [Test]
-        public async void GetPetsInvalidFilter()
+        public async Task GetPetsInvalidFilter()
         {
             this.Setup();
 
@@ -78,14 +78,15 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             Assert.AreEqual(400, response.StatusCode);
             Assert.AreEqual("BadArgument", error.Code);
-            Assert.AreEqual("Shelter", error.Details[0].Target);
+            Assert.AreEqual("ContentType", error.Details[0].Target);
+            Assert.AreEqual("Shelter", error.Details[1].Target);
         }
 
         /// <summary>
         /// Gets the pets valid filter.
         /// </summary>
         [Test]
-        public async void GetPetsValidFilter()
+        public async Task GetPetsValidFilter()
         {
             this.Setup();
 
@@ -120,6 +121,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             controller.AddResponse().AddUrl();
 
             var filter = new PetsFilterModel();
+            filter.ContentType = ContentType.Pet;
             var reponse = await controller.Get(filter) as ObjectResult;
             var list = reponse.Value as PaginationResponseModel<PetModel>;
 
@@ -167,7 +169,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.userService.Object,
                 this.messageExceptionFinder.Object);
 
-            var model = new PetModel();
+            var model = new PetModel() { Type = ContentType.Pet };
             var response = await controller.Post(model) as ObjectResult;
 
             var error = (response.Value as BaseApiErrorModel).Error;
@@ -201,6 +203,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 .Returns(new List<File>());
 
             var model = new PetModel().MockNew();
+            model.Type = ContentType.Pet;
 
             int newId = 1;
 
@@ -211,6 +214,12 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                     content1.Id = newId;
                 })
                 .Returns(Task.FromResult(0));
+
+            customTableService.Setup(c => c.GetRowsByTableIdCached(It.IsAny<CustomTableType>(), It.IsAny<OrderByTableRow>()))
+                .Returns(() => new List<CustomTableRow>() { new CustomTableRow { Id = 1, Value = "name" } });
+
+            locationService.Setup(c => c.GetCachedLocationById(It.IsAny<int>()))
+                .Returns(() => new Location { Id = 1, Name = "Location" });
 
             var controller = new PetsController(
                 mockContentService.Object,
@@ -248,7 +257,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.Setup();
 
             var controller = this.MockController();
-            var model = new PetModel();
+            var model = new PetModel() { Type = ContentType.Pet };
             model.Files = new List<FileModel>() { new FileModel() };
             model.Shelter = new ShelterModel();
             Assert.IsTrue(controller.IsValidModel(model, true));
@@ -267,7 +276,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.Setup();
 
             var controller = this.MockController();
-            var model = new PetModel();
+            var model = new PetModel() { Type = ContentType.Pet };
             model.Files = new List<FileModel>() { new FileModel() };
             model.Shelter = new ShelterModel();
             Assert.IsTrue(controller.IsValidModel(model, false));
@@ -292,7 +301,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.Setup();
 
             var controller = this.MockController();
-            var model = new PetModel();
+            var model = new PetModel() { Type = ContentType.Pet };
             model.Files = new List<FileModel>();
             model.Shelter = new ShelterModel();
             Assert.IsFalse(controller.IsValidModel(model, true));
@@ -300,7 +309,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             Assert.IsNull(controller.ModelState["Location"]);
 
             controller = this.MockController();
-            model = new PetModel();
+            model = new PetModel() { Type = ContentType.Pet };
             model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
             Assert.IsFalse(controller.IsValidModel(model, true));
             Assert.IsNotNull(controller.ModelState["Location"]);
@@ -316,9 +325,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.Setup();
 
             var controller = this.MockController();
-            var model = new PetModel();
+            var model = new PetModel() { Type = ContentType.Pet };
 
-            model = new PetModel();
             model.Files = new List<FileModel>() { new FileModel() { Id = 1 } };
             Assert.IsFalse(controller.IsValidModel(model, false));
             Assert.IsNotNull(controller.ModelState["Location"]);
@@ -399,6 +407,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var fileService = new Mock<IFileService>();
 
             var model = new PetModel().MockNew();
+            model.Type = ContentType.Pet;
 
             int newId = 1;
 
@@ -449,6 +458,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var fileService = new Mock<IFileService>();
 
             var model = new PetModel().MockNew();
+            model.Type = ContentType.Pet;
 
             int newId = 1;
 

@@ -8,6 +8,7 @@ namespace Huellitas.Business.Subscribers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Beto.Core.Data.Notifications;
     using Beto.Core.EventPublisher;
@@ -86,6 +87,11 @@ namespace Huellitas.Business.Subscribers
         private readonly IPictureService pictureService;
 
         /// <summary>
+        /// The notification settings
+        /// </summary>
+        private readonly INotificationSettings notificationSettings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AdoptionFormNotifications" /> class.
         /// </summary>
         /// <param name="notificationService">The notification service.</param>
@@ -108,7 +114,8 @@ namespace Huellitas.Business.Subscribers
             IGeneralSettings generalSettings,
             ILocationService locationService,
             IContentSettings contentSettings,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            INotificationSettings notificationSettings)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -120,6 +127,7 @@ namespace Huellitas.Business.Subscribers
             this.locationService = locationService;
             this.contentSettings = contentSettings;
             this.pictureService = pictureService;
+            this.notificationSettings = notificationSettings;
         }
 
         /// <summary>
@@ -135,6 +143,7 @@ namespace Huellitas.Business.Subscribers
             var content = this.GetContentByForm(form);
             var shelter = this.contentService.GetShelterByPet(content.Id);
 
+            await this.NotifyNoAnsweredFormWithSms(form.Id);
             BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(2));
             BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(5));
 
@@ -182,6 +191,7 @@ namespace Huellitas.Business.Subscribers
         /// Notifies the no answered form.
         /// </summary>
         /// <param name="formId">The form identifier.</param>
+        /// <param name="includeSms">includes sending sms</param>
         /// <returns>the return</returns>
         public async Task NotifyNoAnsweredForm(int formId)
         {
@@ -203,6 +213,31 @@ namespace Huellitas.Business.Subscribers
                     Data.Entities.NotificationType.AdoptionFormNotAnswered,
                     this.seoService.GetFullRoute("forms") + "?status=None",
                     parameters);
+            }
+        }
+
+        /// <summary>
+        /// Notifies the no answered form with SMS.
+        /// </summary>
+        /// <param name="formId">The form identifier.</param>
+        /// <returns>the task</returns>
+        public async Task NotifyNoAnsweredFormWithSms(int formId)
+        {
+            if (this.notificationSettings.SendSmsEnabled)
+            {
+                var form = this.adoptionFormService.GetById(formId);
+
+                var phone = form.Content.User.GetCellphoneNumber();
+
+                if (phone != null && form.LastStatusEnum == AdoptionFormAnswerStatus.None)
+                {
+                    using (var http = new HttpClient())
+                    {
+                        var url = $"https://huellitas.social/formularios-adopcion/{form.Id}";
+                        var message = this.notificationSettings.SmsMessage.Replace("%%Pet.Name%%", form.Content.Name).Replace("%%Url%%", url);
+                        await http.GetAsync($"https://platform.clickatell.com/messages/http/send?apiKey={this.notificationSettings.SmsKey}&to={this.notificationSettings.SmsCountryCode}{phone}&content={message}");
+                    }
+                }
             }
         }
 

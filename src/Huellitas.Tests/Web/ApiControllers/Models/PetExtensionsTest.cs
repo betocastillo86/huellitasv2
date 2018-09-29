@@ -175,26 +175,6 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         }
 
         /// <summary>
-        /// To the pet model not existent shelter.
-        /// </summary>
-        [Test]
-        public void ToPetModel_NotExistentShelter()
-        {
-            this.Setup();
-            var mockCustomTableService = this.MockCustomTableService();
-            this.MockContentService();
-
-            var mockCacheManager = new Mock<ICacheManager>();
-
-            var entity = this.MockEntity();
-            entity.ContentAttributes.FirstOrDefault(c => c.AttributeType == ContentAttributeType.Shelter).Value = "55";
-            var model = entity.ToPetModel(this.contentService.Object, mockCustomTableService.Object, mockCacheManager.Object, this.workContext.Object, null, null, true);
-
-            Assert.IsEmpty(model.Shelter.Name);
-            Assert.AreEqual(55, model.Shelter.Id);
-        }
-
-        /// <summary>
         /// To the pet model null file helpers.
         /// </summary>
         [Test]

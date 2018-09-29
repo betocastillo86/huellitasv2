@@ -65,12 +65,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             var controller = this.GetController();
             controller.AddUrl();
 
-            var response = controller.Get(id.ToString()) as ObjectResult;
-            var error = (response.Value as BaseApiErrorModel).Error;
+            var response = controller.Get(id.ToString()) as NotFoundResult;
 
-            Assert.AreEqual(400, response.StatusCode);
-            Assert.AreEqual("BadArgument", error.Code);
-            Assert.AreEqual("Id", error.Details[0].Target);
+            Assert.AreEqual(404, response.StatusCode);
         }
 
         /// <summary>
@@ -181,7 +178,10 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.fileService.Setup(c => c.GetByIds(It.IsAny<int[]>()))
                 .Returns(new List<File>());
 
+            
+
             var model = new ShelterModel().MockNew();
+            model.Type = ContentType.Shelter;
 
             int newId = 1;
 
@@ -289,7 +289,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
             this.Setup();
 
             var model = new ShelterModel().MockNew();
-
+            model.Type = ContentType.Shelter;
             int newId = 1;
 
             var content = new Content() { Id = newId, Type = ContentType.Shelter };
@@ -403,6 +403,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
         private SheltersController GetController()
         {
             Mock<ILocationService> locationService = new Mock<ILocationService>();
+            locationService.Setup(c => c.GetCachedLocationById(It.IsAny<int>()))
+                .Returns(() => new Location { Id = 1, Name = "name" });
             Mock<ISeoService> seoService = new Mock<ISeoService>();
             Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
 

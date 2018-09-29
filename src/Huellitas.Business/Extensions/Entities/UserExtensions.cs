@@ -96,5 +96,25 @@ namespace Huellitas.Business.Extensions
 
             return user.RoleEnum.Equals(RoleEnum.SuperAdmin);
         }
+
+        /// <summary>
+        /// Gets the cellphone number by user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>the phone</returns>
+        public static string GetCellphoneNumber(this User user)
+        {
+            if (user.PhoneNumber?.Trim().Length == 10 && user.PhoneNumber.Trim().StartsWith("3"))
+            {
+                return user.PhoneNumber.Trim();
+            }
+
+            if (user.PhoneNumber2?.Trim().Length == 10 && user.PhoneNumber2.Trim().StartsWith("3"))
+            {
+                return user.PhoneNumber2.Trim();
+            }
+
+            return null;
+        }
     }
 }

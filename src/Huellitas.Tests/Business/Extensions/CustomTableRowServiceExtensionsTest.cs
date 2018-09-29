@@ -156,13 +156,13 @@ namespace Huellitas.Tests.Business.Extensions
         private IPagedList<CustomTableRow> GetQuestions()
         {
             var list = new List<CustomTableRow>();
-            list.Add(new CustomTableRow() { Id = 1, CustomTableId = 4, Value = "Question1", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Question1Option1,Question1Option2,Question1Option3|True" });
-            list.Add(new CustomTableRow() { Id = 2, CustomTableId = 4, Value = "Question2", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Question2Option1,Question2Option2,Question2Option3,Question2Option4|True" });
-            var previousPets = new CustomTableRow() { Id = 3, CustomTableId = 4, Value = "Question3", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}||True" };
+            list.Add(new CustomTableRow() { Id = 1, CustomTableId = 4, Value = "Question1", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Question1Option1,Question1Option2,Question1Option3|True|" });
+            list.Add(new CustomTableRow() { Id = 2, CustomTableId = 4, Value = "Question2", AdditionalInfo = $"{AdoptionFormQuestionType.Single}|Question2Option1,Question2Option2,Question2Option3,Question2Option4|True|" });
+            var previousPets = new CustomTableRow() { Id = 3, CustomTableId = 4, Value = "Question3", AdditionalInfo = $"{AdoptionFormQuestionType.Boolean}||True|" };
             list.Add(previousPets);
-            list.Add(new CustomTableRow() { Id = 4, CustomTableId = 4, Value = "Question4", ParentCustomTableRow = previousPets, ParentCustomTableRowId = 3, AdditionalInfo = $"{AdoptionFormQuestionType.OptionsWithText}|Question4Option1,Question4Option2,Question4Option3,Question4Option4|True" });
-            list.Add(new CustomTableRow() { Id = 5, CustomTableId = 4, Value = "Question5", AdditionalInfo = $"{AdoptionFormQuestionType.Text}||True" });
-            list.Add(new CustomTableRow() { Id = 6, CustomTableId = 4, Value = "Question6", AdditionalInfo = $"{AdoptionFormQuestionType.ChecksWithText}|Question6Option1,Question6Option2,Question6Option3|False" });
+            list.Add(new CustomTableRow() { Id = 4, CustomTableId = 4, Value = "Question4", ParentCustomTableRow = previousPets, ParentCustomTableRowId = 3, AdditionalInfo = $"{AdoptionFormQuestionType.OptionsWithText}|Question4Option1,Question4Option2,Question4Option3,Question4Option4|True|" });
+            list.Add(new CustomTableRow() { Id = 5, CustomTableId = 4, Value = "Question5", AdditionalInfo = $"{AdoptionFormQuestionType.Text}||True|" });
+            list.Add(new CustomTableRow() { Id = 6, CustomTableId = 4, Value = "Question6", AdditionalInfo = $"{AdoptionFormQuestionType.ChecksWithText}|Question6Option1,Question6Option2,Question6Option3|False|" });
             return new PagedList<CustomTableRow>(list.AsQueryable(), 0, int.MaxValue);
         }
     }

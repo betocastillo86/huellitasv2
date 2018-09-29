@@ -97,5 +97,37 @@ namespace Huellitas.Business.Configuration
         /// The take emails to send.
         /// </value>
         int TakeEmailsToSend { get; }
+
+        /// <summary>
+        /// Gets or sets the SMS key.
+        /// </summary>
+        /// <value>
+        /// The SMS key.
+        /// </value>
+        string SmsKey { get; }
+
+        /// <summary>
+        /// Gets or sets the SMS message.
+        /// </summary>
+        /// <value>
+        /// The SMS message.
+        /// </value>
+        string SmsMessage { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [send SMS enabled].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [send SMS enabled]; otherwise, <c>false</c>.
+        /// </value>
+        bool SendSmsEnabled { get; }
+
+        /// <summary>
+        /// Gets the SMS country code.
+        /// </summary>
+        /// <value>
+        /// The SMS country code.
+        /// </value>
+        string SmsCountryCode { get; }
     }
 }

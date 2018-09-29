@@ -132,7 +132,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
             this.Setup();
 
             var questions = this.GetQuestions();
-            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|False" });
+            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|False|" });
 
             this.customTableService.Setup(c => c.GetRowsByTableId(Convert.ToInt32(CustomTableType.QuestionAdoptionForm), null, OrderByTableRow.DisplayOrder, 0, int.MaxValue))
                 .Returns(new PagedList<CustomTableRow>(questions.AsQueryable(), 0, int.MaxValue));
@@ -633,11 +633,11 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
         {
             var questions = new List<CustomTableRow>();
 
-            questions.Add(new CustomTableRow { Id = 1, Value = "question1", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 2, Value = "question2", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 3, Value = "question3", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 4, Value = "question4", AdditionalInfo = "Single|a,b,c|True" });
-            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|True" });
+            questions.Add(new CustomTableRow { Id = 1, Value = "question1", AdditionalInfo = "Single|a,b,c|True|" });
+            questions.Add(new CustomTableRow { Id = 2, Value = "question2", AdditionalInfo = "Single|a,b,c|True|" });
+            questions.Add(new CustomTableRow { Id = 3, Value = "question3", AdditionalInfo = "Single|a,b,c|True|" });
+            questions.Add(new CustomTableRow { Id = 4, Value = "question4", AdditionalInfo = "Single|a,b,c|True|" });
+            questions.Add(new CustomTableRow { Id = 5, Value = "question5", AdditionalInfo = "Single|a,b,c|True|" });
 
             return questions;
         }
