@@ -86,6 +86,8 @@ namespace Huellitas.Web.Controllers
             model.CacheKey = this.generalSettings.ConfigJavascriptCacheKey;
             model.GoogleAnalyticsCode = this.generalSettings.GoogleAnalyticsCode;
 
+            this.Response.Headers.Add("X-Frame-Options", new Microsoft.Extensions.Primitives.StringValues("SAMEORIGIN"));
+
             return this.View(model);
         }
 
