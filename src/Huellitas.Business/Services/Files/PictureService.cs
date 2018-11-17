@@ -20,9 +20,6 @@ namespace Huellitas.Business.Services
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
-    using SixLabors.ImageSharp.Processing.Drawing;
-    using SixLabors.ImageSharp.Processing.Text;
-    using SixLabors.ImageSharp.Processing.Transforms;
     using SixLabors.Primitives;
 
     /// <summary>
@@ -154,7 +151,7 @@ namespace Huellitas.Business.Services
             var resizeOptions = new ResizeOptions()
             {
                 Size = new Size { Width = width, Height = height },
-                Mode = SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Crop
+                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Crop
             };
 
             var rgbColor = this.GetRgbColor(color);

@@ -123,7 +123,6 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-                config.Filters.Add(new FluentValidatorAttribute());
             }).AddJsonOptions(c =>
             {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
