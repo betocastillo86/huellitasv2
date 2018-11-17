@@ -8,7 +8,6 @@ namespace Huellitas.Business.Services
     using Beto.Core.Data.Files;
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.Processing;
-    using SixLabors.ImageSharp.Processing.Transforms;
     using SixLabors.Primitives;
 
     /// <summary>
@@ -72,27 +71,27 @@ namespace Huellitas.Business.Services
         /// </summary>
         /// <param name="mode">The mode.</param>
         /// <returns>the six labors mode</returns>
-        private SixLabors.ImageSharp.Processing.Transforms.ResizeMode GetResizeMode(Beto.Core.Data.Files.ResizeMode mode)
+        private SixLabors.ImageSharp.Processing.ResizeMode GetResizeMode(Beto.Core.Data.Files.ResizeMode mode)
         {
             switch (mode)
             {
                 case Beto.Core.Data.Files.ResizeMode.Crop:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Crop;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.Crop;
 
                 case Beto.Core.Data.Files.ResizeMode.Pad:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Pad;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.Pad;
 
                 case Beto.Core.Data.Files.ResizeMode.BoxPad:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.BoxPad;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.BoxPad;
 
                 case Beto.Core.Data.Files.ResizeMode.Max:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Max;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.Max;
 
                 case Beto.Core.Data.Files.ResizeMode.Min:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Min;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.Min;
 
                 default:
-                    return SixLabors.ImageSharp.Processing.Transforms.ResizeMode.Crop;
+                    return SixLabors.ImageSharp.Processing.ResizeMode.Crop;
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>    
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
-    <ProjectReference Include="..\Huellitas.Web\Huellitas.Web.csproj" />
   </ItemGroup>
 
 </Project>

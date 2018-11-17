@@ -1,21 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="hangfire" Version="1.6.19" />
-    <PackageReference Include="MailKit" Version="1.16.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />-->
-	<PackageReference Include="hangfire" Version="1.6.19" />
-	<PackageReference Include="MailKit" Version="2.0.3" />
-	<PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-	<PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003" />
-	<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0003" />
+    <PackageReference Include="hangfire" Version="1.6.21" />
+    <PackageReference Include="MailKit" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
+	  <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0005" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +17,7 @@
     <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core\Beto.Core.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
   </ItemGroup>
-
+<!--
   <ItemGroup>
     <Folder Include="Subscribers\Content\" />
   </ItemGroup>
@@ -33,6 +27,6 @@
       <ExcludeFromSourceAnalysis>False</ExcludeFromSourceAnalysis>
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>
