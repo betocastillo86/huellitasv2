@@ -20,6 +20,7 @@
                                 <button type="button" class="btn btn-danger btn-xs" ng-click="gallery.removeImage(image)" title="Eliminar"><i class="fa fa-times"></i></button>
                                 <button type="button" class="btn btn-info btn-xs" ng-click="gallery.createSocialPost(image)" ng-if="gallery.contentid && gallery.model.socialpost" title="Generar post redes"><i class="fa fa-share-alt"></i></button>
                                 <button type="button" class="btn btn-info btn-xs" ng-click="gallery.resizeImage(image)" ng-if="gallery.contentid" title="Redimensionar"><i class="fa fa-refresh"></i></button>
+                                <button type="button" class="btn btn-info btn-xs" ng-click="gallery.rotateImage(image)" ng-if="gallery.contentid" title="Girar"><i class="fa fa-arrow-circle-right"></i></button>
                             </div>
                         </div>
                     </div>

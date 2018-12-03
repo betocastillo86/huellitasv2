@@ -64,12 +64,12 @@ paths.libsFront = [
     paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'angular-animate/angular-animate.js',
     paths.external + 'underscore/underscore.js',
-    paths.external + 'moment/moment.js',
-    paths.external + 'moment/locale/es.js',
+    //paths.external + 'moment/moment.js',
+    //paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
     paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
     paths.external + 'angucomplete-alt/angucomplete-alt.js',
-    paths.external + 'fullpage.js/dist/jquery.fullpage.js'
+    //paths.external + 'fullpage.js/dist/jquery.fullpage.js'
 ];
 
 paths.concatJsDestAdmin = paths.webroot + "js/admin.site.min.js";
@@ -170,21 +170,21 @@ gulp.task('scriptsDevFront', ['fullpage'], function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('fullpage', function () {
+/*gulp.task('fullpage', function () {
     return gulp.src(paths.external + 'fullpage.js/jquery.fullPage.min.js', { base: '.' })
         .pipe(concat(paths.webroot + "js/jquery.fullPage.min.js"))
         .pipe(gulp.dest('.'));
-});
+});*/
 
 gulp.task('cssFront', ['sassFront'], function () {
     var files = [
 
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
-        paths.webroot + 'css/sassfront/styles.css',
+        //paths.webroot + 'css/sassfront/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
-        paths.webroot + 'css/front.huellitas.css',
-        paths.external + 'fullpage.js/dist/jquery.fullpage.css'
+        paths.webroot + 'css/front.huellitas.css'/*,
+        paths.external + 'fullpage.js/dist/jquery.fullpage.css'*/
     ];
 
     console.log('Inicia tarea de css con ', files);
@@ -202,18 +202,27 @@ gulp.task('sassFront', function () {
     console.log(paths.sassFront + 'styles.scss')
     return gulp.src(paths.sassFront + 'styles.scss')
         .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+        .pipe(replace(/\.\.\/fonts\//g, '/fonts/'))
         .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest(paths.webroot + 'css/sassfront/'));
 });
 
+
+gulp.task('scriptsResourcesFront', function (cb) {
+    console.log('Inicia tarea scripts', paths.libsFront);
+
+    return gulp.src(paths.libsFront, { base: '.' })
+        .pipe(concat("./wwwroot/js/front.resources.min.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest('.'));
+});
+
 gulp.task('scriptsReleaseFront', function (cb) {
-    var files = [];
-    files = files.concat(paths.libsFront);
-    files = files.concat([
+    var files = [
         paths.approotFront + '/**/*.js',
         paths.approotServices + '/**/*.js',
         paths.approotComponents + '/**/*.js'
-    ]);
+    ];
 
     console.log('Inicia tarea scripts', files);
 
@@ -221,14 +230,7 @@ gulp.task('scriptsReleaseFront', function (cb) {
         .pipe(concat(paths.concatJsDestFront))
         .pipe(uglify())
         .pipe(gulp.dest('.'));
-
-    //pump([
-    //    gulp.src(files, { base: '.' }),
-    //    concat(paths.concatJsDestFront),
-    //    uglify(),
-    //    gulp.dest('.')
-    //], cb);
 });
 
-gulp.task('release', ['cssFront', 'cssAdmin', 'scriptsReleaseAdmin', 'scriptsReleaseFront'], function () {
+gulp.task('release', ['cssFront', 'cssAdmin', 'scriptsResourcesFront', 'scriptsReleaseAdmin', 'scriptsReleaseFront'], function () {
 });

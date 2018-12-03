@@ -27,6 +27,8 @@ namespace Huellitas.Business.Services
         /// <returns>the url file</returns>
         string GetPicturePath(File file, int width, int height, bool forceResize = false, ResizeMode resizeMode = ResizeMode.Crop);
 
+        string RotateImage(File file, int width, int height, bool rotateOriginal = false);
+
         /// <summary>
         /// Creates the social network post.
         /// </summary>

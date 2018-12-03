@@ -2,13 +2,13 @@
 @addTagHelper *, Huellitas.Web
 
 @model Huellitas.Web.Models.HomeModel
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="huellitas" ng-controller="RootController as root">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="huellitas" ng-controller="RootController as root" lang="es">
 <head>
     <title ng-bind="root.seo.title"></title>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=no" />
     <meta name="description" content="{{root.seo.description}}" />
     <meta property="og:url" content="{{root.seo.url}}" />
     <meta property="og:title" content="{{root.seo.title}}" />
@@ -27,9 +27,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700" rel="stylesheet" />
+   <!-- <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700" rel="stylesheet" id="cssFont" disabled />-->
 
-    <link href="/css/front.styles.css?v=@Model.CacheKey" rel="stylesheet" />
+    <link href="/css/front.styles.css?v=@Model.CacheKey" rel="stylesheet" id="cssGeneral" disabled />
+    <link href="/css/sassfront/styles.css?v=@Model.CacheKey" rel="stylesheet" id="cssGeneral2" disabled />
 
     @if (!string.IsNullOrEmpty(Model.GoogleAnalyticsCode))
     {
@@ -44,17 +45,6 @@
             ga('create', '@Model.GoogleAnalyticsCode', 'auto');
         </script>
     }
-
-    <script>
-            //window.onerror = function (errorMsg, url, lineNumber, column, error) {
-            //    if (lineNumber > 0 || column > 0) {
-            //        var xhttp = new XMLHttpRequest();
-            //        xhttp.open("POST", "/api/logs", true);
-            //        xhttp.setRequestHeader("Content-type", "application/json");
-            //        xhttp.send(JSON.stringify({ ShortMessage: errorMsg, FullMessage: 'Error:' + errorMsg + ' <br> url:' + url + ' <br> useragent:' + navigator.userAgent +'<br> line:' + lineNumber + '<br> column:' + column + '<br> document.url:' + document.location.href + '<br> Stack:' + (error && error.stack ? error.stack.toString() : 'No hay Stack') }));
-            //    }
-            //}
-    </script>
 </head>
 <body>
     <header class="inner-header">
@@ -72,7 +62,7 @@
                 <h2><a href="{{::root.getRoute('lostpets')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('lostpets')) != -1 }" ng-click="root.showMenu(false)">Perdidos</a></h2>
                 <h2><a href="{{::root.getRoute('shelters')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('shelters')) != -1 }" ng-click="root.showMenu(false)">Fundaciones</a></h2>
                 <h2><a href="{{::root.getRoute('faq')}}" ng-class="{'active': root.currentMenu.indexOf(root.getRoute('faq')) != -1 }" ng-click="root.showMenu(false)">¿Por qué adoptar?</a></h2>
-                <h2><a href="{{::root.getRoute('contact')}}" target="_blank" ng-click="root.showMenu(false)">Contactanos</a></h2>
+                <h2><a href="{{::root.getRoute('contact')}}" target="_blank" rel="noopener" ng-click="root.showMenu(false)">Contactanos</a></h2>
                 <br />
             </nav>
             <div class="user-wraper">
@@ -104,27 +94,32 @@
 
     <footer ng-if="!root.hideFooter">
         <div class="redes">
-            <a href="https://www.facebook.com/huellitas.social/" title="Facebook Huellitas sin hogar" target="_blank"><span class="icon-face"></span></a>
-            <a href="https://www.instagram.com/huellitas.social/" title="Instagram Huellitas sin hogar" target="_blank"><span class="icon-insta"></span></a>
+            <a href="https://www.facebook.com/huellitas.social/" title="Facebook Huellitas sin hogar" target="_blank"  rel="noopener"><span class="icon-face"></span></a>
+            <a href="https://www.instagram.com/huellitas.social/" title="Instagram Huellitas sin hogar" target="_blank"  rel="noopener"><span class="icon-insta"></span></a>
         </div>
         <p>© 2017 Huellitas sin hogar. All rights reserved.</p>
     </footer>
 
-    @*<environment names="Development">
+    <environment names="Development">
         <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
         <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
-        <script src="~/js/front.site.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/front.resources.min.js?v=@Model.CacheKey"></script>
         <jsresources type="front"></jsresources>
     </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
-        <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
-        <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
-    </environment>*@
+        <environment names="Staging,Production">
+            <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
+            <script src="/js/front.resources.min.js?v=@Model.CacheKey"></script>
+            <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
+            <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
+        </environment>
 
-    <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
-    <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
-    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
-
+    <script>
+        $(document).ready(function () {
+            console.log('contenido cargado');
+            $('#cssFont').removeAttr('disabled');
+            $('#cssGeneral').removeAttr('disabled');
+            $('#cssGeneral2').removeAttr('disabled');
+        });
+    </script>
 </body>
 </html>
