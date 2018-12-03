@@ -22,6 +22,7 @@ namespace Huellitas.Web.Controllers.Api
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.JsonPatch;
+    using Microsoft.AspNetCore.JsonPatch.Operations;
     using Microsoft.AspNetCore.Mvc;
     using Models.Extensions;
 
@@ -163,7 +164,7 @@ namespace Huellitas.Web.Controllers.Api
             foreach (var operation in patchDocument.Operations)
             {
                 // Realiza el redimensionamiento de las imagenes con el nuevo tipo de corte
-                if (operation.path.Equals("/resize") && operation.OperationType == Microsoft.AspNetCore.JsonPatch.Operations.OperationType.Replace)
+                if (operation.path.Equals("/resize") && operation.OperationType == OperationType.Replace)
                 {
                     // elimina las imagenes para reemplazarlas con el corte
                     System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail));
@@ -172,6 +173,17 @@ namespace Huellitas.Web.Controllers.Api
                     // crea nuevamente las imagenes con el nuevo corte
                     this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, true, Beto.Core.Data.Files.ResizeMode.Pad);
                     this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true, Beto.Core.Data.Files.ResizeMode.Pad);
+                }
+
+                if (operation.path.Equals("/rotate") && operation.OperationType == OperationType.Replace)
+                {
+                    // elimina las imagenes para reemplazarlas con el corte
+                    System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail));
+                    System.IO.File.Delete(this.fileHelper.GetPhysicalPath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList));
+
+                    // crea nuevamente las imagenes con el nuevo corte
+                    this.pictureService.RotateImage(contentFile.File, this.contentSettings.PictureSizeWidthDetail, this.contentSettings.PictureSizeHeightDetail, rotateOriginal: true);
+                    this.pictureService.GetPicturePath(contentFile.File, this.contentSettings.PictureSizeWidthList, this.contentSettings.PictureSizeHeightList, true);
                 }
             }
 

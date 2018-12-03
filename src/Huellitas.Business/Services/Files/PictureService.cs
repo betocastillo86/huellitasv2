@@ -243,7 +243,45 @@ namespace Huellitas.Business.Services
 
             return this.fileHelper.GetFullPath(file, null, width, height);
         }
-        
+
+        public string RotateImage(File file, int width, int height, bool rotateOriginal = false)
+        {
+            var newImagePath = this.fileHelper.GetPhysicalPath(file, width, height);
+            var originalPath = this.fileHelper.GetPhysicalPath(file);
+
+            var resizeOptions = new ResizeOptions()
+            {
+                Size = new Size { Width = width, Height = height },
+                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Crop
+            };
+
+            if (rotateOriginal)
+            {
+                using (var image = Image.Load(originalPath))
+                {
+                    image.Mutate(c => c.Rotate(SixLabors.ImageSharp.Processing.RotateMode.Rotate90));
+                    image.Save(originalPath);
+                }
+            }
+
+            using (var image = Image.Load(originalPath))
+            {
+                if (!rotateOriginal)
+                {
+                    image.Mutate(c => c.Rotate(SixLabors.ImageSharp.Processing.RotateMode.Rotate90)
+                                        .Resize(resizeOptions));
+                }
+                else
+                {
+                    image.Mutate(c => c.Resize(resizeOptions));
+                }
+
+                image.Save(newImagePath);
+            }
+
+            return this.fileHelper.GetFullPath(file, null, width, height);
+        }
+
         /// <summary>
         /// Gets the color of the logo by.
         /// </summary>

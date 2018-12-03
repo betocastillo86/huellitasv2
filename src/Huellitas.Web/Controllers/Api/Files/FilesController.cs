@@ -112,8 +112,9 @@ namespace Huellitas.Web.Controllers.Api
 
                 foreach (var dataFile in model.Files)
                 {
+                    var extension = System.IO.Path.GetExtension(dataFile.FileName).ToLower();
                     file.Name = model.Name ?? System.IO.Path.GetFileNameWithoutExtension(dataFile.FileName);
-                    file.FileName = string.Concat(this.seoService.GenerateFriendlyName(file.Name), System.IO.Path.GetExtension(dataFile.FileName));
+                    file.FileName = string.Concat(this.seoService.GenerateFriendlyName(file.Name), extension.Equals(".png") || extension.Equals(".gif") ? ".jpg" : extension);
                     file.MimeType = this.filesHelper.GetContentTypeByFileName(file.FileName);
 
                     using (var streamFile = dataFile.OpenReadStream())

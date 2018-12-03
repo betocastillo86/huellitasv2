@@ -5,9 +5,9 @@
         .module('huellitas')
         .controller('FaqController', FaqController);
 
-    FaqController.$inject = ['$scope', '$timeout'];
+    FaqController.$inject = ['$scope'];
 
-    function FaqController($scope, $timeout) {
+    function FaqController($scope) {
         var vm = this;
 
         activate();
@@ -16,22 +16,22 @@
             $scope.$parent.root.seo.title = app.Settings.resources['Seo.Faq.Title'];
             $scope.$parent.root.seo.description = app.Settings.resources['Seo.Faq.Description'];
 
-            $scope.$on('$locationChangeStart', function (event) {
+           /* $scope.$on('$locationChangeStart', function (event) {
                 console.log('Destruye el fullpage');
                 $.fn.fullpage.destroy('all');
             });
             
-            $timeout(fullpage, 500);   
+            $timeout(fullpage, 500);   */
         }
 
         function fullpage()
         {
-            $('#fullpage').fullpage({
+            /*$('#fullpage').fullpage({
                 sectionsColor: ['#FFF', '#7CD2E1', '#B8EA81', '#FC9282', '#304A6F', '#3C75C2'],
                 navigation: true,
                 navigationPosition: 'right',
                 navigationTooltips: ['Adopta', 'Tiempo', 'Dinero', 'Hogar', 'Responsable', 'Tu mascota']
-            });
+            });*/
 
         }
     }

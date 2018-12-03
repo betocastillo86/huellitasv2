@@ -17,7 +17,7 @@
             var maxdate = undefined;
             if (attrs.maxdate)
             {
-                maxdate = moment().toDate(attrs.maxdate);
+                maxdate = new Date(attrs.maxdate); //moment().toDate(attrs.maxdate);
             }
 
             var picker = new Pikaday({

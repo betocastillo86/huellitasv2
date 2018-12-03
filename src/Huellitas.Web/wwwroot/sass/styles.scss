@@ -505,7 +505,7 @@ section{
                 }
             }
             .btn{
-                background: $blue3;
+                background: $blue2;
                 color: $white;
                 display: block;
                 margin: 20px auto 0;
@@ -520,7 +520,7 @@ section{
                 }
 
                 &:hover{
-                    background: $blue2;
+                    background: $blue3;
                 }
             }
         }
@@ -1017,12 +1017,12 @@ section{
             display: block;
             margin: 15px auto;
             border: none;
-            background: $blue3;
+            background: $blue2;
             color: $white;
             @include transition(0.3s);
 
             &:hover{
-                background: $blue2;
+                background: $blue3;
             }
         }
     }

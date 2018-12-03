@@ -4,8 +4,7 @@
 
     GalleryController.$inject = ['$scope', '$attrs', 'fileService', 'modalService', 'helperService'];
 
-    function GalleryController($scope, $attrs, fileService, modalService, helperService)
-    {
+    function GalleryController($scope, $attrs, fileService, modalService, helperService) {
         var vm = this;
         vm.model = {};
         vm.model.images = $scope.images;
@@ -26,23 +25,20 @@
         vm.onProgress = onProgress;
         vm.createSocialPost = createSocialPost;
         vm.resizeImage = resizeImage;
+        vm.rotateImage = rotateImage;
 
         return activate();
 
-        function activate()
-        {
+        function activate() {
             $attrs.$observe('defaultname', updateDefaultName);
         }
 
-        function updateDefaultName(newValue)
-        {
+        function updateDefaultName(newValue) {
             vm.defaultName = newValue;
         }
 
-        function removeImage(file)
-        {
-            if (confirm('¿Está seguro de eliminar esta imagen?'))
-            {
+        function removeImage(file) {
+            if (confirm('¿Está seguro de eliminar esta imagen?')) {
                 //if it has a callback after removing an image call it, otherwise deletes the file on the server
                 if (!vm.removeImageCallback) {
                     fileService.deleteFile(file);
@@ -56,13 +52,11 @@
             }
         }
 
-        function getImageByIndex(index)
-        {
+        function getImageByIndex(index) {
             return vm.model.images[index];
         }
 
-        function imageAdded(file, previousFile)
-        {
+        function imageAdded(file, previousFile) {
             //Valites if it has a previous file to replace it
             if (previousFile) {
                 previousFile = JSON.parse(previousFile);
@@ -78,19 +72,16 @@
             $scope.onadded(file, previousFile);
         }
 
-        function onProgress(progressFiles)
-        {
+        function onProgress(progressFiles) {
             console.log(progressFiles);
             vm.progressFiles = progressFiles;
         }
 
-        function reorder(files)
-        {
+        function reorder(files) {
             vm.model.images = files;
         }
 
-        function createSocialPost(image)
-        {
+        function createSocialPost(image) {
             modalService.show({
                 controller: 'CreateSocialPostController',
                 template: '/app/admin/contents/createSocialPost.html?' + app.Settings.general.configJavascriptCacheKey,
@@ -101,17 +92,27 @@
             });
         }
 
-        function resizeImage(image)
-        {
-            if (confirm('¿Seguro desea generar la imagen nuevamente?'))
-            {
+        function resizeImage(image) {
+            if (confirm('¿Seguro desea generar la imagen nuevamente?')) {
                 fileService.patchContentFile(vm.contentid, image.id, [{ path: '/resize', op: 'replace', value: 'land' }])
                     .then(resizeCompleted)
                     .catch(helperService.handleException);
             }
 
-            function resizeCompleted()
-            {
+            function resizeCompleted() {
+                modalService.show({ message: 'Imagen redimensionada correctamente' });
+                image.thumbnail = image.thumbnail + '?rand=' + new Date().getDate();
+            }
+        }
+
+        function rotateImage(image) {
+            if (confirm('¿Seguro desea generar la imagen nuevamente?')) {
+                fileService.patchContentFile(vm.contentid, image.id, [{ path: '/rotate', op: 'replace', value: 'right' }])
+                    .then(rotateCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function rotateCompleted() {
                 modalService.show({ message: 'Imagen redimensionada correctamente' });
                 image.thumbnail = image.thumbnail + '?rand=' + new Date().getDate();
             }
