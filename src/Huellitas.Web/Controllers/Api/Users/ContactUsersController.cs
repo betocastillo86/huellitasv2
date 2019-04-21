@@ -15,7 +15,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Huellitas.Business.Extensions;
     using Huellitas.Business.Security;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

@@ -10,7 +10,7 @@ namespace Huellitas.Tests.Web.Mocks
     using Beto.Core.Web.Api;
     using Beto.Core.Web.Api.Controllers;
     using Huellitas.Business.Exceptions;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

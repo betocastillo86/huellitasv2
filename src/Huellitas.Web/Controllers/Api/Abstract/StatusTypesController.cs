@@ -10,7 +10,7 @@ namespace Huellitas.Web.Controllers.Api
     using Beto.Core.Exceptions;
     using Beto.Core.Web.Api.Controllers;
     using Data.Entities;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

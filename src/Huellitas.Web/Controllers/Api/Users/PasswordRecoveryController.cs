@@ -14,7 +14,7 @@ namespace Huellitas.Web.Controllers.Api.Users
     using Beto.Core.Web.Api.Controllers;
     using Beto.Core.Web.Api.Filters;
     using Huellitas.Business.Services;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Huellitas.Web.Models.Api.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

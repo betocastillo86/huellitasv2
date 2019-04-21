@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
     <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
+    <ProjectReference Include="..\Huellitas.Web\Huellitas.Web.csproj" />
   </ItemGroup>
 
 </Project>

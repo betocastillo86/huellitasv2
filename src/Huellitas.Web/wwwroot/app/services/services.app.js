@@ -35,8 +35,7 @@
                     return 'Hace '.concat(parseInt(difference / 86400), ' dias');
                 }
                 else {
-                    //return moment(date).format("YYYY/MM/DD");
-                    return date.toDateString();
+                    return moment(date).format("YYYY/MM/DD");
                 }
             } else {
                 return '';

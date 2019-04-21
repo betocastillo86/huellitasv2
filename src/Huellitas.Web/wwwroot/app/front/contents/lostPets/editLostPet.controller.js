@@ -42,7 +42,7 @@
         vm.originalLocation = undefined;
         vm.canChangePhone = true;
         vm.breedTable = app.Settings.customTables.breed;
-        vm.maxdate = new Date();
+        vm.maxdate = moment().toDate();
         vm.progressFiles = [];
 
         vm.genres = app.Settings.genres;

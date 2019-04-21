@@ -15,7 +15,7 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Services;
     using Data.Entities;
     using Huellitas.Business.Configuration;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

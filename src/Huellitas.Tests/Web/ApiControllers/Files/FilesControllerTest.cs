@@ -12,7 +12,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
     using Huellitas.Business.Configuration;
     using Huellitas.Business.Services;
     using Huellitas.Web.Controllers.Api;
-    using Huellitas.Web.Infraestructure.WebApi;
+   
     using Huellitas.Web.Models.Api;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;

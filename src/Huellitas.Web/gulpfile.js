@@ -64,8 +64,8 @@ paths.libsFront = [
     paths.external + 'angular-sanitize/angular-sanitize.js',
     paths.external + 'angular-animate/angular-animate.js',
     paths.external + 'underscore/underscore.js',
-    //paths.external + 'moment/moment.js',
-    //paths.external + 'moment/locale/es.js',
+    paths.external + 'moment/moment.js',
+    paths.external + 'moment/locale/es.js',
     paths.external + 'pikaday/pikaday.js',
     paths.external + 'gentelella/vendors/bootstrap/js/modal.js',
     paths.external + 'angucomplete-alt/angucomplete-alt.js',
@@ -180,7 +180,7 @@ gulp.task('cssFront', ['sassFront'], function () {
     var files = [
 
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
-        //paths.webroot + 'css/sassfront/styles.css',
+        paths.webroot + 'css/sassfront/styles.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
         paths.webroot + 'css/front.huellitas.css'/*,
@@ -218,6 +218,7 @@ gulp.task('scriptsResourcesFront', function (cb) {
 });
 
 gulp.task('scriptsReleaseFront', function (cb) {
+
     var files = [
         paths.approotFront + '/**/*.js',
         paths.approotServices + '/**/*.js',
