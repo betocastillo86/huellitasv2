@@ -353,6 +353,7 @@ namespace Huellitas.Business.Services
                 // updates the last status form
                 var form = this.GetById(answer.AdoptionFormId);
                 form.LastStatusEnum = answer.StatusEnum;
+                form.LastResponseUserId = answer.UserId;
                 await this.Update(form);
 
                 await this.publisher.EntityInserted(answer);

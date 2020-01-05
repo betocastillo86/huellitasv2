@@ -71,6 +71,12 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasForeignKey(d => d.LocationId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_AdoptionForm_Location");
+            
+            entity.HasOne(d => d.LastResponseUser)
+                .WithMany()
+                .HasForeignKey(d => d.LastResponseUserId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("FK_AdoptionForm_User_LastResponse");
         }
     }
 }

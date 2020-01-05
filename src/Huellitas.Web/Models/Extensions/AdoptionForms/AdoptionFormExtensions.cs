@@ -66,10 +66,8 @@ namespace Huellitas.Web.Models.Extensions
                 model.Content = entity.Content.ToModel(filesHelper, contentUrlFunction, width, height);
             }
 
-            if (entity.UserId.HasValue && entity.User != null)
-            {
-                model.User = entity.User.ToBaseUserModel();
-            }
+            model.User = entity.User?.ToBaseUserModel();
+            model.LastResponseUser = entity.LastResponseUser?.ToBaseUserModel();
 
             return model;
         }

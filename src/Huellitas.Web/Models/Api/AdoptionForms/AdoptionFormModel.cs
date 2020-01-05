@@ -155,6 +155,8 @@ namespace Huellitas.Web.Models.Api
         /// </value>
         public BaseUserModel User { get; set; }
 
+        public BaseUserModel LastResponseUser { get; set; }
+
         /// <summary>
         /// Gets or sets the attributes.
         /// </summary>

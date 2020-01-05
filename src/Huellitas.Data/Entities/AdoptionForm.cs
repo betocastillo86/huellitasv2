@@ -160,6 +160,8 @@ namespace Huellitas.Data.Entities
         /// </value>
         public DateTime BirthDate { get; set; }
 
+        public int? LastResponseUserId { get; set; }
+
         /// <summary>
         /// Gets or sets the content.
         /// </summary>
@@ -175,6 +177,9 @@ namespace Huellitas.Data.Entities
         /// The user.
         /// </value>
         public virtual User User { get; set; }
+
+
+        public virtual User LastResponseUser { get; set; }
 
         /// <summary>
         /// Gets or sets the adoption form answer.
