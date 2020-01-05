@@ -129,6 +129,7 @@ namespace Huellitas.Business.Services
             int pageSize = int.MaxValue)
         {
             var query = this.adoptionFormRepository.Table
+                .Include(c => c.LastResponseUser)
                 .Include(c => c.Content)
                 .Include(c => c.Content.File)
                 .AsQueryable();
