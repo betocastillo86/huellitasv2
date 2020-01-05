@@ -1,6 +1,8 @@
 ﻿<div class="pg-body col-md-12">
     <div class="box-edit" ng-if="::main.model.canEdit">
         <a class="btn btn-lg" ng-href="{{root.getRoute('editpet', main.model)}}"><span class="icon-edit"></span> Editar</a>
+        <a ng-if="main.model.status == 'Published'" class="btn btn-lg delete-pet-button" ng-click="main.deactivate()"><span class="icon-close"></span> Desactivar</a>
+        <a ng-if="main.model.status == 'Created'" class="btn btn-lg activate-pet-button" ng-click="main.activate()"><span class="icon-view"></span> Activar</a>
     </div>
     <section class="bkg-gray">
         <article class="content-all">

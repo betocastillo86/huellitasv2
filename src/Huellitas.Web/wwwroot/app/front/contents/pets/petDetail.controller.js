@@ -5,15 +5,32 @@
         .module('huellitas')
         .controller('PetDetailController', PetDetailController);
 
-    PetDetailController.$inject = ['$routeParams','$scope', 'helperService', 'petService', 'contentService', 'routingService'];
+    PetDetailController.$inject = [
+        '$routeParams',
+        '$scope',
+        'helperService',
+        'petService',
+        'contentService',
+        'routingService',
+        'modalService'];
 
-    function PetDetailController($routeParams, $scope, helperService, petService, contentService, routingService) {
+    function PetDetailController(
+        $routeParams,
+        $scope,
+        helperService,
+        petService,
+        contentService,
+        routingService,
+        modalService) {
+
         var vm = this;
 
         vm.friendlyName = $routeParams.friendlyName;
         vm.model = {};
         vm.filterSimilar = {};
         vm.titleSimilar = 'Mascotas similares';
+        vm.activate = activatePet;
+        vm.deactivate = deactivate;
         
         activate();
 
@@ -64,6 +81,35 @@
             function getCompleted(response)
             {
                 vm.model.parents = response.results;
+            }
+        }
+
+        function activatePet() {
+            switchStatus('Published');
+        }
+
+        function deactivate() {
+            switchStatus('Created');
+        }
+
+        function switchStatus(status) {
+
+            var message = status == 'Published' ? 'activar' : 'desactivar';
+
+            if (confirm('¿Estas seguro de ' + message+' a '+ vm.model.name +'?')) {
+                petService.changeStatus(vm.model.id, status)
+                    .then(changeStatusCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function changeStatusCompleted(response) {
+                vm.model.status = status;
+                if (status == 'Published') {
+                    modalService.show({ message: 'Animal activado correctamente' });
+                }
+                else {
+                    modalService.show({ message: 'Animal inactivado correctamente' });
+                }
             }
         }
     }

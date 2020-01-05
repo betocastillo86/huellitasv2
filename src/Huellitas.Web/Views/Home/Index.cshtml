@@ -109,22 +109,23 @@
         <p>© 2017 Huellitas sin hogar. All rights reserved.</p>
     </footer>
 
-    @*<environment names="Development">
+    <environment names="Development">
             <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
             <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
-            <script src="~/js/front.site.min.js?v=@Model.CacheKey"></script>
+            <script src="~/js/front.resources.min.js?v=@Model.CacheKey"></script>
             <jsresources type="front"></jsresources>
         </environment>
-        <environment names="Staging,Production">
-            <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
-            <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
-            <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
-        </environment>*@
+    <environment names="Staging,Production">
+        <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
+        <script src="~/js/front.resources.min.js?v=@Model.CacheKey"></script>
+        <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
+        <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
+    </environment>
 
-    <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
+   @* <script src="~/js/front.configuration.js?v=@Model.CacheKey"></script>
     <script src="~/js/front.resources.min.js?v=@Model.CacheKey"></script>
     <script src="/js/front.site.min.js?v=@Model.CacheKey"></script>
-    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" ng-if="::root.showAdsense"></script>*@
 
 </body>
 </html>
