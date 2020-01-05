@@ -72,6 +72,7 @@
                                     <th class="column-title">Estado</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
+                                        <input type="checkbox" name="checkAll" ng-model="main.allSelected" ng-click="main.toogleAll(main.allSelected)" />
                                     </th>
                                 </tr>
                             </thead>
@@ -92,19 +93,25 @@
                                               ]" ng-click="main.filterByStatus(pet)" title="Filtrar por estado">{{::pet.status}}</span>
                                     </td>
                                     <td class="last">
-                                            <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <a href="/admin/pets/{{::pet.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
                                         <a href="{{::root.getRoute('pet', {friendlyName: pet.friendlyName})}}" class="btn btn-info btn-xs hidden-xs">Ver</a>
+                                        <input type="checkbox" name="toResponse[]" value="{{::pet.id}}" ng-checked="pet.checked" ng-click="main.toogleToResponse(pet)" />
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.pets.length">
-                                    <td colspan="7"  class="last">
-                                     No hay registros
+                                    <td colspan="7" class="last">
+                                        No hay registros
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                         <list-pager class="pagerDirective"></list-pager>
+                        <div>
+                            <div class="form-group col-md-6">
+                                <button type="button" class="btn btn-info" ng-click="main.approveAll()">Aprobación másiva</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

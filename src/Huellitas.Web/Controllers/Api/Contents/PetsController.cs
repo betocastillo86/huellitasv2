@@ -487,6 +487,7 @@ namespace Huellitas.Web.Controllers.Api
         {
             ////TODO:Test
             var content = this.contentService.GetById(id, true);
+            var previousStatus = content.StatusType;
 
             if (content != null)
             {
@@ -515,7 +516,7 @@ namespace Huellitas.Web.Controllers.Api
 
                 ////Un usuario sin permisos no puede cambiar un contenido de creado a publicado
                 ////Si el estado no es creado si lo puede actualizar
-                if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && content.StatusType != StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
+                if (content.StatusType != StatusType.Created || (content.StatusType == StatusType.Created && this.workContext.CurrentUser.CanApproveContents()))
                 {
                     content.StatusType = model.Status;
 
@@ -536,6 +537,12 @@ namespace Huellitas.Web.Controllers.Api
                 try
                 {
                     await this.contentService.UpdateAsync(content);
+
+                    if (previousStatus == StatusType.Created && content.StatusType == StatusType.Published)
+                    {
+                        await this.publisher.Publish(new ContentAprovedModel() { Content = content });
+                    }
+
                     return this.Ok(new { result = true });
                 }
                 catch (HuellitasException e)
