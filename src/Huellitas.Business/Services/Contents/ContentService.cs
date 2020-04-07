@@ -248,7 +248,7 @@ namespace Huellitas.Business.Services
         {
             return this.contentFileRepository.Table
                 .Include(c => c.File)
-                .Where(c => c.ContentId == contentId)
+                .Where(c => c.ContentId == contentId && !c.File.Deleted)
                 .OrderByDescending(c => c.DisplayOrder)
                 .ToList();
         }
@@ -747,7 +747,7 @@ namespace Huellitas.Business.Services
         /// <returns>the return</returns>
         public async Task SortFiles(int contentId, int fileIdFrom, int fileIdTo)
         {
-            var files = this.contentFileRepository.Table.Where(c => c.ContentId == contentId)
+            var files = this.contentFileRepository.Table.Where(c => c.ContentId == contentId && !c.File.Deleted)
                 .ToList();
 
             var fileFrom = files.FirstOrDefault(c => c.FileId == fileIdFrom);
