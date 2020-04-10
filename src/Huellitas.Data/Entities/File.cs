@@ -62,5 +62,7 @@ namespace Huellitas.Data.Entities
         /// The name.
         /// </value>
         public string Name { get; set; }
+
+        public bool Deleted { get; set; }
     }
 }
