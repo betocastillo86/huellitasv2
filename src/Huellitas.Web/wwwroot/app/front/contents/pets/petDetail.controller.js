@@ -58,7 +58,8 @@
                     contentType: 'Pet',
                     excludeId: vm.model.id,
                     orderBy: 'Random',
-                    genre: vm.model.genre.value
+                    genre: vm.model.genre.value,
+                    withinClosingDate: true
                 };
 
                 $scope.$parent.root.seo.title = helperService.replaceJson(app.Settings.resources['Seo.PetDetail.Title'], { petName: vm.model.name, petLocation: vm.model.location.name, petSubtype: vm.model.subtype.text });

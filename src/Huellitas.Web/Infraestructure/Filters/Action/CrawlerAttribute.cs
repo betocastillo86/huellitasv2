@@ -65,9 +65,6 @@ namespace Huellitas.Web.Infraestructure.Filters.Action
                         return;
                     }
                 }
-
-                Debug.WriteLine("the agent->" + agent);
-                Console.WriteLine("the agent->" + agent);
             }
 
             base.OnActionExecuting(context);

@@ -72,21 +72,23 @@ namespace Huellitas.Web.Infraestructure.Subscribers
 
             try
             {
-                //// Deletes the file
-                System.IO.File.Delete(mainfile);
-
-                if (this.filesHelper.IsImageExtension(message.Entity.FileName))
+                if (System.IO.File.Exists(mainfile))
                 {
-                    var folderRoot = string.Concat(this.hostingEnvironment.WebRootPath, "/img/content/", this.filesHelper.GetFolderName(message.Entity));
+                    System.IO.File.Delete(mainfile);
 
-                    var thumbnails = System.IO.Directory.GetFiles(folderRoot, $"{message.Entity.Id}_*");
-                    foreach (var thumbnail in thumbnails)
+                    if (this.filesHelper.IsImageExtension(message.Entity.FileName))
                     {
-                        System.IO.File.Delete(thumbnail);
-                    }
-                }
+                        var folderRoot = string.Concat(this.hostingEnvironment.WebRootPath, "/img/content/", this.filesHelper.GetFolderName(message.Entity));
 
-                await Task.FromResult(0);
+                        var thumbnails = System.IO.Directory.GetFiles(folderRoot, $"{message.Entity.Id}_*");
+                        foreach (var thumbnail in thumbnails)
+                        {
+                            System.IO.File.Delete(thumbnail);
+                        }
+                    }
+
+                    await Task.FromResult(0);
+                }
             }
             catch (System.IO.DirectoryNotFoundException e)
             {

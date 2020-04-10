@@ -46,6 +46,8 @@ namespace Huellitas.Tests.Business.Services
         /// </summary>
         private Mock<IRepository<Content>> contentRepository = new Mock<IRepository<Content>>();
 
+        private Mock<IDbContext> dbContext = new Mock<IDbContext>();
+
         /// <summary>
         /// Inserts the content file with invalid file.
         /// </summary>
@@ -95,7 +97,8 @@ namespace Huellitas.Tests.Business.Services
                 this.filesHelper.Object,
                 this.contentFileRepository.Object,
                 this.publisher.Object,
-                this.contentRepository.Object);
+                this.contentRepository.Object,
+                this.dbContext.Object);
         }
     }
 }

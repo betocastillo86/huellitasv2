@@ -61,12 +61,17 @@ namespace Huellitas.Web.Infraestructure.Start
         /// Starts the recurring jobs.
         /// </summary>
         /// <param name="app">The application.</param>
-        public static void StartRecurringJobs(this IApplicationBuilder app)
+        public static void StartRecurringJobs(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var settings = (ITaskSettings)app.ApplicationServices.GetService(typeof(ITaskSettings));
-            if (settings.SendEmailsInterval > 0)
+            if (Convert.ToBoolean(configuration["EnableHangfire"]))
             {
-                RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
+                var settings = (ITaskSettings)app.ApplicationServices.GetService(typeof(ITaskSettings));
+                if (settings.SendEmailsInterval > 0)
+                {
+                    RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
+                }
+
+                RecurringJob.AddOrUpdate<DeleteOldestFilesTask>(c => c.DeleteFilesAsync(), Cron.HourInterval(3));
             }
         }
     }

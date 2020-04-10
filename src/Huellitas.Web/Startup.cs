@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
+    using System;
     using System.IO;
     using Beto.Core.Web.Api.Filters;
     using Beto.Core.Web.Middleware;
@@ -58,7 +59,10 @@ namespace Huellitas.Web
         {
             app.UseMiddleware<ExceptionsMiddlewareLogger>();
 
-            app.AddHangFire(env, loggerFactory);
+            if (Convert.ToBoolean(this.Configuration["EnableHangfire"]))
+            {
+                app.AddHangFire(env, loggerFactory);
+            }
 
             app.UseMiddleware<CurrentDateMiddleware>();
 
@@ -105,7 +109,7 @@ namespace Huellitas.Web
 
             this.CreateJavascriptFile(app);
 
-            app.StartRecurringJobs();
+            app.StartRecurringJobs(this.Configuration);
         }
 
         /// <summary>
@@ -132,8 +136,11 @@ namespace Huellitas.Web
             ////Registra los Repositorios genericos
             services.RegisterHuellitasServices(this.Configuration);
 
-            //// External services
-            services.RegisterHangFireServices(this.Configuration);
+            if (Convert.ToBoolean(this.Configuration["EnableHangfire"])) 
+            {
+                //// External services
+                services.RegisterHangFireServices(this.Configuration);
+            }
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

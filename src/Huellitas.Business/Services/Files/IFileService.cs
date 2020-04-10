@@ -23,6 +23,8 @@ namespace Huellitas.Business.Services
         /// <returns>the task</returns>
         Task DeleteContentFile(int contentId, int fileId, bool removeFileIfDoesnotHaveRelationship = false);
 
+        Task DeleteFile(File file);
+
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
@@ -51,5 +53,9 @@ namespace Huellitas.Business.Services
         /// <param name="contentFile">The content file.</param>
         /// <returns>the result</returns>
         Task InsertContentFileAsync(ContentFile contentFile);
+
+        Task<int> DeleteFilesWithContentDuplicated();
+
+        IList<File> GetInactiveFiles(int daysPassedAfterClosingDate, int take);
     }
 }

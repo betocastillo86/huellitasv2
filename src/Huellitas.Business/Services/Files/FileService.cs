@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace Huellitas.Business.Services
         /// the content repository
         /// </summary>
         private readonly IRepository<Content> contentRepository;
+        private readonly IDbContext dbContext;
 
         /// <summary>
         /// The file repository
@@ -59,13 +61,15 @@ namespace Huellitas.Business.Services
             IFilesHelper filesHelper,
             IRepository<ContentFile> contentFileRepository,
             IPublisher publisher,
-            IRepository<Content> contentRepository)
+            IRepository<Content> contentRepository,
+            IDbContext dbContext)
         {
             this.fileRepository = fileRepository;
             this.filesHelper = filesHelper;
             this.contentFileRepository = contentFileRepository;
             this.publisher = publisher;
             this.contentRepository = contentRepository;
+            this.dbContext = dbContext;
         }
 
         /// <summary>
@@ -101,6 +105,31 @@ namespace Huellitas.Business.Services
             {
                 throw new HuellitasException(HuellitasExceptionCode.RowNotFound);
             }
+        }
+
+        public async Task DeleteFile(File file)
+        {
+            file.Deleted = true;
+
+            await this.fileRepository.UpdateAsync(file);
+
+            await this.publisher.EntityDeleted(file);
+        }
+
+        public async Task<int> DeleteFilesWithContentDuplicated()
+        {
+            var query = @"delete contentfiles where contentid in (
+                        select distinct c.id from 
+                        contents c 
+                        inner join contentfiles cf on c.id = cf.contentid and c.fileid in (
+			                        select x.fileid from (
+				                        select fileid, count(fileid) as total from ContentFiles 
+				                        group by fileid
+				                        ) x where total > 1
+                        ) where c.TypeId = 1 and c.Status = 0)";
+
+
+            return await this.dbContext.Database.ExecuteSqlCommandAsync(query);
         }
 
         /// <summary>
@@ -202,6 +231,29 @@ namespace Huellitas.Business.Services
                     }
                 }
             }
+        }
+
+        public IList<File> GetInactiveFiles(int daysPassedAfterClosingDate, int take)
+        {
+            var activeStatus = Convert.ToInt16(StatusType.Published);
+            var petType = Convert.ToInt16(ContentType.Pet);
+
+            var filesFromOtherSources = this.dbContext.Set<File>().FromSql(@"
+                        select top 1000 f.* from 
+                        files f 
+                        left join ContentFiles cf on cf.FileId = f.id
+                        left join banners b on b.fileid = f.id
+                        left join contents c on c.fileid = f.id
+                        where f.deleted = 0 and cf.id is null and b.id is null and c.id is null");
+
+            var filesFromContents = this.contentFileRepository.Table
+                .Where(c => !c.File.Deleted && c.Content.TypeId == petType && c.Content.CreatedDate < DateTime.UtcNow.AddDays(-30) && (c.Content.Status != activeStatus || c.Content.ClosingDate <= DateTime.UtcNow.AddDays(-daysPassedAfterClosingDate)))
+                .OrderBy(c => c.FileId)
+                .Select(c => c.File)
+                .Take(take)
+                .ToList();
+
+            return filesFromContents.Union(filesFromOtherSources).Take(take).ToList();
         }
     }
 }
