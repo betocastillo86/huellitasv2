@@ -216,12 +216,17 @@
             }
 
             function updateUserPhone() {
-                if (vm.canChangePhone && (vm.originalPhone !== vm.currentUser.phone || vm.originalLocation !== vm.currentUser.location.id)) {
-                    userService.put(vm.currentUser)
-                        .then(confirmSaved)
-                        .catch(putUserError);
-                }
-                else {
+
+                try {
+                    if (vm.canChangePhone && (vm.originalPhone !== vm.currentUser.phone || vm.originalLocation !== vm.currentUser.location.id)) {
+                        userService.put(vm.currentUser)
+                            .then(confirmSaved)
+                            .catch(putUserError);
+                    }
+                    else {
+                        confirmSaved();
+                    }
+                } catch (e) {
                     confirmSaved();
                 }
 
