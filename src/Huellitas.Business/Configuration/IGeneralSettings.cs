@@ -121,5 +121,7 @@ namespace Huellitas.Business.Configuration
         ///   <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
         /// </value>
         bool AdsenseEnabled { get; }
+
+        bool EnableHangfire { get; }
     }
 }

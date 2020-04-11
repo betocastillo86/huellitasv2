@@ -113,6 +113,8 @@ namespace Huellitas.Web.Controllers.Api
         /// The user service
         /// </summary>
         private readonly IUserService userService;
+        
+        private readonly IGeneralSettings generalSettings;
 
         /// <summary>
         /// The work context
@@ -158,7 +160,8 @@ namespace Huellitas.Web.Controllers.Api
             IAdoptionFormService adoptionFormService,
             IPublisher publisher,
             IUserService userService,
-            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+            IMessageExceptionFinder messageExceptionFinder,
+            IGeneralSettings generalSettings) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -175,6 +178,7 @@ namespace Huellitas.Web.Controllers.Api
             this.adoptionFormService = adoptionFormService;
             this.publisher = publisher;
             this.userService = userService;
+            this.generalSettings = generalSettings;
         }
 
         #endregion ctor
@@ -526,8 +530,12 @@ namespace Huellitas.Web.Controllers.Api
                         if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
                         {
                             model.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
-                            BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
-                            BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+
+                            if (this.generalSettings.EnableHangfire)
+                            {
+                                BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                                BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
+                            }
                         }
                     }
                 }
@@ -595,7 +603,11 @@ namespace Huellitas.Web.Controllers.Api
                     if (content.ContentFiles.Count > 0)
                     {
                         var contentFiles = content.ContentFiles.Select(c => c.FileId).ToArray();
-                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(contentFiles));
+
+                        if (this.generalSettings.EnableHangfire)
+                        {
+                            BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(contentFiles));
+                        }
                     }
                 }
                 catch (HuellitasException e)

@@ -43,6 +43,8 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IContentSettings contentSettings;
 
+        private readonly IGeneralSettings generalSettings;
+
         /// <summary>
         /// The file helper
         /// </summary>
@@ -80,7 +82,8 @@ namespace Huellitas.Web.Controllers.Api
             IWorkContext workContext,
             IPictureService pictureService,
             IContentSettings contentSettings,
-            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+            IMessageExceptionFinder messageExceptionFinder,
+            IGeneralSettings generalSettings) : base(messageExceptionFinder)
         {
             this.fileService = fileService;
             this.fileHelper = fileHelper;
@@ -88,6 +91,7 @@ namespace Huellitas.Web.Controllers.Api
             this.workContext = workContext;
             this.pictureService = pictureService;
             this.contentSettings = contentSettings;
+            this.generalSettings = generalSettings;
         }
 
         /// <summary>
@@ -220,7 +224,10 @@ namespace Huellitas.Web.Controllers.Api
                         {
                             await this.fileService.InsertContentFileAsync(contentFile);
 
-                            BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImage(model.Id));
+                            if (this.generalSettings.EnableHangfire)
+                            {
+                                BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImage(model.Id));
+                            }
                         }
                         catch (HuellitasException e)
                         {

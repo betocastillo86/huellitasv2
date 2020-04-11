@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using Beto.Core.Data.Configuration;
     using Huellitas.Business.Extensions.Services;
+    using Microsoft.Extensions.Configuration;
     using Services;
 
     /// <summary>
@@ -21,14 +23,19 @@ namespace Huellitas.Business.Configuration
         /// The setting service
         /// </summary>
         private readonly ICoreSettingService settingService;
+        
+        private readonly IConfiguration configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralSettings"/> class.
         /// </summary>
         /// <param name="settingService">The setting service.</param>
-        public GeneralSettings(ICoreSettingService settingService)
+        public GeneralSettings(
+            ICoreSettingService settingService,
+            IConfiguration configuration)
         {
             this.settingService = settingService;
+            this.configuration = configuration;
         }
 
         /// <summary>
@@ -142,5 +149,7 @@ namespace Huellitas.Business.Configuration
         /// <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
         /// </value>
         public bool AdsenseEnabled { get { return this.settingService.Get<bool>("GeneralSettings.AdsenseEnabled"); } }
+
+        public bool EnableHangfire { get { return Convert.ToBoolean(this.configuration["EnableHangfire"]); } }
     }
 }

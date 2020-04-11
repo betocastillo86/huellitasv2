@@ -144,8 +144,12 @@ namespace Huellitas.Business.Subscribers
             var shelter = this.contentService.GetShelterByPet(content.Id);
 
             await this.NotifyNoAnsweredFormWithSms(form.Id);
-            BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(2));
-            BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(5));
+
+            if (this.generalSettings.EnableHangfire)
+            {
+                BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(2));
+                BackgroundJob.Schedule<AdoptionFormNotifications>(c => c.NotifyNoAnsweredForm(form.Id), TimeSpan.FromDays(5));
+            }
 
             await this.NotifyUserOfFormCreated(form, content, shelter);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using Beto.Core.Data.Files;
+using Hangfire;
 using Huellitas.Business.Configuration;
 using Huellitas.Business.Extensions;
 using Huellitas.Business.Services;
@@ -42,6 +43,8 @@ namespace Huellitas.Business.Tasks
             this.logger = logger;
         }
 
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        [DisableConcurrentExecution(timeoutInSeconds: 20 * 60)]
         public async Task DeleteFilesAsync()
         {
             this.logger.Debug($"{DateTime.Now} Starting delete oldest files process -----------------------------");

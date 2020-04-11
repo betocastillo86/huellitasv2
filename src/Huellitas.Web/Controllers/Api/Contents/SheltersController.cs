@@ -75,6 +75,8 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly IPublisher publisher;
 
+        private readonly IGeneralSettings generalSettings;
+
         /// <summary>
         /// The seo service
         /// </summary>
@@ -110,7 +112,8 @@ namespace Huellitas.Web.Controllers.Api
             ISeoService seoService,
             IRepository<Content> contentRepository,
             IPublisher publisher,
-            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+            IMessageExceptionFinder messageExceptionFinder,
+            IGeneralSettings generalSettings) : base(messageExceptionFinder)
         {
             this.contentService = contentService;
             this.filesHelper = filesHelper;
@@ -122,6 +125,7 @@ namespace Huellitas.Web.Controllers.Api
             this.seoService = seoService;
             this.contentRepository = contentRepository;
             this.publisher = publisher;
+            this.generalSettings = generalSettings;
         }
 
         /// <summary>
@@ -293,7 +297,11 @@ namespace Huellitas.Web.Controllers.Api
                     if (content.ContentFiles.Count > 0)
                     {
                         var fileContents = content.ContentFiles.Select(c => c.FileId).ToArray();
-                        BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(fileContents));
+
+                        if (this.generalSettings.EnableHangfire)
+                        {
+                            BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImages(fileContents));
+                        }
                     }
                 }
                 catch (HuellitasException e)
@@ -355,7 +363,7 @@ namespace Huellitas.Web.Controllers.Api
                     {
                         await this.contentService.UpdateAsync(content);
 
-                        if (content.FileId.HasValue)
+                        if (content.FileId.HasValue && this.generalSettings.EnableHangfire)
                         {
                             BackgroundJob.Enqueue<ImageResizeTask>(c => c.ResizeContentImage(content.FileId.Value));
                         }
