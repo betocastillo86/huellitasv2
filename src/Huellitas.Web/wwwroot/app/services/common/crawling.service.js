@@ -25,30 +25,45 @@
             crawlEntireSite: crawlEntireSite
         };
 
+        var windows = [];
+
         function post(model) {
             return http.post('/api/crawlings', model);
         }
 
-        function openCrawlingWindow(routeName, routeComplement, callbackFinished) {
+        function openCrawlingWindow(routeName, routeComplement, callbackFinished, timeout) {
             var url = routingService.getFullRoute(routeName, routeComplement);
-            openCrawlingWindowByUrl(url, callbackFinished, 3500);
+            openCrawlingWindowByUrl(url, callbackFinished, timeout ? timeout : 3500);
         }
 
+
         function openCrawlingWindowByUrl(url, callbackFinished, timeout) {
-            var window = openWindow();
-            closeWindow(window);
+            var windowObj = openWindow();
+            closeWindow(windowObj.name);
 
             function openWindow() {
-               // return $window.open(url + (url.indexOf('?') == -1 ? '?' : '&') + 'angularjs=true', '_blank');
                 url = url + (url.indexOf('?') == -1 ? '?' : '&') + 'angularjs=true';
-                return $window.open(url, 'angular'+url, 'width=200,height=200,top=200,left=200')
+                var name = 'angular' + url;
+                var window = $window.open(url, name, 'width=200,height=200,top=200,left=200');
+                var windowObj = { name: name, window: window };
+                windows[name] = windowObj;
+                return windowObj;
             }
 
-            function closeWindow(window) {
+            function closeWindow(name) {
+
+                var window = windows[name].window;
+                
                 $timeout(function () {
-                    window.close();
-                    if (callbackFinished) {
-                        callbackFinished();
+
+                    delete windows[name];
+                    console.log('should close ' + name);
+
+                    if (!windows.length) {
+                        window.close();
+                        if (callbackFinished) {
+                            callbackFinished();
+                        }
                     }
                 }, timeout);
             }

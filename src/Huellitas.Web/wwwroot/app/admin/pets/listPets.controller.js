@@ -2,9 +2,21 @@
     angular.module('huellitasAdmin')
         .controller('ListPetsController', ListPetsController);
 
-    ListPetsController.$inject = ['petService', 'shelterService', 'helperService', 'statusTypeService', 'modalService'];
+    ListPetsController.$inject = [
+        'petService',
+        'shelterService',
+        'helperService',
+        'statusTypeService',
+        'modalService',
+        'crawlingService'];
 
-    function ListPetsController(petService, shelterService, helperService, statusTypeService, modalService)
+    function ListPetsController(
+        petService,
+        shelterService,
+        helperService,
+        statusTypeService,
+        modalService,
+        crawlingService)
     {
         var vm = this;
         vm.filter = {
@@ -69,15 +81,15 @@
             }
         }
 
-        function toogleToResponse(form) {
-            var position = vm.toResponse.indexOf(form.id);
+        function toogleToResponse(pet) {
+            var position = vm.toResponse.indexOf(pet.id);
 
             if (position > -1) {
                 vm.toResponse.splice(position, 1);
                 vm.allSelected = false;
             }
             else {
-                vm.toResponse.push(form.id);
+                vm.toResponse.push(pet.id);
             }
         }
 
@@ -106,6 +118,13 @@
             changePage(0);
         }
 
+        function crawlPet(petId) {
+            var pet = _.findWhere(vm.pets, { id: petId });
+            if (pet) {
+                crawlingService.openCrawlingWindow('pet', { friendlyName: pet.friendlyName }, undefined, 10000);
+            }
+        }
+
         function approveAll() {
             var sentAnswers = 0;
 
@@ -116,6 +135,8 @@
                         petService.changeStatus(petId, 'Published')
                             .then(approveCompleted)
                             .catch(helperService.handleException);
+
+                        crawlPet(petId);
                     }
                 }
             }
