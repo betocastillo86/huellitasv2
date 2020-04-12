@@ -49,6 +49,8 @@ namespace Huellitas.Business.Subscribers
         /// </summary>
         private readonly IPictureService pictureService;
 
+        private readonly IGeneralSettings generalSettings;
+
         /// <summary>
         /// The seo service
         /// </summary>
@@ -81,7 +83,8 @@ namespace Huellitas.Business.Subscribers
             IUserService userService,
             IContentService contentService,
             IContentSettings contentSettings,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            IGeneralSettings generalSettings)
         {
             this.notificationService = notificationService;
             this.workContext = workContext;
@@ -90,6 +93,7 @@ namespace Huellitas.Business.Subscribers
             this.contentService = contentService;
             this.contentSettings = contentSettings;
             this.pictureService = pictureService;
+            this.generalSettings = generalSettings;
         }
 
         /// <summary>
@@ -277,7 +281,7 @@ namespace Huellitas.Business.Subscribers
                     petUrl,
                     parameters);
 
-                if (content.ClosingDate.HasValue)
+                if (content.ClosingDate.HasValue && this.generalSettings.EnableHangfire)
                 {
                     BackgroundJob.Schedule<CreatedContentNotifications>(c => c.NotifyOutDatedPet(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));
                     BackgroundJob.Schedule<ChangeContentStatusTask>(c => c.DisablePetAfterDays(content.Id), TimeSpan.FromDays(this.contentSettings.DaysToAutoClosingPet));

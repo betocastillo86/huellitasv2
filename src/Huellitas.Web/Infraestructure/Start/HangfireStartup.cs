@@ -71,7 +71,7 @@ namespace Huellitas.Web.Infraestructure.Start
                     RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
                 }
 
-                RecurringJob.AddOrUpdate<DeleteOldestFilesTask>(c => c.DeleteFilesAsync(), Cron.HourInterval(3));
+                RecurringJob.AddOrUpdate<DeleteOldestFilesTask>(c => c.DeleteFilesAsync(), Cron.Monthly());
             }
         }
     }
