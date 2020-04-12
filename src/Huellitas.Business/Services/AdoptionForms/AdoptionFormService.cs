@@ -355,6 +355,7 @@ namespace Huellitas.Business.Services
                 var form = this.GetById(answer.AdoptionFormId);
                 form.LastStatusEnum = answer.StatusEnum;
                 form.LastResponseUserId = answer.UserId;
+                form.ReponseDate = answer.CreationDate;
                 await this.Update(form);
 
                 await this.publisher.EntityInserted(answer);

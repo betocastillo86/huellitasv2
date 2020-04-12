@@ -78,6 +78,7 @@
                                     <th class="column-title">Estado</th>
                                     <th class="column-title">Estado Perro</th>
                                     <th class="column-title">Resp.</th>
+                                    <th class="column-title">Fecha Resp.</th>
                                     <th class="column-title no-link last">
                                         <span class="nobr">Opciones</span>
                                         <input type="checkbox" name="checkAll" ng-model="main.allSelected" ng-click="main.toogleAll(main.allSelected)" />
@@ -112,9 +113,12 @@
                                     <td>
                                         {{form.lastResponseUser ? form.lastResponseUser.name : ''}}
                                     </td>
+                                    <td>
+                                        {{::form.responseDate}}
+                                    </td>
                                     <td class="last">
-                                            <a href="/admin/adoptionforms/{{::form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
-                                            <input type="checkbox" name="toResponse[]" value="{{::form.id}}" ng-checked="form.checked" ng-click="main.toogleToResponse(form)" />
+                                        <a href="/admin/adoptionforms/{{::form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>
+                                        <input type="checkbox" name="toResponse[]" value="{{::form.id}}" ng-checked="form.checked" ng-click="main.toogleToResponse(form)" />
                                     </td>
                                 </tr>
                                 <tr ng-show="!main.forms.length">

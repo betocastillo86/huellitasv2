@@ -116,7 +116,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             controller.AddResponse().AddUrl();
 
@@ -167,7 +168,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             var model = new PetModel() { Type = ContentType.Pet };
             var response = await controller.Post(model) as ObjectResult;
@@ -237,7 +239,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             controller.AddUrl(true);
 
@@ -431,7 +434,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             var response = await controller.Put(newId, model) as ObjectResult;
 
@@ -482,7 +486,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             var response = await controller.Put(newId, model) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -528,7 +533,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 this.adoptionFormService.Object,
                 this.publisher.Object,
                 this.userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
 
             var response = controller.Get(id.ToString()) as NotFoundResult;
             Assert.AreEqual(404, response.StatusCode);
@@ -752,7 +758,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 adoptionFormService.Object,
                 publisher.Object,
                 userService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
         }
     }
 }

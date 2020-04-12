@@ -68,6 +68,7 @@ namespace Huellitas.Web.Models.Extensions
 
             model.User = entity.User?.ToBaseUserModel();
             model.LastResponseUser = entity.LastResponseUser?.ToBaseUserModel();
+            model.ResponseDate = entity.ReponseDate;
 
             return model;
         }

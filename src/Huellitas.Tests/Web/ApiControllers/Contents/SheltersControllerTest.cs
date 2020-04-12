@@ -419,7 +419,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
                 seoService.Object,
                 contentRepository.Object,
                 this.publisher.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.generalSettings.Object);
         }
     }
 }

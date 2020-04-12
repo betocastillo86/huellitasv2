@@ -138,6 +138,8 @@ namespace Huellitas.Web.Models.Api
         [Required]
         public string Town { get; set; }
 
+        public DateTime? ResponseDate { get; set; }
+
         /// <summary>
         /// Gets or sets the status.
         /// </summary>

@@ -205,6 +205,8 @@ namespace Huellitas.Data.Entities
         /// </value>
         public virtual ICollection<AdoptionFormUser> Users { get; set; }
 
+        public DateTime? ReponseDate { get; set; }
+
         /// <summary>
         /// Gets or sets the status enum.
         /// </summary>
