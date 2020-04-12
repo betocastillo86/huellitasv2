@@ -15,7 +15,7 @@
         <article class="content-all" ng-if="!main.showNotLogged">
             <div class="content-form">
                 <div class="ad-horizontal-m" adsense-huellitas ad-client="ca-pub-4989702801072526" ad-slot="5672416471" ad-format="auto"></div>
-                <h1 class="tit-form">PROCESO DE ADOPCIÓN</h1>
+                <h1 class="tit-form">PROCESO DE ADOPCIÓN</h1>              
                 <div class="sub-title col-md-12">A continuación encontrarás un formulario con el cual buscamos medir que tan apto eres para adoptar una mascota con nosotros. Este es el primer paso en el proceso de adopción, si lo pasas nos estaremos comunicando directamente contigo.*</div>
                 <ul class="wizard_steps">
                     <li>
@@ -109,7 +109,7 @@
                         </div>
                         <div class="col-sm-1 col-xs-3" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
 
-                            <select ng-model="main.birthDateMonth" style="padding-left:3px"  ng-change="main.dateChanged()">
+                            <select ng-model="main.birthDateMonth" style="padding-left:3px" ng-change="main.dateChanged()">
                                 <option value="">Mes</option>
                                 <option ng-repeat="month in main.months" value="{{month}}">{{month}}</option>
                             </select>
@@ -119,7 +119,7 @@
 
                         </div>
                         <div class="col-sm-1 col-xs-3" ng-class="{'bad':main.form.$submitted && main.form.birthDate.$invalid}">
-                            <select ng-model="main.birthDateDay" style="padding-left:3px"  ng-change="main.dateChanged()">
+                            <select ng-model="main.birthDateDay" style="padding-left:3px" ng-change="main.dateChanged()">
                                 <option value="">Día</option>
                                 <option ng-repeat="day in main.days" value="{{day}}">{{day}}</option>
                             </select>
@@ -167,7 +167,7 @@
                         <label class="col-md-12">{{::(child || question).question}}</label>
                         <div class="radio col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
                             <label>
-                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="{{::option}}" ng-required="(child || question).required" >
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answer" value="{{::option}}" ng-required="(child || question).required">
                                 {{::option}}
                             </label>
                         </div>
@@ -192,7 +192,7 @@
                         <br>
                         <div ng-if="question.children && (child || question).answer == 'true'">
                             <div ng-repeat="child in question.children" ng-include="child.template" ng-class="{'bad': main.form[('question'+child.id)].$invalid}">
-                                
+
                             </div>
                         </div>
                     </script>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="radio col-sm-6 col-xs-12">
                             <label>
-                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answerOther" maxlength="100" value="Otro" >
+                                <input type="radio" name="{{(child || question).key}}" ng-model="(child || question).answerOther" maxlength="100" value="Otro">
                                 Otro
                             </label>
                         </div>
@@ -220,7 +220,7 @@
                         <label class="col-md-12">{{::(child || question).question}}</label>
                         <div class="radio col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
                             <label>
-                                <input type="checkbox" name="{{(child || question).key}}[]" value="{{::option}}" ng-model="(child || question).checks[option].checked" ng-change="main.changeCheckboxType((child || question), option)" >
+                                <input type="checkbox" name="{{(child || question).key}}[]" value="{{::option}}" ng-model="(child || question).checks[option].checked" ng-change="main.changeCheckboxType((child || question), option)">
                                 {{::option}}
                             </label>
                             <div class="col-sm-6 col-xs-12" ng-if="(child || question).checks[option].checked">
@@ -234,7 +234,7 @@
                     <script id="templateOptionsWithText" type="text/ng-template">
                         <label class="col-md-12">{{::(child || question).question}}</label>
                         <div class="col-sm-6 col-xs-12" ng-repeat="option in (child || question).options">
-                            <input type="text" placeholder="{{::option}}" ng-model="(child || question).checks[option].text" name="{{(child || question).key + '_option' + $index}}"  ng-required="(child || question).required" ng-change="main.changeOptionsWithTextType((child || question), option)" maxlength="200">
+                            <input type="text" placeholder="{{::option}}" ng-model="(child || question).checks[option].text" name="{{(child || question).key + '_option' + $index}}" ng-required="(child || question).required" ng-change="main.changeOptionsWithTextType((child || question), option)" maxlength="200">
                             <span class="error" ng-if="main.form.$submitted && main.form[((child || question).key + '_option' + $index)].$invalid">Responde la pregunta</span>
                             <span class="error" ng-if="!main.form.$submitted || !main.form[((child || question).key + '_option' + $index)].$invalid"></span>
                         </div>
@@ -246,7 +246,7 @@
 
 
 
-                    
+
 
 
                     <br>
@@ -269,12 +269,13 @@
                         <br>
                     </div>
                     <span class="legal">*El llenar el formulario o ser contactado no garantiza la adopción de la mascota</span>
+                    <div ng-if="main.isDifferentLocation" class="alert alert-danger">{{main.differentLocationMessage}}</div>
                     <div class="btn-content">
                         <span class="error" ng-if="main.form.$submitted && main.form.$invalid">Valida que todos los campos estén correctamente diligenciados</span>
                         <a href="" class="btn btn-cancel btn-lg" ng-click="main.back()">{{main.currentStep > 0 ? 'Atrás' : 'Cancelar'}}</a>
                         <button type="submit" class="btn btn-save btn-lg">{{main.currentStep < 3 ? 'Siguiente' : 'Terminar'}}</button>
                     </div>
-                    
+
                 </form>
                 
             </div>

@@ -56,6 +56,8 @@
         vm.disableLeaving = undefined;
         vm.notPress = notPress;
         vm.dateChanged = dateChanged;
+        vm.isDifferentLocation = false;
+        vm.differentLocationMessage = '';
 
         activate();
 
@@ -202,8 +204,20 @@
         }
 
         function save() {
+
             if (vm.form.$valid && !vm.form.isBusy) {
+
                 if (vm.currentStep < 3) {
+
+                    vm.isDifferentLocation = vm.pet.location.id != vm.model.location.id;
+                    vm.differentLocationMessage = 'IMPORTANTE: ' + vm.pet.name + ' está en ' + vm.pet.location.name + ' y tu te encuentras en ' + vm.model.location.name + '. ¿Estás seguro que deseas continuar el proceso?';
+                    if (vm.currentStep == 0
+                        && vm.isDifferentLocation
+                        && !confirm(vm.differentLocationMessage)
+                    ) {
+                        return false;
+                    }
+
                     vm.currentStep++;
                     vm.form.$submitted = false;
                     helperService.goToFocus('.tit-form');
