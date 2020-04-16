@@ -150,6 +150,6 @@ namespace Huellitas.Business.Configuration
         /// </value>
         public bool AdsenseEnabled { get { return this.settingService.Get<bool>("GeneralSettings.AdsenseEnabled"); } }
 
-        public bool EnableHangfire { get { return Convert.ToBoolean(this.configuration["EnableHangfire"]); } }
+        public bool EnableHangfire { get { return this.configuration.GetValue<bool>("EnableHangfire"); } }
     }
 }

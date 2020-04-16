@@ -121,6 +121,8 @@ namespace Huellitas.Web
             ////Habilita configuraciones con inyecciond e dependencia
             services.AddOptions();
 
+            services.AddSingleton<IConfiguration>(this.Configuration);
+
             ////Agrega las opciones de cache
             services.AddMemoryCache();
 
