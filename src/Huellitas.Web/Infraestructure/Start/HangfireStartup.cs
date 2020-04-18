@@ -28,7 +28,7 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        public static void AddHangFire(this IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public static void AddHangFire(this IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var builder = new ConfigurationBuilder();
             builder.SetBasePath(Directory.GetCurrentDirectory());

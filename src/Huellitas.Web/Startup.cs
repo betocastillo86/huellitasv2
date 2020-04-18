@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web
 {
-    using System;
-    using System.IO;
-    using Beto.Core.Web.Api.Filters;
     using Beto.Core.Web.Middleware;
     using Huellitas.Web.Infraestructure.Filters;
     using Huellitas.Web.Infraestructure.Start;
@@ -20,42 +17,46 @@ namespace Huellitas.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
+    using System;
 
     /// <summary>
     /// The startup
     /// </summary>
     public class Startup
     {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Startup"/> class.
-            /// </summary>
-            /// <param name="env">The environment.</param>
-            public Startup(IHostingEnvironment env)
-            {
-                var builder = new ConfigurationBuilder()
-                                .SetBasePath(env.ContentRootPath)
-                                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                                .AddEnvironmentVariables();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="env">The environment.</param>
+        public Startup(IWebHostEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(env.ContentRootPath)
+                            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                            .AddEnvironmentVariables();
 
-                this.Configuration = builder.Build();
-            }
+            this.Configuration = builder.Build();
+            this.Environment = env;
+        }
 
-            /// <summary>
-            /// Gets the configuration.
-            /// </summary>
-            /// <value>
-            /// The configuration.
-            /// </value>
-            public IConfigurationRoot Configuration { get; private set; }
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public IConfigurationRoot Configuration { get; private set; }
 
-            /// <summary>
-            /// Configures the specified application.
-            /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            /// </summary>
-            /// <param name="app">The application.</param>
-            /// <param name="env">The env.</param>
-            /// <param name="loggerFactory">The logger factory.</param>
-            public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public IWebHostEnvironment Environment { get; set; }
+
+        /// <summary>
+        /// Configures the specified application.
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">The application.</param>
+        /// <param name="env">The env.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMiddleware<ExceptionsMiddlewareLogger>();
 
@@ -66,48 +67,50 @@ namespace Huellitas.Web
 
             app.UseMiddleware<CurrentDateMiddleware>();
 
-            app.InitDatabase(env, this.Configuration);
+            //app.InitDatabase(env, this.Configuration);
 
             ////app.UseDeveloperExceptionPage();
 
-            app.AddJWTAuthorization(env, loggerFactory);
-
             app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.AddJWTAuthorization(env, loggerFactory);
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions()
             {
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
             });
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(routes =>
             {
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "adminLoginRoute",
-                    template: "admin/login",
+                    pattern: "admin/login",
                     defaults: new { controller = "Admin", action = "Login" });
 
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "defaultAdminRoute",
-                    template: "admin/{*complement}",
+                    pattern: "admin/{*complement}",
                     defaults: new { controller = "Admin", action = "Index" });
 
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "HomeRoute",
-                    template: string.Empty,
+                    pattern: string.Empty,
                     defaults: new { controller = "Home", action = "Index" });
 
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "PreviousURLs",
-                    template: "fundaciones/{id:int}/{name}",
+                    pattern: "fundaciones/{id:int}/{name}",
                     defaults: new { controller = "Home", action = "RedirectPrevious" });
 
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "defaultRoute",
-                    template: "{root:regex(^(?!api).+)}/{*complement}",
+                    pattern: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            this.CreateJavascriptFile(app);
+            //this.CreateJavascriptFile(app);
 
             app.StartRecurringJobs(this.Configuration);
         }
@@ -129,16 +132,16 @@ namespace Huellitas.Web
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddJsonOptions(c =>
+            }).AddNewtonsoftJson(c =>
             {
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
 
             ////Registra los Repositorios genericos
-            services.RegisterHuellitasServices(this.Configuration);
+            services.RegisterHuellitasServices(this.Configuration, this.Environment);
 
-            if (Convert.ToBoolean(this.Configuration["EnableHangfire"])) 
+            if (Convert.ToBoolean(this.Configuration["EnableHangfire"]))
             {
                 //// External services
                 services.RegisterHangFireServices(this.Configuration);

@@ -26,9 +26,11 @@ namespace Huellitas.Web.Infraestructure.Start
     using Huellitas.Business.Tasks;
     using Huellitas.Data.Core;
     using Huellitas.Web.Infraestructure.Filters.Action;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Security;
     using UI;
@@ -43,9 +45,12 @@ namespace Huellitas.Web.Infraestructure.Start
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="configuration">The configuration.</param>
-        public static void RegisterHuellitasServices(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void RegisterHuellitasServices(this IServiceCollection services, IConfigurationRoot configuration, IWebHostEnvironment environment)
         {
-            services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            if (!environment.IsEnvironment("Test"))
+            {
+                services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            }
 
             ////Registra los Repositorios genericos
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));

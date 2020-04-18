@@ -27,7 +27,7 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        public static void AddJWTAuthorization(this IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public static void AddJWTAuthorization(this IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             ////////Guia tomada de https://stormpath.com/blog/token-authentication-asp-net-core
             ////var securitySettings = (ISecuritySettings)app.ApplicationServices.GetService(typeof(ISecuritySettings));
@@ -50,6 +50,8 @@ namespace Huellitas.Web.Infraestructure.Start
             ////    TokenValidationParameters = validationParameters
             ////});
             app.UseAuthentication();
+
+            app.UseAuthorization();
         }
 
         /// <summary>

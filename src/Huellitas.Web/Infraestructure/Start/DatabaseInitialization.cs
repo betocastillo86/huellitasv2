@@ -22,7 +22,7 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
         /// <param name="config">The configuration.</param>
-        public static void InitDatabase(this IApplicationBuilder app, IHostingEnvironment env, IConfigurationRoot config)
+        public static void InitDatabase(this IApplicationBuilder app, IWebHostEnvironment env, IConfigurationRoot config)
         {
             var context = (HuellitasContext)app.ApplicationServices.GetService(typeof(HuellitasContext));
             context.Database.EnsureCreated();
