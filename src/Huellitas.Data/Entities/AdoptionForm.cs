@@ -207,6 +207,8 @@ namespace Huellitas.Data.Entities
 
         public DateTime? ReponseDate { get; set; }
 
+        public bool AlreadyOpened { get; set; }
+
         /// <summary>
         /// Gets or sets the status enum.
         /// </summary>
