@@ -61,7 +61,7 @@
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("POST", "/api/logs", true);
                     xhttp.setRequestHeader("Content-type", "application/json");
-                    xhttp.send(JSON.stringify({ ShortMessage: data.toString(), FullMessage: 'Error:' + (data.stack ? data.stack.toString() : null) + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
+                    xhttp.send(JSON.stringify({ ShortMessage: typeof data == 'string' ? data : JSON.stringify(data), FullMessage: 'Error:' + (data.stack ? data.stack.toString() : null) + ' <br> UserAgent:' + navigator.userAgent + ' <br> URL:' + document.location.href }));
                 }
             }
         }
