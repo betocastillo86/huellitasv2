@@ -9,6 +9,8 @@ namespace Huellitas.Data.Core
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Context of <![CDATA[Huellitas]]>
@@ -239,6 +241,11 @@ namespace Huellitas.Data.Core
         /// The seo crawlings.
         /// </value>
         public virtual DbSet<SeoCrawling> SeoCrawlings { get; set; }
+
+        public void BulkInsert<T>(IList<T> entities, BulkConfigCore bulkConfig = null, Action<decimal> progress = null) where T : class
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Override this method to further configure the model that was discovered by convention from the entity types

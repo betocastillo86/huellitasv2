@@ -203,5 +203,9 @@ namespace Huellitas.Data.Entities
                 this.comments = value;
             }
         }
+
+        public Guid? DeviceId { get; set; }
+
+        public Guid? IOsDeviceId { get; set; }
     }
 }

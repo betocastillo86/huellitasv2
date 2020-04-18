@@ -92,5 +92,9 @@ namespace Huellitas.Data.Entities
         /// The update date.
         /// </value>
         public System.DateTime? UpdateDate { get; set; }
+
+        public bool IsMobile { get; set; }
+
+        public string MobileText { get; set; }
     }
 }

@@ -346,7 +346,7 @@ namespace Huellitas.Business.Services
                 SiteUrl = this.generalSettings.SiteUrl
             };
 
-            await this.coreNotificationService.NewNotification<SystemNotification, EmailNotification>(
+            await this.coreNotificationService.NewNotification<SystemNotification, EmailNotification, DefaultUnsubscriber>(
                 users.Select(c => (IUserEntity)c).ToList(),
                 userTriggerEvent,
                 notification,
