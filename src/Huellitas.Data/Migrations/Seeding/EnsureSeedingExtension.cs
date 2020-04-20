@@ -32,7 +32,7 @@ namespace Huellitas.Data.Migrations
         /// Seeds the contents.
         /// </summary>
         /// <param name="context">The context.</param>
-        private static void Seed(HuellitasContext context)
+        public static void Seed(HuellitasContext context)
         {
             SeedingRoles.Seed(context);
             SeedingUsers.Seed(context);

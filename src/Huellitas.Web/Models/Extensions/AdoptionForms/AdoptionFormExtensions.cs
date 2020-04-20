@@ -48,7 +48,8 @@ namespace Huellitas.Web.Models.Extensions
                 Job = new ContentAttributeModel<int> { Value = entity.JobId },
                 Location = new LocationModel { Id = entity.LocationId },
                 ContentId = entity.ContentId,
-                FamilyMembersAge = entity.FamilyMembersAge
+                FamilyMembersAge = entity.FamilyMembersAge,
+                AlreadyOpened = entity.AlreadyOpened
             };
 
             if (entity.Location != null)

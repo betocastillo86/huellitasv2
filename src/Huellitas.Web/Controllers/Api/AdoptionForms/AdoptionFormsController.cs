@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Web.Controllers.Api
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Beto.Core.Caching;
     using Beto.Core.Data.Files;
     using Beto.Core.Exceptions;
@@ -17,10 +14,14 @@ namespace Huellitas.Web.Controllers.Api
     using Business.Security;
     using Business.Services;
     using Huellitas.Business.Configuration;
+    using Huellitas.Data.Entities;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Api;
     using Models.Extensions;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Adoption Forms Controller
@@ -224,6 +225,29 @@ namespace Huellitas.Web.Controllers.Api
             {
                 return this.BadRequest(this.ModelState);
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("{id:int}/markAsRead")]
+        public async Task<IActionResult> PostMarkAsRead(int id)
+        {
+            var form = this.adoptionFormService.GetById(id);
+
+            if (form == null)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.contentService.IsUserInContent(this.workContext.CurrentUserId, form.ContentId, ContentUserRelationType.Parent))
+            {
+                return this.Forbid();
+            }
+
+            form.AlreadyOpened = true;
+            await this.adoptionFormService.Update(form);
+
+            return this.Ok();
         }
 
         /// <summary>

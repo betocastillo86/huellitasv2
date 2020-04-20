@@ -24,9 +24,9 @@ namespace Huellitas.Data.Migrations
         {
             var list = new List<User>();
 
-            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "12a80b33b30a82e27e46634b44679a7946e0c6e9"/*123.123456*/, RoleId = 1, CreatedDate = DateTime.Now, Salt = "123" });
-            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "55d81fa21753c11353fcb3a4721a5d8ab59e5813"/*123456.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
-            list.Add(new Entities.User() { Name = "Fundación", Email = "fundacion@fundacion.com", Password = "614c39951f7372fcad450958b43e6fe9edd34923"/*123456.fundacion@fundacion.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
+            list.Add(new Entities.User() { Name = "Administrador", Email = "admin@admin.com", Password = "619651c6cb5dc394373a5bb75fea9d4314f3564b"/*123.123456*/, RoleId = 1, CreatedDate = DateTime.Now, Salt = "123" });
+            list.Add(new Entities.User() { Name = "Publico", Email = "public@public.com", Password = "619651c6cb5dc394373a5bb75fea9d4314f3564b"/*123456.public@public.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
+            list.Add(new Entities.User() { Name = "Fundación", Email = "fundacion@fundacion.com", Password = "619651c6cb5dc394373a5bb75fea9d4314f3564b"/*123456.fundacion@fundacion.com*/, RoleId = 2, CreatedDate = DateTime.Now, Salt = "123" });
 
             foreach (var item in list)
             {

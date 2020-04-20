@@ -149,6 +149,8 @@ namespace Huellitas.Web.Models.Api
         [JsonConverter(typeof(StringEnumConverter))]
         public AdoptionFormAnswerStatus Status { get; set; }
 
+        public bool AlreadyOpened { get; set; }
+
         /// <summary>
         /// Gets or sets the user.
         /// </summary>

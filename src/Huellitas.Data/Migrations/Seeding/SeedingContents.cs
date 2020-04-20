@@ -5,11 +5,11 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Data.Migrations
 {
+    using Huellitas.Data.Core;
+    using Huellitas.Data.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Huellitas.Data.Core;
-    using Huellitas.Data.Entities;
 
     /// <summary>
     /// Seeding Contents
@@ -22,7 +22,7 @@ namespace Huellitas.Data.Migrations
         /// <param name="context">The context.</param>
         public static void Seed(HuellitasContext context)
         {
-            var userid = context.Users.FirstOrDefault().Id;
+            var userid = context.Users.FirstOrDefault(c => c.Email.Equals("public@public.com")).Id;
 
             var list = new List<Content>();
 
@@ -42,7 +42,11 @@ namespace Huellitas.Data.Migrations
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "5" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "3" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "1" }
-                    }
+                },
+                Users = new List<ContentUser>
+                {
+                    new ContentUser{ UserId = userid, RelationType = ContentUserRelationType.Parent }
+                }
             });
             list.Add(new Entities.Content()
             {
@@ -60,7 +64,11 @@ namespace Huellitas.Data.Migrations
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "5" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
-                    }
+                    },
+                Users = new List<ContentUser>
+                {
+                    new ContentUser{ UserId = userid, RelationType = ContentUserRelationType.Parent }
+                }
             });
             list.Add(new Entities.Content()
             {
@@ -78,7 +86,11 @@ namespace Huellitas.Data.Migrations
                         new ContentAttribute() { AttributeType = ContentAttributeType.Age, Value = "1" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Size, Value = "3" },
                         new ContentAttribute() { AttributeType = ContentAttributeType.Subtype, Value = "2" }
-                    }
+                    },
+                Users = new List<ContentUser>
+                {
+                    new ContentUser{ UserId = userid, RelationType = ContentUserRelationType.Parent }
+                }
             });
             list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
             list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });

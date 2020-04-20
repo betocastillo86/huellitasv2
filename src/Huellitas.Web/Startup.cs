@@ -16,6 +16,7 @@ namespace Huellitas.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using System;
 
@@ -66,6 +67,11 @@ namespace Huellitas.Web
             }
 
             app.UseMiddleware<CurrentDateMiddleware>();
+
+            if (env.IsEnvironment("Test"))
+            {
+                app.UseMiddleware<FakeRemoteIpAddressMiddleware>();
+            }
 
             //app.InitDatabase(env, this.Configuration);
 
@@ -150,7 +156,7 @@ namespace Huellitas.Web
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             ////Register all policies required
-            services.AddJwtAuthentication();
+            services.AddJwtAuthentication(this.Environment);
         }
 
         /// <summary>

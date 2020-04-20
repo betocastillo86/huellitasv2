@@ -13,6 +13,7 @@ namespace Huellitas.Web.Infraestructure.Start
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
 
@@ -58,25 +59,38 @@ namespace Huellitas.Web.Infraestructure.Start
         /// Configures the policies.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void AddJwtAuthentication(this IServiceCollection services)
+        public static void AddJwtAuthentication(this IServiceCollection services, IWebHostEnvironment env)
         {
-            var sp = services.BuildServiceProvider();
 
-            var securitySettings = sp.GetService<ISecuritySettings>();
+            string authenticationAudience = "AudienceAuthentication";
+            string authenticationIssuer = "AuthenticationIssuer";
+            string authenticationSecretKey = "TheSecretKey132456789";
 
-            if (securitySettings.AuthenticationSecretKey == null)
+            if (!env.IsEnvironment("Test"))
             {
-                return;
+                var sp = services.BuildServiceProvider();
+
+                var securitySettings = sp.GetService<ISecuritySettings>();
+
+                if (securitySettings.AuthenticationSecretKey == null)
+                {
+                    return;
+                }
+
+                authenticationAudience = securitySettings.AuthenticationAudience;
+                authenticationIssuer = securitySettings.AuthenticationIssuer;
+                authenticationSecretKey = securitySettings.AuthenticationSecretKey;
+
             }
 
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securitySettings.AuthenticationSecretKey));
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authenticationSecretKey));
 
             var validationParameters = new TokenValidationParameters
             {
-                ValidAudience = securitySettings.AuthenticationAudience,
+                ValidAudience = authenticationSecretKey,
                 ValidateIssuer = true,
                 IssuerSigningKey = signingKey,
-                ValidIssuer = securitySettings.AuthenticationIssuer,
+                ValidIssuer = authenticationIssuer,
                 ValidateLifetime = true
             };
 
@@ -86,8 +100,8 @@ namespace Huellitas.Web.Infraestructure.Start
             })
             .AddJwtBearer(c =>
             {
-                c.Audience = securitySettings.AuthenticationAudience;
-                c.ClaimsIssuer = securitySettings.AuthenticationIssuer;
+                c.Audience = authenticationAudience;
+                c.ClaimsIssuer = authenticationIssuer;
                 c.TokenValidationParameters = validationParameters;
             });
 
