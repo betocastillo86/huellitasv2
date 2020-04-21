@@ -87,7 +87,7 @@ namespace Huellitas.Web.Infraestructure.Start
 
             var validationParameters = new TokenValidationParameters
             {
-                ValidAudience = authenticationSecretKey,
+                ValidAudience = authenticationAudience,
                 ValidateIssuer = true,
                 IssuerSigningKey = signingKey,
                 ValidIssuer = authenticationIssuer,
@@ -110,9 +110,9 @@ namespace Huellitas.Web.Infraestructure.Start
                 c.AddPolicy(
                     "IsAdmin",
                     policy =>
-                {
-                    policy.RequireClaim(ClaimTypes.Role, RoleEnum.SuperAdmin.ToString(), "Admin");
-                });
+                    {
+                        policy.RequireClaim(ClaimTypes.Role, RoleEnum.SuperAdmin.ToString(), "Admin");
+                    });
             });
         }
     }

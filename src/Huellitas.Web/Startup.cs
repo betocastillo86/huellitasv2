@@ -40,12 +40,6 @@ namespace Huellitas.Web
             this.Environment = env;
         }
 
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        /// <value>
-        /// The configuration.
-        /// </value>
         public IConfigurationRoot Configuration { get; private set; }
 
         public IWebHostEnvironment Environment { get; set; }
@@ -87,6 +81,7 @@ namespace Huellitas.Web
             {
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
             });
+            
 
             app.UseEndpoints(routes =>
             {
@@ -116,9 +111,10 @@ namespace Huellitas.Web
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            //this.CreateJavascriptFile(app);
-
-            app.StartRecurringJobs(this.Configuration);
+            if (!env.IsEnvironment("Test"))
+            {
+                app.StartRecurringJobs(this.Configuration);
+            }
         }
 
         /// <summary>
@@ -143,7 +139,7 @@ namespace Huellitas.Web
                 c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                 c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
-
+            
             ////Registra los Repositorios genericos
             services.RegisterHuellitasServices(this.Configuration, this.Environment);
 
@@ -162,10 +158,10 @@ namespace Huellitas.Web
         /// <summary>
         /// Creates the <c>javascript</c> file.
         /// </summary>
-        /// <param name="builder">The builder.</param>
-        private void CreateJavascriptFile(IApplicationBuilder builder)
+        /// <param name="serviceProvider">The builder.</param>
+        private void CreateJavascriptFile(ServiceProvider serviceProvider)
         {
-            var javascriptGenerator = (IJavascriptConfigurationGenerator)builder.ApplicationServices.GetService(typeof(IJavascriptConfigurationGenerator));
+            var javascriptGenerator = (IJavascriptConfigurationGenerator)serviceProvider.GetService(typeof(IJavascriptConfigurationGenerator));
             javascriptGenerator.CreateJavascriptConfigurationFile();
         }
     }
