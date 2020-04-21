@@ -11,7 +11,8 @@
             getById: getById,
             post: post,
             postUser: postUser,
-            sendByEmail : sendByEmail
+            sendByEmail: sendByEmail,
+            markAsOpened: markAsOpened
         };
 
         function getAll(filter)
@@ -37,6 +38,11 @@
         function post(model)
         {
             return http.post('/api/adoptionforms', model);
+        }
+
+        function markAsOpened(id)
+        {
+            return http.post('/api/adoptionforms/' + id + '/markAsRead', {});
         }
     }
 

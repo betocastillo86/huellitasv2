@@ -89,7 +89,10 @@
                             <tbody>
                                 <tr ng-repeat="form in main.forms" class="pointer" ng-class-odd="odd" ng-class-even="even">
                                     <td><img ng-src="{{::form.content.image.fileName}}" title="{{::form.content.name}}" width="40" height="40" /></td>
-                                    <td><span ng-click="main.filterByPet(form)" title="Filtrar por mascota">{{::form.content.name}}</span></td>
+                                    <td><span ng-click="main.filterByPet(form)" title="Filtrar por mascota">{{::form.content.name}}</span> <span class="label"  ng-class="::[
+                        {'label-danger' : !form.alreadyOpened },
+                        {'label-success' : form.alreadyOpened}
+                        ]">&nbsp;</span></td>
                                     <td><span ng-click="main.filterByUser(form)" title="Filtrar por solicitante">{{::form.name}}</span></td>
                                     <td>{{::form.creationDate}}</td>
                                     <td>

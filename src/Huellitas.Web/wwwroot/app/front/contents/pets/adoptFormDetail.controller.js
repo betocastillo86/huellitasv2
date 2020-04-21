@@ -68,14 +68,28 @@
         function getForm() {
             adoptionFormService.getById(vm.id)
                 .then(getCompleted)
-                .catch(helperService.notFound);
+                .catch(helperService.handleException);
 
             function getCompleted(response) {
                 vm.model = response;
 
+                if (!vm.model.alreadyOpened) {
+                    markAsOpened();
+                }
+
                 for (var i = 0; i < vm.model.answers.length; i++) {
                     vm.model.answers[i].statusName = _.findWhere(vm.statuses, { enum: vm.model.answers[i].status }).name;
                 }
+            }
+        }
+
+        function markAsOpened() {
+            adoptionFormService.markAsOpened(vm.id)
+                .then(markCompleted)
+                .catch(helperService.handleException);
+
+            function markCompleted(response) {
+                console.log('read');
             }
         }
 
