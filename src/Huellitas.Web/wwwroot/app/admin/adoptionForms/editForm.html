@@ -27,6 +27,9 @@
                     <button class="btn btn-app" ng-click="main.showSendByEmail()">
                         <i class="fa fa-send"></i> Enviar
                     </button>
+                    <button class="btn btn-app btn-danger" style="color:red" ng-click="main.inactivatePet()" ng-if="main.model.content.status === 'Published'">
+                        <i class="fa fa-remove"></i> Inactivar
+                    </button>
                 </div>
 
                 <div class="x_content">

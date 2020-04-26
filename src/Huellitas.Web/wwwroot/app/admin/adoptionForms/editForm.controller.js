@@ -2,9 +2,16 @@
     angular.module('huellitasAdmin')
         .controller('EditFormController', EditFormController);
 
-    EditFormController.$inject = ['$routeParams', '$location', 'adoptionFormService', 'adoptionFormAnswerService', 'modalService', 'helperService']
+    EditFormController.$inject = [
+        '$routeParams',
+        '$location',
+        'adoptionFormService',
+        'adoptionFormAnswerService',
+        'modalService',
+        'helperService',
+        'petService']
 
-    function EditFormController($routeParams, $location, adoptionFormService, adoptionFormAnswerService, modalService, helperService) {
+    function EditFormController($routeParams, $location, adoptionFormService, adoptionFormAnswerService, modalService, helperService, petService) {
         var vm = this;
         vm.id = $routeParams.id;
         vm.model = {};
@@ -21,6 +28,7 @@
         vm.toogleShowMore = toogleShowMore;
         vm.saveResponse = saveResponse;
         vm.showSendByEmail = showSendByEmail;
+        vm.inactivatePet = inactivatePet;
 
         return activate();
 
@@ -91,6 +99,18 @@
                     vm.isSending = false;
                     helperService.handleException(response);
                 }
+            }
+        }
+
+        function inactivatePet() {
+            if (confirm('¿Seguro desea desactivar animal?')) {
+                petService.changeStatus(vm.model.content.id, 'Hidden')
+                    .then(disableCompleted)
+                    .catch(helperService.handleException);
+            }
+
+            function disableCompleted() {
+                modalService.show({message: 'Animal desactivado'});
             }
         }
 
