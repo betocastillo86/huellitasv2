@@ -11,7 +11,7 @@
 
         function timeAgo(date)
         {
-            return date.getIntervalTime();
+            return date && date != '' ? date.getIntervalTime() : '';
         }
     }
 
