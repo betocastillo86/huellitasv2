@@ -336,7 +336,7 @@ namespace Huellitas.Business.Services
         /// <exception cref="HuellitasException">the exception</exception>
         public async Task InsertAsync(Content content)
         {
-            content.CreatedDate = DateTime.Now;
+            content.CreatedDate = DateTime.UtcNow;
             if (string.IsNullOrEmpty(content.FriendlyName))
             {
                 content.FriendlyName = this.seoService.GenerateFriendlyName(content.Name, this.contentRepository.Table);

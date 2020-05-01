@@ -156,7 +156,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task Insert(User user)
         {
-            user.CreatedDate = DateTime.Now;
+            user.CreatedDate = DateTime.UtcNow;
             user.IpAddress = this.httpContextHelpers.GetCurrentIpAddress();
 
             try

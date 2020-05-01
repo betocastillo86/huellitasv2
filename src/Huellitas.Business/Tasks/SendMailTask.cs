@@ -77,7 +77,7 @@ namespace Huellitas.Business.Tasks
                     try
                     {
                         this.SendMessage(mail);
-                        mail.SentDate = DateTime.Now;
+                        mail.SentDate = DateTime.UtcNow;
                     }
                     catch (Exception e)
                     {

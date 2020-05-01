@@ -207,7 +207,7 @@ namespace Huellitas.Business.Subscribers
                 var parameters = this.GetBasicParameters(form.Content, shelter);
 
                 parameters.Add("AdoptionForm.CreationDate", form.CreationDate.ToString());
-                parameters.Add("AdoptionForm.Days", ((form.CreationDate - DateTime.Now).Days * -1).ToString());
+                parameters.Add("AdoptionForm.Days", ((form.CreationDate - DateTime.UtcNow).Days * -1).ToString());
 
                 var users = this.GetPetOwners(form.Content, shelter);
 

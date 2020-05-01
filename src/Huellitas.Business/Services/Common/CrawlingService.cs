@@ -66,7 +66,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task InsertAsync(SeoCrawling crawling)
         {
-            crawling.CreationDate = DateTime.Now;
+            crawling.CreationDate = DateTime.UtcNow;
             await this.crawlingRepository.InsertAsync(crawling);
         }
 
@@ -79,7 +79,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task UpdateAsync(SeoCrawling crawling)
         {
-            crawling.ModifiedDate = DateTime.Now;
+            crawling.ModifiedDate = DateTime.UtcNow;
             await this.crawlingRepository.UpdateAsync(crawling);
         }
     }

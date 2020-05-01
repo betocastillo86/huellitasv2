@@ -47,49 +47,49 @@ namespace Huellitas.Business.Tasks
         [DisableConcurrentExecution(timeoutInSeconds: 20 * 60)]
         public async Task DeleteFilesAsync()
         {
-            this.logger.Debug($"{DateTime.Now} Starting delete oldest files process -----------------------------");
+            this.logger.Debug($"{DateTime.UtcNow} Starting delete oldest files process -----------------------------");
 
             var duplicatedDeleted = await this.fileService.DeleteFilesWithContentDuplicated();
 
-            this.logger.Debug($"{DateTime.Now} Deletes files with content duplicated {duplicatedDeleted}");
+            this.logger.Debug($"{DateTime.UtcNow} Deletes files with content duplicated {duplicatedDeleted}");
 
             var files = this.fileService.GetInactiveFiles(20, 1000);
 
-            this.logger.Debug($"{DateTime.Now} Files records to mark as deleted {files.Count}");
+            this.logger.Debug($"{DateTime.UtcNow} Files records to mark as deleted {files.Count}");
 
             if (files.Count > 0)
             {
-                var backupFolder = System.IO.Path.Combine(this.hostingEnvironment.ContentRootPath, "backups", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                var backupFolder = System.IO.Path.Combine(this.hostingEnvironment.ContentRootPath, "backups", DateTime.UtcNow.ToString("yyyyMMddHHmmss"));
 
                 var filesTuple = CopyFilesToTempFolder(files, backupFolder);
                 var filesToMove = filesTuple.Item1;
                 var foldersToValidate = filesTuple.Item2;
 
-                this.logger.Debug($"{DateTime.Now} Physical files to delete {filesToMove.Count}, folders to Validate {foldersToValidate.Count}");
+                this.logger.Debug($"{DateTime.UtcNow} Physical files to delete {filesToMove.Count}, folders to Validate {foldersToValidate.Count}");
 
                 if (filesToMove.Count > 0)
                 {
-                    this.logger.Debug($"{DateTime.Now} Before creating zip file");
+                    this.logger.Debug($"{DateTime.UtcNow} Before creating zip file");
 
                     ZipFile.CreateFromDirectory(backupFolder, string.Concat(backupFolder, ".zip"));
 
                     System.IO.Directory.Delete(backupFolder, true);
 
-                    this.logger.Debug($"{DateTime.Now} Zip created and backup foler deleted");
+                    this.logger.Debug($"{DateTime.UtcNow} Zip created and backup foler deleted");
 
                     foreach (var file in files)
                     {
                         await this.fileService.DeleteFile(file);
                     }
 
-                    this.logger.Debug($"{DateTime.Now} Files maked as deleted");
+                    this.logger.Debug($"{DateTime.UtcNow} Files maked as deleted");
 
                     foreach (var fileToDelete in filesToMove)
                     {
                         System.IO.File.Delete(fileToDelete);
                     }
 
-                    this.logger.Debug($"{DateTime.Now} Physical files deleted");
+                    this.logger.Debug($"{DateTime.UtcNow} Physical files deleted");
 
                     var deletedFolders = new List<string>();
 
@@ -104,7 +104,7 @@ namespace Huellitas.Business.Tasks
                         }
                     }
 
-                    this.logger.Debug($"{DateTime.Now} Empty folders deleted total: {deletedFolders.Count} -> {string.Join(',', deletedFolders)}");
+                    this.logger.Debug($"{DateTime.UtcNow} Empty folders deleted total: {deletedFolders.Count} -> {string.Join(',', deletedFolders)}");
                 }
                 else
                 {
@@ -113,15 +113,15 @@ namespace Huellitas.Business.Tasks
                         await this.fileService.DeleteFile(file);
                     }
 
-                    this.logger.Debug($"{DateTime.Now} Files maked as deleted");
+                    this.logger.Debug($"{DateTime.UtcNow} Files maked as deleted");
 
                     System.IO.Directory.Delete(backupFolder, true);
 
-                    this.logger.Debug($"{DateTime.Now} Temp folder deleted");
+                    this.logger.Debug($"{DateTime.UtcNow} Temp folder deleted");
                 }
             }
             
-            Console.WriteLine($"{DateTime.Now} Process finished");
+            Console.WriteLine($"{DateTime.UtcNow} Process finished");
         }
 
         private (IList<string>, IList<string>) CopyFilesToTempFolder(IList<File> files, string tempFolder)

@@ -24,7 +24,7 @@ namespace Huellitas.Business.Extensions
         public static void Console(this ILogService log, string shortMessage, string fullMessage = null, User user = null)
         {
             log.Insert(LogLevel.Console, shortMessage, fullMessage ?? shortMessage, user);
-            System.Console.WriteLine("{0} - {1}", DateTime.Now, shortMessage);
+            System.Console.WriteLine("{0} - {1}", DateTime.UtcNow, shortMessage);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Huellitas.Business.Extensions
 
             if (writeConsole)
             {
-                System.Console.WriteLine("{0} - {1}", DateTime.Now, shortMessage);
+                System.Console.WriteLine("{0} - {1}", DateTime.UtcNow, shortMessage);
             }
         }
 

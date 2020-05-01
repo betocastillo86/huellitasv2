@@ -49,7 +49,7 @@ namespace Huellitas.Data.Migrations
             //// guarda registro de que se corrió la semilla
             context.Logs.Add(new Entities.Log()
             {
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 FullMessage = "Ejecución de seed",
                 LogLevel = Entities.LogLevel.Information,
                 ShortMessage = "Ejecución de seed"

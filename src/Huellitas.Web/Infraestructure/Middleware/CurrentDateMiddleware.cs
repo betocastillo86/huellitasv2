@@ -37,7 +37,7 @@ namespace Huellitas.Web.Infraestructure.Middleware
         {
             if (context.Response != null)
             {
-                context.Response.Headers.Add("x-current-date", DateTime.Now.ToString());
+                context.Response.Headers.Add("x-current-date", DateTime.UtcNow.ToString());
             }
 
             await this.next(context);

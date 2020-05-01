@@ -40,9 +40,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.contentSettings.SetupGet(c => c.DaysToAutoClosingPet)
                 .Returns(timeToClose);
 
-            var dateTimeClose = DateTime.Now.AddDays(timeToClose);
+            var dateTimeClose = DateTime.UtcNow.AddDays(timeToClose);
 
-            var date = DateTime.Now;
+            var date = DateTime.UtcNow;
 
             model.ClosingDate = date;
 
@@ -60,7 +60,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             this.Setup();
             var model = new PetModel().MockNew();
 
-            var date = DateTime.Now;
+            var date = DateTime.UtcNow;
 
             model.ClosingDate = date;
 
@@ -81,7 +81,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             this.contentService.Setup(c => c.GetById(It.IsAny<int>(), false)).Returns(new Content() { Id = 1, LocationId = 2 });
 
-            var date = DateTime.Now;
+            var date = DateTime.UtcNow;
 
             model.ClosingDate = date;
 
@@ -296,7 +296,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             entity.DisplayOrder = 1;
             entity.StatusType = StatusType.Closed;
             entity.Views = 6;
-            entity.CreatedDate = DateTime.Now;
+            entity.CreatedDate = DateTime.UtcNow;
             entity.LocationId = 7;
             entity.Location = new Location() { Id = 7, Name = "Location" };
             entity.UserId = 1;

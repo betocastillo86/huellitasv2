@@ -287,7 +287,7 @@ namespace Huellitas.Web.Controllers.Api
 
             if (filter.IsValid(canGetUnplublished, this.workContext, out filterData))
             {
-                DateTime? closingDateFilter = filter.WithinClosingDate.HasValue && filter.WithinClosingDate.Value ? DateTime.Now : (DateTime?)null;
+                DateTime? closingDateFilter = filter.WithinClosingDate.HasValue && filter.WithinClosingDate.Value ? DateTime.UtcNow : (DateTime?)null;
 
                 int? belongsToUserId = null;
 
@@ -464,7 +464,7 @@ namespace Huellitas.Web.Controllers.Api
                 {
                     this.ModelState.AddModelError("StartingDate", "Debe ingresar la fecha en que se perdió la mascota");
                 }
-                else if (model.StartingDate.Value > DateTime.Now)
+                else if (model.StartingDate.Value > DateTime.UtcNow)
                 {
                     this.ModelState.AddModelError("StartingDate", "La fecha no puede ser mayor a la fecha actual");
                 }
@@ -529,7 +529,7 @@ namespace Huellitas.Web.Controllers.Api
                     {
                         if (model.Status == StatusType.Published && content.ClosingDate.HasValue)
                         {
-                            model.ClosingDate = DateTime.Now.AddDays(this.contentSettings.DaysToAutoClosingPet);
+                            model.ClosingDate = DateTime.UtcNow.AddDays(this.contentSettings.DaysToAutoClosingPet);
 
                             if (this.generalSettings.EnableHangfire)
                             {

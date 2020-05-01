@@ -302,7 +302,7 @@ namespace Huellitas.Business.Services
         {
             try
             {
-                form.CreationDate = DateTime.Now;
+                form.CreationDate = DateTime.UtcNow;
                 await this.adoptionFormRepository.InsertAsync(form);
                 await this.publisher.EntityInserted(form);
             }
@@ -347,7 +347,7 @@ namespace Huellitas.Business.Services
         {
             try
             {
-                answer.CreationDate = DateTime.Now;
+                answer.CreationDate = DateTime.UtcNow;
 
                 await this.adoptionFormAnswerRepository.InsertAsync(answer);
 

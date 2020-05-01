@@ -252,7 +252,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task InsertEmailNotification(EmailNotification notification)
         {
-            notification.CreatedDate = DateTime.Now;
+            notification.CreatedDate = DateTime.UtcNow;
             await this.emailNotificationRepository.InsertAsync(notification);
         }
 
@@ -369,7 +369,7 @@ namespace Huellitas.Business.Services
             NotificationType notificationType,
             string to)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
 
             if (parameters == null)
             {
@@ -391,7 +391,7 @@ namespace Huellitas.Business.Services
                 ToName = to,
                 Subject = notification.EmailSubject,
                 Body = body,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 Cc = null,
                 ScheduledDate = null,
                 SentDate = null
@@ -407,7 +407,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task Update(Notification entity)
         {
-            entity.UpdateDate = DateTime.Now;
+            entity.UpdateDate = DateTime.UtcNow;
 
             await this.notificationRepository.UpdateAsync(entity);
 
@@ -515,7 +515,7 @@ namespace Huellitas.Business.Services
                 ToName = user.Name,
                 Subject = subject,
                 Body = body,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 Cc = null,
                 ScheduledDate = null,
                 SentDate = null

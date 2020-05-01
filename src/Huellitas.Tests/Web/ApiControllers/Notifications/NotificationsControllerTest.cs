@@ -267,7 +267,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Notifications
                 Name = "Name",
                 SystemText = "SystemText",
                 Tags = "Tags",
-                UpdateDate = DateTime.Now
+                UpdateDate = DateTime.UtcNow
             };
         }
 

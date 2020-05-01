@@ -87,7 +87,7 @@ namespace Huellitas.Business.Services
         public async Task Delete(Comment comment)
         {
             comment.Deleted = true;
-            comment.ModifiedDate = DateTime.Now;
+            comment.ModifiedDate = DateTime.UtcNow;
 
             if (comment.ParentCommentId.HasValue)
             {
@@ -140,7 +140,7 @@ namespace Huellitas.Business.Services
         /// </returns>
         public async Task Insert(Comment comment)
         {
-            comment.CreationDate = DateTime.Now;
+            comment.CreationDate = DateTime.UtcNow;
 
             comment.IpAddress = this.httpContextHelpers.GetCurrentIpAddress();
 
@@ -272,7 +272,7 @@ namespace Huellitas.Business.Services
         /// <returns>the task</returns>
         public async Task Update(Comment comment)
         {
-            comment.ModifiedDate = DateTime.Now;
+            comment.ModifiedDate = DateTime.UtcNow;
 
             try
             {

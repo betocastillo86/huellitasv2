@@ -61,7 +61,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Id = 1,
                 Email = "email@email.com",
                 Name = "name",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 Deleted = false,
                 Password = "123",
                 PhoneNumber = "456",

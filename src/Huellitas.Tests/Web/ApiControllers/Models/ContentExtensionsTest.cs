@@ -200,7 +200,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             entity.DisplayOrder = 1;
             entity.StatusType = StatusType.Closed;
             entity.Views = 6;
-            entity.CreatedDate = DateTime.Now;
+            entity.CreatedDate = DateTime.UtcNow;
             entity.LocationId = 7;
             entity.Location = new Location() { Id = 7, Name = "Location" };
             entity.UserId = 1;

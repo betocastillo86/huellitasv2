@@ -125,9 +125,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Id = 1,
                 Address = "cr 10 10 10",
                 Attributes = this.GetAttributes().ToEntities(),
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 ContentId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "email@email.com",
                 FamilyMembers = 1,
                 FamilyMembersAge = "20",
@@ -155,9 +155,9 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Id = 1,
                 Address = "cr 10 10 10",
                 Attributes = this.GetAttributes(),
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 ContentId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "email@email.com",
                 FamilyMembers = 1,
                 FamilyMembersAge = "20",
@@ -168,7 +168,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
                 Town = "Barrio",
                 User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "user" },
                 PhoneNumber = "3669223",
-                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id = 1, AdditionalInfo = "a", CreationDate = DateTime.Now, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "b" } } }
+                Answers = new List<AdoptionFormAnswerModel>() { new AdoptionFormAnswerModel() { Id = 1, AdditionalInfo = "a", CreationDate = DateTime.UtcNow, Notes = "b", Status = AdoptionFormAnswerStatus.Approved, User = new Huellitas.Web.Models.Api.BaseUserModel { Id = 1, Name = "b" } } }
             };
         }
     }

@@ -52,7 +52,7 @@ namespace Huellitas.Business.Services
         public async Task Delete(Banner banner)
         {
             banner.Deleted = true;
-            banner.ModifiedDate = DateTime.Now;
+            banner.ModifiedDate = DateTime.UtcNow;
             await this.bannerRepository.UpdateAsync(banner);
 
             ////publica evento de actualizacion
@@ -154,7 +154,7 @@ namespace Huellitas.Business.Services
                 throw new ArgumentNullException("banner");
             }
 
-            banner.CreationDate = DateTime.Now;
+            banner.CreationDate = DateTime.UtcNow;
 
             try
             {
@@ -184,7 +184,7 @@ namespace Huellitas.Business.Services
         /// <returns>the task</returns>
         public async Task Update(Banner banner)
         {
-            banner.ModifiedDate = DateTime.Now;
+            banner.ModifiedDate = DateTime.UtcNow;
 
             await this.bannerRepository.UpdateAsync(banner);
 

@@ -112,7 +112,7 @@ namespace Huellitas.Business.Services
 
             var log = new Log()
             {
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 FullMessage = fullMessage,
                 ShortMessage = shortMessage,
                 IpAddress = this.contextHelpers.GetCurrentIpAddress(),
@@ -153,7 +153,7 @@ namespace Huellitas.Business.Services
 
             var log = new Log()
             {
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 FullMessage = fullMessage,
                 ShortMessage = shortMessage,
                 IpAddress = this.contextHelpers.GetCurrentIpAddress(),

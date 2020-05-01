@@ -31,9 +31,9 @@ namespace Huellitas.Data.Migrations
 
             var jobId = context.CustomTableRows.FirstOrDefault(c => c.CustomTableId == Convert.ToInt32(CustomTableType.Jobs)).Id;
 
-            list.Add(new AdoptionForm() { ContentId = contentId1, Name = "Nombre formulario 1", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
-            list.Add(new AdoptionForm() { ContentId = contentId2, Name = "Nombre formulario 2", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
-            list.Add(new AdoptionForm() { ContentId = contentId3, Name = "Nombre formulario 3", Email = "public@public.com", CreationDate = DateTime.Now, Address = "Cr 10 10 10", BirthDate = DateTime.Now, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
+            list.Add(new AdoptionForm() { ContentId = contentId1, Name = "Nombre formulario 1", Email = "public@public.com", CreationDate = DateTime.UtcNow, Address = "Cr 10 10 10", BirthDate = DateTime.UtcNow, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
+            list.Add(new AdoptionForm() { ContentId = contentId2, Name = "Nombre formulario 2", Email = "public@public.com", CreationDate = DateTime.UtcNow, Address = "Cr 10 10 10", BirthDate = DateTime.UtcNow, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
+            list.Add(new AdoptionForm() { ContentId = contentId3, Name = "Nombre formulario 3", Email = "public@public.com", CreationDate = DateTime.UtcNow, Address = "Cr 10 10 10", BirthDate = DateTime.UtcNow, FamilyMembers = 2, JobId = jobId, LocationId = 1, PhoneNumber = "123456", Town = "20 de julio", LastStatusEnum = AdoptionFormAnswerStatus.None, UserId = userId });
 
             var questions = context.CustomTableRows.Where(c => c.CustomTableId == Convert.ToInt32(CustomTableType.QuestionAdoptionForm)).ToList();
 

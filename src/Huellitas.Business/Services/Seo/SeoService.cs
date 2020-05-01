@@ -190,7 +190,7 @@ namespace Huellitas.Business.Services
             var statusPublished = Convert.ToInt16(StatusType.Published);
 
             var contents = this.contentRepository.Table
-                .Where(c => !c.Deleted && c.Status == statusPublished && (c.ClosingDate == null || c.ClosingDate >= DateTime.Now))
+                .Where(c => !c.Deleted && c.Status == statusPublished && (c.ClosingDate == null || c.ClosingDate >= DateTime.UtcNow))
                 .ToList();
 
             var urls = new Dictionary<string, DateTime?>();

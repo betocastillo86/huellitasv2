@@ -8,9 +8,14 @@
 
     function start() {
 
+        String.prototype.currentTimeZone = -5;
+
         String.prototype.getIntervalTime = function () {
             if (this !== '') {
-                var date = new Date(this);
+
+                var timeZone = currentTimeZone();
+
+                var date = moment(new Date(this)).add('hour', timeZone).toDate();
                 var difference = (window.currentDate - date) / 1000;
 
                 if (difference <= 5) {
@@ -35,10 +40,14 @@
                     return 'Hace '.concat(parseInt(difference / 86400), ' dias');
                 }
                 else {
-                    return moment(date).format("YYYY/MM/DD");
+                    return moment(date).format("YYYY/MM/DD"); 
                 }
             } else {
                 return '';
+            }       
+
+            function currentTimeZone() {
+                return String.prototype.currentTimeZone;
             }
         };
 

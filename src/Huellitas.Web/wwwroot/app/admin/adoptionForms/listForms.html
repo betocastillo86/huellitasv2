@@ -94,7 +94,7 @@
                         {'label-success' : form.alreadyOpened}
                         ]">&nbsp;</span></td>
                                     <td><span ng-click="main.filterByUser(form)" title="Filtrar por solicitante">{{::form.name}}</span></td>
-                                    <td>{{::form.creationDate}}</td>
+                                    <td>{{::form.creationDate | timeago}}</td>
                                     <td>
                                         <span class="label" ng-class="::[
                         {'label-default' : form.status == 'None'},
@@ -117,7 +117,7 @@
                                         {{form.lastResponseUser ? form.lastResponseUser.name : ''}}
                                     </td>
                                     <td>
-                                        {{::form.responseDate}}
+                                        {{::form.responseDate | timeago}}
                                     </td>
                                     <td class="last">
                                         <a href="/admin/adoptionforms/{{::form.id}}/edit" type="button" class="btn btn-primary btn-xs">Editar</a>

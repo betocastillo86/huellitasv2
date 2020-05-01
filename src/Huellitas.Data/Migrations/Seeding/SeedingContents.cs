@@ -32,7 +32,7 @@ namespace Huellitas.Data.Migrations
                 Body = "Cuerpo de contenido de prueba Pet 1",
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 UserId = userid,
                 FileId = 1,
                 LocationId = 1,
@@ -54,7 +54,7 @@ namespace Huellitas.Data.Migrations
                 Body = "Cuerpo de contenido de prueba Pet 2",
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 UserId = userid,
                 FileId = 2,
                 LocationId = 1,
@@ -76,7 +76,7 @@ namespace Huellitas.Data.Migrations
                 Body = "Cuerpo de contenido de prueba Pet 3",
                 Type = Entities.ContentType.Pet,
                 StatusType = Entities.StatusType.Published,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 UserId = userid,
                 FileId = 1,
                 LocationId = 1,
@@ -92,8 +92,8 @@ namespace Huellitas.Data.Migrations
                     new ContentUser{ UserId = userid, RelationType = ContentUserRelationType.Parent }
                 }
             });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
-            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.Now, UserId = userid, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Uno", Body = "Cuerpo de contenido de prueba Shelter 1", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.UtcNow, UserId = userid, FileId = 2, LocationId = 1, FriendlyName = "shelter-uno" });
+            list.Add(new Entities.Content() { Name = "Contenido de prueba Shelter Dos", Body = "Cuerpo de contenido de prueba Shelter 2", Type = Entities.ContentType.Shelter, StatusType = Entities.StatusType.Published, CreatedDate = DateTime.UtcNow, UserId = userid, FileId = 1, LocationId = 1, FriendlyName = "shelter-dos" });
 
             foreach (var item in list)
             {

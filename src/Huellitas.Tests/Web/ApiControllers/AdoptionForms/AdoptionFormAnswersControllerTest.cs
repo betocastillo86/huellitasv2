@@ -335,11 +335,11 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 Id = 1,
                 AdditionalInfo = "additionalinfo",
                 AdoptionFormId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Notes = "notes notes notes notes notes",
                 StatusEnum = AdoptionFormAnswerStatus.Approved,
                 UserId = 1,
-                User = new User() { Id = 1, Name = "name", CreatedDate = DateTime.Now }
+                User = new User() { Id = 1, Name = "name", CreatedDate = DateTime.UtcNow }
             };
         }
 
@@ -354,9 +354,9 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 Id = 1,
                 Address = "cr 10 10 10",
                 Attributes = this.GetAttributes().ToEntities(),
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 ContentId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Email = "email@email.com",
                 FamilyMembers = 1,
                 FamilyMembersAge = "20",
@@ -381,7 +381,7 @@ namespace Huellitas.Tests.Web.ApiControllers.AdoptionForms
                 Id = 1,
                 AdditionalInfo = "additionalinfo",
                 AdoptionFormId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 Notes = "notes notes notes notes notes",
                 Status = AdoptionFormAnswerStatus.Approved,
                 User = new Huellitas.Web.Models.Api.BaseUserModel() { Id = 1, Name = "name" }

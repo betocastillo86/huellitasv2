@@ -1,7 +1,7 @@
 ﻿(function () {
 
     angular
-        .module('huellitas')
+        .module('huellitasServices')
         .filter('timeago', timeAgoFilter);
 
 
