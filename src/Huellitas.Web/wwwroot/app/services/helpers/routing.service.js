@@ -52,7 +52,7 @@
         }
 
         function getFullRoute(routeName, params) {
-            return app.Settings.general.siteUrl + getRoute(routeName, params);
+            return app.Settings.general.siteUrl + getRoute(routeName, params).substring(1);
         }
 
         function getFullRouteOfFile(file)

@@ -8,81 +8,52 @@
         <div adsense-huellitas class="ad-horizontal-m" ad-client="ca-pub-4989702801072526" ad-slot="5354019562" ad-format="auto"></div>
         <article class="content-all">
             <h1 class="tit-section col-md-12">MIS HUELLITAS</h1>
-            <div class="sub-title col-md-12">Puedes editar los datos de tus huellitas asociadas</div>
+            <div class="sub-title col-md-12">Filtrar por:</div>
             <div class="ft-mpet">
                 <form class="search-box">
                     <div class="col-md-2 col-sm-6">
-                        <div class="type-pet">
-                            <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[0].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(0)">
-                            <span class="icon-perro"></span>
-                        </div>
-                        <div class="type-pet">
-                            <input name="petSubtype" type="radio" ng-model="main.filter.subtype" value="{{main.subtypes[1].id}}" ng-change="main.search()" ng-checked="main.isSubtypeChecked(1)" />
-                            <span class="icon-cat"></span>
-                        </div>
-                        <br />
-                    </div>
-                    <div class="col-md-2 col-sm-6">
                         <input type="text" placeholder="Nombre" ng-model="main.filter.keyword" ng-model-options="{ debounce: 1200 }" ng-change="main.search()">
                     </div>
-                    <div class="col-md-2 col-sm-6">
-                        <select ng-model="main.filter.genre" ng-options="genre.id as genre.value for genre in ::main.genres" ng-change="main.search()">
-                            <option value="">Genero</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 col-sm-6" ng-if="main.shelters.length">
-                        <select ng-model="main.filter.shelter" ng-options="shelter.id as shelter.name for shelter in ::main.shelters" ng-change="main.search()">
-                            <option value="">Fundacion</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 col-sm-6" >
-                        <select ng-model="main.filter.status" ng-change="main.search()">
-                            <option value="">Estado</option>
-                            <option value="Created" ng-selected="main.filter.status == 'Created'">Sin aprobar</option>
-                            <option value="Published" ng-selected="main.filter.status == 'Published'">Activo</option>
-                            <option value="Hidden" ng-selected="main.filter.status == 'Hidden'">Inactivo</option>
-                        </select>
+                    <div class="col-md-3 col-sm-6 ">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <label style="padding-top:6px">Solo activos / Ver todos</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="onoffswitch" ng-click="main.changeFilterStatus()">
+                                <input type="checkbox" name="statusFilter" class="onoffswitch-checkbox" ng-checked="main.filter.status == 'Published'">
+                                <label class="onoffswitch-label" for="statusFilter"></label>
+                            </div>
+                        </div>
                     </div>
                     <br>
                 </form>
-                <a ng-href="{{root.getRoute('forms')}}" class="btn btn-lg btn-more">Ver solicitudes</a>
-                <div class="stage-box">
-                    <span>Estado:</span>
-                    <span class="st-on"></span>
-                    <span>Activo</span>
-                    <span class="st-off"></span>
-                    <span>Inactivo</span>
-                    <br>
-                </div>
+                <br />
                 <br>
             </div>
             <div class="mask-table">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th style="max-width:100px;" class="hidden-xs">Nombre</th>
-                            <th style="max-width:20px">Estado</th>
-                            <th style="max-width:20px;">Formularios</th>
-                            
-                            <th></th>
+                            <th>Nombre</th>
+                            <th class="hidden-xs">Estado</th>
+                            <th class="hidden-xs">Fecha</th>
+                            <th style="max-width:20px">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="pet in main.pets">
-                            <th scope="row" class="img-table">
-                                <img ng-src="{{::pet.image.thumbnail}}" title="Foto de {{::pet.name}}">
-                            </th>
-                            <td style="max-width:100px;" class="hidden-xs">{{::pet.name | limitTo:18}}</td>
-                            <td style="max-width:40px">
-                                <div class="onoffswitch" ng-if="::pet.status != 'Created'" ng-click="main.changeStatus(pet)">
-                                    <input type="checkbox" name="status{{::pet.id}}" class="onoffswitch-checkbox" ng-checked="pet.status == 'Published'">
-                                    <label class="onoffswitch-label" for="status{{::pet.id}}"></label>
-                                </div>
+                            <td scope="row" class="img-table">
+                                <a ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">
+                                    <img ng-src="{{::pet.image.thumbnail}}" title="Foto de {{::pet.name}}">
+                                </a>
+                                {{::pet.name | limitTo:18}}
                             </td>
-                            <td><a ng-href="{{::root.getRoute('forms')}}" title="Formularios pendientes de responder">{{::pet.pendingForms ? ('Ver '+pet.pendingForms) : 0}}</a></td>
+                            <td class="hidden-xs">{{pet.status != 'Published' ? 'Activo' : 'Inactivo'}}</td>
+                            <td class="hidden-xs">{{pet.createdDate | timeago}}</td>
                             <td>
-                                <a class="btn btn-lg btn-dark btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Editar</a>
+                                <div style="padding-top:3px"><a ng-if="::pet.status != 'Created'" class="btn btn-sm" ng-class="{'btn-danger': pet.status == 'Published', 'btn-success': pet.status != 'Published'}" ng-click="main.changeStatus(pet)">{{pet.status == 'Published' ? 'Desactivar' : 'Activar'}}</a></div>
+                                <div style="padding-top:3px"><a class="btn btn-sm btn-warning" ng-href="{{::root.getRoute('forms', { petId: pet.id, petName: pet.name })}}">Ver formularios ({{::pet.pendingForms}})</a></div>
+                                <div style="padding-top:3px"><a class="btn btn-sm btn-dark btn-blue" ng-href="{{::root.getRoute('editpet', {friendlyName: pet.friendlyName})}}">Actualizar</a></div>
                             </td>
                         </tr>
                         <tr ng-if="!main.pets.length">

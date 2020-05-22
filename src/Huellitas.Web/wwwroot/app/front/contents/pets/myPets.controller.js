@@ -52,6 +52,7 @@
         vm.filterByStatus = filterByStatus;
         vm.changeStatus = changeStatus;
         vm.more = more;
+        vm.changeFilterStatus = changeFilterStatus;
 
         activate();
 
@@ -119,6 +120,11 @@
         function filterByStatus(status) {
             vm.filter.status = status === vm.filter.status ? undefined : status;
             vm.search();
+        }
+
+        function changeFilterStatus() {
+            vm.filter.status = vm.filter.status != 'Published' ? 'Published' : undefined;
+            search();
         }
 
         function changeStatus(pet) {

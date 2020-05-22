@@ -17,7 +17,7 @@
                     <angucomplete-alt id="petId"
                                       placeholder="Busca por nombre de mascota"
                                       pause="200"
-                                      remote-url="/api/pets?pagesize=8&mine=true&keyword="
+                                      remote-url="/api/pets?pagesize=8&mine=true&contentType=pet&keyword="
                                       title-field="name"
                                       selected-object="main.changePet"
                                       initial-value="main.filter.petName"
@@ -57,6 +57,8 @@
                                 <div class="no-found" >
                                     <span class="icon-search"></span>
                                     No hay resultados que coincidan con tu búsqueda
+
+                                    <a class="btn btn-lg btn-info" ng-href="{{::root.getRoute('mypets')}}">Ir a mis huellitas</a>
                                 </div>
                             </td>
                         </tr>
