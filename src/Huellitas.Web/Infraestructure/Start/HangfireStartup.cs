@@ -65,12 +65,7 @@ namespace Huellitas.Web.Infraestructure.Start
         {
             if (Convert.ToBoolean(configuration["EnableHangfire"]))
             {
-                var settings = (ITaskSettings)app.ApplicationServices.GetService(typeof(ITaskSettings));
-                if (settings.SendEmailsInterval > 0)
-                {
-                    RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
-                }
-
+                RecurringJob.AddOrUpdate<SendMailTask>(c => c.SendPendingMails(), Cron.Minutely());
                 RecurringJob.AddOrUpdate<DeleteOldestFilesTask>(c => c.DeleteFilesAsync(), Cron.Monthly());
             }
         }

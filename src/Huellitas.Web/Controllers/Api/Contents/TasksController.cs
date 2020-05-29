@@ -3,6 +3,7 @@ using Beto.Core.Web.Api.Controllers;
 using Hangfire;
 using Huellitas.Business.Configuration;
 using Huellitas.Business.Security;
+using Huellitas.Business.Tasks;
 using Huellitas.Web.Infraestructure.Tasks;
 using Huellitas.Web.Models.Api.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -21,21 +22,24 @@ namespace Huellitas.Web.Controllers.Api.Contents
         private readonly IWorkContext workContext;
         private readonly IGeneralSettings generalSettings;
         private readonly ImageResizeTask imageResizeTask;
+        private readonly DeleteOldestFilesTask deleteOldestFilesTask;
 
         public TasksController(
             IMessageExceptionFinder messageExceptionFinder,
             IWorkContext workContext,
             IGeneralSettings generalSettings,
-            ImageResizeTask imageResizeTask) : base(messageExceptionFinder)
+            ImageResizeTask imageResizeTask,
+            DeleteOldestFilesTask deleteOldestFilesTask) : base(messageExceptionFinder)
         {
             this.workContext = workContext;
             this.generalSettings = generalSettings;
             this.imageResizeTask = imageResizeTask;
+            this.deleteOldestFilesTask = deleteOldestFilesTask;
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody]TaskModel model)
+        public async Task<IActionResult> Post([FromBody]TaskModel model)
         {
             if (this.workContext.CurrentUser.RoleEnum != Data.Entities.RoleEnum.SuperAdmin)
             {
@@ -47,11 +51,19 @@ namespace Huellitas.Web.Controllers.Api.Contents
                 case 1:
                     this.ResizeImages(model);
                     break;
+                case 2:
+                    await this.DeleteOldFiles();
+                    break;
                 default:
                     break;
             }
 
             return this.Ok();
+        }
+
+        private async Task DeleteOldFiles()
+        {
+            await this.deleteOldestFilesTask.DeleteFilesAsync();
         }
 
         private void ResizeImages(TaskModel model)

@@ -247,7 +247,7 @@ namespace Huellitas.Business.Services
                         where f.deleted = 0 and cf.id is null and b.id is null and c.id is null order by f.id asc");
 
             var filesFromContents = this.contentFileRepository.Table
-                .Where(c => !c.File.Deleted && c.Content.TypeId == petType && c.Content.CreatedDate < DateTime.UtcNow.AddDays(-30) && (c.Content.Status != activeStatus || c.Content.ClosingDate <= DateTime.UtcNow.AddDays(-daysPassedAfterClosingDate)))
+                .Where(c => !c.File.Deleted && c.Content.TypeId == petType && c.Content.FileId != c.FileId && c.Content.CreatedDate < DateTime.UtcNow.AddDays(-30) && (c.Content.Status != activeStatus || c.Content.ClosingDate <= DateTime.UtcNow.AddDays(-daysPassedAfterClosingDate)))
                 .OrderBy(c => c.FileId)
                 .Select(c => c.File)
                 .Take(take)
