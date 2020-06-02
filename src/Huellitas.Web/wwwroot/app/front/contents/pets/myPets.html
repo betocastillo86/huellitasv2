@@ -48,7 +48,7 @@
                                 </a>
                                 {{::pet.name | limitTo:18}}
                             </td>
-                            <td class="hidden-xs">{{pet.status != 'Published' ? 'Activo' : 'Inactivo'}}</td>
+                            <td class="hidden-xs">{{pet.status != 'Published' ? 'Inactivo' : 'Activo'}}</td>
                             <td class="hidden-xs">{{pet.createdDate | timeago}}</td>
                             <td>
                                 <div style="padding-top:3px"><a ng-if="::pet.status != 'Created'" class="btn btn-sm" ng-class="{'btn-danger': pet.status == 'Published', 'btn-success': pet.status != 'Published'}" ng-click="main.changeStatus(pet)">{{pet.status == 'Published' ? 'Desactivar' : 'Activar'}}</a></div>
