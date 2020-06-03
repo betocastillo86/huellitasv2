@@ -41,6 +41,7 @@ namespace Huellitas.Web.Models.Extensions
             IContentSettings contentSettings,
             IContentService contentService,
             bool isAdmin,
+            RoleEnum role,
             Content entity = null,
             IList<FileModel> files = null)
         {
@@ -85,9 +86,16 @@ namespace Huellitas.Web.Models.Extensions
                 entity.ContentAttributes.Remove(ContentAttributeType.Shelter);
 
                 // Cuando no tiene shelter le da solo unos días de publicacion
-                if (entity.Id == 0 && !isAdmin)
+                if (entity.Id == 0)
                 {
-                    entity.ClosingDate = DateTime.UtcNow.AddDays(contentSettings.DaysToAutoClosingPet);
+                    if (role == RoleEnum.Public)
+                    {
+                        entity.ClosingDate = DateTime.UtcNow.AddDays(contentSettings.DaysToAutoClosingPet);
+                    }
+                    else if (role == RoleEnum.Rescuer)
+                    {
+                        entity.ClosingDate = DateTime.UtcNow.AddDays(contentSettings.DaysToAutoClosingPet * 12);
+                    }                    
                 }
             }
             else

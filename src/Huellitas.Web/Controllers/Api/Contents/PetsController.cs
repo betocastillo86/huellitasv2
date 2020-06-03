@@ -540,7 +540,7 @@ namespace Huellitas.Web.Controllers.Api
                     }
                 }
 
-                content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
+                content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), this.workContext.CurrentUser.RoleEnum, content);
 
                 try
                 {
@@ -582,7 +582,7 @@ namespace Huellitas.Web.Controllers.Api
 
                 try
                 {
-                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), files: model.Files);
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), this.workContext.CurrentUser.RoleEnum, files: model.Files);
 
                     content.FriendlyName = this.GenerateFriendlyName(model, content);
 
@@ -662,7 +662,7 @@ namespace Huellitas.Web.Controllers.Api
                         content.StatusType = model.Status;
                     }
 
-                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), content);
+                    content = model.ToEntity(this.contentSettings, this.contentService, this.workContext.CurrentUser.IsSuperAdmin(), this.workContext.CurrentUser.RoleEnum, content);
 
                     try
                     {

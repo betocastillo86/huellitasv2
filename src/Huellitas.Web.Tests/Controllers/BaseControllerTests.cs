@@ -26,6 +26,8 @@ namespace Huellitas.Web.Tests.Controllers
 
         protected readonly int publicUserId = 2;
 
+        protected readonly int rescuerUserId = 4;
+
         protected string currentEmailAuthenticated = string.Empty;
 
         public static int? CurrentUserAuthenticated = null;
@@ -75,6 +77,11 @@ namespace Huellitas.Web.Tests.Controllers
             CurrentUserAuthenticated = userId;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
             return this;
+        }
+
+        public BaseControllerTests AddAuthenticationRescuer()
+        {
+            return this.AddAuthentication(rescuerUserId);
         }
 
         public BaseControllerTests AddAuthenticationPublic()
