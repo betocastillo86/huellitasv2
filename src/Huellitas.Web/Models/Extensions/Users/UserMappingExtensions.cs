@@ -80,6 +80,21 @@ namespace Huellitas.Web.Models.Extensions
             };
         }
 
+        public static AuthenticatedUserModel ToAuthenticatedModel(this User entity, bool canSeeSensitiveInfo)
+        {
+            return new AuthenticatedUserModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Email = entity.Email,
+                Phone = entity.PhoneNumber,
+                Phone2 = entity.PhoneNumber2,
+                Role = canSeeSensitiveInfo ? entity.RoleEnum : (RoleEnum?)null,
+                FacebookId = canSeeSensitiveInfo ? entity.FacebookId : null,
+                Location = entity.Location != null ? entity.Location.ToModel() : null
+            };
+        }
+
         /// <summary>
         /// To the base user models.
         /// </summary>

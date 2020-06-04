@@ -46,7 +46,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             model.ClosingDate = date;
 
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false, It.IsAny<RoleEnum>());
 
             Assert.AreEqual(dateTimeClose.Date, entity.ClosingDate.Value.Date);
         }
@@ -64,7 +64,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             model.ClosingDate = date;
 
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>());
 
             Assert.AreEqual(date, entity.ClosingDate);
         }
@@ -85,7 +85,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             model.ClosingDate = date;
 
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>());
 
             Assert.AreEqual(date, entity.ClosingDate);
         }
@@ -102,24 +102,24 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var model = new PetModel().MockNew();
             model.Shelter = null;
             model.Location = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>()));
 
             model = new PetModel().MockNew();
             model.Shelter = new ShelterModel() { Id = 1 };
-            var ex = Assert.Throws<HuellitasException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
+            var ex = Assert.Throws<HuellitasException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>()));
             Assert.AreEqual(HuellitasExceptionCode.ShelterNotFound, ex.Code);
 
             model = new PetModel().MockNew();
             model.Subtype = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>()));
 
             model = new PetModel().MockNew();
             model.Genre = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>()));
 
             model = new PetModel().MockNew();
             model.Size = null;
-            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true));
+            Assert.Throws<NullReferenceException>(() => model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>()));
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var model = new PetModel().MockNew();
             model.Shelter = new ShelterModel() { Id = 1 };
 
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>());
 
             Assert.AreEqual(locationId, entity.LocationId);
 
@@ -169,7 +169,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
             var model = new PetModel().MockNew();
             model.Parents = new List<ContentUserModel>() { new ContentUserModel { Id = 1, UserId = 1 }, new ContentUserModel { Id = 2, UserId = 2 } };
             model.Shelter = new ShelterModel() { Id = 1 };
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, It.IsAny<RoleEnum>());
 
             Assert.AreEqual(model.Parents.Count, entity.Users.Count);
         }

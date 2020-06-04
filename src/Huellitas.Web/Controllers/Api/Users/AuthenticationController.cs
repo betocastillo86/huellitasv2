@@ -50,6 +50,8 @@ namespace Huellitas.Web.Controllers.Api
         /// </summary>
         private readonly INotificationService notificationService;
 
+        private readonly IAdoptionFormService adoptionFormService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
         /// </summary>
@@ -63,12 +65,14 @@ namespace Huellitas.Web.Controllers.Api
             IUserService userService,
             IWorkContext workContext,
             INotificationService notificationService,
-            IMessageExceptionFinder messageExceptionFinder) : base(messageExceptionFinder)
+            IMessageExceptionFinder messageExceptionFinder,
+            IAdoptionFormService adoptionFormService) : base(messageExceptionFinder)
         {
             this.authenticationTokenGenerator = authenticationTokenGenerator;
             this.userService = userService;
             this.workContext = workContext;
             this.notificationService = notificationService;
+            this.adoptionFormService = adoptionFormService;
         }
 
         /// <summary>
@@ -80,10 +84,11 @@ namespace Huellitas.Web.Controllers.Api
         public IActionResult Get()
         {
             var user = this.workContext.CurrentUser;
-            var model = user.ToModel(true);
+            var model = user.ToAuthenticatedModel(true);
 
             model.UnseenNotifications = this.notificationService.CountUnseenNotificationsByUserId(this.workContext.CurrentUserId);
             model.FacebookId = user.FacebookId;
+            model.PendingForms = this.adoptionFormService.GetAll(parentUserId: user.Id, pageSize: 1, lastStatus: Data.Entities.AdoptionFormAnswerStatus.None).TotalCount;
 
             return this.Ok(model);
         }

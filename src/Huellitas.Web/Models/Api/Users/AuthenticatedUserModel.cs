@@ -74,5 +74,9 @@ namespace Huellitas.Web.Models.Api
         /// The token.
         /// </value>
         public GeneratedAuthenticationToken Token { get; set; }
+
+        public int PendingForms { get; set; }
+
+        public int UnseenNotifications { get; set; }
     }
 }

@@ -56,6 +56,7 @@
     </script>
 </head>
 <body>
+    
     <header class="inner-header">
         <div class="content-all">
             <div class="main-menu" ng-click="root.showMenu(true)"><span class="icon-menu"></span></div>
@@ -90,12 +91,18 @@
                     <p>{{root.currentUser.email}}</p>
                     <a ng-if="root.currentUser.role == 'SuperAdmin'" ng-click="root.goToAdmin()">Administrador</a>
                     <a ng-href="{{::root.getRoute('mypets')}}">Mis huellitas</a>
-                    <a ng-href="{{::root.getRoute('forms')}}">Formularios por responder</a>
+                    <a ng-href="{{::root.getRoute('forms')}}">Formularios por responder ({{root.currentUser.pendingForms}})</a>
                     @*<a href="misdatos.html">Mis datos</a>*@
                     <a href="javascript:;" ng-click="root.logout()">Cerrar sesión</a>
                 </div>
             </div>
             <br />
+        </div>
+        <div class="alert alert-danger" style="text-align:center" ng-if="root.currentUser.pendingForms > 0 && root.isFormsMessageVisible" >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar" ng-click="root.closeFormsMessage()"
+                <span aria-hidden="true">×</span>
+            </button>
+            Tienes <strong>{{root.currentUser.pendingForms}}</strong> formularios sin responder <a ng-href="{{::root.getRoute('forms')}}" ng-click="root.closeFormsMessage()" class="btn btn-info">Responder</a>
         </div>
     </header>
 

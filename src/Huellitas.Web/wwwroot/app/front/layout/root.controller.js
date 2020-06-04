@@ -52,6 +52,8 @@
         vm.getFirstLetters = getFirstLetters;
         vm.getFullRoute = routingService.getFullRoute;
         vm.hideFooter = false;
+        vm.isFormsMessageVisible = true;
+        vm.closeFormsMessage = closeFormsMessage;
 
         activate();
 
@@ -125,6 +127,10 @@
             vm.seo.image = vm.seo.image ? vm.seo.image : routingService.getFullRouteOfFile(app.Settings.general.seoImage);
 
             validateCrawling();
+        }
+
+        function closeFormsMessage() {
+            vm.isFormsMessageVisible = false;
         }
 
         function validateCrawling()
