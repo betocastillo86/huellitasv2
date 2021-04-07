@@ -178,6 +178,7 @@ namespace Huellitas.Business.Services
             routes.Add("faq", "por-que-adoptar");
             routes.Add("notfound", "pagina-no-encontrada");
             routes.Add("passwordrecovery", "cambiar-clave/{0}");
+            routes.Add("policies", "politicas-privacidad");
             return routes;
         }
 

@@ -122,6 +122,11 @@
                 templateUrl: '/app/front/home/updatePasswordRecovery.html?' + cacheKey,
                 controller: 'UpdatePasswordRecoveryController',
                 controllerAs: 'main'
+            })
+            .when('/politicas-privacidad', {
+                templateUrl: '/app/front/home/policies.html?' + cacheKey,
+                controller: 'PoliciesController',
+                controllerAs: 'main'
             });
 
         $routeProvider.otherwise({ redirectTo: "/pagina-no-encontrada" });

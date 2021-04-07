@@ -11,14 +11,14 @@
                 <a class="btn-fb btn btn-lg" ng-click="login.facebookLogin()" href=""><i class="icon-face"></i> &nbsp; Entrar con Facebook</a>
                 <div class="login_redes">
                     <!--<button type="button">
-                        <span class="icon-face" ng-click="login.facebookLogin()"></span>
-                    </button>
-                    <button>
-                        <span class="icon-google-plus"></span>
-                    </button>
-                    <button>
-                        <span class="icon-twt"></span>
-                    </button>-->
+            <span class="icon-face" ng-click="login.facebookLogin()"></span>
+        </button>
+        <button>
+            <span class="icon-google-plus"></span>
+        </button>
+        <button>
+            <span class="icon-twt"></span>
+        </button>-->
                     <p>o con</p>
                 </div>
                 <div ng-if="!login.modeLogin" ng-class="{'bad' : login.form.$submitted && login.form.name.$invalid }">
@@ -27,24 +27,24 @@
                     <span class="error" ng-if="login.form.$submitted && login.form.name.$error.required">Ingresa tu nombre</span>
                     <span class="error" ng-if="login.form.$submitted && login.form.name.$error.minlength">Ingresa un nombre válido</span>
                 </div>
-                <div  ng-class="{'bad' : login.form.$submitted && login.form.email.$invalid }">
+                <div ng-class="{'bad' : login.form.$submitted && login.form.email.$invalid }">
                     <input type="email" placeholder="Correo Eletrónico:" name="email" ng-model="login.model.email" required>
                     <span class="error" ng-if="!login.form.$submitted || login.form.email.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.email.$error.required">Ingresa tu correo electrónico</span>
                     <span class="error" ng-if="login.form.$submitted && login.form.email.$error.email">Ingresa un correo electrónico válido</span>
                 </div>
-                <div ng-if="!login.modeLogin"  ng-class="{'bad' : login.form.$submitted && login.form.email2.$invalid }">
-                    <input type="email" placeholder="Ingresa nuevamente tu correo" name="email2" ng-model="login.model.email2" ng-required="!login.modeLogin" compare-to="login.model.email" >
+                <div ng-if="!login.modeLogin" ng-class="{'bad' : login.form.$submitted && login.form.email2.$invalid }">
+                    <input type="email" placeholder="Ingresa nuevamente tu correo" name="email2" ng-model="login.model.email2" ng-required="!login.modeLogin" compare-to="login.model.email">
                     <span class="error" ng-if="!login.form.$submitted || login.form.email2.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.email2.$invalid">Ingresa nuevamente tu correo electrónico</span>
                 </div>
-                <div  ng-class="{'bad' : login.form.$submitted && login.form.password.$invalid }">
+                <div ng-class="{'bad' : login.form.$submitted && login.form.password.$invalid }">
                     <input type="password" placeholder="Contraseña" name="password" ng-model="login.model.password" ng-minlength="6" required>
                     <span class="error" ng-if="!login.form.$submitted || login.form.password.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.password.$error.required">Ingresa tu clave</span>
                     <span class="error" ng-if="login.form.$submitted && login.form.password.$error.minlength">Tu clave debe ser de mínimo 6 caracteres</span>
                 </div>
-                <div ng-if="!login.modeLogin"  ng-class="{'bad' : login.form.$submitted && login.form.password2.$invalid }">
+                <div ng-if="!login.modeLogin" ng-class="{'bad' : login.form.$submitted && login.form.password2.$invalid }">
                     <input type="password" placeholder="Confirmar contraseña" name="password2" ng-model="login.model.password2" ng-minlength="6" compare-to="login.model.password" ng-required="!login.modeLogin">
                     <span class="error" ng-if="!login.form.$submitted || login.form.password2.$valid"></span>
                     <span class="error" ng-if="login.form.$submitted && login.form.password2.$invalid">Confirma la contraseña</span>
@@ -53,11 +53,15 @@
                     ¿Eres nuevo? <a href="#" ng-click="login.register(true)">Regístrate</a><br>
                     <!--<a ng-href="{{::root.getRoute('contact')}}">Recuperar contraseña</a>-->
                     <a ng-click="login.getPasswordRecovery()">Recuperar contraseña</a>
+
                 </div>
                 <div class="box-log" ng-if="!login.modeLogin">
                     <a href="#" ng-click="login.register(false)" class="btn btn-default">Ya estoy registrado</a>
                 </div>
                 <button type="submit" class="btn btn-lg btn-save">{{login.modeLogin ? 'Entra' : 'Registrate'}}</button>
+                <div class="box-log">
+                    <a href="/politicas-privacidad" ng-click="login.closeModal()">Politicas de datos y privacidad</a>
+                </div>
             </form>
         </div>
     </div>

@@ -27,6 +27,7 @@
         vm.model = {};
         vm.modal = undefined;
         vm.modeLogin = false;
+        vm.closeModal = closeModal;
 
         vm.register = register;
         vm.authenticate = authenticate;
