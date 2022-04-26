@@ -17,7 +17,7 @@
     "gulp-util": "^3.0.8",
     "gulp-watch": "5.0.0",
     "gulp-wrap": "^0.14.0",
-    "handlebars": "4.0.11",
+    "handlebars": "4.7.7",
     "pump": "3.0.0",
     "sass": "^1.50.1",
     "uglify-save-license": "^0.4.1"
