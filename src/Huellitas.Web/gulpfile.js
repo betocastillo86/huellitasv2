@@ -6,9 +6,6 @@ Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
 */
 
 var gulp = require('gulp');
-//var bower = require('gulp-bower'),
-//    uglify = require('gulp-uglify'),
-//    concat = require('gulp-concat');
 
 var uglify = require('gulp-uglify'),
     wrap = require('gulp-wrap'),
@@ -17,13 +14,14 @@ var uglify = require('gulp-uglify'),
     handlebars = require('gulp-handlebars'),
     cssConcat = require('gulp-concat-css'),
     cssmin = require("gulp-cssmin"),
-    sass = require("gulp-sass"),
+    //sass = require("gulp-sass"),
     replace = require("gulp-replace"),
     flatten = require("gulp-flatten"),
     concat = require('gulp-concat');
 
 var gutil = require('gulp-util');
 var pump = require('pump');
+const sass = require('gulp-sass')(require('sass'));
 
 var paths = {
     webroot: './wwwroot/',
@@ -96,7 +94,7 @@ gulp.task('resourcesAdminDev', function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('scriptsReleaseAdmin', ['resourcesAdminRelease'], function (cb) {
+gulp.task('scriptsReleaseAdmin', gulp.series('resourcesAdminRelease', function (cb) {
     var files = [];
     //files = files.concat(paths.libsAdmin);
     files = files.concat([
@@ -118,9 +116,20 @@ gulp.task('scriptsReleaseAdmin', ['resourcesAdminRelease'], function (cb) {
     //    uglify(),
     //    gulp.dest('.')
     //], cb);
+}));
+
+
+gulp.task('moveResources', function () {
+    var filesToMove = [
+        paths.external + 'gentelella/vendors/bootstrap/dist/fonts/*.*',
+        paths.external + 'gentelella/vendors/font-awesome/fonts/*.*'
+    ];
+    return gulp.src(filesToMove, { base: '.' })
+        .pipe(flatten())
+        .pipe(gulp.dest(paths.webroot + 'fonts'));
 });
 
-gulp.task('cssAdmin', ['moveResources'], function () {
+gulp.task('cssAdmin', gulp.series('moveResources', function () {
     var files = [
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
         paths.external + 'gentelella/vendors/font-awesome/css/font-awesome.min.css',
@@ -128,7 +137,7 @@ gulp.task('cssAdmin', ['moveResources'], function () {
         paths.external + 'textAngular/dist/textAngular.css',
         paths.external + 'angucomplete-alt/angucomplete-alt.css',
         paths.external + 'pikaday/css/pikaday.css',
-        paths.external + 'fullpage.js/jquery.fullPage.css',
+        //paths.external + 'fullpage.js/jquery.fullPage.css',
         paths.webroot + 'css/admin.huellitas.css'
     ];
 
@@ -140,28 +149,19 @@ gulp.task('cssAdmin', ['moveResources'], function () {
         .pipe(replace(/\.\.\/\.\.\/node_modules\/gentelella\/vendors\/bootstrap\/dist\/fonts/g, '/fonts'))
         .pipe(replace(/\.\.\/\.\.\/node_modules\/gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         .pipe(gulp.dest('.'));
-});
+}));
 
-gulp.task('moveResources', function () {
-    var filesToMove = [
-        paths.external + 'gentelella/vendors/bootstrap/dist/fonts/*.*',
-        paths.external + 'gentelella/vendors/font-awesome/fonts/*.*'
-    ];
-    return gulp.src(filesToMove, { base: '.' })
-        .pipe(flatten())
-        .pipe(gulp.dest(paths.webroot + 'fonts'));
-})
 
-gulp.task('scriptsDevAdmin', ['resourcesAdminDev'], function () {
+gulp.task('scriptsDevAdmin', gulp.series('resourcesAdminDev', function () {
     return gulp.src([''], { base: '.' })
         .pipe(concat(paths.concatJsDestAdmin))
         .pipe(gulp.dest('.'));
-});
+}));
 
 /*************************FIN ADMINISTRADOR*************************/
 
 /*************************FRONT*************************/
-gulp.task('scriptsDevFront', ['fullpage'], function () {
+gulp.task('scriptsDevFront', function () {
     console.log('Se generan los archivos', paths.libsFront);
 
     return gulp.src(paths.libsFront, { base: '.' })
@@ -170,13 +170,17 @@ gulp.task('scriptsDevFront', ['fullpage'], function () {
         .pipe(gulp.dest('.'));
 });
 
-/*gulp.task('fullpage', function () {
-    return gulp.src(paths.external + 'fullpage.js/jquery.fullPage.min.js', { base: '.' })
-        .pipe(concat(paths.webroot + "js/jquery.fullPage.min.js"))
-        .pipe(gulp.dest('.'));
-});*/
+gulp.task('sassFront', function () {
+    console.log(paths.sassFront + 'styles.scss')
+    return gulp.src(paths.sassFront + 'styles.scss')
+        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+        .pipe(replace(/\.\.\/fonts\//g, '/fonts/'))
+        .pipe(cssmin({ keepSpecialComments: 0 }))
+        .pipe(gulp.dest(paths.webroot + 'css/sassfront/'));
+});
 
-gulp.task('cssFront', ['sassFront'], function () {
+
+gulp.task('cssFront', gulp.series('sassFront', function () {
     var files = [
 
         paths.external + 'gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
@@ -196,16 +200,9 @@ gulp.task('cssFront', ['sassFront'], function () {
         .pipe(replace(/\.\.\/\.\.\/\gentelella\/vendors\/font-awesome\/fonts/g, '/fonts'))
         .pipe(cssmin({ keepSpecialComments: 0 }))
         .pipe(gulp.dest('.'));
-});
+}));
 
-gulp.task('sassFront', function () {
-    console.log(paths.sassFront + 'styles.scss')
-    return gulp.src(paths.sassFront + 'styles.scss')
-        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
-        .pipe(replace(/\.\.\/fonts\//g, '/fonts/'))
-        .pipe(cssmin({ keepSpecialComments: 0 }))
-        .pipe(gulp.dest(paths.webroot + 'css/sassfront/'));
-});
+
 
 
 gulp.task('scriptsResourcesFront', function (cb) {
@@ -233,5 +230,5 @@ gulp.task('scriptsReleaseFront', function (cb) {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('release', ['cssFront', 'cssAdmin', 'scriptsResourcesFront', 'scriptsReleaseAdmin', 'scriptsReleaseFront'], function () {
-});
+gulp.task('release', gulp.series('cssFront', 'cssAdmin', 'scriptsResourcesFront', 'scriptsReleaseAdmin', 'scriptsReleaseFront', async function () {
+}));

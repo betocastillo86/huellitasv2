@@ -1,18 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="hangfire" Version="1.7.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ext\beto.core\src\Beto.Core.Web\Beto.Core.Web.csproj" />
-    <ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
-    <ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+		<PackageReference Include="Hangfire.Core" Version="1.7.28" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.7.28" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\ext\beto.core\src\Beto.Core.Web\Beto.Core.Web.csproj" />
+		<ProjectReference Include="..\Huellitas.Business\Huellitas.Business.csproj" />
+		<ProjectReference Include="..\Huellitas.Data\Huellitas.Data.csproj" />
+	</ItemGroup>
 
 </Project>

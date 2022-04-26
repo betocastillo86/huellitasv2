@@ -9,7 +9,6 @@ using Huellitas.Business.Extensions;
 using Huellitas.Business.Services;
 using Huellitas.Data.Entities;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Huellitas.Business.Tasks
 {
@@ -120,7 +119,7 @@ namespace Huellitas.Business.Tasks
                     this.logger.Debug($"{DateTime.UtcNow} Temp folder deleted");
                 }
             }
-            
+
             Console.WriteLine($"{DateTime.UtcNow} Process finished");
         }
 

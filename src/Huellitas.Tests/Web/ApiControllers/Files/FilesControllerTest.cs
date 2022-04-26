@@ -86,7 +86,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Files
         {
             var fileServiceMock = new Mock<IFileService>();
             var filesHelperMock = new Mock<IFilesHelper>();
-            var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+            var hostingEnvironmentMock = new Mock<IWebHostEnvironment>();
             var seoServiceMock = new Mock<ISeoService>();
             var pictureService = new Mock<IPictureService>();
             var securitySettings = new Mock<ISecuritySettings>();

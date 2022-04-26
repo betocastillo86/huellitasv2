@@ -82,6 +82,7 @@ namespace Huellitas.Data.Migrations
             list.Add(new SystemSetting() { Name = "NotificationSettings.SmsMessage", Value = "Llenaron un formulario de adopción por %%Pet.Name%%. Respondelo aquí %%Url%%" });
             list.Add(new SystemSetting() { Name = "NotificationSettings.SendSmsEnabled", Value = "False" });
             list.Add(new SystemSetting() { Name = "NotificationSettings.SmsCountryCode", Value = "57" });
+            
 
             foreach (var item in list)
             {

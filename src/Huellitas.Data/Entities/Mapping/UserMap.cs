@@ -26,7 +26,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasName("PK_User");
 
             entity.HasIndex(e => e.Email)
-                    .HasName("IX_User")
+                    .HasDatabaseName("IX_User")
                     .IsUnique();
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");

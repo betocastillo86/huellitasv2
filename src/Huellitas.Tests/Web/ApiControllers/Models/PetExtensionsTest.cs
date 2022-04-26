@@ -31,7 +31,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
         /// To the pet entity closing date configuration.
         /// </summary>
         [Test]
-        public void ToPetEntity_ClosingDate_Config()
+        public void ToPetEntity_ClosingDateWithConfigAndPublicUser_SameAsConfigNewDate()
         {
             this.Setup();
             var model = new PetModel().MockNew();
@@ -46,7 +46,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Models
 
             model.ClosingDate = date;
 
-            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false, It.IsAny<RoleEnum>());
+            var entity = model.ToEntity(this.contentSettings.Object, this.contentService.Object, false, RoleEnum.Public);
 
             Assert.AreEqual(dateTimeClose.Date, entity.ClosingDate.Value.Date);
         }

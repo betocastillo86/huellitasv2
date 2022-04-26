@@ -10,6 +10,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
     using System.Security.Claims;
     using System.Security.Principal;
     using System.Threading.Tasks;
+    using Beto.Core.Data;
     using Beto.Core.Web.Api;
     using Beto.Core.Web.Security;
     using Data.Entities;
@@ -42,6 +43,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
         /// </summary>
         private Mock<IUserService> userService;
 
+        private Mock<IAdoptionFormService> adoptionFormService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationControllerTest"/> class.
         /// </summary>
@@ -50,6 +53,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.authenticationTokenGenerator = new Mock<IAuthenticationTokenGenerator>();
             this.userService = new Mock<IUserService>();
             this.notificationService = new Mock<INotificationService>();
+            this.adoptionFormService = new Mock<IAdoptionFormService>();
         }
 
         /// <summary>
@@ -61,6 +65,22 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
             this.Setup();
             this.notificationService.Setup(c => c.CountUnseenNotificationsByUserId(1))
                 .Returns(5);
+
+            this.adoptionFormService.Setup(c => c.GetAll(It.IsAny<string>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<AdoptionFormAnswerStatus?>(),
+                It.IsAny<AdoptionFormOrderBy>(),
+                It.IsAny<StatusType?>(),
+                It.IsAny<int>(),
+                It.IsAny<int>()))
+            .Returns(new PagedList<AdoptionForm>());
 
             var controller = this.GetController();
 
@@ -80,7 +100,8 @@ namespace Huellitas.Tests.Web.ApiControllers.Users
                 this.userService.Object,
                 this.workContext.Object,
                 this.notificationService.Object,
-                this.messageExceptionFinder.Object);
+                this.messageExceptionFinder.Object,
+                this.adoptionFormService.Object);
         }
 
         /// <summary>

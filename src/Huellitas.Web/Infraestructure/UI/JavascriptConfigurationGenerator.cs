@@ -32,7 +32,7 @@ namespace Huellitas.Web.Infraestructure.UI
         /// <summary>
         /// The environment
         /// </summary>
-        private readonly IHostingEnvironment env;
+        private readonly IWebHostEnvironment env;
 
         /// <summary>
         /// The general settings
@@ -79,7 +79,7 @@ namespace Huellitas.Web.Infraestructure.UI
             IGeneralSettings generalSettings,
             ITextResourceService textResourceService,
             ICacheManager cacheManager,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             IRepository<SystemSetting> systemSettingRepository,
             ICustomTableService customTableService,
             ISeoService seoService,

@@ -626,7 +626,7 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique()
-                        .HasName("IX_SystemSetting");
+                        .HasDatabaseName("IX_SystemSetting");
 
                     b.ToTable("SystemSettings");
                 });
@@ -666,7 +666,7 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasName("IX_User");
+                        .HasDatabaseName("IX_User");
 
                     b.HasIndex("RoleId");
 

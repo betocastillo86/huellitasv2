@@ -25,7 +25,7 @@ namespace Huellitas.Data.Entities.Mapping
                 .HasName("PK_SystemSetting");
 
             entity.HasIndex(e => e.Name)
-                   .HasName("IX_SystemSetting")
+                   .HasDatabaseName("IX_SystemSetting")
                    .IsUnique();
 
             entity.Property(e => e.Id);

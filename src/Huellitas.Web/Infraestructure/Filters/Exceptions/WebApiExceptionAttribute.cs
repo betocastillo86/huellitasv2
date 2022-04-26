@@ -13,6 +13,7 @@ namespace Huellitas.Web.Infraestructure.Filters
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// Attribute for web <c>api</c> exceptions
@@ -25,7 +26,7 @@ namespace Huellitas.Web.Infraestructure.Filters
         /// <summary>
         /// The hosting environment
         /// </summary>
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         /// <summary>
         /// The work context
@@ -49,7 +50,7 @@ namespace Huellitas.Web.Infraestructure.Filters
         /// <param name="workContext">the work context</param>
         public WebApiExceptionAttribute(
             ILogService logService,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IWorkContext workContext)
         {
             this.logService = logService;

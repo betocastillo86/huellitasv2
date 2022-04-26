@@ -49,7 +49,16 @@ namespace Huellitas.Web.Infraestructure.Start
         {
             if (!environment.IsEnvironment("Test"))
             {
-                services.AddDbContext<HuellitasContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                services.AddDbContext<HuellitasContext>(options =>
+                {
+                    options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.CommandTimeout(60);
+                            sqlOptions.MigrationsAssembly("Huellitas.Data");
+                        });
+                });
             }
 
             ////Registra los Repositorios genericos

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Huellitas.Data.Migrations
 {
     [DbContext(typeof(HuellitasContext))]
@@ -15,28 +17,34 @@ namespace Huellitas.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionForm", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("AlreadyOpened");
+                    b.Property<bool>("AlreadyOpened")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid>("AutoreplyToken");
+                    b.Property<Guid>("AutoreplyToken")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("ContentId");
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime");
@@ -45,18 +53,23 @@ namespace Huellitas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<short>("FamilyMembers");
+                    b.Property<short>("FamilyMembers")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("FamilyMembersAge")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("JobId");
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("LastResponseUserId");
+                    b.Property<int?>("LastResponseUserId")
+                        .HasColumnType("int");
 
-                    b.Property<short?>("LastStatus");
+                    b.Property<short?>("LastStatus")
+                        .HasColumnType("smallint");
 
-                    b.Property<int>("LocationId");
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -66,13 +79,15 @@ namespace Huellitas.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(15)");
 
-                    b.Property<DateTime?>("ReponseDate");
+                    b.Property<DateTime?>("ReponseDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Town")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_AdoptionForm");
@@ -87,29 +102,36 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AdoptionForms");
+                    b.ToTable("AdoptionForms", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormAnswer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AdditionalInfo")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
-                    b.Property<int>("AdoptionFormId");
+                    b.Property<int>("AdoptionFormId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(1500);
+                        .HasMaxLength(1500)
+                        .HasColumnType("nvarchar(1500)");
 
-                    b.Property<short>("Status");
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_AdoptionFormAnswer");
@@ -118,22 +140,27 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AdoptionFormAnswers");
+                    b.ToTable("AdoptionFormAnswers", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("AdoptionFormId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AttributeId");
+                    b.Property<int>("AdoptionFormId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttributeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.HasKey("Id")
                         .HasName("PK_AdoptionFormAttribute");
@@ -142,18 +169,22 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("AttributeId");
 
-                    b.ToTable("AdoptionFormAttributes");
+                    b.ToTable("AdoptionFormAttributes", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("AdoptionFormId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("AdoptionFormId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_AdoptionFormUser");
@@ -162,52 +193,64 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AdoptionFormUsers");
+                    b.ToTable("AdoptionFormUsers", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Banner", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Active");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Body")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
-                    b.Property<short>("DisplayOrder");
+                    b.Property<short>("DisplayOrder")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("EmbedUrl")
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int?>("FileId");
+                    b.Property<int?>("FileId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("ModifiedDate");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
-                    b.Property<short>("SectionId");
+                    b.Property<short>("SectionId")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id")
                         .HasName("PK_Banner");
 
                     b.HasIndex("FileId");
 
-                    b.ToTable("Banners");
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -220,31 +263,40 @@ namespace Huellitas.Data.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Category");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ContentId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<int?>("ContentId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("IpAddress")
                         .HasColumnType("varchar(20)");
 
-                    b.Property<DateTime?>("ModifiedDate");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("NumComments");
+                    b.Property<int>("NumComments")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ParentCommentId");
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -259,61 +311,77 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Content", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Body")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ClosingDate");
+                    b.Property<DateTime?>("ClosingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CommentsCount")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasDefaultValueSql("0");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("DisplayOrder")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasDefaultValueSql("0");
 
                     b.Property<string>("Email")
                         .HasColumnType("varchar(150)");
 
-                    b.Property<bool>("Featured");
+                    b.Property<bool>("Featured")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("FileId");
+                    b.Property<int?>("FileId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FriendlyName");
+                    b.Property<string>("FriendlyName")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("LocationId");
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<DateTime?>("StartingDate");
+                    b.Property<DateTime?>("StartingDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<short>("Status");
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
 
-                    b.Property<short>("TypeId");
+                    b.Property<short>("TypeId")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Views")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasDefaultValueSql("0");
 
                     b.HasKey("Id")
@@ -333,20 +401,23 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("Deleted", "TypeId", "Status", "ClosingDate");
 
-                    b.ToTable("Contents");
+                    b.ToTable("Contents", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Attribute")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("ContentId");
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -359,18 +430,22 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("ContentAttributes");
+                    b.ToTable("ContentAttributes", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("CategoryId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ContentId");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_ContentCategory");
@@ -379,22 +454,27 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("ContentCategories");
+                    b.ToTable("ContentCategories", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("ContentId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DisplayOrder")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasDefaultValueSql("0");
 
-                    b.Property<int>("FileId");
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_ContentFile");
@@ -403,22 +483,27 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("FileId");
 
-                    b.ToTable("ContentFiles");
+                    b.ToTable("ContentFiles", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ContentId")
+                        .HasColumnType("int")
                         .HasColumnName("ContentId");
 
                     b.Property<short>("RelationTypeId")
+                        .HasColumnType("smallint")
                         .HasColumnName("RelationTypeId");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int")
                         .HasColumnName("UserId");
 
                     b.HasKey("Id")
@@ -428,12 +513,13 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ContentUsers");
+                    b.ToTable("ContentUsers", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTable", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(250)");
@@ -445,25 +531,31 @@ namespace Huellitas.Data.Migrations
                     b.HasKey("Id")
                         .HasName("PK_CustomTable");
 
-                    b.ToTable("CustomTables");
+                    b.ToTable("CustomTables", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTableRow", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AdditionalInfo")
                         .HasColumnType("varchar(1500)");
 
-                    b.Property<int>("CustomTableId");
+                    b.Property<int>("CustomTableId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("DisplayOrder");
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ParentCustomTableRowId");
+                    b.Property<int?>("ParentCustomTableRowId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -476,21 +568,25 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("ParentCustomTableRowId");
 
-                    b.ToTable("CustomTableRows");
+                    b.ToTable("CustomTableRows", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.EmailNotification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Body")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cc")
-                        .HasColumnName("CC")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("CC");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
@@ -501,7 +597,8 @@ namespace Huellitas.Data.Migrations
                     b.Property<DateTime?>("SentDate")
                         .HasColumnType("datetime");
 
-                    b.Property<short>("SentTries");
+                    b.Property<short>("SentTries")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Subject")
                         .IsRequired()
@@ -509,26 +606,31 @@ namespace Huellitas.Data.Migrations
 
                     b.Property<string>("To")
                         .IsRequired()
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ToName")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id")
                         .HasName("PK_EmailNotification");
 
                     b.HasIndex("SentDate", "SentTries");
 
-                    b.ToTable("EmailNotifications");
+                    b.ToTable("EmailNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.File", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Deleted");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -544,108 +646,136 @@ namespace Huellitas.Data.Migrations
                     b.HasKey("Id")
                         .HasName("PK_File");
 
-                    b.ToTable("Files");
+                    b.ToTable("Files", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Deleted");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("ParentLocationId");
+                    b.Property<int?>("ParentLocationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_Location");
 
                     b.HasIndex("ParentLocationId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Log", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreationDate");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FullMessage")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("FullMessage");
 
                     b.Property<string>("IpAddress")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<short>("LogLevelId");
+                    b.Property<short>("LogLevelId")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("PageUrl")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ShortMessage")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("ShortMessage");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_Log");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Logs");
+                    b.ToTable("Logs", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Notification", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Active");
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("EmailHtml");
+                    b.Property<string>("EmailHtml")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailSubject")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsEmail");
+                    b.Property<bool>("IsEmail")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsMobile");
+                    b.Property<bool>("IsMobile")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsSystem");
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("MobileText");
+                    b.Property<string>("MobileText")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(300);
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("SystemText")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("Tags")
-                        .HasMaxLength(3000);
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
 
-                    b.Property<DateTime?>("UpdateDate");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id")
                         .HasName("PK_Notification");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(50)");
@@ -657,20 +787,25 @@ namespace Huellitas.Data.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Permission");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.RelatedContent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("ContentId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("RelatedContentId");
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int");
 
-                    b.Property<short>("RelationType");
+                    b.Property<int>("RelatedContentId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("RelationType")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id")
                         .HasName("PK_RelatedContent");
@@ -679,14 +814,16 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("RelatedContentId");
 
-                    b.ToTable("RelatedContents");
+                    b.ToTable("RelatedContents", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(200)");
@@ -698,18 +835,22 @@ namespace Huellitas.Data.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Role");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.RolePemission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("PermissionId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("RoleId");
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_RolePemission");
@@ -718,30 +859,38 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePemissions");
+                    b.ToTable("RolePemissions", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.SystemNotification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreationDate");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Seen");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TargetUrl")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("TriggerUserId");
+                    b.Property<int?>("TriggerUserId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id")
                         .HasName("PK_SystemNotification");
@@ -750,64 +899,75 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SystemNotifications");
+                    b.ToTable("SystemNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.SystemSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Value")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("PK_SystemSetting");
 
                     b.HasIndex("Name")
                         .IsUnique()
-                        .HasName("IX_SystemSetting");
+                        .HasDatabaseName("IX_SystemSetting");
 
-                    b.ToTable("SystemSettings");
+                    b.ToTable("SystemSettings", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.TextResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<short>("LanguageId");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<short>("LanguageId")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("PK_TextResource");
 
-                    b.ToTable("TextResources");
+                    b.ToTable("TextResources", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid?>("DeviceId");
+                    b.Property<Guid?>("DeviceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -816,12 +976,14 @@ namespace Huellitas.Data.Migrations
                     b.Property<string>("FacebookId")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("IOsDeviceId");
+                    b.Property<Guid?>("IOsDeviceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("IpAddress")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("LocationId");
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -839,7 +1001,8 @@ namespace Huellitas.Data.Migrations
                     b.Property<string>("PhoneNumber2")
                         .HasColumnType("varchar(15)");
 
-                    b.Property<int>("RoleId");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Salt")
                         .IsRequired()
@@ -850,33 +1013,34 @@ namespace Huellitas.Data.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasName("IX_User");
+                        .HasDatabaseName("IX_User");
 
                     b.HasIndex("LocationId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.SeoCrawling", b =>
                 {
                     b.Property<string>("Url")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("nvarchar(MAX)");
 
-                    b.Property<DateTime?>("ModifiedDate");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Url")
                         .HasName("PK_SeoCrawling");
 
-                    b.ToTable("SeoCrawlings");
+                    b.ToTable("SeoCrawlings", (string)null);
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionForm", b =>
@@ -884,30 +1048,43 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("AdoptionForm")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_AdoptionForm_Content1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionForm_Content1");
 
                     b.HasOne("Huellitas.Data.Entities.CustomTableRow", "Job")
                         .WithMany("AdoptionForm")
                         .HasForeignKey("JobId")
-                        .HasConstraintName("FK_AdoptionForm_CustomTableRow")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionForm_CustomTableRow");
 
                     b.HasOne("Huellitas.Data.Entities.User", "LastResponseUser")
                         .WithMany()
                         .HasForeignKey("LastResponseUserId")
-                        .HasConstraintName("FK_AdoptionForm_User_LastResponse")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_AdoptionForm_User_LastResponse");
 
                     b.HasOne("Huellitas.Data.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .HasConstraintName("FK_AdoptionForm_Location")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionForm_Location");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("Job");
+
+                    b.Navigation("LastResponseUser");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormAnswer", b =>
@@ -915,14 +1092,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.AdoptionForm", "AdoptionForm")
                         .WithMany("Answers")
                         .HasForeignKey("AdoptionFormId")
-                        .HasConstraintName("FK_AdoptionFormAnswer_AdoptionForm")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormAnswer_AdoptionForm");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany("AdoptionFormAnswer")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_AdoptionFormAnswer_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormAnswer_User");
+
+                    b.Navigation("AdoptionForm");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormAttribute", b =>
@@ -930,14 +1113,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.AdoptionForm", "AdoptionForm")
                         .WithMany("Attributes")
                         .HasForeignKey("AdoptionFormId")
-                        .HasConstraintName("FK_AdoptionFormAttribute_AdoptionForm")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormAttribute_AdoptionForm");
 
                     b.HasOne("Huellitas.Data.Entities.CustomTableRow", "Attribute")
                         .WithMany("AdoptionFormAttribute")
                         .HasForeignKey("AttributeId")
-                        .HasConstraintName("FK_AdoptionFormAttribute_CustomTableRow")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormAttribute_CustomTableRow");
+
+                    b.Navigation("AdoptionForm");
+
+                    b.Navigation("Attribute");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.AdoptionFormUser", b =>
@@ -945,14 +1134,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.AdoptionForm", "AdoptionForm")
                         .WithMany("Users")
                         .HasForeignKey("AdoptionFormId")
-                        .HasConstraintName("FK_AdoptionFormUser_AdoptionForm")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormUser_AdoptionForm");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_AdoptionFormUser_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AdoptionFormUser_User");
+
+                    b.Navigation("AdoptionForm");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Banner", b =>
@@ -960,8 +1155,10 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.File", "File")
                         .WithMany()
                         .HasForeignKey("FileId")
-                        .HasConstraintName("FK_Banner_File")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Banner_File");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Comment", b =>
@@ -969,20 +1166,27 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("Comments")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_Comment_Content")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Comment_Content");
 
                     b.HasOne("Huellitas.Data.Entities.Comment", "ParentComment")
                         .WithMany("Children")
                         .HasForeignKey("ParentCommentId")
-                        .HasConstraintName("FK_Comment_ParentComment")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Comment_ParentComment");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Comment_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Comment_User");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("ParentComment");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Content", b =>
@@ -1000,8 +1204,15 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany("Contents")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Content_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Content_User");
+
+                    b.Navigation("File");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentAttribute", b =>
@@ -1009,8 +1220,11 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("ContentAttributes")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_ContentAttribute_Content")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentAttribute_Content");
+
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentCategory", b =>
@@ -1018,14 +1232,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Category", "Category")
                         .WithMany("ContentCategory")
                         .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK_ContentCategory_Category")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentCategory_Category");
 
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("ContentCategories")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_ContentCategory_Content")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentCategory_Content");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentFile", b =>
@@ -1033,14 +1253,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("ContentFiles")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_ContentFile_Content")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentFile_Content");
 
                     b.HasOne("Huellitas.Data.Entities.File", "File")
                         .WithMany("ContentFile")
                         .HasForeignKey("FileId")
-                        .HasConstraintName("FK_ContentFile_File")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentFile_File");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.ContentUser", b =>
@@ -1048,14 +1274,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("Users")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_ContentUser_Content")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentUser_Content");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_ContentUser_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_ContentUser_User");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.CustomTableRow", b =>
@@ -1063,12 +1295,17 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.CustomTable", "CustomTable")
                         .WithMany("CustomTableRow")
                         .HasForeignKey("CustomTableId")
-                        .HasConstraintName("FK_CustomTableRow_CustomTable")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_CustomTableRow_CustomTable");
 
                     b.HasOne("Huellitas.Data.Entities.CustomTableRow", "ParentCustomTableRow")
                         .WithMany()
                         .HasForeignKey("ParentCustomTableRowId");
+
+                    b.Navigation("CustomTable");
+
+                    b.Navigation("ParentCustomTableRow");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Location", b =>
@@ -1076,8 +1313,10 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Location", "ParentLocation")
                         .WithMany("ChildrenLocations")
                         .HasForeignKey("ParentLocationId")
-                        .HasConstraintName("FK_Location_Location_ParentLocationId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_Location_Location_ParentLocationId");
+
+                    b.Navigation("ParentLocation");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.Log", b =>
@@ -1085,8 +1324,10 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Log_User")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_Log_User");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.RelatedContent", b =>
@@ -1094,14 +1335,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Content", "Content")
                         .WithMany("RelatedContentContent")
                         .HasForeignKey("ContentId")
-                        .HasConstraintName("FK_RelatedContent_Content")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_RelatedContent_Content");
 
                     b.HasOne("Huellitas.Data.Entities.Content", "RelatedContentNavigation")
                         .WithMany("RelatedContentRelatedContentNavigation")
                         .HasForeignKey("RelatedContentId")
-                        .HasConstraintName("FK_RelatedContent_Content1")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_RelatedContent_Content1");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("RelatedContentNavigation");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.RolePemission", b =>
@@ -1109,14 +1356,20 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Permission", "Permission")
                         .WithMany("RolePemission")
                         .HasForeignKey("PermissionId")
-                        .HasConstraintName("FK_RolePemission_Permission")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_RolePemission_Permission");
 
                     b.HasOne("Huellitas.Data.Entities.Role", "Role")
                         .WithMany("RolePemissions")
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("FK_RolePemission_Role")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_RolePemission_Role");
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.SystemNotification", b =>
@@ -1124,14 +1377,19 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.User", "TriggerUser")
                         .WithMany()
                         .HasForeignKey("TriggerUserId")
-                        .HasConstraintName("FK_SystemNotification_TriggerUser")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_SystemNotification_TriggerUser");
 
                     b.HasOne("Huellitas.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_SystemNotification_User")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_SystemNotification_User");
+
+                    b.Navigation("TriggerUser");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Huellitas.Data.Entities.User", b =>
@@ -1139,14 +1397,102 @@ namespace Huellitas.Data.Migrations
                     b.HasOne("Huellitas.Data.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .HasConstraintName("FK_User_Location")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_User_Location");
 
                     b.HasOne("Huellitas.Data.Entities.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("FK_User_Role")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_User_Role");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.AdoptionForm", b =>
+                {
+                    b.Navigation("Answers");
+
+                    b.Navigation("Attributes");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Category", b =>
+                {
+                    b.Navigation("ContentCategory");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Comment", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Content", b =>
+                {
+                    b.Navigation("AdoptionForm");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("ContentAttributes");
+
+                    b.Navigation("ContentCategories");
+
+                    b.Navigation("ContentFiles");
+
+                    b.Navigation("RelatedContentContent");
+
+                    b.Navigation("RelatedContentRelatedContentNavigation");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.CustomTable", b =>
+                {
+                    b.Navigation("CustomTableRow");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.CustomTableRow", b =>
+                {
+                    b.Navigation("AdoptionForm");
+
+                    b.Navigation("AdoptionFormAttribute");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.File", b =>
+                {
+                    b.Navigation("Content");
+
+                    b.Navigation("ContentFile");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Location", b =>
+                {
+                    b.Navigation("ChildrenLocations");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePemission");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.Role", b =>
+                {
+                    b.Navigation("RolePemissions");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Huellitas.Data.Entities.User", b =>
+                {
+                    b.Navigation("AdoptionFormAnswer");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Contents");
                 });
 #pragma warning restore 612, 618
         }

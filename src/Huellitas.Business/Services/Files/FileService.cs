@@ -129,7 +129,7 @@ namespace Huellitas.Business.Services
                         ) where c.TypeId = 1 and c.Status = 0)";
 
 
-            return await this.dbContext.Database.ExecuteSqlCommandAsync(query);
+            return await this.dbContext.Database.ExecuteSqlRawAsync(query);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Huellitas.Business.Services
             var activeStatus = Convert.ToInt16(StatusType.Published);
             var petType = Convert.ToInt16(ContentType.Pet);
 
-            var filesFromOtherSources = this.dbContext.Set<File>().FromSql(@"
+            var filesFromOtherSources = this.dbContext.Set<File>().FromSqlRaw(@"
                         select top 1000 f.* from 
                         files f 
                         left join ContentFiles cf on cf.FileId = f.id

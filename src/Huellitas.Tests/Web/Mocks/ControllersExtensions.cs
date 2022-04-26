@@ -23,8 +23,8 @@ namespace Huellitas.Tests.Web.Mocks
         /// <param name="controller">The controller.</param>
         /// <param name="anyLink">if set to <c>true</c> [any link].</param>
         /// <returns>the controller</returns>
-        public static Controller AddUrl(
-            this Controller controller, 
+        public static ControllerBase AddUrl(
+            this ControllerBase controller, 
             bool anyLink = false)
         {
             var mockUrlHelper = new Mock<IUrlHelper>();
@@ -45,7 +45,7 @@ namespace Huellitas.Tests.Web.Mocks
         /// </summary>
         /// <param name="controller">The controller.</param>
         /// <returns>same controller</returns>
-        public static Controller AddResponse(this Controller controller)
+        public static ControllerBase AddResponse(this ControllerBase controller)
         {
             var mockHeaderDictionary = new HeaderDictionary();
             var mockResponse = new Mock<HttpResponse>();
@@ -67,7 +67,7 @@ namespace Huellitas.Tests.Web.Mocks
         /// <returns>
         ///   <c>true</c> if [is valid model state] [the specified model]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsValidModelState(this Controller controller, object model)
+        public static bool IsValidModelState(this ControllerBase controller, object model)
         {
             var validationErrors = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
             return System.ComponentModel.DataAnnotations.Validator.TryValidateObject(model, new System.ComponentModel.DataAnnotations.ValidationContext(model), validationErrors);

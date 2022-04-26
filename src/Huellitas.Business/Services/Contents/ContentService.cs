@@ -682,7 +682,7 @@ namespace Huellitas.Business.Services
 
                 strQueryAttributes.Append($") as f where	f.countContents = {attributesFilter.Count }");
 
-                var queryAttributes = this.context.ContentAttributes.FromSql(strQueryAttributes.ToString());
+                var queryAttributes = this.context.ContentAttributes.FromSqlRaw(strQueryAttributes.ToString());
                 var contentsFromAttributes = queryAttributes.Select(c => c.ContentId).ToList();
 
                 if (contentsFromAttributes.Count > 0)

@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Huellitas.Business.Configuration
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using Beto.Core.Data.Configuration;
     using Huellitas.Business.Extensions.Services;
     using Microsoft.Extensions.Configuration;
-    using Services;
 
     /// <summary>
     /// General Settings
@@ -23,7 +21,7 @@ namespace Huellitas.Business.Configuration
         /// The setting service
         /// </summary>
         private readonly ICoreSettingService settingService;
-        
+
         private readonly IConfiguration configuration;
 
         /// <summary>
@@ -44,7 +42,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The height of the banner picture size.
         /// </value>
-        public int BannerPictureSizeHeight { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeHeight"); } }
+        public int BannerPictureSizeHeight
+        { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeHeight"); } }
 
         /// <summary>
         /// Gets the width of the banner picture size.
@@ -52,7 +51,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The width of the banner picture size.
         /// </value>
-        public int BannerPictureSizeWidth { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeWidth"); } }
+        public int BannerPictureSizeWidth
+        { get { return this.settingService.Get<int>("GeneralSettings.BannerPictureSizeWidth"); } }
 
         /// <summary>
         /// Gets the configuration JAVASCRIPT cache key.
@@ -60,7 +60,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The configuration JAVASCRIPT cache key.
         /// </value>
-        public string ConfigJavascriptCacheKey { get { return this.settingService.Get<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
+        public string ConfigJavascriptCacheKey
+        { get { return this.settingService.Get<string>("GeneralSettings.ConfigJavascriptCacheKey"); } }
 
         /// <summary>
         /// Gets the default size of the page.
@@ -68,7 +69,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The default size of the page.
         /// </value>
-        public int DefaultPageSize { get { return this.settingService.Get<int>("GeneralSettings.DefaultPageSize"); } }
+        public int DefaultPageSize
+        { get { return this.settingService.Get<int>("GeneralSettings.DefaultPageSize"); } }
 
         /// <summary>
         /// Gets the facebook public token.
@@ -76,7 +78,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook public token.
         /// </value>
-        public string FacebookPublicToken { get { return this.settingService.Get<string>("GeneralSettings.FacebookPublicToken"); } }
+        public string FacebookPublicToken
+        { get { return this.settingService.Get<string>("GeneralSettings.FacebookPublicToken"); } }
 
         /// <summary>
         /// Gets the facebook secret token.
@@ -84,7 +87,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook secret token.
         /// </value>
-        public string FacebookSecretToken { get { return this.settingService.Get<string>("GeneralSettings.FacebookSecretToken"); } }
+        public string FacebookSecretToken
+        { get { return this.settingService.Get<string>("GeneralSettings.FacebookSecretToken"); } }
 
         /// <summary>
         /// Gets the facebook URL.
@@ -92,7 +96,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The facebook URL.
         /// </value>
-        public string FacebookUrl { get { return this.settingService.Get<string>("GeneralSettings.FacebookUrl"); } }
+        public string FacebookUrl
+        { get { return this.settingService.Get<string>("GeneralSettings.FacebookUrl"); } }
 
         /// <summary>
         /// Gets the google analytics code.
@@ -108,7 +113,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The <c>instagram</c> URL.
         /// </value>
-        public string InstagramUrl { get { return this.settingService.Get<string>("GeneralSettings.InstagramUrl"); } }
+        public string InstagramUrl
+        { get { return this.settingService.Get<string>("GeneralSettings.InstagramUrl"); } }
 
         /// <summary>
         /// Gets the maximum size of the height picture.
@@ -132,7 +138,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The SEO image.
         /// </value>
-        public string SeoImage { get { return this.settingService.Get<string>("GeneralSettings.SeoImage"); } }
+        public string SeoImage
+        { get { return this.settingService.Get<string>("GeneralSettings.SeoImage"); } }
 
         /// <summary>
         /// Gets the site URL.
@@ -140,7 +147,8 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// The site URL.
         /// </value>
-        public string SiteUrl { get { return this.settingService.Get<string>("GeneralSettings.SiteUrl"); } }
+        public string SiteUrl
+        { get { return this.settingService.Get<string>("GeneralSettings.SiteUrl"); } }
 
         /// <summary>
         /// Gets a value indicating whether [adsense enabled].
@@ -148,8 +156,10 @@ namespace Huellitas.Business.Configuration
         /// <value>
         /// <c>true</c> if [adsense enabled]; otherwise, <c>false</c>.
         /// </value>
-        public bool AdsenseEnabled { get { return this.settingService.Get<bool>("GeneralSettings.AdsenseEnabled"); } }
+        public bool AdsenseEnabled
+        { get { return this.settingService.Get<bool>("GeneralSettings.AdsenseEnabled"); } }
 
-        public bool EnableHangfire { get { return this.configuration.GetValue<bool>("EnableHangfire"); } }
+        public bool EnableHangfire
+        { get { return this.configuration.GetValue<bool>("EnableHangfire"); } }
     }
 }

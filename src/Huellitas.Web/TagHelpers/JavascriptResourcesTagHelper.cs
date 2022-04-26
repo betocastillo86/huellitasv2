@@ -22,13 +22,13 @@ namespace Huellitas.Web.TagHelpers
         /// <summary>
         /// The application environment
         /// </summary>
-        private readonly IHostingEnvironment _appEnvironment;
+        private readonly IWebHostEnvironment _appEnvironment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JavascriptResourcesTagHelper"/> class.
         /// </summary>
         /// <param name="appEnvironment">The application environment.</param>
-        public JavascriptResourcesTagHelper(IHostingEnvironment appEnvironment)
+        public JavascriptResourcesTagHelper(IWebHostEnvironment appEnvironment)
         {
             _appEnvironment = appEnvironment;
         }

@@ -61,7 +61,6 @@ namespace Huellitas.Web.Infraestructure.Start
         /// <param name="services">The services.</param>
         public static void AddJwtAuthentication(this IServiceCollection services, IWebHostEnvironment env)
         {
-
             string authenticationAudience = "AudienceAuthentication";
             string authenticationIssuer = "AuthenticationIssuer";
             string authenticationSecretKey = "TheSecretKey132456789";
@@ -80,7 +79,6 @@ namespace Huellitas.Web.Infraestructure.Start
                 authenticationAudience = securitySettings.AuthenticationAudience;
                 authenticationIssuer = securitySettings.AuthenticationIssuer;
                 authenticationSecretKey = securitySettings.AuthenticationSecretKey;
-
             }
 
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authenticationSecretKey));

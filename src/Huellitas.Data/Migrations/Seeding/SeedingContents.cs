@@ -100,10 +100,11 @@ namespace Huellitas.Data.Migrations
                 if (!context.Contents.Any(c => c.FriendlyName.Equals(item.FriendlyName)))
                 {
                     context.Contents.Add(item);
+                    context.SaveChanges();
                 }
             }
 
-            context.SaveChanges();
+            
         }
     }
 }

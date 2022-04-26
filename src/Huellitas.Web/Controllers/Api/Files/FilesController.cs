@@ -41,7 +41,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <summary>
         /// The hosting environment
         /// </summary>
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         /// <summary>
         /// The SEO service
@@ -69,7 +69,7 @@ namespace Huellitas.Web.Controllers.Api
         /// <param name="securitySettings">The security settings.</param>
         /// <param name="messageExceptionFinder">The message exception finder.</param>
         public FilesController(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IFileService fileService,
             IFilesHelper filesHelper,
             ISeoService seoService,

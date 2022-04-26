@@ -209,7 +209,7 @@ namespace Huellitas.Tests.Web.ApiControllers.Contents
 
             int newId = 1;
 
-            var content = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true);
+            var content = model.ToEntity(this.contentSettings.Object, this.contentService.Object, true, RoleEnum.Public);
             mockContentService.Setup(c => c.InsertAsync(It.IsAny<Content>()))
                 .Callback((Content content1) =>
                 {

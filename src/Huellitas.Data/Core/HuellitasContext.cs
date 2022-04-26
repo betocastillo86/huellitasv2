@@ -9,6 +9,7 @@ namespace Huellitas.Data.Core
     using Huellitas.Data.Entities;
     using Huellitas.Data.Entities.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using System;
     using System.Collections.Generic;
 
@@ -245,6 +246,14 @@ namespace Huellitas.Data.Core
         public void BulkInsert<T>(IList<T> entities, BulkConfigCore bulkConfig = null, Action<decimal> progress = null) where T : class
         {
             throw new NotImplementedException();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+#if DEBUG
+            optionsBuilder.EnableSensitiveDataLogging();
+#endif
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
         }
 
         /// <summary>

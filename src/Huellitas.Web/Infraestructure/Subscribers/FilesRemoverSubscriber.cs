@@ -28,7 +28,7 @@ namespace Huellitas.Web.Infraestructure.Subscribers
         /// <summary>
         /// The hosting environment
         /// </summary>
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         /// <summary>
         /// The log service
@@ -49,7 +49,7 @@ namespace Huellitas.Web.Infraestructure.Subscribers
         /// <param name="workContext">The work context.</param>
         public FilesRemoverSubscriber(
             IFilesHelper filesHelper,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             ILogService logService,
             IWorkContext workContext)
         {
