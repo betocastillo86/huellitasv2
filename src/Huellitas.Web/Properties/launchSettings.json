@@ -17,11 +17,12 @@
     },
     "Huellitas.Web": {
       "commandName": "Project",
+      "dotnetRunMessages": "true",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:8609"
+      "applicationUrl": "https://localhost:8610;http://localhost:8609"
     }
   }
 }

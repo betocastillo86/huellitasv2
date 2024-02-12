@@ -3,6 +3,10 @@
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
+
+using System.Text.Json.Serialization;
+using Huellitas.Web.Serializers;
+
 namespace Huellitas.Web
 {
     using Beto.Core.Web.Middleware;
@@ -89,28 +93,28 @@ namespace Huellitas.Web
                     name: "adminLoginRoute",
                     pattern: "admin/login",
                     defaults: new { controller = "Admin", action = "Login" });
-
+            
                 routes.MapControllerRoute(
                     name: "defaultAdminRoute",
                     pattern: "admin/{*complement}",
                     defaults: new { controller = "Admin", action = "Index" });
-
+            
                 routes.MapControllerRoute(
                     name: "HomeRoute",
                     pattern: string.Empty,
                     defaults: new { controller = "Home", action = "Index" });
-
+            
                 routes.MapControllerRoute(
                     name: "PreviousURLs",
                     pattern: "fundaciones/{id:int}/{name}",
                     defaults: new { controller = "Home", action = "RedirectPrevious" });
-
+            
                 routes.MapControllerRoute(
                     name: "defaultRoute",
                     pattern: "{root:regex(^(?!api).+)}/{*complement}",
                     defaults: new { controller = "Home", action = "Index" });
             });
-
+            
             if (!env.IsEnvironment("Test"))
             {
                 app.StartRecurringJobs(this.Configuration);
@@ -126,18 +130,18 @@ namespace Huellitas.Web
             ////Habilita configuraciones con inyecciond e dependencia
             services.AddOptions();
 
-            services.AddSingleton<IConfiguration>(this.Configuration);
 
             ////Agrega las opciones de cache
             services.AddMemoryCache();
 
-            services.AddMvc(config =>
+            
+            services.AddControllersWithViews(config =>
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
-            }).AddNewtonsoftJson(c =>
-            {
-                c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
-                c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
+            })
+            .AddJsonOptions(c => {
+                c.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
             
             ////Registra los Repositorios genericos
