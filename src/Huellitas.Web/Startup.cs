@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System.Text.Json.Serialization;
+using Huellitas.Web.BackgroundServices;
 using Huellitas.Web.Serializers;
 
 namespace Huellitas.Web
@@ -139,9 +140,10 @@ namespace Huellitas.Web
             {
                 config.Filters.Add(typeof(WebApiExceptionAttribute));
             })
-            .AddJsonOptions(c => {
-                c.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-                c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            .AddNewtonsoftJson(c =>
+            {
+                c.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+                c.SerializerSettings.DateFormatString = "yyyy/MM/dd HH:mm:ss";
             });
             
             ////Registra los Repositorios genericos
@@ -157,6 +159,8 @@ namespace Huellitas.Web
 
             ////Register all policies required
             services.AddJwtAuthentication(this.Environment);
+
+            services.AddHostedService<GenerateJavascriptConfigBackgroundService>();
         }
 
         /// <summary>
