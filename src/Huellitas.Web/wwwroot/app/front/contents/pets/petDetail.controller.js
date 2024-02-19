@@ -37,6 +37,7 @@
         function activate()
         {
             getPet();
+            showWarningMessage();
         }
 
         function getPet()
@@ -71,6 +72,12 @@
                     getContentUsers();
                 }
             }
+        }
+
+        function showWarningMessage() {
+            modalService.show({
+                template: '/app/front/contents/pets/warningMessage.html?' + app.Settings.general.configJavascriptCacheKey
+            });
         }
 
         function getContentUsers()
